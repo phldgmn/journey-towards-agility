@@ -41,7 +41,7 @@ def main(input_output_sub_folder='', enable_logging=True):
             for obj in reader:
                 groups.append(obj)
 
-    selected_topics = [topics[0], topics[1], topics[16], topics[18]]
+    selected_topics = [topics[0], topics[1], topics[16], topics[18], topics[25]]
     years_subset = []
     for year in years:
         if year >= 2000:
