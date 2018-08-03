@@ -1,0 +1,1185 @@
+ 36 IEEE SOFTWARE 
+ |  PUBLISHED BY THE IEEE COMPUTER SOCIETY 0740-7459/16/$33.00 © 2016 IEEEStrategic 
+Prototyping for 
+
+Developing Big 
+
+Data Systems
+Hong-Mei Chen and Rick Kazman,
+ University of Hawaii at Manoa
+Serge Haziyev,
+ SoftServe
+// 
+A proposed model provides cost-effective, 
+systematic risk management in agile big data system 
+development. It uses prototyping strategically and only 
+in areas that architecture analysis can™t suf˜ciently 
+address. Developers use less costly prototypes 
+instead of blindly building full-scale prototypes. 
+//BIG DATA SYSTEM 
+development 
+faces more and greater risks than 
+traditional small-data system devel
+-opment. These risks stem from
+1,2
+Ł the ˜ve 
+v™s of big data (volume, 
+variety, velocity, veracity, and 
+
+value),
+Ł paradigm shifts,
+Ł rapid proliferation of big data 
+technology,
+Ł rapid technology changes,
+Ł the dif˜culty of selecting big 
+
+data technology,
+Ł the complex integration of new 
+and old systems, and
+Ł the short history of big data sys
+-tem development.
+For example, small-data sys
+-tems focus on data at rest (stored in 
+the database). In contrast, big data 
+systems emphasize data in use and 
+data in motion, which drives data 
+management to unfamiliar territory 
+
+such as NoSQL.
+Moreover, in small-data system 
+development, dataŒprogram inde
+-pendence is a core principle. Archi
+-tecture decisions are relatively triv
+-ial. In big data system development, 
+
+dataŒprogram dependence is the 
+
+norm, so architecture design becomes 
+
+critical and poses great risks if done 
+poorly.
+2 Many new architectural pat
+-terns have recently become dominant 
+
+in big data development, such as hor
+-izontal scaling, data lakes, polyglot 
+persistence, the Lambda Architec
+-ture, and massively parallel process
+-ing. And the system development 
+
+paradigm has shifted, from focusing 
+
+on coding in small-data system de
+-velopment to orchestration and tech
+-nology selection in big data systems. 
+
+There are a large number of emerg
+-ing big data technologies (both open 
+source and proprietary), many of 
+which are provided by new vendors 
+
+or open source projects. This height
+-ens risks in technology selection.
+So, cost, schedule, and quality 
+risks are more pronounced in big 
+
+data system development. Manag
+-ingŠidentifying, understanding, and 
+mitigatingŠthese risks is critical for 
+system success, and the methods for 
+
+doing this differ for big data system 
+
+development.
+To provide cost-effective, sys
+-tematic risk management in agile 
+
+big data system development, we 
+developed the RASP (Risk-Based, 
+Architecture-Centric Strategic Pro
+-totyping) model. An embedded 
+
+multiple-case study of nine big data 
+projects at SoftServe, a global out
+-sourcing ˜rm, validated RASP. On 
+the basis of our experiences, we de
+-veloped techniques to help architects 
+deal with strategic prototyping.
+FOCUS:
+ BIG DATA
+  MARCH/APRIL 2016 
+ |  IEEE SOFTWARE
+ 37Toward Strategic 
+Prototyping
+Traditionally, small-data manage
+-ment, following the rapid-application-
+ development methodology, primarily 
+and implicitly relies on 
+horizontal evo
+-lutionary prototyping
+ to help man
+-age risks. Evolutionary prototyping is 
+needed when requirements are uncer
+-tain, technologies are new, no com
+-parable system has been previously 
+developed, or experimentation or de
+-sign evaluation is necessary to assess 
+
+solutions. In horizontal evolutionary
+ prototyping, all system functions are 
+developed with limited, but increasing 
+functionality per release.
+However, this approach is chal
+-lenged by the data scale and com
+-plexity of big data systems. For ex
+-ample, our early studies (not yet 
+
+published) revealed that data re
+-trieval performance with a 100-node 
+Hadoop system differed dramati
+-cally from that with a 500-node sys
+-tem. It™s naive (and incorrect) to as
+-sume linear scale-up. The scarcity 
+
+of benchmarks in big data systems 
+aggravates these problems. Creating 
+
+prototypes has always been expen
+-sive and time-consuming and is even 
+
+more so in big data system develop
+-ment. And prototyping can™t iden
+-tify many risks, such as vendor or 
+product survivability for commercial 
+products, and the community™s size 
+
+and vigor for open source products.
+Alternatives to Prototyping
+Alternatives to prototyping in
+-clude simulation, formal analytical 
+models, and architecture analysis. 
+Simulation is viable primarily in 
+
+mature domains, in which critical 
+
+system properties can be abstracted 
+and modeled.
+Typically, formal analytical mod
+-els are used in domains with critical 
+requirements, such as hard real-time 
+deadlines or safety-critical prop
+-erties. But the cost, steep learning 
+
+curve, and dif˜culty of creating and 
+
+scaling such models make them pro
+-hibitively expensive for most com
+-mercial projects.
+Architecture analysis has been 
+a relatively inexpensive way to gain 
+early insight into a system™s proper
+-ties and risks. For traditional small-
+data systems, architecture design 
+is straightforwardŠit™s an 
+N-tier 
+client-server design. So, architec
+-ture analysis has been largely taken 
+for granted and omitted. However, 
+in big data systems, many paradigm 
+
+shifts underscore the importance 
+
+of an explicit architecture design 
+and analysis process.
+2 Architecture 
+analysisŠunderstanding the con
+-sequences of design decisionsŠis 
+critical and should occur early in the 
+
+software lifecycle. It identi˜es not 
+
+only architecture-related risks (for 
+example, regarding performance, 
+availability, security, modi˜ability, 
+
+and integrability) but also process 
+
+risks (for example, regarding re
+-quirements, tools, and methods) and 
+
+organizational risks (for example, 
+
+regarding the big picture, awareness, 
+scope, and unrecognized needs).
+3Our Approach
+Architecture analysis usually takes 
+much less time and costs much 
+less than prototyping. However, it 
+can™t address all risks. For instance, 
+
+only prototyping can verify a new 
+
+big data component™s real-time 
+performance or assess runtime re
+-source consumption thresholds, scal
+-ability limits, and so on. Prototyping 
+
+and architecture analysis each have 
+
+pros and cons. So, we combine them.
+We consider three kinds of pro
+-totypes. 
+Throwaway prototypes
+ are also called rapid prototypes or 
+proofs of concept. In 
+vertical evo
+-lutionary prototypes
+, one or more 
+system components are developed 
+with full functionality in each re
+-lease. Vertical evolutionary proto
+-types are generally more suitable 
+for big data system development 
+than horizontal evolutionary proto
+-types, as our case studies showed. A 
+
+minimum viable product 
+(MVP) is 
+an evolutionary prototype that has 
+
+only those core features that allow 
+
+product deployment, minimizing 
+
+the time spent on an iteration. An 
+MVP emphasizes hypothesis testing 
+by ˜elding the product with real us
+-ers and collecting usage data. The 
+data helps con˜rm or reject the hy
+-pothesis, letting developers make 
+additional design decisions.
+Cost (money, time, and effort) and 
+effectiveness issues drove us to advo
+-cate strategic prototyping, but only in 
+
+areas that architecture analysis can™t 
+
+adequately address. By strategic pro
+-totyping, we mean ˜rst employing an 
+
+architecture-based approach to iden
+-tify and analyze risks and then us
+-ing less costly throwaway prototypes 
+
+and vertical prototypes when neces
+-sary. This contrasts with building full 
+
+(horizontal) evolutionary prototypes 
+Cost, schedule, and quality risks 
+ are more pronounced in big data 
+ system development.
+ 38 IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+FOCUS:
+ BIG DATA
+blindly, as in conventional small-data 
+system development.
+The Case Studies
+The nine case studies that we con-
+
+ducted at SoftServe covered
+Ł network security and intrusion 
+
+prevention,
+Ł online-coupon Web analytics,
+Ł a cloud-based mobile-app devel-
+
+opment platform,
+Ł a telecom e-tailing platform,
+Ł Web analytics and marketing 
+optimization,
+Ł healthcare insurance operational 
+intelligence,
+Ł an ultra-large-scale travel site,
+Ł an operations intelligence plat-
+
+form for a content delivery net-
+
+work, and
+Ł a big-data-as-a-service platform.
+Details on the case studies are at 
+http://itm-vm.shidler.hawaii.edu
+/BDCases/CaseStudies.htm.
+The case studies and SoftServe™s 
+extensive practical experience show 
+
+that big data system development 
+
+differs qualitatively from small-
+
+data system development. In the 
+case studies, most of the schedule 
+and effort went into value discovery 
+
+(from big data), architecture analy-
+
+sis, prototyping, and orchestration 
+of off-the-shelf commercial and open 
+source components. In contrast, in 
+
+small-data system development, a far 
+higher percentage of schedule and 
+effort goes straight into program-
+
+ming. Given that the development 
+
+processes differ, we need different 
+methods for designing and analyz-
+
+ing big data systems. And given that 
+
+these systems are large, complex, 
+and risky, an important aspect of 
+this development process is deter-
+
+mining whether, when, and where to 
+prototype, as we™ll show.
+An Architecture-
+Centric Approach
+RASP can stand alone, but we in-
+tegrated it into BDD (Big Data De-
+sign), our architecture-centric ag-
+ile development methodology (see 
+
+Figure 1).
+1,2
+ BDD aims to address 
+big data™s inherent complexity (size, 
+scale, heterogeneity, ambiguity, and 
+so on). As Herbert Simon explained, 
+
+architecture is the key to dealing 
+
+with complexity: complex systems 
+that exhibit near-decomposability 
+Innovation processUse case developmentStrategic development planning1. Business and innovation goals2. Constraints and concerns1. Choose a reference architecture10. Architecture analysis: BITAM3. BD-DFD2. Form the architecture landscape4. Establish an iteration goal5. Choose the elements to decompose3. Quality attribute scenarios4. Big data architecture scenarios6. Choose design concepts and data models 7. Instantiate the architectural elements8. Sketch views; record decisions and metadata9. Evaluate each iteration BDDRASPValue discoveryRequirements analysisDesignImplementation and testingEvaluation:  technical and business dimensionsDesignconcept catalogIdentify the risks inbusiness goals, alignment, and strategyFeasibility study andUI mockups(throwaway prototyping)Technology riskmitigation (verticalevolutionary andthrowawayprototyping)Identify the risks in missing,con˜icting, ambiguous, orunderspeci˚ed architecturalrequirements Identify the risks ineach decision made(or not made)related to high-priorityscenarios and alignmentwith business goalsMinimum viable product(MVP)Identify risks in futurerequirements andnew goals or strategiesSpikeSpikeSpikeSpikeArchitecture analysisStrategic prototypingFIGURE 1. 
+The RASP (Risk-Based Architecture-Centric Strategic Prototyping) model integrated with the BDD (Big Data Design) 
+development methodology. BD-DFD stands for big data data˜ ow diagram; BITAM stands for Business and IT Alignment Method. A 
+
+spike is a miniature project aimed at answering a speci˚ c quality attribute question.
+ MARCH/APRIL 2016 
+ |  IEEE SOFTWARE
+39are easier to describe and understand 
+and have simpli˜ ed behavior.
+4 Be-
+cause big data development focuses 
+primarily on orchestration instead of 
+coding, an architectural approach to 
+
+technology selection and system in-
+
+tegration is critical.
+The relationship between archi-
+tecture design and agility has been 
+
+debated over the past decade. An 
+
+architecture-centric approach facili-
+tates rapid iterations with less dis-
+ruption, as well as lower risk and 
+
+cost, by creating appropriate archi-
+tecture abstractions.
+5 For example, 
+assume an architect anticipates that 
+
+a technology family will rapidly 
+change (by introducing capabili-
+
+ties or adding new members). If that 
+
+architect is prudent, he or she will 
+insert an abstraction layer as an in-
+termediary between the technology 
+
+family and the rest of the system, 
+
+to insulate the system from such 
+changes. So, an architecture-based 
+mind-set can lay the foundation to 
+
+support agility in both initial system 
+construction and future iterations in 
+big data system development.
+The left side of Figure 1 outlines 
+BDD, which differs from typical 
+small-data system development.
+6The latter typically comprises re-
+quirements analysis, conceptual de-
+sign, selection of a database manage-
+ment system, logical design, physical 
+
+design, prototyping, implementa-
+
+tion, and performance evaluation. In 
+contrast, BDD comprises value dis-
+covery, requirements analysis, de-
+
+sign, implementation and testing, 
+
+and evaluation of the technical and 
+business dimensions.
+Value Discovery
+Our multiple-case study of 25 large 
+enterprises revealed that the par-
+ticipants viewed big data as high 
+risk and disruptive.
+7 So, all the 
+enterprises started development 
+
+with value discovery. This phase en-
+compasses an innovation process, 
+use case development, and strate-
+
+gic deployment planning, includ-
+
+ing costŒbene˜ t analysis,
+8 sourcing 
+decisions, and talent management. 
+The innovation process can be top-
+down, bottom-up, or a mix. It™s of-
+
+ten long, taking up to three years for 
+
+some companies. High-level primary 
+use cases that demonstrate the value 
+of big data and opportunities for in-
+
+novation are solicited or developed 
+
+before any detailed requirements 
+analysis. If companies don™t ˜ nd use 
+cases that demonstrate value from 
+
+big data, they typically don™t con-
+tinue with experimentation and de-
+ployment planning.
+During value discovery, archi-
+tecture analysis based on a rough, 
+early design can help estimate the 
+total cost of ownership and identify 
+
+risks. This analysis includes elicit-
+
+ing key functional and quality at-
+tribute requirements as scenarios. 
+Each scenario exercises some archi-
+
+tectural alternatives; each alterna-
+
+tive represents a signi˜ cant set of 
+architectural decisions. The risks 
+de termined in this phase focus on 
+business strategy, the business 
+goals™ validity, and  businessŒ IT 
+
+misalignment. This phase often 
+involves strategic decisions on 
+whether to develop an MVP.
+Also during this phase, developers 
+might then create low-to-medium-
+˜ delity UI mockups or architecture 
+spikes
+ to further understand technol-
+ogies, clarify business and innovation 
+goals and requirements, and demon-
+
+strate value. In agile methodologies, 
+a spike is a miniature project, typi-
+cally driven by a user story, aimed 
+
+at answering a speci˜ c question. An 
+architecture spike is similar but is 
+driven by a quality attribute ques-
+
+tion, usually regarding performance; 
+
+however, it could, in theory, address 
+any system quality.
+9 In an architec-
+ture spike, developers typically create 
+
+a prototype to address the quality at-
+tribute question. They could develop 
+
+the spike on the main branch, but 
+
+they typically develop it on a separate 
+branch and (if it™s successful) merge it 
+with the main branch.
+Requirements Analysis
+Here, the regular agile lifecycle 
+
+starts. The business and innova-
+tion goals as well as the design con-
+straints and architectural concerns 
+
+from requirements analysis will 
+
+become inputs for system design. 
+Analysis of the architectural require-
+ments, expressed as quality attribute 
+
+scenarios, helps identify additional 
+
+risks: missing, con˚ icting, ambigu-
+ous, or underspeci˜ ed architecture 
+requirements. The quality attri-
+butes (such as performance, security, 
+modi˜ ability, and availability), not 
+
+functionality, drive architectural de-
+
+cisions. So, the requirements analy-
+sis activity must elicit, validate, and 
+prioritize the quality attribute re-
+
+quirements because this will guide 
+Architecture is the key to dealing 
+with complexity.
+ 40 IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+FOCUS:
+ BIG DATA
+subsequent architecture design and 
+technology selection.
+Design
+This phase performs architecture 
+
+design, data modeling, and technol-
+ogy selection in parallel, following 
+the Attribute-Driven Design (ADD) 
+
+method.
+1,2,10,11
+ An iterative process 
+reuses well-known, assessed, and 
+documented design primitives from 
+a design concepts catalog
+2 (an ex-
+ample catalog is at http://smartdeci
+sionsgame.com). This makes archi-
+tecture design simpler, more capa-
+
+ble, and more repeatable. The design 
+
+steps use three catalog components:
+Ł reference architectures and 
+
+frameworks;
+Ł design patterns, tactics, and data 
+models; and
+Ł a big data technology catalog.
+In step 1, architects choose a refer-
+ence architecture for a data analytics 
+application. For example, they could 
+
+consult the design concepts catalog 
+and see four options: extended rela-
+tional, pure nonrelational, data re-
+
+˜ nery, and Lambda Architecture. 
+
+They could also consult the catalog 
+for speci˜ c technologies. For exam-
+ple, if they need a messaging technol-
+
+ogy for component integration, they 
+
+could choose Apache Kafka, Ama-
+zon Simple Queue Service, Apache 
+ActiveMQ, or RabbitMQ.
+In step 2, architects create an 
+architecture landscape; in step 3, 
+
+they design big data data˚ ow dia-
+
+grams.
+1,12
+ In steps 4 through 9, they 
+decompose a system and a context 
+diagram and model them in detail, 
+in multiple iterations. Each iteration 
+
+establishes goals (step 4) and selects 
+
+a quality attribute, architectural con-
+cern, or system component to focus 
+on (step 5). In step 6, architects select 
+the design concepts (such as patterns, 
+
+tactics, technologies, and frame-
+
+works) and data models (based on 
+inputs captured in the big data sce-
+narios). In step 7, the instantiation 
+
+of architectural elements includes 
+selection of databases, analytics plat-
+forms, and other big data compo-
+
+nents. The technologies chosen for 
+
+realizing conceptual components are 
+critical architectural decisions; some-
+times, steps 6 and 7 require experi-
+
+mentationŠfor example, a spike.
+In step 8, the architects document 
+the design decisions and their ratio-
+
+nale. Step 9 evaluates the design de-
+
+cisions on the basis of iteration goals 
+and measurements taken from any 
+internal prototype or MVP.
+In step 10, BDD employs BI-
+TAM (Business and IT Alignment 
+Method),
+13 a lightweight architecture 
+analysis method based on the Archi-
+
+tecture Tradeoff Analysis Method,
+14to identify risks and, in particular, 
+misalignments. This analysis identi-
+˜ es risks concerning the architectural 
+decisions made (or not made) relative 
+
+to the high-priority scenarios. The 
+
+risks aren™t ˜ xed at this point; risk 
+mitigation is a separate, follow-on 
+activity. Architects might mitigate 
+
+the risks by
+Ł changing the system™s design, re-
+
+quirements, or business goals;
+Ł making additional project man-
+agement decisions (for example, 
+retraining personnel or out-
+
+sourcing parts of development); 
+
+orŁ prototyping, experiments, more-
+
+detailed analyses, or simulations.
+Here, we focus on prototyping.
+Implementation and Testing
+In the implementation-and-testing 
+
+phase, the architects ˚ esh out the 
+architecture design and either replace 
+prototypes (if they™re throwaway) or 
+evolve them (if they™re evolutionary). 
+
+And the architects plan and execute 
+
+testing to con˜ rm adherence to both 
+the functional requirements and 
+quality attribute requirements.
+Evaluation
+After a set of design iterations, the 
+
+architects might choose to more 
+completely analyze the architec-
+ture to discover risks and tradeoffs 
+
+before committing to a release. At 
+
+the end of each major development 
+cycle or system release, architects 
+can also perform architecture anal-
+
+ysis to identify the risks of future 
+
+requirements and new business 
+goals and strategies. In addition, 
+they can perform value discovery 
+
+to continuously explore the antici-
+pated value of the big data system 
+they™re constructing.
+Applying RASP
+Because prototyping decisions are 
+
+critical in big data system develop-
+ment, architects should make them 
+in a consistent, disciplined way. Be-
+
+cause technology orchestration is the 
+
+core of big data system development, 
+such development relies heavily on 
+prototyping and architecture analy-
+
+sis for risk management. As we™ve 
+
+shown, RASP can guide this proto-
+typing and analysis.
+On the basis of the lessons 
+learned from our research with 
+
+SoftServe, we developed questions 
+that architects should answer and 
+
+a decision ˚ owchart (see Figure 2) 
+
+for them to follow before they em-
+bark on a (relatively costly) proto-
+typing effort.
+In our case studies, employing 
+standardized questions and deci-
+sion procedures as well as architec-
+ture analysis methods helped us plan 
+ MARCH/APRIL 2016 
+ |  IEEE SOFTWARE
+41prototyping systematically and stra-
+tegically. For example, the questions 
+focused on whether
+Ł the technology was new,
+Ł we had successfully used it 
+
+before,
+Ł signi˜ cant new requirements 
+existed, and
+Ł objective evidence substantiated 
+product performance claims.
+The answers to these questions helped 
+
+us determine whether to prototype 
+and how to evaluate the prototyping 
+results. For example, an unsuccessful 
+
+prototype might result in choosing a 
+different technology, but another op-
+tion is to soften some requirements. 
+
+Our case studies exempli˜ ed each of 
+
+these kinds of decisions.
+ In each case study, we applied 
+RASP alongside BDD (and its de-
+
+sign concepts catalog) to system-
+
+atically design and manage risk. 
+Because each project had different 
+business and innovation goals, their 
+
+risks differed. However, consis-
+tent risk themes emerged: technol-
+ogy selection, performance of new 
+technologies, total cost of owner-
+
+ship, and integration of technologies.
+We didn™t create a prototype un-
+less we had determined that archi-
+
+tecture analysis alone was inade-
+
+quate to address risk. For two of the 
+case studies, which required quick 
+feedback on the budget and schedule 
+
+for business decision making, archi-
+
+tecture analysis alone suf˜ ced. The 
+other seven case studies strategically 
+employed prototyping, which helped 
+
+minimize risk and was cost-effective. 
+In each of these seven case stud-
+ies, creating vertical evolutionary 
+InitialarchitectureanalysisAssess the existing systemand identify gapsthat pose risks fornew requirements.Perform architectureanalysis, update theexisting architecture, andselect candidatetechnologies to replaceor augment existingtechnologies. Perform architectureanalysis, and selecta referencearchitectureand candidatetechnologies.YesIsthis agreen˜eldsystemdesign?NoThrowaway prototypeChange thecandidatetechnologyYesIs theselectedtechnologynew on themarket?NoWasit usedsuccessfully before forsimilar scenarios?NoYesYesHavetrusted sourcesﬁprovenﬂ the technologyfor speci˜cscenarios?YesYesNoNoYesNoDoes theprototype satisfythe speci˜cscenarios?YesArethere newrequirements thatpose technologyrisks? NoNoVerticalevolutionaryprototypeGo to thethrowaway-prototypechart for eachtechnology thatposes a risk.Reconsider the technologyselection, and go to thethrowaway-prototypechart.Integrate technologies andtest critical functionalityand quality attributescenarios.YesIsthere asigni˜cant riskwith a selectedtechnology?Create a rapid (throwaway)prototype to mitigate risksArethere more con˜gurations, data models, orresourcesto try?Is itpossible toﬁsoftenﬂ anyrequirements tomatch prototypecapabilities?NoYesArethere issuesdiscovered with anytechnologies?NoFIGURE 2. 
+A strategic-prototyping decision ˜ owchart. Employing it will help software architects make decisions in a consistent, 
+disciplined way.
+ 42 IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+FOCUS:
+ BIG DATA
+prototypes and throwaway proto-
+types took from two to six weeks, 
+much less time than for horizontal 
+evolutionary prototyping (although 
+
+creating and evolving an MVP might 
+
+take longer).
+On the basis of these case stud-
+ies and our prior experience, we cre-
+
+ated and veri˜ ed seven guidelines 
+
+for when to do architecture analysis, 
+when to prototype, and under what 
+conditions to deploy each kind of 
+
+prototype:
+Ł Architecture analysis might be 
+
+the only feasible option when 
+you need to make early decisions 
+that have a project-wide scope. 
+
+Then, you can employ throw-
+
+away prototypes to make tech-
+nology choices and demonstrate 
+feasibility.
+Ł Architecture analysis alone is in-
+
+suf˜ cient to prove many impor-
+tant system properties.
+Ł Architecture analysis comple-
+ments vertical evolutionary 
+prototyping. Analysis helps 
+you select candidate technolo-
+gies; prototyping validates 
+
+those choices and quickly gets a 
+
+working system in front of the 
+customer. This aids in eliciting 
+feedback and prioritizing future 
+
+development efforts.
+Ł An evolutionary prototype can 
+effectively mitigate risk if you 
+implement it as a skeletonŠan 
+
+infrastructure into which you 
+can integrate components and 
+technologies.
+14 This helps miti-
+gate integration risks, supports 
+early demonstrations of user 
+value, and aids the understand-
+
+ing of end-to-end scenarios.
+Ł Vertical evolutionary prototyp-
+ing can help answer questions 
+about systemwide properties 
+
+but might need to be augmented 
+
+with throwaway prototypes 
+when requirements are volatile. 
+When requirements change, 
+
+new architecture analysis and 
+throwaway prototypes might be 
+needed (to help avoid falling into 
+
+the ﬁhammer looking for a nailﬂ 
+
+syndrome).
+Ł Throwaway prototypes work 
+
+best when you need to quickly 
+
+evaluate a technology, to see 
+
+whether it satis˜ es critical ar-
+chitecture scenarios (usually 
+related to quality attributes such 
+
+as performance and scalability). 
+
+They™re typically used for narrow 
+scenarios that involve evaluating 
+just one or two components.
+Ł Whether to create an MVP is 
+more of a business decision than 
+a decision driven simply by tech-
+
+nological risk. Typical business 
+
+goals addressed include getting 
+early user feedback and updat-
+ing the product accordingly, 
+
+presenting a working version to 
+
+a trade show or customer event, 
+ABOUT THE AUTHORS
+HONG-MEI CHEN 
+is a professor of IT management in the 
+Shidler College of Business at the University of Hawaii at 
+Manoa. Her research interests include novel information system 
+design and development methodologies, big data engineering 
+and management, social customer relationship management, 
+service engineering, software architecture, and businessŒIT 
+alignment. Chen received a PhD in business administration from 
+the University of Arizona. Contact her at hmchen@hawaii.edu.
+RICK KAZMAN 
+is a professor of information technology man-
+agement at the University of Hawaii at Manoa and a principal 
+researcher at the Software Engineering Institute. His research 
+interests include software architecture, design and analysis 
+tools, software visualization, and software engineering econom-
+ics. Kazman received a PhD in computational linguistics from 
+Carnegie Mellon University. He™s a senior member of the IEEE 
+Computer Society. Contact him at kazman@hawaii.edu.
+SERGE HAZIYEV 
+is a vice president of software architecture 
+at SoftServe. He leads the Architecture Group and designs, 
+evaluates, and modernizes large-scale software solutions. He 
+has a Software Engineering Institute Software Architecture 
+Professional certi˜ cate and more than 17 years™ experience 
+in enterprise-level solutions including big data, software as a 
+service and cloud computing, service-oriented architecture, 
+and carrier-grade telecommunication services. Contact him at 
+shaziyev@softserveinc.com.
+  MARCH/APRIL 2016 
+ |  IEEE SOFTWARE
+ 43structuring the development 
+process, checking team progress 
+and alignment, or testing an out
+-sourcing vendor using an MVP 
+as a pilot project.
+Richard Baskerville and 
+
+Jan Stage advocated risk 
+analysis for controlling 
+evolutionary prototyping;
+15 we™ve 
+ex
+ panded on this position. Our 
+research, departing from prior 
+prototyping approaches, demon
+-strated that an architecture-centric 
+
+approachŠ
+ RASPŠcan help make 
+risk management explicit, system
+-atic, and cost-effective. The need for 
+strategic prototyping is critical for 
+
+big data system development, which 
+involves high risk, high complexity, 
+and immature technologies. RASP™s 
+
+implementation of strategic proto
+-typing provides a basis for value 
+
+discovery with stakeholders, for rea
+-soning about risks, for planning and 
+
+estimating cost and schedule, and 
+for supporting experimentation.
+Prior studies analyzed how orga
+-nizations decide whether to use pro
+-totyping and what environmental 
+
+and organizational variables (such 
+as project size and developer, user, 
+
+and organizational characteristics) 
+
+affect the proper use of prototyp
+-ing.
+16 However, these studies pro
+-duced no signi˜cant ˜ndings. Other 
+researchers created a risk list to guide 
+risk management, but that list in
+-volved more than 100 factors, ren
+-dering it impractical.
+3 We believe our 
+architecture-centric approach, based 
+on primary use cases and prioritized 
+quality attribute scenarios, provides a 
+
+more intuitive, ef˜cient, and effective 
+
+way to identify, mitigate, and contin
+-uously monitor risks.
+In particular, our strategic pro
+-totyping decision ˚owchart and 
+the associated guidelines help make 
+
+RASP repeatable and prototyping 
+cost-effective. Architects can plan 
+and manage prototyping in a strate
+-gic, disciplined fashion. However, no 
+design or development method, no 
+matter how thorough, can guaran
+-tee success. The architectural agility 
+
+created and the architecture analyses 
+performed with RASP rely on the ar
+-chitect™s training and discipline.
+References
+ 1.
+ H.-M. Chen, R. Kazman, and S. 
+Haziyev, ﬁAgile Big Data Analytics 
+
+Development: An Architecture-
+ 
+Centric Approach,ﬂ 
+Proc. 2016 
+
+Hawaii Int™l Conf. System Sciences 
+
+(HICSS 16), 2016, pp. 5378Œ5387.
+ 2.
+ H.-M. Chen et al., ﬁBig Data System 
+
+Development: An Embedded Case 
+
+Study with a Global Outsourcing 
+
+Firm,ﬂ 
+Proc. 1st Int™l Workshop Big 
+
+Data Software Eng.
+ (BIGDSE 15), 
+
+2015, pp. 44Œ50.
+ 3.
+ L. Bass et al., 
+Risk Themes Dis
+-covered through Architecture 
+
+Evaluations
+, tech. report CMU/SEI-
+2006-TR-012, Software Eng. Inst., 
+
+Carnegie Mellon Univ., 2006.
+ 4.
+ H. Simon, ﬁThe Architecture of Com
+-plexity,ﬂ 
+Proc. Am. Philosophical Soc.
+, vol. 106, no. 6, 1962, pp. 467Œ482.
+ 5.
+ S. Bellomo, I. Gorton, and R. Kaz
+-man, ﬁToward Agile Architecture: 
+
+Insights from 15 Years of ATAM 
+
+Data,ﬂ 
+IEEE Software
+, vol. 32, no. 5, 
+2015, pp. 38Œ45.
+ 6.
+ R. Elmasri and S. Navathe, 
+Funda
+-mentals of Database Systems
+, 6th 
+ed., Addison-Wesley, 2010.
+ 7.
+ H.-M. Chen et al., ﬁAmazon in the 
+
+Air: Innovating with Big Data at Luft
+-hansa,ﬂ 
+Proc. 2016 Hawaii Int™l Conf. 
+System Sciences 
+(HICSS 16), 2016, 
+
+pp. 5096Œ5105.
+ 8.
+ J. Asundi, R. Kazman, and M. Klein, 
+
+ﬁUsing Economic Considerations to 
+
+Choose among Architecture Design 
+Alternatives,ﬂ tech report CMU/SEI-
+
+2001-TR-035, Software Eng. Inst., 
+
+Carnegie Mellon Univ., 2001.
+ 9.
+ T.C.N. Graham, R. Kazman, and C. 
+
+Walmsley, ﬁAgility and Experimenta
+-tion: Practical Techniques for Resolv
+-ing Architectural Tradeoffs,ﬂ 
+Proc. 
+
+29th Int™l Conf. Software Eng.
+ (ICSE 
+
+07), 2007, pp. 519Œ528.
+ 10.
+ H. Cervantes, P. Velasco-Elizondo, 
+
+and R. Kazman, ﬁA Principled Way 
+
+to Use Frameworks in Architecture 
+
+Design,ﬂ 
+IEEE Software
+, vol. 30, 
+ no. 2, 2013, pp. 46Œ53.
+ 11.
+ H. Cervantes and R. Kazman, 
+Design
+-ing Software Architectures: A Practi
+-cal Approach
+, Addison-Wesley, to be 
+published in 2016.
+ 12.
+ H.-M. Chen and R. Kazman, ﬁAr
+-chitecting Ultra-Large-Scale Green 
+Information Systems,ﬂ 
+Proc. 1st Int™l 
+
+Workshop Green and Sustainable Soft
+-ware
+ (GREENS 12), 2012, pp. 69Œ75.
+ 13.
+ H.-M. Chen, R. Kazman, and A. 
+
+Garg, ﬁBITAM: An Engineering-
+
+Principled Method for Managing Mis
+-alignments between Business and IT 
+
+Architectures,ﬂ 
+Science of Computer 
+Programming
+, vol. 57, no. 1, 2005, 
+pp. 5Œ26.
+ 14.
+ L. Bass, P. Clements, and R. Kazman, 
+
+Software Architecture in Practice
+, 3rd 
+ed., Addison-Wesley, 2012.
+ 15.
+ R.L. Baskerville and J. Stage, ﬁControl
+-ling Prototype Development through 
+
+Risk Analysis,ﬂ 
+MIS Q.
+, vol. 20, no. 4, 
+1996, pp. 481Œ504.
+ 16.
+ B. Hardgrave, R. Wilson, and K. 
+
+Eastman, ﬁToward a Contingency 
+
+Model for Selecting an Information 
+
+System Prototyping Strategy,ﬂ 
+J. 
+
+Management Information Systems
+, vol. 15, no. 2, 1999, pp. 113Œ136.
+Selected CS articles and columns 
+are also available for free at 
+ 
+http://ComputingNow.computer.org.

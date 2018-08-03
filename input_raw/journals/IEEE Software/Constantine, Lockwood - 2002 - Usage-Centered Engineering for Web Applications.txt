@@ -1,0 +1,838 @@
+ 42IEEE SOFTWARE
+March/April 2002
+0740-7459/02/$17.00 © 2002 IEEENevertheless, development for the Web
+faces difficulties that standard development
+does not. Three challenges come to the
+fore. First, the Web development process
+
+must be highly acceleratedÑÒWeb timeÓ
+
+has become synonymous with headlong
+
+desperation and virtually impossible dead-
+lines. Second, many Web projects are
+
+Ògreen-fieldÓ applications, which means
+they have few if any standards or prece-
+dents. Finally, much more so than standard
+
+software, Web applications must focus on
+
+the user experience. Systematic, disciplined practices mighthelp developers face these challenges, but
+traditional approaches proliferate docu-
+
+ments and deliverables and emphasize
+analysis of established practicesÑa poor
+match for novel applications with Web-time
+
+delivery schedules. Furthermore, user inter-
+
+face design and usability are generally weak
+points in both the heavyweight software en-gineering processes, such as the UnifiedProcess,1and the lightweight competitors,
+such as Extreme Programming.2This articledescribes a flexible, model-driven approach
+for engineering Web applications that suc-
+
+ceeds through a focus on user interface de-
+sign and usability. Its simple, model-driven
+
+techniques work well for novel applications
+and integrate readily with lightweightor ag-ile development processes3under com-pressed development schedules.Web applications for use
+Usability and the user experience areemerging as critical determinants of success
+in Web applications. If customers canÕt find
+
+what theyÕre looking for, they canÕt buy it; a
+
+site that buries key information impairs
+business decision making. Poorly designed
+interfaces increase user errors, which can be
+costly. Mistakes made entering credit card
+
+billing information, for example, can re-focusUsage-Centered
+Engineering for Web
+
+ApplicationsLarry L. Constantine and Lucy A.D. Lockwood, 
+Constantine & LockwoodThis model-drivenapproach to software
+
+engineering, focusing
+on user interface
+
+design and usability,
+
+proves especially
+appropriate for Web
+applications.Despite breathless declarations that the Web represents a new par-
+adigm defined by new rules, professional developers are realizing
+
+that lessons learned in the pre-Internet days of software develop-
+
+ment still apply. Web pages are user interfaces, HTML program-
+ming is programming, and browser-deployed applications are software sys-
+
+tems that can benefit from basic software engineering principles. 
+engineering Internet software
+ quire costly manual follow-up or lead tolost sales. Web-usability guru Jakob Nielsen
+
+estimates that billions of dollars in lost Web
+
+sales can be traced to usability problems.Technical and customer support costs in
+all areas of business are skyrocketing. Every
+time usability problems on a site or applica-
+tion prompt a telephone call or an email
+message to customer service, an inexpensive
+Web session becomes an expensive support
+
+incident. On corporate intranets, hard-to-
+
+use applications require extensive training
+or go completely unused.Although this article focuses on Web-
+based applicationsÑsystems that deploy
+functional capability on the Web through a
+
+browser instance as a thin clientÑit is diffi-
+cult to draw a hard and fast line separating
+Web-based applications from those Web
+
+sites that are intended for use, that is, for
+something more than entertainment,
+Òbranding,Ó or the like. The common thread
+is the delivery of useful services and capabil-
+ities over the Web. 
+In addition to usability, aesthetic design
+aspects also figure in the user experience.
+Unfortunately, graphic design and aesthetic
+
+considerations are often established early
+and drive the entire development process at
+the expense of usability. For example, based
+
+on an Òaesthetic briefÓ approved by a
+
+clientÕs CEO, a prominent graphic design
+
+house developed an innovative Web site for
+
+a major analyst group. Although the design-
+ers consulted extensively with the firmÕs cus-
+
+tomers and conducted numerous market-
+oriented focus groups, the design proved a
+usability disaster, in no small part because
+
+of the aesthetic design. Last-ditch efforts to
+
+make improvements without modifying the
+basic graphic design enabled the site to go
+live but ultimately proved merely palliative
+and insufficient to satisfy customers. In the
+
+end, the firm redesigned the site completely,
+
+this time approaching the project with us-
+age-centered design.4Usage-centered designUsage-centered design uses abstract mod-els to systematically design the smallest, sim-
+plest system that fully and directly supports
+all the tasks users need to accomplish. De-
+veloped in the early 1990s, the approach has
+been applied to systems ranging from indus-
+trial automation systems and consumer elec-tronics to banking and insurance applica-tions. The streamlined process, driven by
+simple models, scales readily; developers
+have used it on projects ranging from a few
+person-months to the five-designer, 19-
+
+developer, 23-month project that produced
+
+Step7lite, a sophisticated integrated devel-
+opment environment from Siemens AG
+
+(see http://foruse.com/pcd). On the Web, groups
+
+have employed usage-centered design success-
+fullyfor applications in fields including e-commerce, membership support, education,
+and medical informatics.5User-centered or usage-centered?
+Usage-centered design evolved as a soft-ware engineering alternative to user-cen-
+
+tered design. Table 1 summarizes some of
+
+the salient differences. User-centered de-
+
+sign is a loose collection of human-factors
+techniques united under a philosophy of
+understanding users and involving them in
+design. It relies primarily on three tech-
+niques: user studies to identify usersÕ de-
+sires, rapid paper prototyping for user
+feedback on user interface design itera-
+tions, and usability testing to identify
+
+problems in working prototypes or sys-
+tems. Although helpful, none of these tech-
+niques can replace good design. User stud-
+ies can easily confuse what users want with
+what they truly need. Rapid iterative pro-
+totyping can often be a sloppy substitute
+for thoughtful and systematic design. Most
+importantly, usability testing is a relatively
+
+inefficient way to find problems you can
+avoid through proper design.4,6Driving models. Role, task, and contentmod-elsÑsimple, closely related abstract mod-March/April 2002
+IEEE SOFTWARE
+43Table 1 User-centered and usage-centered design: A comparisonUser-centered designUsage-centered design
+Focus is on users: User experienceFocus is on usage: Improved tools 
+and user satisfactionsupporting task accomplishment
+Driven by user inputDriven by models and modeling
+Substantial user involvementSelective user involvement
+¥ User studies¥ Exploratory modeling
+¥ Participatory design¥ Model validation
+¥ User feedback¥ Usability inspections
+¥ User testingDesign by iterative prototypingDesign by modeling
+Highly varied, informal, or unspecified processesSystematic, fully specified process
+Design by trial and error, evolutionDesign by engineering
+ elsÑdrive usage-centered design. The rolemodelcaptures the salient characteristics of
+
+the roles that users play in relation to a sys-
+tem. The task model represents the structure
+of the work users need to accomplish with
+the system. The content model represents the
+user interfaceÕs contents and organization.
+A user role represents one kind of rela-tionship users could have with a system.
+Among numerous possible aspects of this
+relationship are the purpose and frequency
+of interaction, the volume and direction of
+information exchange, and the attitude to-
+ward the system of users in the role.
+A task model comprises a set of task casesand a map of the interrelationships amongthose task cases. Task cases are a form of use
+
+cases,7which conventionally are models ofsystemsÑnamely, the Òsequence of actions a
+
+system performs that yields an observable
+result to a particular actor.Ó
+1As commonlywritten, use cases express the concrete ac-
+tions and responses taken by the system and
+an actor with which it interacts. Figure 1, a
+published example of a conventional use
+case,1tellingly omits the userÕs single most
+important step: actually taking the cash.Task casesÑalso called essential use
+cases4Ñare essential models
+8that are ab-stract, simplified, and technology-freeÑthat
+is, they have no built-in assumptions about
+the user interface. For example, the task
+case of Figure 2, written in the style used in
+
+agile usage-centered design, is shorter, sim-
+
+pler, and closer to the essence of the user
+
+task than that of Figure 1. The advantages
+of essential use cases are widely recognized,
+and a consensus is building that this style is
+best for both user interface design and re-
+quirements modeling in general.9The third model, the content model,
+4issometimes called an abstract prototype: It
+abstractly represents the user interfaceÕs
+
+contentsÑindependent of actual appear-
+ance or behaviorÑand how these are or-
+ganized into the contexts within which users
+interact, called interaction contexts. Ab-stract prototypes can range from a simple
+inventory of a siteÕs or applicationÕs accessi-
+
+ble contents to a highly structured abstract
+model based on a canonical set of abstract
+components (see http://foruse.com/articles/
+canonical.pdf). Regardless of the form, ab-
+
+stract prototypes are a bridge between task
+models and realistic or representational pro-
+
+totypes, such as conventional paper proto-
+types or design sketches. By adhering to a
+user perspective and leaving open the vari-
+ous implementation possibilities, abstrac-
+tion encourages innovative visual and inter-
+action designs.4,10Process overview.Figure 3 shows a logicaloverview of usage-centered design. The
+
+process separates system actorsÑother soft-
+ware and hardware systemsÑfrom human
+actors who are users. The role, task, and
+content models are developed in coordina-
+tion with and interlinked with other models.
+
+These include a domain model (such as a44IEEE SOFTWARE
+March/April 2002
+Figure 1. Conventional use case for getting cash from an ATM.
+9Withdraw Money
+The use case begins when the client inserts an ATM card. The system
+
+reads and validates the information on the card.1.  System prompts for PIN. The client enters PIN. The system vali-
+dates the PIN.2.  System asks which operation the client wishes to perform. Client
+selects ÒCash withdrawal.Ó3.  System requests amounts [
+sic]. Client enters amount.
+4.System requests type. Client selects account type (checking, sav-
+ings, credit).5.The system communicates with the ATM network to validate ac-
+count ID, PIN, and availability of the amount requested.6.  The system asks the client whether he or she wants a receipt.
+This step is performed only if there is paper left to print the receipt.7.System asks the client to withdraw the card. Client withdraws
+card. (This is a security measure to ensure that Clients do not
+
+leave their cards in the machine.)
+8.System dispenses the requested amount of cash.
+
+9.  System prints receipt.
+10. The use case ends.Figure 2. Abstract use case in essential formÑthe ÒgettingcashÓ task case. glossary or another more elaborate datamodel), a business rules model that embod-
+ies the applicationÕs underlying logic and
+
+constraints,11and an operational modelthat captures salient aspects of the working
+environment or operational context.3Conceptually, a straightforward and di-
+rect derivation links the final design back to
+task cases supporting user roles. Each page,
+form, or other interaction context corre-
+
+sponds to an abstract prototype supporting
+a cluster of interrelated task cases. The de-
+
+signer derives the actual buttons, links, ta-
+bles, displays, and other features directly
+
+from abstract components that realize spe-
+
+cific steps within supported task cases.
+These task cases, in turn, support the roles
+that users can perform.Usage-centered Web design
+Over successive Web projects, usage-
+centered design has evolved a lightweight
+form that takes certain modeling and design
+
+shortcuts (see http://foruse.com/articles/
+agiledesign.pdf). Agile usage-centered de-
+sign employs rapid-fire modeling techniques
+using ordinary index cards for brainstorm-
+ing, sorting, and clustering,12as in ExtremeProgramming.2When practical, collabora-tive modeling with end users, application
+domain experts, and clients can save addi-
+tional time. Figure 4 outlines an agile usage-
+centered design process.Essential purpose and preconception.Web
+projects often suffer from vague objectives
+and unrealistic ambitions. Early clarifica-
+tion of objectives and exploration of fan-
+tasies can pay off enormously.
+13We prefer
+to kick off the process by involving man-agers, users, developers, and other stake-
+holders in framing the applicationÕs pur-
+
+poses as external users and from a business
+perspective. The group can brainstorm onto
+cards and sort them to establish priorities.
+
+Similarly, we encourage participants to
+
+share their fantasies about the systemÕs fea-
+
+tures, functions, facilities, content, and ca-
+pabilities, but we clearly label these ideas
+
+preconceptions and set them aside to be
+
+treated as negotiable fantasies rather than
+requirements.Exploratory modeling.Exploratory model-ing jumpstarts the design process by iden-
+tifying questions and areas of uncertainty
+or ambiguity in user requirements. The
+
+team does this by sketching out rough ver-
+sions of the role and task models that it
+will develop in more refined form later. In
+
+this way, the team can identify needed, but
+
+missing, information.User interface architecture.Many agile
+processes3abjure up-front design in favor ofa more evolutionary approachÑconstruct-
+
+ing a limited system and then elaborating it
+
+through successive iterations. Unfortu-
+nately, when code starts small and gradually
+
+grows with expanding requir
+ements, theoriginal architectureÑthe codeÕs underly-
+ing organizationÑoften proves insufficient
+or inappropriate to support emerging needs.
+Refactoring,14in which existing code is re-organized and rewritten to fit evolving and
+emerging requirements, is a key to success-
+ful evolution of complex software systems
+
+through iterative expansion.March/April 2002
+IEEE SOFTWARE
+451. Asdhf asdf
+2. Wertw rt bzc
+3. Ouiaa eroStep2Step1Behavior1. Asdhf asdf
+2. Wertw rt bzc
+3. Ouiaa eroStep2Step1Behavior1.  Loquom ipso
+2. 3. Ouiaa eroStep2Step1Step2Step1BehaviorActorsSystem actorsUser rolesTask casesAbstract prototypesVisual andinteractiondesignFigure 3. Logical process of
+usage-centered 
+design. User interfaces are a different story. Late
+refinement of the user interfaceÕs basic
+
+structure is not acceptable because it
+changes the system for users who have al-
+ready learned or mastered an earlier ver-
+sion. Whereas refactored internal software
+components donÕt necessarily affect users,
+
+a redesigned user interface architecture is
+unavoidably disruptive. For highly usable
+user interfaces, we design the overall or-
+ganization, navigation, and look and feel
+to fit the full panoply of tasks to be cov-
+ered. You donÕt have to design every aspect
+
+of the user interface in advance, however.
+
+To avoid radical refactoring or inconsis-
+
+tency across design increments, you need
+to work out a well-conceived overall map
+of the site or application in advance.15Toinsure that the basic visual style and be-havior are effective across the entire appli-cation, you must devise a comprehensive
+design scheme.Navigation architecture specifies how theoverall user interface breaks down into in-
+teraction contexts, collections, and groups;
+how these are presented to users; and how
+
+users navigate them. Minimally, the naviga-
+
+tion architecture identifies all the interac-
+tion contexts and their interconnections,
+but having more is advantageous. For ex-
+ample, the navigation architecture might or-
+
+ganize parts of the user interface into tabbed
+
+notebooksÑaccessed through a set of com-
+mand buttons on a central dispatch dia-
+logÑwith sections within notebook pages
+reached through shortcuts in a menu-like
+
+bar across the top of each page.Another crucial facet of overall user in-terface design is the visual and interaction
+scheme, a sort of abstract style guide. It
+
+briefly describes the basic visual elements
+that will recur throughout the design as well
+
+as the common layouts, visual arrange-
+ments, or templates that apply to various in-
+teraction contexts.16The scheme might, forexample, specify a basic layout grid with a
+modified tree-view in the left-most column
+
+for primary navigation and a set of view
+controls across the top for secondary navi-
+gation. At a more detailed level, it might
+specify that a distinct color should identify
+all editable fields, which can be edited in
+
+place by double clicking. It might further
+spell out how certain collections of controls
+
+will be placed on slide-out tool panels that
+automatically open on mouse-over and
+close after use.Clearly, a sound navigation architecture
+and visual and interaction scheme requires a
+complete task model that includes all identi-
+
+fied tasks, not just those to be tackled on the
+
+first or early iterations.Card-based modeling.The initial user role
+model is a simple inventory of roles users
+
+can play in relation to the site or applica-
+tion. One of the quickest ways to develop
+such an inventory is to brainstorm it di-
+rectly onto index cards. Once weÕve agreed
+on the initial inventory, we succinctly de-
+
+scribe roles directly on their index cards us-
+ing the characteristics most relevant to the
+
+design problem: the roleÕs context, charac-
+
+teristic patterns of interaction within the
+46IEEE SOFTWARE
+March/April 2002
+Figure 4. Rough outline of steps in an agile usage-centered design process.Preliminary steps1.Essential purpose and preconceptionÑClarify business and userpurposes, then fantasize and set aside preconceptions of features,
+facilities, content, and capabilities.2.Exploratory modelingÑIdentify questions, ambiguities, and areasof risk and uncertainty.
+First iteration3.Role modelingÑInventory and prioritize all user roles and selectinitially targeted subset.4.Task modeling
+ÑInventory and prioritize all tasks and select ini-tially targeted subset.5.Task clustering
+ÑGroup all tasks by affinity and draft overall navi-gation architecture.6.DesignÑDraft visual and interaction scheme; review and reviseaesthetic design.7.Abstract prototypingÑDevelop content model for interaction con-texts supporting selected subset of tasks.8.DesignÑDevelop detailed user interface design for selected interac-tion contexts.9.ConstructionÑProgram designed portions of user interface.
+Successive iterations (similarly)3a.Review role model and revise as needed, select next subset.
+
+4a.Review task model and revise as needed, select next subset.
+
+5a.Review navigation architecture and revise as needed.
+
+6a.Review visual and interaction scheme and revise as needed.
+
+7a.Develop content model for interaction contexts supporting next se-
+lected task subset.8a.Design user interface for selected interaction contexts.
+
+9a.Construct newly designed portions.
+ role, and special support criteria. We then
+sort the completed cards to rank them by
+
+overall importance.After reviewing the roles in order of im-portance, we brainstorm an inventory of
+
+task cases, again onto index cards. As we re-
+
+view and refine this inventoryÑcondensing,
+combining, eliminating, or adding tasksÑ
+we standardize the names to convey the ba-
+sic purpose from a userÕs perspective, such
+
+as Òfinding a replacement part for a specific
+productÓ or Òadding an assessment to a les-
+son plan.Ó Once weÕve established the initial
+set of task cases, we sort the cards to rank
+
+them for expected frequency and for overall
+importance. Based on these two rankings,
+we deal them into three piles: required (do
+
+first), desired (do if thereÕs time), and de-
+
+ferred (do next time).At this point, we start to fill in the de-
+tails, but not for all task cases. We skip task
+
+cases for which the interaction appears ob-
+vious or routine. For task cases that are crit-
+ical, complex, unclear, or interesting, we
+
+write the interaction narrative on the index
+card. Working on small cards favors good
+
+modeling discipline. If the process narrative
+doesnÕt fit on one card, either the narrative
+
+is not sufficiently abstract and simplified, or
+
+the card really covers multiple task cases
+that we must identify.
+Using all the knowledge built from creat-ing, refining, and interacting with the task
+cases, we group the cards into affinity clus-
+
+ters on the basis of how strongly they seem
+
+to be relatedÑparticularly, how likely users
+
+in a role will perform tasks together. Each
+
+cluster represents a set of capabilities that
+the application must offer togetherÑwithin
+the same page, form, or browser window, or
+
+at least within a set of closely connected in-
+teraction contexts.Each task cluster becomes the guide fordesigning a part of the user interface. We
+
+prefer to construct abstract prototypes but
+
+under pressure could move directly into
+sketching realistic paper prototypes. We
+
+then evaluate the paper prototypes, aug-
+mented by a description of how the various
+elements behave, to identify usability prob-
+lems and areas for improvement. For speed
+and convenience, we prefer collaborative
+usability inspections,3involving users andclients as well as designers and developers,
+but recognize the effectiveness of heuristic
+inspections and other techniques.In practiceThe approach we took to designing abrowser-resident classroom information
+
+management system illustrates the ad hoc
+
+accommodations an agile process often
+
+needs for development in Web time. A so-
+
+phisticated performance-support system to
+empower KÐ12 classroom teachers, this sys-
+
+tem simplified key administrative, planning,
+and teaching tasks in an environment fully
+
+integrated with existing administrative sys-
+tems and software and with Web-based
+
+learning resources. The application was de-
+ployed through a Web-based technology
+
+with the client-side user interface realized in
+HTML, XML, and Java JFC/Swing.Risk factors were numerous, including a
+new and unproven development team in a
+
+new company, an outside consulting team
+
+for user interface design, the need for tech-
+nical breakthroughs in several areas, vague
+and ambiguous requirements exacerbated
+by frequent changes in scope, and manage-
+ment obsessed with early delivery, frequent
+
+demonstrations, and unpredictable changes
+of direction.The design team collaborated with a teamof PhD-level educators with extensive class-
+room experience. This education team served
+
+as both domain experts and representa-
+
+tive end users, while also functioning in what
+
+amounted to an XP-style customer role.
+2Collaboratively with the education team,the design team developed the initial user
+
+role model and inventory of task cases. In
+total, we identified and prioritized 14 user
+
+roles. The initial inventory of 142 task cases
+
+included 35 task cases related to lesson
+
+planning, which emerged as a critical capa-
+bility for the system. We wrote process nar-
+
+ratives for only a handful of interesting task
+cases.1We constructed a draft navigation
+map with just over 40 interaction contexts,
+based on task case clustering (see Figure 5).To resolve problems with the design and
+omissions, irregularities, and ambiguities
+in the requirements, we held frequent
+meetings and consulted continually with
+the education teamÑa pattern we now re-
+
+fer to as JITR, just-in-time requirements.
+
+One of the two designers concentrated on
+requirements and scope issues, while the
+other began working on the initial design.March/April 2002
+IEEE SOFTWARE
+47Each taskclusterbecomes theguide fordesigning a partof the userinterface.
+ The design team devised drafts of a navi-gation architecture, navigation map, and
+visual and interaction scheme, validated
+them with the education team, then revised
+
+them.Not entirely by plan, the design pro-
+ceeded in two- to two-and-a-half-week cy-
+cles. Once full-time design work started, we
+completed an initial navigation architecture
+and visual and interaction scheme within
+the first cycle. We finished the first version
+
+of the complete visual and interaction de-
+sign in the next cycle, after which we in-
+spected it for usability defects, and we un-
+dertook a major design revision on the
+second iteration. In the third iteration, we
+continued to extend and refine the design,
+spread over the remainder of the projectÕs
+
+17-week usage-centered design portion.
+Programming followed an agile, light-
+weight process that proceeded in parallel
+with visual and interaction design.We needed a design that would be im-
+mediately usable by ordinary teacherswith little or no special training. It had to
+be flexible enough to accommodate a
+
+wide range of working styles and efficient
+to use, given 
+that teachers may typicallyhave less than 15 minutes a day to plan
+an entire dayÕs lessons. Technical goals
+
+that we identified 
+based on the usabilitycriteria included
+Minimize window management over-
+head.Minimize modal behavior.
+Allow simple and direct switching
+among contexts.Maximize available screen real estate
+
+for document and data display.
+A discussion of the complete design isbeyond this articleÕs scope (for details, see
+
+our design studies on the Web, www.
+
+foruse.com/articles/designstudy1.pdf, 
+/designstudy2.pdf, and /designstudy3.pdf).
+
+However, the first design iterationÕs results
+
+clearly illustrate the importance of early,
+48IEEE SOFTWARE
+March/April 2002
+Figure 5. Web-
+deployed classroom
+information 
+management system:
+Main portion of the
+
+navigation map. up-front consideration of the overall navi-gation architecture and the visual and in-
+
+teraction scheme based on a full under-
+standing of user roles and tasks. Neither
+traditional software engineering practices
+nor the newer lightweight methods make
+this possible.Figure 5 shows the main portion of thenavigation map, as finalized in the second
+iteration. The mock-up in Figure 6,
+adapted directly from actual design docu-
+ments produced in the projectÕs first cycle,
+
+illustrates how we documented the overall
+navigation and visual and interaction de-
+sign scheme. Together, these design docu-
+
+ments specified much of the user interfaceÕs
+
+overall architecture.Understanding the various roles class-
+room teachers play and thoroughly explor-
+ing their tasks revealed the importance of a
+fast, flexible, and easy-to-learn scheme for
+navigating the applicationÕs various work-
+
+ing contexts. Once we understood the task
+structure, we organized the various groups
+
+and interaction contexts for single-click
+switching among tasks within any given ac-
+
+tivity. Using simple visual metaphors based
+
+on thumb tabs, hanging folders, and file
+folders, we devised a three-level visible hi-
+erarchy that proved far easier to learn and
+use than a conventional Windows-style tree
+view.
+Screen real estate, always a scarce re-
+source, is particularly valuable in an appli-
+
+cation running within a browser instance
+on low- to moderate-resolution displays. To
+
+address this, the design scheme included
+components that would expand and con-
+tract or reveal and hide themselves auto-
+matically as needed. For example, the top-
+level navigation panel (containing thumb
+
+tabs) contracts to provide more working
+space once the user selects a starting point.
+Figure 6 shows another example of screen
+space conservation in the dynamic work-
+space, which anticipated rather than mim-
+icked the Apple OS-X dock. The workspace
+provides a compact holding bin that lets the
+user gather various documents or frag-
+
+ments from a variety of personal and pub-
+
+lic resources for assembly into a lesson plan
+or assignment.Any product designÕs success is ulti-
+mately measured by its acceptance. Class-
+room teachers in a variety of settings made
+immediate use of this application with only
+minimal instruction. In fact, we were able
+
+to achieve the stringent design objective of
+enabling immediate, productive use of the
+system based on a single-page tutorial.March/April 2002
+IEEE SOFTWARE
+49Figure 6. Navigationarchitecture and 
+design scheme, 
+classroom 
+information 
+management 
+system. Our experiences in agile usage-cen-tered design have made clear that im-
+proved usability does not comewithout cost or risk, even when the methods
+
+are streamlined and the schedule is com-
+pressed. Special training and skills are nec-
+essary, and these may not be available to
+
+every development group, especially the
+lean teams typical in agile development.
+Moreover, the best design is easily corrupted
+
+by casual or even well-intentioned alter-
+ations and elaborations during coding.
+Close coordination between user interface
+designers and programmers is essential, and
+programmers must be fully committed to
+
+the process and convinced of the benefits
+even if they do not understand every design
+decision.A flexible and condensed usage-centereddesign process is a good starting point for
+
+collaboration, but for agile practices such as
+Extreme Programming, which abjures any-
+thing resembling BDUF (big design up
+front), some of the rules and philosophy can
+get in the way. Just which rules need to be
+bent or rewritten and what philosophy may
+need to be compromised is the subject of
+
+much current debate and experimentation.
+The outline presented here should be re-
+
+garded more as a draft than as a definitive
+
+model.References1.P. Kruchten, 
+The Rational Unified Process: An Intro-duction.Addison-Wesley, Reading, Mass., 1999.
+2.K. Beck, 
+Extreme Programming Explained,Addison-Wesley, Reading, Mass., 2000.
+3.M. Fowler, ÒPut Your Processes on a Diet,Ó 
+SoftwareDevelopment,vol. 8, no. 12, Dec. 2000. Expanded ver-sion at www.martinfowler.com/articles/newMethodol-
+
+ogy.html.
+4.L.L. Constantine and L.A.D. Lockwood, 
+Software forUse: A Practical Guide to the Models and Methods of
+Usage-Centered Design,Addison-Wesley, Reading,
+Mass., 1999.5.J. Anderson et al., ÒIntegrating Usability Techniques
+into Software Development,Ó IEEE Software,vol. 18,no. 1, Jan./Feb. 2001, pp. 46Ð53.6.A. Parush, ÒUsability Design and Testing,Ó 
+ACM Inter-actions,vol. 8, no. 5, Sept./Oct. 2001.
+7.I. Jacobson et al., 
+Object-Oriented Software Engineer-ing: A Use Case Driven Approach,Addison-Wesley,
+Reading, Mass., 1992.8.S.M. McMenamin and J. Palmer,
+Essential SystemsAnalysis,Prentice Hall, Englewood Cliffs, N.J., 1984.9.L.L. Constantine and L.A.D. Lockwood, ÒStructure and
+Style in Use Cases for User Interface Design.Ó M. van
+Harmelan, ed., Object Modeling an User Interface De-sign,Addison Wesley, Reading, Mass., 2001.
+10.D. Corlett, ÒInnovating with OVID,Ó 
+ACM Interac-tions,vol. 7, no. 4, July/Aug. 2000. 11.E. Gottesdiener, ÒRules Rule: Business Rules as Re-
+quirements,Ó Software Development,vol. 7, no. 12,Dec. 1999. Reprinted in L.L. Constantine, ed., BeyondChaos: The Expert Edge in Managing Software Devel-
+opment,Addison-Wesley, Reading, Mass., 2001.
+12.R. Jeffries, ÒCard Magic for Managers: Low-Tech Tech-
+niques for Design and Decisions,Ó Software Develop-ment, vol. 8, no. 12, Dec. 2000. Reprinted in L.L. Con-stantine, ed., Beyond Chaos: The Expert Edge inManaging Software Development,Addison-Wesley,
+Reading, Mass., 2001.13.L.A.D. Lockwood, ÒTaming the Wild Web: Business
+Alignment in Web Development,Ó 
+Software Develop-ment,vol. 7, no. 4, Apr. 1999. Reprinted in L.L. Con-
+stantine, ed., Beyond Chaos: The Expert Edge in Man-aging Software Development,Addison-Wesley, Boston,
+2001.14.M. Fowler, 
+Refactoring: Improving the Design of Exist-ing Code,Addison-Wesley, Reading, Mass., 1999.
+15.M.H. Cloyd, ÒDesigning User-Centered Web Applica-
+tions in Web Time,Ó 
+IEEE Software,vol. 18, no. 1,Jan./Feb. 2001, pp. 62Ð69.16.J. Pokorny, ÒStatic Pages Are Dead: How a Modular
+Approach Is Changing Interaction Design,Ó ACM Inter-actions,vol. 8, no. 5, Sept./Oct. 2001.
+For more information on this or any other computing topic, please visit ourDigital Library at http://computer.org/publications/dlib.
+50IEEE SOFTWARE
+March/April 2002
+L. Constantine, Constantine on Peopleware, Prentice Hall, Upper Saddle River, N.J., 2001.
+R. Jeffries, A. Anderson, and C. Hendrickson, 
+Extreme Programming In-stalled, Addison-Wesley, Reading, Mass., 2001.
+J. Nielsen and R.L. Mack, eds., 
+Usability Inspection Methods, John Wiley & Sons, New York, 1994.
+Further Reading
+About the AuthorsLarry L. Constantine
+is an adjunct professor of information technology, University of
+Technology, Sydney, Australia, and director of research, Constantine & Lockwood, Ltd. A
+
+methodologist who pioneered fundamental concepts and techniques underlying modern soft-
+ware engineering theory and practice, he now focuses on methods for improving the usability
+
+of software and hardware. A consultant and designer with clients around the world, he shared
+the 2001 Performance-Centered Design award for his work with Siemens AG. He is a graduate
+of MITÕs Sloan School of Management, a member of the IEEE Computer Society and the ACM,
+
+and he has served on the boards of numerous professional journals, including 
+IEEE Software.Contact him at lconstantine@foruse.com.Lucy A.D. Lockwoodis president of Constantine & Lockwood, Ltd., the design, train-ing, and consulting firm she cofounded. One of the developers of usage-centered design, she
+is the coauthor of a Jolt Award-winning book on the subject. With a passion for teaching and
+
+professional communication, she has chaired several professional conferences and is co-organ-
+izer of forUSE 2002, the first international conference on usage-centered, performance-cen-
+tered, and task-oriented design. She is a graduate of Tufts University and a member of the
+
+IEEE and the ACM. Contact her at llockwood@foruse.com.

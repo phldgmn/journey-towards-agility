@@ -1,0 +1,1017 @@
+ 64 COMPUTER
+  PUBLISHED BY THE IEEE COMPUTER SOCIETY
+ 0018-9162/16/$33.00 © 2016 IEEE
+Agile software development approaches such 
+as Scrum increase the e˜ciency and ˚exi
+-bility of software development by reducing 
+
+organizational overhead and emphasizing 
+direct communication instead of comprehensive docu
+-mentation. All documentation must satisfy a particu
+-lar need and must be as lightweight as possible. These 
+
+approaches work well for small collocated collaborative 
+teams that meet daily because they 
+
+can discuss any open issue face to 
+
+face. Documentation translates to 
+minutes of team meetings, which 
+tends to reduce the architectural 
+
+metaphor to a sketch.
+Nevertheless, the merits of using 
+agile development approaches to 
+
+create software architecture are 
+
+still being debated, and agile meth
+-ods are increasingly being applied 
+
+in long-term and distributed proj
+-ects.
+˛,˝
+ Such projects often have 
+larger teams, and not all develop
+-ers know the complete system.
+˙ In 
+a controlled and extended evolu
+-tion of complex software systems 
+
+within larger distributed teams, 
+the documentation of an explicit 
+architecture is critical,
+ˆ but the 
+right balance between reducing process overhead by 
+
+minimizing documentation and maintaining light
+-weight development with minimal documentation is 
+di˜cult to achieve. 
+Unlike traditional development, in which archi
+-tecture is a huge upfront design, architecture in agile 
+development must adapt to changing requirements and 
+
+remain lightweight.
+ˇ In the agile development world, 
+Sebastian Gayer,
+ MID
+Andrea Herrmann,
+ Herrmann & Ehrlich
+Thorsten Keuler,
+ John Deere
+Matthias Riebisch,
+ University of Hamburg
+Pablo Oliveira Antonino,
+ Fraunhofer Institute for Experimental 
+Software Engineering
+Although traceability information is vital to 
+many software engineering activities, agile 
+
+development approaches rarely use it because 
+
+of the extra effort required. In this industry case 
+
+study, the authors report the results of applying 
+
+their lightweight semiautomated method that 
+
+integrates traceability into software architecture 
+
+developed with an agile process like Scrum.
+Lightweight 
+Traceability for
+ 
+the Agile Architect
+   MAY 2016
+ 65architecture is far from monolithic: it is 
+a dynamic communication vehicle that 
+
+serves as input to subsequent system 
+
+design and development activities, and 
+agile architects document any assump
+-tions made.
+˜ An explicit representation 
+of architecture and traceability serves 
+as documentation to satisfy certi˚ca
+-tion and standards compliance, or it can 
+be the basis for negotiations between 
+customer and provider.
+IEEE de˚nes as architecture as ﬁthe 
+fundamental organization of a system, 
+
+embodied in its components, their rela
+-tionships to each other and to the envi
+-ronment, and the principles govern
+-ing its design and evolution.ﬂ
+˛ Under 
+this de˚nition, software architecture 
+
+includes the rationale of decisions and 
+
+traceability links to other artifacts, 
+such as requirements and test cases.
+Traceability between artifacts is a 
+way to support the maintainability, 
+changeability, and sustainability of 
+
+a software system and its artifacts. 
+
+Traceability answers diverse questions 
+
+during software engineering, usually 
+across multiple artifacts; for exam
+-ple, in product-line development, it 
+captures which functionalities have 
+
+been delivered with which code ver
+-sion.
+˝,˙
+ The required information and 
+relationships must be documented 
+
+and available in a form that supports 
+
+activities like impact analysis,
+ˆˇ which 
+identi˚es the potential changes due to 
+
+changing requirements before these 
+ changes occur.
+ˆˆ
+The de˚nition of traceability from 
+the Center of Excellence for Software 
+
+and Systems Traceability (CoEST) states 
+
+these functions explicitly:
+ˆ˘[Traceability is] the ability to inter
+-relate any uniquely identi˜able 
+software engineering artifact to 
+
+any other, maintain required links 
+
+over time, and use the resulting 
+
+network to answer questions 
+
+of both the software product 
+and its development process.
+To demonstrate the feasibility of 
+using traceability in agile development, 
+we developed a traceability procedure 
+
+that integrates traceability informa
+-tion into existing artifacts and identi
+-˚es and updates it semiautomatically, 
+
+requiring only trivial extensions to 
+
+existing toolsets. To ascertain the right 
+
+balance between development and doc
+-umentation, we applied our approach 
+
+in an industrial case studyŠa project 
+
+at John Deere. The results of the study 
+show that developers can create and 
+maintain architectural documentation 
+
+of an agile process, such as Scrum, with 
+
+little additional eort.
+WHAT DOES 
+LIGHTWEIGHT MEAN?
+To ensure that our approach would be 
+lightweight, we adopted three main 
+
+strategies: 
+ łidentify the necessary traceabil
+-ity information using a goal-
+ 
+oriented approach, 
+ łensure that the creation and 
+
+maintenance of traceability links 
+
+can be integrated with existing 
+
+processes and tool chains, and
+ łprovide automated support for 
+
+traceability link creation and 
+
+maintenance. 
+We designed our approach to work 
+with any agile software development 
+
+process, although we use ScrumŠ
+ generally accepted in the software 
+industry as a de facto processŠin 
+
+our case study. Figure ˆ presents the 
+
+basic Scrum process and artifacts.
+ The user stories in each sprint (which 
+
+refers to the time block in which spec
+-i˚ed work must be delivered) are 
+detailed into task cards. Architecture 
+is viewed as part of the product and 
+
+integrated into the Scrum process in 
+
+that context, for example, as architec
+-ture sprints, user stories, and tasks. 
+
+The code- and version-
+ management 
+system contains developer comments, 
+which can cover traceability informa
+-tion. The lines between artifacts show 
+the three necessary traceability links: 
+
+requirements to user stories, which 
+
+drives design decisions; user stories to 
+
+architecture, which drives implemen
+-tation; and user stories to test cases, 
+which drives testing. 
+RETRIEVING TRACEABILITY 
+INFORMATION
+Some traceability is implicitly estab
+-lished during the creation of devel
+-opment artifacts and thus does not 
+demand any additional eort. For 
+example, most modeling tools auto
+-matically create links such as the own
+-ership relation between two classes, 
+and coding tools indirectly create 
+
+module interdependencies simply 
+
+by accessing other code units™ inter
+-faces. These naturally occurring links 
+are used in conducting activities like 
+impact and coverage analyses or in 
+
+understanding how cross-layer ele
+-ments relate. The challenge is how to 
+
+retrieve that traceability information 
+
+from the tools™ infrastructure. 
+Other links require consider
+-ably more eort to create and main
+-tain. All vertical traceability links, 
+
+such as those from requirements to 
+ 66 COMPUTER
+   WWW.COMPUTER.ORG/COMPUTER
+architecture and from requirements 
+to implementation artifacts, require 
+
+some degree of e˜ort, depending on 
+
+the granularity of the interlinked arti
+-facts. Linking high-level artifacts, for 
+
+example, is much easier than creating 
+
+links between those at a lower level. 
+
+Our approach aims to address both 
+
+types. To address links that require 
+
+e˜ort to create, we incorporate two 
+
+steps: analyze needs and adapt the 
+tools™ infrastructure accordingly.
+ Analyze needs
+Analysis must be done in combina
+-tion with the underlying process and 
+tool infrastructure. Needs are usu
+-ally driven by the risks attached to 
+the project, which in turn are strongly 
+
+in˚uenced by the degree of team dis
+-tribution and system complexity, the 
+
+quality requirements to be ful˛lled, 
+and the need for sustainability. 
+Adapt tool
+ infrastructure
+The minimal information needed to cre
+-ate a link and integrate it into the tool™s 
+infrastructure is the trace™s source and 
+
+target. If available, the traceability link 
+type is useful; an example is a struc
+-tural relation such as part-of, re˛ned-to, 
+or called-by. If possible, the develop
+-ment activity could be added to the 
+
+link, such as Trac item, bug report, user 
+
+story, or even a sprint task. Links must 
+
+be bi
+ directional, as both directions are 
+needed for traversal. Examples are cov
+-erage checks and comprehension activ
+-ities for reverse engineering.
+ACQUIRING 
+TRACEABILITY LINKS
+Acquiring traceability links requires 
+creating either implicit relationships as 
+
+part of engineering activities or explicit 
+
+relationships in addition to engineer
+-ing activities.
+Regardless of how they are used, 
+traceability links must be captured 
+
+and documented somewhere using 
+
+either a single model or multiple arti
+-facts. Keeping links in a single model 
+
+makes it hard to connect the links to 
+external artifacts; storing links in 
+Design-decision traceabilityImplementation traceabilityTest-case traceabilityAutomated support     Unit testsProduct visionSprint backlogAcceptance testsIntegration +regression testsIncrementTeamSprint(1 to 4 weeks)Dailyscrum(24 hours)Sprint tasksDaily resultsProduct backlogProductProduct ownerScrum masterFIGURE ˜. Scrum development process extended with traceability links. Our method provides automated support for traceability tasks 
+(purple dashed lines), which include the creation and maintenance of traceability links among user stories listed in the sprint backlog, design 
+decisions, and component implementation for that sprint, and test cases related to those user stories and design decisions. 
+   MAY 2016
+ 67
+multiple artifacts requires integrating 
+a large number of artifacts and links. 
+
+Regardless of the capture and doc
+-ument strategy, semiautomatically 
+creating links can reduce the e˜ort 
+involved. Combining semiautomatic 
+
+link creation with tools to automate 
+
+link maintenance removes many of 
+
+the additional costs and e˜ort associ
+-ated with traceability.
+One of the main barriers to ensur
+-ing traceability among development 
+
+artifacts is that people with di˜erent 
+
+project roles and professional back
+-grounds create those artifacts, and 
+
+they tend to prefer familiar develop
+-ment tools. Consequently, there is less 
+
+willingness to migrate to highly inte
+-grated tools with built-in traceabil
+-ity support, such as MID™s Innovator 
+
+(www.mid.de/en/products/innovator
+ -enterprise-modeling-suite.htm), 
+ Version
+    One, and ThoughtWorks™ Min
+-gle. This reluctance puts a burden on 
+
+any traceability approach, which must 
+aim to be as noninvasive on develop
+-ment processes and developer prefer
+-ences as possible.
+MAINTAINING 
+TRACEABILITY LINKS
+Agile development™s guiding philos
+-ophy is to embrace change, which 
+complicates traceability because any 
+
+development alteration requires updat
+-ing traceability links. To avoid excess 
+
+maintenance e˜ort, traceability meth
+-ods should update links only if neces
+-sary, such as to correct an inconsistency 
+
+with a changed model element. 
+Developers can easily identify obso
+-lete and erroneous links by comparing 
+the modi˚cation dates of the trace™s 
+source and target elements and ver
+-ifying the link if the source element 
+has a more recent date. A tool such as 
+
+TraceMaintainer can simplify this ver
+-i˚cation by automating the rule-based 
+
+maintenance of trace links.
+˛˝JOHN DEERE CASE STUDY
+To evaluate our approach, we integrated 
+
+it into the agile development process 
+
+and tool infrastructure at John Deere.
+John Deere decided to introduce 
+agile software development to more 
+
+quickly respond to customer needs and 
+
+provide robust solutions as rapidly as 
+
+possible. The compelling advantages of 
+
+going agile are short release cycles and 
+
+early customer feedback; the down
+-side is the inevitable communication 
+overhead associated with a distributed 
+development team.
+Project characteristics
+We chose to use our approach in a proj
+-ect to design the display for agricultural 
+
+tractors, which is the machine opera
+-tor™s interface and thus critical to the 
+tractor™s success as a product. 
+The project had the following 
+characteristics:
+ łmore than ˛˙ˆ developers;
+ łglobal development using Qt, 
+Linux, and C++;
+ ła system of ˛ˆ million LOC, 
+
+translating to roughly ˛ˆˆ 
+
+components; 
+ ła sprint of ˇ weeks; and 
+ ła potentially shippable increment 
+
+(PSI) in ˘ weeks.
+The project™s risk factors were dis
+-tributed teams, team and project size, 
+
+and the high number of requirements 
+
+to ensure product quality.
+Traceability challenges
+At John Deere, user stories are created 
+
+in Rally (www.rallydev.com), require
+-ments speci˚cations documents and 
+
+architecture design models are created 
+in Microsoft Word using text editors 
+and a dedicated modeling tool, and test 
+
+cases are speci˚ed with Google™s C++ 
+
+Test Framework, SpecFlow, and NUnit. 
+
+However, direct links between user sto
+-ries and requirements speci˚cations 
+
+were missing, which led to several chal
+-lenges throughout the process. 
+RequireddocumentsUser storiesTest casesTraceManEnterprise ArchitectFIGURE ˜. Inputs to TraceMan as applied in the John Deere project. TraceMan uni˜ed 
+traceability links between requirements, user-story, and test-case formats by providing a 
+centralized repository for the links that served as input to Enterprise Architect. By partially 
+automating link creation with fully automating link maintenance, TraceMan reduced much 
+of the additional cost and effort typically associated with traceability.
+ 68 COMPUTER
+   WWW.COMPUTER.ORG/COMPUTER
+To improve this situation, John 
+Deere included Sparx Systems™ Enter
+-prise Architect and Fraunhofer™s 
+TraceMan as part of an e˜ort to cen
+-tralize agile development activities. 
+
+Enterprise Architect is a well-known 
+
+and widely adopted modeling tool. 
+
+TraceMan, developed at the Fraun
+-hofer Institute for Experimental Soft
+-ware Engineering (IESE), is at the 
+
+core of our traceability procedure. 
+As Figure ˚ depicts, it provides auto
+-mated support in creating traceability 
+links among documents created with 
+Microsoft Word; user stories created 
+
+in Rally, and test cases speci˛ed in C++ 
+
+Test Framework, SpecFlow, and NUnit. 
+
+It also houses the links in a central 
+repository that serves as input to the 
+Enterprise Architect environment.
+Establishing links
+User stories and requirements spec
+-i˛cations were imported to Enter
+-prise Architect with TraceMan, and 
+
+the traceability links were estab
+-lished and maintained in a centralized 
+
+model. Within Enterprise Architect, 
+architectural elements such as inter
+-faces, components, and design pat
+-terns were targets of these links. The 
+
+automatic import function in our tool 
+
+extensions allowed us to quickly link 
+
+requirements speci˛cations in Word to 
+
+user stories in Rally.
+In many cases, a project team opts 
+to refactor the source code and archi
+-tecture incrementally, which enables 
+
+them to reduce the number of links, 
+
+retaining only the most relevant ones. 
+
+Refactoring inherently involves mod
+-ifying tests and sometimes require
+-ments speci˛cations, so work to update 
+links does not incur any noticeable 
+overhead e˜ort. Our method explicitly 
+
+addresses refactoring e˜ects on trace
+-ability by linking product vision, prod
+-uct backlog, and sprint backlog (see 
+
+Figure ˝).
+Figure ˙ shows a speci˛c exam
+-ple of link creation. In Figure ˙a, the 
+
+requirement elements ﬁtractorﬂ and 
+
+ﬁimplementﬂ are connected with an 
+
+ISOBUS (a communication unit within 
+
+the tractor), which has associated tex
+-tual documentation specifying the 
+
+details of that connection and the 
+requirement™s decomposition into 
+four user stories. We supported this 
+
+link-
+ creation step by automatically 
+importing the four user stories cre
+-ated in Rally into the same environ
+-ment where requirements are speci
+-˛ed using model-
+ based approaches.
+The link in Figure ˙b highlights the 
+importance of connecting user stories 
+to design elements. We have observed 
+
+that many projects fail to delineate an 
+
+explicit relationship between architec
+-tural design and the elements, such as 
+
+user stories, that motivated particular 
+design decisions. In this case, the link 
+shows that two speci˛c user stories 
+<<Requirement>>Tractor and implement are connected with an ISOBUS<<User Story>>Implement can be attached to a tractor<<User Story>>Implement can be detached from a tractor<<User Story>>Operator can control the implement<<User Story>>Operator sets up implement depending on ˜eld and hay(a)decomposedecompose(b)<<User Story>>Implement can be attached to a tractor<<User Story>>Implement can be detached from a tractorBus-client managerECU 1deploy<<User Story>>Operator sets up implement depending on ˜eld and hay<<Test Case>>Tractor operator caninsert ˜eld and hay information in the system<<Test Case>>Type of hay inserted is in a wrong format(c)ArchitecturedecomposedecomposeaddressaddresstesttestFIGURE ˜. Creating traceability links among architectural artifacts in the John Deere project. 
+Links shown are between (a) requirements and user stories, (b) architectural design and 
+user stories, and (c) a user story and two test cases. To support link creation, our approach 
+automatically imports elements, such as user stories and test cases, into a common 
+environment. Developers can then easily and quickly create links manually. ECU: electronic 
+communication unit.
+   MAY 2016
+ 69drove an architectural decisionŠthe 
+inclusion of a bus client manager and 
+
+electronic communication unit (ECU). 
+
+We have found that explicit links also 
+reduce the number of unaddressed 
+architecture drivers, as well as the 
+
+number of architecture elements with 
+
+no responsibilities. 
+As with requirements and user sto
+-ries, our approach automatically im
+  ports test cases into the same working 
+environment as the requirements and 
+user stories. In the sample link in Fig
+-ure ˜c, the user story ﬁOperator sets up 
+
+implement depending on ˚eld and hayﬂ 
+
+is tested by the test cases ﬁTractor opera
+-tor should be able to insert ˚eld and hay 
+
+information in the systemﬂ and ﬁType of 
+hay inserted is in a valid format.ﬂ
+Traceability management
+As the various sidebars describing 
+established traces describe, traceabil
+-ity management during the John Deere 
+
+project was both e˛cient and e˝ective 
+in large part because product owners 
+and system engineers could work on a 
+
+centralized model that united user sto
+-ries speci˚ed in Rally and requirements 
+
+speci˚ed in Microsoft O˛ce tools. 
+
+Traceability links were quickly nar
+-rowed to only the most important ones.
+Bene˜ts to architecture 
+and architects
+Our approach not only simpli˚ed archi
+-tectural decisions because of the cen
+-tral location and structure of the arti
+-facts and their traceability links, but it 
+also supported impact analysis during 
+software evolution. Traceability links 
+
+can help in predicting how the require
+-ments changes will a˝ect the architec
+-ture. Without documented links, it was 
+
+di˛cult to trace which architectural 
+decisions had to be reconsidered, as the 
+only support came in the form of spec
+-i˚cation documents and architectural 
+models.
+Impact analysis also improved be-
+cause traceability from the user sto
+- ries to the architecture enabled 
+architects and systems engineers to 
+identify exactly which architecture 
+elements had to be considered if the 
+
+user stories changed.
+Sprint planning also became more 
+e˛cient because, once all the candi
+-date artifacts were identi˚ed, it was 
+TRACE TO LINK REQUIREMENTS 
+AND USER STORIES
+ »Before:
+ Trace is not done.
+ »After:
+ Trace takes approximately ˜ minutes for each user story.
+ »Assumptions:
+ Product owners previously created user stories in 
+Rally. Requirements are in Word or Excel ˚les.
+Requirements engineers import the user stories from Rally that 
+are associated with the speci˚ed requirement. TraceMan creates a 
+modeling element that represents the Rally user story and a model 
+element that represents the requirement. Requirements engineers 
+
+manually create the trace links between them. 
+The estimated ˜ minutes includes time to type the user story 
+number, for the tools to communicate, to check that the user story 
+
+was correctly imported, and to create the link.
+TRACE TO LINK USER STORIES 
+AND ARCHITECTURE
+ »Before:
+ Trace is not done.
+ »After:
+ Trace takes less than ˛˝ minutes per user story.
+ »Assumptions:
+ User stories are in Rally. An architecture model 
+exists.
+The product owner and architects discuss which architectural ele
+-ments are necessary (ones that either exist or need to be created) to 
+address the user story. Once they identify dependencies among the 
+
+necessary elements, they manually create trace links. Most of the 
+required time is devoted to the discussion to determine the neces
+-sary elements.
+ 70 COMPUTER
+   WWW.COMPUTER.ORG/COMPUTER
+easier to estimate the e˜ort to imple
+-ment each feature and select the most 
+suitable artifact for the sprint. 
+Improvements in test speci˜cations
+Each user story has a set of acceptance 
+
+criteria that should be re˚ected in test 
+
+speci˛cations. In John Deere™s typical 
+
+process, user stories are documented in 
+Rally, and test speci˛cations are stored 
+in the databases of the tools that devel
+-oped them. When a user story changed, 
+
+it took considerable e˜ort to manually 
+
+verify if the associated test was still 
+
+valid. With our approach, test speci˛
+-cations are imported into the modeling 
+tool. As user stories are imported from 
+Rally into the modeling tool, the traces 
+
+are created with automated support, 
+
+making the subsequent discussion 
+
+more fruitful.
+It is also important to highlight 
+which user story is related to which code 
+and whether that code has been tested, 
+reviewed, and working. Also import
+-ant are the connections between sprint 
+
+tasks and daily results and the unit tests 
+to verify the validity of those results and 
+
+between product backlog and product 
+and the acceptance tests that verify the 
+validity of the produced results. 
+As with the traces between require
+-ments and user stories, the traces 
+
+between test cases and user stories are 
+
+created manually. Again, extra e˜ort is 
+
+minimal because the agile development 
+team can easily trace the elements while 
+they discuss which test cases are needed 
+
+to completely cover each user story. 
+E˚ects on
+ the development environment 
+Our approach gave John Deere devel
+-opers a structured way to communi
+-cate requirements among stakeholder 
+
+groupsŠperhaps the most valuable 
+bene˛t of the case study project. With 
+the resulting centralized information 
+
+source, engineers could combine ele
+-ments from agile development and 
+
+traditional document-centric develop
+-ment, presenting an opportunity for the 
+
+company to enhance its overall develop
+-ment process with reasonable e˜ort.
+We have presented a procedure 
+
+with automated support for 
+
+creating and maintaining a 
+lightweight traceability-
+ management 
+solution for agile software devel
+-opment. To minimize communica
+-tion overhead, our approach relies on 
+
+extensions to agile artifacts and pop
+-ular tools. Link identi˛cation is semi
+-automatic, and links can be visualized 
+
+graphically within existing tools. 
+Our case study in an industrial proj
+-ect demonstrated the feasibility of 
+
+implementing our approach in a main
+-stream model-based development envi
+-ronment with only minor extensions. 
+
+Any agile software development pro
+-cess is can be extended similar to the 
+way we extended Scrum.
+In future work, we plan to increase the 
+degree of automated support for creating 
+traceability links using connections in 
+
+impact analysis, and applying rule-based 
+
+consistency checks between related arti
+-facts during software evolution. 
+ACKNOWLEDGMENTS
+We thank members of the German Com
+-puter Society™s Special Interest Group on 
+TraceabilityŠElke Bouillon, Baris Güldali, 
+
+Ste˜en Lehnert, and Daniel MoldtŠfor 
+
+their fruitful discussions about early drafts 
+
+of this article.
+REFERENCES
+˝.
+ J. Eckstein, 
+Agile Software Deve
+lopment 
+in the LargeŠDiving Into the Deep
+, Dor
+-set House, ˙ˆˆˇ
+.˙.
+ C. Larman and B. Vodde, 
+Practices 
+
+for Scaling Lean & Agile Development: 
+
+Large, Multisite, & O˜shore Product 
+
+Development with Large-Scale Scrum
+, Addison-Wesley, ˙ˆˆ˘.
+.
+ L. Cao and B. Ramesh, ﬁAgile 
+
+Requirements Engineering P
+ractices: 
+TRACE TO LINK USER STORIES 
+AND TEST CASES
+ »Before: 
+Trace is done ad hoc, taking an average of ˜˚ minutes 
+ per user story.
+ »After:
+ Trace takes less than ˛˚ minutes per user story.
+ »Assumptions:
+ User stories are in Rally and were imported to the 
+modeling tool with TraceMan. Test cases are in NUnit or SpecFlow 
+test tools.
+Testers and product owners discuss which test cases will be used 
+to verify the acceptance criteria associated with a user story. As 
+
+soon as the testers and product owner identify the necessary tests, 
+the testers use TraceMan to import the test cases created in NUnit 
+or SpecFlow into the modeling tool. The product owner and tes
+-ters manually create links between the user stories and test-case 
+elements.
+Most of the ˛˚ minutes allotted is devoted to deciding if the test 
+suite will verify the criteria. Once the test suite is identi˝ed, Trace
+-Man is used to create traceability links.
+   MAY 2016
+ 71An Empirical Study,ﬂ 
+IEEE Software
+, vol. ˜˚, no. ˛, ˜˝˝˙, pp. ˆ˝ˇˆ˘.
+ P. Kruchten, ﬁArchitecture,ﬂ blog, 
+Kruchten Engineering Services, ˜˝˛; 
+
+http://philippe.kruchten.com
+ /architecture.
+˚. P. Kruchten, ﬁSoftware Architecture 
+
+and Agile Software Development: 
+
+A Clash of Two Cultures,ﬂ 
+Proc. ACM 
+
+Int™l Conf. Software Eng.
+ (ICSE ˛˝), ˜˝˛˝, 
+pp.˘Œ˙.
+ˆ. D. Falessi et al., ﬁPeaceful Coexis
+-tence: Agile Developer Perspectives 
+
+on Software Architecture,ﬂ
+   IEEE Software
+, vol. ˜˘, no. ˜, 
+ ˜˝˛˝, pp. ˜Œ˜˚.
+˜.
+ IEEE Std. ˚˛˜˚-˝˙˙˙, IEEE Recom
+-mended Practice for Architectural 
+
+Description for Software-Intensive Sys
+-tems
+, IEEE, ˜˝˝˝; https://standards
+ .ieee.org/ndstds/standard/˛˘˛
+ -˜˝˝˝.html.
+˙. S. Rochimah, W. Wan Kadir, and A.H. 
+
+Abdullah, ﬁAn Evaluation of Trace
+-ability Approaches to Support Soft
+-ware Evolution, 
+Proc. ˝nd IEEE Int™l 
+
+Conf. Software Eng. Advances 
+(ICSEA 
+
+˝˘), ˜˝˝˘, pp. ˛Œ˜˘.
+ N. Aizenbud-Reshef et al., ﬁModel 
+
+Traceability,ﬂ 
+IBM Systems J.
+, vol˚, 
+no, ˜˝˝ˆ, pp. ˚˛˚Œ˚˜ˆ.
+˛˝.
+ A. De Lucia, F. Fasano, and R. Oliveto, 
+
+ﬁTraceability Management for Impact 
+
+Analysis,ﬂ 
+Proc. ACM Frontiers Soft
+-ware Maintenance 
+(FoSM ˝˙), ˜˝˝˙, 
+
+pp. ˜˛Œ˝.
+˛˛.
+ S. Winkler and J. von Pilgrim, ﬁA Sur
+-vey of Traceability in Requirements 
+
+Engineering and Model-Driven Devel
+-opment,ﬂ 
+Software and Systems Model
+-ing
+, vol, no, ˜˝˛˝, pp. ˚˜Œ˚ˆ˚.
+˛˜.
+ J. Cleland-Huang et al., ﬁSoftware 
+
+Traceability: Trends and Future Direc
+-tions, 
+Proc. ACM Future of Software 
+
+Eng. Conf.
+ (FoSE ˛), ˜˝˛, pp. ˚˚Œˆ. 
+˛.
+ K. Schwaber, 
+Agile Project Management 
+
+with SCRUM
+, Microsoft Press, ˜˝˝
+˛
+ P. Mäder, O. Gotel, and I. Philippow, 
+
+ﬁRule-Based Maintenance of Post-
+ 
+Requirements Traceability Relations,ﬂ 
+
+Proc. ˚ˆth IEEE Int™l Conf. Requirements 
+
+Eng. 
+(RE ˝˙), ˜˝˝˙, pp. ˜Œ˜.
+ABOUT THE AUTHORS
+SEBASTIAN GAYER 
+is a managing consultant at MID GmbH. His research inter
+-ests include the Innovator modeling platform, model-driven software devel
+-opment, requirements engineering, enterprise-architecture management, and 
+
+service-
+ oriented architecture. Gayer received a Diploma in information engineer
+-ing and management from the Karlsruhe Institute of Technology. Contact him at 
+s.gayer@mid.de.
+ANDREA HERRMANN 
+is a freelance software-engineering trainer and researcher 
+with Herrmann-Ehrlich. Her research interests include requirements engineer
+-ing, decision making in software engineering, and empirical research. Herrmann 
+
+received a PhD in physics from the University of Stuttgart. She is a member of the 
+
+German Informatics Society and a member and leader of several working groups 
+
+of the German chapter of ACM. Contact her at herrmann@herrmann-ehrlich.de.
+THORSTEN KEULER 
+is a product engineering supervisor of the John Deere 
+Intelligent Solutions Group in Kaiserslautern. His research interests include qual
+-ity improvement processes and optimized sustainable measures to support the 
+delivery of high-quality software. Keuler received a PhD in computer science 
+
+from the Technical University of Kaiserslautern. Contact him at KeulerThorsten@
+ 
+JohnDeere.com.
+MATTHIAS RIEBISCH 
+is a professor of software engineering at the University 
+of Hamburg. His research interests include software evolution and sustainability, 
+model-based development, and software architectural design methods. Riebisch 
+
+received a PhD in computer science from the Ilmenau University of Technology. 
+
+He is a member of the German Informatics Society and cochair of its Software 
+
+Architectures group. Contact him at riebisch@informatik.uni-hamburg.de.
+PABLO OLIVEIRA ANTONINO
+ is a senior engineer and project manager at the 
+Fraunhofer Institute for Experimental Software Engineering, Kaiserslautern. 
+His research interests include the construction and analysis of architectures of 
+
+dependable embedded systems to support automotive, agricultural, medical-
+ device, and avionics applications. Antonino received a PhD in computer sci
+-ence from the University of Kaiserslautern. Contact him at pablo.antonino@iese
+ .fraunhofer.de.
+Selected CS articles and 
+columns are also available for 
+
+free at 
+http://ComputingNow
+ .computer.org
+.@securityprivacy
+FOLLOW US

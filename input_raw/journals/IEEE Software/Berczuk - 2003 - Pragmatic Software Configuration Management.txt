@@ -1,0 +1,377 @@
+ 0740-7459/03/$17.00 © 2003 IEEEPublished by the IEEE Computer SocietyIEEE SOFTWARE
+15software construction
+Pragmatic Software Configuration ManagementSteve BerczukEditors: Andy Hunt and Dave Thomas The Pragmatic Programmersandy@pragmaticprogrammer.com 
+dave@pragmaticprogrammer.com
+Whenever I start a new software pro-ject, I look at the infrastructure the
+team has in place for doing things
+
+like setting up a development
+workspace, building, doing ver-
+sion management, and so onÑthethings that belong to the larger topic known
+
+as software configuration management
+(SCM). I worry about these elements be-
+cause, in a sense, IÕm lazy. I want
+
+to direct my energies into produc-
+
+ing code that works and is main-
+tainable. When I have to spend a
+lot of manual effort dealing with
+
+infrastructure issues, I suspect
+that IÕm not generating as much
+
+value for the organization as I
+would if I could focus more on
+the steps for writing code (this in-
+cludes understanding require-
+ments and testing). Workspace
+management, integration, and build are im-
+
+portant developer tasks, but they shouldnÕt
+
+require excess effort. 
+Often an organizationÕs SCM mechanisms
+donÕt help with the work of building software
+
+as much as they could. Either no mechanisms
+exist for doing common tasks or the
+processes to use those mechanisms are too
+
+complicated and become tasks in themselves.
+
+On a daily basis, developers shouldnÕt notice
+
+SCM that much, and what they do notice,
+they should eagerly embrace because these
+things help them do their jobs. When devel-
+
+opers donÕt find SCM processes to be helpful,
+
+itÕs often because the processes donÕt serve the
+
+organizationÕs goals well. This tends to be
+
+due to two issues: first, basic SCM structures
+are lacking and, second, the structure doesnÕt
+fit well into the development environment. In
+our book Software Configuration Manage-ment Patterns: Effective Teamwork 
+(Addi-son-Wesley, 2003), Brad Appleton and I saw
+
+this as a perfect application for pattern lan-
+
+guages (see the related sidebar). Here is a
+
+brief overview of the essential patterns for a
+
+basic, agile SCM environment. Codelines and policiesThe first thing software developers should
+do before providing a solution is to be sure
+
+that they understand the problem (see D.C.
+Gause and G.M. WeinbergÕs book 
+Are Your
+Lights On? How to Figure Out What the
+
+Problem Really Is,
+Dorset House, 1990).Two itemsÑcodelines and branching, and
+
+stabilityÑare especially relevant for this task.
+A codelineis a progression of the set of
+source files and other artifacts that make up
+some software component as it changes over
+time. A codeline has a purpose associated
+with it, described in the 
+Codeline Policy. Acodeline that forks off from another code-
+
+line for the purposes of parallel development
+is often called a 
+branch.When confronted with a version control
+tool, you might be tempted to branch fre-
+
+quently to isolate development work efforts.
+
+Branching codelines that might need recon-
+nection later will require merging, which of-
+
+ten works well with proper tool support but
+
+can be error-prone. Merging is a reason many
+
+people swear off branchingÑeven when it
+makes senseÑor shun version control tools.
+In many cases, most development can occur
+on a single development line, a Mainline.  16IEEE SOFTWARE
+http://computer.org/software
+SOFTWARE CONSTRUCTION
+We often think about SCM pro-
+cesses as controlling change tightly
+and ensuring stability. In many situa-
+
+tions, this is not necessary. Each de-
+
+velopment stream (or codeline) should
+
+have an appropriate Codeline Policy
+that describes what pre-check-in tests
+to run and so on. Because many ap-
+plications donÕt need 100 percent
+
+ready-to-ship-at-any-time stability, we
+
+can establish a Codeline Policy that
+gives us an Active Development Line
+,where we slightly favor progress over
+
+stability.
+Of course, at some point weÕllwant to have code that you can ship at
+a momentÕs notice. Once we ship a
+
+version of a product, for example, we
+
+might want to allow for changes to
+
+make patch releases. This code shouldbe on a Release Line, which is a code-line with a Codeline Policy that favors
+stability over progress.Getting started with
+developmentManaging change is a universalproblem in software development.
+
+On the whole, change is good; with-
+
+out it, nothing gets done. However,
+
+developers need some control over
+their development environment. A
+development workspace
+is where de-
+velopers put artifacts that they need to
+code, build, and test. These artifactsÑ
+
+such as source files, libraries, and con-
+
+figuration filesÑcan be shared(in
+
+whole or in part) or private to each
+developer. In a shared workspace,
+
+any change instantly affects other de-velopers using the workspace. Nor-
+mally, itÕs good to be in synch with
+
+your team, but most people need a
+window of time to work free of
+
+change. Giving developers each a Pri-vate Workspace, 
+where they can inte-grate changes appropriately and build
+the whole system if needed,provides
+
+this.You can use a 
+Repositoryto pop-ulate a Private Workspace with the
+
+right versions of the things that a
+developer needs. The Repository is
+the central place where all project
+components reside, providing Òone-
+stop shoppingÓ for setting up or up-
+dating a workspace. Projects often
+use components from other sources.
+
+You can use a special 
+Third-PartyCodelinein the Repository to man-An SCM Pattern LanguageA pattern
+is loosely defined as a so-lution to a problem in a context. Pat-
+
+terns are proven solutions. 
+Pattern lan-
+guagesare a grammar that describes
+how to fit the patterns together to make
+
+something meaningful. The software configuration manage-ment pattern language describes how to
+
+build a development environment that will
+have the correct amount of SCM infrastruc-
+ture to create software more quickly and
+reliably. Of course, SCM is only part of the
+
+picture (if an often neglected part); you still
+
+need good development and coding prac-
+tices. But the SCM pattern language will
+
+help you solve problems so you can focus
+
+your energy on more difficult tasks.
+Figure A shows a map of the portion of
+the pattern language I discuss in this col-
+
+umn. Each box represents a pattern. Each
+
+patternÕs name tells you the structure you
+
+should create (Mainline, Release Line, Pri-
+vate Workspace). YouÕll need to read the
+
+pattern to know more details about how
+
+and when to apply it, but the pattern
+
+names form a useful vocabulary for discus-
+
+sion. In our book, 
+Software ConfigurationManagement Patterns: Effective Teamwork, 
+Brad Appleton and I have grouped the pattern language into two sections: pat-
+terns about workspaces and patterns about organizing codelines. In the interests of space, the main text provides an overview
+
+of the workspace patterns after a brief description of some key codeline patterns.
+MainlineActive Development LineIntegration BuildSmoke Test
+Third-Party CodelineRegression Test
+Unit Test
+Private System BuildRepository
+Private Workspace
+Figure A. Part of the software configuration management 
+pattern language. An arrow pointing from pattern A to pattern
+
+B means two things: you apply pattern B when pattern A 
+already exists and pattern B helps pattern A work. SOFTWARE CONSTRUCTION
+age this external code in a way thatÕs
+similar to how we manage internally
+written code.
+Testing, building, andintegrationAfter you and your team membershave done some coding, you need to
+incorporate these changes into the
+build. A central Integration Build ac-complishes this by building from the
+codelineÕs latest state. Before you
+
+submit changes for the Integration
+Build, you must verify that your
+changes, when combined with every-
+one elseÕs changes, will not break the
+
+build. You can do this by performing
+
+a Private System BuildÑalocal version
+of the Integration Build incorporating
+your changesÑin your workspace to
+ensure that the code accurately reflects
+
+the system that the Integration Build
+will create.Testing is a complicated issue. Too
+much time spent testing means less
+time coding and a larger interval be-
+tween when you make a change and
+when others can integrate it. Too lit-
+
+tle time spent testing means that
+youÕre more likely to introduce er-
+
+rors. Performing a Smoke Test
+beforeyou check in your changes lets you
+ensure that that the system works
+
+well enough to share with others. We
+
+can rely on a Smoke Test to be enough
+
+for pre-check-in validation only if the
+Smoke Test is supported by a 
+UnitTest, 
+which lets us exhaustively testthe component that weÕre working
+
+on and closely related components.
+To catch any errors that might slip
+
+through, we must also use a centrally
+run Regression Test
+that tests the sys-
+tem for known error conditions.
+Does it matter?Using these patterns together cangive you a much improved and more
+agile development environment. YouÕll
+
+have more time to spend on coding
+and less on supporting activities.
+When used together, the practices sup-
+
+port each other. Adding a single prac-
+
+tice to your environment can help a
+
+little, adding practices that support it
+
+can help a lot, and missing one can
+hurt. In one instance, using the Active
+Development Line pattern improved
+the teamÕs morale and productivity
+
+and the codeÕs quality. Simplifying the
+
+pre-check-in testing worked well be-
+cause the supporting practices (Unit
+Tests, Private Workspaces, and so on)
+
+were already in place.Patterns and pattern languages
+help place solutions in context.
+Although many best practices ex-ist, there is no one way to imple-
+ment them, and sometimes best
+practices conflict. The SCM pattern
+
+language lets you establish basic
+SCM practices that help your team
+work effectively.
+Steve Berczukhas been developing object-orientedsoftware applications since 1989, often as part of geographically
+distributed teams. HeÕs currently looking for a new opportunity.
+
+Contact him at steve@berczuk.com; www.berczuk.com.
+DATA BASE ADMINISTRATOR: 
+Design database, code, test,implement. Establish database
+parametrs. Control access. Select
+codes of utility program for moni-
+toring performance. B.S. req'd in
+
+comp. science/appl.math. 40
+
+hrs./wk.; Job site  L.A., Contact A.
+
+Sarafian (213) 624-6462. Fax (213)
+624-3538SUBMISSION DETAILS:
+Ratesare $10.00 per line (ten lines mini-
+
+mum). Average five typeset words
+
+per line, eight lines per column
+
+inch. Add $10 for box number.
+
+Send copy at least one month prior
+to publication date to: Marian An-
+derson, Classified Advertising, IEEESoftwareMagazine, 10662 Los Va-
+queros Circle, PO Box 3014, Los
+
+Alamitos, CA 90720-1314; (714)
+821-8380; fax (714) 821-4010.
+
+Email: manderson@computer.org.
+Career  Opportunities
+Professors of Computer and
+Software Engineering and 
+
+Chair of Software Engineering
+Department of Computer EngineeringWe are presently seeking candidates to fill several positions of
+Professor of Computer Engineering and Software Engineering, as well
+as a prestigious position of Chair of Software Engineering.In addition to teaching at the undergraduate and graduate levels,successful candidates will work in one of the departmentÕs fields of
+
+research: software engineering, engineering large software systems,
+embedded computer systems, networking and mobile computing.Successful candidates must have a Ph.D. in a related area and the academic background required to become a member of the 
+
+.The new Department of Computer Engineering is rapidly expandingand presently includes over a thousand students. Researchers are
+provided with the necessary space and technical support, a modern
+computer environment and special funds to help them start up their
+research projects. For more information, visit the department website 
+at www.gi.polymtl.ca.Please send your curriculum vitae in French, your academic credentials,the names of three references and reprints of recent papers to:
+
+
+
+
+
+
+
+
+
+The application review process will begin immediately and willcontinue until the positions are filled.According to Canadian Immigration requirements, Canadian citizens and permanent residents will be preferred. We are an 
+
+equal-opportunity employer.

@@ -1,0 +1,263 @@
+ 0740-7459/09/$26.00 © 2009 IEEE
+ November/December 2009   
+IEEE SOFTWARE
+ 9Editor: Rebecca J. Wirfs-Brock 
+˜ Wirfs-Brock Associates 
+˜ rebecca@wirfs-brock.com
+design
+Successful software systems often live far 
+longer than their original designers an
+-ticipated. And over their lifetime, most 
+of those systems evolve. Developers who 
+make modi˜cations, ˜x bugs, and add new 
+features to long-lived systems have an easier 
+time of it if they keep the code base habitable (ﬁCre
+-ating Sustainable Designs,ﬂ Rebecca Wirfs-Brock, 
+IEEE Software
+, May/June 2009) 
+and preserve design integrity. But 
+even so, maintenance can be pain
+-ful when new requirements invali
+-date initial design assumptions. 
+Given that we can™t anticipate the 
+design impact of every future re
+-quirement, is it enough to keep 
+our code clean and our designs 
+well factored? Or should we be 
+doing something more?
+Support Design Variability
+Most complex systems support a fair amount of 
+variability from the start. Some systems support 
+those variations poorlyŠthey™re rife with cut-copy-
+and-paste reuse and overly complex code. Condi
+-tional checks and hard-coded constants are com
+-mon. The code is as uninspired as its designers 
+were. As a consequence, the implementation may 
+support a high degree of variation, but the design is 
+accidental or chaotic. The system squeaks by with 
+in˚exible, dif˜cult-to-change code.
+A more ˚exible design would have fewer hard
+-wired assumptions, ˜xed values, and duplicated 
+code. It might have been refactored and revised 
+numerous times to accommodate shifting design 
+concerns. Most likely, it was initially designed to be 
+testable and it continues to be tested. Initially, ab
+-stractions may have been identi˜ed, but they too 
+have been reworked and revised. The current de
+-sign is coherent because of its revisionist designers. 
+Flexible design is the byproduct of preparation 
+and continued attention to detail. Where there™s a 
+lot of variability in a design problem, a ˚exible solu
+-tion will incorporate appropriate design hooks that 
+allow for developers to predictably add planned 
+extensions. Once they™ve established ways to sup
+-port speci˜c variations, developers can follow pre
+-de˜ned extension recipes rather than hacking in 
+new features that are similar to existing ones.
+Extremely ˚exible designs, however, can be un
+-necessarily complex. If you don™t watch out, soft
+-ware that™s too cleverly designed ends up with a pile 
+of complexity that™s rarely used but must be under
+-stood in order to maintain the system. Extending 
+such a design can involve making many error-prone 
+steps. Yet even elegantly crafted ˚exible designs can 
+have steep learning curves. New developers need to 
+be taught the right way to make changes and ex
+-tensions. They need to learn design idioms. Coding 
+conventions need to be enforced.
+Joshua Kerievsky, in 
+Refactoring to Patterns
+, offers advice on how to avoid overly complex solu
+-tions: ﬁPatterns are a cornerstone of object-oriented 
+design, while test-˜rst programming and merciless 
+refactoring are cornerstones of evolutionary design. 
+To stop over- or under-engineering, balance these 
+practices and evolve only what you need.ﬂ
+OK. We all know we shouldn™t create elaborate 
+solutions when simpler, adequate solutions suf˜ce. 
+And we should refactor our design when we™re 
+faced with changing requirements. But how can 
+you know whether you™re evolving a design along 
+reasonable dimensions? Is agile development the 
+answer? Agile development processes embrace the 
+Rebecca J. Wirfs-Brock
+ﬁOne must always be aware, to notice even though the cost of noticing is to become responsible.ﬂ 
+ ŠThylias Moss
+The Responsible Designer
+ 10
+ IEEE SOFTWARE   
+www.computer.org/software
+DESIGN
+notion of making decisions at the last 
+re
+-sponsible
+ moment. 
+On agile projects, just-in-time require
+-ments drive incremental development. As 
+a consequence, design activities are short 
+and focused on the current iteration. You 
+design to meet current requirements and 
+don™t have time to over-design.
+Indeed, agile development can be a 
+heady experience when you™re fed a steady 
+stream of right-sized requirements. If you™re 
+so lucky, you can be extremely productive. 
+You don™t fret about tomorrow™s problems; 
+instead you solve the problems of the day. 
+You get to focus on simple design and clean 
+code. Frequent, timely feedback gives you 
+insights into the next problem you tackle. 
+You work closely with others. Nobody 
+goes off and does cowboy coding or clan
+-destine design. 
+But agile development isn™t always a de
+-signer™s paradise, as Joe Yoder and Brian 
+Foote pointed out in their Agile 2009 con
+-ference debate, ﬁBig Balls of Mud: Is This 
+the Best that Agile Can Do?ﬂ Agile prac
+-tices, if followed naively, can lead to system 
+decay (also known as big balls of mud; see 
+their original big balls of mud pattern at 
+www.laputan.org/mud). Lack of any up
+-front design can lead to muddled design. 
+Continuously evolving a software archi
+-tecture can prove expensive. Piecemeal 
+growth can be haphazard and lead to less 
+than optimal designs. Late changes to re
+-quirements can cause signi˜cant design 
+churn.
+It seems obvious, but it™s worth stat
+-ing: no development process can eliminate 
+disruptions caused by signi˜cant require
+-ments changes. When your design context 
+changes, of course you need to rethink 
+earlier decisions. One myth that should 
+be dispelled about agile design is that it al
+-ways happens just in time at the keyboard 
+with no upfront planning or thought about 
+design. That may make for a sensational 
+story, but it™s only common when you™ve 
+already ˜gured out the hard bits. If your 
+development tasks are predictable and rou
+-tine, well then, you don™t need to spend a 
+lot of time thinking about your design. 
+Your primary job is to produce working 
+code and keep it clean. But when tackling a 
+new and challenging design problem, even 
+agile designers take time to explore their 
+optionsŠespecially if there™s great risk or 
+uncertainty. It™s the responsible thing to do.
+Flexibly Support 
+ Core Variations
+But given the shifting design context that 
+many of us live with, whether we work 
+on agile projects or not, what can we do 
+to better support variability that™s inher
+-ent in most software? James Coplien wrote 
+about commonality-variability analysis 
+in his PhD thesis and in ﬁCommonality 
+and Variability in Software Engineeringﬂ 
+(IEEE Software
+, Nov./Dec. 1998).
+The ˜rst three steps of commonality-
+variability analysis aren™t strictly about 
+design. Instead they characterize the vari
+-ability that your software needs to sup
+-port. These activities set you up to make 
+more informed design decisions. Ideally, 
+you should do this for core areas of soft
+-ware functionality that have signi˜cant 
+impact. You start by asking what func
+-tions will change over time or work dif
+-ferently because of certain known condi
+-tions. A list of points of variation, or 
+hot 
+spots
+, can focus your efforts. Each hot 
+spot becomes a separate design problem.
+Coplien outlines these steps for analyz
+-ing and then solving the design for a hot 
+spot:
+ 1.
+ Establish the scope of the variationŠ
+how much of the design will you 
+consider?
+ 2.
+ Identify what™s common and what 
+varies.
+ 3.
+ Bound the degree of variability the de
+-sign solution will support. Place spe
+-ci˜c limits on how much variation it 
+can support. Explain those limits.
+ 4.
+ Exploit commonalities in a design solu
+-tion; while
+ 5.
+ Accommodating the variability.
+Ideally, you should do this analysis col
+-laboratively with business decision-makers 
+having relevant domain expertise. This is 
+especially important if you anticipate elabo
+-rate or costly design solutions. Experienced 
+designers often spot potential variations 
+that business experts might not. If we soft
+-ware designers work collaboratively with 
+business decision-makers, we can jointly 
+determine whether potential points of vari
+-ability are real and meaningful to the busi
+-ness, or just byproducts of our highly tuned 
+abstraction skills. If they™re important, then 
+we should pay extra attention.
+James Taylor, in ﬁUsing Business Rules 
+in Stable, Core Processesﬂ (http://jtonedm.
+com/2009/09/03/using-busines-rules-in-
+stable-core-processes) distinguishes be
+-tween core business processes that are 
+stable and predictable, from those at the 
+business™s edges where change is the norm 
+and business processes and rules seemingly 
+never settle down. Whether you design IT 
+software or embedded systems, it makes 
+sense to focus on crafting ˚exible solutions 
+for the known, stable parts. The other 
+parts may be important, but their design 
+constraints will keep changing and evolv
+-ing. It may be good enough to keep the 
+code habitable.
+Fortunately, you can apply everything 
+you™ve learned about good design to creat
+-ing a ˚exible design solution. However, it 
+requires extra effort. You may need to:
+ ˜refactor, isolate, encapsulate, and redis
+-tribute responsibilities;
+ ˜design places where behavior can be 
+ﬁtunedﬂ or replaced;
+ ˜use factoring strategies and known 
+patterns;
+ ˜design con˜gurable behavior and data;
+ ˜apply inheritance when variations are 
+relatively few and static, or choose 
+composition when variations are many 
+or need to change at runtime;
+ ˜de˜ne interfaces that can be imple
+-mented by different classes; and
+ ˜enable dynamic con˜guration of sys
+-tem behavior.
+When you propose a ˚exible design so
+-lution, it™s reasonable to state your design™s 
+limitations. Flexibility always has limits. A 
+well-designed, ˚exible solution encapsu
+-lates known variable aspects and provides 
+mechanisms that adequately support ex
+-pected changes and adaptations.
+Identifying ﬁjust enoughﬂ ˚exibility is 
+a key design skill. And at the end of 
+the day, a responsible designer should 
+strive to make informed decisions about 
+what™s an appropriate amount of design 
+˚exibility.
+Rebecca J. Wirfs-Brock
+ is president of Wirfs-Brock 
+Associates. Contact her at rebecca@wirfs-brock.com; www.
+wirfs-brock.com.

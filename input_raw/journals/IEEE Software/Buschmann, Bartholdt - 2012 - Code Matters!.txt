@@ -1,0 +1,419 @@
+ 0740-7459/12/$31.00 © 2012 IEEE
+ MARCH/APRIL 2012
+ | IEEE SOFTWARE
+ 81Editor: 
+Frank Buschmann
+Siemens Corporate Technology
+frank.buschmann@siemens.com
+THE PRAGMATIC 
+ARCHITECT
+TIME AND AGAIN, 
+the software community 
+discusses whether architects should code.
+1 Although broad consensus exists that they 
+should, some voices argue that architects™ re-
+sponsibility for entire systems and their archi-
+
+tectural integrity doesn™t necessarily require 
+
+coding.
+2 At least these responsibilities limit 
+the time architects can spend writing code. 
+But how can architects balance coding activi-
+ties with their other duties? And because all 
+
+coding should have a clear contribution to 
+
+their architectural work, how can they en-
+sure that they code at appropriate ﬁplacesﬂ in 
+the architecture, addressing architecturally 
+
+signi˜ cant aspects? Let™s explore.
+Where Architecture and Code Meet
+A key aspect of architecture is to guide a 
+
+system™s implementation. All code artifacts 
+should adhere to a common vision, inter-
+act effectively with one another, and com-
+
+prise code that follows appropriate rules and 
+
+guidelines. Architecture spawns an imple-
+mentation space for a system, and it™s the 
+developer™s task to choose a speci˜ c realiza-
+
+tion within that space. However, design and 
+
+implementation aren™t entirely independent 
+from one another, and some realization op-
+tions directly impact architecture.
+The following code snippet outlines the 
+signature of a service 
+TagManager
+ that man-
+ages the metadata of business logic objects 
+
+in a map of so-called tags. Tags are de˜ ned 
+
+as key value-pairs; they™re used to advertise 
+the metadata for other objects or the run-
+time to derive speci˜ c actions or adapt their 
+
+behaviorŠfor instance, to instantiate an ob-
+
+ject eagerly or lazily dependent on its current 
+usage context:
+class TagManager {
+
+ ... /** assign a string value to the identi˜ er ﬁtagNameﬂ */
+
+ public void set(string tagName, string value);
+
+ ...}After publishing the class interface, de-
+velopers discovered that more operations 
+were necessary to use it effectivelyŠfor in-
+
+stance, a method to remove a tag from the 
+
+map. Unfortunately, modifying a released 
+interface required going through a time-
+intensive change-request process. Develop-
+
+ers thus tunneled the request for the remove 
+
+operation through an existing method to 
+the class implementationŠwhich they could 
+change without such ritual. In particular, 
+
+they extended the parameter 
+tagName
+ of the 
+set
+ method with a pre˜ x indicating that a re-
+move operation should be performed:
+tag.set(ﬁr:ﬂ + tagName, new string() );
+The implementation of the 
+set
+ method 
+checked for the existence of the ﬁ
+r:ﬂ pre˜ x 
+in the 
+tagName
+ and removed the tag from the 
+map if it was present, ignoring the second 
+parameter of the call; otherwise, the method 
+
+performed the original 
+set
+ operation. This 
+programming trick didn™t break existing 
+
+code and let developers add new operations 
+
+to the class without any interface changes. 
+
+From a programmer™s perspective, it was a 
+reasonable response to avoid a complex and 
+progress-blocking change request. 
+Actually, however, the developers implic-
+itly modi˜ ed the contract of the class and 
+thus an aspect of the system™s architectureŠ
+Code Matters!
+Frank Buschmann and Jörg Bartholdt 
+ 82 IEEE SOFTWARE
+ | WWW.COMPUTER.ORG/SOFTWARE
+THE PRAGMATIC ARCHITECT
+although the class interface™s signature 
+didn™t change. There were additional 
+class responsibilities, explicit depen
+-dencies to a speci˜c syntax for tag 
+names, and increased complexity in the 
+method™s code and in the code calling 
+the method. Developmental qualities 
+thus suffered, most obviously maintain
+-ability, extensibility, and testability.
+Code to Guide and Get Feedback
+Ultimately, a system™s architecture is 
+de˜ned by its code, not by its design 
+models and diagrams. Bertrand Meyer, 
+the creator of the Eiffel language, put it 
+more vividlyŠﬁBubbles don™t crashﬂŠ
+therefore, ﬁAll you need is code!ﬂ Con
+-sequently, it™s the architect™s responsi
+-bility to pay attention to codeŠnot just 
+to avoid architectural drift and discover 
+design ˚aws but also to identify coding 
+aspects that impact architecture. The 
+advice of the software community for 
+addressing these issues is simple and di
+-rect: an architect also implements.
+3 While most architects generally ac
+-cept this insight, the challenging ques
+-tion is this: How can they balance their 
+responsibilities for the entire system 
+with the need to stay in touch with de
+-velopment? If architects get lost in myr
+-iad local code details, it becomes dif
+-˜cult for them to de˜ne a sustainable 
+architecture vision and drive its con
+-crete design and realization. Yet, if they 
+stay away from the system™s code, they 
+won™t get feedback on their designs™ 
+habitability, nor will they discover the 
+devil in the (code) details that™s of ar
+-chitectural signi˜cance!
+Consequently, all of an architect™s 
+coding activities must have a clear 
+contribution to their main responsibil
+-ityŠthe system™s architecture, and its 
+suitability to meet its requirements and 
+business case, its architectural whole
+-ness and integrity, and its usability for 
+developers. Architects shouldn™t code 
+because they™re the smartest developers 
+on the team, want to demonstrate their 
+coding skills, or just for funŠtheir ob
+-jectives for programming should be to 
+guide, educate, understand, and get 
+feedback.
+Programming to guide and educate 
+teaches developers to focus on the ar
+-chitecture and design aspects whose 
+realization is critical to success so that 
+the architecture receives the architect™s 
+prominent attention. This practice tends 
+to encourage developers to invest more 
+care into writing idiomatic, high-qual
+-ity code. Examples from our own cod
+-ing practice include the intended use of 
+important interfaces and the economic 
+realization of critical usage scenarios.
+Programming to understand and get 
+feedback helps architects make prag
+-matic and sustainable design decisions 
+and experience the consequences of 
+their own designs. For example, a col
+-league recently focused his program
+-ming activities on exploring how to 
+best avoid LOH (large object heap) 
+fragmentation in .NET and thus de
+-sign the system™s data model and data 
+management functionality accordingly. 
+In general, this coding practice is ex
+-tremely helpful to ground an architect™s 
+decisions and avoid the creation of de
+-sign pearls that appear sound from a 
+design perspective but are hardly usable 
+in practice. 
+If the architects from our previous 
+story had coded to ﬁtestﬂ the usability 
+of the 
+TagManager
+ class, they would have 
+likely discovered its ˚aws and adjusted 
+the interface before it was published 
+for broad use. Thus, they would have 
+avoided the developmental de˜ciencies 
+caused by abusing an existing method 
+signature for request tunneling.
+If the architects had actively partici
+-pated in coding, they would have likely 
+discovered another issue with class 
+Tag
+-Manager
+. With the ability to set, change, 
+remove, and observe tags, it became a 
+˜ne-grained communication infrastruc
+-ture between business logic objects. 
+As tags got stored in a central process, 
+even the communication of two busi
+-ness objects in the same process in
+-volved two remote calls. Such usage led 
+to signi˜cant performance degradation, 
+jeopardizing the architecture™s quality.
+Agile Coding Practices
+The focus on guidance and feedback 
+also suggests programming practices 
+that foster leadership and active pro
+-grammer assistance. Architects should 
+code to support developers in doing their 
+job and enable them to make sustainable 
+code-level decisions for their area of re
+-sponsibility. Programming on the criti
+-cal path or taking explicit ownership for 
+the most challenging components is in
+-appropriate for this purpose: Architects 
+would dominate programming rather 
+than guide it or even demonstrate mis
+-trust in the developers™ skills rather then 
+empowering them to create economic 
+code to bene˜t the system. 
+Two agile programming practices, 
+pair programming and test-driven de
+-velopment (TDD), appear most suitable 
+for leadership-oriented coding.
+Pair programming lets architects 
+program on all parts of the systemŠ
+even on the critical pathŠwithout tak
+-ing explicit ownership of the code.
+3,4
+ By pairing up with all developers on the 
+team, they also get an overview of the 
+entire code base and in-depth feedback 
+on the habitability of their architecture. 
+Through direct interaction with devel
+-opers, they can give focused, concrete 
+guidance on how to implement the ar
+-chitecture. Likewise, they can discover 
+and address architecture drift, de˜cien
+-cies, and code-level details of architec
+-tural relevance early and proactively. 
+They can even improve their own cod
+-ing skills when pairing with expert 
+programmers.
+Through programming tests, archi
+-tects can guide the speci˜cation and 
+realization of architectures from the 
+ﬁoutside.ﬂ
+5 Tests for end-to-end user 
+scenarios, key quality attributes, and 
+risky design and technology decisions 
+stress architecture sustainability. Tests 
+for component interfaces and externally 
+  MARCH/APRIL 2012
+ | IEEE SOFTWARE
+ 83THE PRAGMATIC ARCHITECT
+accessible APIs provide direct feedback 
+on architecture usability. Pragmatic ar
+-chitects use the results of such tests to 
+drive their own design work. The tests 
+also form a framework for developers: 
+they can program directly and explic
+-itly toward de˜ned architecturally rel
+-evant aspects.
+Agile programming practices let ar
+-chitects control the time they spend on 
+coding and move around to set a dedi
+-cated focus on the most important as
+-pects of coding for the system™s archi
+-tecture. Development progress isn™t 
+dependent on the architect™s constant 
+presence in coding, and architects can 
+balance their coding activities with all 
+their other duties according to the archi
+-tecture™s current needs.
+Architecture doesn™t stop when 
+it comes to programming. 
+Designs must be codi˜ed ap
+-propriately to avoid architecture drift. 
+Code-level aspects like interface design 
+and usage are often of architectural 
+signi˜cance, requiring the architect™s 
+guidance and decisions. Consequently, 
+coding isn™t a complementary activity 
+for architects but an integral part of 
+a professional practice of their craft. 
+Thus, architects should explicitly assign 
+time for programming. However, they 
+should be aware that programming isn™t 
+an end in its own right but one of many 
+activities that guide and drive the design 
+and realization of sustainable architec
+-tures. Then, coding isn™t a price that 
+architects must pay to win developers™ 
+respect but an important measure to en
+-sure that they create sustainable designs 
+that developers ˜nd habitable.
+References
+ 1.
+ S. Brown, ﬁSoftware Architecture for Devel
+-opers,ﬂ 
+Coding the Architecture
+, online book; 
+www.codingthearchitecture.com.
+ 2.
+ B. Vande Ghinste, ﬁDo Architects Need To 
+Code?ﬂ blog; http://blogs.msdn.com/b/
+ architectsrule/archive/2010/05/07/do
+ -architects-need-to-code.aspx.
+ 3.
+ J.O. Coplien and N. Harrison, 
+Organizational 
+Patterns of Agile Software Development
+, Prentice-Hall, 2004.
+ 4.
+ K. Beck, 
+eXtreme Programming Explained: 
+Embrace Change
+, Addison-Wesley, 2004
+ 5.
+ F. Buschmann, ﬁTests: The Architect™s Best 
+Friend,ﬂ 
+IEEE Software
+, vol. 28, no. 3, 2011, 
+pp. 7Œ9.
+FRANK BUSCHMANN 
+is a senior principal 
+engineer at Siemens Corporate Technology, where 
+he™s a principal architect in the System Architecture 
+and Platform Department. Contact him at frank.
+buschmann@siemens.com.
+JÖRG BARTHOLDT 
+is a senior engineer at Siemens 
+Corporate Technology, where he™s a senior certi
+-˜ed software architect in the System Architecture 
+and Platform Department. Contact him at joerg.
+bartholdt@siemens.com.
+Selected CS articles and columns 
+ are also available for free at 
+ http://ComputingNow.computer.org.
+IEEE SOFTWARE
+ CALL FOR PAPERS
+Bridging Software Communities
+ through Social Networking
+
+
+
+
+
+
+
+
+
+
+
+The advent of social networking sites has fundamentally 
+altered how software development communities of stake
+-holders communicate, collaborate, learn from, and coordi
+-nate with one another. In many cases, social networking has 
+eliminated boundaries and upended traditional hierarchies 
+that constrain the ˚ow of information within and between 
+organizations. Networking technologies have enabled teams 
+of developers to work together to produce software, groups 
+of customers to easily share usage information, and develop
+-ers and customers to exchange knowledge directly. 
+Our goal with this issue is to publish articles by re
+-searchers and practitioners who recognize and support 
+connected communities of stakeholders at all scales. We 
+hope that practitioners will gain knowledge on how social 
+networking can play a role in all aspects of the software 
+product life cycleŠfrom conception and development to 
+delivery, use, and reuseŠand understand the potential 
+advantages and possible challenges that lie ahead.
+
+
+For more information about the special issue, contact the 
+guest editors:
+Jan Bosch, Professor, Chalmers University 
+ of Technology, Sweden, jan@janbosch.com
+Margaret-Anne Storey, Professor, University 
+ of Victoria, Canada, mstorey@uvic.ca
+Andrew Begel, Microsoft Research, USA, 
+ andrew.begel@microsoft.com
+For the full call for papers: 
+ http://www.computer.org/software/cfp1
+For author guidelines: 
+ http://www.computer.org/software/author.htm
+For submission details: software@computer.org
+To submit an article: 
+ https://mc.manuscriptcentral.com/sw-cs

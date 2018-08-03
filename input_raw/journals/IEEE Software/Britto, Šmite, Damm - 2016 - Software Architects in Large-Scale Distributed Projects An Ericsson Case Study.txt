@@ -1,0 +1,1017 @@
+ 48 IEEE SOFTWARE 
+ |  PUBLISHED BY THE IEEE COMPUTER SOCIETY 0740-7459/16/$33.00 © 2016 IEEESoftware 
+Architects
+
+in Large-Scale 
+
+Distributed 
+
+Projects
+An Ericsson Case Study
+Ricardo Britto and Darja −mite,
+ Blekinge Institute of Technology
+Lars-Ola Damm,
+ Ericsson
+// This story is about Ericsson architects, their 
+roles and responsibilities, and the effort they 
+spent guarding and governing a large-scale 
+product developed by distributed teams. Instead 
+of trendy approaches, a centralized approach was 
+necessary to deal with legacy and distribution. 
+//MUCH HAS BEEN 
+written about 
+software architects, their roles,
+1Œ5
+their responsibilities,
+6Œ8
+ and how 
+they™re ﬁmade.ﬂ
+9 Martin Fowler 
+proposed this classi˜ cation of soft-
+ware architects:
+4Ł Architectus Reloadus
+ makes 
+important decisions early on, 
+
+ensuring a system™s conceptual 
+integrity.
+Ł Architectus Oryzus
+ addresses 
+problems in a project by 
+closely collaborating with the 
+developers.
+Philippe Kruchten summarized soft-
+ware architects™ responsibilities, in-
+cluding de˜ ning the architecture; 
+maintaining its architectural integ-
+
+rity; and consulting with, helping, 
+and coaching development teams.
+1Paul Clements and his colleagues de-
+scribed architects™ skills and knowl-
+edge, such as communication and 
+learning skills.
+10 Grady Booch
+11
+ and 
+Frank Buschmann
+12 have written on 
+aspects of architects™ daily work.
+However, most of the vast lit-
+erature on software architects has 
+
+focused on the architect as a ﬁone- 
+
+soldier army.ﬂ This seems reason-
+able in small projects but infeasible 
+in large-scale projects, which require 
+
+teams of architects.
+1 Because many 
+large-scale projects are spread across 
+multiple locations, we raise three 
+questions: What are software archi-
+
+tects™ roles and responsibilities? How 
+
+are they organized in large-scale 
+distributed software projects? How 
+does adding new teams in remote lo-
+
+cations in˚ uence the architects™ role?
+Here, we share our results from 
+studying the development of a large, 
+
+distributed software product at Erics-
+
+son, a global leader in telecommu-
+nications with sites worldwide. We 
+focus on the architects steering this 
+
+product™s development.
+Roles and 
+Responsibilities
+The architectural paradigm em-
+ployed in a software product™s ar-
+chitecture affects how software 
+architects carry out their work.
+13Whereas most new products at Er-
+
+icsson have a modular or service- 
+oriented architecture, legacy prod-
+ucts, such as the case we describe 
+
+here, have a monolithic architecture.
+FOCUS:
+ THE ROLE OF THE SOFTWARE ARCHITECT
+ NOVEMBER/DECEMBER 2016 
+ |  IEEE SOFTWARE
+49The scale and complexity of Er-
+icsson™s software products, together 
+with the distribution of development 
+teams across multiple locations, also 
+
+impact how architects perform their 
+
+work. When teams and development 
+locations are added to a project, it re-
+quires extra support to guard prod-
+
+uct integrity and mentor the teams 
+
+while they climb the learning curve. 
+In distributed environments, this in-
+troduces several challenges. One Er-
+
+icsson software architect referred to 
+communication overhead: ﬁIt would 
+be much easier to explain to the de-
+
+velopers things about the product™s 
+
+architecture if they were in Sweden, 
+because most of the time we only 
+communicate via the code review 
+
+tool and email.ﬂ Another architect 
+
+pointed out the necessity of guard-
+ing and control: ﬁWhen multiple 
+teams work together on a task, the 
+
+developers across teams do not com-
+
+municate as well as within a team. 
+Therefore, they often introduce task 
+con˜ icts that we ˚ nd in their code, 
+
+which otherwise the teams would 
+not identify themselves.ﬂ
+To ensure cross-team and cross-
+location alignment and to guard the 
+complex system architectures, Erics-
+son architects are organized in three 
+levels (see Figure 1).
+At the 
+system level
+, a team of ar-
+chitects of the type 
+Architectus Re-
+loadus
+ ensures that the products in-
+cluded in a system can communicate 
+
+with each other. They closely collab-
+
+orate with product-level architects 
+
+and coordinate the design of the 
+features, interfaces, and protocols 
+used in the systemŠthat is, the sys-
+
+tem architecture. They also review 
+product- level solutions and guard 
+the system™s evolvability. These ar-
+
+chitects are mostly in Sweden.
+At the 
+product level
+, a team of 
+architects ful˚ ls the 
+Architectus 
+
+Reloadus
+ and 
+Architectus Oryzus
+roles. These architects, who are ex-
+
+perienced, skillful developers, lead 
+the design of technical solutions and 
+guard the integrity and evolvability 
+
+of the product and the system ar-
+
+chitecture. They collaborate closely 
+with system-level architects and soft-
+ware development teams throughout 
+
+solution implementation. They steer 
+software design, ensure that design 
+rules are followed, promote the use 
+
+of design patterns, and ensure code 
+quality through code reviews. They 
+
+help guard the architecture and the 
+deliverables™ quality. They also men-
+tor the software teams by sharing 
+
+their knowledge, providing feedback 
+
+through code reviews, suggesting 
+improvements, and helping out in 
+urgent situations to speed up devel-
+
+opment. These architects are also 
+
+mostly in Sweden, and they™re this 
+article™s main focus.
+At the 
+development team level
+, senior developers called 
+design leads
+
+(or team-level architects) support the 
+design of technical solutions. They 
+
+ensure that their team follows the de-
+
+sign rules and design patterns, which 
+generally are de˚ ned by product-level 
+architects. They also help product- 
+
+level architects guard a product™s ar-
+
+chitectural integrity and evolvability 
+and help ensure the quality of deliv-
+erables through code and documen-
+
+tation reviews. The more expertise 
+
+and experience design leads have, the 
+more autonomous their teams are; 
+they can provide more support to 
+
+product-level architects with mentor-
+ing and guarding.
+The product and development 
+team levels might vary slightly among 
+123Design leads or team-level architects
+(guardians and mentors, 
+Architectus Oryzus)System-level architects
+(guardians, Architectus 
+Reloadus)    Product-level architects(guardians and mentors,Architectus Reloadus and Architectus Oryzus)A prioritized business use case is assigned to a system architect.The system architect performs impact analysis and forms a virtual team with representatives 
+from the impacted products to de˜ne the solution.The product architect speci˜es the product-level design with the design lead from the employed 
+development team (team members are included 
+in the design work when applicable).The development team performs the detailed design and implementation with the product architects™ support.SystemDevelopmentteamProductFIGURE 1. 
+The organization and work˜ ow of Ericsson™s software architects. This centralized approach aims to ensure cross-team 
+and cross-location alignment and to guard the complex system architectures.
+ 50 IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+FOCUS:
+ THE ROLE OF THE SOFTWARE ARCHITECT
+different Ericsson products. In our 
+case, the product level was ﬁthickerﬂ 
+and centralized almost all respon-
+sibility for the overall design of the 
+
+technical solutions to be imple-
+
+mented in the product. The overall 
+responsibility for guarding the prod-
+uct architecture™s integrity and evolv-
+
+ability was also centralized. This 
+
+means that even the more experi-
+enced teams were never fully auton-
+omous. More recent products with 
+
+a service- oriented architecture have 
+a much thinner product level. That 
+is, they have approximately 50 per-
+
+cent fewer architects, and the teams 
+
+shoulder much of the responsibility.
+How Many Product-Level 
+Architects Do You Need?
+In our case study, the main factor af-
+fecting the extent of the product-level 
+architects™ involvement was the de-
+
+velopment teams™ maturity. To vi-
+
+sualize the product-level architects™ 
+
+amount of work and area of respon-
+sibility, we designed an authority 
+matrix (see Figure 2). The curve in 
+
+the matrix shows that as a team ma-
+
+tures, it should get more independent 
+and require less support from the 
+product-level architects. The four ac-
+
+tivities on the 
+y-axis are those that 
+concerned the product-level archi-
+
+tects the most. The 
+x-axis indicates 
+the four levels of team maturity.
+At level A, an immature team has 
+no or very basic knowledge about 
+
+the product™s code and architec-
+
+ture. Level-A teams require much 
+
+mentoring and support from the 
+architects, even when implement-
+ing (coding, testing, and document-
+
+ing) noncomplex technical solutions. 
+Product-level architects guide the 
+teams during the implementation 
+and are actively involved, with both 
+
+reviewing and approving code.
+At level B, teams have suf˜ cient 
+knowledge to implement noncom-
+
+plex technical solutions without 
+
+much guidance. More knowledge-
+
+able team members and design leads 
+review the implemented code, but 
+product-level architects still review 
+
+most of the design and code.
+At level C, experienced, ma-
+ture teams with good knowledge 
+
+of the product architecture imple-
+
+ment complex technical solutions 
+that have signi˜ cant architectural 
+impact. These teams review and ap-
+
+prove their own code. Product-level 
+
+architects are involved only in ap-
+proval when the architecture™s criti-
+cal components are affected. (A 
+
+critical component contains core 
+functionality that executes key op-
+erations.) Level-C teams also per-
+
+form more solution design. Product-
+
+level architects support these teams 
+by mentoring the design of technical 
+solutions and providing on-demand 
+
+guidance in the initial implementa-
+
+tion stages.
+At level D, very experienced and 
+rather autonomous teams implement 
+
+complex technical solutions inde-
+
+pendently, even ones affecting the 
+product architecture™s critical com-
+ponents. The code they implement 
+
+doesn™t need product-level architects™ 
+approval. Level-D teams also drive 
+the design and review of technical 
+
+solutions. Product-level architects 
+
+are involved only in the technical-
+solution design.
+Our authority matrix is based 
+on the product-level architects™ ex-
+perience and the data we collected 
+and analyzed in our case study (see 
+the sidebar ﬁThe Ericsson Case 
+
+Studyﬂ and Figure 3). In particular, 
+Task implementationDesign of technicalsolutionsCode reviewsDesign reviewsABCDArea of product-levelarchitects™ responsibilityTeam learning and mentoring curveLevel of team maturityArea of teamresponsibilityFIGURE 2. 
+The authority matrix. For a description of the maturity levels, see the main 
+article. As a team matures, it should get more independent and require less support 
+
+from the product-level architects.
+ NOVEMBER/DECEMBER 2016 
+ |  IEEE SOFTWARE
+51our statistical analysis of the per-
+formance data con˜ rmed that the 
+more immature teams required 
+more support from the product-level 
+
+architects.
+Figure 3a shows the teams™ distri-
+bution. The Turkish team was classi-
+
+˜ ed as level A. The ˜ ve recently on-
+
+boarded Indian teams started at level 
+
+A; four of them progressed to level 
+B during our study. The four Swed-
+ish teams and the US team were clas-
+
+si˜ ed as level C. One Swedish team 
+temporarily reached level D (product-
+level architects joined the team), and 
+
+a temporary level-D team comprised 
+
+product-level architects, developers, 
+and design leads from Sweden and 
+India.
+The Effort Needed to 
+Guard and Mentor
+The teams™ maturity also determined 
+the number of required product-level 
+architects. In our case study, the rule 
+of thumb seemed to be that each 
+
+level-C team needed approximately 
+
+one-half of a product-level archi-
+tect and that each level-A or level-B 
+team needed one product-level ar-
+
+chitect. As we mentioned before, no 
+
+permanent level-D teams were in our 
+case study. In cases involving criti-
+cal work demanding speci˜ c archi-
+
+tectural knowledge and quick de-
+velopment, product architects might 
+temporarily join a team to engage in 
+
+coding and testing. Such teams can 
+
+qualify as level-D teams.
+Figure 3b shows the effort that 
+product-level architects spent sup-
+
+porting 12 teams (the teams we 
+
+mentioned earlier, except the tem-
+porary Swedish team) performing 
+26 product customization tasks. 
+
+The less mature teams (levels A and 
+
+B) received signi˜ cant support from 
+the product-level architects. In con-
+trast, mature teams (levels C and 
+
+D) worked more autonomously. We 
+
+veri˜ ed these results™ statistical sig-
+ni˜ cance using the Kruskal-Wallis 
+one-way analysis of variance (sig-
+
+ni˜ cance level = 0.01, 
+p-value = 
+0.008493).
+Part of the effort involved men-
+toring, which the product-level ar-
+
+chitects provided though meetings 
+THE ERICSSON CASE STUDY
+Our case study (see the main article) investigated the 
+development of a telecom product that has evolved for more 
+than 15 years. At the time of our investigation, the product 
+employed more than 150 employees (including 15 product-
+
+level architects, 20 design leads, 100 developers working in 
+22 teams, and 15 other supporting roles) in Sweden, India, 
+Italy, the US, and Turkey. One team comprised only product-
+
+level architects; each of the other teams consisted of a design 
+lead and ˜ ve to eight developers.
+The results presented here are based on the data from 
+240 tasks carried out from January 2014 to June 2016. We 
+
+employed the following data collection methods.
+First, we performed archival research. We analyzed mana-
+gerial documents (plans and reports) related to 26 product 
+
+customization tasks (PCs), measuring the effort architects 
+expended for development and support. Twelve teams partici-
+
+pated in these PCs (for more on these teams, see the main ar-
+ticle). We also surveyed the Gerrit code review repository to de-
+termine the number of defects identi˜ ed through code reviews 
+
+completed for a random selection of tasks: 10 PCs, 188 trouble 
+reports (TRs), 9 product improvements (PIs), and 11 standard-
+izations of market features (MFs). We manually categorized the 
+defects using the ISO/IEC 25010:2011 standard.
+1 The product™s 
+unit manager validated the collected archival data.
+Next, we conducted unstructured interviews with the unit 
+manager and product-level architects. We collected their 
+knowledge about how the architects were organized, the 
+
+architects™ roles and responsibilities, and the development 
+teams™ maturity.
+Finally, we held four workshops with the unit manager 
+and product-level architects to measure the 26 PCs™ task 
+
+complexityŠ the dif˜ culty of performing them. We selected 
+one of the PCs as the baseline and had participants measure 
+
+the other PCs in relation to it. Using planning poker, they at-
+tributed a positive integer (complexity points) to each PC. 
+To check the assigned measures, the architects consulted 
+
+technical-solution speci˜ cations whenever needed.
+The PCs, PIs, and MFs resembled independent projects 
+because they had start and end dates, a responsible team, 
+
+and expected results. In general, PCs took 1 to 3 months, PIs 
+took 1 to 2 months, and MFs took 2 to 6 months.
+Reference
+1. 
+ISO/IEC 25010:2011ŠSystems and Software EngineeringŠ Systems 
+and Software Quality Requirements and Evaluation (SQuaRE)ŠSys-
+
+tem and Software Quality Models
+, Int™l Org. for Standardization, 
+2011; www.iso.org/iso/catalogue_detail.htm?csnumber=35733.
+ 52 IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+FOCUS:
+ THE ROLE OF THE SOFTWARE ARCHITECT
+(videoconferences or teleconferences 
+with remote teams) or synchronous 
+chat. Most of the effort involved 
+code reviews, which also provided 
+
+mentoring opportunities and in-
+
+volved clari˜ cation of architectural 
+principles and improvement recom-
+mendations. In some cases, support 
+
+included detailed instructions that 
+
+even contained code samples to facil-
+itate the understanding of the design.
+Problems That Product-Level 
+Architects Prevented
+To ensure the product architecture™s 
+integrity and evolvability, product-
+level architects review new and 
+modi˜ ed code to identify defects 
+
+that might harm the product archi-
+
+tecture, induce technical debt, and 
+complicate the architecture™s evolv-
+ability. Although Ericsson devotes 
+
+much attention to rigorous regres-
+
+sion tests, not all defects can be 
+caught automatically, especially non-
+functional maintainability defects.
+14Maintainability defects can lead to 
+
+code entropy,
+15 affecting the archi-
+tecture™s integrity.
+At Ericsson, new developers 
+working on legacy products often 
+
+have problems understanding the 
+
+code™s structure, which leads to the 
+fear of changing existing code and 
+the tendency to duplicate code.
+16This behavior is common in imma-
+
+ture teams, and architects play a 
+vital role in detecting such defects 
+through code reviews, making code 
+
+review a crucial asset.
+Figure 3c contains results about 
+defects revealed through code re-
+
+views performed on 220 tasks. We fo-
+
+cused on two subcategories of main-
+
+tainability defects closely related to 
+Ericsson architects™ guardian role: 
+modi˜ ability and analyzability.
+17The code reviews revealed 1,727 
+defects; product-level architects dis-
+No. of tasksMean total effortMean support effort (SE)Mean complexity (CP)Std. deviation (SE/CP)2,547.50 h160.50 h77.861.181,250589416611459606TotalFunctionalCompatibilityPortabilityPerformanceReliabilityMaintainabilityŠmodi˜abilityMaintainabilityŠanalyzability2.581.920.620.5941,747.25 h73.25 h42.500.8851,957.60 h68.60 h221.000.4332,944.33 h39.00 h233.330.51Teams in SwedenA team in the USTeams in IndiaA team in TurkeyA temporaryteam in SwedenA temporarymultisite teamTeams in IndiaLevel A(a)(b)Product-level architectsTeams(c)Level BLevel CLevel D4 teams reachedlevel B after one year14Level ALevel BLevel CLevel D47724286310176230FIGURE 3. 
+Evidence supporting the authority matrix in Figure 2. (a) The distribution 
+of the teams in our case study. (b) The effort the architects spent supporting the teams. 
+
+The curve shows the mean ratio between the support effort and task complexity. (c) The 
+
+proportion of different defects the product-level architects and the teams found. The 
+
+more immature teams required more support from the product-level architects.
+ NOVEMBER/DECEMBER 2016 
+ |  IEEE SOFTWARE
+53covered 72.38 percent of those de-
+fects, and the teams discovered 
+27.62 percent. Of those defects, 
+85.18 percent were maintainabil-
+
+ity defects, and the product-level 
+
+architects revealed 72.40 percent 
+of them. Considering that testing 
+techniques don™t easily reveal main-
+
+tainability defects, the product-
+
+level architects™ active participation 
+helped in early detection of defects 
+that otherwise could have affected 
+
+the product architecture™s integrity 
+and evolvability.
+Although the software ar-
+chitects™ hierarchy, roles, 
+and responsibilities we 
+described aren™t unusual,
+1,18
+ they 
+aren™t trendy, either. So, in this case 
+
+study, why didn™t Ericsson fully em-
+bark upon trendier approaches such 
+
+as microservices
+19 and agile ways of 
+working?
+The answer is, because of legacy 
+code and distributed development. 
+
+Although this case study imple-
+
+mented many agile practices such as 
+continuous integration, continuous 
+delivery, and DevOps, certain limi-
+tations prevented fully exploiting the 
+new approaches.
+The product™s monolithic archi-
+tecture made relying on coordination 
+by mutual adjustment problematic.
+20However, this doesn™t automatically 
+
+mean that Ericsson applied tradi-
+tional coordination and control. The 
+architects™ hierarchy wasn™t tradi-
+
+tional in the sense that people higher 
+
+up in the hierarchy could overrule 
+the ones further down. Rather, it 
+was a network of architects with 
+CSI-IEEE CS Joint Education Award
+CALL FOR AWARD NOMINA
+TIONSDeadline 15 October 2016CRITERIAThe Computer Society of India (CSI) / IEEE Computer Society Education Award is 
+a joint CSI-IEEE national society award that recognizes educators who have made 
+
+ELIGIBILITYŁ 
+
+
+Ł 
+Ł 
+NOMINATION REQUIREMENTS
+
+AWARD
+
+
+
+PRESENTATION
+
+
+
+SUBMISSIONS
+ 54
+ IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+different focus areas who were in
+-volved in decisions related to their 
+competences. On the product level, 
+the architects and other experienced 
+
+developers had designated approval 
+
+rights based on their competences. 
+They governed this approval struc
+-ture and process as they saw ˜t.
+This governance structure was 
+similar to large distributed open 
+
+source projects such as Eclipse and 
+Android. That is, the open-source 
+community has also concluded that 
+
+large development projects some
+-times require a centralized approach 
+
+to secure the software™s quality.
+Finally, the architects™ hierarchy 
+was also an answer to the challenges 
+of distribution. Ericsson is no excep
+-tion to the trend of offshoring parts 
+of development to low-cost regions; 
+
+much of its product development 
+has become global. However, many 
+offshore sites are infamous for high 
+attrition rates. This means that em
+-ployee turnover results in continu
+-ous loss of expertise and the never-
+
+ending demand for mentoring and 
+
+steering. Knowledge loss also occurs 
+
+from frequently moving resources in 
+and out of products because of rap
+-idly changing business needs. In such 
+situations, the centralization of ar
+-chitectural decisions such as we de
+-scribed here secures the architectural 
+
+knowledge™s stability and its avail
+-ability for new developers and teams.
+For a look at the present and fu
+-ture of Ericsson software architects, 
+
+see the related sidebar.
+References
+1. P. Kruchten, ﬁThe ArchitectsŠthe 
+Software Architecture Team,ﬂ 
+Proc. 
+
+1st Working IFIP Conf. Software 
+
+Architecture
+ (WICSA 99), 1999, pp. 
+565Œ583.
+2.
+ J.F. Hoorn et al., ﬁThe Lonesome 
+
+Architect,ﬂ 
+J. Systems and Software
+, vol. 84, no. 9, 2011, pp. 1424Œ1435.
+3.
+ M.B. Romney, ﬁThe Software Archi
+-tect,ﬂ 
+Comm. ACM
+, vol. 50, no. 5, 
+2007, pp. 75Œ81.
+4.
+ M. Fowler, ﬁWho Needs an Archi
+-tect?,ﬂ 
+IEEE Software
+, vol. 20, no. 5, 
+2003, pp. 11Œ13.
+5. S. Sherman and I. Hadar, ﬁToward 
+
+De˜ning the Role of the Software 
+
+Architect,ﬂ 
+Proc. 8th Int™l Workshop 
+
+Cooperative and Human Aspects of 
+
+Software Eng. 
+(CHASE 15), 2015, 
+pp. 71Œ76.
+6.
+ P. Kruchten, ﬁWhat Do Software Ar
+-chitects Really Do?,ﬂ 
+J. Systems and 
+
+Software
+, vol. 81, no. 12, 2008, pp. 
+2413Œ2416.
+7.
+ A.B. Bondi, ﬁThe Software Architect 
+
+as the Guardian of System Perfor
+-mance and Scalability,ﬂ 
+Proc. ICSE 
+
+Workshop Leadership and Man
+-agement in Software Architecture
+ (LMSA 09), 2009, pp. 28Œ31.
+8.
+ A. Tang et al., ﬁOn the Responsi
+ bilities 
+THE PRESENT AND 
+FUTURE OF SOFTWARE 
+
+ARCHITECTS AT ERICSSON
+The speed with which new technologies are introduced has compelled Erics
+-son™s software architects to adapt quickly. For example, cloud computing 
+forces architects to rethink existing architectures and use different approaches 
+to design new ones. It™s no longer only about designing software to conform 
+
+to a particular hardware speci˜cation, because virtual environments hide the 
+underlying infrastructure.
+At the same time, many new technologies and methods have reduced Erics
+-son architects™ workload. For example, continuous-integration and continuous-
+
+delivery tools require less manual effort to ensure that code changes don™t harm 
+a product architecture™s behavior. To implement continuous integration and con
+-tinuous delivery in our case study (see the main article), we adapted the prod
+-uct™s architecture to maintain full backward compatibility despite the frequent 
+
+releasesŠfor example, through strict version control of interfaces.
+Ericsson also employs DevOps. In our case study, two product-level archi
+-tects were dedicated to ensuring smooth collaboration between Ericsson™s de
+-velopment team and one customer™s operation team. This shortened feedback 
+
+loops, which led to better interaction with Ericsson™s customers.
+Another trend in˚uencing the role of Ericsson architects is the agile trans
+-formation. To be able to bene˜t from agile ways of working, teams are expected 
+to have more autonomy, and architects serve primarily as mentors supporting 
+the teams. Although Ericsson has tried to increase team autonomy for the case 
+
+study™s product, the company has focused on increasing autonomy for more re
+-cent products not limited by legacy architectures.
+Finally, Ericsson architects must be prepared to work on products developed 
+at multiple locations. As in many other large organizations, corporate cultures 
+and ways of working differ among Ericsson™s distributed units. So, software ar
+-chitects are often expected to possess strong leadership skills and the ability to 
+align the philosophy, traditions, and attitudes toward quality and maintainability 
+across all development locations.
+ NOVEMBER/DECEMBER 2016 
+ |  IEEE SOFTWARE
+55of Software Architects and Software 
+Engineers in an Agile Environment: 
+
+Who Should Do What?,ﬂ 
+Proc. 4th 
+
+Int™l Workshop Social Software Eng.
+ 
+(SSE 11), 2011, pp. 11Œ18.
+9. 
+B. Correa, ﬁHow Are Architects 
+
+Made?,ﬂ 
+IEEE Software
+, vol. 30, no. 
+5, 2013, pp. 11Œ13.
+10. 
+P. Clements et al., ﬁThe Duties, 
+
+Skills, and Knowledge of Software 
+
+Architects,ﬂ 
+Proc. 6th Working 
+
+IEEE/IFIP Conf. Software Architec-
+
+ture
+ (WICSA 07), 2007, pp. 20Œ22.
+11. 
+G. Booch, ﬁThe Architect™s Journey,ﬂ 
+
+IEEE Software
+, vol. 28, no. 3, 2011, 
+pp. 10Œ11.
+12. 
+F. Buschmann, ﬁValue-Focused Sys-
+
+tem Quality,ﬂ 
+IEEE Software
+, vol. 
+27, no. 6, 2010, pp. 84Œ86.
+13. 
+J. Lewis and M. Fowler, ﬁMicroser-
+
+vices: A De˜ nition of This New 
+
+Architectural Term,ﬂ 25 Mar. 2014; 
+
+http://martinfowler.com/articles
+
+/microservices.html.
+14. 
+M.E. Fagan, ﬁDesign and Code 
+
+Inspections to Reduce Errors in Pro-
+
+gram Development,ﬂ 
+IBM Systems J.
+, vol. 15, no. 3, 1976, pp. 182Œ211.
+15. 
+C.E. Ebeling, 
+An Introduction to 
+
+Reliability and Maintainability 
+
+Engineering
+, 2nd ed., McGraw-Hill, 
+2009.
+16. 
+G. Hanssen et al., ﬁSoftware Entropy 
+
+in Agile Product Evolution,ﬂ 
+Proc. 
+
+43rd Hawaii Int™l Conf. System Sci-
+
+ences
+ (HICSS 10), 2010, pp. 1Œ10.
+17. 
+ISO/IEC 25010:2011ŠSystems and 
+
+Software EngineeringŠSystems and 
+
+Software Quality Requirements and 
+
+Evaluation (SQuaRE)Š System and 
+
+Software Quality Models
+, Int™l Org. 
+for Standardization, 2011; www.iso
+
+.org/iso/catalogue_detail.htm?cs
+
+number=35733.
+18. 
+J.Y. Bang et al., ﬁHow Software Ar-
+
+chitects Collaborate: Insights from 
+
+Collaborative Software Design in 
+
+Practice,ﬂ 
+Proc. 6th Int™l Workshop 
+
+Cooperative and Human Aspects of 
+Software Eng.
+ (CHASE 13), 2013, 
+pp. 41Œ48.
+19. 
+A. Balalaie, A. Heydarnoori, and P. 
+
+Jamshidi, ﬁMicroservices Architec-
+
+ture Enables DevOps,ﬂ 
+IEEE Soft-
+
+ware
+, vol. 33, no. 3, 2016, pp. 42Œ52.
+20. 
+H. Mintzberg, 
+Mintzberg on Man-
+
+agement: Inside Our Strange World 
+
+of Organizations
+, Free Press, 2007.
+Selected CS articles and columns 
+are also available for free at 
+
+http://ComputingNow.computer.org.
+ABOUT THE AUTHORS
+RICARDO BRITTO 
+is a PhD candidate in the Blekinge Institute 
+of Technology™s Department of Software Engineering. His 
+research interests include large-scale agile software develop-
+ment, global software engineering, search-based software en-
+gineering, and software process improvement. Britto received 
+an MSc in electrical engineering from the Federal University of 
+Rio Grande do Norte. Contact him at rbr@bth.se.
+DARJA −MITE 
+is a professor in the Blekinge Institute of Tech-
+nology™s Department of Software Engineering and a part-time 
+research scientist at SINTEF Information and Communication 
+Technology. Her research interests include the effect of global-
+ization and offshoring on software companies, large-scale agile 
+software development, and software process improvement. 
+−mite received a PhD in computer science from the University 
+of Latvia. Contact her at darja.smite@bth.se.
+LARS-OLA DAMM 
+works at Ericsson, where he manages soft-
+ware development teams working on large distributed projects. 
+
+His main research interest is software process improvement. 
+Damm received a PhD in software engineering from the Ble-
+kinge Institute of Technology. Contact him at lars-ola.damm@
+ericsson.com.
+@securityprivacy
+FOLLOW US

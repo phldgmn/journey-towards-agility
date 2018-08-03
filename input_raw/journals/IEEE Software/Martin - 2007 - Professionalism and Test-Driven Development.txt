@@ -1,0 +1,526 @@
+ 32IEEE SOFTWARE
+Published by the IEEE Computer Society0740-7459/07/$25.00 © 2007 IEEEActually, I donÕt think any software developer
+is truly content to ship code that falls below 
+the bar. The truth is that most developers sim-
+
+ply donÕt know how to reach that bar or donÕt
+
+believe reaching it is possible. All too often 
+they commit to deadlines that they later find they
+canÕt meet, and so, through high-stress heroics,
+
+they wind up compromising quality to avoid be-
+
+ing overly late.In this article, IÕll discuss how test-driven de-velopment can help software developers achieve
+a higher degree of professionalism. TDD isnÕt a
+
+silver bullet and wonÕt suddenly transform you
+
+into a sterling professional. It does, however,
+
+play a significant role.The three laws of TDDTDD practitioners follow these three laws:
+You may not write production code unless
+
+youÕve first written a failing unit test.
+You may not write more of a unit test than
+
+is sufficient to fail.You may not write more production code
+
+than is sufficient to make the failing unit
+
+test pass.These three laws lock you into a tight loopin which you first write a portion of a unit test
+that fails, and then you write just enough pro-
+duction code to make that test pass. This loop
+is perhaps two minutes long and almost always
+ends in success.1Following these laws perfectly doesnÕt always
+make sense. Sometimes youÕll write a larger test.
+Sometimes youÕll write extra production code.
+Sometimes youÕll write tests after youÕve written
+the code to make them pass. Sometimes itÕll take
+more than two minutes to go around the loop.
+The goal isnÕt perfect adherence to the lawsÑitÕs
+
+to decrease the interval between writing tests and
+production code to a matter of minutes. focusProfessionalism and Test-Driven DevelopmentProfessional software developers ship clean, flexible code thatworksÑon time. It seems to me that this statement is the mini-
+mum standard for professional behavior for software developers.
+Yet, in my travels as a software consultant, IÕve met many soft-
+ware developers who donÕt set the bar this high and instead ship late,
+
+buggy, messy, and bloated code.
+test-driven developmentRobert C. Martin, 
+Object MentorTest-driven
+development 
+is a discipline that
+helps professional
+software developers
+ship clean, flexible
+code that works, 
+on time. CounterintuitionIn my frequent lectures and courses, IÕve foundthat many developers consider TDD to be coun-
+terintuitive. The extremely short cycles between
+
+writing a test and making it pass go against their
+practice of writing whole modules and testing
+them manually afterward. They also argue that
+all that test writing would be too much work.However, intuition isnÕt always the best guide
+to professional behavior. Take, for example, the
+
+case of Ignaz Semmelweis, who in 1847 achieved
+
+a six-fold drop in his maternity wardÕs mortality
+
+rate by simply having doctors wash their hands
+
+before examining pregnant women:His observations went against the currentscientific opinion of the time, which blamed
+
+diseases (among other quite odd causes) on
+an imbalance of the basic Òfour humoursÓ
+in the body, a theory known as dyscrasia. It
+
+was also ÒarguedÓ that even if his findings
+were correct, washing oneÕs hands each time
+
+before treating a pregnant woman, as Sem-
+melweis advised, would be too much work.
+Nor were doctors eager to admit that they
+had caused so many deaths.2Certainly the implications of TDD arenÕt as
+significant to software professionalism as sterile
+
+procedure is to medical professionalism. None-
+
+theless, parallels exist. TDD changes the way
+programmers work minute by minute, and it
+profoundly affects the workÕs results.
+ImpedimentsOf course, not every environment is condu-cive to a strict interpretation of the three laws. If
+you must do batch compiles or download your
+software into an embedded device, itÕs difficult
+
+to get around that loop every two minutes. You
+
+might be modifying vast quantities of hard-to-
+test legacy code. You might be using a third-
+
+party software package that doesnÕt provide
+
+easy test access, such as a COTS system or one
+of the many Web frameworks. ThereÕs no end to
+
+the reasons why TDD isnÕt practiced, given the
+
+plethora of impediments.The solutions to these impediments arenÕt
+within this articleÕs scope. I daresay youÕll find
+
+some of them in other articles in this issue. Oth-
+ers youÕll find on the Web or in books. Still oth-
+
+ers you might need to invent for yourself. YouÕll
+
+always find plenty of impediments to convince
+
+you not to write tests, but TDD is an attitude as
+well as a discipline. The TDD attitude doesnÕt
+yield to the impediments; rather, it finds a way
+to deal with them and write the tests anyway.
+This might seem too extreme, and of course,some tests canÕt or shouldnÕt be written. But
+
+the attitude still holds. Those of us who follow
+the discipline of TDD donÕt yield lightly.
+BenefitsIf you follow the TDD discipline and atti-tude, youÕll write dozens of tests per day, hun-
+
+dreds of tests per month, and thousands of tests
+per year. Experience shows that these tests will
+
+cover more than 90 percent of the production
+code. They should be kept in one place and
+should be easy to run. Executing them shouldnÕt
+
+take more than a few minutes.Over the last few years, Micah Martin and
+IÕve been working on an application named Fit-
+Nesse (www.fitnesse.org). FitNesse is a Web-
+
+based application using a Front Controller that
+
+defers to servlets that direct views. Downloaded
+tens of thousands of times, FitNesse consists of
+45,000 lines of Java code in nearly 600 files. Al-
+most 20,000 of those lines and 200 of those
+
+files are unit tests. Over 1,100 specific test cases
+contain many thousands of assertions, giving
+FitNesse test coverage of over 90 percent (as
+
+measured by Clover, http://cenqua.com/clover).
+
+These tests execute at the touch of an IDE (in-
+tegrated development environment) button in
+
+approximately 30 seconds.These tests, along with the convenience ofeasily executing them, have benefits that far
+exceed simple software verification. FlexibilityWhy donÕt developers clean up code? TheyÕre
+afraid that theyÕll break it. The old maxim, ÒIf it
+ainÕt broke, donÕt fix it!Ó is a common attitude
+
+among software developers.TDD alleviates this fear because you cancheck any change to the software almost in-
+stantly. If the tests all pass, itÕs unlikely that the
+
+change broke something unexpected. The tests
+make small changes virtually risk free. We found
+
+with FitNesse that even large, sweeping changes
+were low risk. This was likely because we im-
+plemented large changes as a sequence of small
+changes with test-runs in between.So, TDD lets us clean up messy code without
+the fear that weÕll break something. Using TDD
+
+also means that we can change the behavior of
+
+one part of the system without risking side ef-
+fects in other parts. In short, having a quick andMay/June 2007IEEE SOFTWARE
+33Why donÕtdevelopersclean up code?TheyÕre afraid
+that theyÕll
+break it.  convenient high-coverage test suite enhancesour ability to create flexible designs. 
+In our experience with FitNesse, weÕve madesweeping architectural and requirements changes
+with little impact on the rest of the system. By
+breaking changes into a sequence of tiny steps
+
+and keeping tests passing between each step,
+weÕve added and changed major features, and al-
+
+tered existing architectural structures with virtu-
+ally no backlash from the user community due to
+
+hidden defects or side effects. The tests have
+made us fearless about cleaning up and improv-
+
+ing our code.DocumentationHow do you learn a third-party frameworksuch as Spring or Hibernate? The manuals cer-
+tainly help, but the real learning comes by study-
+ing (and using) the code examples and sample
+projects that are typically in the back of those
+manuals.The unit tests that TDD causes us to writeare much like the material in the back of a man-
+
+ual. Each unit test is an isolated snippet of code
+that explains how some part of the overall sys-
+
+tem works. If you want to know how to create
+
+a certain object, thereÕs a unit test that creates it.
+
+If you want to know how to call a certain API
+
+function, thereÕs a unit test that calls it. You de-
+
+scribe anything you want to do with the system
+in a test.These tests are unambiguous documents, writ-ten in a language that programmers understand.
+TheyÕre so formal that they execute, and because
+theyÕre executed all the time, they canÕt get out of
+
+sync with the application. TheyÕre low-level de-
+sign documents that describe the systemÕs struc-
+
+ture and interactions so completely that if you
+lost the production code, you could recreate it by
+examining the unit tests and writing the code
+that makes them pass.Our experience with FitNesse has justifiedthis view, although not without some issues.
+
+We do find that reading the unit tests is a good
+
+way to understand a module. The tests are gen-
+erally short, easy-to-understand, and descrip-
+tive snippets of code.Unfortunately, some FitNesse tests suffer
+from nonlocal-isms. They derive from base
+classes that derive from other base classes, each
+containing utility functions that the tests find
+useful. Although this is generally good design
+and reduces redundancy, it makes the tests
+
+harder to read.Some FitNesse tests suffer from huge setupfunctions that try to be all things to all test
+
+cases. These setups make individual tests harder
+to understand because keeping track of every-
+thing that a setup function did is difficult.
+Some FitNesse tests are downright bloated.
+They try to test too much in a single function
+
+or to move the system through too many state
+
+changes in one session. These tests are tough
+to read and understand. Their documentation
+ability is limited.
+In short, FitNesse taught us that you need todesign tests to be good documents. You need to
+
+expend effort to keep them local and readable.
+You canÕt treat tests as second-class code. They
+
+must be kept to the same level of code quality
+as the production code.Minimal debugging
+If youÕre following the three laws within
+reason and youÕre operating in a cycle thatÕs
+
+just a few minutes long, then youÕre never
+
+more than a few minutes from seeing all the
+
+tests run. This means that youÕll detect almost
+any bug that creeps into the system within
+
+minutes. You donÕt need a debugger to find
+
+the bug. You donÕt really need to do much de-
+
+bugging at all. You know where the bug is be-
+
+cause you just added it!Of course, itÕs not really that easy. Some tests
+take longer to run than others, forcing a parti-
+tioning strategy for running the tests. For exam-
+ple, even the 30 seconds it takes to run FitNesse
+tests is too long to wait during the normal TDD
+cycle, so I usually restrict the tests I run to the
+package IÕm modifying. This shrinks the test time
+to 1 or 2 seconds but means that I only run the
+whole suite every half-hour or so. So, some bugs
+
+could wait 30 minutes before theyÕre discovered.Even so, in the last three years, Micah and I
+havenÕt used a debugger with FitNesse more
+
+than a few dozen times. When we do, itÕs al-
+
+most always in the context of a failing unit test,
+
+making the cause of the problem localized and
+
+repeatable, so the session ends quickly. I canÕt
+
+remember a single instance of casting a net of
+
+break points or blindly single-stepping through
+
+the code in the hope that weÕd get a clue to
+what was going on.Indeed, in FitNesseÕs entire history there hasnÕt
+been a release that was delayed for quality is-
+
+sues. ItÕs never had the kind of haunting bug
+
+that thwarts delivery schedules and makes hash
+out of project plans. In 45,000 lines of 
+code,34IEEE SOFTWARE
+www.computer.org/software
+Tests must be
+kept to the samelevel of codequality as theproductioncode. weÕve never released a fatal, or even a very sig-nificant, bug. Other companies have had similar results.Both Sabre and Workshare have reported a 10
+reduction in defects to the field and signifi-
+cantly increased productivity.
+3,4Joel Spolsky once said that debugging ishard to estimate and can take 100 to 200 per-
+
+cent of the coding time.5Whether or not his fig-
+ures are accurate, we can all agree that debug-
+
+ging is a huge unknown in any software
+schedule. TDD reduces that unknown by mak-
+ing sure that we discover defects early and that
+
+the causes are localized. In short, TDD makes
+
+our schedules more predictable by reducing de-
+
+buggingÕs variability.
+Better designIf we follow the three laws within reason,weÕll write most of our code in response to a
+failing unit test. This means that most of our
+code will be, by definition, testable. But you
+canÕt test a function if that function calls others
+
+that have unknown or deleterious effects. So,
+you must decouple the function youÕre calling
+and test it independently of the other functions
+it calls.This might sound hard to do, but itÕs really
+just good object-oriented design. OOD lets you
+decouple functions from each other, and TDD
+
+enforces that decoupling. This results in a highly
+modular and deeply decoupled software struc-
+
+tureÑin other words, a good design.Good designs arenÕt free, and TDD doesnÕt
+guarantee good designs. However, TDD pro-
+
+vides powerful impetus to decouple, forcing de-
+velopers to think through their designs in ways
+
+that they otherwise might not.Early in FitNesseÕs development, we were cer-
+tain weÕd need a back-end database. We didnÕt
+
+know if it would be MySQL or something else,
+and we didnÕt want to decide too early. So, we
+
+avoided the issue by creating simple mock data-
+access functions. Our unit tests used these mocks
+by passing them to the core FitNesse modules.
+We hid the mocks behind an interface so that Fit-
+
+Nesse wouldnÕt know that the data-accessors
+
+were mocked. Later we needed to test things that
+
+simple mocks couldnÕt support. So, we created a
+
+simple in-memory database that hid behind the
+same interface. FitNesse was and is able to use
+this without knowing it. (FitNesse still uses an in-
+memory database for most of its test cases, which
+is a reason why the unit tests run in 30 seconds.)Still later, we 
+needed true persistence, so we createda simple flat-file database and hid it behind the
+same interface.It turned out that the flat-file system sufficed,
+delivering high performance and good reliabil-
+ity. It was also convenient having flat files to in-
+
+spect and manage. So in the end, we didnÕt im-
+
+plement the back-end MySQL database.A year or so later, a FitNesse user needed to
+put his FitNesse pages into a MySQL database.
+
+FitNesseÕs highly decoupled design, necessitated
+
+by the mocks, made it easy for him to implement
+the data access interfaces with a back-end data-
+base. He got FitNesse up and running with My-
+
+SQL in less than a day! So much for the notion
+that you need to decide on databases up front
+
+and that theyÕre hard to put in later. FitNesse still
+
+ships with a plug-in for MySQL based on that
+userÕs work.
+Make no mistake; FitNesse has design issuesthat I think need improvement. TDD didnÕt
+
+turn FitNesse into a design utopia. On the other
+
+hand, the deep commitment we made to TDD
+at the projectÕs start has resulted in highly de-
+
+coupled code. Peter Kriens blogged, ÒWhen I
+inspected the code, my hands itchedÉ . The
+
+code looked so clean and so easy to bundlefy
+that I could not resist. Turning it into a bundle
+
+was indeed trivial; the makers of FitNesse pro-
+
+vided a very clean configuration and start/stop
+interfaceÓ (see the full text of PeterÕs blog to see
+
+some of his complaints about the design).
+6TDD and professionalismLetÕs think back on my definition of a soft-
+ware professional: professional software de-
+velopers ship clean, flexible code that worksÑ
+on time.Clean codeTDD canÕt force you to write clean code, but
+it can help eliminate the fear that cleaning your
+
+code will break it. The ability to quickly run a
+
+full suite of tests means that you can feel safe
+cleaning up any messes that you findÑor make.
+One quick test will tell you if your improve-
+ments are doing more harm than good. Follow-
+
+ing TDD means that youÕre freer to follow an-
+other professional discipline: ÒAlways leave the
+code in a better state than when you found it.Ó
+Flexible codeNothing, in my experience, makes code moreflexible than the sure knowledge that when youMay/June 2007IEEE SOFTWARE
+35 modify it, it wonÕt break. TDD provides that
+sure knowledge. That surety is certainly not
+
+complete. Bugs can still slip through the net of
+tests. Indeed, you often hear that you canÕt prove
+
+code correct by testing it. Although this argu-
+ment is correct, it misses the point that surety is
+a continuum. When you run a suite of tests that
+
+covers 90+ percent of the code and you see all
+those tests pass, youÕre very sure that the code
+
+works. ItÕs that level of surety, far more than any
+
+design or architectural structure, that makes the
+code flexible.Code that worksOf all the statements in the definition of pro-
+fessionalism, this is the most important. Again,
+you canÕt be completely sure it works, but a pro-
+
+fessional will perform due diligence to the best
+of his or her ability. Later changes can inadver-
+
+tently break code that worked once, but TDD
+significantly mitigates this problem without
+
+greatly increasing the due diligence.When I run unit tests (and acceptance tests)on FitNesse, I know it works. Indeed, passing
+
+these tests is the only criterion for release. We
+
+donÕt have a quality-assurance cycle after Òcode
+
+complete.Ó We continuously run the unit and
+
+acceptance tests during development. So long as
+they keep passing, we know we can make a re-
+
+lease at any time.
+Not all systems can depend solely on auto-mated tests the way FitNesse does. Some man-
+
+ual, exploratory, system, and live-data testing is
+
+generally necessary. Even so, programmers
+
+should expect QA to find zero defects. No pro-
+fessional programmer should ever release code
+
+to QA and expect a list of bugs back.
+On timeTDD canÕt guarantee that youÕll make all
+your dates. What it can do is eliminate vari-
+ables. ItÕs much easier to accurately estimate a
+
+task when you know you wonÕt be spending
+
+much time debugging. ItÕs much easier to know
+and communicate a taskÕs status when you can
+see a fraction of the tests passing. ItÕs much eas-
+
+ier to know when you can release if you keep all
+
+your tests passing at all times. In short, TDD
+can give you the surety and the information to
+make being on time a realistic goal.
+Iwear a green band on my wrist that says
+ÒTest FirstÓ (see http://butunclebob.com/
+
+ArticleS.UncleBob.GreenWristBand). ItÕs
+there to remind me that I have obligations to
+
+my customers and my coworkers: A professional doesnÕt ship code he or she
+
+is uncertain of.A professional writes clean, flexible code
+that works.A professional is on time.
+My green band reminds me that TDDÕs dis-
+ciplines are a huge help in meeting professional-
+ismÕs requirements and that it would therefore
+
+be unprofessional of me not to follow them.References1.R. Martin, ÒThe Bowling Game Kata,Ó June 2005;
+www.butunclebob.com/files/downloads/Bowling%
+
+20Game%20Kata.ppt.2.ÒIgnaz Semmelwiess,Ó Wikipedia entry, Mar. 2007;
+http://en.wikipedia.org/wiki/Ignaz_Semmelweis.3.G. Anthes, ÒSabre Takes Extreme Measures,Ó 
+Computer-world, 29 Mar. 2004; www.computerworld.com/
+developmenttopics/development/story/0,10801,91646,00.
+html.4.D. Putman, ÒWorkshare Technology and eXtreme 
+Programming (XP),Ó 2000; www.objectmentor.com/
+
+resources/articles/workshare.zip.6.J. Spolsky, ÒPainless Software Schedules,Ó 
+Joel on Soft-
+ware, Mar. 2000; www.joelonsoftware.com/articles/
+fog0000000245.html.7.P. Kriens, ÒWhy is Software So Brittle?Ó OSGi Alliance
+blog,Aug. 2006; www.osgi.org/blog/2006/08/why-is-
+
+software-so-brittle.html.For more information on this or any other computing topic, please visit ourDigital Library at www.computer.org/publications/dlib.
+36IEEE SOFTWARE
+www.computer.org/software
+About the AuthorsRobert C. Martin
+(Uncle Bob) is founder and president of Object Mentor in Gurnee, Illi-nois. His research interests include process improvement and object-oriented software design.
+HeÕs published more than 100 articles and is a regular speaker at international conferences
+
+and trade shows. He served three years as editor in chief of the 
+C++ Report, and he was thefirst chairman of the Agile Alliance. Contact him at unclebob@objectmentor.com.

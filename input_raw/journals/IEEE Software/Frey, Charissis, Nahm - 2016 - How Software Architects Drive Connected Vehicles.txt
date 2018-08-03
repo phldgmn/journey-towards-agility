@@ -1,0 +1,848 @@
+ 0740-7459/16/$33.00 © 2016 IEEE NOVEMBER/DECEMBER 2016  |  IEEE SOFTWARE
+ 41How Software 
+Architects Drive 
+
+Connected 
+
+Vehicles
+Sören Frey,
+ Lambros Charissis, and Jens Nahm,
+ Daimler TSS
+// There are two reasons why successful 
+connected-vehicle projects often assign 
+architecture-related responsibilities to individual 
+experts acting as software architects. First, the 
+experts help effectively manage complexity; 
+second, they act as knowledge multipliers 
+when development must scale up. 
+//CONNECTING VEHICLES 
+to the 
+Internet of Things is a fascinating 
+˜eld of activity for software archi
+-tects. Introducing connectivity into 
+vehicles pushes the door wide open 
+
+for a broad spectrum of potential 
+use cases.
+1,2
+ For example, consider 
+receiving immediate warnings from 
+
+other vehicles about traf˜c jams and 
+black ice on the road ahead.
+Or, you might want to remotely 
+unlock your car doors with a smart
+-phone to allow temporary access for 
+family members. Figure 1 depicts the 
+high-level process ˚ow for control
+-ling the door lock state via mobile 
+devices. A mobile application lets the 
+
+user issue control commands over 
+a mobile Internet connection to a 
+cloud-based connected-vehicle back-
+
+end system. For example, the back-
+end system might receive an ﬁunlock 
+doorsﬂ command and forward it to 
+
+the connected car. After the car has 
+
+received and executed the command, 
+it reports the new door lock state 
+back to the mobile device via the 
+same communication path.
+However, designing a viable solu
+-tion isn™t as straightforward as this 
+process ˚ow might suggest. The de
+-sign must take into account a pleth
+-ora of additional concerns, such as a 
+
+car manufacturer™s various models, 
+certain regional markets™ technologi
+-cal and legal peculiarities, and secu
+-rity aspects across all the involved 
+systems. For example, the design 
+must often consider secure commu
+-nication channels and identity and 
+
+access management. Owing to the 
+large number and variety of those 
+concerns, the architecture design 
+
+process has an inherent complexity 
+that requires management.
+To get started, project teams of
+-ten deliberately limit the scope. For 
+example, they might restrict the 
+door lock functionality to a speci˜c 
+vehicle model in a pilot phase, us
+-ing our platform for prototyping 
+
+telematics services.
+3 If such pilots 
+prove successful, the need often ex
+-ists to quickly scale to full produc
+-tion while expanding to new re
+-gional markets and covering more 
+
+of the manufacturer™s vehicles. For 
+example, a pilot that started for a 
+speci˜c car model in Germany might 
+
+have to be scaled to additional mod
+-els and standard operation in the 
+overall European market. To en
+-able rapid scaling to multiple proj
+-ect teams, a way is needed to ef˜
+-ciently transfer gained experience 
+among project teams. Managing the 
+
+connected-
+ vehicle solution space™s 
+complexity and ef˜ciently support
+-ing cross-
+ project communication 
+and knowledge exchange require a 
+corresponding expert role.
+We believe that the software 
+architect role is a perfect ˜t for 
+
+that expert role, despite the vivid 
+
+arguments over what software 
+ 42 IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+FOCUS:
+ THE ROLE OF THE SOFTWARE ARCHITECT
+architecture actually is, the blurred 
+pro˜ le of the software architect 
+role,
+4 and even the absence of a 
+dedicated software architect role in 
+
+popular process frameworks such as 
+Scrum. Here, we offer our consoli-
+
+dated observations from ˜ ve years™ 
+
+experience in the connected-vehicle 
+domain, which covered seven large-
+scale projects with tens of thousands 
+
+of customers. In successful projects, 
+
+the responsibilities regarding soft-
+ware architecture were concentrated 
+in individual experts. These experts, 
+
+acting as software architects, were 
+crucial to designing complex soft-
+ware systems and scaling the cor-
+
+responding development. However, 
+
+these experts™ business cards often 
+didn™t overtly disclose their software 
+architecture activities.
+Architects Manage 
+Complexity
+Designing a production-ready solu-
+tion for the remote door lock func-
+tion involves several dimensions of 
+complexity and many architectural 
+
+challenges. Figure 2 gives an over-
+
+view. A basic remote vehicle func-
+tion such as door locking should be 
+reusable by many potential users in a 
+
+variety of applications and use cases, 
+such as in-car delivery, car sharing, 
+
+or a concierge service.
+Figure 2 depicts examples of the 
+potential users, such as vehicle own-
+ers, other drivers, and call centers 
+that need the ability to perform ve-
+
+hicle commands on a vehicle owner™s 
+
+behalf. Whereas a call center agent 
+might use a proprietary application, 
+vehicle drivers use the functionality 
+
+on devices such as smartphones, tab-
+
+lets, or smart watches. An exposed 
+Web API integrates both the call 
+center case management software 
+
+and the mobile applications. This 
+context involves architectural con-
+siderations such as Web API design, 
+
+message data formats, and Web se-
+
+curity technologies.
+Moreover, the remote-door-lock 
+solution must support a variety of 
+
+vehicles that entail different control-
+
+ler area network
+5 (CAN) signals and 
+network architectures and different 
+telematics control unit (TCU) hard-
+ware types and software versions. 
+
+(CAN is a widespread bus standard 
+
+for in-vehicle communication; TCU 
+is an embedded system providing a 
+mobile communication interface for 
+
+vehicles.) One of the most dif˜ cult 
+
+architectural challenges is to provide 
+an abstraction of the many vehicle 
+idiosyncrasies and offer a single in-
+terface to other components relying 
+
+on remote vehicle functions. This is 
+similar to an anticorruption layer.
+6In Figure 2, the Virtual Vehicle com-
+ponent accomplishes this task.
+The design of an architectural 
+concept for remote vehicle commu-
+
+nication can employ two fundamen-
+
+tally different approaches: putting 
+the application logic inside or out-
+side the vehicle. This decision has 
+
+an enormous architectural impact. 
+When the Virtual Vehicle component 
+sends a remote door lock command 
+to the vehicle, the built-in TCU for-
+
+wards the command to the CAN, 
+from where the command reaches its 
+target electronic control unit (ECU, 
+
+an embedded system for controlling 
+
+a vehicle subsystem).
+7However, when the application 
+logic is inside the vehicle, the TCU 
+doesn™t necessarily send feedback 
+to the Virtual Vehicle component 
+
+about whether the subsequent door 
+
+status is what the function call in-
+tended. The message might never 
+have reached the vehicle because of a 
+
+lost connection between the Virtual 
+
+Vehicle component and the TCU. 
+Alternatively, the TCU might have 
+failed when processing the request, 
+
+or the door might simply be open 
+and therefore can™t be locked. In all 
+cases, the logic of checking the door 
+
+status after the command has been 
+
+sent, and retrying the command 
+where required, might be passed 
+through to the user.
+This example indicates the need 
+for a technical role that understands 
+the overall system chain, all the way 
+from the user front end to the ve-
+
+hicle™s control units. A TCU might 
+
+have to be updated over the air to not 
+only ˜ x bugs but also add features. If 
+we consider the TCU as a key part of 
+
+the overall system chain that™s under 
+DriverMobile-deviceapplication1. Issue command(for example,ﬁunlock doorsﬂ)2. Send command6. Forward newvehicle statusConnected carCloud-basedconnected-vehicleback end5. Send new vehiclestatus (for example,ﬁdoors unlockedﬂ)3. Forwardcommand4. ExecutecommandFIGURE 1. 
+The high-level process ˜ ow for a remote door lock function. Designing a 
+viable solution isn™t as straightforward as this process ˜ ow might suggest.
+ NOVEMBER/DECEMBER 2016 
+ |  IEEE SOFTWARE
+43an architect™s control, then this role 
+also requires understanding topics 
+that abut the automotive-engineering 
+domain, such as CAN signal encod-
+
+ing and distribution or TCU memory 
+
+and performance restrictions.
+Between the Web API and Virtual 
+Vehicle component is a large system 
+
+landscape that provides common plat-
+
+form services. Together, these systems 
+constitute the connected- vehicle back 
+end in Figure 2. On one hand, this 
+
+landscape contains dozens of systems 
+that were developed a long time ago. 
+On the other hand, it includes new 
+
+back-end systems being developed to 
+enable vehicle-connectivity use cases, 
+
+such as the Service Context compo-
+nent in Figure 2.
+For building end-to-end solu-
+tions, a technical role is needed that 
+also understands the systems and de-
+pendencies in the connected-vehicle 
+back end. For example, the back end 
+
+includes these components:
+Ł The Identity & Access compo-
+
+nent handles user authentication 
+
+and authorization.
+Ł The Customer Context and Ser-
+
+vice Context components hold 
+
+the information about which 
+user owns which vehicle and has 
+
+bought which services.
+Ł The Vehicle Master Data com-
+
+ponent determines which vehicle 
+
+can provide which services (for 
+
+example, remote door locking).
+Performing this capability check 
+requires leveraging the vehicle mas-
+
+ter data. Typically, the system hold-
+ing this data was in place long before 
+the connected-vehicle features came 
+
+onto the market and wasn™t built to 
+be accessed for thousands of vehi-
+cles simultaneously. This is also of-
+
+ten the case for other vehicle systems 
+Secure channel (for example,  VPN)Secure Web protocol (for example,HTTPS)iOS, Android,Windows, ... Drivers orvehicle ownersCall centersBus systems(CAN)TCUECUECUECUScrum modelV-modelConnected-vehicleback endAutomotive-engineering domainSoftware development domainProduct series: 574TCU type: ATCU version: 1.4Product series: 574TCU type: ATCU version: 2.0Product series: 345TCU type: CTCU version: 1.0VirtualVehicleCustomerContextApplicationLogicWeb APIIdentity& AccessVehicleMaster DataServiceContextLegacySystemsFIGURE 2. 
+The dimensions of complexity in designing a production-ready solution for the remote door lock function. VPN stands for 
+virtual private network, CAN stands for controller area network, TCU stands for telematics control unit, and ECU stands for electronic 
+
+control unit.
+ 44 IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+scattered over several organizational 
+units. So, another architectural chal
+-lenge we™ve come across consistently 
+
+is how to scale and integrate legacy 
+
+systems from various organizational 
+
+units that weren™t built to be inte
+-grated with the connected-
+ vehicle 
+back end. Similar architectural chal
+-lenges of integrating legacy systems 
+in new environments occur in many 
+other industrial sectors.
+8Further challenges arise from the 
+various process models that differ
+-ent organizational units and engi
+-neering domains use. Typically, the 
+highly safety-sensitive automotive-
+
+engineering discipline employs se
+-quential development processes such 
+
+as the V-model
+9Šfor example, 
+by following the widespread ISO 
+26262:2011 standard.
+10 Often, the 
+time between the speci˜cation phase 
+
+and ˜nal product™s completion can 
+be months or years. In contrast, new 
+
+connected-vehicle back-end services 
+
+and front ends are often built accord
+-ing to agile, iterative software devel
+-opment methods, such as Scrum or 
+
+Extreme Programming. Designing a 
+
+system whose components are built 
+according to completely different 
+process models, release cycles, and 
+
+engineering mentalities is a major 
+architectural challenge.
+From our experience in an enter
+-prise context, it takes a lot of time to
+Ł align with many component rep
+-resentatives regarding overarch
+-ing technical-integration details,
+Ł request interface extensions ac
+-cording to formal change man
+-agement processes, or
+Ł reach consensus regarding the 
+deployment details for different 
+staging environments.
+We found that concentrating these 
+
+activities in individual experts who 
+therefore acted in the software ar
+-chitect role reduced friction. (These 
+experts performed this role formally 
+
+or informally and sometimes with a 
+varying scope; see the sidebar ﬁThe 
+Many Faces of a Software Archi
+-tect.ﬂ) It™s also an ef˜cient way to 
+
+manage the end-to-end design of 
+connected-vehicle functionalities and 
+adequately cope with multiple levels 
+
+of complexity.
+Architects Facilitate 
+Team Scalability
+Another aspect of the architect™s 
+role deals with knowledge propaga
+-tion and sharing, which is especially 
+
+important in a fast-paced domain 
+
+such as connected-vehicle software. 
+
+Factors such as the widespread 
+availability of built-in and retro˜t
+-ted TCUs that let vehicles connect 
+to the Internet, steadily accelerat
+-ing mobile connection speeds, and 
+users™ increasing familiarity with 
+near-ubiquitous connectivity have 
+
+sparked the automotive industry. 
+Everybody is striving to ˜nd well-
+suited use cases. Some people claim 
+
+the next big thing is infotainment 
+
+for drivers and passengers, some 
+claim it™s in increasing vehicle uti
+-lization through sharing concepts 
+such as car2go (www.car2go.com), 
+
+and others are following different 
+routes in this vibrant environment.
+These product ideas start as a 
+small proof of concept (POC) to at
+-tract early as many users as possible. 
+
+As soon as a POC emits positive sig
+-nals, companies run a pilot with more 
+users. They then run a scaled pilot 
+with many users before rapidly tran
+-sitioning to series production. The 
+reference for speed of implementa
+-tion is often successful Internet com
+-panies such as Apple, Google, and 
+
+Facebook. New agile development 
+
+teamsŠsay, Scrum teamsŠmust be 
+created rapidly to enable quick time 
+
+to market. In this process, ensuring 
+adequate knowledge transfer among 
+the teams is important.
+Figure 3 sketches a possible 
+growth path. The two software en
+-gineers involved in the POC have 
+
+a comprehensive overview of the 
+
+overall architecture and technolo
+-gies. They act as knowledge multipli
+-ers when the new connected-vehicle 
+
+service becomes a pilot and a Scrum 
+
+team is staffed for the implemen
+-tation. The pilot Scrum team (la
+-beled 1 in Figure 3) is in charge 
+
+of building a more complex solu
+-tion with deeper integration in the 
+
+automotive-
+ enterprise-application 
+landscape. For the scaled pilot, new 
+
+software engineers are added, and 
+a second Scrum team (labeled 2 in 
+Figure 3) is created to handle addi
+-tional work. Series production (for 
+
+example, involving additional vehi
+-cle models) requires even more de
+-velopment teams (labeled 3, 4, and 
+
+5 in Figure 3). The development 
+teams must cooperate and align 
+when implementing an integrated 
+
+product together.
+How should knowledge transfer 
+and alignment among teams be orga
+-nized? If all the teams use Scrum, a 
+
+method for scaled Scrum development, 
+
+such as the Nexus framework, 
+11
+ is ap
+-propriate.
+ The Nexus framework de
+-˜nes a Nexus Integration Team con
+-sisting of a dedicated product owner, 
+
+a Scrum master, and one or more 
+
+members who might also be in sev
+-eral Scrum teams. The framework 
+matches well with the staged scaling 
+approach in Figure 3. The experts 
+
+acting as a development team™s soft
+-ware architect are a perfect ˜t for 
+the Nexus Integration Team.
+The Nexus Integration Team must 
+manage integration of a connected-
+ vehicle function built from separate 
+  NOVEMBER/DECEMBER 2016 
+ |  IEEE SOFTWARE
+ 45subproducts. To do this, it ensures 
+that each sprint produces an inte
+-grated increment. The team members 
+
+should be software professionals ex
+-perienced in systems engineering.
+11
+The Nexus Integration Team must 
+also propagate architectural knowl
+-edge among Scrum teams on both 
+
+the interstage level (for example, 
+
+pilot to scaled pilot) and intrastage 
+level (for example, scaled pilot to 
+
+scaled pilot). To do this, it coaches 
+and guides the Scrum teams to ac
+-quire, implement, and learn systems-
+engineering practices and tools.
+11
+ It 
+THE MANY FACES OF
+ A SOFTWARE ARCHITECT
+In the domain of connected-vehicle software, software experts in an enterprise context act within a wide spectrum of respon
+-sibilities and con˜gurations of the software architect role. The following ˜ve dimensions broadly characterize how individuals 
+formally and informally carry out this role.
+THE JOB TITLE™S RELATION TO THE SOFTWARE ARCHITECT ROLE
+The job title adorning an individual™s business card might or might not indicate that person™s relation to software architecture 
+activities. Besides the straightforward job title of software architect, a wealth of job titles cover a similar scope and include the 
+term ﬁarchitect,ﬂ such as solution architect, IT architect, enterprise architect, and system architect. However, the relation to 
+software architecture becomes blurrier when you consider titles that don™t include ﬁarchitect,ﬂ such as IT consultant, software 
+
+engineer, and solution developer.
+THE AMOUNT OF SOFTWARE ARCHITECTURE ACTIVITIES PERFORMED
+From day to day, architects might have to perform software architecture activities that are more or less typical. For example, 
+
+in our context, solution architects are concerned almost entirely with software-architecture-related activities, such as system 
+decomposition, modeling, and interface de˜nition. In contrast, agile software development frameworks such as Scrum often 
+transfer these activities to whole software development teams. So, individual developers might be involved in such activities in 
+
+varying degrees.
+THE NUMBER AND GRANULARITY OF COMPONENTS IN SCOPE
+The software architect role also differs regarding the number and granularity of components with which an architect is con
+-cerned. For example, enterprise architects usually design and govern large IT landscapes consisting of many applications. In 
+contrast, some architects might be concerned with only a subset of those applications and their exposed interfaces, to design 
+speci˜c functionalities. The door lock scenario described in the main article falls in this category. On a lower level of abstraction, 
+
+application architects are typically concerned with designing one or a few applications.
+THE PROXIMITY TO PROGRAMMING ACTIVITIES
+Software architects perform different amounts of programming. For example, enterprise architects hardly ever program. Further
+-more, differences exist among architects with identical job titles. For example, some IT architects might rarely program; instead, 
+they design technical solutions for speci˜c business processes. In contrast, other IT architects might daily contribute source 
+code for one or more applications.
+SPECIALIZATION
+Software architects frequently specialize. Specializations often occur in speci˜c industrial sectors (such as the automotive in
+-dustry) and functional domains (such as vehicle connectivity, powertrain optimization, and fabrication). Moreover, specializations 
+frequently focus on speci˜c technologies. This often becomes apparent from the corresponding job titles, such as automotive 
+software architect, Java EE (Java Platform, Enterprise Edition) architect, and cloud architect.
+ 46 IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+FOCUS:
+ THE ROLE OF THE SOFTWARE ARCHITECT
+also coaches them on the organiza-
+tions™ development, infrastructural, 
+or architectural standards.
+These tasks can be handled well 
+by individual experts with a strong 
+software architecture background 
+(that might possibly be blended with 
+knowledge from different architec-
+
+tural ˜ avors such as system or solu-
+
+tion architecture). These tasks match 
+seamlessly with the tasks software 
+architects typically perform.
+So, how should a project split 
+the work among the Scrum teams 
+
+when it scales up? The most obvi-
+
+ous approach would be to build a 
+front-end team, a back-end team, 
+
+an embedded- vehicle team, and so 
+forth. This satis˚ es the specializa-
+tion found in the labor market and 
+
+often in organizational structures. 
+
+However, the teams would lose 
+their independence. We often ob-
+served deadlocks and waiting pe-
+
+riods when there were more than 
+
+three or four teams.
+Another approach is to build fea-
+ture teams such that each team de-
+
+velops a speci˚ c feature from end to 
+end.
+12 Each team must possess the 
+necessary skills, which can be quite 
+
+challenging. In our experience, each 
+team must have at least one person 
+
+with a functional and technical over-
+view and thorough conceptual skills: 
+
+the software architect. If a team had 
+no architect role, we observed dete-
+riorated code quality and a blurred 
+
+component structure.
+In software development proj-
+
+ects, the need still exists for 
+someone with strong concep-
+tual skills, a deep knowledge of the 
+problem domain, and good commu-
+
+nications skillsŠthat is, a software 
+architect. Whether we™re talking 
+54Proof ofconceptPilotScaledpilot12113SeriesproductionTime2FIGURE 3. 
+Quickly scaling development teams from a few software engineers for a proof of concept to many tens or even hundreds 
+of software engineers is common when companies implement connected-vehicle services. To enable adequate knowledge transfer, 
+
+software architects (circled in the ˜ gure) act as knowledge multipliers and nuclei for new teams. The numbers in the ˜ gure indicate the 
+
+various development teams.
+ NOVEMBER/DECEMBER 2016 
+ |  IEEE SOFTWARE
+47about a Scrum team member who 
+focuses on prioritizing technical sto-
+ries in the backlog, a product owner 
+advisor, an external coach, or many 
+
+other possible roles with in˜ uence, 
+
+the tasks of an architect remain.
+Digitalization as a megatrend re-
+inforces IT™s importance. For the au-
+
+tomotive sector, the next big trends 
+
+are autonomous driving and cars as 
+part of the Internet of Things. These 
+trends further increase the under-
+
+lying IT systems™ scope, reach, and 
+complexity. That™s why we expect 
+the software architect role to remain 
+
+a major cornerstone of most com-
+
+plex automotive IT projects in the 
+coming years.
+Acknowledgments
+We thank Olaf Zimmermann and the 
+anonymous reviewers for their valuable 
+
+suggestions and comments on an earlier 
+
+version of this article.
+References
+1. 
+M. Alam, ﬁThe Top Five Trends for 
+
+the Connected Car in 2016,ﬂ 
+Tech-
+
+Crunch
+, 2 Jan. 2016; http://tech
+crunch.com/2016/01/02/the-top
+
+-˚ ve-trends-for-the-connected-car
+
+-in-2016.
+2. 
+D. Hardawar, ﬁBuckle Up: The 
+
+Connected-Car Revolution Is Almost 
+
+Here,ﬂ 
+Engadget
+, 13 Jan. 2015; 
+www.engadget.com/2015/01/13
+
+/connected-car-revolution.
+3. 
+T. Haberle et al., ﬁThe Connected 
+
+Car in the Cloud: A Platform for 
+
+Prototyping Telematics Services,ﬂ 
+
+IEEE Software
+, vol. 32, no. 6, 2015, 
+pp. 11Œ17.
+4. 
+M. Fowler, ﬁDesignŠWho Needs an 
+
+Architect?,ﬂ 
+IEEE Software
+, vol. 20, 
+no. 5, 2003, pp. 11Œ13.
+5. 
+ISO 11898, Road VehiclesŠ 
+
+Controller Area Network (CAN)
+, Int™l Org. for Standardization, 2015.
+6. 
+E. Evans, 
+Domain-Driven Design: 
+Tackling Complexity in the Heart of 
+
+Software
+, Addison-Wesley Profes-
+sional, 2004.
+7. 
+C. Ebert and C. Jones, ﬁEmbed-
+
+ded Software: Facts, Figures, and 
+
+Future,ﬂ 
+Computer
+, vol. 42, no. 4, 
+2009, pp. 42Œ52.
+8. 
+W. Hasselbring, ﬁInformation System 
+
+Integration,ﬂ 
+Comm. ACM
+, vol. 43, 
+no. 6, 2000, pp. 32Œ38.
+9. 
+J. Weber, ﬁVehicle Development 
+
+ProjectsŠan Overview,ﬂ 
+Automotive 
+
+Development Processes: Processes 
+
+for Successful Customer Oriented 
+
+Vehicle Development
+, Springer, 
+2009, pp. 1Œ15.
+10. 
+ISO 26262:2011, Road VehiclesŠ
+
+Functional Safety
+, Int™l Org. for Stan-
+dardization, 2011.
+11. 
+K. Schwaber, 
+Nexus Guide v1.1
+; www.scrum.org/Resources/The
+
+-Nexus-Guide.
+12. 
+C. Larman and B. Vodde, 
+Scaling 
+
+Lean & Agile Development: Think-
+
+ing and Organizational Tools for 
+
+Large-Scale Scrum
+, Addison-Wesley 
+Professional, 2008.
+ABOUT THE AUTHORS
+SÖREN FREY 
+is a senior IT architect of connected-vehicle 
+software at Daimler TSS. His research interests are connected 
+vehicles, cloud computing, software architectures, and machine 
+learning. Frey received a PhD in computer science from Kiel 
+University. He™s a member of the IEEE Computer Society, ACM, 
+and the German Informatics Society. Contact him at soeren 
+.frey@daimler.com.
+LAMBROS CHARISSIS 
+is an IT architect of connected-vehicle 
+software at Daimler TSS. His research interests are connected 
+vehicles, software architectures, and cloud computing. Charis-
+sis received a master™s in computer science from the University 
+of Stuttgart. Contact him at lambros.charissis@daimler.com.
+JENS NAHM 
+is the manager of the Enterprise Architecture 
+Team at Daimler TSS. His research interests are connected 
+vehicles, software architectures, and cloud computing. Nahm 
+received a Dipl. Inform. in computer science from the University 
+of Stuttgart. Contact him at jens.nahm@daimler.com.
+Selected CS articles and columns 
+are also available for free at 
+
+http://ComputingNow.computer.org.

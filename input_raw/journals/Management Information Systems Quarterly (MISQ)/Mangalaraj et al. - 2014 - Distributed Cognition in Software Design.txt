@@ -1,0 +1,203 @@
+ RESEARCH 
+ARTICLEDISTRIBUTED COGNITION IN SOFTWARE DESIGN:AN EXPERIMENTAL INVESTIGATION OF THE ROLEOF DESIGN PATTERNS AND COLLABORATIONGeorge MangalarajCollege of Business and Technology, Western Illinois Univer
+sity, Macomb, IL  61455  U.S.A.  {g-mangalaraj@wiu.edu}
+Sridhar Nerur, RadhaKanta Mahapatra, and Kenneth H. PriceCollege of Business Administration, University of 
+Texas at Arlington, Arlington, TX  76019-0437  U.S.A.{snerur@uta.edu}  {mahapatra@uta.edu}  {price@uta.edu}Appendix AAn Illustrative Example of the Application of a Design PatternThe state pattern allows an object to exhibit a different behavi
+or (i.e., alter its response to one
+ or more messages) when its 
+internal state changes
+(Gamma et al. 1995).  Consider an Account class that keeps track
+ of a customer™s credit paymen
+ts.  At any time during its life 
+cycle, such an
+Account object can be in one of many possible states:  Current, Ca
+nceled, and PastDue, to name but a few.  The state of the Acc
+ount object
+would determine its response to requests/me
+ssages that it receives from other objects.  
+For example, a request to handle paymen
+t (i.e., invocationof the handlePayment() method) would result 
+in different behaviors depe
+nding on whether it is in the Current, Canceled, or Past
+Due state. 
+When the state pattern is not used, a variable (e.g., a String) w
+ould typically be used to maintain the state of the object.  A
+s shown below, the
+use of such a String variable (let us call it 
+status) would result in conditional statements in the handle payment operation.
+public void handlePayment() {
+if ( status.equals(ﬁCurrentﬂ))// statements to handle payment wh
+en the Account object is currentelse if ( status.equals(ﬁCanceledﬂ))
+//statements to handle payment when the 
+Account object is in the canceled stateelse
+//statements to handle payment when the Account object is past due
+}Clearly, the method would have to be changed every time a new stat
+e is introduced.  For example, 
+if we decide to introduce a st
+ate called Hold,the condition for hold would have to be included in the if–then statements.The state pattern advocates maintaining a state object rather than
+ a variable such as status, so
+ that the Account object™s beha
+vior can be changed
+easily at run-time while giving us the flexibility to add states in
+ the future without modifications to the state-dependent met
+hods themselves.
+Therefore, in our example, we would introduce an abstract cla
+ss called AccountState that presen
+ts an interface common to its su
+bclasses,
+Current, Canceled, and PastDue (see Figure A1).  Note that there 
+are as many subclasses as there are conditional branches shown
+ in the code
+above.  The Account object now maintains a reference to a state 
+object (i.e., an object of type AccountState), indicating its p
+resent state.  All
+MIS Quarterly Vol. 38 No. 1ŠAppendices/March 2014
+A1 Mangalaraj et al./Distributed 
+Cognition in Software Designrequests (such as handlePayment()) that are de
+pendent on the state would be delegated to
+ this state object.  Therefore, when th
+e state pattern
+is applied, the snippet of code would be as follows:public void handlePayment() {
+state.handlePayment(); //where state is an AccountState object
+}Figure A1.  Current, Cancelled, and Past Due SubclassesReferenceGamma, E., Helm, R., Johnson, R. 
+E., and Vlissides, J.  1995. 
+Design Patterns:  Elements of Re
+usable Object-Oriented Software, Reading, MA: 
+Addison-Wesley.
+Appendix BQuestionnaire1.Please circle your gender:  MaleFemale
+2.Please indicate your age on your last birthday __________ 
+
+3.Highest educational level:
+a)  High schoolb)  Technical school or community collegec)  Undergraduate degree
+d)  Graduate degreed)  Doctoral degreee)  Other ____________
+4.Indicate number of years of your progra
+mming experience in any programming language? 
+a)  0 Œ 1b)  1 Œ 2c)  2 Œ 4d)  4 Œ 6e)  > 6 
+5.Indicate number of years of your progra
+mming experience in object-oriented languages? 
+a)  0 Œ 1b)  1 Œ 2c)  2 Œ 4d)  4 Œ 6e)  > 6 
+A2MIS Quarterly Vol. 38 No. 1ŠAppendices/March 2014
+ Mangalaraj et al./Distributed 
+Cognition in Software Design6.What would you consider to be your le
+vel of experience in object-oriented design? 
+a)  No experience b)  Novice c)  Intermediate d)  Expert
+ 7.What would you consider to be your 
+level of experience in design patterns? 
+a)  No experience b)  Novice c)  Intermediate d)  Expert
+8.What object-oriented programming languages are you familiar with? 
+a)  C++b)  C#c)  Javad)  Small Talk e)  Objective-C
+f)  Eiffelg)  Python h)  VB.NETi)  Others ____________ 
+9.Before today™s task performance, have 
+you ever worked with your partner?*
+a)  Yes b)  No 
+10.How do you feel about your overall experience of working on the task today?
+Very Dissatisfied1234567Very Satisfied
+Very Displeased1234567Very Pleased
+Very Frustrated1234567Very Contented
+Absolutely Terrible1234567Absolutely Delighted
+11.My partner actively participated in solving the design problem*
+Strongly Disagree
+1234567Str
+ongly Agree
+12.What patterns did you use to arrive at the solution? 
+Note:  *These questions were asked only in the collaborating pair condition.
+MIS Quarterly Vol. 38 No. 1ŠAppendices/March 2014
+A3 Mangalaraj et al./Distributed 
+Cognition in Software DesignAppendix CThe Two Experimental Tasks
+Warm-Up Task:  Duck Pond Simulation Game1XYZ Corporation is in the process of designing a duck pond simula
+tion game.  The game can display a large variety of duck speci
+es swimming
+and making quacking sounds.  Some of the duck types that are planne
+d to be used in the simulation game include:  Mallard Duck, 
+RedheadDuck, Bufflehead Duck, and Pintail Duck.  They are also planning 
+to add Rubber Duck to the game.  Real ducks are capable of qua
+cking andflying whereas the rubber ducks can only squeak and cannot fly.  A
+ll the ducks have a behavior to display themselves on the scr
+een.You are required to draw a class diagram that can be used to implement the system described above.
+Main Task:  Weather Monitor
+2You must develop software that allows clie
+nts to periodically check for changes in the 
+status of sensors in a weather monitorin
+g station.Examples of various sensors could be temper
+ature gauge, pressure gauge, humidity sensor, 
+etc.  A client must be able to create 
+a monitor that
+will periodically check a particular sensor in the network.  If th
+e state of that sensor has changed since the monitor last che
+cked the sensor, the
+monitor should write an event to a global event log.A sensor is uniquely designated by its sensor ID.  When making 
+its initial monitoring request, the client specifies the ID of t
+he sensor to be
+monitored and the monitoring period.  At that point, the monitor 
+is initialized but has not yet been started.  The client makes
+ a subsequent
+request to start the monitor.  The client should be able to start and stop the monitor at any time.
+Each sensor has an interface to check its current state, although 
+the precise interface differs from 
+sensor to sensor.  As an example, to check
+a temperature sensor, you invoke its getTem
+parature method, whereas to check a rela
+tive humidity sensor, you call its getRh met
+hod.  The
+various sensor classes are provided by diffe
+rent vendors, so you are not permitted to ch
+ange the interfaces of those classes.  The components that make up the states of di
+fferent sensors may also differ.  For exam
+ple, the state of a temperature sensor is
+ defined by a
+floating point value.  A relative humidity sensor stat
+e, on the other hand, is represented by a string.  
+Assume the existence of an Event Log and an Event class.  The Ev
+ent Log classes define a method, 
+logEvent that takes an Event a
+s an argument
+and places that Event in the Log.  You should write a specific type
+ of Event, a Sensor Change Event that includes the ID of the sensor.You are required to draw a class diagram that can be used to implement the system described above.
+1This problem description is adapted from the one found 
+in E. Freeman, E.Freeman, B. Bates, and K. Sierra, 
+Head First Design Patterns
+, Sebastopol, CA: 
+O™Reilly Media, 2004.
+2This problem description is loosely based 
+on an example described in Freeman et al. 
+(p. 56) and incorporates additional design 
+constraints based on design
+insights from C. Richter, ﬁDesign Problems and Object-Oriente
+d Solutions (http://www.oeng.com/pr
+oblemsandsolutions.htm; retriev
+ed February 10, 2013).
+A4MIS Quarterly Vol. 38 No. 1ŠAppendices/March 2014
+ Mangalaraj et al./Distributed 
+Cognition in Software DesignAppendix DGrading Sheet for Weather Monitoring Station ProblemSubject ID:No.DescriptionPurposePoints
+Points ScoredRemarks
+A.  Classes
+1MonitorSensors are monitored by this class5
+
+2SensorCan be abstract or an interface5
+
+3Specific SensorTemperature,
+ Pressure sensors etc.5
+4Event logLog of various events5
+
+5EventGeneric class5
+
+6Change EventThis is the sensor change event5
+7Adapter class
+Adapter for the sensors to handle differentstates108PollTokenTo store state and compare10
+B.  Associations
+1Monitor/SensorsInterfacePolltoken object is returned to monitor5
+2Event logging
+Monitor detects changes when they occur,
+creates change event103Specific sensor/Poll tokenSpecific sensors creating poll token5
+4Comparing states
+Monitor should be able to compare polltokens (previous state poll token is the
+current state poll token)106Sensor Adapter/SensorSensor Adapters forward poll to specific
+sensors10C.  Optional Classes
+1
+2
+3D.  Unnecessary/Wrong Classes
+1-2-3-Total
+Patterns Used:Note:  Class names are given for illustration only and the 
+evaluated solution can have different names for them.
+MIS Quarterly Vol. 38 No. 1ŠAppendices/March 2014
+A5

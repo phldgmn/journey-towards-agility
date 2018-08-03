@@ -1,0 +1,1207 @@
+ 26 IEEE SOFTWAR
+E | PUBL
+IS
+HED BY TH
+E IEEE COMPUT
+ER SOC
+IE
+TY
+ 0740-7459/12/$31.00 © 2012 IEEE
+FOCUS:
+ LEAN SOFTWARE DEVELOPMENT
+THE 
+TERM ﬁLEANﬂ 
+was ˜rst applied 
+publicly to a production management 
+process and then to product develop
+-ment at MIT during the mid-1980s 
+(for a history of lean in the operations 
+
+management literature, see Matthias 
+Holweg™s ﬁThe Genealogy of Lean Pro
+-ductionﬂ
+1). John Krafcik, currently the 
+CEO of Hyundai Motor America, was 
+
+the ˜rst American engineer hired by 
+Toyota to work in the NUMMI (New 
+
+United Motor Manufacturing, Inc.) as
+-sembly plant in California, a joint ven
+-ture with General Motors. He came 
+
+to the MIT Sloan School of Manage
+-ment in 1986 to do a master™s degree 
+and thesis under my (Michael™s) super
+-vision, after I had just published 
+The 
+Japanese Automobile Industry 
+in 1985. 
+I had reported that Toyota, using tech
+-niques that had evolved since the late 
+
+1940s, was producing automobiles 
+with roughly half the number of labor 
+hours as the Big Three US automakers 
+
+with much faster inventory turns and 
+higher quality. Nissan was not far be
+-hind Toyota. Encouraged by MIT™s 
+International Motor Vehicle Program 
+
+(IMVP) research director, James Wom
+-ack, Krafcik launched a survey to com
+-pare auto assembly plants around the 
+
+world. In 1988 companion articles in 
+Sloan Management Review
+, I sum
+-marized my ˜ndings while Krafcik at
+-tempted to generalize Toyota™s man
+-agement philosophy and presented his 
+own data showing Japanese superior
+-ity. Krafcik coined the term ﬁleanﬂ as 
+a contrast to a Ford-style ﬁbufferedﬂ 
+
+mass production system.
+2 Toyota™s techniques dramatically 
+reduced in-process and ˜nal invento
+-ries, expanding worker responsibili
+-ties to operate more machines, as well 
+
+as enabling more assembly line work
+-ers to build in quality. A key element 
+was that Toyota reversed the ˚ow of 
+information signals (then in the form 
+
+of Kanban cards) controlling produc
+-tion operations. This change gave To
+-yota factories the ability to make small 
+
+batches of components ﬁjust in timeﬂ 
+
+(JIT) for ˜nal assembly and shipment 
+to dealers, while eliminating most of 
+the ﬁjust in caseﬂ in-process and ˜
+-nal inventories. The basic philosophy 
+
+was to ﬁpullﬂ materials and compo
+-nents through the production system 
+
+as needed in a continuous ˚ow, rather 
+
+than ﬁpushﬂ them through and stock
+-pile using fully predetermined produc
+-tion plans. The terms ﬁleanﬂ and ﬁJITﬂ 
+
+were later popularized by MIT™s global 
+
+best-seller 
+The Machine That Changed 
+the World 
+(Rawson, 1990). The au
+-thors used the term ﬁleanﬂ to describe 
+
+any ef˜cient management practice that 
+
+minimized waste, including in prod
+-uct development, where Japanese au
+-tomakers had achieved shorter leader 
+
+times (by about one-third) and fewer 
+
+engineering hours (by about half) com
+-pared to US and European projects. 
+
+(The more detailed research was done 
+
+at Harvard Business School by IMVP 
+
+research af˜liates Kim Clark and Taka
+-hiro Fujimoto, published as 
+Product 
+
+Development Performance
+ [Harvard 
+Business School, 1991].)
+Some similarities between Japanese 
+Lean Software 
+Development: 
+ A Tutorial
+Mary Poppendieck, 
+Poppendieck.LLC 
+Michael A. Cusumano,
+ Massachusetts Institute of Technology
+// 
+This tutorial describes where lean software 
+development comes from, what it means, how it 
+relates to well-known agile development practices, 
+and how it is likely to evolve in the future. 
+//  SEPT
+EMB
+ER/OCTOB
+ER 2012
+ | IEEE SOFTWAR
+E 27management and PC-style software 
+development were becoming apparent 
+by the mid-1990s. For example, in 
+Mi-crosoft Secrets
+ (Free Press, 1995)
+, we 
+(Michael and coauthor Richard Selby) 
+noted a similarity in the philosophy 
+behind Microsoft™s daily builds, where 
+engineers had to stop and ˜x bugs on a 
+
+daily basis (we dubbed this the ﬁsynch 
+
+and stabilizeﬂ process), and Toyota™s 
+JIT production philosophy, where 
+workers stopped assembly lines when
+-ever they detected problems to ˜x them 
+immediately. This book did not use 
+the term ﬁleanﬂ for software develop
+-ment; we were thinking mainly about 
+
+the common application of a JIT engi
+-neering and quality-control practice, 
+
+as well as the reduced levels of bureau
+-cracy and staf˜ng in Microsoft com
+-pared to companies such as IBM. To 
+dive deeper into product development 
+in the auto industry, along with an MIT 
+
+doctoral student (Kentaro Nobeoka) I 
+
+(Michael) launched another major re
+-search effort, summarized in the book 
+
+Thinking beyond Lean
+ (Free Press, 
+1998). This book also built on a pub
+-lication by James Womack and Daniel 
+
+Jones, 
+Lean Thinking
+ (Simon & Schus
+-ter, 1996), which attempted to gener
+-alize lean practices and applications. 
+Thinking beyond Lean
+ focused on 
+newer approaches to product develop
+-ment, emphasizing the systematic reuse 
+of product platforms and major com
+-ponents, as well as other techniques, 
+
+such as short, overlapping phases (con
+-current engineering) to reduce calendar 
+time and engineering hours, but it only 
+included a brief discussion of software 
+
+development. 
+The popularization of the term 
+ﬁleanﬂ and its association with ﬁag
+-ileﬂ for software product develop
+-ment seems to have come mainly from 
+
+later efforts, such as those of one of us 
+(Mary) and Tom Poppendieck in the 
+book, 
+Lean Software Development
+ (Addison-Wesley, 2003). In common 
+with the MIT and IMVP researchers, 
+
+we also emphasized eliminating waste 
+and bureaucracy in product develop
+-ment, encouraged learning through 
+short cycles and frequent builds, and 
+
+promoted late changes and fast itera
+-tions, with feedback pulling changes 
+
+into a product, rather than require
+-ments documents and rigid plans push
+-ing development work forward. 
+Authors who have used the term 
+ﬁleanﬂ with reference to software de
+-velopment all seem to have stressed 
+the difference between older and more 
+labor-intensive, bureaucratic, push-
+
+style methods, initially associated with 
+
+the mainframe computer business, 
+and newer, less bureaucratic, iterative 
+or incremental, and ˚exible methods. 
+
+There clearly are many common ele
+-ments between Toyota-style lean pro
+-duction and Microsoft-style iterative 
+or agile development (before the Win
+-dows teams became inordinately large 
+
+in the late 1990s and early 2000s), 
+
+even when we look at speci˜c prac
+-tices. My (Michael™s) 2010 book sum
+-marized some of these similarities un
+-der the principle of ﬁpull, don™t just 
+
+pushﬂ (see Table 1). 
+Early use of the term ﬁleanﬂ no 
+doubt leveraged the popularity of Jap
+-anese management techniques, but the 
+
+emphasis has always been on reducing 
+waste in terms of time and staf˜ng, fo
+-cusing on value for the customer, the 
+product, and the enterprise, as well as 
+stressing the bene˜ts of a more ˚ex
+-ible, iterative, lightweight development 
+process. We also see this orientation 
+
+in XP and Scrum.
+3 These approaches, 
+referred to as iterative, incremen
+-tal, or agile, encompass a set of tech
+-niques for software development that 
+
+are less sequential or ﬁwaterfall-ishﬂ 
+
+as well as bureaucratic and slow, and 
+TABLE 1
+Process comparison of Toyota and Microsoft.
+Toyota-style ﬁleanﬂ production
+ (manual demand-pull with Kanban cards)
+1990s Microsoft-style ﬁagileﬂ development
+ (daily builds with evolving features)
+JIT ﬁsmall lotﬂ production
+Development by small-scale features 
+Minimal in-process inventories
+Short cycles and milestone intervals
+Geographic concentrationŠproduction
+Geographic concentrationŠdevelopment
+Production leveling
+Scheduling by features and milestones
+Rapid setup
+Automated build tools and quick tests
+Machine and line rationalization
+Focus on small, multifunctional teams
+Work standardization
+Design, coding, and testing standards
+Foolproof automation devices
+Builds and continuous integration testing
+Multiskilled workers
+Overlapping responsibilities
+Selective use of automation
+Computer-aided tools, but no code generators
+Continuous improvement
+Postmortems, process evolution
+Source: M. Cusumano, 
+Staying Power
+, Oxford, 2010, p. 197.
+ 28 IEEE SOFTWAR
+E | WWW.COMPUT
+ER.ORG/
+SOFTWAR
+EFOCUS:
+ LEAN SOFTWARE DEVELOPMENT
+have become commonplace around the 
+world owing to the bene˜ts they offer.
+4Lean Software 
+Development
+This leads to the more general issue 
+
+of whether or not it is even appropri
+-ate to apply the principles behind lean 
+
+production to product development 
+
+or software engineering. In fact, we 
+have frequently encountered nega
+-tive reactions to this with comments 
+such as, ﬁDevelopment is not at all 
+like manufacturing.ﬂ And, indeed, if 
+lean is thought of as a set of practices, 
+
+it doesn™t translate well from opera
+-tional to development environments. 
+However, if lean is thought of as a set 
+of principles rather than practices, then 
+
+applying lean concepts to product de
+-velopment and software engineering 
+makes more sense and can lead to pro
+-cess and quality improvements. 
+In fact, the idea of applying lean 
+principles to software development is 
+almost as old as the term ﬁleanﬂ itself. 
+
+In the 1990s, Robert Charette used the 
+
+term ﬁlean developmentﬂ to refer to a 
+risk management strategy that brings 
+about dynamic stability in organiza
+-tions by making them more agile, re
+-silient, and change tolerant. In 2002, 
+Charette wrote ﬁChallenging the Fun
+-damental Notions of Software Develop
+-ment,ﬂ a piece that is as wise today as it 
+
+was a decade ago.
+5 In it, he provides an 
+excellent summary of the main points 
+
+of this article: ﬁAs Drucker pointed out 
+long ago, a business™s sole purpose is to 
+
+create and serve the customer. In this 
+
+spirit, [lean development]™s focus is not 
+on the development process per se, but 
+on how to use IT to create value for the 
+customers–. Thus lean development is 
+not a software engineering methodol
+-ogy in the conventional sense. It™s re
+-ally a synthesis of a system of practices, 
+principles, and philosophy for building 
+software systems for a customer™s use.ﬂ 
+In the book, 
+Lean Software De
+-velopment
+ (Addison-Wesley, 2003) 
+we (Mary and coauthor Tom) also 
+emphasized seven principles of lean 
+software development (which we later 
+modi˜ed slightly, based on subse
+-quent experience): 
+optimize the whole,
+eliminate waste,
+build quality in,
+learn constantly,
+deliver fast,
+engage everyone, and
+keep getting better.
+These principles are used to frame 
+the discussion about what product de
+-velopment practices might be appropri
+-ate for, depending on the unique situa
+-tion of each organization.
+Optimize the Whole
+Lean software development should be 
+
+founded on a deep understanding of 
+a job that customers would like done 
+and how this job might be mediated by 
+
+software. Discovering what customers 
+
+care about and what they will value is 
+not a simple process, especially because 
+software rarely has value in and of it
+-self. The value of software is delivered 
+
+in the context of a larger system: an au
+-tomated car, a website for buying prod
+-ucts, an automated order ful˜llment 
+process, and so on. Moreover, the value 
+of software isn™t derived solely from 
+the development phase; design and de
+-ployment are fundamental to its value. 
+Finally, the value of software is rarely 
+limited to a single time-bound effort; 
+
+the capability to modify a code base 
+
+over time tends to be a dominant factor 
+in its overall value. 
+Eliminate Waste
+In lean terms, ﬁwasteﬂ is anything that 
+doesn™t either add customer value di
+-rectly or add knowledge about how 
+
+to deliver that value more effectively. 
+
+Some of the biggest causes of waste in 
+
+software development are unnecessary 
+features, lost knowledge, partially done 
+work, handovers, and multitasking, not 
+
+to mention the 40 to 50 percent of de
+-velopment time spent ˜nding and ˜x
+-ing defects. Many of these wastes have 
+
+their roots in the large batches of par
+-tially done work created in sequential 
+development processes, in the bound
+-aries between different functions, and 
+in the delays and knowledge lost when 
+
+work crosses these boundaries. When 
+organizations look at the ˚ow of value 
+across the entire value stream, causes of 
+
+waste are more easily exposed and ad
+-dressed, much as in a JIT pull system 
+for manufacturing.
+Build Quality In
+Microsoft™s synch and stabilize pro
+-cess seemed to be a dramatic departure 
+
+from the prevailing process of waiting 
+until the end of a development cycle 
+
+before integrating small units of soft
+-ware into a large system. But, in fact, 
+continuously integrating small units of 
+software into larger systems has long 
+
+been held to be best practice, even 
+
+though it might not have been com
+-mon practice. As long ago as 1970, 
+
+IBM™s Harlan Mills successfully devel
+-oped an approach he called ﬁtop-down 
+programmingﬂŠa process whereby 
+modules are integrated into the overall 
+
+system as they are written, rather than 
+If lean is thought of as a set of practices, 
+ it doesn™t translate well from operational 
+ to development environments. 
+  SEPT
+EMB
+ER/OCTOB
+ER 2012
+ | IEEE SOFTWAR
+E 29at the end of development. In his 1988 
+book 
+Software Productivity
+ (Dorset 
+House), he noted, ﬁMy principal crite
+-rion for judging whether top down pro
+-gramming was actually used is [the] ab
+-sence of any dif˜culty at integration.ﬂ 
+Learn Constantly
+In the end, development is all about 
+
+creating knowledge and embedding 
+that knowledge in a product. Lean de
+-velopment recommends approaching 
+this in two different ways, depending 
+
+on the context.
+The ˜rst is to explore multiple op
+-tions for expensive-to-change deci
+-sions such as fundamental architecture, 
+
+choice of language, design language for 
+user interaction, and so on. Delay criti
+-cal decisions to the last responsible mo
+-ment, and then make decisions based 
+
+on the best available knowledge at the 
+time. Because multiple options have 
+
+been explored, there will always be an 
+
+alternative that will work, and the op
+-tion that best optimizes the overall sys
+-tem can be chosen. This is often called 
+
+a ﬁlearn ˜rstﬂ approach.
+The second way is to build a mini
+-mum set of capabilities to get started, 
+
+followed by frequent delivery, while 
+
+using feedback from real customer 
+
+experience to make product content 
+decisions. This continuous learning 
+process will minimize the effort spent 
+
+developing features that customers 
+don™t ˜nd valuable.
+Although the ﬁlearn ˜rstﬂ approach 
+might seem diametrically opposed to 
+the ﬁlearn constantlyﬂ approach, they 
+can be used together effectively. The key 
+is to use options and constraints to drive 
+
+critical decisions while recognizing that 
+
+the content of most software systems 
+will change constantly over time.
+Deliver Fast
+In many lean development environments, 
+production releases occur frequentlyŠ
+weekly, daily, even continuously. Mistake-
+ proo˜ng mechanisms necessary for such 
+frequent deployment have dramatically 
+
+improved quality while eliminating the 
+large regression overhead formerly asso
+-ciated with releases. Of course, existing 
+
+code bases can be riddled with defects, 
+and small perturbations can have serious 
+unintended consequences, but many or
+-ganizations have discovered how to cre
+-ate test harnesses that can automatically 
+detect most defects introduced by small 
+changes. Thus as an industry, we have 
+
+moved much closer to Harlan Mills™s 
+ideal.
+When software is delivered quickly, 
+thinking about software development 
+as a project is an inappropriate meta
+-phor. It™s much better to think of soft
+-ware as a ˚ow system where software 
+
+is designed, developed, and delivered in 
+
+a steady ˚ow of small changes. This is 
+fundamentally different from thinking 
+about software development as a proj
+-ect to be completed, or even thinking 
+about software as a series of annual or 
+semiannual releases.
+Rapid delivery should not be isolated 
+to software development; ˚ow should 
+happen within the overall product de
+-velopment cycle, of which software is 
+one aspect. Embedded software devel
+-opment, for example, usually takes on 
+
+the ˚ow characteristics of the product 
+
+it™s embedded in. A good place to look 
+for more information on product devel
+-opment ˚ow is in 
+Principles of Product 
+Development Flow
+ by Don Reinertsen 
+(Celeritas Publishing, 2009).
+Engage Everyone
+When software is thought of as some
+-thing that grows continually over time, 
+
+and its development is conceived of as 
+a ˚ow process, a fundamentally differ
+-ent organizational structure is often 
+
+required. Instead of placing software 
+development in a separate department 
+
+called ﬁIT,ﬂ software development 
+
+tends to be thought of as product de
+-velopment and located in line business 
+
+units. Responsibility for discovering, 
+
+creating, and delivering value falls to 
+
+a team that encompasses the complete 
+value stream. Thus a value stream 
+team that includes software develop
+-ment will almost certainly include ad
+-ditional functions; in fact, it will prob
+-ably look like a miniature version of 
+
+a business. It will include people who 
+
+understand customers, designers, de
+-velopers, testers, operations, support, 
+
+and perhaps ˜nance. 
+Even when software development 
+occurs in a separate organization, 
+lean practices encourage teamwork 
+among engaged people who are em
+-powered to make decisions appropri
+-ate to their level. Although some so-
+
+called lean implementations appear 
+
+to emphasize processes over people, 
+
+these represent a misunderstand
+-ing of lean principles. Empowering 
+
+people, encouraging teamwork, and 
+moving decision-making to the low
+-est possible level are fundamental to 
+any lean implementation. 
+Keep Getting Better
+In their September 1999 
+Harvard Busi
+-ness Review
+ article ﬁDecoding the 
+DNA of the Toyota Production Sys
+-tem,ﬂ Steven Spear and Kent Bowen 
+
+point out that at Toyota, every work 
+
+system is improved constantly, us
+-ing the scienti˜c method, under the 
+Even when software development 
+ occurs in a separate organization, 
+ lean practices encourage teamwork.
+ 30 IEEE SOFTWAR
+E | WWW.COMPUT
+ER.ORG/
+SOFTWAR
+EFOCUS:
+ LEAN SOFTWARE DEVELOPMENT
+guidance of a teacher, at the lowest 
+possible level of the corporation.
+ Lean 
+thinking holds that speci˜c practices, 
+no matter how well they seem to work 
+in other situations, are seldom the best 
+
+solution to the problem at hand. There
+-fore lean thinking would recommend 
+that organizations starting with prac
+-tices such as XP or Scrum (or a com
+-bination) should think of them as a 
+starting point that will be adapted and 
+improved over time by the people and 
+teams doing the work.
+Agile Software 
+Development
+To put the concept of lean software 
+
+development in context, it™s useful to 
+point out similarities and differences 
+with agile software development. ﬁAg
+-ile,ﬂ a common term in everyday lan
+-guage today, was used in the 1990s to 
+refer to ˚exible production systems.
+6,7
+ It was then applied to software de
+-velopment in February 2001 when a 
+group of like-minded software experts 
+
+produced the 
+Manifesto for Agile Soft
+-ware Development
+.8 The manifesto 
+stated that when developing software, 
+it™s preferable to value individuals and 
+interactions over processes and tools; 
+working software over comprehensive 
+documentation; customer collabora
+-tion over contract negotiation; and re
+-sponding to change over following a 
+plan. These precepts were a reaction 
+against common software development 
+
+practices at the time, and they™re cer
+-tainly compatible with lean principles. 
+However, we see lean principles as pro
+-viding more comprehensive guidance 
+for choosing development practices 
+appropriate for individual contexts and 
+
+situations that expand beyond soft
+-ware development.
+XP
+The ˜rst agile process to become popu
+-lar was XP, de˜ned in the 2000 book 
+Extreme Programming Explained 
+ (Addison-Wesley)
+ by Kent Beck. XP fo
+-cuses on several technical practices, the 
+most notable being test-driven develop
+-ment. TDD results in a unit test har
+-ness, which is run frequently, making it 
+
+possible to detect defects almost imme
+-diately after they are injected into the 
+code base. This approach has proven 
+to be an effective ˜rst step in mistake-
+
+proo˜ng a code base. Over time, meth
+-ods have developed, keeping the test 
+
+harness runtime to a minimum while 
+
+factoring the tests so they don™t grow 
+
+beyond maintainable proportions.
+Eventually, the concept behind TDD 
+was expanded to include automated 
+
+product speci˜cations, which set the 
+
+stage for automated regression testing. 
+New techniques such as Framework for 
+Integrated Testing (FIT)
+9 and its part
+-ner Fitness, acceptance test-driven de
+-velopment (ATDD), behavior-driven 
+development (BDD),
+ and speci˜cation 
+by example (SBE)
+10 emerged to tackle 
+this highly domain-dependent prob
+-lem. Automated testing frameworks are 
+currently the most common technique 
+
+used to implement the lean principle of 
+
+building quality in.
+Scrum
+The next agile process to gain traction 
+
+was Scrum, de˜ned in the book 
+Agile 
+Software Development with SCRUM 
+(Prentice Hall, 2001) by Ken Schwa
+-ber and Mike Beedle. Over the next 
+few years, Scrum became increasingly 
+popular as a method to replace tradi
+-tional project management with devel
+-opment iterations of one month (and 
+later two weeks). Thus it has been an 
+excellent way of introducing the lean 
+
+concept of ˚ow into software develop
+-ment. Because of Scrum™s widespread 
+popularity, it™s often equated with ag
+-ile. However, it doesn™t claim to be a 
+complete methodologyŠit lacks tech
+-nical practices such as those found 
+
+in XP and is generally limited to the 
+
+software development portion of the 
+
+value stream. Nevertheless, these early 
+agile processes proved that incremen
+-tal delivery of software was a viable 
+approach for many domains, and that 
+
+quality could be signi˜cantly improved 
+through a disciplined approach to test-
+˜rst development. 
+Roles
+Both Scrum and XP are sets of practices 
+
+aimed at optimizing the software devel
+-opment process as a separate activity 
+
+in the value stream. They each de˜ne 
+
+a roleŠthe ﬁcustomerﬂ in XP and the 
+
+ﬁproduct ownerﬂ in ScrumŠto own 
+the responsibility for deciding what 
+needs to be done. Development team 
+
+members aren™t generally expected to 
+
+assume the responsibility for the over
+-all success of their work; that respon
+-sibility is delegated to the customer or 
+
+product owner roles. In practice, the 
+implementation of these roles has fre
+-quently led organizations to violate the 
+lean principle of optimizing the whole.
+Lean software development, as we 
+view the term, places software devel
+-opment as a step in a product value 
+
+stream, regards developers as members 
+
+of a larger product team, and expects 
+all product team members to become 
+engaged in the overall success of the 
+
+product. There™s no product owner or 
+
+customer roles in lean development. 
+Lean development teams are led by 
+Early agile processes proved that 
+incremental delivery of software was a 
+viable approach for many domains.
+  SEPT
+EMB
+ER/OCTOB
+ER 2012
+ | IEEE SOFTWAR
+E 31someone in a role such as chief engi
+-neer (Toyota), program manager (Mi
+-crosoft), or product champion (3M), 
+whose roles are similar to an entrepre
+-neur leading a startup business. Al
+-though these roles might seem similar 
+to the customer or product owner roles 
+in agile software development, they™re 
+
+quite different in practice. A chief en
+-gineer has overall responsibility for a 
+complete product, including its success 
+in the marketplace, and engages every
+-one on a multidiscipline product team 
+in delivering that success. There™s no 
+intermediate role prioritizing work for 
+
+a separate software development team. 
+Kanban
+In his 2009 book,
+ Scrumban: Essays 
+
+on Kanban Systems for Lean Soft
+-ware Development 
+(Modus Coope
+-randi Press)
+, Corey Ladas described 
+how to use a Kanban (card) system to 
+
+both track and limit work in progress 
+in a software development environ
+-ment. This was followed in 2010 by 
+David Anderson™s book 
+Kanban 
+(Blue 
+Hole Press, 2010), which describes 
+how to use Kanban as the basis of an 
+effective, ˚ow-based software devel
+-opment system. 
+In a Kanban system, the value 
+stream is mapped on a chart (prefer
+-ably a physical chart on a wall) with 
+
+columns for each step in the value 
+stream. Kanban cards (tokens for a 
+piece of work) are placed in the col
+-umn, representing the current state of 
+
+the work. When work meets speci˜ed 
+policies for being complete, the Kan
+-ban token moves to the next column, 
+and over time, the card moves from left 
+
+to right across the boardŠyou visually 
+see work ˚ow through the system. The 
+key to a Kanban system is that work in 
+
+any column (representing a step in the 
+value stream) is limited. This means 
+that within any value-adding activity, 
+
+there™s a limited amount of work; more
+-over, the entire system contains a lim
+-ited amount of work. 
+Kanban systems provide a good 
+framework for organizations getting 
+started with lean principles. Because 
+there are very few rules or roles, Kan
+-ban systems require thoughtful consid
+-eration and adaptation. For example, a 
+Kanban board might start out in a soft
+-ware development environment, but 
+can easily expand to include more steps 
+in the value stream, such as marketing 
+and operations. This makes Kanban a 
+good tool for value stream teams. Kan
+-ban systems speci˜cally focus on the 
+˚ow of value; in fact, ˚ow and bottle
+-necks are the main topic of daily meet
+-ings. Finally, Kanban board layouts 
+
+and policies are expected to be evalu
+-ated and improved on a regular basis. 
+
+For an excellent case study of the use 
+of a Kanban system for a large govern
+-ment contract, see Henrik Kniberg™s 
+book
+ Lean from the Trenches
+ (Prag
+-matic Bookshelf, 2011).
+Trends
+Throughout the last decade, increas
+-ingly sophisticated tools have evolved, 
+making the development process more 
+mistake-proof while safely allowing 
+
+the delivery of a continuous ˚ow of 
+
+small features into production. These 
+tools were initially developed for Web-
+based platforms delivering software as 
+
+a service. 
+Continuous Delivery 
+As early as 2004, a large Web-based 
+
+enterprise (which will remain anony
+-mous for the purposes of this article) 
+
+released to production all of the soft
+-ware that had been worked on during 
+
+the day at the end of every single day. 
+A senior manager at this company re
+-cently noted that, in his opinion, speed 
+
+drives all other lean principles: ﬁIf you 
+deliver daily, waste is exposed almost 
+immediately; you have no choice but to 
+
+build quality in; you learn quickly what 
+
+customers value; everyone at every level 
+is focused on making customers happy; 
+problems are exposed quickly and so 
+constant improvement is mandatory; 
+and ˜nally, optimizing just a part of 
+
+the system simply is not an option with 
+daily deployment.ﬂ 
+In 2011, Jez Humble and David 
+Farley™s book 
+Continuous Delivery 
+(Addison-Wesley Professional, 2010) 
+described the technical practices that 
+must be in place to enable a continual 
+
+˚ow of new software released to a pro
+-duction environment in a safe, defect-
+free manner. This book, written for 
+enterprise IT departments, lays out the 
+
+tools, technologies, and organizational 
+
+cooperation necessary to achieve the 
+lean ideal of deploying software safely 
+to production virtually immediately 
+
+after it™s written. Forward-looking IT 
+departments around the world have 
+followed this playbook and found that 
+
+it takes about a year of hard work to 
+
+reach a goal of weekly, daily, or even 
+continuous delivery.
+Lean Startup
+Agile methods usually provide for a 
+customer or customer proxy to di
+-rect the work of the software develop
+-ment team; however, they provide few 
+
+mechanisms to ensure that what the 
+
+customer proxy asks for will effectively 
+address the customer problem, nor do 
+they typically involve the development 
+Kanban systems provide a good 
+ framework for organizations getting 
+ started with lean principles.
+ 32 IEEE SOFTWAR
+E | WWW.COMPUT
+ER.ORG/
+SOFTWAR
+EFOCUS:
+ LEAN SOFTWARE DEVELOPMENT
+team in assuring that the product is a 
+market success. 
+In 2011, Eric Reis addressed this 
+problem in the book 
+Lean Startup
+ (Crown Business, 2011) where he advo
+-cates that companies start with a busi
+-ness plan and test the impact of features 
+
+on the key assumptions that form the 
+
+basis of that plan. In this approach, the 
+
+software development team becomes in
+-volved in setting up the feedback loops, 
+
+such as split tests, necessary to deter
+-mine the impact of features. Thus, soft
+-ware engineers are typically involved in 
+
+the process of validating the value of 
+
+new features to customers while mak
+-ing adjustments based on this feedback. 
+Obtaining feature-by-feature feedback 
+is an effective way for companies tar
+-geting a large customer base to validate 
+
+the value of various approaches. 
+Design Thinking
+Over the past decade, the epicenter of 
+
+software value creation has changed. It 
+used to be that orchestrating transac
+-tions and controlling equipment were 
+the primary purposes of software. To
+-day, new purposes have emerged, such 
+as providing platforms for two-sided 
+
+markets and creating engaging experi
+-ences. The most rapidly growing soft
+-ware companies provide ecosystems 
+
+that attract traf˜c through their abil
+-ity to understand and address an im
+-portant customer need that is not be
+-ing adequately served. Increasingly, 
+
+the design of the customer experience 
+
+is a foundational element of such an 
+
+ecosystem. At the same time, these 
+systems tend to use a continuous de
+-livery approach rather than a project 
+approach, so the system architecture 
+must be designed from the beginning 
+to support dynamic updating and con
+-tinuous change. 
+Agile development methods 
+
+have generally expected sys
+-tem architecture and interac
+-tion design to occur outside the devel
+-opment team, or to occur in very small 
+
+increments within the team. Because of 
+this, agile practices often prove to be 
+insuf˜cient in addressing issues of so
+-lution design, user interaction design, 
+
+and high-level system architecture. 
+Increasingly, agile development prac
+-tices are being thought of as good ways 
+
+to organize software development, but 
+insuf˜cient ways to address design. 
+Because design is fundamentally itera
+-tive and development is fundamentally 
+iterative, the two disciplines suffer if 
+they are not carefully integrated with 
+
+each other. Because lean development 
+
+lays out a set of principles that demand 
+a whole-product, complete life-cycle, 
+cross-functional approach, it™s the more 
+
+likely candidate to guide the combina
+-tion of design, development, deploy
+-ment, and validation into a single feed
+-back loop focused on the discovery and 
+
+delivery of value.
+References
+ 1.
+ M. Holweg, ﬁThe Genealogy of Lean Produc
+-tion,ﬂ 
+J. Operations Management
+, vol. 25, no. 
+2, 2007, pp. 420Œ437.
+ 2.
+ J. Krafcik, ﬁTriumph of the Lean Production 
+System,ﬂ 
+MIT Sloan Management Rev.
+, vol. 
+30, no. 1, 1988, pp. 41-52.
+ 3.
+ M. Cusumano, ﬁExtreme Programming 
+Compared with Microsoft-Style Iterative 
+Development,ﬂ 
+Comm. ACM
+, vol. 50, no. 10, 
+2007, pp. 15Œ18.
+ 4.
+ M. Cusumano et al., ﬁSoftware Development 
+Worldwide: The State of the Practice,ﬂ 
+IEEE 
+Software
+, vol. 20, no. 6, 2003, pp. 28Œ34. 
+ 5.
+ R.N. Charette, ﬁChallenging the Fundamental 
+
+Notions of Software Development,ﬂ white 
+ paper, IT Metrics and Productivity Inst., 
+
+2003; www.itmpi.org/assets/base/images/
+ itmpi/privaterooms/robertcharette/
+ ChallengingtheFundamentalNotions.pdf.
+ 6.
+ P.T. Kidd, 
+Agile Manufacturing: Forging New 
+
+Frontiers
+, Addison-Wesley, 2004.
+ 7.
+ R. DeVor, R. Graves, and J. Mills, ﬁAgile 
+
+Manufacturing Research: Accomplishments 
+and Opportunities,ﬂ 
+Inst. Industrial Engi
+-neers Trans.
+, vol. 29, 1997, pp. 813Œ823.
+ 8.
+ K. Beck et al., 
+Manifesto for Agile Software 
+
+Development
+, 2001; http://agilemanifesto.org.
+ 9.
+ R. Mugridge and W. Cunningham, 
+FIT for 
+
+Developing Software
+, Addison-Wesley, 2005.
+ 10.
+ G. Adzic, 
+Speci˜cation by Example
+, Manning 
+Publications, 2011.
+MARY PO
+PP
+EN
+DIECK 
+is retired from 3M and is currently president of 
+Poppendieck.LLC. Her industry experience includes software develop
+-ment, supply-chain management, manufacturing operations, and new 
+product development. Poppendieck has an MS in mathematics from the 
+
+University of Maryland. Contact her at mary@poppendieck.com.
+MICHAEL 
+A. CUSUMANO
+ is the Sloan Management Review Distin
+-guished Professor at the Massachusetts Institute of Technology™s Sloan 
+
+School of Management, with a joint appointment in MIT™s Engineering 
+
+Systems Division. His research interests include technology manage
+-ment and strategy, especially in the software business. Cusumano has 
+
+a PhD in Japanese studies from Harvard University. Contact him at 
+
+cusumano@mit.edu.
+ABOUT THE 
+AUTHORS
+Selected CS articles and columns 
+ 
+are also available for free at 
+ 
+http://ComputingNow.computer.org.

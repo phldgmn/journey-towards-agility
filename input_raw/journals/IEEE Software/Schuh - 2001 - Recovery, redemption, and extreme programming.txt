@@ -1,0 +1,908 @@
+ 34IEEE SOFTWARE
+November/December 20010740-7459/01/$10.00 © 2001 IEEErequirementsÑgathered by the previous con-
+sultancyÑthat had outlived their build-by
+
+date. On the other side (the hard place), was a
+
+client that, acknowledging that it had
+switched horses midstream, was willing to
+scale back on functionality but refused to
+budge on delivery date. In short, Thought-
+
+Works found itself with a mere two months to
+
+both turn the project around and deliver a
+business-ready application. For the purposes
+
+of this article, weÕll say that the delivery date
+was February 2nd, Groundhog Day.
+The application under construction wasWeb-enabled and powered by Enterprise Java
+
+Beans. Although the system had a smart n-tier architecture, its innards were seriously ill.
+The business objects served as little more
+than mappers to the database. The session
+bean methodsÑthe applicationÕs brain
+trustÑwere superlong tendrils of procedural
+code. The written codeÑits style, semantics,and legibilityÑvaried wildly depending onthe area of the application one happened to
+be nosing about in. Tests, where they existed,
+
+were expected to fail. Building and deploy-
+ment were a near mystery to more than half
+
+the development staff.Possibly because of the problemÕs sheer
+size and pervasiveness, ThoughtWorks was
+
+slow to realize how fundamentally bad things
+
+were. Even when the danger became appar-
+ent to the consultants on site, the team lead
+and project manager had to compete with
+several other projects for overstretched re-
+sources. However, once the situation was
+
+clearly stated and understood, Thought-
+Works responded with a swift and sustained
+
+effort. The problem areas in the application
+were identified, and developers with relevant
+expertise were brought in. After two long
+
+months, the project delivered on time. But we
+
+didnÕt stop there.
+focusRecovery, Redemption, 
+and Extreme ProgrammingPeter Schuh, ThoughtWorks
+The authorrecounts the tale
+of a development
+projectÕs
+rejuvenation
+through XP: the
+successes, the
+shortcomings,
+and, ultimately,
+
+the lessons
+learned.In the autumn of the New Economy, my employer, ThoughtWorks,
+recognized that one of its projects had maneuvered itself into a bit of
+
+a jam. In the software development industry it is well understoodÑ
+
+and occasionally admittedÑthat such situations occur. What is less
+well-known, however, is how to address them. For this particular project,
+
+the prospects were not good. On one side (the rock), was a development
+
+team both behind schedule and coding to more than a yearÕs worth of 
+reports from the field
+ Damage controlI was one of four ÒThoughtWorkersÓ who
+began flying to the client site in early Decem-
+berÑjust two months prior to go-liveÑto as-
+sist the six developers already on site. Our
+mandate was to slap the application into
+shape no matter the cost. Full of vigor and
+with little appreciation for the hundred miles
+
+of bad road ahead of us, we saw this as an op-
+portunity to test-drive Extreme Programming
+in a project recovery setting.
+By mid-January, conference-room dinners
+were the norm, all-nighters customary, and
+
+weekends worked through. Although we
+bought, distributed, and even read and
+quoted Extreme Programming Explained,1we disregarded practically every XP princi-pleÑfrom the 40-hour workweek, to testing,
+to continuous integration.As the severity of the matter quickly be-came apparent, we were forced to concede
+that the impending deadline did not allow us
+the luxury of XP. Instead, we cut up the appli-
+
+cation and parceled it out by areas of expert-
+ise: servlets, documentation generation, busi-
+
+ness engines, database, and so on. Deemed
+
+untenable, the servlet package was all but
+
+rewritten. Elsewhere, refactoring became an
+opportunistÕs endeavor. If a developer decided
+
+that refactoring would take less time than
+complementing ugly code with more of the
+same, then that developer refactored. Other-
+wise, we sucked it up and coded ugly. This was
+
+a humbling exercise that engendered such
+memorable comment tags as ÒItÕs 3:30 in the
+
+morning. Please forgive me.Ó This was found
+
+atop a 150-line switch statement.Coding standards and test writing were
+goals we aspired to and occasionally met. In
+lieu of an object model or static documenta-
+
+tion, one developer scrubbed the database
+clean and reverse-engineered it into a data
+
+model. The model was maintained regularly,
+
+and it served as the applicationÕs most reli-
+
+able high-level specifications.The 70-plus-hour workweeks would nothave persisted had developer pampering not
+
+been administered by both the project man-
+ager and the top levels of ThoughtWorks man-
+
+agement. Conference-room dinners featured
+catered sushi, the project manager graciously
+made 2 a.m. ice cream runs, and the company
+paid for last-minute, full-fare tickets for hur-
+ried trips home. ThoughtWorksÕ management
+
+made it clear, through words, acts, and expen-
+ditures, that it understood and genuinely ap-
+preciated the sacrifices the team was making.In the end, it all came together the last weekof January. The application did its part by
+
+bursting nearly every seam on the 30th, forc-
+
+ing a 24-hour go/no-go decision. The team re-
+
+doubled its efforts. Things improved. Func-
+
+tional tests passed. We performed the last
+
+build six hours prior to go-live. Four hours
+
+later, 5,000 rows of data were sneaked into the
+
+database. After eight weeks, we delivered the
+systemÑminus some requirements and plus a
+few too many bugsÑon time. One member of
+the team best expressed the general consensus:
+
+ÒIÕm glad I did that once. I never want to do it
+again.Ó The nuts and bolts of code reformOn 3 February, the system was live, and we
+were all well aware of its shortcomings. The
+client had a long list of functionality for us to
+add, not to mention the requirements it had
+dropped to meet go-live. Meanwhile, the
+team was determined to refactor the applica-
+tion into something we werenÕt embarrassed
+
+to leave our names on. The team lead and
+project manager negotiated with the client for
+time to apply Òease of maintenanceÓ to the
+system (a senior developer proposed the term
+in response to the suggestion that Òrefactor-
+
+ingÓ not appear on timesheets). With the
+
+worst behind us and an easier road ahead,
+several team members (but by no means all)
+decided that this refactoring phase would be
+an opportune time to begin adopting XP.
+Walking out of the starting gate
+The switch to XP was a slow, unsteady
+process. Not only was the current code base a
+reluctant conspirator, but only perhaps a
+
+third of the team really supported adopting
+
+XP. Another third was impartial, and, as
+
+might be expected, the final third was quietly
+but vehemently wishing that all this extreme
+nonsense would just go away. What began as
+
+lone developers and pairs taking some first
+steps toward agile processesÑwith patience
+and determinationÑbecame a teamwide push
+to adopt XP.
+Testing and building both benefited from
+single-handed accomplishments. The few ex-
+isting tests were unreliable, largely because
+
+they depended on nonrestorable data that had
+either been altered or dropped from the data-
+base. One developer set out to base the exist-November/December 2001IEEE SOFTWARE
+35 ing tests on data that could be replenished,then bundled those tests into a JUnit-based
+test suite (see the JUnit Web site, www.ju-
+
+nit.org). Another developer streamlined the
+build process, reducing it to a few simple
+
+steps that could be quickly learned, letting
+every developer on the team perform a build
+before checking inÑour first step toward
+continuous integration. Some developers paired up to take onmore traditional development tasks. We at-
+
+tacked the buggiest sections of the application
+first. Because we knew new functional re-
+quests were not a long away off, refactoring,
+for the most part, was pursued gently.
+
+Mediocre code was improved upon when
+convenient, while truly untenable code was
+gutted and rewritten. From a teamwide per-
+spective, the senior developers advocated a
+unified coding standard, JavaDoc-based com-
+menting (see the JavaDoc Tool homepage,
+
+http://java.sun.com/j2se/javadoc/index.html),
+and unit tests for all refactored or new code.Learning from successes and building on mo-mentumShortly after Groundhog Day, two devel-
+opers began applying a constants pattern to
+the application. Because the constants, as they
+are wont to be, were used throughout the ap-
+
+plication, the switch was neither smooth nor
+painless. The general consensus was that
+refactoring was necessary and that the pattern
+was solid for both current use and extensibil-
+ity. The team agreed, however, that we needed
+
+better communication for future refactoring.
+The result was an increase in email Òadvi-
+sories,Ó pick-up development discussions,
+and regularly scheduled code reviews.The teamÕs analysts had readily accepted
+the story card as their new document, both as
+a way to distribute functionality requests to
+the developers and as a basis on which to ne-
+gotiate with the client. When the analysts
+handed the first batch of cards to develop-
+ment, some pairs and some individuals began
+cleaning up the portions of the application as-
+sociated with their cards. Tests began to ap-
+
+pear in the newly refactored areas of code,
+and these were added to the main suite. One
+developer made the build process portable, so
+everyone could build locally prior to checking
+in. The build machine was moved from an oc-
+cupied developerÕs space to an otherwise
+
+empty cube. The number of builds per day in-creased, and the number of broken buildsplummeted.The one insurmountable impediment we
+encountered after Groundhog Day was the
+clientÕs lack of cooperation in XP. Without
+
+objecting to the shift, the client nonetheless
+refused to participate in the process in any
+
+meaningful way. The teamÕs project manager
+
+and analyst (both ThoughtWorkers) assumed
+
+the role of the XP customer by writing story
+
+cards, providing domain knowledge on de-
+mand, and communicating decisions. How-
+ever, the clientÕs absence in these activities
+
+certainly affected us. Without a decision
+
+maker to sit in the same room with the team,
+we could never fully implement the planning
+
+game, nor could we convince the customer to
+
+make official iterations more frequent than
+every three months. The irony of all this was
+
+that ThoughtWorks was doing development
+
+on site. The client was paying to fly multiple
+
+ThoughtWorkers out every week, only to
+
+house them several office buildings down the
+road from any potential users.
+Making it up as you go alongBy April, nearly all the functionality we
+had originally promised the client had been
+coded into the application and had passed
+user acceptance testing. Once it was clear the
+project was no longer in imminent danger, a
+
+few team members turned their attention to
+the more fundamental aspects of develop-
+ment. Innovations in these areas furthered
+our adoption of XP.
+The first crucial change was the mandate
+of a nightly greenbar. (A 
+greenbaris thegraphically displayed result of a successful
+test run in JUnit; conversely, a 
+redbaris the re-sult of any test that fails.) It took weeks to
+whittle the error log down and see our first
+
+greenbar. When this occurred, we tacked a
+
+calendar to the wall alongside the build ma-
+chine and recorded the result of each dayÕs
+
+last build with a red or green sticky note.
+With this highly visible performance measure
+
+serving as a reminder, developers began to
+
+work toward nightly greenbars. Then, about
+a month after the calendar was posted, it
+veered dangerously into the red, just as a ma-
+jor delivery date was approaching. After five
+days of consistent redbars, one developer
+sounded the alarm, emailing a teamwide plea
+for a greenbar. Having been alerted to the sit-
+
+uation, the analysts and project manager be-We attacked the buggiestsections of the applicationfirst.36IEEE SOFTWARE
+November/December 2001 gan pressuring development to promote onlybuilds that greenbarred, and the calendar
+moved back into the green. In the end, the calendar served two pur-poses. First, by providing a simple, straight-
+forward metric, it gave development a clear
+and attainable performance goal. Second, be-
+cause it was viewable and easily understood
+by the rest of the team, it served as a failsafe
+
+mechanism for development. When the devel-
+opersÑin a heads-down coding frenzyÑ
+failed to follow their own rules, the other
+
+team members could push them back in line. Once again, we improved the buildprocess, this time simplifying it to a push-of-
+a-button procedure that eased the adoption of
+continuous integration.2Possibly as impor-tant, we automated build promotionÑfrom
+the development environment, through inter-
+nal testing, to user acceptance testing (UAT).
+
+Automation started with code checkout and
+ended with the emailing of unit test results.
+This meant that even analysts could promote
+builds, and they did. Guided by the auto-
+mated test results, which ran on every build,
+
+an analyst could promote the latest greenbar
+build into a testing environment. This saved
+development the hassle of being on call to
+perform the task and resulted in quicker feed-
+back on new functionality and bug fixes.Finally, several developers teamed up to de-
+vise and code a test-data generator, dubbed
+
+ObjectMother.
+3Through a handful of simplemethod calls, this utility provided a complete,
+valid, and customizable structure of business
+
+objects (think of an invoice: its lines, all related
+charges, remit to, bill to). ObjectMother
+yielded numerous benefits. Because it made the
+test suite database-independent, we could swap
+UAT and even production databases in and out
+
+of the development environment, letting devel-
+opers code and debug against real data. More-
+over, ObjectMother drastically simplified the
+
+creation of test data within code, resulting in
+three major benefits. First, developers were
+much less likely to cheat and base their tests on
+supposedly persistent data in the test database.
+Second, it became much easier to convert ex-
+isting tests that did rely on persistent data. Fi-
+nally, developers began writing more tests.
+Past the finish line and still runningTo reduce travel costs, the project began
+rolling off some of its more experienced per-
+
+sonnel in late March, little more than three
+months after the cavalryÕs arrival. Junior de-
+velopers who had proven their mettle now
+took greater responsibility, and fresh, impres-
+
+sionable recruits came on board. Good prac-
+tices were passed along, and XP-based devel-
+opment gained more momentum. Within six
+
+months, the project had metamorphosed its
+well-deserved infamy within ThoughtWorks
+
+into high repute.If we had to do it all over again
+Notwithstanding everything IÕve said,what saved the project was not XP. Instead, it
+
+was a well-financed and tremendously suc-
+cessful death march. The clientÕs refusal to
+
+budge on the delivery date was the single
+greatest contributing factor to this outcome.
+Groundhog Day meant that the team could
+not step back and reassess the situation. It
+meant that we could adjust the course of de-
+velopment only by degrees, not by turning it
+on its head. The developers new to agile
+processes had no time to adopt a coding stan-
+dard or collective ownership, build a continu-
+ous integration process, or learn to program
+in pairs. More often than not, we didnÕt have
+
+time to refactor bad code, so the hack fre-
+quently won out over the simplest thing that
+could possibly work. The irony of it, however,
+
+was that Groundhog Day took the code live,
+and XPers prefer to work with live code.Although XP wasnÕt the teamÕs immediate
+salvation, it did, in the end, make the appli-
+
+cation sustainable beyond Groundhog Day.
+
+Our gradual adoption of XP recovered, re-
+tooled, and rejuvenated the code base. Be-
+cause of the projectÕs nature, I believe we
+
+were correct to put many agile processes on
+
+hold during the first months of rehabilita-
+
+tion. However, we could have introduced
+
+some principlesÑsuch as improving the
+build and test processesÑmuch earlier. This
+
+section distills our experiences with XP into a
+
+list of steps that might have best served our
+
+team (or any project in similar or less dire
+
+straits). Table 1 details our overall experience
+
+with each XP practice.
+What you should do right awaySo, itÕs two months to go-live,the team
+methodology to date has been waterfall, the
+project is a month and a half behind sched-
+ule, and Beelzebub is banging at the front
+door. What do you do? Lock the door.
+
+Okay, what next?
+November/December 2001IEEE SOFTWARE
+37Within sixmonths, theproject hadmetamorphosedits well-deservedinfamy withinThoughtWorksinto highrepute. Before considering XP or any best practices.
+For starters, I cannot stress enough how es-
+
+sential ThoughtWorksÕ support was to the
+
+projectÕs initial success. First, I do not believe
+
+the project would have ever met its original
+goal without serious moral and financial com-
+
+mitments. Employees simply will not give up
+their lives for two months and deliver the near
+impossible, gift-wrapped, if they donÕt have
+
+constant reminders of how important the mat-
+ter is and how valuable they are. Second,
+
+ThoughtWorks contributed to our initial suc-
+
+cess by making intelligent staffing decisions.
+When a project is in danger and requires extra
+
+developers, additional resources must target
+
+the projectÕs specific needs. Finally, reputation
+
+matters. ThoughtWorks has long asserted that
+
+its employees are its greatest asset, and it has
+continuously backed those words with deeds.
+
+(Forgive me if this comes off as a shameless
+
+corporate pitchÑit is not.)Target the build process.
+This is one of thefirst things we should have done. Developers
+are keen to things that yield the greatest ben-
+
+efit from the least effort. A long, arduous
+build process discourages developers from
+taking responsibility for the code they check
+in. Conversely, the simpler it is to perform a
+
+buildÑthe less time it takesÑthe more likely
+it is that a developer will want to know thatnew code integrates successfully. Making the
+build process portable, so it can run on devel-
+oper machines, further encourages responsi-
+ble check-ins. Assuming the process is swift
+and easy, what developer would not check
+
+out the latest code, perform a clean compile,
+and check in with confidence? The build process doesnÕt have to be true
+push-of-a-button at this stage, but it must be
+streamlined to a handful of steps. The benefit
+to the team is obvious and measurable: few
+things in software development are more dis-
+couraging than spending an entire day trying
+to make a clean build.Organize a test suite.Even if it is the first
+working test class to go into the code base,
+write an AllTests class and run it at the end of
+
+every build. Add any existing tests that do
+pass, or can easily be made to pass, to All-
+Tests. Treat a build that redbars no differently
+
+than one that fails to compile. (YouÕll have to
+
+sell this idea to the analystsÑor the clientÑas
+well.) Encourage developers to write tests and
+add them to the test suite, but donÕt shove test
+
+writing down their throats (at least not yet).
+Finally, I recommend against including old
+
+tests that fail, even if the team intends to get
+
+them working some time in the future. Seeing
+
+a greenbar has a particular psychological
+value. A redbar that you consider a virtual38IEEE SOFTWARE
+November/December 2001Table 1Adoption of XP practicesPracticeAdoption statusThe experience
+Planning gamePartially adoptedThe client never really got involved in the planning game (similar to the absence of an on-site 
+customer; see below). Nor did the entire development team participate. Small releases Not adoptedWe could never get client buy-in.
+Metaphor Not adoptedThe one XP practice we overlooked. We did not attempt to implement metaphor.
+Simple design Fully adoptedThis went hand-in-hand with refactoring. It became a serious endeavor and permeated its way 
+through the application.Testing Fully adoptedAcceptance tests were written and used. There was, however, some kicking and screaming 
+regarding unit tests. Some developers were behind them, some neutral, and some had to be shamed into writing them. In the end, even unit-testing gained team-wide support.Refactoring Fully adoptedAt least half the team had refactoring in mind moments after they landed on the project, but serious
+projects were put off until after Groundhog Day. There was no difficulty mustering team-wide 
+support after that.Pair programming Partially adoptedWe began pairing seriously, but slacked off and settled in at perhaps 30 percent of all devel
+oper time.Collective ownership Fully adoptedEasily accepted by the team. Developers still had their favored areas, but moved about freque
+ntly, 
+and anyone could change any portion of the code.Continuous integration Fully adoptedThe process arose from our automated build scripts; the team quickly embraced it.
+40-hour week Not adoptedAfter Groundhog Day, some weeks may have been 40, but some were 60. This depended on where 
+we were in the iteration cycle.On-site customer Partially adoptedAlthough we were on site, the client never provided an XP-like customer. The project manager 
+and team analyst stood in, with some success, in the role of the customer.
+Coding standards Partially adoptedA single standard was proposed and influenced some team members. Peer pressure had an 
+effect at times. JavaDoc was incorporated into the build process. greenbar because Òthose test never pass any-wayÓ isnÕt the same.
+Write an ObjectMother.
+Writing an object gen-
+erator is not a trivial task, but it pays for itself
+by shortening the time spent writing new tests
+and fixing broken ones. The utility reduces the
+effort-versus-benefit ratio for test writing. De-
+velopers are much more likely to write a test
+
+when they can acquire an invoice and all its as-
+sociated objects from one simple method call;
+
+they are much less likely to write the same test
+
+when the invoice, its lines and charges, the cus-
+tomer, the bill-to address, and perhaps the as-
+
+sociated assets all have to be instantiated and
+bound together before calling get-total. An Ob-
+
+jectMother also makes it easier to maintain
+tests when their associated business objects
+change, because it consolidates the instantia-
+tions into one space instead of letting them be
+
+spread across the application.Practices to phase in earlySo youÕve taken care of the most crucial el-
+ements. Now you can move on to phase two.Continuous integration.If a project has a sim-ple build process and a serviceable test suite,
+the next step is to combine these and tackle
+continuous integration. There are two ways
+to approach this. The first is the standard se-
+rialized XP practice based on a build machine
+or build token, where developers queue up
+one at a time to build, test, and integrate their
+changes.1The second alternative, a variationwe use at ThoughtWorks, is for developers to
+
+build and test on their own machines before
+checking in. Backed up by multiple builds per
+day (to keep everybody honest), this has
+proved a successful practice.2Either way, con-
+tinuous integration drastically reduces the
+time developers would otherwise waste con-
+verging code. It had a noticeable effect on our
+team as soon as we implemented it.Gentle refactoring.Refactoring is good, but atthis stage in a projectÕs recovery, it must be tem-
+
+pered for several reasons. First, it may be diffi-
+cult to get client buy-in. Second, the worse the
+code base is and the less likely it is to follow the
+
+principles of object-oriented abstraction, the
+more difficult it will be to isolate portions for
+
+retooling. Third, at least in the beginning, you
+probably wonÕt have either a quick build
+
+process or dependable test results as success in-dicators. Nonetheless, do pursue gentle refac-toring from the start. Remove insufferable por-
+
+tions of code and undertake any refactoring
+task that offers low risk and high value. Simply simplicity.
+Simple design is straightfor-ward to those in the know and aggravatingly
+intangible for anyone anywhere else. For our
+team, as we wended our way along trails of
+bad code in the first months of project recov-
+ery, we could easily pick out issues such as
+
+overdesign and logic duplication; however, be-
+
+fore Groundhog Day, we had no time to ad-
+
+dress these issues. After Groundhog Day, as
+
+refactoring and new functionality became
+everyday business, we remembered the squalor
+we had wallowed through and consistently
+strove for simplicity. We pushed logic that per-
+
+meated through the session beans back into the
+
+business layer and again refactored the servlets.
+Weekly code reviews were initiated, and sim-
+
+plicity regularly rolled off nearly every tongue.Coding standard.This is easy to encouragewithout spending too much time or effort. In
+our case, we were fortunate to have two stan-
+dards to fall back on. First, we had a proposed
+in-house coding standard that one team mem-
+
+ber had helped author several months earlier.
+
+This document was both a good primer for the
+greener developers and a good starting point
+for further discussion and debate. Second, we
+relied on the JavaDoc standard for code com-
+menting, which we further leveraged by incor-
+
+porating the generation of API docs directly
+into our build process. This practice is easiest
+to encourage when you have an in-house or
+open standard (such as JavaDoc) that you can
+simply pass or email about and then occasion-
+ally refer to during discussions.Stand-up meetings.We never introduced
+these, and I believe it was a major mistake.
+Quick, daily, face-to-face meetings keep de-
+
+velopers informed about what others on the
+team are doing. They help stop people from
+stepping on each otherÕs toes. They keep the
+
+team lead informed about whoÕs ahead and
+
+whoÕs behind. They air new ideas and prevent
+
+people from duplicating work.Mind the database.Okay, this isnÕt an XP
+process, but itÕs definitely as important as one.
+
+The database is an essential component of
+
+nearly every business applicationÑneglect it
+November/December 2001IEEE SOFTWARE
+39Refactoring isgood, but at thisstage in aprojectÕsrecovery, it
+must betempered forseveralreasons. at your peril. Nothing good ever comes of adatabase architected without a mind to con-
+version or reporting. Similarly, a database that
+
+updates schema for new attributes and entities
+but not deleted onesÑa database that lets test
+data pile up and atrophyÑwill be cantanker-
+
+ous to develop with, hard to test on, and diffi-
+cult to alter. Conversely, a well-architected and
+
+maintained database, through intelligent and
+
+efficient data organization, can guide good de-
+velopment. Finally, as mentioned earlier, in
+
+lieu of an object model or other documenta-
+tion, a data model can provide an extremely
+
+handy overview of the application.What to do when the pressure lets upGroundhog Day has come and gone, andyouÕve phased in several XP practices. So
+whatÕs next? 
+Step back and relax.Once the project has metsome of its immediate goals (a major delivery
+or go-live date), the development team should
+step back and get everything into perspective.
+If the time has come for serious refactoring,
+what parts of the application should be put
+through the grinder first? How is the adop-
+tion of XP coming alongÑwhoÕs resisting and
+
+whoÕs welcoming it? How is the teamÕs men-
+
+tal health? If the last couple months have been
+a bloodbath, should some exhausted team
+members be rolled off the project? Would the
+
+project benefit from new recruits and fresh
+
+perspective?Iterations and small releases.I didnÕt list this
+practice earlier because the principles in the
+first two groups weigh in as either more im-
+portant or easier to accomplish. Why? Be-
+cause a project plan is already in place, and
+negotiating for a formal change to that plan
+expends the scarce resources of both time and
+political capital. However, even without for-
+
+mal customer consent, a team can institute in-
+ternal iterations. We did this. They were not
+
+the same as true iterations because the cus-
+tomer wasnÕt bearing down on us, but break-
+
+ing the work out internally was definitely bet-
+ter than delivering once every three months.Get an on-site customer.
+This is also on mywish list of XP practices to phase in early. I
+
+fear, however, that any project that falls to the
+
+level of depravity that ours did does so partly
+because there has been no real participationon the customerÕs part. Therefore, attempting
+to foster customer input early in the recovery
+process may well be a Sisyphean endeavor. If
+
+your project can actually produce a real cus-
+tomer earlier, then Tyche has shined on you.
+Roll in the rest of XP.
+As the pace of the proj-ect returns to something akin to normal, the
+team should address the remaining elements
+of XP. As a rule, when you add functionality
+
+to poorly written areas of the application,
+refactor the code. Start looking at patterns.
+What parts of the application might benefit
+from their use? Encourage pair programming
+and make changes to the workspace to facili-
+tate it if necessary. Story cards and the plan-
+
+ning game should become the means by
+which the functionality is proposed, deliber-
+ated, and built into the application. We never
+
+got serious about metaphor or the 40-hour
+workweek; they should, however, be given se-
+
+rious consideration.Communicate, communicate, communicate.If you have so far managed to avoid institut-
+ing stand-up meetings, put them in place now.
+
+Whenever possible, XP principles should
+propagate from the bottom up rather than be-
+ing imposed from the top down. Ideally, this
+
+means that the team as a whole decides what
+XP principles it will introduce and get serious
+about first. Involve the entire team in estima-
+
+tion. All these things foster a sense of collec-
+tive ownership, not only of the code but also
+of the projectÕs general well-being.
+Had our client been willing, many
+members of our team would have
+razed the code base and started
+again from step one. But few clients are so
+giving and few projects so fortunate. Fur-
+thermore, who is to say a project will not fal-
+ter againÑfor similar or wholly different
+reasons? In such situations, little is achieved
+without a lot of hard work.XP had no hand in recovering our projectbut weighed in heavily on its redemption. Be-
+fore Groundhog Day, although we discussed
+
+XP and made occasional, nearly clandestine
+incursions into agile development, we simply
+could see no way to rewrite our development
+process in the time we had. Rather, we
+
+stepped in to shore up and compensate for theQuick, daily,
+face-to-face
+meetings keepdevelopersinformed aboutwhat others onthe team aredoing.40IEEE SOFTWARE
+November/December 2001 current process until we had the time to ad-dress the many issues in earnest. After
+Groundhog Day, we made a sincere and sus-
+
+tained effort to go XP, which was successful
+
+on many levels. In the end, we landed some-
+where within the realm of agile development
+
+without quite having achieved XPÑbut it
+was quite a good place to be.I cannot stress enough how the team com-position factored into our success. If we did
+not have so many stars and suckersÑthose ca-
+pable of great things and those willing to put
+
+their lives on hold to make great things hap-
+
+penÑthe project would have never attained
+
+the success it did. Ultimately, our projectÕs re-
+
+demption rested on two strong foundations:
+the processes drawn from Extreme Program-
+ming and the team that applied them.AcknowledgmentsFirst and foremost, credit goes to the fellowThoughtWorkers with whom I endured the worst
+
+death march I ever wish to be a party to. I am quite
+grateful to have worked with such a team. Many
+thanks, also, go to Martin Fowler for suggesting the
+topic for the article and providing the guidance neces-
+sary to ensure that it was written. Ipresented an ear-
+
+lier version of this article at XP2001 in May 2001.References1.K. Beck, 
+Extreme Programming Explained,Addison-Wesley, Reading, Mass., 1999.
+2.M. Fowler and M. Foemmel, ÒContinuous Integration,Ó
+www.martinfowler.com/articles/continuousIntegration.
+
+html (current 16 Oct. 2001). 3.P. Schuh and S. Punke, ÒObjectMother: Easing Test Ob-
+ject Creation in XP,Ó www.thoughtworks.com/cl_
+
+library.html (current 24 Oct. 2001).
+For more information on this or any other computing topic, please visit ourDigital Library at http://computer.org/publications/dlib.
+About the AuthorPeter Schuhis a team lead at ThoughtWorks,
+Inc., a provider of custom e-business application de-
+velopment and advanced system integration services
+
+to Global 1000 companies. He has written and spo-
+ken about XP, the adoption of agile processes, agile
+
+developmentÕs impacts upon database administra-
+
+tion, and the ObjectMother pattern. With a BA in
+English literature and an MA in international rela-
+tions, he is an unapologetic interloper in the soft-ware development industry. Contact him at ThoughtWorks, Ste. 600, 651 W.
+
+Washington, Chicago, IL 60661; peschuh@thoughtworks.com.
+Possible topics include but are not limited to the following:¥Coding for network (grid-based) applications
+
+¥Coding for high-availability applications
+
+¥Coding for compatibility and extensibility
+
+¥Coding for network interoperability
+
+¥Effective use of standards by programmers
+
+¥Lessons learned from game programming
+
+¥Techniques for writing virus-proof software
+
+¥Simple and commonsense techniques for making   
+multithreading and concurrency easier and more reliable¥Coding implications of continually increasing processing 
+and memory resources
+¥Agents: When, where, and how to use them
+
+¥PDAs and the future of ÒwearableÓ software 
+
+¥Is ÒagileÓ programming fragile programming? 
+
+¥Prestructuring versus restructuring of code
+
+¥Integration of testing and construction
+HAVE YOU EVER HAD AN EXPERIENCE
+in constructing software that gave you un-expected insights into the larger problem of software engineering and development
+of high-quality software? If so, IEEE Softwareencourages you to submit your experiences, insights, and observations so that others can also benefit from them.
+A unique aspect of software engineering is that techniques used at the smallestscale of individual software construction are often relevant even for the largest
+software systemsÑand vice-versa. We are looking for articles that encourage a
+
+better understanding of this commonality between programming in the small and
+programming in the large, and especially ones that explore the larger implications
+of hand-on software construction experiences.¥Aspect-oriented programming
+¥Impacts of language choice on application cost, stability, 
+and durability¥Proliferation of Internet-based computing languages (for
+instance, Perl, Python, Ruby)¥ÒThrow-awayÓ programming and languages: Good, bad,
+or just ugly?¥Code ownership in an Internet economy
+
+¥When, how, and where to use open source
+
+¥choosing languages for your applications
+
+¥Lessons learned in buying and using tools
+
+¥XML: Where to next? What will follow it?
+
+¥How to keep documentation from diverging
+
+¥Personal-level configuration management
+
+¥Personal-level defect analysis
+
+¥Build processes for the new millennium
+
+¥Deciding when to branch code bases
+CALL FORARTICLES: SoftwareConstruction
+Construction Editor: Terry Bollinger, terry@mitre.orgSubmissions are accepted at any time; contact software@computer.org
+ Reproduced
+with
+permission
+of
+the
+copyright
+owner.
+Further
+reproduction
+prohibited
+without
+permission.

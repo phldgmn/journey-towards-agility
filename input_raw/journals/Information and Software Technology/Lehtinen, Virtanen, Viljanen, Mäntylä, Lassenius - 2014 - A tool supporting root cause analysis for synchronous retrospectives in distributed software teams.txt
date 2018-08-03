@@ -1,0 +1,5746 @@
+ A Tool Supporting Root Cause Analysis for Synchrono
+us Retrospectives in 
+Distributed Software Teams 
+ Timo O.A. Lehtinen, Risto Virtanen, Juha O. Viljanen, Mika V. Mäntylä, Casper Lass
+enius 
+Department of Computer Science and Engineering 
+Aalto University School of Science 
+Helsinki, Finland 
+P.O. BOX 19210, FI-00076, Aalto, Finland 
+[timo.o.lehtinen, risto.virtanen, juha.o.viljanen, 
+mika.mantyla, casper.lassenius]@aalto.fi 
+ 
+ 
+ Pre-print accepted for publication in Information a
+nd Software Technology 
+http://dx.doi.org/10.1016/j.infsof.2014.01.004
+   
+ 
+Abstract 
+
+ 
+Context:
+ Root cause analysis (RCA) is a useful practice for
+ software project retrospectives, and is typically 
+carried 
+out in synchronous collocated face-to-face meetings
+. Conducting RCA with distributed teams is challeng
+ing, as 
+face-to-face meetings are infeasible. Lack of adequ
+ate real-time tool support exacerbates this problem
+. Furthermore, 
+there are no empirical studies on using RCA in sync
+hronous retrospectives of geographically distribute
+d teams.  
+ 
+Objective:
+ This paper presents a real-time cloud-based softwa
+re tool (ARCA-tool) we developed to support RCA in 
+distributed teams and its initial empirical evaluat
+ion. The feasibility of using RCA with distributed 
+teams is also 
+evaluated.  
+
+ 
+Method:
+ We compared our tool with 35 existing RCA software
+ tools. We conducted field studies of four distribu
+ted 
+agile software teams at two international software 
+product companies. The teams conducted RCA collabor
+atively in 
+synchronous retrospective meetings by using the too
+l we developed. We collected the data using observa
+tions, 
+interviews and questionnaires. 
+
+ 
+Results:
+ Comparison revealed that none of the existing 35 t
+ools matched all the features of our ARCA-tool. The
+ 
+team members found ARCA-tool to be an essential par
+t of their distributed retrospectives. They conside
+red the 
+software as efficient and very easy to learn and us
+e. Additionally, the team members perceived RCA to 
+be a vital 
+part of the retrospectives. In contrast to the prio
+r retrospective practices of the teams, the introdu
+ced RCA method 
+was evaluated as efficient and easy to use. 
+
+ 
+Conclusion:
+ RCA is a useful practice in synchronous distributed
+ retrospectives. However, it requires software tool
+ 
+support for enabling real-time view and co-creation
+ of a cause-effect diagram. ARCA-tool supports sync
+hronous 
+RCA, and includes support for logging problems and 
+causes, problem prioritization, cause-effect diagra
+mming, and 
+logging of process improvement proposals. It enable
+s conducting RCA in distributed retrospectives.  
+ 
+Key words:
+ ARCA-tool, Root Cause Analysis, Distributed Retros
+pective, Global Software Engineering 
+1.
+ Introduction 
+Retrospectives, also known as post-mortems, are act
+ivities where the team members share experiences ab
+out 
+problems and their causes [1], analyzing a recently
+ ended project and/or iteration. Root Cause Analysi
+s (RCA) is a 
+structured investigation of a problem to detect whi
+ch underlying causes need to be solved [2], and a u
+seful practice 
+for retrospectives [3-5]. Retrospectives are typica
+lly conducted in face-to-face meetings, in which th
+e team members 
+ first identify problems that occurred. Subsequently
+, they conduct lightweight RCA by collaboratively c
+reating a 
+cause-effect diagram visualizing the causes of prob
+lems [5]. 
+Global software engineering, employing geographical
+ly distributed teams, has become a standard way of 
+operating in today™s business [6]. This way of work
+ing creates new challenges related to geographical,
+ temporal, 
+cultural and organizational distance [7]. The use o
+f distributed teams also creates a major challenge 
+for conducting 
+team retrospectives [8]. In previous work, we devel
+oped a lightweight focus group based RCA method, AR
+CA, and 
+evaluated it in four industrial field studies using
+ collocated teams [9]. Even though the method was w
+ell liked, the 
+companies pointed out the need to conduct RCA with 
+their distributed teams. Literature on distributed 
+retrospectives 
+identifies a similar need and discusses the use of 
+a combination of email, spreadsheets and an online 
+audio bridge to 
+help facilitate the retrospectives [8]. However, re
+lying on such tools in focus group based synchronou
+s RCA is not 
+feasible, as organizing and interpreting a high num
+ber of causes using emails and spreadsheets would b
+e highly 
+difficult. Instead, cause-effect diagrams [9] suppo
+rting real-time online environment should be used i
+n distributed 
+retrospectives. 
+There are many proprietary software tools for RCA.
+1 However, we have not succeeded in finding a web-ba
+sed 
+tool that fulfills the needs of conducting lightwei
+ght RCA in synchronous distributed software project
+ retrospectives. 
+First, the tool should make it possible for RCA par
+ticipants to co-create a cause-effect diagram [5, 9
+], which stays 
+in-sync between the sites. Second, the tool should 
+allow the development of process improvement ideas 
+for the 
+causes and maintain links between the improvement i
+deas and the detected causes [10-14]. Third, the to
+ol should 
+make it possible to vote on the most severe causes 
+and best improvement ideas [9]. Fourth, the tool sh
+ould also 
+make it possible to capture and refine the findings
+ of several retrospectives, in order to support org
+anizational 
+learning and knowledge management [3]. To the autho
+rs™ best knowledge
+2 the most frequently lacking feature of 
+current software tools for RCA is the syncing mecha
+nisms needed for simultaneous co-creation of cause-
+effect 
+diagrams, see Table 1. There are tools for simultan
+eous graph drawing, e.g., Google Docs drawings [15]
+, but these 
+tools lack features to support RCA, e.g. automatica
+lly capturing and refining the findings of retrospe
+ctives. 
+Furthermore, to our knowledge, there are no empiric
+al studies on the feasibility of using RCA in synch
+ronous 
+distributed retrospectives. While there is ample ev
+idence for the benefits of RCA to detect the causes
+ of problems 
+and make improvements in various contexts [9-13, 16
+-21], the existing studies have been conducted in a
+ face-to-face 
+context. Thus, in order to contribute to the existi
+ng studies, we developed an online tool for support
+ing synchronous 
+RCA in distributed software project retrospectives 
+called ARCA-tool
+3. It provides features for distributed RCA, idea 
+development, and capturing the lessons learned in m
+any retrospectives.  
+The goals of this paper are 
+to present ARCA-tool including its technology and m
+ain features, and to provide an 
+empirical evaluation of the tool and synchronous RC
+A in the context of industrial software development
+ with agile 
+teams
+. In order to evaluate the usefulness of RCA and AR
+CA-tool, we used interviews, questionnaires, and 
+observations in the retrospectives of geographicall
+y distributed industrial software teams, that follo
+wed the Scrum 
+methodology [22]. Our research questions were: 
+ RQ1: Is ARCA-tool perceived as useful in the distri
+buted retrospectives of agile software teams? 
+ 
+RQ2: Is ARCA-tool perceived as easy to use in the d
+istributed retrospectives of agile software teams? 
+ 
+RQ3: Is RCA perceived as a good approach to use in 
+the distributed retrospectives of agile software te
+ams? 
+ 
+While the first two questions are related directly 
+to ARCA-tool, we evaluate the RCA method, since the
+ evaluators 
+might have difficulty separating the effect of the 
+tool and the context in which it was applied, i.e. 
+the synchronous 
+retrospective method used and the company context. 
+Naturally, ARCA-tool can be used without the retros
+pective 
+with the RCA method and vice versa.  
+The rest of the paper is structured in the followin
+g way. Section 2 covers the related work and identi
+fies a gap in 
+research, which is then filled by introducing ARCA-
+tool in Section 3. Section 4 explains the field stu
+dy method used 
+to evaluate the tool in real industrial contexts an
+d the results of this evaluation are given in Secti
+on 5. Finally, 
+Section 6 contains the discussion and Section 7 pro
+vides conclusions and directions for further work. 
+                                                    
+       
+ 1 http://open-tube.com/10-best-software-tools-to-con
+duct-root-cause-analysis-and-solve-complex-problems
+/ 
+2 Investigation of proprietary RCA tools is difficul
+t as freely available information of the tools is l
+imited  
+3 http:// wirca.soberit.hut.fi/prod/?language=en 
+ 2.
+ Related Work 
+In this section, we introduce the concept of softwa
+re project retrospectives and present problems rela
+ted to 
+conducting RCA with distributed software teams. We 
+also compare RCA software tools that we have found.
+  
+2.1
+ Software project retrospectives 
+The key for effective problem prevention is control
+ling the causes of problems [23]. It is claimed tha
+t problems 
+cannot be solved without solving their causes [9]. 
+Retrospectives are one means to help identify and p
+revent the 
+reoccurrence of problems that have occurred in prio
+r projects [8, 24-26].  
+In retrospectives, the team members share their exp
+eriences about problems and their causes [4, 5, 24]
+. 
+Retrospectives enable learning at the individual, t
+eam, and organizational level. At the individual le
+vel, learning is 
+based on shared experiences [27]. Thus, at the team
+ level, learning is related to the shared experienc
+es among the 
+team members [27]. Furthermore, learning at the org
+anizational level requires knowledge management, i.
+e. the 
+shared experiences are captured and refined, and th
+ereafter distributed to the teams [3]. Therefore, t
+he output of 
+retrospectives must be captured and refined.  
+A software project retrospective can be viewed as a
+ step-by-step process [5, 28]. In the first step, p
+roblems 
+related to the past project, iteration, or mileston
+e are identified. Thereafter, the participants coll
+aboratively identify 
+the causes of the problems by using RCA. In RCA, th
+e causes of problems are identified by constantly a
+sking ﬁwhyﬂ 
+for every cause [9]. The causes are visualized by u
+sing a cause-effect diagram, e.g., a fishbone diagr
+am [5, 14, 19], 
+or a directed graph [5, 9]. The diagram represents 
+the cause-and-effect relationships between the caus
+es of problems. 
+It aims to assist the participants to detect underl
+ying causes for the problems. After the cause-effec
+t diagram is 
+finalized, the participants detect the root causes,
+ defined as the underlying and controllable causes 
+of the problem 
+[9]. Process improvement ideas are then developed f
+or the selected root causes. 
+While the traditional use of retrospectives has bee
+n fraught with problems [25], modern agile developm
+ent 
+processes, such as Scrum [22], have made the practi
+ce common in modern organizations. As such, Scrum o
+r other 
+agile development processes do not require the use 
+of RCA as part of their retrospectives Œ however RC
+A can well 
+be used in Scrum retrospectives as a practice that 
+helps add both structure and provides additional va
+lue to the 
+teams.  
+
+2.2
+ Root cause analysis and distributed retrospectives 
+The issue of distributed team members has been cons
+idered as the greatest challenge that organizations
+ face 
+while conducting retrospectives [8]. Retrospectives
+ should be lightweight [28] but under the influence
+ of budget 
+constraints and time pressure, they are rarely cond
+ucted [25]. While the project members are geographi
+cally 
+dispersed, arranging face-to-face retrospectives re
+quires too much effort. Conducting face-to-face ret
+rospectives in 
+such settings is often cumbersome. Distributed retr
+ospectives are introduced as substitutes for face-t
+o-face 
+retrospectives [8]. Such retrospectives are typical
+ly conducted with the aid of an audio or video brid
+ge [8]. 
+Logically, in distributed software projects, conduc
+ting distributed retrospectives require less effort
+ than conducting 
+them face-to-face due to decreased traveling time. 
+ Conducting RCA in distributed retrospectives is dif
+ficult as it requires tools that are not yet mature
+ enough. It has 
+been claimed that a combination of emails, spreadsh
+eets, and an audio bridge are enough to support dis
+tributed 
+retrospectives [8]. However, in software projects, 
+conducting RCA with spreadsheets is difficult [9]. 
+This is because 
+of the high number of detected causes [9, 11-13]. F
+or example, in our previous work, four software pro
+duct 
+companies conducted two hour RCA workshops (similar
+ to retrospectives) each and 80 to 135 causes of so
+ftware 
+project problems were found in each workshop [9]. T
+he causes were spread over various process areas [2
+9] and had 
+complex cause-and-effect relationships to one anoth
+er.  
+Several tools for distributed software development 
+exist [30-32]. The tool types that are the most sim
+ilar to 
+ARCA-tool are collaborative modeling tools [30] tha
+t allow collaborative and distributed software mode
+ling. 
+However, the main goal of those tools is software d
+esign modeling, while our tool is focused on RCA ca
+use-effect 
+diagram modeling. Additionally, knowledge managemen
+t tools [30, 31] include knowledge sharing features
+, which 
+ARCA-tool also provides. Furthermore, our tool redu
+ces Œ but does not replace Œ the need for the use o
+f other 
+communication tools, e.g., a chat, as the cause-eff
+ect diagram is constantly updated to all participan
+ts, which helps 
+group awareness. Our tool also has similarity with 
+virtual whiteboards, such as Google Docs drawings [
+15], but our 
+tool has more specific features for cause-effect di
+agramming and the development of process improvemen
+t ideas. 
+Additionally, none of the virtual whiteboards offer
+s support for capturing and refining the shared exp
+eriences from 
+the retrospectives of many teams. Based on the lite
+rature it seems that it would be possible to combin
+e the existing 
+ collaborative tools for performing the same tasks a
+s with our ARCA-tool. However, this would require s
+witching 
+between tools and require cumbersome copy-pasting (
+from the original cause-effect diagrams to some sep
+arate list 
+of process improvement targets and ideas) between d
+ifferent tools.  
+2.3
+ Comparison of root cause analysis software tools 
+Software tools that support RCA in synchronous dist
+ributed retrospectives are rare. We searched RCA so
+ftware 
+tools from Google, Sourceforge, Google Scholar, and
+ Scopus. We found a total of 35 tools and compared 
+their 
+features with ARCA-tool (see Section 3).  
+We searched for existing root cause analysis softwa
+re in Google using two search strings: <ﬁroot cause
+ analysis 
+softwareﬂ> and <ﬁroot cause analysis softwareﬂ free
+>. The first search string resulted in 404,000 esti
+mated hits. 
+Thus, it appears the topic is of high interest. For
+ both search strings, we included all software tool
+s that we found 
+from search result pages until there was a search r
+esult page which did not extend the found tools any
+ further (10 
+hits + adds of the search result page). The number 
+of search result pages was eight for the first and 
+two for the 
+second search string. With this limitation, our sea
+rch resulted in 24 unique tools for RCA. We applied
+ this limitation 
+in order to complete our search within reasonable t
+ime. 
+Searching for the tools from Google also revealed t
+wo additional websites that summarize software tool
+s for 
+RCA
+4. We also included these tools in the evaluation. T
+he websites revealed 17 different software tools fo
+r RCA. 
+However, 8 tools were already found in Google. Thus
+, we were left with 33 unique tools for RCA. 
+We also searched the sourceforge.com database with 
+search string ﬁroot cause analysisﬂ and found one o
+pen 
+source alternative that claimed to support root cau
+se analysis (DecisionTreeExpert). Unfortunately, th
+ere was no 
+guidance on how to use the tool and we were unable 
+to see how the tool could be used for RCA, and thus
+ excluded it 
+from the comparison.  
+Furthermore, we searched academic works from Google
+ Scholar and Scopus with the search string ﬁroot ca
+use 
+analysis softwareﬂ. Google Scholar resulted in 58 a
+rticles and Scopus resulted in 37 articles. For eac
+h article, we 
+read its heading, abstract, key words, and skimmed 
+the content of paper. If the article indicated that
+ a tool for RCA 
+is introduced, we selected the article for further 
+evaluation. Six articles were selected from Google 
+Scholar and three 
+articles were selected from Scopus. The selected ar
+ticles were thereafter read. One article from Googl
+e Scholar [33] 
+and two articles from Scopus [34, 35] introduced a 
+software tool for RCA. Two of these articles introd
+uced a tool 
+that we had already found (Lassale and REASON) from
+ non-academic databases.  Finally, we decided to ma
+ke a 
+comparison to Google Docs drawings, an online colla
+borative graph drawing tool. Thus, we had 35 existi
+ng 
+software tools that we compared with ARCA-tool.  
+We made our comparison based on the material freely
+ available to us. The sources of information includ
+ed 
+demonstration videos, free trial versions, marketin
+g material and other available documentation as the
+ majority of 
+the tools were proprietary.  
+The features that we compared cover seven aspects i
+mportant for conducting synchronous distributed sof
+tware 
+project retrospectives. We introduce these aspects 
+below and present analytical arguments for them bas
+ed on our 
+experience in conducting industrial RCA sessions [9
+] and prior literature on software project retrospe
+ctives [4, 5], 
+and organizational learning systems [36]. The compa
+rison is summarized in Table 1 while further detail
+s of the 
+comparison are in Appendix 1. 
+First, we argue that web browser based software out
+performs native client software in the ease of adop
+tion. The 
+software teams rarely have time to conduct retrospe
+ctives [25] and therefore the ease of adoption is a
+n important 
+aspect. Native client software requires installatio
+n whereas web browser based software can be immedia
+tely used. 
+Furthermore, people can use web browser based softw
+are with computers having a different operating sys
+tem and 
+hardware including tablets and smart phones. This i
+s the case unless the web browser based software re
+quires 
+plugins that only work on certain systems, e.g., th
+e flash plugin. Web browser based software can also
+ be used from 
+home computers that might not have the native clien
+t software pre-installed or might lack the required
+ licenses. 
+Thus, web browser based clients make organizing ret
+rospectives more lightweight and hassle free. Four 
+of the 
+existing tools are used with a web browser, see Tab
+le 1. 
+Second, in order to conduct distributed synchronous
+ retrospectives similarly to collocated retrospecti
+ves [4, 5] the 
+RCA software tool needs to support real-time collab
+oration among all participants. This means that the
+ RCA 
+software outcome stays in sync between the differen
+t sites. Additionally, all team members should be a
+ble to 
+contribute to the analysis as it takes place. There
+fore, all clients need to have synchronous editing 
+access to the 
+                                                   
+       
+ 4 http://open-tube.com/10-best-software-tools-to-con
+duct-root-cause-analysis-and-solve-complex-problems
+   http://www.rootcauselive.com/library/Software.htm
+  analysis results. We see that push-pull technology 
+is needed to implement such requirements as it remo
+ves the need 
+for clients to constantly reload their view. Only s
+ix of the existing tools fully support real-time co
+llaboration.  
+Third, co-creation of a cause-effect diagram is at 
+the core of RCA in retrospectives, as introduced in
+ [4, 5, 9]. 
+Using the cause-effect diagram helps the team membe
+rs to understand and explain a complex problem in t
+erms of its 
+causes, sub-causes, and causal relationships. The m
+ajority of the RCA software tools enable creating t
+he cause-
+effect diagram. Considering the structure of the ca
+use-effect diagram, only three of the existing tool
+s support 
+drawing a graph, while the majority of the tools su
+pport tree based cause-effect diagrams. A graph str
+ucture has 
+been claimed as more efficient for software project
+ retrospectives than the tree structure [5]. 
+Fourth, RCA aims to develop process improvement ide
+as for the causes of problems [9]. Thus, the RCA so
+ftware 
+tool should make it possible to develop and link im
+provement ideas to the identified causes of problem
+s. Such 
+features are supported by the majority of the tools
+.  
+Fifth, it is important that the team members can vo
+te on the most severe causes and best improvement i
+deas [9]. 
+This is important if a high number of causes and im
+provement ideas are detected [9]. The team members 
+can focus 
+on the causes perceived as the most severe. Similar
+ly, they can decide collaboratively which improveme
+nt ideas 
+should be implemented. Voting is supported only in 
+one of the existing tools.  
+Sixth, the RCA software tool should support knowled
+ge management, which is about creating ﬁlearning 
+organizationﬂ [4]. Dingsøyr presents that retrospec
+tives are ﬁa method for leveraging knowledge from t
+he individual 
+level to the organizational levelﬂ [4]. Lee et al. 
+[36] present that organizational learning system sh
+ould include 
+ﬁglobal knowledge baseﬂ that combines ﬁcognitive ma
+psﬂ (cause-effect diagrams of experiences) created 
+by 
+individuals. Thus, the software tool should include
+ the knowledge base which enables combining the les
+sons learned 
+from many retrospectives and teams over the years. 
+The majority of the tools support knowledge managem
+ent and 
+allow accessing past RCA session results.  
+Seventh, we analyzed the costs of existing tools. O
+ne of the tools is under an open source license, tw
+o are 
+otherwise free to use, whereas the majority of the 
+tools are subject to a fee.      
+To summarize, in contrast to the existing RCA softw
+are tools, only ARCA-tool covers all of the seven a
+spects 
+discussed above. However, our analysis was limited 
+as described at the beginning of this section and t
+he evaluation 
+of many tools was challenging due to proprietary li
+censes and limited access to many commercial tools.
+ Thus, it is 
+possible that software tools with similar features 
+as ARCA-tool exist. In any case, the results of our
+ field study can 
+be used as evidence for the usefulness of any tool 
+that implements these features. Furthermore, the co
+mparison of 
+these 35 prior RCA software tools is the largest ac
+cording to our knowledge.  
+ 
+Table 1. Comparison of RCA software (for more detai
+ls see Appendix 1)  
+ Technical features
+a RCA features
+a Costs 
+Software Client: 
+Browser/Native 
+Real-time 
+
+collaboration
+ Cause-effect 
+
+diagram 
+Idea 
+
+development 
+Voting Knowledge 
+management 
+Costs 
+ARCA-tool Browser Yes Graph Yes Yes Yes Free (MIT) 
+Google Docs drawings Browser Yes Graph Yes - - Free to use 
+TapRooT Enterprice ed. Both 
+(Yes) 
+Tree Yes - Yes Fee 
+REASON Both - - Yes - 
+Yes 
+Fee 
+XFRACAS 
+Browser (Yes) - Yes - Yes Fee 
+RCAT Software
+ ? ? Tree ? ? 
+Yes 
+? 
+PathMaker Native Yes 
+Tree Yes - 
+Yes Fee 
+Cause link
+ Native - Tree Yes - Yes Fee 
+Solve
+ ? ? Tree ? ? ? ? 
+SIM® 
+Native (Yes) Tree Yes ? Yes Fee 
+PROACT  
+Native Yes Tree Yes ? Yes Fee 
+Catalyst  
+Native - - - - - Free (GPL) 
+Blackbox 
+Native ? Tree (Yes) ? Yes Fee 
+Investigator 3 
+Native ? Tree Yes ? Yes Fee 
+Track 
+Native - - - - Yes Fee 
+Corrective Action
+ Browser Yes - Yes - Yes Fee 
+RealityCharting Both Yes Tree Yes Yes Yes Fee 
+ABS Cons. Root Cause Map ? Yes ? Yes ? Yes Fee 
+RCA Software 5.1 Native - Tree - - - Fee 
+ThinkReliability Excel Template Native - Tree Yes -
+ - Free 
+Enablon IMS ? ? Tree Yes ? Yes Fee 
+Smartdraw Native - Tree - - - Fee 
+Set-Based Thinking Native - Graph Yes ? Yes Fee 
+PHRED (Browser) (Yes) Tree Yes ? Yes Fee 
+BowTieXP Native - Tree (-) ? Yes Fee 
+FMEA Software Native (-) Tree Yes -  Yes Fee 
+Systems2win Native - Graph - - - Fee 
+iReliability Browser - Tree Yes - (-) Fee 
+FMECA Software Native - Tree (-) (-) (Yes) Fee 
+ Rapid Problem Isolation Native - Tree - - (Yes) Fee 
+Lassale [33] Native - Tree - - (-) ? 
+CA Spectrum ? ? ? ? ? ? Fee 
+RootCause ? - (-) Yes ? (Yes) Fee 
+Speechminer ? ? ? ? ? ? Fee 
+Root Cause Analyst (Native) ? (Tree) ? ? (-) Fee 
+RCA GUI [35] Native - Tree Yes - Yes ? 
+ 
+a  
+-=this feature is not available in the software tool,
+ Yes=this feature is available in the software tool, 
+(-)=it is likely that this feature is not available in
+ the software 
+tool, but we were not able to verify that, (Yes)= it is l
+ikely that this feature is available in the software t
+ool, but we were not able to verify that, ?=we were n
+ot able to 
+find any evidence on the occurrence of this feature, Fee=the
+ software is subject to a fee, free (license)=the soft
+ware is free, free to use=using the software is free
+ 3.
+ ARCA-tool 
+This section provides an overview of ARCA-tool. We 
+will discuss how the tool supports distributed 
+retrospectives and the features it includes.  
+
+3.1
+ Overview of ARCA-tool 
+ARCA-tool is designed to be used when conducting RC
+A in retrospectives. The tool is open-source (MIT 
+license) and was developed in two subsequent projec
+ts on the Aalto University software capstone projec
+t course
+5 by 
+15 software engineering students. During the projec
+ts, the primary author of this paper acted as the c
+ustomer and 
+provided the tool requirements. ARCA-tool supports 
+the identification of problems and their causes by 
+providing 
+features particularly suitable for the creation of 
+cause-effect diagrams in software project retrospec
+tives. Among 
+many useful features, the team members can develop 
+process improvement ideas embedded in the detected 
+causes 
+and problems. The tool supports conducting distribu
+ted retrospectives, and makes it possible to captur
+e and 
+summarize the findings of a set of retrospectives. 
+ ARCA-tool uses a client-server architecture with pu
+sh-and-pull technology, i.e., the server and client
+s transmit 
+and receive messages from one another. The core of 
+the tool is a cloud server. The cloud server ensure
+s that all 
+clients (web browsers) are up-to-date in real-time.
+ This is important during distributed retrospective
+s as the 
+contribution of team members is immediately visible
+ to the other team members.  
+3.2
+ Key features of ARCA-tool 
+In ARCA-tool, a retrospective facilitator creates a
+ retrospective and shares it with the team members.
+ The team 
+members can join the retrospective from their own c
+omputers through a TCP network connection. Thus, th
+e 
+retrospectives do not need to be conducted face-to-
+face. Additionally, ARCA-tool allows the team membe
+rs to 
+contribute to the retrospective ﬁbeforeﬂ and ﬁafter
+ﬂ the retrospective meeting. This is occasionally i
+mportant as 
+finding a common time is especially difficult in ge
+ographically dispersed projects [8]. However, such 
+approach does 
+not make it possible to ask clarifications about th
+e detected problems from other team members. Then o
+ne can only 
+see what the others have found. Respectively, the t
+eam members cannot contribute to the findings which
+ are not yet 
+detected. On the other hand, the team members can p
+rovide input for others or try to contribute to the
+ir findings. 
+The team members start the retrospective by listing
+ problems that occurred during the unit of analysis
+, which 
+typically is an iteration [5]. Thereafter, they sel
+ect problems (which can be done through voting that
+ is supported by 
+the tool or by managerial decision, see ﬁPointsﬂ in
+ Figure 1), which are analyzed by using RCA [5]. In
+ order to 
+support RCA, a cause-effect diagram is provided. AR
+CA-tool uses a directed graph structure to model th
+e cause-
+and-effect relationships (Figure 1). Such a structu
+re, a cause-effect diagram, has been found to be su
+itable for 
+software project retrospectives [5, 9]. The team me
+mbers can enter the problems, the causes of problem
+s and related 
+cause-and-effect relationships to the cause-effect 
+diagram. The tool protects the anonymity of team me
+mbers. 
+After the causes are entered, the team members can 
+develop process improvement ideas related to the ca
+uses. In 
+ARCA-tool, the team members develop their process i
+mprovement ideas for each cause separately. This in
+creases 
+the accuracy of the process improvement ideas as no
+w they are cause specific corrective actions. Addit
+ionally, the 
+ideas are visually embedded in the causes. ARCA-too
+l colors the causes that have correctives actions w
+ith a yellow 
+color (see the cause ﬁLack of commitmentﬂ in Figure
+ 1). Embedding is important as it keeps the cause-e
+ffect 
+diagram clean and simple. Naturally, for the evalua
+tion of the process improvement ideas, the tool off
+ers a separate 
+view for browsing all or selected improvement sugge
+stions as one list (see Figure 2).   
+All key features of ARCA-tool are embedded in a rad
+ial menu (see Figure 1). The radial menu is activat
+ed when 
+a team member selects a cause. Simultaneously, all 
+causes that are directly connected with the cause a
+re emphasized 
+                                                   
+       
+ 5 https://noppa.aalto.fi/noppa/kurssi/t-76.4115/etus
+ivu 
+ (see the edges connected with the cause ﬁProject me
+mbers do not meet enoughﬂ in Figure 1). The key fea
+tures are, 
+starting from the one o™clock position, and proceed
+ing in counterclockwise order.  
+· Thumb up = Vote for this cause 
+· Pencil =  Edit this cause 
+· Trashcan = Delete this cause 
+· Light bulb = Create process improvement idea 
+· Arrow left = Link this cause to another existing ca
+use 
+· + sign = Create a cause that is linked to this caus
+e 
+· Ticket = Classify this cause 
+  
+Figure 1. Screen view of ARCA-tool 
+
+    
+Figure 2. Monitoring view of ARCA-tool showing the 
+causes of Figure 1 and their improvement ideas 
+3.3
+ Additional features of ARCA-tool 
+Voting is occasionally used in retrospectives to fo
+cus the attention of the team members to specific p
+roblems or 
+causes. Voting is also used to indicate process imp
+rovement ideas the team members value the most [9].
+ In ARCA-
+tool, the team members can ﬁlikeﬂ or ﬁdislikeﬂ the 
+causes and process improvement ideas (see the ﬁPoin
+tsﬂ and the 
+thumbnail icon in the radial menu in Figure 1). The
+ amount of likes and dislikes is limited to +/- 1 f
+or the team 
+members while being unlimited for the retrospective
+ facilitator. This way the causes and developed pro
+cess 
+improvement ideas can be voted on by the team membe
+rs and emphasized by the facilitator.  
+Classification of the causes of problems has been u
+sed to improve learning and to draw conclusions fro
+m detailed 
+and high-volume observations made during RCA, e.g. 
+[10, 12, 13]. In ARCA-tool, the classification can 
+be done 
+during or after the causes are entered in the cause
+-effect diagram. The tool provides two dimensions f
+or classifying 
+the causes. The pre-existing classification dimensi
+ons are the 
+process areas 
+and 
+types 
+of causes [29]. The process 
+areas express in which parts of the software proces
+s the causes occur, whereas the types of causes exp
+lain what the 
+causes are. In ARCA-tool, the team members can deve
+lop a retrospective specific classification or util
+ize the 
+classifications used in their prior retrospectives.
+ The tool also provides statistics about the classi
+fications made 
+during the retrospectives. For example, the team me
+mbers can view the distributions of the detected ca
+uses (see 
+Figure 3). They can also view the distributions of 
+liked causes, and causes that include process impro
+vement ideas. 
+The team members can also view the cause-and-effect
+ relationships between the process areas. 
+In order to support organizational learning, ARCA-t
+ool provides features for monitoring the output of 
+retrospectives, i.e., the causes and process improv
+ement ideas. The tool enables the analysis of an in
+dividual 
+retrospective as well as the combination of many re
+trospectives. This can be highly useful while captu
+ring and 
+refining the lessons learned from many retrospectiv
+es. The team members can view the output of all ret
+rospectives 
+they have participated in. The status of the detect
+ed causes (
+detected, elimination, won™t fix, fixed
+) and developed 
+process improvement ideas (
+idea, will be implemented, implemented, rejected
+) can also be managed. Additionally, 
+    
+Figure 3. Pie chart view of ARCA-tool presenting th
+e distributions of classified causes shown in Figur
+e 1 
+ 
+the tool provides information about the classified 
+causes. For example, senior managers would like to 
+know what 
+process areas are most often related to the problem
+s analyzed in the retrospectives, see Figure 3. The
+y would also 
+like to know what types of causes are usual in thos
+e process areas. In ARCA-tool, the cause-and-effect
+ relationships 
+between the classifications can be automatically vi
+sualized for the selected retrospectives. Additiona
+lly, the tool 
+provides detailed statistics about the distribution
+s of cause types in process areas. Furthermore, the
+ team members 
+can download a file which includes the detected cau
+ses and process improvement ideas from the monitore
+d 
+retrospectives. Thus, the team members can use ARCA
+-tool to analyze the detailed issues processed in t
+he prior 
+retrospectives and communicate the lessons learned 
+to others. 
+4.
+ Field study methodology 
+For the empirical evaluation of ARCA-tool, we used 
+a field study method [37] that allowed us to study 
+the 
+adoption and use of the tool in a real industrial s
+etting. We observed and video recorded four retrosp
+ectives 
+conducted by four teams in two companies. After the
+ retrospectives, all participants completed a quest
+ionnaire, and 
+selected case participants were interviewed. Thus, 
+we present a rich data set from four industrial sof
+tware teams, but 
+in contrast to a controlled experiment, we cannot p
+resent meaningful statistical comparisons, due to t
+he low number 
+of subjects and the lack of a control group providi
+ng an independent baseline for which we could compa
+re our 
+measures. This section presents the research method
+ and context in more detail. The case companies are
+ introduced 
+in Section 4.1 and the retrospective method includi
+ng the usage of ARCA-tool in Section 4.2. The data 
+collection 
+and analysis methods are shown in sections 4.3 and 
+4.4.  
+ 4.1
+ Case companies 
+The empirical part of this study was conducted in t
+wo software product companies, as summarized in Tab
+le 2. 
+The rationale for the selection of these two case s
+ites was that together they formed an interesting r
+esearch setting 
+allowing us to evaluate an industrially relevant re
+trospective method and software tool in collocated 
+and distributed 
+retrospectives. The similarities between the cases 
+made them more comparable whereas the dissimilariti
+es allowed 
+us to evaluate the retrospective method and softwar
+e tool in different case domains.  
+The retrospectives of both cases followed a similar
+ retrospective method and each retrospective was co
+mputer 
+facilitated by ARCA-tool. The cases were also simil
+ar considering the number of retrospective particip
+ants, and 
+effort used in the retrospectives. The roles of the
+ case participants were also somewhat similar. Addi
+tionally, both 
+cases were conducted in distributed agile software 
+development organizations. Two important difference
+s between 
+the cases were present. First, in Case 1, the used 
+retrospective method was their current method. Inst
+ead, the 
+retrospective method was new in Case 2. Similarly, 
+in Case 1, ARCA-tool was used in retrospectives pre
+viously. 
+Instead, in Case 2, it was introduced the first tim
+e. Second, the participants of Case 1 were experien
+ced with 
+collocated retrospectives, which they used in this 
+study, too. Instead, the case participants in Case 
+2 were 
+experienced with distributed retrospectives and the
+y followed that approach, respectively. Therefore, 
+we 
+characterize the retrospectives of Case 1 as 
+collocated
+ whereas the retrospective of Case 2 was 
+distributed
+. The 
+cases were also different considering the company s
+ize and specific target problems analyzed in the re
+trospectives.  
+ 
+Table 2. Summary of the company cases 
+ Case 1 
+Case 2 
+Case company 
+Software company  
+
+with > 800 employees 
+Software company  
+
+with > 100 employees 
+SW development organization 
+Agile with>30 employees Agile with>70 employees 
+Case participants 
+Product owners, scrum masters, architects, and 
+
+developers. N = 3+ 5 + 3 = 11 
+Scrum master, architects and developers.  
+
+N = 5 
+Evaluation perspective 
+Evaluation of the 
+current
+ method and tool Evaluation of a 
+new
+ method and tool 
+Retrospective(s) 
+3 x Collocated 1 x Distributed 
+Distribution 
+All persons in a meeting room in Finland 1 person i
+n Romania + 2 in the 
+office in Finland + 2 at 
+home. 
+Effort Used 
+1h meeting + 3 x 1h retrospective (3 teams) 1h meet
+ing + 1h retrospective (1 team) 
+Target problem(s) 
+Expectations of product owners do not meet the 
+
+output of scrum teams 
+1) 
+Lack of pair programming
+ 2) 
+Lack of merging the code
+ 3) 
+Lack of collaboration
+ Causes Found 
+(23) + (20) + (39) = 
+82
+ (20 + 24 + 15) = 
+59
+ 4.1.1
+ Case 1 
+Case 1 was conducted in a large-sized international
+ software product company with over 800 employees. 
+The 
+products are highly complex software systems integr
+ated into customized hardware provided by the compa
+ny 
+partners and to third party software modules. There
+ are around 30 employees working for the core produ
+ct of the 
+company. The rest of the employees work in localiza
+tion, integration, customer services and sales. Our
+ study 
+context, the software development organization of t
+he core product is divided into two development tea
+ms, which 
+are geographically distributed over several Europea
+n countries.  
+The organization follows agile software development
+ practices, based on the Scrum methodology [22]. Th
+e 
+development work is divided into sprints each lasti
+ng two weeks. In order to facilitate continuous imp
+rovement, the 
+Scrum teams conduct 60 minutes face-to-face retrosp
+ectives regularly. These are conducted at the same 
+time as the 
+sprint demonstration and the planning of the upcomi
+ng sprint. The teams have found using RCA and ARCA-
+tool in 
+the retrospectives to be useful. The retrospectives
+ are conducted with the following procedure. The te
+am members 
+start by listing positive and negative experiences 
+with ARCA-tool. Then they conduct RCA for some of t
+he voted 
+negative experiences. During RCA, the team members 
+first list underlying causes to ARCA-tool. Then the
+y discuss 
+the findings and try to detect deeper level causes.
+ Corrective actions are developed either during or 
+after the 
+retrospectives for the selected root causes. The pr
+oblem of the current practice has been the fact tha
+t the team 
+members have been forced to travel to the same phys
+ical location regularly, a challenge for many team 
+members. In 
+order to reduce the need for travelling, distribute
+d retrospectives have been considered as a substitu
+te.  
+We conducted our field study in the context of thre
+e teams, two distributed development teams, and one
+ product 
+owner team. In both development teams, members incl
+ude approximately five software developers (softwar
+e 
+developers and architects) and one scrum master (te
+am leader). The work of the teams is overseen by se
+veral 
+ product owners (business and product managers). The
+ product owner team had three members, all product 
+owners, 
+representing the needs of customers in different co
+untries. Each product owner is responsible for stee
+ring the 
+customer needs to both development teams. The knowl
+edge sharing between the development teams and prod
+uct 
+owners occurs mainly in the sprint planning session
+s. It is assumed that all needed information about 
+the customer 
+needs is communicated during the sessions. However,
+ the developers can ask for the product owners to g
+ive 
+clarifications to the customer needs during the spr
+ints.  
+We were invited to observe the retrospectives of th
+ese three teams. The goal of the retrospectives was
+ to analyze 
+why the expectations of the product owners did not 
+meet the output of the development work. The goal w
+as defined 
+by two software development managers before the ret
+rospectives (see Section 4.2).  
+4.1.2
+ Case 2 
+Case 2 was conducted in a medium-sized internationa
+l software product company with over 100 employees.
+ The 
+company products are large and complex software sys
+tems released four times a year. The software devel
+opment 
+organization includes approximately 70 people. The 
+development work is divided into seven teams, each 
+including 
+about ten people. The team members are geographical
+ly distributed over several countries in Europa and
+ Asia.  
+Like Case 1, the organization follows agile softwar
+e development practices, based upon the Scrum metho
+dology 
+[22] and the teams conduct 60 minutes distributed r
+etrospectives regularly. Unlike Case 1, the duratio
+n of sprints 
+varies between two and four weeks. Additionally, th
+e retrospectives are conducted in a distributed fas
+hion using an 
+online audio and video bridge. In the retrospective
+s, problems that have occurred are discussed, and p
+rocess 
+improvement ideas are developed. The teams do not u
+se RCA in their retrospectives. Instead, the team m
+embers 
+discuss positive and negative experiences and try t
+o figure out how to make improvements in their deve
+lopment 
+work activities. The retrospectives are occasionall
+y summarized to the company™s intranet pages. The p
+roblems of 
+the current practice include informal discussions r
+esulting in unfocused discussions and dominating te
+am members 
+who have spoken over the others. Thus, the team mem
+bers have considered alternative practices, which m
+ay be 
+more feasible for their needs. 
+Our field study was conducted in a context of one d
+istributed software team including the development 
+roles of 
+scrum master, software developers, and architects. 
+We observed a distributed retrospective meeting, wh
+ere the team 
+members used ARCA-tool and the retrospective method
+ which we introduced to them. Three problems were 
+analyzed in the retrospective. The problems were id
+entified in a separate meeting, which was conducted
+ by the team 
+members before the retrospective (see Section 4.2).
+ The first problem was lack of pair programming, wh
+ich the team 
+members thought was not used enough. The second pro
+blem was merging the code between different work 
+branches. The merge status was unclear, additionall
+y; merging was not done often enough. The third pro
+blem was 
+lack of collaboration with other teams in the compa
+ny.  
+4.2
+ Retrospective method used in the cases 
+Each of the retrospectives across both cases was in
+itiated by a separate meeting, where a high-level t
+arget 
+problem for each retrospective was defined. The sep
+arate meeting lasted approximately 1 hour. The meet
+ing was 
+conducted by the company representatives who wanted
+ to give a specific goal for the retrospective. In 
+Case 1, the 
+representatives included a product owner and scrum 
+master. In Case 2, the representatives included the
+ scrum master 
+and few software developers of the team. In the mee
+ting, the representatives discussed about problems 
+that had 
+occurred in the development work. Based on the disc
+ussion, the representatives concluded the goal of t
+he 
+retrospective, i.e., to explain one (Case 1) or sev
+eral (Case 2) high-level problems (see Table 2). Th
+ereafter, the 
+retrospective was arranged. The retrospective laste
+d approximately 1 hour, and it was facilitated by a
+ company 
+representative. At the beginning of each retrospect
+ive, the facilitator briefly introduced the specifi
+c goal of the 
+retrospective for the participants. In Case 2, the 
+facilitator also shortly introduced the retrospecti
+ve method and 
+ARCA-tool. The used retrospective method is summari
+zed in Figure 4. ARCA-tool was used by all particip
+ants in 
+every step of the retrospective. Each retrospective
+ resulted in a cause-effect diagram emphasizing the
+ most 
+important root causes.  
+In Case 1, three retrospectives were conducted for 
+a single problem. The first two retrospectives were
+ conducted 
+with each development team having participants from
+ all different roles of the development team includ
+ing the 
+scrum master, developers, and architects. The third
+ one was conducted with the product owners. The fac
+ilitator in 
+Case 1 was the scrum master of one development team
+. The facilitator steered the retrospectives and le
+d the 
+implementation. The retrospectives were conducted f
+ace-to-face at the same physical location. Each ret
+rospective 
+was conducted by using the following procedure. Fir
+st, the participants were given 5 minutes to enter 
+problems 
+related to the target problem in ARCA-tool. At this
+ stage, all participants used their own computers. 
+During the next 
+ 15 minutes, each participant explained the problems
+ entered to the tool. The other participants simult
+aneously 
+commented and discussed the findings. Thereafter, t
+he participants were given 5 minutes to enter under
+lying causes 
+that explained the detected problems. This was also
+ done simultaneously in ARCA-tool by all participan
+ts, working 
+on their own computers. Then, during the next 15 mi
+nutes, each participant explained the underlying ca
+uses entered 
+to the tool. The other participants commented on an
+d discussed the findings. They also entered additio
+nal causes 
+discovered during the discussion. Furthermore, they
+ used the tool to note if some cause explained othe
+r causes. At 
+the end of the retrospective, the participants held
+ a summarizing discussion about the problems and ca
+uses entered to 
+the tool. They also voted on the most controllable 
+causes by using the liking feature of the tool.  
+In Case 2, one retrospective was conducted and it w
+as facilitated by the scrum master of the team who 
+steered the 
+retrospective and led the implementation. The retro
+spective was conducted as distributed with geograph
+ically 
+dispersed participants. The participants included a
+ll roles of the development team (a scrum master, s
+oftware 
+developers and architects) and they used ARCA-tool 
+to document and share their findings about problems
+ and 
+related causes, working on their own computers in t
+heir own locations in two European countries. Googl
+e+ was used 
+as an audio and video bridge. Thus, the participant
+s were able to discuss and see each other. The retr
+ospective 
+followed the same outline as the one in Case 1, see
+ Figure 4. 
+  Figure 4. The retrospective method used in the stud
+y 
+4.3
+ Data collection 
+The feedback was collected from the case participan
+ts using interviews and questionnaires, see Appendi
+x 2 and 
+3. Additionally, we used observations combined with
+ video recording. The interviews were executed by t
+he 2
+nd
+ (Case 1) and 3
+rd
+ (Case 2) author.  The primary author observed the 
+interviews. He wrote notes and ensured that the 
+questionnaires were filled in by the case participa
+nts. Additionally, the retrospectives were video re
+corded. Thus, we 
+were able to check if something was missing during 
+the data analysis.  
+A total of 16 case participants filled in the quest
+ionnaires. In addition, we interviewed eight partic
+ipants. Our aim 
+was to collect feedback about the introduced retros
+pective method and usefulness and ease of use of AR
+CA-tool. In 
+Case 1, one participant from each retrospective was
+ interviewed. In Case 2, we interviewed all retrosp
+ective 
+participants. Interviews at Case 1 were conducted f
+ace-to-face, whereas the interviews at Case 2 were 
+conducted as 
+distributed by using online chat for three particip
+ants and face-to-face for two participants. The cha
+t was used in 
+interviews, because it was easier for the interview
+ees being geographically dispersed. Furthermore, in
+ the 
+questionnaires, the participants of Case 1 evaluate
+d mostly their current retrospective method as the 
+introduced 
+retrospective method was very similar with it. In c
+ontrast, in Case 2, the participants compared the i
+ntroduced 
+retrospective method with their current methods bei
+ng different than the introduced one. The scale in 
+the 
+questionnaires was a symmetric 5-point Likert scale
+. 
+4.4
+ Data analysis 
+Both cases were analyzed separately as the question
+s asked in the questionnaires and interviews varied
+ slightly 
+between the cases. This was due to differences in t
+he company context. Case 1 had used RCA and ARCA-to
+ol 
+previously while Case 2 had not. We transcribed and
+ coded the interviews accordingly. We calculated th
+e means, 
+standard deviations, and medians of the questionnai
+res. Finally, we summarized the interviews and ques
+tionnaires in 
+order to conclude whether the findings were similar
+ between the cases.  
+ 
+
+ 
+
+ 
+
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+
+˘
+ ˇˆ
+ ˇ
+
+
+ 
+ ˘
+ ˘˙
+ ˘˝
+ ˘˛
+ ˘
+ ˇ˚˜ 
+ ˇ˙˚!"#
+ !$%&'(
+  We are aware of the controversy of presenting means
+ from a Likert scale. If the interval between the L
+ikert scale 
+items cannot be presumed equal, calculating means w
+ith standard deviations is ﬁinappropriateﬂ, as stat
+ed by 
+Jamieson [38]. In our study, the interval between t
+he Likert scale items can be presumed equal as the 
+scale was 
+symmetric and only the extreme values had a textual
+ representation. In Case 1, the scale was: 1=very m
+inor, 2, 3, 4, 
+5=very major, and in Case 2, the scale was: 1=very 
+low, 2, 3, 4, 5=very high. Furthermore, mean contai
+ns more 
+information in small samples, such as ours, than me
+dian, e.g., three responses with values 5, 5, and 1
+ give the 
+median of 5 but mean of 3.67. The latter is closer 
+to the ﬁtruthﬂ because the opinions were highly pol
+arized and the 
+median would only represent the opinion of the midd
+le respondent.  
+5.
+ Results 
+In this section, we present the field study results
+. Feedback from ARCA-tool (see Section 3) is presen
+ted in 
+Section 5.1 and the feedback from the retrospective
+ method including the RCA method (see 4.2) is summa
+rized in 
+Section 5.2. Furthermore, Table 3 summarizes the fe
+edback from the questionnaires, and Tables 4 and 5 
+summarize 
+the results from the interviews. The tables separat
+e the results regarding the research questions. Whi
+le RQ1 and RQ2 
+aim to evaluate ARCA- tool, RQ3 evaluates the retro
+spective method.  
+5.1
+ ARCA-tool 
+To summarize, our results indicate that ARCA-tool i
+ncreases the cost-efficiency of retrospectives and 
+it is 
+perceived as essential in distributed retrospective
+s. Additionally, the tool is perceived easy to use 
+and learn. 
+Therefore, we believe that the tool supports the pr
+ocess of the retrospective method (see Section 4.2)
+ and helps the 
+participants to conduct the tasks of retrospectives
+. 
+Regarding usefulness, the participants from both ca
+ses evaluated in questionnaires (see Table 3) that 
+the tool 
+helped to detect the causes of problems. The partic
+ipants in Case 1 also evaluated that the retrospect
+ive would be 
+less efficient and more difficult without the tool.
+ Respectively, in Case 2, the participants evaluate
+d that the cost 
+efficiency of the retrospective increased with ARCA
+-tool. Furthermore, the interview results from both
+ cases (see 
+Tables 4 and 5) indicate that the tool is essential
+ in distributed retrospectives. Our results from Ca
+se 1 also indicate 
+that when the retrospective is conducted face-to-fa
+ce, the tool can be substituted with a whiteboard a
+nd postIT notes, 
+but in that case the analysis is not as efficient a
+s it is with the tool. According to the interviews 
+at Case 2, ARCA-
+tool should also be improved. It was said that the 
+tool needs slight improvements while the detected c
+auses are 
+organized. Some participants perceived that current
+ly the tool does not support the visualization of c
+ause groups 
+enough. Perhaps it would be useful to organize simi
+lar causes into the same set of causes to be visual
+ly represented 
+well on the cause-effect diagram. 
+Regarding ease of use, the participants from both c
+ases evaluated in questionnaires (see Table 3) that
+ the tool is 
+easy to use and learn. This indicates that ARCA-too
+l supports the process of retrospective as it helps
+ the participants 
+to conduct the tasks of retrospectives easier, i.e.
+, to detect and analyze the causes of target proble
+ms (see Table 2). In 
+Case 1, the ease of use and learning the tool were 
+both evaluated with a very high value. In Case 2, t
+he values were 
+also high, but less than in Case 1. We assume that 
+this was because the tool was new to the participan
+ts of Case 2. 
+Furthermore, also the interviews indicate that the 
+tool is easy to use (see Tables 4 and 5). The inter
+views at Case 1 
+indicate that the tool makes it easier to visualize
+ the detected causes. Respectively, the participant
+s in Case 2 
+claimed that the user experience is ﬁintuitiveﬂ and
+ the tool is ﬁrelatively easy to useﬂ. Furthermore,
+ regarding the 
+results from Case 2, there is no feature overload, 
+but all essential features are included in the tool
+. It was also noted 
+that the difficulty of analysis correlates with the
+ number of causes of problems. The number of detect
+ed causes in 
+the retrospectives was around 20 to 59 (see Table 2
+).  
+ Table 3. Summary of questionnaires 
+  
+Case 1 
+(Collocated) 
+Case 2 
+(Distributed)
+ All Teams 
+a  ScrumT1 
+(N=3) 
+ScrumT2  
+(N=5) 
+Product Owners 
+(N=3) 
+ScrumT3 
+(N=5) 
+   
+ x¯ 
+  x x¯  
+ x x¯  
+ x x¯ 
+  x N 
+x¯ 
+  x RQ1
+ Usefulness 
+of ARCA-
+tool
+ Retrospective efficiency without the tool 1.3
+ 0.6 1 2.2 0.8 2 1.3 0.6
+ 1 - - - 11
+ 1.7
+ 0.8 2 
+Tool™s cost efficiency compared with 
+
+previous practices 
+- - - - - - - - - 4.0
+ 1 4 5 4.0
+ 1.0 4 
+Assistance of the tool for cause detection 4.3
+ 0.6 4 4.2 0.8 4 4.7 0.6
+ 5 4.0
+ 0.7 4 16
+ 4.3
+ 0.7 4 
+Ability to detect the causes without the tool  3.3
+ 0.6 3 3.2 0.4 3 3.0 1.0
+ 3 3.2
+ 0.4 3 16
+ 3.2
+ 0.5 3 
+Retrospective ease of use without the tool 1.7
+ 0.6 2 1.8 0.4 2 1.0 0 1 - - - 11
+ 1.5
+ 0.5 2 
+ RQ2
+ Ease-of-use 
+of ARCA-
+tool
+ Easiness to collect causes 3.7
+ 0.6 4 4.2 0.4 4 4.7 0.6
+ 5 4.0
+ 0.7 4 16
+ 4.1
+ 0.6 4 
+Easiness to detect root causes 4.0
+ 1.0 4 3.8 0.4 4 4.3 0.6
+ 4 3.0
+ 0.7 3 16
+ 3.7
+ 0.8 4 
+Ease of use of the tool 5.0
+ 0 5 4.6 0.5 5 5.0 0 5 4.0
+ 0.7 4 16
+ 4.6
+ 0.6 5 
+Learnability of the tool 4.7
+ 0.6 5 4.6 0.5 5 5.0 0 5 4.0
+ 1.0 4 16
+ 4.5
+ 0.7 5 
+RQ3
+ Retrospectiv
+e method
+ Personal contribution 4.0
+ 0 4 3.8 1.1 4 3.3 0.6
+ 3 3.2
+ 0.4 3 16
+ 3.6
+ 0.7 4 
+RCA cost efficiency compared with prior 
+
+practices  
+- - - - - - - - - 4.2
+ 0.4 4 5 4.2
+ 0.4 4 
+RCA ease of use compared with prior 
+
+practices 
+- - - - - - - - - 4.4
+ 0.5 4 5 4.4
+ 0.5 4 
+Correctness of detected causes 4.0
+ 0 4 4.2 0.4 4 4.0 1.0
+ 4 3.8
+ 0.4 4 16
+ 4.0
+ 0.5 4 
+Impact of the detected causes 3.7
+ 0.6 4 3.6 1.1 4 4.7 0.6
+ 4 3.8
+ 0.8 4 16
+ 3.9
+ 0.9 4 
+Openness in communication 3.0
+ 1.0 3 4.4 0.5 4 5.0 0 5 4.8
+ 0.4 5 16
+ 4.4
+ 0.9 5 
+a. N=the number of respondents, 
+x¯ 
+=mean, 
+ =standard deviation, 
+x =median, Scale: 1=very minor/low; 2, 3, 4, 5=very major
+/high
+  Table 4. Summary of interviews in Case 1 
+
+Question Summary Quotes from the Interviews 
+Would we have 
+
+found the same 
+
+problems and 
+
+causes without the 
+
+tool? (RQ1-2) 
+Similar causes could have been detected 
+
+also by using a whiteboard, as an example. 
+
+However, ARCA-tool improves the 
+
+efficiency of the analysis. In 
+
+geographically distributed teams, ARCA-
+
+tool is essential. 
+ﬁWe could have detected the same causes by using a 
+whiteboard, however, 
+ARCA-tool made the analysis easier.ﬂ 
+(person 1)
+ ﬁThe required effort by using the whiteboard would 
+be higherﬂ 
+(person 1)
+  ﬁARCA-tool improves the visualization of the detec
+ted causes.ﬂ 
+(person 2)
+ ﬁARCA-tool spares time when documenting the results
+.ﬂ 
+(person 2)
+ ﬁARCA-tool is essential when some participants are 
+geographically 
+dispersed.ﬂ 
+(person 1)
+ Did this 
+
+retrospective 
+
+method help us to 
+
+find the causes of 
+
+the problems? 
+
+(RQ2-3) 
+The key to finding the causes was the RCA 
+
+method. ARCA-tool helped to visualize the 
+
+causes of the problem. However, the tool 
+
+itself was not perceived as the key to 
+
+success.  
+ﬁThe RCA method helped to found these causes. ARCA-
+tool itself is not the 
+key to success, but the structured approach of the 
+RCA method is.ﬂ 
+(person 1)
+ ﬁThe tool made it easy to see the big picture relat
+ed to the problem causes. 
+Each team member was additionally able to see what 
+the other participants 
+have detected.ﬂ 
+(person 2)
+ Do you think that 
+
+we found the most 
+
+critical problems? 
+
+(RQ3) 
+The most critical causes of the target 
+
+problem were found. 
+ﬁWe did find the most important root causesﬂ 
+(person 1)
+ ﬁWe did find the most critical problemsﬂ 
+(person 2)
+ ﬁI think that we found most of the causes.ﬂ 
+(person 3)
+  
+ 
+ 
+Table 5. Summary of interviews in Case 2 
+
+Question Summary Quotes from the interviews 
+In contrast to the company 
+
+practices used to detect the 
+
+causes of problems, do 
+
+you consider ARCA-tool 
+
+as useful? (RQ1) 
+ARCA-tool improves the company 
+
+practices. The tool improves the analysis 
+
+of the causes of problems and their 
+
+relationships. Additionally, the tool is 
+
+perceived as enjoyable. 
+ﬁIt works!ﬂ 
+(person 4)
+ ﬁThe tool improves understanding about the causal r
+elationships 
+between the problems, which I consider as useful.ﬂ 
+(person 5)
+ ﬁI found it very useful *and* fun to do. It certain
+ly is a better practice 
+than having an online video meeting like we had in 
+the past.ﬂ 
+(person 6)
+ ﬁThe tool challenges the participants to consider t
+he causes of 
+problems deeper.ﬂ 
+(person 7)
+ Do you consider ARCA-
+
+tool as cost efficient when 
+
+compared with RCA 
+
+which is conducted by 
+
+using postIT notes or 
+
+Google Docs drawings? 
+
+(RQ1) 
+ARCA-tool works well with distributed 
+
+teams. This is because of the online 
+
+automation and features supporting 
+
+organizing the causes easily. In contrast 
+
+to Google Docs drawings, the tool 
+
+should support the grouping of causes. 
+ﬁIn our case, the postIT notes do not work at all. 
+This is because of the 
+distributed team members.ﬂ 
+(person 4)
+ ﬁIn Google Docs drawings, a lot of time is spent to
+ organize the 
+causes and their relationshipsﬂ 
+(person 7)
+ ﬁGrouping the detected causes with ARCA-tool is cur
+rently difficult.ﬂ 
+(person 8)
+ Do you consider ARCA-
+
+tool as easy to use when 
+
+compared with RCA 
+
+which is conducted by 
+
+using postIT notes or 
+
+Google Docs drawings? 
+
+(RQ2) 
+ARCA-tool is learnable and intuitive. 
+
+There is no feature overload either. The 
+
+layout automation improves usability. 
+
+On the other hand, when the number of 
+
+causes increases, the difficulty of the 
+
+analysis increases.  
+ﬁThe tool is relatively easy to use and much more f
+lexible than RCA 
+which is conducted by using the postIT notes.ﬂ 
+(person 4)
+ ﬁThe user experience was intuitive.ﬂ 
+(person 5)
+ ﬁLayout automation is good.ﬂ 
+(person 7)
+ ﬁOutlining a high number of causes is somewhat diff
+icult.ﬂ 
+(person 8)
+ In contrast to our process 
+
+improvement practices, do 
+
+you consider the RCA 
+
+method as easy to use? 
+
+(RQ3) 
+The RCA method fits the retrospectives 
+
+well. It is learnable, simple, intuitive, 
+
+and formal. 
+ﬁAfter little practice it definitely helps us to im
+prove the efficiency of 
+the work.ﬂ 
+(person 4)
+ ﬁThe RCA method is not difficult to use.ﬂ 
+(person 7)
+ ﬁIt is based on intuitive and simple ideaﬂ 
+(person 5)
+ ﬁYes, because the RCA method is structural and stra
+ight forwardﬂ 
+(person 8)
+  In contrast to our process 
+
+improvement practices, do 
+
+you consider the RCA 
+
+method as cost efficient? 
+
+(RQ3) 
+The RCA method improves current 
+
+practices by providing deeper analysis 
+
+with its structural approach. It also 
+
+improves the collaboration and 
+
+conceptualization related to the causes 
+
+of problems. 
+ﬁThe RCA method works.ﬂ 
+(person 4)
+ ﬁI think that the visualization of the causes is im
+portant.ﬂ
+(person 4)
+ ﬁThe method improved the discussions and helped to 
+consider the 
+problem more deeply.ﬂ 
+(person 5)
+ 5.2
+ The retrospective method 
+Considering the results from the interviews, using 
+RCA in retrospectives was perceived as useful in bo
+th cases. 
+This was due to the structured approach that the re
+trospective method followed and the in-depth analys
+is which 
+improved collaboration.  
+In Case 1, the participants said that the structure
+d approach of the RCA method helped to detect the c
+auses of 
+problems. In Case 2, the participants said that the
+ structured approach of the RCA method resulted in 
+deeper 
+understanding about the causes of problems which ma
+kes improvement to their current practices. Conside
+ring the 
+questionnaires, the participants from both cases ev
+aluated the easiness to collect causes and detect r
+oot causes as 
+high (see Table 3). Furthermore, they evaluated tha
+t the correctness and impact of the detected causes
+ was high. 
+The participants of Case 2 perceived that the RCA m
+ethod improved collaboration. Additionally, they sa
+id that 
+the RCA method is easy to use and learn. They expla
+ined that the method is based on ﬁan intuitive and 
+simple ideaﬂ. 
+The results from questionnaires are in line with th
+ese results. The openness in communication was eval
+uated with 
+high values in both cases (see Table 3). Additional
+ly, the participants evaluated their personal contr
+ibution with high 
+values. 
+
+6.
+ Discussion 
+In this section, we answer the research questions a
+nd discuss our findings and possible threats to the
+ validity of 
+this study. 
+
+6.1
+ Answering the research questions 
+RQ1: Is ARCA-tool perceived as useful in the distri
+buted retrospectives of agile software teams? 
+In Case 1, 
+ARCA-tool had already been found to be useful in co
+llocated retrospectives. The tool was new to the pa
+rticipants of 
+Case 2, but they were experienced in conducting dis
+tributed retrospectives. In order to answer this re
+search question, 
+we use the results from Case 2 and compare them to 
+Case 1. Regarding ARCA-tool we claim the following:
+  
+· The tool enables the team members to contribute to 
+the retrospective simultaneously. This improves the
+ 
+communication as the team members can write simulta
+neously while speaking simultaneously is not possib
+le. 
+This also reduces the risk that the participants fo
+rget some important comments if they are not writte
+n down.  
+· The cause-effect diagram structure provided by ARCA
+-tool improves the way the findings are visualized.
+ This 
+encourages the team members to consider the finding
+s in-depth, as proposed in Case 2 (see Table 5).  
+Our results support these claims. In both cases, th
+e tool was evaluated as efficient (see Table 3), bu
+t in the 
+distributed retrospective of Case 2 (see Table 5), 
+the tool was characterized as essential. Similar co
+mments about 
+distributed retrospectives were also given in the i
+nterviews with the participants of Case 1. In Case 
+1, ARCA-tool 
+was used previously and the participants perceived 
+that they would like to use the tool in their upcom
+ing 
+retrospectives too. Obviously, the tool was found t
+o be useful in face-to-face retrospectives. A compa
+rison of the 
+results from Case 2 to Case 1 indicates that ARCA-t
+ool is also useful in distributed retrospectives. I
+n the distributed 
+retrospective of Case 2, the tool was perceived as 
+useful when it was compared with the current practi
+ces (see Table 
+3). Thus, regarding Case 2, ARCA-tool improves dist
+ributed retrospectives where only audio and video b
+ridges are 
+used (see Section 4.1.2).  
+Furthermore, in collocated retrospectives of Case 1
+, the participants proposed that the tool made it p
+ossible to 
+note what the other participants have found (see Ta
+ble 4). It was also perceived that the visualizatio
+n of the causes 
+helped to outline the detected causes. In the distr
+ibuted retrospective of Case 2, the participants pe
+rceived that the 
+visualization of the detected causes is important a
+nd the tool helped to organize them (see Table 5). 
+It was also 
+claimed that the tool improved the analysis of the 
+causes of problems and their relationships (see Tab
+le 5), probably 
+one of the main advantages of RCA.  
+To summarize, it seems that ARCA-tool is perceived 
+useful in synchronous distributed retrospectives of
+ small 
+agile software teams. Probably we still need to con
+tinue its development by making slight improvements
+ to it (see 
+ Section 5.1). However, the tool improves the contri
+bution of participants and challenges them to consi
+der the 
+findings in-depth. 
+RQ2: Is ARCA-tool perceived as easy to use in the d
+istributed retrospectives of agile software teams? 
+Considering the ease of use, ARCA-tool was designed
+ to be used in distributed retrospectives [8]. Addi
+tionally, we 
+required that it enables conducting RCA [9]. Our ai
+m was not to develop software supporting all kinds 
+of different 
+modeling needs, e.g., making complex software model
+s [30]. Instead, we wanted to make a lightweight to
+ol which is 
+simple and easy to use in a small group of individu
+als, i.e., less than ten participants use the tool 
+in a synchronous 
+retrospective collaboratively, as introduced in [9]
+. 
+ ARCA-tool was perceived as easy to use in both case
+s. The number of participants was between three and
+ five. In 
+the collocated retrospectives of Case 1, the partic
+ipants perceived that the tool made the analysis ea
+sier (see Table 
+4). In the distributed retrospective of Case 2, the
+ participants perceived that the tool is learnable 
+and intuitive (see 
+Table 5). They also appreciated that only the neces
+sary features are included in the tool. Additionall
+y, it was noted 
+in Case 2 that the way the tool automates the cause
+-and-effect structure improves its usability. Addit
+ionally, in the 
+questionnaires, the participants from both cases ev
+aluated the ease of use and learnability of the too
+l as high (see 
+Table 3). It seems that the participants of Case 1 
+evaluated the ease of use and learnability with hig
+her values than in 
+Case 2. It is possible that this was due to the fac
+t that the tool was new to the participants of Case
+ 2, whereas the 
+participants of Case 1 were already familiar with i
+t. It is also possible that in distributed retrospe
+ctives, the perceived 
+ease of use decreases. The participants are geograp
+hically dispersed, and therefore, asking assistance
+ from others 
+becomes more difficult. However, we did not observe
+ such problems in the distributed retrospective of 
+Case 2.   
+To summarize, it seems that using ARCA-tool in dist
+ributed retrospectives does not make a major differ
+ence to 
+its ease-of-use in collocated retrospectives. The p
+articipants learn using the tool with a short intro
+duction, and during 
+the distributed retrospective they perceive that it
+ is easy to use.  
+RQ3: Is RCA perceived as a good approach to use in 
+the distributed retrospectives of agile software te
+ams? 
+Both 
+cases resulted in a similar finding. RCA was percei
+ved as a good approach for retrospectives. This con
+clusion is 
+well in line with prior studies. Problem prevention
+ requires controlling the causes that create the pr
+oblem. RCA 
+makes it possible to detect the causes of the probl
+em systematically and in-depth. In retrospectives [
+5, 28], also with 
+distributed settings, RCA helps the team members to
+ consider the causes of their problems. This is imp
+ortant in 
+order to make improvements in the team.  
+Case 1 has used RCA previously, which indicates tha
+t the case organization have already found such an 
+approach 
+as useful in collocated retrospectives. Instead, th
+e RCA approach was new to the participants of Case 
+2, but they 
+were experienced with distributed retrospectives. I
+n order to answer this research question, we use th
+e results from 
+Case 2 and compare them with Case 1.  
+Regarding the interviews at Case 1, the key for fin
+ding the causes was the RCA method (see Table 4). T
+he 
+participants of Case 1 also perceived that the most
+ critical causes of the target problem were found. 
+Thus, the 
+outcome of RCA was perceived accurate and useful in
+ the collocated retrospectives of Case 1. Similarly
+, it was 
+proposed in Case 2 that the structural approach of 
+RCA improves their current practices by providing i
+n-depth 
+analysis. It was also noted that the RCA method imp
+roves the collaboration and conceptualization of th
+e causes of 
+problems. The participants of Case 2 also evaluated
+ in the questionnaires that the detected causes wer
+e correct and 
+their impact was ﬁhighﬂ (see Table 3). Additionally
+, the participants of Case 2 evaluated that in cont
+rast to their 
+current practices the RCA approach is cost-efficien
+t and easy to use (see Table 3).  
+The core of RCA is the cause-effect diagram. Retros
+pectives using discussions only are concerned with 
+the 
+problem of it being difficult to remember all relev
+ant findings and outline the findings as a whole. L
+evel of detail 
+and the coverage of the discussions are dependent o
+n human memory. Retrospectives using RCA do not suf
+fer the 
+memory problem as the cause-effect diagram keeps th
+e attention on relevant causes, but simultaneously 
+helps the 
+team members to remember the findings as they are r
+egistered to the diagram. In synchronous distribute
+d 
+retrospectives, this means that the cause-effect di
+agram has to be simultaneously reachable by all dis
+tributed team 
+members. Otherwise conducting collaborative RCA wou
+ld likely be difficult. In the distributed retrospe
+ctive of 
+Case 2, the RCA method was characterized as learnab
+le, simple, intuitive, and straightforward (see Tab
+le 5). The 
+results from the questionnaires are in line with th
+e results from the interviews. The participants eva
+luated that the 
+retrospective method helped to detect the causes of
+ the target problems (see Table 3). 
+The retrospectives of Case 1 were collocated and th
+e retrospective of Case 2 was distributed. In both 
+cases, 
+ARCA-tool made the cause-effect diagram reachable f
+or all participants. RCA worked well in the colloca
+ted 
+retrospective of Case 1 and in the distributed retr
+ospective of Case 2. There were no major difference
+s in the 
+evaluations of the case participants between the ca
+ses either. The empirical results from Case 2 are v
+ery similar with 
+the results from Case 1. Thus, to summarize, we con
+clude that the RCA worked well in the synchronous d
+istributed 
+retrospective of Case 2. However, it required the t
+ool for collaborative cause-effect diagramming.  
+ 6.2
+ Comparison to prior studies 
+Regarding the scrum methodology [22], retrospective
+s are valuable and they should be conducted at the 
+end of 
+iterations. Our results are in line with this claim
+ as both of our cases have used retrospectives acco
+rdingly and found 
+them useful. Furthermore, the prior studies [5, 28]
+ introduce RCA as a part of retrospectives. Our res
+ults consolidate 
+the prior studies by indicating that RCA is an impo
+rtant part of the retrospectives of small agile tea
+ms. The 
+retrospective method used in this study is similar 
+to the prior method called ﬁpostmortem reviewﬂ [4] 
+that also 
+includes the step of RCA. Such method has been intr
+oduced as lightweight and useful for small software
+ teams [5]. 
+Respectively, Case 1 has used the method previously
+ and found it useful. Furthermore, considering Case
+ 2, their 
+prior practices did not include RCA. They discussed
+ positive and negative experiences and they tried t
+o figure out 
+how to make improvements in their development work 
+activities, as recommended in the scrum methodology
+ [22]. 
+However, they did not create cause-effect diagrams 
+or otherwise registered the causal structures of pr
+oblems. The 
+problems of the prior practices included informal d
+iscussions resulting in unfocused discussions and d
+ominating 
+team members who spoke over the others. When RCA wa
+s used in their distributed retrospective (see Sect
+ion 4.2), 
+the participants perceived that the method was bett
+er than their current practices.  
+Prior work has also been conducted in the area of G
+roup Support System (GSS). GSSs are systems whose m
+ain 
+aim is to help individuals to arrive at correct dec
+ision in meetings effectively. GSS systems, such as
+ one presented in 
+[39], include features from three dimensions: 1) ﬁc
+ommunication support,ﬂ 2) ﬁprocess structuringﬂ and
+ 3) 
+ﬁinformation processingﬂ [40]. The features of comm
+unication support help in the information exchange 
+between 
+the participants [40]. The features of process stru
+cturing keep the meeting progressing according to t
+he agenda [40]. 
+Furthermore, the features of information processing
+ provide access to important information, and enabl
+e sharing, 
+aggregating, structuring, and evaluating the inform
+ation [40].  
+The retrospective method together with ARCA-tool fu
+lfills the three dimensions of GSS. Regarding the 
+usefulness and ease-of-use of ARCA-tool, we hypothe
+size that the tool provides ﬁcommunication supportﬂ
+ [40], 
+especially in distributed retrospectives. The tool 
+improves the information exchange around the proble
+ms and their 
+causes. Additionally, the tool includes the feature
+s of the parallel communication, the anonymity of p
+articipants, and 
+ﬁgroup memoryﬂ [41]. Although our tool does not pro
+vide access to internal or external databases, the 
+tool does 
+makes it possible to model the important knowledge 
+of participants through cause-effect diagrams, voti
+ng, cause 
+classifications, and corrective actions. Therefore,
+ we see that the tool also provides features for ﬁi
+nformation 
+processingﬂ [40]. Finally, we hypothesize that the 
+retrospective method provides ﬁprocess structureﬂ [
+41] as it 
+includes the rules for communication and process st
+eps that are steered by a facilitator. ARCA-tool al
+so records a 
+cause-effect diagram that is a partial record of th
+e meeting interaction and part of process support. 
+ The prior approach for distributed retrospectives [
+8], using a combination of emails, spreadsheets, an
+d an audio 
+bridge, does not provide anonymity or parallel info
+rmation exchange. Sending emails between the partic
+ipants is not 
+an anonymous approach to exchange information. Furt
+hermore, using spreadsheets does not provide parall
+el 
+contribution to the outcome of retrospective. All i
+ndividual spreadsheets need to be combined together
+. 
+Additionally, describing and analyzing cause-effect
+ relationships with spreadsheets is difficult [9]. 
+Therefore, the 
+distributed retrospectives also require collaborati
+ve cause-effect diagrams. Thus, we conclude that th
+e retrospective 
+method combined with ARCA-tool makes an improvement
+ to the approach introduced in the prior work [8]. 
+RCA is 
+an important part of retrospectives and ARCA-tool i
+mproves them by providing communication support and
+ 
+information processing. 
+
+6.3
+ Evaluation of the research 
+This section discusses the validity of our empirica
+l results using a validation scheme presented by [4
+2]. 
+Furthermore, as our results are based on the social
+ construction of case companies, we will also use t
+he evaluation 
+principles of Interpretive Field Studies [43] in th
+e validation scheme.  
+6.3.1
+ Construct validity 
+Construct validity reflects the extent to which the
+ studied operational measures represent what is inv
+estigated 
+according to the research questions [42]. The parti
+cipants represented experts while considering the c
+urrent practices 
+used in the retrospectives of their teams. Thus, we
+ believe that they were able to compare the introdu
+ced 
+retrospective method with their current practices. 
+Additionally, the participants covered most of the 
+organization 
+members, i.e., the organization members of Case 1 a
+nd the team members of Case 2. Therefore, we believ
+e that the 
+research data was not biased by a homogenous group 
+of individuals. Instead, various interpretations ab
+out the RCA 
+approach and ARCA-tool were captured. This enabled 
+us to draw out multiple interpretations about the s
+tudy 
+results, an important aspect for validity introduce
+d in [43]. Using interviews and questionnaires were
+ therefore 
+ reasonable data collection methods, which increases
+ the construct validity [42]. However, our results 
+are not based 
+on the comparison of the outputs between the previo
+us and the introduced retrospective method, as such
+ information 
+was not available for our purposes. Thus, even thou
+gh the feedback from all case participants was high
+ly positive, it 
+should be noted that these evaluations are based on
+ perceptions.  
+Separating the effect of RCA from the use of ARCA-t
+ool was also difficult. In the interviews with both
+ cases and 
+in the questionnaire of Case 2, we asked the partic
+ipants to evaluate the tool and RCA approach separa
+tely. Instead, 
+the questionnaire used in Case 1 asked the particip
+ants to evaluate ARCA-tool and the output of RCA th
+oroughly, 
+but there were no questions about the RCA approach 
+itself. Thus, in Case 1, separating the evaluations
+ of the tool 
+from the evaluations of the RCA approach was diffic
+ult. It was based on the interviews only. Therefore
+, regarding 
+the RCA approach, we were not able to compare the q
+uestionnaire results between the cases.  
+6.3.2
+ External validity 
+External validity is concerned with whether it is p
+ossible to generalize the findings of the study and
+ to what 
+extent they can be generalized [42]. ﬁContextualiza
+tionﬂ has been presented as an important principle 
+for 
+generalizing the study results [43]. Both cases var
+ied and thus they evaluated RCA and ARCA-tool from 
+slightly 
+different perspectives. This increases the external
+ validity [42]. The participants of Case 1 were exp
+erienced with the 
+used retrospective method and ARCA-tool, but inexpe
+rienced on using it in a geographically distributed
+ setting. 
+Instead, the participants of Case 2 were experience
+d on conducting retrospectives in a geographically 
+distributed 
+setting, but inexperienced in using the retrospecti
+ve method and ARCA-tool. The feedback from both cas
+es, 
+however, was very similar. Naturally, the evaluatio
+ns of the case participants reflected the advances 
+of the 
+introduced retrospective method in comparison with 
+the current practices. If the companies would have 
+previously 
+used the existing RCA software tools, perhaps, the 
+feedback of ARCA-tool would have been different.  
+Furthermore, we had only two cases in which one ful
+ly investigated the intended research questions. Al
+l of the 
+retrospectives were conducted at the team level and
+ the number of case participants in each retrospect
+ive was 
+between three and five. Four teams were studied. De
+Sanctis and Gallupe [44] present in the study of gr
+oup decision 
+support systems that the ﬁnature of technological s
+upportﬂ is dependent on three important aspects: ﬁg
+roup size,ﬂ 
+ﬁmembership proximity,ﬂ and ﬁthe task confronting t
+he groupﬂ. Our case contexts included only small gr
+oups, but 
+the member proximity covered both extremes ﬁface-to
+-faceﬂ and ﬁdispersedﬂ settings [44]. Furthermore, 
+the tasks 
+the groups confronted included analyses of problems
+ faced at the agile software development organizati
+ons and 
+teams. Thus, we cannot generalize our findings to o
+rganization wide distributed heavy-weight retrospec
+tives using 
+different RCA methods [9] and a higher number of pa
+rticipants. We can only conclude that our results a
+re likely 
+valid in similar case contexts to ours, i.e., geogr
+aphically dispersed small agile software teams usin
+g retrospectives 
+regularly in order to create continuous learning an
+d improvements (see Section 4.1). 
+We cannot conclude that the distributed retrospecti
+ves can fully substitute the face-to-face retrospec
+tives either. 
+Building trust in global software teams is crucial 
+for success, which requires frequent communication,
+ face-to-face 
+meetings, and socialization [45]. The tool support 
+for distributed retrospectives likely enables condu
+cting 
+retrospectives more frequently, which we assume wou
+ld improve the communication. However, if the team 
+members communicate on distributed settings only, t
+hen the risk for decreased information exchange and
+ feedback 
+increases [45].   
+Finally, considering the uniqueness of ARCA-tool, t
+he evaluation of the prior RCA tools in Section 2.3
+ was not 
+complete due to an excessive number of hits to our 
+search strings in Google. However, we used five add
+itional data 
+sources. We studied all the tools listed in the two
+ websites of ﬁuseful RCA toolsﬂ. Additionally, we s
+earched for 
+RCA tools in Sourceforge.com, but did not find any 
+tools suitable for doing RCA. Finally, we searched 
+for RCA 
+tools in Google Scholar and Scopus. The data from t
+hese six sources resulted in 35 RCA tools that we c
+ompared 
+with our ARCA-tool. In contrast to ARCA-tool, none 
+of the other tools matched all the seven aspects us
+ed in our 
+comparison. However, it is still possible that a si
+milar tool to our ARCA-tool exists. Nevertheless, a
+ccording to the 
+authors™ best knowledge our comparison of 35 RCA so
+ftware tools is the largest one existing.  
+6.3.3
+ Reliability 
+Reliability is concerned with the extent to which d
+ata and analysis are dependent on a specific resear
+cher [42]. 
+Klein & Myers [43] state that the social tie betwee
+n the researchers and participants should be critic
+ally reflected in 
+order to evaluate the validity of results. The retr
+ospectives were conducted by the employees of the c
+ompanies. 
+Thus, it is possible that the case participants ove
+rstated the goodness of the retrospective method in
+ the 
+questionnaires and interviews as they conducted the
+ method by themselves. It is also possible that the
+ social tie 
+between the researchers and participants biased the
+ results. We controlled this risk by using triangul
+ation in data 
+collection [46] through observations, video recordi
+ng, questionnaires, and interviews which increases 
+the reliability 
+ of our results. In the observations, we did not not
+e any practical issues during the retrospectives. A
+dditionally, our 
+observations indicate that the case participants tr
+uly liked the used retrospective method.  
+Furthermore, considering the data analysis, there i
+s a slight risk for researcher bias which is a comm
+on problem 
+in qualitative data analysis. While the number of i
+nterviews increases, summarizing the results become
+s challenging 
+as people answer the same questions differently. We
+ controlled this risk by using questionnaires. Simi
+lar responses 
+from the questionnaire forms make it unlikely that 
+researcher bias would have had large effect on the 
+qualitative 
+results. Additionally, our conclusions were based o
+n both 1) the analysis of individual parts of resea
+rch data and 
+2) the analysis of all research data combined toget
+her, the key principle in Interpretive Field Resear
+ch, called 
+ﬁHermeneutic Circleﬂ [43]. Our conclusions are also
+ in line with prior literature (see Section 2.1). T
+he approach of 
+RCA has already been introduced as valuable for ret
+rospectives [5, 28]. The prior literature did not ﬁ
+tell the story 
+behind our resultsﬂ, a threat to validity introduce
+d in [43], but consolidate our findings. Our conclu
+sions are 
+explicitly derived from the results (see Section 5)
+, as can be seen in Section 6.1.  
+7.
+ Conclusions and future work 
+This paper proposed a real-time cloud-based tool fo
+r solving the problem of being infeasible to conduc
+t 
+collocated retrospectives in geographically distrib
+uted software teams [8]. ARCA-tool enables conducti
+ng 
+collocated and distributed retrospectives with RCA.
+ The most important feature of the tool is the up-t
+o-date real-
+time view of the retrospective outcome. Additionall
+y, the tool provides features for the co-creation o
+f cause-effect 
+diagrams, the development of improvement ideas, the
+ voting of the causes and improvement ideas, and su
+pport for 
+organizational learning by allowing the data explor
+ation of past retrospectives. Finally, our analysis
+ of 35 prior RCA 
+tools showed that none of the prior tools had all t
+he main features of our ARCA-tool (see Section 2.3)
+. 
+We evaluated the tool and RCA approach in industria
+l field studies with four different teams in two di
+fferent 
+software companies. Although our field study contex
+t differed (See Section 4.1), the results are remar
+kably similar 
+in both contexts. The results indicate that using A
+RCA-tool in the synchronous collocated and distribu
+ted 
+retrospectives of small agile software teams is use
+ful and easy. The tool was perceived as useful and 
+highly easy to 
+use and learn. It was claimed that the tool increas
+es the efficiency of retrospectives and helps to vi
+sualize the causes 
+of problems. Additionally, the field study evaluate
+d the use of RCA in synchronous distributed retrosp
+ectives. RCA 
+was perceived as highly useful because of its struc
+tural approach, which improves collaboration and pr
+ovides deeper 
+analysis challenging the team members to consider t
+he problems in-depth.  
+After this case study was conducted, both case orga
+nizations have continued using the RCA approach wit
+h 
+ARCA-tool in their retrospectives. In addition, Cas
+e 1 substituted all of their collocated retrospecti
+ves with 
+distributed retrospectives. In the future, we are p
+lanning to continue the development and evaluation 
+of ARCA-tool 
+and RCA as other companies have also expressed inte
+rest in them. During the first year after the relea
+se, ARCA-tool 
+website
+6 has had over 63000 page views with 1357 unique vis
+itors (63.5% are returning visitors) with an averag
+e 
+visiting time of slightly less than 8 minutes. Our 
+motivation for the development of ARCA-tool was aca
+demic, i.e., 
+to develop and evaluate an open source solution, wh
+ich is freely available for anyone who needs it. Ob
+viously, 
+ARCA-tool also has business potential through SAAS 
+business models. However, replicating studies are n
+eeded. 
+The tool and the RCA method should be evaluated wit
+h different case contexts including larger group si
+zes and 
+various target problems. Prior literature on group 
+decision support systems [40, 41, 44] could help to
+ evaluate the 
+tool from various important aspects. ARCA-tool was 
+published under MIT license in order to enable repl
+ication 
+studies and future business applications of the too
+l in a range of settings.   
+8.
+ Acknowledgements 
+The authors would like to thank the companies parti
+cipating in the field studies and software engineer
+ing students 
+implementing ARCA-tool, in alphabetical order: Heli
+n Anssi Matti, Hovi Roope, Jaanto Jari, Kekäle Mika
+, Kere 
+Markus, Koistinen Joona, Laukkanen Eero, Patana Jus
+si, Rihtniemi Pekka, Saarinen Jerome, Sevenius Toni
+, Valjus 
+Mikko, and Viitanen Jonne. 
+
+References  
+
+[1] K. C. Desouza, T. Dingsøyr and Y. Awazu, Experi
+ences with conducting project postmortems: reports 
+versus stories, 
+Software Process Improvement and Practice 10 (2005)
+ 203-215.  
+                                                   
+       
+ 6 http:// wirca.soberit.hut.fi/ 
+ [2] R. J. Latino and K. C. Latino, Eds., Root cause
+ analysis: improving performance for bottom-line re
+sults. 6000 Broken Sound 
+Parkway NW, Suite 300 Boca Raton, FL 33487-2742: CR
+C Press, 2006.  
+[3] T. Dingsøyr, N. B. Moe and Ø. Nytrø, Augmenting
+ experience reports with lightweight postmortem rev
+iews, PROFES '01 
+Proceedings of the Third International Conference o
+n Product Focused Software Process Improvement, 200
+1, pp. 167-181.  
+[4] T. Dingsøyr, Postmortem reviews: purpose and ap
+proaches in software engineering, Information and S
+oftware Technology 47 
+(2005) 293-303.  
+
+[5] F. O. Bjørnson, A. I. Wang and E. Arisholm, Imp
+roving the effectiveness of root cause analysis in 
+post mortem analysis: A 
+controlled experiment, Information and Software Tec
+hnology 51 (1) (2009) 150 - 161.  
+[6] J. D. Herbsleb and D. Moitra, Global software d
+evelopment, Software, IEEE 18 (2001) 16-20.  
+[7] T. Jaanu, M. Paasivaara and C. Lassenius, Near-
+synchronity and distance: Instant messaging as a me
+dium for global software 
+engineering, 2012 IEEE Seventh International Confer
+ence on Global Software Engineering, 2012, pp. 149-
+153.  
+[8] J. Terzakis, Virtual retrospectives for geograp
+hically dispersed software teams, IEEE Software 28 
+(2011) 12-15.  
+[9] T. O. A. Lehtinen, M. V. Mäntylä and J. Vanhane
+n, Development and evaluation of a lightweight root
+ cause analysis method 
+(ARCA method) Œ field studies at four software comp
+anies, Information and Software Technology 53 (10) 
+(2011) 1045-1061.  
+[10] D. N. Card, Learning from our mistakes with de
+fect causal analysis, IEEE Software 15 (1) (1998) 5
+6-63.  
+[11] M. Leszak, D. E. Perry and D. Stoll, A case st
+udy in root cause defect analysis, Proceedings of t
+he 2000 International 
+Conference on Software Engineering, 2000, pp. 428 -
+ 437.  
+[12] R. B. Grady, Software failure analysis for hig
+h-return process improvement decisions, Hewlett-Pac
+kard Journal 47 (4) 
+(1996) 15 - 25.  
+
+[13] P. Jalote and N. Agrawal, Using defect analysi
+s feedback for improving quality and productivity i
+n iterative software 
+development, Proceedings of the Information Science
+ and Communications Technology (ICICT 2005), 2005, 
+pp. 701 - 714.  
+[14] B. Andersen and T. Fagerhaug, Eds., Root cause
+ analysis: simplified tools and techniques. United 
+States, Milwaukee 53203: 
+Tony A. William American Society for Quality, Quali
+ty Press, 2006.  
+[15] News and notes from the Google Drive and Docs 
+teams, "Introducing Google Docs drawings," 
+Docs Blog, 
+13 th April 2010.  
+[16] M. Kalinowski, G. H. Travassos and D. N. Card,
+ Towards a defect prevention based process improvem
+ent approach, 
+Proceedings of the 34th EUROMICRO Conference on Sof
+tware Engineering and Advanced Applications, Parma,
+ Italy, 2008, pp. 
+199 - 206.  
+
+[17] R. G. Mays, Applications of defect prevention 
+in software development, IEEE Journal on Selected A
+reas in 
+Communications 8 (1990) 164-168.  
+
+[18] M. Siekkinen, G. Urvoy-Keller, E. W. Biersack 
+and D. Collange, A root cause analysis toolkit for 
+TCP, Computer Networks 
+(2008) 1846-1858.  
+
+[19] T. Stålhane, Root cause analysis and gap analy
+sis - A tale of two methods, EuroSPI 2004, Trondhei
+m, Norway, 2004, pp. 
+150 - 160.  
+
+[20] I. Bhandari, M. Halliday, E. Tarver, D. Brown,
+ J. Chaar and R. Chillarege, A case study of softwa
+re process improvement 
+during development, IEEE Transactions on Software E
+ngineering 19 (12) (1993) 1157-1170.  
+ [21] Z. X. Jin, J. Hajdukiewicz, G. Ho, D. Chan and
+ Y. Kow, Using root cause data analysis for require
+ments and knowledge 
+elicitation, International Conference on Engineerin
+g Psychology and Cognitive Ergonomics (HCII 2007), 
+Berlin, Germany, 2007, 
+pp. 79 - 88.  
+
+[22] K. Schwaber and J. Sutherland, Scrum guide, Sc
+rum Alliance (2011) .  
+[23] J. J. Rooney and L. N. Vanden Heuvel, Root cau
+se analysis for beginners, Quality Progress 37 (7) 
+(2004) 45 - 53.  
+[24] F. T. Anbari, E. G. Carayannis and R. J. Voets
+ch, Post-project reviews as a key project managemen
+t competence, 
+Technovation 28 (2008) 633-643.  
+
+[25] R. L. Glass, Project retrospectives, and why t
+hey never happen, IEEE Software 19 (2002) 111-112. 
+ [26] L. Williams, What agile teams think of agile p
+rinciples, Communications of the ACM 55 (2012) 71-7
+6.  
+[27] W. F. Boh, S. A. Slaughter and A. J. Espinosa,
+ Learning from experience in software development: 
+A Multilevel Analysis, 
+Management Science 53 (2007) 1315-1331.  
+
+[28] T. Stålhane, T. Dingsøyr, G. Hanssen and N. Mo
+e, Post mortemŒan assessment of two approaches, Emp
+irical Methods and 
+Studies in Software Engineering (2003) 129-141.  
+
+[29] T. O. A. Lehtinen and M. V. Mäntylä, What are 
+problem causes of software projects? Data of root c
+ause analysis at four 
+software companies, ESEM '11 Proc. of the 2011 Inte
+rnational Symposium on Empirical Software Engineeri
+ng and 
+Measurement, 2011, pp. 388-391.  
+
+[30] F. Lanubile, C. Ebert, R. Prikladnicki and A. 
+Vizcaíno, Collaboration tools for global software e
+ngineering, Software, IEEE 
+27 (2010) 52-55.  
+
+[31] M. Jiménez, M. Piattini and A. Vizcaíno, Chall
+enges and improvements in distributed software deve
+lopment: a systematic 
+review, Advances in Software Engineering 2009 (2009
+) 3.  
+[32] F. Q. da Silva, C. Costa, A. C. C. França and 
+R. Prikladinicki, Challenges and solutions in distr
+ibuted software development 
+project management: A systematic literature review,
+ Global Software Engineering (ICGSE), 2010 5th IEEE
+ International 
+Conference on, 2010, pp. 87-96.  
+
+[33] L. Williams, D. Grayson and J. Gosbee, Patient
+ safetyŠincorporating drawing software into root cau
+se analysis software, 
+Journal of the American Medical Informatics Associa
+tion 9 (2002) S52-S53.  
+[34] W. Vantine, K. Benfield, D. Pritts and K. Ball
+ard, Evaluating and incorporating new age software 
+technology for identifying 
+systemic root causes, Joint ESA-NASA Space-Flight S
+afety Conference, 2002, pp. 369.  
+[35] L. Huertas-Quintero, P. Conway, D. Segura-Vela
+ndia and A. West, Root cause analysis support for q
+uality improvement in 
+electronics manufacturing, Assem. Autom. 31 (2011) 
+38-46.  
+[36] S. Lee, J. F. Courtney and R. M. O'Keefe, A Sy
+stem for organizational learning using cognitive ma
+ps, Omega, the 
+International Journal of Management Science 20 (199
+2) 23-36.  
+[37] T. C. Lethbridge, S. Elliott Sim and J. Singer
+, Studying software engineers: Data collection tech
+niques for software field 
+studies, Empirical Software Engineering 10 (3) (200
+5) 311-341.  
+[38] S. Jamieson, Likert scales: how to (ab) use th
+em, Med. Educ. 38 (2004) 1217-1218.  
+[39] J. F. Nunamaker, A. R. Dennis, J. S. Valacich,
+ D. Vogel and J. F. George, Electronic meeting syst
+ems, Communications of 
+the ACM 34 (1991) 40-61.  
+ [40] I. Zigurs and B. K. Buckland, A theory of task
+/technology fit and group support systems effective
+ness, MIS Quarterly 
+(1998) 313-334.  
+
+[41] A. R. Dennis, C. K. Tyran, D. R. Vogel and J. 
+F. Nunamaker Jr, Group support systems for strategi
+c planning, J. Manage. 
+Inf. Syst. 14 (1997) 155-184.  
+
+[42] P. Runeson and M. Höst, Guidelines for conduct
+ing and reporting case study research in software e
+ngineering, Empirical 
+Software Engineering (14) (2008) 131-164.  
+
+[43] H. K. Klein and M. D. Myers, A set of principl
+es for conducting and evaluating interpretive field
+ studies in information 
+systems, MIS Quarterly (1999) 67-93.  
+
+[44] G. DeSanctis and R. B. Gallupe, A foundation f
+or the study of group decision support systems, Man
+agement Science 33 
+(1987) 5.  
+
+[45] N. B. Moe and D. −mite, "Understanding lacking
+ trust in global software teams: A multi-case study
+," in 
+Product-Focused 
+Software Process Improvement
+, Springer, 2007, pp. 20-34.  
+[46] T. D. Jick, Mixing qualitative and quantitativ
+e methods: Triangulation in action, Adm. Sci. Q. 24
+ (1979) 602-611.  
+  Appendix 1: Raw data of RCA tool comparison 
+
+ 
+Software Client: 
+native/brows
+er 
+Real-time 
+collaboration 
+Cause-effect 
+diagram 
+Idea 
+development 
+Voting Knowledge 
+management 
+Costs From 
+ARCA tool 
+
+wirca.soberit.hut.fi 
+Browser Yes Yes, graph Yes Yes Yes Free 
+(MIT) 
+- 
+Google Docs 
+
+Drawing 
+
+drive.google.com 
+Browser Yes Yes, graph 
+Various drawing 
+
+capabilities are 
+
+provided, e.g., 
+
+shapes with text 
+
+and arrows. These 
+
+can be used to 
+
+create a CED 
+
+graph. 
+Yes 
+
+By using 
+
+different 
+
+shapes for 
+
+causes and 
+
+ideas. 
+Yes 
+
+By 
+
+using 
+
+shapes 
+
+with 
+
+numbers
+
+. 
+NO Free to 
+use 
+Autho
+
+r 
+TapRooT Enterprice 
+
+ed. 
+
+www.taproot.com 
+Both 
+
+Native 
+
+software + 
+
+IE7 support 
+
+(if activeX 
+
+components) 
+(Yes) 
+Likely not real-time, 
+but accessible and 
+editable. 
+
+ ﬁcollaboration of 
+
+multiple investigators 
+
+at separate locations 
+
+over the netﬂ AND 
+
+ ﬁthe user has access to 
+
+edit or view all 
+
+Audit/Investigation 
+
+data as well as the 
+
+ability to status 
+
+Corrective Actions. 
+
+When an 
+
+Audit/Investigation is 
+
+created or edited the 
+
+user is provided the 7-
+
+Step Process Flow 
+
+where the progress of 
+
+the audit/investigation 
+
+can be tracked and each 
+
+technique can be 
+
+viewed and editedﬂ 
+Yes, tree  Yes No Yes 
+ﬁreport incidents, 
+analyze root causes, 
+develop corrective 
+actions, write and 
+approve reports, 
+track fixes, validate 
+the effectiveness of 
+the fixes, and trend 
+performanceﬂ
+ Fee Googl
+e*, 
+
+Open-
+
+tube 
+
+& 
+
+Root 
+
+Cause 
+
+Live 
+REASON 
+
+www.rootcause.com 
+
+ 
+http://adsabs.harvar
+
+d.edu/full/2002ESA
+
+SP.486..369V 
+Browser  
+
+ﬁreason 9 is 
+
+an online 
+
+based 
+
+softwareﬂ 
+
+AND 
+
+ﬁthe software 
+
+runs in a web 
+
+browserﬂ 
+No 
+
+Individual investigator.  
+No 
+
+Timeline is used 
+
+instead. The 
+
+whole process 
+
+resulting to the 
+
+issue is modeled. 
+
+Many timelines 
+
+can be created. 
+
+The timelines 
+
+result to a causal 
+
+model which is a 
+
+tree of causes 
+
+automatically 
+
+created.  
+Yes No 
+Yes 
+ﬁpreserve and 
+communicate the 
+knowledge learnedﬂ 
+
+ ﬁenables you to 
+manage and track 
+your corrective 
+action plans and 
+communicates the 
+lessons learned from 
+your problem 
+solving activitiesﬂ
+ Fee Googl
+e*#, 
+
+Open-
+
+tube 
+
+& 
+
+Root 
+
+Cause 
+
+Live, 
+
+Scopu
+
+s 
+XFRACAS 
+
+www.reliasoft.com/
+
+xfracas/ 
+Browser  
+
+ﬁThe 
+
+system™s 
+
+Web-based 
+
+user interface 
+
+allows for 
+
+easy access, 
+
+collaboration 
+
+and 
+
+deployment 
+
+throughout 
+
+multiple 
+
+sites, 
+
+suppliers and 
+
+dealers.ﬂ 
+(Yes)  
+
+Support for real-time 
+
+system is not explicitly 
+
+indicated, however, 
+
+people can access to 
+
+the analysis from 
+
+various computers. 
+No  
+
+Trees or graphs 
+
+are not provided. 
+
+ﬁXFRACAS 
+
+allows you to 
+
+"categorize the 
+
+incident with the 
+
+Function > Failure 
+
+> Effect > Cause 
+
+that will "map" 
+
+the event to a new 
+
+or existing 
+
+FMEAﬂ  
+Yes  
+ﬁanalysis and 
+corrective 
+action 
+softwareﬂ 
+AND 
+ﬁconfigure 
+
+XFRACAS 
+
+to support 
+
+any problem 
+
+resolution 
+
+methodology, 
+
+from 4 to 8 
+
+steps, such as 
+
+the four step 
+
+DCOV 
+
+process, the 
+
+five step Six 
+
+Sigma 
+
+DMAIC 
+
+process or 
+
+the eight step 
+8D.ﬂ 
+NO Yes 
+ﬁbuild a ﬁknowledge 
+
+baseﬂ of lessons 
+
+learned that will be 
+
+instrumental to 
+
+future 
+
+troubleshooting and 
+
+development effortsﬂ 
+Fee Open-
+tube 
+
+& 
+
+Root 
+
+Cause 
+
+Live 
+ RCAT Software 
+nsc.nasa.gov/RCAT/ 
+? ? Yes, tree 
+ ﬁCreate and edit a 
+
+fault tree, Create 
+
+and edit an event 
+
+and causal factor 
+
+treeﬂ 
+
+ ? ? 
+Yes 
+ﬁperform and 
+document root cause 
+analysis, identify 
+corrective actions, 
+perform trending, 
+and generate data 
+usable in precursor 
+analysis and 
+probabilistic risk 
+assessmentﬂ 
+? 
+ﬁavaila
+ble free 
+to 
+govern
+ment 
+Agenci
+es and 
+contrac
+torsﬂ 
+Open-
+tube 
+PathMaker 
+
+www.pathmaker.co
+
+m/pathmaker/pathho
+
+me.asp 
+Native 
+
+The tool is 
+
+native 
+
+software, 
+
+which 
+
+requires 
+
+installation 
+
+for each PC. 
+YES  
+
+ﬁuse the open floor 
+
+option to allow anyone 
+
+using the same 
+
+PathMaker project as 
+
+you to enter their ideas 
+
+with yours in real timeﬂ 
+
+AND ﬁ This tool's 
+
+design, based on the 
+
+classic brainstorming 
+
+method.., allows the 
+
+team recorder to keep 
+
+pace with group 
+
+thinking. ﬁ 
+Yes, tree 
+
+ﬁPathMaker's 
+
+cause and effect 
+
+diagram, or 
+
+Ishikawa diagram 
+
+tool helps users 
+
+discover the root 
+
+causes of 
+
+problems.ﬂ 
+Yes  
+
+Ideas can be 
+
+entered to the 
+
+tool. 
+No 
+Yes 
+ﬁWe use PathMaker 
+for our Process 
+Improvement 
+Program and have 
+implemented an SPC 
+program which has 
+reduced our process 
+cycle times by 25-
+50%. Also use for 
+our organizational 
+Strategic Planning 
+process." - John 
+Heinrich 
+Fee Open-
+tube 
+
+& 
+
+Root 
+
+Cause 
+
+Live 
+RealityCharting 
+(Cause link) 
+www.sologic.com/ 
+
+rca-products-
+
+services/ 
+
+charting-software
+ Native 
+
+Web-browser 
+
+based 
+
+application 
+
+only for 
+
+reports. 
+
+Native 
+
+software for 
+
+analysis. 
+No 
+
+You need to share your 
+
+analysis by exporting a 
+
+file. Manual updating is 
+
+required. Users need to 
+
+click a button to refresh 
+
+the content. CED can 
+
+be created only at the 
+
+client software. 
+Yes, tree 
+
+At the client 
+
+software, a tree 
+
+diagram can be 
+
+created. 
+Yes ﬁidentify 
+effective 
+solutionsﬂ 
+
+Solutions can 
+
+be entered to 
+
+the tree 
+
+diagram 
+
+which 
+
+embeds the 
+
+ideas in the 
+
+causes. 
+No Yes 
+ﬁStore RCAs and 
+
+data. Maintain causal 
+
+relationships. 
+
+Knowledge 
+
+managementﬂ 
+Fee Googl
+e*# & 
+
+Open-
+
+tube 
+Solve 
+Gpw Computer 
+Consulting, Inc 
+
+www.gpwcomputer
+
+consulting.com/
+ solverootcauseanaly
+
+sis.htm 
+ The found link to 
+
+the page does not 
+
+work.  
+
+Additionally, the 
+
+tool cannot be found 
+
+from Google. 
+? ? Yes, tree ? ? ? ? Open-
+tube 
+
+& 
+
+Root 
+
+Cause 
+
+Live 
+SIM® software 
+
+(tripod beta) 
+
+www.advisafe.com/
+
+software/ 
+
+incident-
+
+management/simr-
+
+simple- 
+
+incident-analysis-
+
+method 
+Native 
+
+ ﬁincident 
+
+analysis 
+
+report is 
+
+automatically 
+
+generated by 
+
+the SIM® 
+
+software, 
+
+which can be 
+
+further edited 
+
+in MS-Wordﬂ 
+(Yes) 
+
+Support for real-time 
+
+system is not explicitly 
+
+indicated. ﬁthe incident 
+
+will be  
+
+analysed by the people 
+
+within the department 
+
+in  
+
+which the incident took 
+
+placeﬂ 
+Yes, tree 
+
+ﬁThe program will 
+
+ask you to indicate 
+
+why the event 
+
+could take place. 
+
+After that, the 
+
+same question  
+
+will be repeated 4 
+
+more times, so 
+
+that the  
+
+analysis tree can 
+
+indicate 5 layers 
+
+of causation.ﬂ 
+Yes 
+
+ﬁThe 
+
+corrective 
+
+actions are a 
+
+unique part 
+
+of the SIM® 
+
+analysis. 
+
+ﬂ 
+? Yes 
+Provides a report 
+
+which can be further 
+
+edited in MS-Word. 
+Fee Open-
+tube 
+
+& 
+
+Root 
+
+Cause 
+
+Live 
+PROACT 
+
+www.reliability.com
+
+/industry/
+ proact_templates.ht
+
+ml
+ Native 
+
+Native client 
+
+installation is 
+
+required. 
+(Yes) 
+
+Real-time capabilities 
+
+are not explicitly 
+
+stated. However, it 
+
+seems that the tool 
+
+provides some team 
+
+work features through 
+
+sharing and 
+
+permissions. 
+
+ﬁRobust Root Cause 
+
+Analysis Process for 
+
+Collaboration, 
+
+Trending, Streamlining 
+
+& Standardization of 
+
+Analysesﬂ AND ﬁTeam 
+
+Permissions - Access, 
+
+Read-Only, Deleteﬂ 
+Yes, tree (Yes) 
+ﬁPROACT® 
+
+RCA 
+
+provides the 
+
+tools for the 
+
+RCA analyst 
+
+to easily 
+
+document, 
+
+validate, 
+
+report and 
+
+track findings 
+
+and 
+
+recommendat
+
+ions.ﬂ  
+? Yes 
+ﬁPROACT 
+automatically builds 
+your knowledge 
+management 
+database of 
+completed analyses 
+creating your own 
+customized and 
+interchangeable 
+templates for future 
+incident 
+investigations.ﬂ 
+Fee Googl
+e*#, 
+
+Open-
+
+tube 
+
+& 
+
+Root 
+
+Cause 
+
+Live 
+ Investigation 
+
+Catalyst 
+
+code.google.com/p/ 
+
+meslib/source/check
+
+out
+ Native 
+
+Native client 
+
+Installation is 
+
+required. The 
+
+software 
+
+works only 
+
+on mac. 
+
+However, 
+
+data entries 
+
+can be made 
+
+with web-
+
+browsers. 
+
+This requires 
+
+using third 
+
+party 
+
+services. The 
+
+entries need 
+
+to be 
+
+imported to 
+
+the system. 
+No 
+
+ﬁTo use computers for 
+
+remote data entry with 
+
+Web Browsers on 
+
+computers with 
+
+Windows, Linux or 
+
+Mac operating systems, 
+
+contact Starline to set 
+
+up a private server 
+
+URL for your 
+
+password-protected 
+
+project files and 
+
+designate an e-mail 
+
+account to which data 
+
+entered remotely will 
+
+be forwarded for 
+
+importing into Mac 
+
+project work files.ﬂ 
+No 
+
+MES worksheet 
+
+matrixes are used 
+
+instead. 
+
+ﬁA major 
+
+difference 
+
+between the MES 
+
+investigation 
+
+system and current 
+
+investigation 
+
+paradigms is that 
+
+MES uses a 
+
+"process" model 
+
+of phenomena, 
+
+instead of a 
+
+"causation" 
+
+model.ﬂ 
+(No) 
+
+The system is 
+
+introduced as 
+
+a solution for 
+
+analyzing 
+
+problems. 
+
+This in turn 
+
+helps to 
+
+make 
+
+improvement
+
+s. However, 
+
+making the 
+
+improvement
+
+s is not 
+
+introduced as 
+
+a part of the 
+
+system. 
+No No 
+Single case reports 
+
+are provided, 
+
+however, you cannot 
+
+combine many 
+
+reports together. 
+Free 
+
+(GPL) 
+Open-
+
+tube 
+
+& 
+
+Root 
+
+Cause 
+
+Live 
+Blackbox (tripod 
+
+beta) 
+
+www.advisafe.com/
+
+software/ 
+
+incident-
+
+management/blackb
+
+ox
+ Native 
+
+Native client 
+
+installation is 
+
+required. 
+? Yes, tree (Yes) 
+Not explicitly 
+
+stated.  
+
+ﬁBlackbox 
+
+automatically 
+
+creates a 
+
+clear and 
+
+standardized 
+
+report, 
+
+including  
+
+an incident 
+
+report, a 
+
+cause tree 
+
+and  
+
+recommendat
+
+ionsﬂ 
+? Yes 
+Provides a report 
+
+including 
+
+recommendations 
+
+and causes detected. 
+Fee Googl
+e# & 
+
+Open-
+
+tube* 
+Investigator 3 
+
+(tripod beta) 
+
+http://www.advisafe
+
+.com/software/ 
+
+incident-
+
+management/investi
+
+gator-3
+ Native 
+
+Native client 
+
+installation is 
+
+required. 
+? Yes, tree Yes 
+ﬁInvestigator 
+
+3 supports all 
+
+the stages of 
+
+the incident 
+
+investigation 
+
+process, from 
+
+initially 
+
+identifying 
+
+what 
+
+happened, 
+
+through the 
+
+analysis 
+
+process and 
+
+to writing the 
+
+recommendat
+
+ions.ﬂ 
+? Yes 
+ﬁInvestigator 3 
+
+supports a perfectly 
+
+editable native Word 
+
+export to make 
+
+your report meet 
+
+your organizations 
+
+standards.ﬂ 
+Fee Googl
+e# & 
+
+Open-
+
+tube 
+Track (tripod beta) 
+
+www.advisafe.com/
+
+software/ 
+
+incident-
+
+management/track
+ Native 
+
+Native client 
+
+installation is 
+
+required. 
+No No 
+The tool is based 
+
+on questionnaires 
+
+about incidents. 
+
+Questionnaires are 
+
+followed with ﬁit 
+
+followsﬂ 
+
+questions.   
+No No Yes 
+The software outputs 
+
+a track incident 
+
+report which 
+
+includes the 
+
+distributions of cause 
+
+types and actual 
+
+causes organized as a 
+
+structural list.  
+Fee Open-
+tube 
+Web-based Quality 
+
+Management Tool 
+
+www.qitconsulting.c
+
+om/
+ CorrectiveAction.ht
+
+m Browser 
+
+(works only 
+
+in IE 6 or 
+
+higher) 
+
+ﬁA web-
+
+based quality 
+
+system for 
+
+Manufacturin
+
+g, 
+
+Automotive, 
+
+OEM/ODM, 
+
+Food and 
+
+Drug, and 
+
+Service 
+
+industriesﬂ 
+Yes 
+
+ﬁCollaborating 
+
+suppliers, departments, 
+
+and divisions in global 
+
+scale 
+
+ﬂ 
+
+AND 
+
+ﬁReal-time 
+
+corrective/preventive 
+
+tracking and reportingﬂ 
+No 
+
+Forms to conduct 
+
+RCA are 
+
+provided. The 
+
+causes are not 
+
+organizer as CED.  
+Yes 
+ﬁSharing and 
+monitoring 
+improvement 
+activitiesﬂ 
+No Yes 
+ﬁManaging ALL 
+
+types of 
+
+corrective/preventive 
+
+actions and monitor 
+
+action  
+
+progress onlineﬂ 
+Fee Googl
+e*# 
+ RealityCharting
+® So
+ftware 
+
+www.realitycharting
+
+.com/software 
+ Both 
+
+(Internet 
+
+Explorer 7+ 
+
+standalone 
+
+client for 
+
+mac and 
+
+Windows) 
+Yes 
+
+ﬁThe Track Changes 
+
+tool allows groups of 
+
+people to work together 
+
+and share constructive 
+
+input with the visible 
+
+notification of any 
+
+addition, deletion, 
+
+reposition, or text 
+
+change of a cause.ﬂ 
+Tree Yes 
+ﬁThe solution 
+
+generation 
+
+process 
+
+systematicall
+
+y moves 
+
+from cause to 
+
+cause 
+
+allowing you 
+
+to propose 
+
+solutions 
+
+until each 
+
+cause has 
+
+been 
+
+reviewed.ﬂ 
+Yes 
+
+ﬁThe 
+
+assessm
+
+ent 
+
+evaluate
+
+s each 
+
+solution 
+
+against 
+
+the 5 
+
+default 
+
+criteria. 
+
+To 
+
+change 
+
+a default 
+
+criteria 
+
+setting, 
+
+select 
+
+the 
+
+related 
+
+field 
+
+and type 
+
+in your 
+
+own 
+
+criteria 
+
+entry.ﬂ 
+Yes 
+
+ﬁThe Action Item 
+
+Report stores 
+
+automatically 
+
+generated action 
+
+items from evidence 
+
+fields and cause path 
+
+endings.ﬂ 
+Fee Googl
+e*#, 
+
+Open-
+
+tube 
+
+& 
+
+Root 
+
+Cause 
+
+Live 
+ABS Consulting 
+
+Root Cause MapŽ 
+
+www.absconsulting.
+
+com/ 
+
+root-cause-
+
+analysis/root-cause- 
+
+analysis-
+
+software.cfm 
+? 
+
+ Yes 
+
+ﬁThe web-based system 
+
+is designed to capture, 
+
+analyze and report all 
+
+adverse impacts to your 
+
+organization.ﬂ 
+
+AND 
+
+ﬁReal-time reporting 
+
+and management 
+
+dashboards 
+
+ﬂ 
+? Yes 
+ﬁCorrective 
+
+Actions / 
+
+Preventive 
+
+Actions 
+
+(CAPA) 
+
+Management 
+
+ﬂ 
+? Yes 
+ﬁCentralized system 
+
+(multiple language 
+
+support)ŠOne 
+
+location for all 
+
+incidents, events, 
+
+investigations, 
+
+recommendations, 
+
+root causes and 
+
+action items 
+
+ﬂ 
+
+AND 
+
+ﬁFlexible 
+
+classification 
+
+systemŠOSHA, EU, 
+
+ABS Consulting or 
+
+any other standards 
+
+ﬂ 
+Fee Googl
+e*# & 
+
+Root 
+
+Cause 
+
+Live 
+ROOT-CAUSE-
+
+ANALYSIS-
+
+SOFTWARE 5.1 
+
+www.sqaki.com/17/ 
+
+ROOT-CAUSE-
+
+ANALYSIS/  
+Native 
+
+Native client 
+
+installation is 
+
+required. 
+No Tree No No No Fee Googl
+e*# 
+ThinkReliability 
+
+Excel Template 
+
+www.thinkreliabilit
+
+y.com/excel-
+
+tools.aspx 
+Native 
+
+MS Excel is 
+
+required in 
+
+order to run 
+
+this template. 
+No 
+
+This is an excel sheet 
+
+only. Furthermore, it 
+
+does not work in 
+
+Google Drive and thus 
+
+real-time collaboration 
+
+is not an option. 
+Tree Yes No No Free 
+(MS 
+
+Excel) 
+Googl
+
+e*# 
+Enablon IMS 
+
+www.enablon.com 
+? ? Tree Yes 
+ﬁCreation of 
+
+corrective 
+
+and 
+
+preventive 
+
+action plansﬂ 
+? Yes 
+ﬁEnablon IMS meets 
+
+all event (incidents, 
+
+accidents, etc.) 
+
+reporting, 
+
+management and 
+
+monitoring needs, 
+
+both for individual 
+
+sites and the Group 
+
+as a whole.ﬂ AND 
+
+ﬁManagement & 
+
+monitoring of 
+
+corrective & 
+
+preventive action 
+
+plansﬂ 
+Fee Googl
+e*# 
+Smartdraw 
+
+http://www.smartdra
+
+w.com/ 
+Native 
+
+Requires to 
+
+install client 
+
+software 
+No 
+
+This software is used 
+
+from one PC. The user 
+
+can export a file, which 
+
+can be opened from 
+
+other PC. 
+Tree No 
+Only 
+
+ﬁcausesﬂ can 
+
+be added to 
+
+the diagram.  
+No 
+
+ﬁOnly 
+
+commen
+
+ts can be 
+
+addedﬂ 
+No 
+
+The software is only 
+
+for drawing, not for 
+
+analysis of many 
+
+drawings. 
+Fee Googl
+e # 
+ Set-Based Thinking 
+
+http://www.targeted
+
+convergence.com/tc
+
+c-can-help/software-
+
+features/ 
+Native 
+
+Based on the 
+
+screenshots, 
+
+the tool 
+
+requires to 
+
+install client 
+
+software 
+No 
+
+A3 reports are used to 
+
+ﬁcollect together a set 
+
+of visual models which 
+
+concisely tell the story 
+
+of the ongoing 
+
+discussion.ﬂ 
+Graph 
+
+ﬁpackages are 
+
+designed to chart 
+
+the particular 
+
+relationship they 
+
+are analyzing just 
+
+fine; but generally 
+
+we need to pull 
+
+together analyses 
+
+from many 
+
+different tools of 
+
+many different 
+
+relations that must 
+
+all be considered 
+
+when making a 
+
+decisionﬂ 
+Yes 
+
+The 
+
+corrective 
+
+actions are 
+
+called as 
+
+ﬁdecisionsﬂ. 
+
+The feature 
+
+list of the 
+
+tool states 
+
+that ﬁidentify 
+
+what 
+
+decisions 
+
+must change 
+
+to implement 
+
+those 
+
+remedies [of 
+
+causes]ﬂ 
+? Yes 
+The tool is used to 
+
+combine knowledge 
+
+from various sources 
+
+(e.g. individuals). 
+
+This includes results 
+
+from root cause 
+
+analysis and 
+
+decisions made. 
+
+ Fee Googl
+e # 
+PHRED 
+
+http://www.phredsol
+
+utions.com/custome
+
+rfocus.html 
+(Browser) 
+
+ﬁPHRED is a 
+
+web-based 
+
+problem 
+
+solving 
+
+system. It 
+
+makes it easy 
+
+for you, your 
+
+suppliers and 
+
+contract 
+
+manufacturer
+
+s to enter, 
+
+edit and 
+
+manage 
+
+problems.ﬂ 
+(Yes) 
+
+ﬁProblem solvers, 
+
+experts and managers 
+
+share a common 
+
+process and 
+
+informationﬂ 
+(Yes) 
+
+The causes are 
+
+detected by using 
+
+questions only. In 
+
+the end, software 
+
+provides a report 
+
+which is a tree 
+
+based diagram.  
+Yes 
+
+ﬁPHRED 
+
+takes you 
+
+through 
+
+outlining a 
+
+solution and 
+
+presenting it 
+
+for 
+
+agreement, 
+
+sign-off and 
+
+implementati
+
+on. PHRED 
+
+tracks the 
+
+multiple 
+
+implementati
+
+on actions.ﬂ 
+? Yes 
+The tool includes a 
+
+database which is 
+
+used to ﬁShare Root 
+
+Cause information 
+
+between people and 
+
+plants.ﬂ 
+
+AND 
+
+ﬁStandard reports, 
+
+individually defined 
+
+user query reports, 
+
+management 
+
+summaries and 
+
+charts. Export the 
+
+information into 
+
+Excel or PDF. Send 
+
+only the information 
+
+you want to share 
+
+with your customers 
+
+and suppliers.ﬂ 
+Fee Googl
+e* 
+BowTieXP 
+
+http://www.cgerisk.
+
+com/software/incide
+
+nt-
+
+analysis/incidentxp/r
+
+ca 
+Native 
+
+The 
+
+screenshot of 
+
+the tool 
+
+reveals that 
+
+the software 
+
+requires 
+
+client 
+
+installation 
+No 
+
+ Tree (No) 
+There is no 
+
+evidence that 
+
+the tool is 
+
+used to create 
+
+corrective 
+
+actions. It 
+
+seems that 
+
+the tool is 
+
+used to detect 
+
+cause-and-
+
+effects only. 
+? Yes 
+The output of RCA 
+
+can be refined and 
+
+stored. 
+
+ﬁOngoing effort shall 
+
+be made to examine 
+
+ways in which a 
+
+similar improved 
+
+learning from 
+
+incidents can be 
+
+realized by 
+
+correlating RCA 
+
+with bowtie analysis. 
+
+One could think 
+
+about classification 
+
+of events, and 
+
+perhaps correlation 
+
+of events to barriers 
+
+in the bowtie 
+
+diagrams.ﬂ 
+Fee Googl
+e* 
+FMEA Software 
+
+http://www.fmea.co.
+
+uk/APIS_FMEA_so
+
+ftware.html 
+Native 
+
+Requires 
+
+client 
+
+installation in 
+
+order to be 
+
+used. 
+(No) 
+
+Shares the information 
+
+through the web, but 
+
+the analysis is 
+
+conducted on a single 
+
+PC. 
+Tree Yes 
+The tool 
+
+provides 
+
+features for 
+
+developing 
+
+and 
+
+registering 
+
+corrective 
+
+actions. 
+No  Yes 
+ﬁprocedure of 
+
+focusing on what can 
+
+go wrong, what 
+
+possibly could cause 
+
+it and what are the 
+
+potential effects. 
+
+Quantification of the 
+
+risk, taking into 
+
+account the current 
+
+controls, then 
+
+indicates areas of 
+
+weakness. It is 
+
+widely used in 
+
+manufacturing 
+
+industries in various 
+
+phases of the product 
+
+life cycle. Failure 
+
+causes are any errors 
+
+or defects in process, 
+
+design, or part, 
+
+especially ones that 
+
+affect the customer.ﬂ 
+Fee Googl
+e* 
+ Systems2win 
+
+http://www.systems
+
+2win.com/ 
+
+solutions/brainstorm
+
+ing.htm 
+Native 
+
+Is an Excel 
+
+template. 
+No 
+
+Is an Excel template 
+
+which is used to 
+
+substitute  whiteboards 
+
+in ﬁbrainstorming 
+
+sessionsﬂ  
+Graph No No No Fee Googl
+e*# 
+iReliability Root 
+
+Cause Analysis 
+
+http://ireliability.co
+
+m/product/root-
+
+cause-analysis/ 
+Browser 
+
+ No 
+
+The analysis is 
+
+conducted on a single 
+
+PC. 
+Tree Yes 
+Track and 
+
+facilitate 
+
+implementati
+
+on activities 
+No (No) 
+The existing RCAs 
+
+are stored and the 
+
+user can view and 
+
+refine them. 
+
+However, there is no 
+
+evidence that the 
+
+user can share the 
+
+information with 
+
+other users (e.g. 
+
+organization™s 
+
+members)  
+Fee Googl
+e* 
+FMECA Software 
+
+http://www.itemsoft.
+
+com/ 
+
+fmeca.html?gclid=C
+
+NbprZTd9bkCFWd
+
+7cAodG2cAjQ 
+Native 
+
+Require 
+
+client 
+
+installation 
+No 
+
+The analysis is 
+
+conducted on a single 
+
+PC. 
+Tree 
+
+The screenshots 
+
+indicate that the 
+
+tool supports tree 
+
+diagrams. 
+
+Additionally, 
+ﬁan enhanced 
+hierarchy tree and 
+tabular viewsﬂ 
+AND 
+ﬁGraphically 
+constructed 
+system hierarchy 
+diagramsﬂ
+ (No) 
+
+Nothing 
+
+indicates that 
+
+corrective 
+
+actions are 
+
+registered 
+
+with the tool. 
+(No) (Yes) 
+This feature is not 
+
+explicitly stated, 
+
+however, it is stated 
+
+that ﬁbuild and open 
+
+multiple systems and 
+
+project filesﬂ AND 
+
+ﬁPowerful reporting 
+
+and charting 
+
+facilitiesﬂ. 
+Fee Googl
+e* 
+Rapid Problem 
+
+Isolation 
+
+http://www.neebula.
+
+com/it-incident-
+
+management-
+
+tool/root-cause-
+
+analysis-software/ 
+Native 
+
+ﬁdownload 
+
+and install a 
+
+small-
+
+footprint 
+
+collector that 
+
+communicate
+
+s securely 
+
+with our 
+
+cloud-based 
+
+application.ﬂ 
+No 
+
+This software is used to 
+
+link technical solutions 
+
+to the business 
+
+application, 
+
+automatically.  
+Tree 
+
+ No 
+
+The software 
+
+is used to 
+
+view the 
+
+technical 
+
+cause-and-
+
+effect 
+
+linkages 
+
+only.  
+No (Yes) 
+The personnel get 
+
+information about 
+
+the technical solution 
+
+linkage to the 
+
+business solutions. 
+
+However, it seems 
+
+that this information 
+
+needs to be shared 
+
+manually. 
+Fee Googl
+e* 
+Lassale 
+
+http://www.ncbi.nlm
+
+.nih.gov/pmc/article
+
+s/PMC419418/#!po
+
+=75.0000 
+Native 
+
+Screenshots 
+
+indicate that 
+
+a client 
+
+installation is 
+
+required. 
+
+Additionally, 
+
+it is stated 
+
+that 
+
+ﬁdesigned for 
+
+Visual Basicﬂ 
+No Tree No 
+The software 
+
+is used to 
+
+create cause-
+
+and-effect 
+
+diagrams 
+
+only. 
+No (No) 
+The analysis is run 
+
+on a single PC. 
+
+However, it is stated 
+
+that ﬁThe database 
+
+backend is SQL 
+
+Serverﬂ. 
+? Googl
+e*, 
+
+Googl
+
+e 
+
+Schol
+
+ar 
+CA Spectrum 
+
+http://www.ca.com/
+
+us/root-cause-
+
+analysis.aspx 
+? ? ? ? ? ? Fee Googl
+e* 
+RootCause 
+
+http://www.rlsolutio
+
+ns.com/Root_Cause
+
+_Analysis.aspx 
+? No 
+It seems that the 
+
+analysis is conducted 
+
+on a single PC and the 
+
+results can thereafter be 
+
+used in future analyses.  
+(No) 
+
+The tool uses 
+
+questions 
+
+answered by the 
+
+user. Thereafter, a 
+
+report is made. No 
+
+indication that 
+
+there is a cause-
+
+and-effect 
+
+diagram available. 
+Yes 
+
+ﬁSend action 
+
+items to 
+
+multiple 
+
+recipients 
+
+and track 
+
+their 
+
+progressﬂ 
+? (Yes) 
+Not explicitly stated. 
+
+However, ﬁImport 
+
+RL6:Risk data into 
+
+your root cause 
+
+analysis, to reduce 
+
+rework and reduce 
+
+the chance of errorsﬂ 
+
+AND ﬁMonitor your 
+
+ongoing 
+
+improvement in 
+
+frequency of process 
+
+failures with the RL6 
+
+Report Centerﬂ 
+
+ Fee Googl
+e* 
+Speechminer 
+
+http://www.utopy.co
+
+m/speechminer/ 
+? ? ? ? ? ? Fee Root 
+Cause 
+
+Live 
+ Root Cause Analyst 
+
+http://www.ccdsyste
+
+ms.com/Products/R
+
+ootCauseAnalyst/R
+
+CAProductDescripti
+
+on.aspx 
+(Native) 
+
+ﬁProgramme
+
+d in Visual 
+
+Basicﬂ 
+? (Tree) 
+Seems to be a tool 
+
+that uses questions 
+
+which the user 
+
+answers. 
+
+Thereafter, the 
+
+user can view the 
+
+cause-and-effects 
+
+as a tree. ﬁOne-
+
+button generation 
+
+of flowcharts & 
+
+factor treesﬂ 
+? ? (No) 
+There is no evidence 
+
+that the tool provides 
+
+any features for 
+
+refining and sharing 
+
+prior analyses over 
+
+the tool. However, it 
+
+is stated that ﬁImport 
+
+& export analyses 
+
+and Factor Guidesﬂ 
+
+AND ﬁAll reports 
+
+generated in 
+
+Microsoft Office 
+
+formatﬂ.  
+Fee Root 
+Cause 
+
+Live 
+RCA GUI 
+
+http://www.emeraldi
+
+nsight.com/journals.
+
+htm?articleid=19072
+
+12&show=abstract 
+Native 
+
+Screenshots 
+
+reveal that 
+
+the software 
+
+require client 
+
+installation 
+No 
+
+The application is used 
+
+by a user, who uses the 
+
+tool by asking experts 
+
+over the root causes 
+
+detected. ﬁExperts in 
+
+the PCA manufacturing 
+
+industry were 
+
+questioned 
+
+over the most likely 
+
+root cause of the 
+
+problem from those 
+
+provided by the RCA 
+
+module"  
+Tree 
+
+The application 
+
+creates a tree 
+
+diagram based on 
+
+the information 
+
+gathered 
+
+automatically 
+
+from a technical 
+
+system. ﬁﬂ 
+Yes 
+
+ﬁthe user 
+
+can.. 
+
+..propose it 
+
+as a design 
+
+change to 
+
+eliminate the 
+
+manufacturin
+
+g defect 
+
+investigated.ﬂ 
+No Yes 
+The tool seems to be 
+
+integrated to a 
+
+knowledge 
+
+management system. 
+
+Additionally, the 
+
+system provides 
+
+assistance for the 
+
+user based on prior 
+
+knowledge, e.g., ﬁthe 
+
+software provides 
+
+guidance to the user 
+
+on the investigation 
+
+of a defect based on 
+
+previous knowledge 
+
+formalized in the 
+
+form of integrated 
+
+models.ﬂ 
+? Scopu
+s 
+ 
+No=this feature is not available in the software to
+ol, Yes=this feature is available in the software t
+ool, (No)=it is likely that this feature is not 
+available in the software tool, but we were not abl
+e to verify that, (Yes)= it is likely that this fea
+ture is available in the software tool, but we were
+ 
+not able to verify that, ?=we were not able to find
+ any evidence on the occurrence of this feature, Fe
+e=the software is subject to a charge, Free 
+(license)=the software is free, Free to use=using t
+he software is free 
+Google* = Found from our Google search ﬁroot cause 
+analysis softwareﬂ 
+Google# = Found from our Google search ﬁroot cause 
+analysis softwareﬂ free 
+Open-tube = Found from http://open-tube.com/10-best
+-software-tools-to-conduct-root-cause-analysis-and-
+solve-complex-problems/ 
+Root Cause Live = found from http://www.rootcauseli
+ve.com/library/Software.htm 
+Scopus = found from scopus.com 
+
+Google Scholar = found from Google Scholar 
+
+Appendix 2: Questionnaire used in Case 1 
+1.
+ What is your title? 
+2.
+ Select the roles that describe your responsibility 
+best 
+a.
+ Manager 
+b.
+ Product Owner 
+c.
+ Developer 
+d.
+ Something else, what? 
+3.
+ How long have you worked in this role(s)? 
+4.
+ How long have you worked at the company? 
+5.
+ Target Problem 
+
+Give a value (1=very minor, 2, 3, 4, 5=very major) 
+that corresponds the question best 
+a.
+ Effort the company has used to try to prevent the t
+arget problem earlier 
+b.
+ The internal impact of the target problem for the c
+ompany 
+c.
+ The external impact of the target problem for the c
+ompany 
+d.
+ The impact of the target problem for team™s communi
+cation 
+6.
+ Target problem causes 
+
+Give a value (1=very minor, 2, 3, 4, 5=very major) 
+that corresponds the question best 
+a.
+ The correctness of the detected causes 
+b.
+ The correctness of the detected root causes 
+c.
+ Impact of resolving the found causes of the problem
+s 
+7.
+ Retrospective method 
+
+Give a value (1=very minor, 2, 3, 4, 5=very major) 
+that corresponds the question best 
+a.
+ The easiness to collect the causes 
+ b.
+ The easiness to detect the root causes 
+c.
+ The easiness to organize the causes 
+d.
+ The easiness to detect the root causes of the targe
+t problem 
+e.
+ My own contribution in the retrospective 
+f.
+ The openness of the communication in the retrospect
+ive 
+Give a value (1=absolutely NO, 2, 3, 4, 5=absolutel
+y YES) that corresponds the question best 
+g.
+ Is the ARCA tool easy? 
+h.
+ Is the ARCA tool learnable? 
+i.
+ Did the ARCA tool help in finding problems and caus
+es? 
+j.
+ Would you have found the same causes without the to
+ol? 
+k.
+ Would the retrospective have been easier without th
+e tool? 
+l.
+ Would the retrospective have been more effective wi
+thout the tool? 
+Appendix 3: Questionnaire used in Case 2 
+1.
+ What is your title 
+2.
+ Select the roles that describe your responsibility 
+best 
+3.
+ Target Problem 
+
+Give a value that corresponds the question best [1=
+very low, 2, 3, 4, 5=very high] 
+a.
+ Effort the company has used to try to prevent the t
+arget problem (or similar ones) earlier 
+b.
+ Internal impact of the target problem for the compa
+ny 
+4.
+ Target problem causes 
+a.
+ Correctness of the detected causes 
+b.
+ Impact of resolving the found causes of the problem
+s 
+5.
+ Retrospective method 
+
+Give a value that corresponds the question best [1=
+very low, 2, 3, 4, 5=very high] 
+a.
+ Easiness to collect the causes 
+b.
+ Easiness to detect the root causes 
+c.
+ My own contribution in the RCA session was 
+d.
+ Openness of the communication in the RCA session wa
+s 
+e.
+ Compared to our team's current process improvement 
+practices, do you find using the RCA method 
+cost efficient? 
+f.
+ Compared to our team's current process improvement 
+practices, do you find using the RCA method 
+easy?  
+g.
+ Compared to our team's previous practices to find c
+auses behind problems or issues, do you find 
+using the RCA method useful? 
+h.
+ The easiness to detect the causes of the target pro
+blem was.. 
+i.
+ To solve the target problem, was detecting causes f
+or the target problem useful? 
+j.
+ In contrast to the company's practices, was the met
+hod used to detect target problem causes useful? 
+k.
+ Was it easy to detect the target problem causes? 
+6.
+ The ARCA tool 
+
+Give a value that corresponds the question best [1=
+very low, 2, 3, 4, 5=very high] 
+a.
+ Compared to an RCA session done by using post-it no
+tes, do you find using the online ARCA-tool 
+cost efficient? 
+b.
+ Compared to an RCA session done by using post-it no
+tes, do you find the online ARCA-tool easy to 
+use? 
+c.
+ Compared to our team's previous process improvement
+ practices, do you find the online ARCA-tool 
+useful? 
+d.
+ Is the online ARCA tool easy to use? 
+e.
+ Is the online ARCA tool easy to learn? 
+f.
+ Did the online ARCA tool help to find problem cause
+s? 
+g.
+ Would we have found the same problem causes without
+ the tool? 
+h.
+ Was it difficult to organize the problem causes wit
+h the online ARCA tool? 
+i.
+ In contrast to our company practices, is the online
+ ARCA tool cost efficient to detect process 
+improvement targets? 
+ 

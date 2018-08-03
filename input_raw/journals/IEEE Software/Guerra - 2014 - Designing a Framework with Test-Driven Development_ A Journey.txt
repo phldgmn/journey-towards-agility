@@ -1,0 +1,748 @@
+ 0740-7459/14/$31.00 © 2014 IEEE JANUARY/FEBRUARY 2014  |  IEEE SOFTWAR
+E 9LAST YEAR, I 
+used classic test-
+driven development (TDD) to de
+-velop an open source framework 
+called Es˜nge QueryBuilder (http://
+
+es˜nge.sf.net). This framework in
+-terprets method signatures to dy
+-namically generate database queries 
+
+to different database technologies. 
+
+Although TDD can be used for typi
+-cal application development, the 
+challenge for me was to use it to 
+
+develop an extensible framework 
+that uses re˚ection and interprets 
+annotations. An additional chal
+-lenging requirement was that this 
+
+framework should provide the same 
+functionality independent of the per
+-sistence paradigm used, providing a 
+hotspot to plug in query generators 
+
+for different kinds of databases. 
+TDD 
+Approach
+Es˜nge QueryBuilder™s develop
+-ment followed a traditional TDD 
+approach, in which unit tests help 
+de˜ne the developed classes™ APIs 
+
+and expected behavior. For those 
+
+who aren™t familiar with TDD, it™s 
+a development and design tech
+-nique that creates tests before pro
+-duction code is created. I developed 
+Designing a 
+Framework with 
+
+Test-Driven 
+
+Development: 
+ 
+A Journey
+Eduardo Guerra, 
+National Institute for Space Research, Brazil
+Usually we read about agile development practices 
+that seem like no more than hand waving. If that™s 
+how you feel, you™ll enjoy traveling this detailed 
+design journey and seeing up close how test-driven 
+development (TDD) and refactoring are done in 
+an agile environment. This article is especially 
+insightful because of the collaborative shepherding 
+by Rebecca Wirfs-Brock. Thank you both, Eduardo 
+and Rebecca! Œ
+Linda Rising, Associate Editor
+INS
+IGHTS:
+ SO
+FTWARE DE
+SIGN
+ 10
+ IEEE SOFTWAR
+E  |  WWW.COMPUTER.ORG/
+SOFTWARE
+  |  @IEEE
+SOFTWARE
+the framework components ana
+-lyzed here over a period of eight 
+months. My development was 
+guided by a list of requirements, in
+-cluding which behaviors should be 
+
+able to be extensible. 
+No diagram or design representa
+-tion was created before test creation, 
+
+but I used ˚exibility requirements 
+
+to ˜rst determine what responsibili
+-ties should be decoupled and con
+-sequently implemented in different 
+
+classes. I only used tests to express 
+my design decisions. Refactoring was 
+performed frequently, mostly for local 
+
+solutions, but I needed larger refactor
+-ings when the current solution wasn™t 
+suitable for the next requirement.
+Framework Versions Overview
+The experience documented in this 
+article covers ˜ve versions of Es˜nge 
+QueryBuilder, from version 1.0 to 
+
+1.4, including the main component 
+
+and the component for Java Persis
+-tence API (JPA) integration. 
+To understand how the frame
+-work code evolved over time, I mea
+-sured some code metrics on both 
+framework and test code. The metric 
+suite I used contains measurements 
+
+about complexity and coupling. Ta
+-ble 1 presents direct metrics and the 
+
+computed proportions obtained. 
+With the exception of cyclomatic 
+complexity, these metric values are 
+considered low compared with ex
+-isting statistical thresholds.
+1,2
+ The 
+computed proportions varied little 
+
+through the versions, indicating that 
+code standards were maintained as 
+
+the framework evolved.
+It™s also interesting to note that 
+lines of test code were always higher 
+
+than lines of production code. The 
+
+absolute cyclomatic number is very 
+close between test and production 
+code, which is what I expected. Well-
+
+formed tests rarely include condi
+-tional logic, even though they should 
+
+cover all possible paths for produc
+-tion code. Although there were more 
+
+lines of test code, the effort to de
+-velop the tests was considerably less 
+
+than that for production code. 
+To give further insight into 
+how these metrics are distributed 
+among the classes, Figure 1 pres
+-ents a poli
+ metric view (a software 
+representation based on multiple 
+metrics), called CodeCity,
+3 gener
+-ated from each framework version 
+
+for both production and test code. 
+TABLE 1
+Metrics from production code and test code in ˜ve versions of the framework.*
+Production code
+Test code
+1.0
+1.1
+1.2
+1.3
+1.4
+1.0
+1.1
+1.2
+1.3
+1.4
+NOC
+354651586940525563104
+NOM
+104
+128
+138
+215
+274
+183
+213
+222257
+358
+LOC
+597
+777826
+1241
+1614
+984
+1268
+1337
+1712
+2484
+CYCLO
+179
+214
+222320
+445
+184
+215
+224
+259
+348CALL
+301
+330
+339
+426
+680
+554
+661
+719
+9431731
+FOUT
+46474964128
+17
+11161875CYCLO/
+LOC
+0.29
+0.27
+0.26
+0.25
+0.27
+0.18
+0.16
+0.16
+0.15
+0.14
+LOC/
+
+NOM
+5.74
+6.07
+5.98
+5.77
+5.89
+5.37
+5.95
+6.02
+6.66
+6.93
+NOM/
+
+NOC
+2.97
+2.78
+2.70
+3.70
+3.97
+4.57
+4.09
+4.03
+4.07
+3.44
+FOUT/
+
+CALL
+0.15
+0.14
+0.14
+0.15
+0.18
+0.03
+0.01
+0.02
+0.01
+0.04
+CALL/
+
+NOM
+2.89
+2.57
+2.45
+1.98
+2.48
+3.02
+3.10
+3.23
+3.66
+4.83
+* Number of classes (NOC); number of methods (NOM); lines of code (LOC); cyclomatic complexity (CYCLO); number of operation calls (CALLS); number of called classes (FOUT).
+  JANUARY/FEBRUARY 2014 
+ |  IEEE SOFTWAR
+E 11In this visualization, the height rep
+-resents the number of methods, the 
+length and width are the number of 
+attributes, and the color is the lines 
+
+of code. 
+By observing the CodeCity evo
+-lution, it™s evident that the code is 
+
+well distributed without anomalies, 
+
+such as classes that keep growing in 
+
+each version. My perception is that 
+this code stability over time is one 
+of the bene˜ts of using TDD. This 
+
+culture of keeping the code clean is 
+reinforced by creating the simplest 
+solutions that works and through 
+
+consecutive refactorings, which are 
+
+supported by automated tests.
+Design 
+Solution 
+Evolution
+As opposed to applications, in which 
+
+new functionality is perceived exter
+-nally, new features in frameworks 
+
+can include the addition of a new ex
+-tension point, called a hotspot. The 
+
+introduction of ˚exibility that hap
+-pens as part of the framework evo
+-lution process is usually more about 
+
+refactoring the existing structure 
+
+than introducing new code.
+Figure 2 presents a class diagram 
+with some important framework 
+
+interfaces. The ones with a small 
+˚ame represent framework hotspots; 
+classes inside the gray rectangle are 
+
+implemented in a speci˜c database 
+
+implementation. This diagram rep
+-resents the structure from the most 
+
+recent framework version. 
+I introduced several hotspots as 
+the framework evolved, such as 
+Query
+  Representation
+, which is responsible for 
+storing the native database query. 
+
+Existing interfaces also evolved to 
+allow new features to be introduced 
+that needed additional methods, 
+
+such as 
+QueryVisitor
+.The 
+MethodParser
+ is a good example 
+of how my design evolved through 
+
+the framework versions follow
+-ing the TDD philosophy. Initially, 
+MethodParser
+ was a class that parsed 
+the method information based on 
+the framework™s code conventions. 
+
+When it was necessary to support 
+the parsing of complex objects as pa
+-rameters, it became clear that several 
+classes should implement the pars
+-ing. So I extracted an interface from 
+the existing class and introduced the 
+
+method 
+˜tParsingConvention() 
+to choose 
+the right parser to handle a method 
+invocation, along with a composite, 
+SelectorMethodParser
+, to make the parser 
+choice transparent to 
+QueryBuilder
+. As a result of these additions, 
+MethodParser
+ became a hotspot, and 
+other implementations could eas
+-ily be plugged into the framework. 
+I introduced the abstract class 
+ BasicMethodParser
+ because of the need 
+to share code with the implementa
+-tion. The process involved the ex
+-traction of methods, pulling them up 
+in sequence. The framework™s future 
+
+needs are pointing to the creation 
+
+of new components and additional 
+hotspots in the parsing mechanism.
+Designing Contracts 
+through 
+Tests
+The ˜rst challenge in the begin
+-ning of the development was how 
+to design the contracts between the 
+framework classes. The ˜rst option 
+
+that I considered was to use mock 
+
+objects
+4 in the tests for de˜nition. 
+A mock object is a fake object that 
+Production code evolutionTest code evolutionFIGURE 1. 
+CodeCity evolution from framework version. Height represents the number of methods, length and width are the number 
+of attributes, and color is the lines of code.
+ 12 IEEE SOFTWAR
+E  |  WWW.COMPUTER.ORG/
+SOFTWARE
+  |  @IEEE
+SOFTWARE
+you can use to simulate a dependent 
+object and verify the method invo
+-cation and values returned by the 
+
+tested class. 
+The ˜rst problem I encoun
+-tered using mocks happened when 
+I needed to develop a class that de
+-pended on an external class. This 
+class should use an API to process 
+
+the Expression Language (EL; http://
+juel.sourceforge.net), but this API™s 
+interfaces are created by complex 
+
+builders and have several methods 
+that aren™t necessary for me. Because 
+
+of that, when I tried to mock this 
+API class, the tests became hard to 
+understand and develop.
+To simplify my tests, I introduced 
+a new class into the framework that 
+encapsulated the use of the external 
+API and only mocked this new ele
+-ment instead of the complicated API. 
+
+The impact on my tests was huge: 
+the new class ˜t perfectly with the 
+tested class™s needs, whereas the ex
+-ternal API was designed to address a 
+wide range of possibilities. By intro
+-ducing this façade class, I improved 
+my design by decoupling the rest of 
+the framework from the details of 
+
+the EL™s external API.
+From this experience, I learned 
+to avoid mocking an external API or 
+
+component. Instead, I found it much 
+
+better to encapsulate external details 
+
+in a class that provides services that 
+offer exactly what™s needed by the 
+other classes. 
+The second problem I faced was 
++invoke()BasicMethodParser+executeQuery()«interface»QueryExecutor+parse()+˜tParserConvention()«interface»MethodParserQueryObjectMethodParserDSLMethodParser<<Composite>>SelectorMethodParser+getEntityClass()«interface»EntityClassProvider+visitEntity()+visitConector()+visitCondition()+visitOrderBy()+visitEnd()+getQueryRepresentation()«interface»QueryVisitor+visit(in QueryVisitor)+isDynamic()-entityName-entityType-queryType-condition-orderQueryInfo+getQuery()+isDynamic()+getFixParameters()«interface»QueryRepresentation<<Dynamic Proxy>>QueryBuilderFIGURE 2. 
+Class structure from the most recent version of Es˜nge QueryBuilder. The interfaces with a small ˚ame represent 
+framework hotspots; classes inside the gray rectangle are implemented in a speci˜c database implementation.
+  JANUARY/FEBRUARY 2014 
+ |  IEEE SOFTWAR
+E 13deciding which dependents to mock 
+and which ones should be private 
+implementation details that remain 
+hidden. I ˜rst encountered this is
+-sue when I was creating an imple
+-mentation of 
+MethodParser
+. Initially, 
+the dependence responsible for re
+-ceiving and storing the parsed data 
+
+was mocked in my tests. Because 
+
+my design was evolving, the way 
+that this information was stored 
+changed several times, from a simple 
+
+list to a tree implemented with the 
+Composite pattern. My test class 
+was coupled with this dependence 
+
+in my mock de˜nition, demanding 
+
+changes on tests every time my solu
+-tion evolved.
+But the way that parsing informa
+-tion is stored should really be part of 
+
+the parsing class™s internal details and 
+shouldn™t be exposed to my tests or 
+any other objects. Because I wanted 
+
+to be able to freely refactor this part 
+
+of my design, the wise choice was to 
+encapsulate it inside the class. The 
+decision to create a mock or not is 
+
+in fact an important design decision 
+that re˚ects whether a dependent 
+should be exposed or not. 
+On the other hand, a mock object 
+can be an important design aid when 
+you need to de˜ne a stable contract 
+between the developed class and a 
+
+dependent. As an example of this, an 
+
+important interface that I designed 
+by using mock objects was 
+Query
+ Visitor
+. Instead of accessing the internal 
+structure of how the query elements 
+were stored inside the 
+QueryParser
+, my 
+test veri˜ed if the correct methods 
+were invoked in the 
+QueryVisitor
+ mock 
+instance passed as an argument to 
+the class. 
+An important kind of dependent 
+that should be mocked in frame
+-work development is a hotspot, such 
+
+as 
+QueryVisitor
+. Because it represents 
+a point where framework behavior 
+can be extended, it™s important to 
+expose this interface and design it it
+-eratively through the mock objects in 
+
+your tests. If a test breaks as a conse
+-quence of a change in this dependent 
+
+interface or from expected behavior, 
+
+this can reveal where a framework 
+
+client that extends this hotspot will 
+have similar problems. 
+Big 
+Refactorings: 
+They 
+Happen!
+One of the practices of TDD is to 
+continuously create the simplest so
+-lution that makes the current test 
+
+suite pass. However, sometimes the 
+
+solution being developed reaches a 
+
+ﬁdead endﬂ when it™s completely un
+-suitable for the next requirement. 
+
+This usually happens when it be
+-comes necessary to evolve a class 
+
+whose implementation started in a 
+previous iteration.
+The ˜rst big refactoring I faced 
+was in a class that implements the 
+
+Visitor pattern and receives method 
+calls for each query element the 
+
+parser ˜nds. In the initial version of 
+
+the framework, this class generated 
+the ˜nal query incrementally in each 
+method call. However, the introduc
+-tion of the feature to allow parame
+-ters to be removed when a null value 
+is received made it necessary to inter
+-cept the next method call to know 
+what should be introduced in the 
+query. This requirement invalidated 
+
+my previous solution.
+My ˜rst impulse was to delete my 
+code and start a new solution from 
+
+scratch, but when I realized that if I 
+
+did so I would be without automated 
+
+tests for a long time, I felt uncomfort
+-able. So I stepped back and planned 
+
+how this big refactoring could be 
+
+performed in small steps, making 
+
+the test bar green at the end of each 
+successive change. The two solutions 
+needed to live together for some 
+
+time, but by the end, it was possible 
+to remove completely my prior solu
+-tion. Fortunately, due to the decou
+-pling I had already achieved, the 
+scope of these greater refactorings 
+was often restricted to a single class 
+or to a small group of classes.
+An important lesson that I took 
+from these experiences is that big 
+refactorings are inevitable when 
+you follow a TDD philosophy in a 
+
+complex set of classes. Don™t think 
+of rework as a consequence of a de
+-sign mistake but as a natural part 
+of design. 
+After my experience devel
+-oping ˜ve releases of the 
+Es˜nge QueryBuilder, I 
+concluded that it™s possible to cre
+-ate software with complex de
+-sign requirements by using TDD. 
+ABOUT THE 
+AUTHOR
+ED
+UAR
+DO
+ GUERRA 
+is an associate researcher at National Institute 
+for Space Research, Brazil. His research interests include software 
+design, test automation, and agile methods. Guerra received a PhD in 
+
+electronic and computer engineering from the Aeronautical Institute of 
+
+Technology, Brazil. Contact him at eduardo.guerra@inpe.br.
+ 14 IEEE SOFTWAR
+E  |  WWW.COMPUTER.ORG/
+SOFTWARE
+  |  @IEEE
+SOFTWARE
+However, using TDD alone isn™t 
+enough. Good software design 
+doesn™t ﬁjust happenﬂ by creat
+-ing tests ˜rst! A developer should 
+choose how the tests should be cre
+-ated to drive the design in the de
+-sired direction.
+By using TDD, the design is ex
+-pressed through the tests, but the 
+
+developer should know what he or 
+she wants to create. In this context, 
+the knowledge of design patterns 
+
+and refactoring techniques is es
+-sential to drive the code to a good 
+
+design solution. For instance, Es
+-˜nge QueryBuilder uses Visitor as a 
+
+central pattern in its architecture, a 
+solution that hardly would emerge 
+naturally without prior pattern 
+knowledge. If I didn™t know about 
+
+Visitor beforehand, it wouldn™t have 
+just emerged from writing new tests.
+Despite TDD not being enough, 
+it has some advantages that help the 
+design process. Unit tests help de˜ne 
+a single purpose for classes, enabling 
+a good responsibility division. Addi
+-tionally, because tests provide a vi
+-sion from the client code™s perspec
+-tive, some design ˚aws are easy to 
+
+detect. I strongly encourage you to 
+
+give it a try!
+Acknowledgments
+I give a special credit to Rebecca Wirfs-
+Brock, who shepherded this article. Her 
+
+contribution through several iterations 
+
+was crucial to telling this story. Thanks a 
+
+lot, Rebecca!
+References
+ 1.
+ M. Lanza and R. Marinescu, 
+Object-
+ Oriented Metrics in Practice: Using 
+Software Metrics to Characterize, Evalu
+-ate, and Improve the Design of Object-
+
+Oriented Systems
+, Springer, 2006.
+ 2.
+ E. Guerra et al., ﬁA Reference Architecture 
+
+for Organizing the Internal Structure of 
+Metadata-based Frameworks,ﬂ 
+J. Systems 
+and Software
+, vol. 86, no. 5, 2013, pp. 
+1239Œ1256. 
+ 3. 
+ R. Wettel, M. Lanza, and R. Robbes, 
+ﬁSoftware Systems as Cities: A Controlled 
+
+Experiment,ﬂ 
+Proc. 33rd Int™l Conf. Soft
+-ware Eng.
+, ACM, 2011, p. 551.
+ 4.
+ S. Freeman et al., ﬁMock Roles, Not Ob
+-jects,ﬂ 
+Proc. 19th Annual ACM SIGPLAN 
+
+Conf. Object-Oriented Programming, 
+Systems, Languages and Applications
+ (OOPSLA), ACM, 2004, pp. 236Œ246.
+Selected CS articles and columns 
+are also available for free at 
+ 
+http://ComputingNow.computer.org.
+stay connected.
+Keep up with the latest 
+IEEE Computer Society 
+publications and activities 
+wherever you are.
+|  IEEE Computer Society
+|  Computing Now
+|  facebook.com/IEEEComputerSociety
+|  facebook.com/ComputingNow
+|  @ComputerSociety
+ |  @ComputingNow
+|  youtube.com/ieeecomputersociety

@@ -1,0 +1,1139 @@
+ 64 IEEE SOFTWARE
+ | PUBLISHED BY THE IEEE COMPUTER SOCIETY
+ 0740-7459/11/$26.00 © 2011 IEEE
+IN RECENT YEARS, 
+the software en-
+gineering (SE) and human-computer in-
+teraction (HCI) communities have tried 
+to combine their methods and tech-
+
+niques. Such cross-fertilization is dif-
+
+˜ cult because each community works 
+independently. Although practitioners 
+often participate in multidisciplinary 
+
+teams, a lack of communication still 
+
+exists. Software developers often fail to 
+recognize mature, successful user-cen-
+tered design techniques from the HCI 
+
+communityŠfor instance, user roles 
+and personas, human-activity model-
+ing, and contextual inquiry and de-
+
+sign.
+1 Although these techniques tackle 
+major SE issues (requirements and user 
+
+involvement), too few practitioners 
+
+understand them, and they™re still far 
+from experiencing large-scale adoption.
+We™ve been exploring one area of 
+cross-fertilization for both disciplines: 
+
+how to produce more consistent soft-
+ware project size estimations based 
+
+on 
+use-case points
+ (UCPs) by exploit-
+ing 
+usage-centered design 
+(usageCD). 
+Usage-centered design differs from 
+
+user-centered design in that it puts uses 
+
+rather than users at the center of de-
+
+sign and changes the prime objective 
+from enhancing user experience to en-
+hancing user performance.
+2 In particu-
+lar, we™ve modi˜ ed the UCP method to 
+make it appropriate for agile develop-
+ment of interactive software; we call 
+
+our version Interactive UCP (iUCP). 
+UCPs
+Researchers have proposed several 
+
+functional size measurement methods 
+and cost estimation models, notably 
+function point analysis (FPA)
+3 and 
+CO-
+COMO
+.4 Both assume that developers 
+can derive size measurements and esti-
+mates from historical project data and 
+current project characteristics.
+With object orientation, use cases 
+emerged as a dominant technique for 
+structuring requirements. This tech-
+nique was integrated into the Uni˜ ed 
+
+Modeling Language (UML) and Uni-
+
+˜ ed Process and became the de facto 
+standard for SE requirements model-
+ing. Consequently, Gustav Karner cre-
+
+ated the UCP method, which estimates 
+project size by assigning points to use 
+cases in much the same way that FPA 
+
+assigns points to functions.
+5 The UCP 
+model gained popularity because of its 
+simplicity and abstraction, which make 
+it good for early estimations. Sergey 
+
+Diev
+6 and Edward Carroll
+7 comprehen-
+sively discuss UCPs.
+De˜ ning Actors and Use Cases
+The UCP model™s starting point is the 
+
+standard UML de˜ nitions of actor and 
+use case (www.omg.org/gettingstarted/
+what_is_uml.htm) because the UCP 
+
+method focuses mainly on estimating 
+
+actor and use case complexity. Fur-
+thermore, the model takes into account 
+technical, environmental, and produc-
+
+tivity factors.
+We seek to create more consistent 
+size estimations based on revised ac-
+
+tor and use-case concepts. Our modi-
+
+˜ cations to the UCP method result in 
+more convergent estimates of unad-
+justed complexity because they rely on 
+i UCP: 
+Estimating Interactive-
+Software Project Size with 
+
+Enhanced Use-Case Points
+Nuno Jardim Nunes and Larry Constantine, 
+University of Madeira
+Rick Kazman, 
+University of Hawaii
+// 
+An empirical study shows that estimations based on a 
+modi˜ ed use-case-point method exhibit less interestimator 
+variance than those based on the original method. 
+//FEATURE:
+ PROJECT ESTIMATION
+  JULY/AUGUST 2011
+ | IEEE SOFTWARE
+ 65FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUSMULTIPARADIGM 
+PROGRAMMINGFOCUSMULTIPARADIGM PROGRAMMING
+well-de˜ned, less ambiguous de˜ni
+-tions of actors and use cases that we 
+obtain through the usageCD method. 
+The technical, environmental, andŠ
+particularlyŠproductivity factors that 
+adjust the complexity still depend on 
+historical data from past projects but 
+don™t depend on the actor and use case 
+models.
+Estimating UCPs
+The UCP method ˜rst determines the 
+unadjusted actor weight
+ (UAW). For 
+each actor in the use-case model, the 
+method attributes a weight factor:
+Simple actors
+ (a weight factor of 1) 
+are system actors that communicate 
+through an API.
+Average actors
+ (a factor of 2) are 
+system actors that communicate 
+through a protocol or data store.
+Complex actors
+ (a factor of 3) are 
+human actors that interact nor
+-mally through a GUI or other hu
+-man interface.
+The total UAW is the weighted sum of 
+all the actors.
+The UCP method also attributes a 
+weight factor for each use case with ref
+-erence to the scenario that leads to the 
+state originally anticipated by the user 
+(success scenario):
+Simple use cases
+ (a factor of 5) in
+-volve a simple UI or simple process
+-ing and only one database entity. 
+The success scenario involves three 
+or fewer transactions and ˜ve or 
+fewer class implementations.
+Average use cases
+ (a factor of 10) 
+involve moderately complex UIs 
+and two or three database entities. 
+The success scenario involves four 
+to seven transactions and ˜ve to 10 
+classes.
+Complex use cases
+ (a factor of 15) 
+involve complex UIs or processing 
+and three or more database enti
+-ties. The success scenario involves 
+eight or more transactions and 11 
+or more classes.
+The total 
+unadjusted use-case weight
+ (UUCW) is the weighted sum of all the 
+use cases.
+We further modify unadjusted UCPs 
+(UUCPs) to re˚ect a project™s complex
+-ity and its developers™ experience. To 
+do this, we weight 
+technical-complex
+-ity factors
+ (TCFs) and 
+environment-
+complexity factors
+ (ECFs) on the basis 
+of the team™s experience, the develop
+-ment platform, and other criteria de
+-pending on the context.
+After estimating the UCPs, we es
+-timate the number of project hours by 
+multiplying the UCPs by a 
+productivity 
+factor
+ (PF) de˜ning the ratio of devel
+-opment person-hours per UCP. We base 
+PF on past project statistics and ˜ne-
+tune it through historical data. A value 
+between 15 and 30 is typical, depend
+-ing on the team™s experience. The com
+-plete formula is
+UCPs = (UUCW + UAW) × TCFs × ECFs.
+For example, for a project with a 
+UUCW of 50, a UAW of 10, 1.02 TCFs, 
+and 1.04 ECFs,
+UCPs = (50 + 10) × 1.02 × 1.04 = 63.648.
+So, applying a PF of 20 would yield an 
+estimate of 1,272.96 person-hours for 
+the project.
+For more on calculating UCPs, see 
+the related sidebar.
+CALCULATING USE-CASE POINTS
+Use-case point (UCP) calculations aren™t complicated; the central 
+problem is de˜ning the UCP model™s elements (actors and use 
+cases) and assigning weights to them. Sergey Diev discussed is
+-sues related to weighting actors and use cases; he argued that to 
+obtain reasonably accurate estimates, we must clarify these con
+-cepts across and within projects.
+1Estimation relies on the quality of the underlying use-case 
+model.
+2 The estimates™ quality depends on consistent applica
+-tion of the heuristics across and within projects. Edward Carroll 
+described how a multiteam organization used UCP to accurately 
+estimate project cost early during software development.
+3 He also 
+explained how the organization evaluated metrics to ensure the 
+UCP model™s accuracy. Ayman Issa and his colleagues discussed 
+how use-case representations of requirements don™t directly map 
+to the structures that project managers use.
+4 This failure leads to 
+ongoing comparisons of individual costs that are subjective and 
+often don™t represent ˜nal project expenditures.
+References
+ 1.
+ S. Diev, ﬁUse Cases Modeling and Software Estimation: Applying Use 
+Case Points,ﬂ 
+ACM Software Eng. Notes
+, vol. 31, no. 6, 2006, pp. 1Œ4.
+ 2.
+ K. Vinsen, D. Jamieson, and G. Callender, ﬁUse Case Estimation: The 
+Devil Is in the Detail,ﬂ 
+Proc. 12th IEEE Int™l Requirements Eng. Conf.
+, IEEE 
+CS Press, 2004, pp. 10Œ15.
+ 3.
+ E.R. Carroll, ﬁEstimating Software Based on Use Case Points,ﬂ 
+Proc. 
+2005 Conf. Object-Oriented Programming, Systems, Languages, and 
+Applications
+ (OOPSLA 05), ACM Press, 2005, pp. 257Œ265.
+ 4.
+ A. Issa, M. Odeh, and D. Coward, ﬁSoftware Cost Estimation Using Use-
+Case Models: A Critical Evaluation,ﬂ 
+Proc. 3rd Int™l Conf. Information and 
+Comm. Technologies: From Theory to Applications
+ (ICTTA 06), vol. 2, IEEE 
+Press, 2006, pp. 2766Œ2771.
+ 66 IEEE SOFTWARE
+ | WWW.COMPUTER.ORG/SOFTWARE
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUSMULTIPARADIGM 
+PROGRAMMINGFOCUSMULTIPARADIGM PROGRAMMING
+FEATURE:
+ PROJECT ESTIMATION
+iUCP : Estimation in 
+Interaction Design Projects
+To explain how interaction design can 
+in˚ uence UCP estimation,
+5 we consider 
+the model-based techniques that Larry 
+Constantine and Lucy Lockwood pio-
+neered
+8 and others further expanded.
+7,8
+ UsageCD provides the methodological 
+scaffolding for applying activity theory, 
+particularly for interactive software de-
+
+velopment. In the broader context of 
+
+human-activity modeling, it provides 
+a systematic approach to organize and 
+represent the contextual aspects of hu-
+
+man use of tools and artifacts.
+Weighting Actors
+Effective interaction design involves 
+
+understanding users and their needs. 
+As with UML, we call users who inter-
+act with a system 
+actors
+. However, un-
+like UML, we expand the actor concept 
+
+through user roles, representing rela-
+tionships between users and a system. 
+We can describe a role by the context in 
+
+which it™s performed, the characteristic 
+
+manner in which it™s performed, and 
+the design criteria for the role™s sup-
+porting performance.
+The difference between a usageCD 
+context map and a conventional use-
+case model is the richness of the infor-
+
+mation conveyed about each actor. For 
+
+example, a conventional UML model 
+would represent the ticketing problem 
+in Figure 1 with 12 actors: six human 
+
+actors (A1Œ6 in Figure 1) and six sys-
+
+tem actors). With the UCP method, the 
+estimation would be four simple actors 
+(the credit card reader, envelope printer, 
+
+ticket printer, and venue or event man-
+
+ager), two average actors (the credit 
+card network and accounting system), 
+and six complex actors (A1Œ6).
+Table 1 illustrates the weighting of 
+the 12 ticketing application use cases 
+A5: SalessupervisorR05: Supervising-ticket-sales roleCredit-card networkAccounting systemVenue/event managementSalessupportR01: Telephone-selling roleR02: Telephone-query-handling roleR03: Advance-window-selling roleR04: Current-window-selling roleR06: Ticket-mailing roleR07: Pickup-window-ticket-issuing roleA3: Telephone ticket agentA4: Ticket-window agentA6: Ticket mailerA1: Telephone customerA2: In-person customerTicket printerEnvelope 
+printerCredit-card readerSystem actorUser roleUser actorIndirect userFIGURE 1. 
+A context map for a ticketing application. From left to right, indirect and direct human actors interact through roles with the 
+reference system (sales support). On the right, several system actors also interface with the reference system.
+  JULY/AUGUST 2011
+ | IEEE SOFTWARE
+ 67
+for the model in Figure 1. Analyzing 
+the model, we can verify that the com
+-plexity weighting of actors discards all 
+the role information provided by the 
+usage
+ 
+CD method. Conventional UML 
+assumptions probably wouldn™t con
+-sider A1 and A2 as actors, and they 
+would have zero weighting under the 
+assumptions discussed previously. So in 
+either case, only four complex actors ex
+-ist, and the total estimated weight is 20.
+iUCP considers the user roles and 
+additional information that usageCD 
+provides to inform early estimation by 
+weighting the actors. The number of 
+roles each actor supports provides an 
+important way to infer the use case™s 
+complexity. Additionally, usageCD sug
+-gests the concept of 
+focal role
+ together 
+with several relationships that consti
+-tute a model designated a 
+user-role 
+map
+.11 Focal roles are central to the 
+rest of the design process.
+Our experience working and con
+-sulting on many projects that have ap
+-plied usageCD suggests revised heuris
+-tics for actor weighting:
+Simple system actors
+ (a factor of 1) 
+communicate through an API.
+Average system actors
+ (a factor of 
+2) communicate through a protocol 
+or data store.
+Simple human actors 
+(a factor of 3) 
+are supported by one user role.
+Complex system actors
+ (also a fac
+-tor of 3) communicate through a 
+complex protocol or data store.
+Average human actors
+ (a factor of 
+4) are supported by two or three 
+user roles or one focal role.
+Complex human actors
+ (a factor of 
+5) are supported by more than three 
+user roles or more than one focal 
+role.
+We can conclude from Table 1 that 
+there™s a total difference of four UCPs 
+(from 20 to 24) on the basis of revised 
+actor weighting (assuming both ap
+-proaches zero-weight the indirect ac
+-tors). Although this difference might 
+look minor, in a real-world project with 
+three times as many actors and roles, 
+the impact is substantial.
+Weighting Use Cases
+Use cases have become ubiquitous in 
+software development.
+11 We can at
+-tribute part of their success to the 
+concept™s simplicity, but some of that 
+success is probably also due to their 
+imprecise de˜nition. Entire books 
+have discussed the de˜nition of a use 
+case, and we ˜nd many instantia
+-tions of use cases that vary in scope, 
+detail, format, and style. Any estima
+-tion method relying on weighting use 
+cases will suffer from the same uncer
+-tainty. UsageCD clearly de˜nes use 
+cases through the concept of 
+essential 
+use cases
+.11Essential use cases are more ab
+-stract, generalized, and technology-free 
+descriptions of the essence of a given 
+problem. But they™re also described in 
+a systematic sequence of steps divided 
+between user intentions and system 
+responsibilities. These steps provide a 
+systematic way to identify transactions 
+(that we can depict using narratives or 
+sequence or activity diagrams), which 
+are key to classifying use cases in the 
+TABLE 1
+Use-case point (UCP) and interactive UCP (iUCP) estimations.
+Method
+Actor type
+Description
+No. of actors
+Weight factor
+Weight
+UCP
+Simple
+De˜ned API
+414Average
+Interactive or protocol-driven
+224Complex
+GUI431220 total
+iUCP
+Simple system
+De˜ned API
+414Average system
+Interactive or protocol-driven
+224Simple human/complex system
+Supports one user role
+133Average human
+Supports two to three user roles or 
+one focal role
+248Complex human
+Supports more than three user roles 
+or more than one focal role
+15524 total
+ 68 IEEE SOFTWARE
+ | WWW.COMPUTER.ORG/SOFTWARE
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUSMULTIPARADIGM 
+PROGRAMMINGFOCUSMULTIPARADIGM PROGRAMMING
+FEATURE:
+ PROJECT ESTIMATION
+UCP method. For example, Table 2 
+shows a use case for withdrawing cash 
+from an ATM.
+A conventional use-case scenario 
+for this example (for example, from 
+the Eclipse Process Framework wiki at 
+http://epf.eclipse.org) would typically be 
+classi˜ed as complex because it involves 
+more than seven transactions. However, 
+the essential use case would count just 
+two essential steps (system responsibili
+-ties), making this a simple use case.
+The discrepancy underlies the prob
+-lems in applying UCPs across compa
+-nies, teams, and projects. Interestingly, 
+the heuristics for assigning weight fac
+-tors to use cases depend on assump
+-tions about the UI. In the UCP method, 
+a simple use case corresponds to a sim
+-ple UI, an average use case to a mod
+-erate UI, and a complex use case to a 
+complex UI. However, conventional 
+use cases don™t re˚ect the division be
+-tween user intentions and system re
+-sponsibilities that conveys the notion of 
+interaction (that is, interaction happens 
+when a user speci˜es an intention to the 
+system).
+Essential use cases provide a sys
+-tematic way to express transactions as 
+steps in a dialogue. Originally, this type 
+of description was intended to get at a 
+task™s essence from a user™s perspective, 
+avoiding unintended or premature as
+-sumptions about the UI. When applied 
+to estimating use cases, it becomes an 
+important way to retain scope and pre
+-vent the granularity problems we previ
+-ously described.
+Estimating transactions isn™t the 
+only concern when assigning weight 
+factors. The heuristics speci˜cally men
+-tion two additional criteria depending 
+on the conceptual architecture:
+the number of entities manipulated 
+in the use case™s context and
+the number of classes implementing 
+the use case.
+The relationship between use cases 
+and implementation classes is accom
+-plished in UML using the entity/con
+-trol/boundary pattern. However, this 
+pattern doesn™t re˚ect the separation 
+of concerns that interactive system de
+-velopment requires. Boundary classes 
+encapsulate interfaces to both human 
+actors and system actors, so no clear 
+distinction exists between human and 
+system interaction. So, the implementa
+-tion classes extracted from the use cases 
+won™t re˚ect the UI™s complexity, which 
+is key to assigning weight factors to use 
+cases.
+iUCP extends this original frame
+-work to include two concepts re˚ect
+-ing the user intentions that form the 
+basis of usageCD: tasks and interac
+-tion spaces.
+9 Task classes model the 
+structure of the dialogue between the 
+user and the system; they also man
+-age task-level sequencing, multiple-in
+-teraction-space consistency, and map
+-ping between entities and the interface. 
+Interaction-space classes represent the 
+space in a system™s UI where the user 
+interacts with all the functions, con
+-tainers, and information needed to 
+carry out a particular task or set of in
+-terrelated tasks. Together, the concepts 
+of task and interaction-space classes 
+extend the UML entity/control/bound
+-ary pattern, providing enhanced sepa
+-ration of concerns and enabling more 
+consistent estimation of use-case com
+-plexity, particularly regarding the un
+-derlying human interaction.
+Elsewhere, we™ve described how to 
+extract software architecture from es
+-sential use cases.
+12 Figure 2 highlights 
+the process, in which task classes origi
+-nate from user intentions, control and 
+entity classes from system responsibili
+-ties, and interaction spaces from the 
+crossing of both. This process increases 
+traceability and is central in identifying 
+the entities and classes required to im
+-plement a use case.
+The ATM example in Figure 2 illus
+-trates how we can use usage-centered 
+architecture to inform the classi˜cation 
+of use cases in iUCP. Transactions are 
+the number of system responsibilities in 
+an essential use case. Implementation 
+classes are the total number of classes 
+originating from an essential use case, 
+as shown by the dashed lines connect
+-ing use-case descriptions to the concep
+-tual architecture.
+Table 3 shows how to apply the heu
+-ristics to the example in Figure 2. We 
+count the number of system responsi
+-bilities and user intentions per use case 
+and the number of originating imple
+-mentation classes. This contrasts with 
+the uncertainty surrounding a conven
+-tional use case: not only is isolating 
+transactions more dif˜cult, but there™s 
+also little guidance regarding the num
+-ber of implementation classes corre
+-sponding to each use case.
+Empirical Evaluation
+To evaluate the impact of using 
+ usageCD for use-case estimation, we 
+developed an empirical experiment 
+with master™s students taking the Uni
+-versity of Madeira™s human-centered 
+software engineering course. The 
+course exposed students to the concepts 
+of usageCD and had them develop a 
+group project in teams of four. On av
+-erage, approximately 30 students par
+-ticipated (20 SE and 10 HCI students). 
+TABLE 2
+A use case for withdrawing cash from an ATM.
+User intention
+System responsibility
+Identify self
+Check identity
+Specify amount
+Provide cash
+  JULY/AUGUST 2011
+ | IEEE SOFTWARE
+ 69Most students had a computer science 
+background and experience developing 
+moderate-sized software systems. Some 
+HCI students had backgrounds in de-
+
+sign or the social sciences but were al-
+
+ways grouped with CS students.
+Over two consecutive years, the 
+students worked on the same project. 
+
+They had to model and prototype a 
+
+computer-based controller for manag-
+ing a videoconferencing facility. Here 
+are two short excerpts from the proj-
+
+ect brief:
+AccountLoginClientIDhandlerAccounthandlerIdentify selfAccount selectorIdentify AccountIdentify selfSpecify sourceaccount and amountIdentify destinationaccountGet transfer detailsSpecify transferAccount transferTransferhandlerIdentify selfIdentify selfSelect cardGet card transactionsCardSelect cardCard selectorCardhandlerBankcustomerGet account balanceIdentify accountCheck identityCheck account balanceTransfer moneyCheck identityCheck account balanceCheck identityCheck card transactionsTransfer moneyCheck cardtransactionsCheck accountbalanceUser intentionsUser intentionsUser intentionsSystem responsibilitiesSystem responsibilitiesSystem responsibilitiesFIGURE 2. 
+A conceptual architecture extracted from essential use cases.
+12 This simple model refers to an ATM system involving one actor 
+and three use cases. Each use case is detailed with an essential task ˜ ow described in terms of user intentions and system responsibilities. The 
+right side depicts the architecture extracted from the use cases. 
+TABLE 3
+Estimation based on iUCP for the ATM example.
+Use-case type
+Description
+No. of use 
+cases
+Weight 
+factor
+Weight
+Simple
+Simple UI, 1 entity,
+˚3 transactions
+050Average
+Average UI, 2-3 entities, 
+
+4-7 transactions
+11010Complex
+Complex UI, >3 entities, 
+
+>7 transactions
+21530 70 IEEE SOFTWARE
+ | WWW.COMPUTER.ORG/SOFTWARE
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUSMULTIPARADIGM 
+PROGRAMMINGFOCUSMULTIPARADIGM PROGRAMMING
+FEATURE:
+ PROJECT ESTIMATION
+A presentation area at the front of 
+the room faces several rows of seats 
+behind desks. For each pair of seats 
+there is a press-to-talk/press-to-
+ release microphone with an LED 
+that indicates when it is active. 
+Loudspeakers are located at the 
+front and sides of the room.
+There are two video cameras, one at 
+the front of the room, the A camera, 
+facing toward the audience, and one 
+at the back, the B camera, facing front 
+toward the presentation area. The 
+cameras are mounted on motorized 
+gimbals and are equipped with motor
+-ized zoom lenses.
+The project aimed to provide a 
+simple, ef˜cient video controller sys
+-tem interface. Students had to design 
+TABLE 4
+Modeling estimates from each group of students.
+Method
+Group
+No. of 
+activities
+No. of 
+actors
+No. of user 
+roles
+No. of 
+artifacts
+No. of 
+use cases
+No. of 
+interaction 
+spaces
+No. of 
+tasks
+No. of 
+con
+-trols
+No. of 
+entities
+UCP
+18744107115421055523172388362461411129134148749896551687538164513561079719
+131388763757101165Average
+10.0
+5.7
+6.1
+5.1
+17.1
+11.7
+17.7
+7.9
+6.9
+Standard 
+deviation
+3.8
+2.4
+1.9
+1.1
+10.8
+3.8
+12.9
+2.7
+3.1
+Variance
+14.7
+5.9
+3.5
+1.1
+117.1
+14.6
+165.6
+7.1
+9.8
+iUCP
+1712431411135329822137166638677688864963617627171058543181011886542788187773734166664Average
+7.0
+6.9
+3.6
+4.6
+13.1
+8.0
+14.1
+8.1
+6.3
+Standard 
+deviation
+2.2
+2.6
+1.7
+2.1
+4.6
+1.9
+7.1
+4.1
+2.4
+Variance
+5.0
+6.8
+3.0
+4.3
+20.8
+3.7
+49.8
+16.5
+5.6
+F-test
+0.867
+0.848
+0.054
+0.169
+  JULY/AUGUST 2011
+ | IEEE SOFTWARE
+ 71something practical using existing 
+technology and the available program
+-ming resources. The students had two 
+months to complete the project and had 
+to present all the models prescribed in 
+ usageCD and estimate their project us
+-ing the UCP method or iUCP.
+For empirical evaluation, we gave 
+14 distinct groups of ˜ve students the 
+same project (seven groups in one aca
+-demic year and an additional, distinct, 
+seven groups in the following academic 
+year). The ˜rst seven groups modeled 
+the system using usageCD and pro
+-duced a UUCP estimation on the basis 
+of the UCP method. The second seven 
+groups modeled the same system us
+-ing the same models but generated an 
+iUCP estimation. We hypothesized 
+that the students™ unadjusted complex
+-ity estimates of actors and use cases 
+would have less variance using iUCP 
+than using the UCP method.
+During the project, the students de
+-veloped several models independently. 
+At the end, we inspected all their mod
+-els. Table 4 summarizes the information 
+we collected from the models (that is, 
+the table lists the factors that students 
+used to generate their estimations).
+To verify whether the data from 
+both groups followed a normal dis
+-tribution, we performed the Shapiro-
+TABLE 5
+Calculated actor and use-case weights for the UCP method and iUCP.
+Method
+Group
+Unadjusted actor weight
+Unadjusted use-case weight
+Unadjusted UCPs
+UCP
+166066212195
+207
+334125
+159
+414110
+124
+58235
+243
+615140
+155
+7135568Average
+14.6
+131.4
+146.0
+Standard deviation
+9.2
+66.2
+66.3
+Variance
+84.0
+4,381.0
+4,391.3
+iUCP
+1207595210130
+140
+3285583415110
+125
+512118
+130
+61175867148599Average
+15.7
+92.6
+108.3
+Standard
+ deviation
+6.3
+27.2
+22.9
+Variance
+40.2
+739.6
+525.9
+F-test
+0.393
+0.048
+0.021
+ 72 IEEE SOFTWARE
+ | WWW.COMPUTER.ORG/SOFTWARE
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUSMULTIPARADIGM 
+PROGRAMMINGFOCUSMULTIPARADIGM PROGRAMMING
+FEATURE:
+ PROJECT ESTIMATION
+Wilk test. For group 1, 
+p = 0.636; for 
+group 2, 
+p =  0.291. In addition, both 
+groups™ box plots showed no outliers. 
+To determine the quality of the vari-
+
+ances between the two samples, we ap-
+
+plied the F-test. Because both the UCP 
+method and iUCP depend primarily on 
+the number of actors and use cases, we 
+
+compared the numbers in both groups. 
+
+Apart from actors and roles, the vari-
+ance in use cases differed signi˜ cantly 
+(p = 0.054).
+Table 5 summarizes the calculated 
+UAW and UUCW for the UCP method 
+
+and iUCP. Comparing the variances of 
+
+the calculated UAW and UUCW shows 
+
+improved results. As we expected, the 
+F-test for the UAW isn™t statistically sig-
+ni˜ cant (
+p = 0.40) but the differences 
+for UUCW (
+p = 0.048) and UUCP (
+p = 0.021) are statistically signi˜ cant.
+Our results show that using iUCP 
+produces size estimations more con-
+
+sistent in their estimation of use-case 
+complexity and overall UCP unadjusted 
+
+complexity. This supports our hypothe-
+sis that by using iUCP, the students™ un-
+adjusted complexity estimates of actors 
+
+and use cases would have less variance.
+Early estimation of software size 
+
+is critical. Our approach not 
+only helps bridge the gap be-
+tween SE and HCI but also provides 
+software developers with systematic 
+
+guidance to produce quality early es-
+timates for software. It™s increasingly 
+important to ˜ nd ways to enable both 
+
+HCI and SE experts to collaborate 
+
+early in the life cycle. By employing us-
+ageCD techniques such as user roles, 
+essential use cases, and interactive con-
+
+ceptual architectural models, we not 
+only bridge the gap butŠwhat™s more 
+importantŠalso illustrate how HCI 
+
+techniques can improve software esti-
+
+mates and models.
+Combining SE and HCI provides 
+new opportunities for collaboration 
+
+between interaction designers and soft-
+ware developers. This helps developers 
+see the advantage of using HCI tech-
+
+niques early on. Conversely, interaction 
+
+designers can better understand their 
+models™ impact and recognize UI ele-
+ments™ impact at the architecture level, 
+
+building common ground for other ac-
+tivities such as prioritizing development 
+and planning releases.
+We built the iUCP on statistical 
+data from usageCD projects collected 
+over several years. However, a system-
+atic evaluation would require more 
+
+extensive data collection and analysis 
+
+over a longer period of time. But our 
+purpose here isn™t to prove the estima-
+tion method™s validity; other research-
+
+ers (for example, Edward Carroll
+7) have covered this topic. Our modi˜ ca-
+tions of the UCP method are minimal, 
+letting us preserve the original model™s 
+
+integrity. Our goal with iUCP is to 
+help software developers and interac-
+tion designers apply heuristics that are 
+suitable for interactive applications 
+
+and that work consistently across and 
+
+within projects.
+References
+    1. A. Seffah and E. Metzker, ﬁThe Obstacles and 
+Myths of Usability and Software Engineer-
+ing,ﬂ 
+Comm. ACM
+, vol. 47, no. 12, 2004, pp. 
+71Œ76.
+ 2. L. Constantine, ﬁBeyond User-Centered De-
+sign and User Experience,ﬂ 
+Cutter IT J.
+, vol. 
+17, no. 2, 2004.
+ 3. A.J. Albrecht, ﬁMeasuring Application 
+Development Productivity,ﬂ 
+Proc. Joint Share, 
+Guide, and IBM Application Development 
+Symp.
+, IBM, 1979, pp. 83Œ92.
+  4. B.W. Boehm et al., 
+Software Cost Estimation 
+with 
+COCOMO
+ II, Prentice-Hall, 2000.
+  5. G. Karner, ﬁResource Estimation for Objec-
+tory Projects,ﬂ Rational Software, 1993.
+  6. S. Diev, ﬁUse Cases Modeling and Software 
+Estimation: Applying Use Case Points,ﬂ 
+ACM
+ Software Eng. Notes
+, vol. 31, no. 6, 2006, pp. 
+1Œ4.
+  7. E.R. Carroll, ﬁEstimating Software Based on 
+Use Case Points,ﬂ 
+Proc. 2005 Conf. Object-
+
+Oriented Programming, Systems, Languages, 
+and Applications
+ (OOPSLA 05), ACM Press, 
+2005, pp. 257Œ265.
+NUNO JARDIM NUNES
+ is an associate professor of computer sci-
+ence and the president of the Madeira Interactive Technologies Institute 
+(Madeira-ITI) at the University of Madeira. His research interests 
+
+include service design, bridging software engineering (SE) and human-
+
+computer interaction (HCI), and methods and tools for agile software 
+
+development. Nunes has a PhD in HCI and SE. He™s a member of the 
+
+ACM and SIGCHI. Contact him at njn@uma.pt.
+LARRY CONSTANTINE 
+is a professor at the University of Madeira™s 
+Department of Mathematics and Engineering and an Institute Fellow 
+
+with Madeira-ITI. His research interests include safety-critical interac-
+
+tion and model-driven design. Constantine has an SB in management 
+
+from MIT. He™s an ACM Fellow, a member of the Usability Professionals™ 
+
+Association and the IEEE Computer Society, and 2009 winner of the 
+
+Stevens Award. Contact him at lconstantine@uma.pt.
+RICK KAZMAN 
+is a professor at the University of Hawaii™s Department 
+of Information Technology Management and a visiting scientist at the 
+
+Software Engineering Institute. His research interests include software 
+
+architecture, design and analysis tools, software visualization, software 
+
+engineering economics, and human-computer interaction. Kazman has 
+
+a PhD in computational linguistics from Carnegie Mellon University. 
+
+Contact him at kazman@sei.cmu.edu.
+ABOUT THE AUTHORS
+  JULY/AUGUST 2011
+ | IEEE SOFTWARE
+ 73  8. LL. Constantine and L.A.D. Lockwood, 
+Soft-
+ware for Use: A Practical Guide to the Models 
+and Methods of Usage-Centered Design
+, Addison-Wesley Longman, 1999.
+  9. N.J. Nunes and J.F. Cunha, ﬁA Software En-
+gineering Method for Small Software Develop-
+
+ment Companies,ﬂ 
+IEEE Software
+, vol. 17, no. 
+5, 2000, pp. 113Œ119.
+  10. N.J. Nunes and J.F. Cunha, ﬁWisdomŠ
+Whitewater Interactive System Development 
+with Object Models,ﬂ 
+Object-Oriented User 
+
+Interface Design
+, M. van Harmelen, ed., 
+Addison-Wesley, 2001, pp. 197Œ243.
+  11. L. Constantine and L. Lockwood, ﬁStructure 
+and Style in Use Cases for User Interface De-
+sign,ﬂ 
+Object-Oriented User Interface Design
+, M. van Harmelen, ed., Addison-Wesley, 2001, 
+
+pp. 245Œ279.
+  12. N. Nunes, ﬁWhat Drives Software Develop-
+ment: Bridging the Gap between Software 
+and Usability Engineering,ﬂ 
+Human-Centered 
+Software Engineering
+, Springer, 2009, pp. 
+9Œ25.
+Selected CS articles and columns 
+are also available for free at 
+
+http://ComputingNow.computer.org.
+A new publication model that will 
+provide subscribers with features 
+and bene˜ts that cannot be found in 
+traditional print such as:Available Transactions Titles by 2012:
+
+For more information about OnlinePlusŽ, 
+please visit http://www.computer.org/onlineplus.
+Silver Bullet
+Security Podcast
+Sponsored by
+www.computer.org/security/podcasts
+*Also available at iTunes
+In-depth interviews with security gurus Hosted by Gary McGraw.

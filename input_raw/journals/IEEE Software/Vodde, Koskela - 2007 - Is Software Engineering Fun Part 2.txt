@@ -1,0 +1,401 @@
+ 74IEEE SOFTWARE
+Published by the IEEE Computer Society0740-7459/07/$25.00 © 2007 IEEEWeÕve been involved in creating TDD train-
+ing at Nokia Networks to support the transi-
+tion to agile development. The first course was
+essentially a series of lectures. It wasnÕt con-
+
+sidered particularly successful and had much
+less impact than expected.So, we completely revised the training to in-
+volve mostly hands-on exercises. We also fol-
+
+lowed up with a weeklong TDD coaching ses-
+sion with the project staff, working on their
+
+actual code base. In effect, the training had
+transformed into two-day classroom sessions
+involving six exercises, accompanied by imme-
+diate follow-up to help the course participants
+apply the practice.More than a dozen project teams have nowreceived this training. During the training ses-
+sions, our first hands-on exerciseÑcounting
+lines of codeÑproved exceptionally good for
+teaching TDD. Here we describe our experi-
+
+ences running this exercise and the most im-
+
+portant things the participants and we learned
+from it.The line-counting exerciseWe derived this exercise from the Pragmatic
+ProgrammersÕ code kata 13.2Code katas areshort exercises, some of which involve pro-
+
+gramming and can be coded in different ways.3They can be open ended, involving thinking
+about the issues behind programming.Kata 13 asks the programmer to develop apiece of software that counts noncommented
+
+lines of Java code. In essence, the programmer
+should count lines thatarenÕt empty and
+donÕt contain just comments.
+Figure 1 shows an example of the desiredline-counting logic, copied from a kata de-
+scription.2As you can see from the left columnin the figure, the file is considered to contain
+
+five lines of noncommented source code. The
+
+count ignores single-line, trailing, and multi-
+line comments, along with any lines with only
+white space.focusLearning Test-DrivenDevelopment 
+by Counting LinesDuring the last two years, Nokia Networks has started changingmuch of its product development from a traditional waterfall ap-
+proach to Scrum, an agile software development process. Besides
+
+Scrum, there has been a lot of focus on engineering practices suchas test-driven development.1test-driven developmentBas Vodde, 
+Nokia NetworksLasse Koskela, Reaktor InnovationsThis trainingapproach has
+students write tests
+that count lines of
+
+code. The problems
+they encounter
+provide valuable
+insights into TDD
+and its benefits. The first nice thing about this exercise is itssimplicity. Because lines of code is such a com-
+
+mon concept in software development, none
+of our participants have had any difficulty un-
+derstanding the problem. The other nice thing
+
+is that the problem isnÕt as simple as it seems.
+
+WeÕll get back to this aspect in a bit. But first,
+
+letÕs talk about how most participants initially
+
+approach their solution.Revelations of the first testThe participants first need to decide where
+to start. Most participants learn fairly quickly
+
+that the first test should typically be very sim-
+ple. For our line-counting exercise, however,
+
+what would be such a simple test?WeÕve observed many developers sketching
+their first test as something like figure 2. This test
+essentially aims to verify that the line counter re-
+turns the result of 1 for a source file with just one
+line. As such, a test for just one line is a nice low-
+hanging fruitÑjust the kind of test that we rec-
+ommend starting with when youÕre new to TDD
+or when you hit the proverbial coderÕs block.
+The test in figure 2 is also, however, an exam-
+ple of a common phenomenon weÕve observed
+among software developers. WeÕre basically im-
+
+posing an unnecessary, external dependency to
+
+the file system in the test. (Michael Feathers has
+
+written a good definition of a unit test in his
+blog.4One of his criteria is that the test must not
+touch the file system.)
+Tests with such external dependencies are
+often an order of magnitude or two slower
+than ones without them. TheyÕre also some-
+what less reliable than tests that, for example,
+work with in-memory data.
+Because of the effort needed to set up sourcefiles somewhere in the file system and the addi-
+tional explanation of why unit tests should avoid
+accessing the file system, most participants
+
+quickly end up using abstract streams or strings
+
+as input for the line counter class. Figure 3 illus-
+trates two such designs.After removing the external dependency tothe file system, the participants move on to the
+
+next tests.Making fast progressAfter the first test, the participants startmaking fast progress. ItÕs easy to add a new
+
+test and to find the simplest solution that
+
+could possibly work. In no time, weÕre looking
+at tests for a file with just one line of code, a
+
+file with two lines, lines of code with white
+space in between, and so forth.At this point, a lot of duplication often ac-cumulates in the participantsÕ test code. This is
+because refactoring, the TDD cycleÕs third step,
+seems to be harder to remember than its pre-
+decessors Òwrite a testÓ and Òmake it pass.ÓRefactoring the tests isnÕt difficult, though.
+What has proved to be a much more interest-
+
+ing problem to solve is the ugliness that arrives
+May/June 2007IEEE SOFTWARE
+75Figure 1. An example of line-counting logic, copied from a kata description.-  /*****
+-  * This is a test program with 5 lines of code
+
+-  //*****//***/// Slightly pathological comment ending...
+
+-
+1 public class Hello {
+2   public static void main(String [] args) { // comment
+
+-       // Say hello
+
+3     System./*wait*/out./*for*/println/*it*/(“Hello/*”);
+
+4   }
+
+5 }Figure 2. A typical first test for a line counter.
+public class TestLineCounter extends TestCase {public void testFileWithOneLineOfCode() throws Exception {
+assertEquals(1, new LineCounter().count(“OneLine.java”));}} when participants extend their test sets so that
+the line count ignores multiline comments.Ugliness arrives
+For a line-counting test to ignore a source
+code snippet, it usually only has to process one
+line of code. However, the multiline C-style
+
+comment in our code example requires a
+slightly different approach. By the time partici-
+
+pants write the first test for this comment,
+theyÕve typically accumulated tests and the ac-
+companying production code for a sequence of
+Òguard clausesÓ inside some kind of a looping
+construct. Figure 4 attempts to describe a typi-
+cal implementation pattern.As participants get closer to writing a test
+for a multiline comment, they add more and
+
+more ifstatements one after another, and the
+code steadily becomes uglier. In the beginning,
+
+adding an ifis trivial and possibly the sim-plest solution to the problem at hand, so par-
+
+ticipants do just that.When the need to remember state arises inthe form of the multiline-comment test, for most
+participants the obvious thing to do is introduce
+a flag variable and more ifstatements. Figure 5
+depicts a typical implementation at this stage.As we can see from figure 5, the implemen-
+tation is getting increasingly complex, as nested
+
+branching constructs begin to appear and as
+keeping track of the business logic gets increas-
+
+ingly difficult.At this stage, participants start to expressdissatisfaction with their implementations.
+This is also where we as instructors often rec-
+
+ommend stepping back and looking at the de-
+signÑthe big picture, if you will.Stepping back to thinkFor some reason, aspiring developers learn-ing TDD often seem to think that by following
+the cycle and always implementing the simplest-
+possible design, the perfect design will emergeÑ
+without them having to think about it. ItÕs not
+
+quite that simple, however. TDD is a great way
+
+to develop software and can change the way you76IEEE SOFTWARE
+www.computer.org/software
+Figure 4. A sequence of guard clauses for handling simple constructs.
+public class LineCounter {
+public void count(String code) {int counter = 0;
+String[] lines = code.split(“\n”);
+for (int i=0; i < lines.length; i++) {
+String line = lines[i].trim();
+if (line.equals(“”)) continue;
+if (line.startsWith(“//”)) continue;
+
+if (line.startsWith(“/*”) && line.endsWith(“*/”)) continue;
+
+...
+counter++;}
+return counter;}}Figure 3. Examples of the first test using a (a) stream-based API and (b) string-based API.String src = “this is one line of code”;
+
+InputStream stream = new ByteArrayInputStream(src.getBytes());
+
+assertEquals(1, new LineCounter().count(stream));
+(a)String src = “this is one line of code”;
+
+assertEquals(1, new LineCounter().count(src));
+(b) think about software and software development,but the developerÕs skill and confidence still play
+
+a big role in ensuring the outcomeÕs quality.
+We let participants struggle with the ugly
+code. The pain of adding new functionality
+slowly increases until itÕs next to impossible to
+
+figure out where and how to change the code to
+fix a newly added failing test while keeping the
+existing tests green (that is, they continue to
+pass). We point out the codeÕs ugliness, and so
+
+far we havenÕt met a developer who disagrees
+
+with our assessment.Some teams attempt simple refactorings,which makes their implementation read better
+but mostly just hides complexity behind de-
+scriptive ÒhandlesÓ such as variable and method
+names. Interestingly, of the dozens of partici-
+
+pants weÕve observed facing this situation, not
+one ever stepped back to think about the design
+that has emerged.At that point, some teams discuss at length
+how to refactor the implementation to exhibit
+
+less complexity. Most teams, however, try to
+
+write more tests, ignoring their solutionÕs in-
+
+herent ugliness. So, we have them reflect on
+
+their emergent design. We typically also point
+
+out how much worse their design would have
+become if they had proceeded in the same di-
+rection, because they would likely have added
+tests for source code that has different com-
+ment character sequences inside string literals.The design that has emerged naturallythrough the tests theyÕve written clearly isnÕt a
+
+sustainable path to follow. So what happened?
+
+What did they do wrong? WasnÕt emergent de-
+
+sign supposed to lead to better design?The participants chose one design path at theexerciseÕs beginning and never went back and
+
+asked themselves whether their design was still
+viable for their current needs. At a certain point,
+they need to look at their code and say, ÒMan,
+
+this looks ugly. We need a new approach.Ó
+A new perspectiveAs course instructors, weÕve done all theexercises ourselves. Like everyone else, weÕve
+ended up in the same situation with our line
+counter implementation getting increasingly
+complex. Doing this exercise and and reaching
+the limit of our patience with the ugly code
+
+weÕd ended up with, we sat back and talked
+about our design on a higher level.As we discussed what we had been doing,we gained a new perspective on the problem.
+We had started on the path of ignoring por-
+
+tions of the source code on the basis of a vari-
+
+ety of patternsÑwith the accompanying drove
+
+of branching constructs making our code too
+ugly to bear. Our new perspective came from
+
+realizing that we had been essentially exclud-
+ing blocks of code from getting processed.
+At this point, we learned to formulate our de-sign in new terms: removing stuff. We realized
+
+that we could simplify our design significantly
+by removing certain patterns such as single-line
+comments, empty lines, and multiline comments
+from the source code one at a time. After re-
+moving these structures, we would simply count
+the lines left in the source code. Figure 6 outlines
+this new, simpler design.
+As you can see from figure 6, the new design
+turned out much easier to follow. (Well, at least
+May/June 2007IEEE SOFTWARE
+77Figure 5. Handling multiline comments 
+using flags and even
+more ifstatements.public void count(String code) {
+int counter = 0;
+boolean insideMultilineComment = false;
+
+String[] lines = code.split(“\n”);
+for (int i=0; i < lines.length; i++) {
+String line = lines[i].trim();
+if (insideMultilineComment) {
+... // bunch of if-statements omitted for brevity
+} else {... // more if-statements omitted for brevity
+}
+counter++;}
+return counter;} 78IEEE SOFTWARE
+www.computer.org/software
+after we gave meaningful names to all those
+cryptic replacement operations! We revised the
+
+design to save space.) WeÕre not professional
+
+line-of-code-counter developers, and some
+other design might be a notch or two better
+still, but this design is already quite simple and
+serves its present purpose.The big questionAt this point, we were left with just one bigquestion: could we have thought of this design
+up front? That is, could we have thought of all
+the different comment patterns and gotchas
+that our tests brought to light over time and
+devised a design that would have accommo-
+dated a clean implementation?In our opinion, which weÕve shared withthe participants, itÕs unlikely that we could
+
+have thought of this design without actually
+experiencing the pain of nested ifstatementsand managing state. They all agreed.We could imagine the final design only when
+we proceeded on the basis of our best under-
+standing of the problem at the time, created one
+test at a time, learned about the problem, and
+proofed our design in practice. We couldnÕt have
+
+done this without writing code. We couldnÕt en-
+
+vision the problems we eventually encountered
+with our initial design until they raised their
+ugly heads. The design had to emerge through
+the experience of attempting to implement it.Interestingly, changing our design halfway
+
+through the processwasnÕt at all difficult,
+
+even though the new approach differedsignificantly from the original. The key to this
+
+flexibility was that the code was well factored
+and didnÕt suffer from duplication. All the
+
+tests were still there to verify that the design
+change didnÕt break any existing functionality.
+You could argue that we might have 
+attempted to bite the bullet with our old design
+
+for quite a while longer if we hadnÕt been prac-
+
+ticing TDD. Following TDD and refactoring
+our code mercilessly, we had to face the facts
+
+and do something about the poor design. WeÕve
+
+concluded that the line-counting exercise is ex-
+tremely helpful in providing insights into TDD
+and its benefits, including these:Removing external dependencies helps im-
+prove testability.
+Reflective thinking promotes emergent 
+design.A well-factored design and good test cov-
+erage also help new designs emerge.For us, as TDD trainers, the line-countingAbout the AuthorsBas Vodde
+led the change to agile development at Nokia Networks (now Nokia SiemensNetworks). He's had a variety of roles in both traditional large projects and agile projects at
+Nokia and elsewhere. His major interests are in software development, quality management,
+lean thinking, and agile methodsÑin particular, Scrum. He also now and then works for his
+
+own company, called odd-e. Contact him at bas.vodde@nsn.com.
+Lasse Koskelais a methodology specialist at Reaktor Innovations. He has also heldroles varying from development to project management and from training to consulting, dip-
+
+ping his toes in sales every once in a while. HeÕs the author of a book on test-driven develop-
+
+ment, to be published in 2007 by Manning Publications. Contact him at Reaktor Innovations,
+Mannerheimintie 2, FIN-00100 Helsinki, Finland; lasse.koskela@ri.fi.Figure 6. Removing patterns from the
+source code one at a
+time simplified the 
+design significantly.
+public class LineCounter {public int count(String code) {code = code.replaceAll(“\r\n”, “\n”);
+code = code.replaceAll(“( |\t)”, “”);
+code = code.replaceAll(“(?s)/\\*.*?\n.*?\\*/”, “\n”);
+
+code = code.replaceAll(“(?s)/\\*.*?\\*/”, “”);
+code = code.replaceAll(“//[^\r\n]*”, “”);
+code = code.replaceAll(“(?s)\n+”, “\n”);
+
+code = code.trim();
+return code.equals(“”) ? 0 : code.split(“\n”).length;}} exerciseÕs role has changed over time. In the
+beginning, we considered it just a nice, simple
+
+first exercise. But because it has revealed many
+key insights into TDD, it has become one of
+
+the most important exercises in the training.
+We thank all the course participants for
+their feedback. The power of the simple exer-
+
+cise weÕve described here is just one of the
+
+things weÕve learned while training them.References1.K. Beck, 
+Test-Driven Development: By Example
+, Addison-Wesley Professional, 2002.
+2.D. Thomas, ÒKata Thirteen: Counting Code Lines,Ó 31
+July 2003, http://blogs.pragprog.com/cgi-bin/pragdave.
+cgi/Practices/Kata/KataThirteen.rdoc.3.D. Thomas, ÒCode Kata,Ó 13 Oct. 2004, http://codekata.
+pragprog.com/codekata.4.M. Feathers, ÒA Set of Unit Testing Rules,Ó 9 Sept.
+2005, www.artima.com/weblogs/viewpost.jsp?thread=
+
+126923.For more information on this or any other computing topic, please visit ourDigital Library at www.computer.org/publications/dlib.
+May/June 2007IEEE SOFTWARE
+79

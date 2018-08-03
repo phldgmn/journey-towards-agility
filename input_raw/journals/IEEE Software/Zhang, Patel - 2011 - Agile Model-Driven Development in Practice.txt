@@ -1,0 +1,1045 @@
+ 84 IEEE SOFTWARE
+ | PUBLISHED BY THE IEEE COMPUTER SOCIETY
+ 0740-7459/11/$26.00 © 2011 IEEE
+BOTH THE AGILE 
+development pro-
+cesses (such as scrum
+1 and extreme 
+programming
+2) and model-driven de-
+velopment (MDD) practices
+3,4 
+have 
+been widely adopted in industry for 
+years. To inherit the bene˜ ts of both, 
+increasing amounts of results on in-
+
+troducing agility into MDD are being 
+
+published in academia.
+5,6
+ For exam-
+ple, in 
+The Object Primer
+, Scott Am-
+bler describes how to combine extreme 
+
+programming and MDD into agile 
+modeling.
+5 In previous work, Yuefeng 
+Zhang presents a method of apply-
+ing extreme programming practices 
+to MDD for better productivity and 
+
+quality.
+6This article presents a different ag-
+ile MDD process and its implementa-
+tion for the development of a real-time 
+telecommunication system. In partic-
+
+ular, we show how to combine a sys-
+
+tem-level agile process (SLAP) and an 
+MDD process into one to speed up de-
+velopment rate, improve product qual-
+ity, and shorten delivery cycle time.
+SLAP and 
+MDD Processes Overview
+SLAP is an agile process adopted at 
+Motorola that uses scrum
+1 as a baseline 
+and includes certain extreme program-
+ming practices.
+2 As Figure 1 and Table 
+1 show, SLAP divides a software de-
+velopment life cycle into multiple itera-
+
+tions. Each iteration consists of three 
+
+sprints: application requirements and 
+architecture, development, and system 
+integration feature testing (SIFT).
+Each sprint is ˜ ve weeks long and 
+has the same set of activities (called its 
+calendar). For example, the calendar 
+for the development sprint is as fol-
+
+lows: week 1 for sprint kickoff, appli-
+cation requirements analysis, and high-
+level design; week 2 for detailed design; 
+
+week 3 for implementation; week 4 for 
+
+formal technical review and rework; 
+and week 5 for integration readiness 
+and sprint postmortem meeting.
+Starting at Sprint 3 in Iteration 2, 
+all three sprints in different iterations 
+go in parallel. For a given iteration, the 
+requirements and architecture sprint 
+
+aims to specify the application require-
+ments and lay out the application archi-
+tecture for the next iteration; the devel-
+
+opment sprint aims to implement the 
+
+requirements and architecture from the 
+previous iteration; and the SIFT sprint 
+aims to test the implementation from 
+
+the previous iteration.
+Motorola™s MDD process is based 
+on the uni˜ ed software development 
+
+process.
+3 It divides a software develop-
+ment life cycle into multiple milestone 
+
+phases over time (such as inception or 
+elaboration), and each milestone phase 
+consists of one or more iterations. Each 
+
+iteration contains the same set of core 
+development activities (such as require-
+Agile 
+Model-Driven 
+
+Development 
+
+in Practice
+Yuefeng Zhang, 
+UniqueSoft
+Shailesh Patel, 
+Motorola
+// 
+Combining model-driven development practices 
+with agile techniques can signi˜ cantly 
+reduce software development cycle time and 
+increase productivity and quality. 
+//FEATURE:
+ SOFTWARE DEVELOPMENT
+  MARCH/APRIL 2011
+ | IEEE SOFTWARE
+ 85ments analysis or high-level design) and 
+follows a tailored V-Model process.
+Agile MDD
+The key in achieving agile MDD is to 
+
+combine an agile process with an MDD 
+process in a way that can inherit the 
+bene˜ ts of both and at the same time 
+
+avoid their shortcomings.
+Process Overview
+Our strategy of combining SLAP and 
+
+MDD into agile MDD is to take SLAP 
+as the backbone process and map MDD 
+iterations and activities to the corre-
+
+sponding SLAP sprints and activities 
+
+(see Table 2 and Figure 1).
+In this way, like SLAP, an iteration in 
+agile MDD still consists of three sprints. 
+
+The sprint for requirements speci˜ ca-
+
+tion and architecture is the same as the 
+one in SLAP. The development sprint 
+includes requirements analysis, high-
+
+level design, detailed design, code gen-
+eration, UML unit testing, and integra-
+
+tion testing. The SIFT sprint includes 
+
+subsystem testing and system testing.
+Implementation and Lessons Learned
+The key in implementing agile MDD is 
+to ˜ gure out where and how to apply 
+
+what agile practices in MDD.
+Table 3 answers the where and 
+what questions. In particular, it shows 
+which MDD practices (
+where
+) corre-
+spond or relate to which agile practices 
+TABLE 1
+Iterations and sprints in a system-level agile process (SLAP).
+Sprint 1
+Sprint 2
+––Sprint n
+Iteration 1
+Requirements and 
+architecture
+Development
+System integration feature testing 
+
+(SIFT)
+Iteration 2
+Requirements and architecture
+Development
+SIFT
+––  Requirements and architecture
+Development
+Iteration 
+n   Requirements and architecture
+TABLE 2
+Mapping between SLAP and MDD in agile MDD.
+SLAP
+MDD
+Sprints
+Iterations
+Requirements and architecture
+Application requirements speci˜ cation and architecture
+Application requirements speci˜ cation and architecture
+Development
+High-level design
+Requirements analysis and high-level design
+Detailed design
+Detailed design
+Coding, unit testing, and integration testing
+Code generation and UML unit and integration testing
+SIFT
+Subsystem testing and system testing
+Release planning:break project scopeinto prioritized list ofbacklog items. Iteration planning:select and mapbacklog items toiterations and sprints24 hours 5-weeksprintsApplication requirements &architecture sprint Development sprint SIFT sprint Increment offunctionality FIGURE 1. 
+Agile model-driven development overview. The colors teal, purple, and yellow 
+represent application requirements and architecture, development, and SIFT, respectively.
+ 86 IEEE SOFTWARE
+ | WWW.COMPUTER.ORG/SOFTWARE
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUSMULTIPARADIGM 
+PROGRAMMINGFOCUSMULTIPARADIGM PROGRAMMING
+FEATURE:
+ SOFTWARE DEVELOPMENT
+(what
+) in agile MDD. Here, the 
+corre
+-sponding 
+relationship represents that 
+a given MDD practice corresponds to 
+the counterpart of an agile practice, 
+while the 
+relate
+ relationship means that 
+the agile practice applies to the related 
+MDD practice or that the MDD prac
+-tice supports or enables the related ag
+-ile practice.
+In the rest of this subsection, we an
+-swer the how questionŠthat is, how to 
+apply agile practices to MDD and use 
+MDD to support and enable agile prac
+-tices. In addition, the following discus
+-sion also includes lessons learned in 
+practice.
+Modeling as coding. 
+Here, we use 
+UML as a high-level visual program
+-ming language, and we use UML code 
+generator as a UML compiler. Devel
+-opment is one-way: forward engineer
+-ing from UML to C or C++. We apply 
+paired development to UML modeling 
+(that is, paired modeling).
+We observed that it™s essential for 
+MDD tools to be able to trace code 
+generation issues at the UML action 
+language (SDL
+7 in our case) level back 
+to the UML model level. MDD tools 
+sometimes fail to do so.
+Paired modeling. 
+This corresponds to 
+the paired development agile practice. 
+Typically, two developers (perhaps a 
+developer and a customer representa
+-tive) work together on UML model
+-ing for one sprint and rotate pairs per 
+sprint. A senior developer pairs with a 
+junior developer, if possible.
+This generally works in detecting 
+and resolving modeling issues instantly, 
+but not enough paring could be done 
+all the time for various program prior
+-ity reasons. Another dif˜culty is that 
+rotating pairs asks for developers to 
+change domain knowledge frequently. 
+It™s a challenge to minimize productiv
+-ity impact due to ramp-up on domain 
+knowledge. This issue is alleviated by 
+discussing potential domain knowledge 
+issues with developers prior to pair as
+-signment so that domain knowledge 
+transfer can be done in a controlled 
+manner.
+In addition to paired modeling, we 
+also do paired review and training to 
+TABLE 3
+MDD practices and corresponding (c) or related (r) agile practices.
+Agile practices
+Agile management practices
+Paired development
+Test-driven development
+Iterative and incremen
+-tal development
+Working software 
+over comprehensive 
+documentation
+Automated 
+ regression testing
+Continuous integration
+Rapid feedback
+Daily standup meeting
+Daily development 
+status tracking online
+Short sprint cycle 
+ (5-week calendar)
+Sprint postmortem 
+ meeting (retrospectives) 
+MDD 
+practices
+Modeling as coding
+r Paired modeling
+c Test-driven modeling
+cIterative and incremental modeling
+cModeling as live design 
+documentation
+rAutomated batch mode simulation
+cContinuous modeling
+cMDD tools chain
+rAgile MDD 
+management 
+practices
+Daily MDD plan update
+rDaily MDD task status update
+rMDD plan for the current sprint
+rMDD lessons learned in the past 
+sprint (what to keep, change, try)
+r  MARCH/APRIL 2011
+ | IEEE SOFTWARE
+ 87help individuals come up to speed on 
+MDD tools and domain knowledge.
+Test-driven modeling. 
+This corre-
+sponds to the test-driven development 
+agile practice. In this practice, we 
+create UML sequence diagrams ˜ rst 
+
+and then use them to drive UML de-
+
+sign and development of test cases.
+At the beginning of a sprint, the fo-
+cus of modeling and test case creation 
+
+is on signal names and order. The data 
+
+associated with a signal is ignored. 
+Accordingly, the focus of UML state 
+machines at the beginning of a sprint 
+
+is on receiving and sending signals 
+in the right order. The details of sig-
+nal processing logic are ignored. Once 
+
+all the test cases pass unit testing, we 
+
+then add signal data ˜ elds into test 
+cases and the details of signal process-
+ing logic into the state machines in the 
+
+UML model.
+This practice is most helpful for 
+keeping a large number of model 
+
+changes under control and preventing 
+
+defects rather than ˜ nding defects after 
+
+they occur in the UML model.
+One dif˜ culty is that we can™t af-
+ford to represent all possible error sce-
+
+narios in sequence diagrams. Another 
+dif˜ culty is that we can™t use sequence 
+diagrams to represent nonfunctional 
+
+requirements. So, we created a man-
+
+ual test plan document to describe er-
+ror scenarios and nonfunctional test 
+cases.
+Iterative and incremental modeling. 
+This corresponds to the counterpart of 
+
+agile practice. In this practice, we do 
+UML modeling over multiple sprints, 
+repeat the same set of development ac-
+
+tivities in each sprint, and create and 
+
+evolve an executable model for each 
+sprint with an increment of functional-
+ity on top of the model from the previ-
+
+ous sprint.
+The key is to keep the model execut-
+able in terms of both simulation and 
+
+target platform testing. One major en-
+abling factor is to maximize automa-
+
+tion by an MDD tools chain, which 
+
+includes maximized automatic code 
+generation (see Figure 2) and auto-
+mated regression testing by simulation.
+Modeling as live design documen-
+tation. 
+This is the result of applying 
+the agile manifesto ﬁworking soft-
+ware over comprehensive documenta-
+tionﬂ to UML modeling. In this prac-
+
+tice, we use the UML model as a live 
+
+design document to minimize manual 
+documentation.
+Automated batch mode simulation. 
+This corresponds to the agile practice 
+of automated regression testing. In this 
+practice, we develop and verify individ-
+ual test cases ˜ rst, add them to the list 
+
+for automated batch mode execution, 
+
+execute all the test cases in batch mode 
+overnight, and ˜ nally analyze test re-
+sults to ˜ nd the root cause of the failed 
+
+test cases.
+We observed that the
+ UML sequence 
+diagram tracing capability of UML 
+
+simulation tools is key for
+ verifying 
+and debugging new test cases quickly. 
+To capture issues, we use a different 
+dedicated developer each week to ana-
+lyze testing results. In addition, MDD 
+
+tools should provide a command-based 
+
+interface for simulation builds and ex-
+
+ecution to minimize human interaction.
+This practice plays a key role in au-
+tomatically detecting UML modeling 
+
+problems so that we can stop the mod-
+eling activity promptly to ˜ nd the root 
+cause of problems.
+Continuous modeling. 
+This corre-
+sponds to the agile practice of continu-
+ous integration. In this practice, we 
+merge UML design frequently,
+perform automatic code generation 
+
+for simulation and automated batch 
+mode simulation many times in a 
+
+sprint, and
+perform automatic code generation 
+for target platform testing and SIFT 
+two or more times in a sprint.
+Figure 2 shows the target platform code 
+
+generation work˚ ow.
+The automatic code generation is 
+maximized in that it includes
+UML code generation,
+data marshaling code generation, 
+
+and
+Code generation toolsetBuildComponent executableUML 2 Code generation con˜guration˜lesPlatform integrationcodeiSL (InterfaceSpeci˜cationLanguage)Application logiccodeASN.1 (AbstractSyntax NotationOne)Data marshalingcodeHand coding (such asexternal operations)UML signals anddata types U2PFIGURE 2. 
+Target platform code generation work˜ ow. The toolset generates application 
+logic code from a UML model, generates data marshaling code from iSL and ASN.1 ˚ les, and 
+
+generates platform integration code from con˚ guration ˚ les.
+ 88 IEEE SOFTWARE
+ | WWW.COMPUTER.ORG/SOFTWARE
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUSMULTIPARADIGM 
+PROGRAMMINGFOCUSMULTIPARADIGM PROGRAMMING
+FEATURE:
+ SOFTWARE DEVELOPMENT
+platform integration code gen-
+ eration.
+To succeed in this practice, we must 
+be able to merge UML model changes 
+frequently. Unfortunately, the current 
+UML modeling tool has some major 
+graphical merging problems when de
+-velopers
+ merge many changes simulta
+-neously. To alleviate this issue, we set 
+up an integration branch and coordi
+-nate among developers so that we can 
+merge a little at a
+ time but frequently.
+Automatic code generation and sim
+-ulation are two rewarding methods for 
+achieving mistake-proof development. 
+They™re also the fundamental enabler 
+for UML model refactoring.
+UML integration testing can help 
+detect runtime issues with the UML 
+model, data marshaling code, platform 
+integration code, and other handwrit
+-ten code such as external operations.
+As part of SIFT, testing helps iden
+-tify interoperability issues among 
+different components within the ap
+-plication subsystem and the external 
+interfaces between the subsystem and 
+its environment.
+MDD tools chain. 
+In this practice, 
+we value the MDD tools chain over 
+individual tools, using it in particu
+-lar to maximize automation. This en
+-ables rapid feedback and other agile 
+practices.
+Speci˜cally, we use the following 
+MDD tools as a tools chain:
+IBM Tau for UML modeling,
+IBM Tester for unit and integration 
+test harness,
+a UML-to-test case data types con
+-version tool, and
+a code generation toolset for UML, 
+data marshaling, and platform inte
+-gration code generation.
+As an example of the tools chain™s us
+-age, the code generation toolset can 
+take a UML model from IBM Tau as 
+input and generate C/C++ code.
+In choosing MDD tools, it™s very 
+important to consider not only the ca
+-pability of individual tools, but also 
+of interfacing to other tools to form a 
+tools chain. To be productive, MDD 
+tools should provide any necessary 
+UML pro˜le extensions and UML ac
+-tion language adjustments. In addition, 
+UML language and tools training at 
+the beginning of a project is important, 
+but it™s not enough. It™s essential to pro
+-vide agile MDD support upon request.
+Agile MDD management. 
+We use the 
+agile project planning and manage
+-ment tool VersionOne (www.version
+-one.com) and the following agile MDD 
+management practices for the develop
+-ment sprint management: a daily MDD 
+plan update in daily standup meetings, 
+a daily MDD task status update, fre
+-quent reviews of current sprint plans, 
+and a sprint postmortem meeting for 
+lessons learned.
+Comparison with 
+ Stand-alone Agile 
+ and MDD Processes
+From a high-level process view, agile 
+MDD seems to be nothing more than 
+a trivial summation of stand-alone ag
+-ile and MDD processes. However, in 
+reality, it™s challenging to combine ag
+-ile and MDD into a coherent process 
+that can inherit the advantages of
+ both
+ while also
+ avoiding their shortcomings. 
+The major differences between agile 
+MDD and stand-alone processes lie in 
+streamlining MDD activities to align 
+with agile processes.
+Iterative and Incremental Development
+The agile process applies iterations 
+to all phases, from system require
+-ments speci˜cation all the way down 
+to system testing. This is achieved by 
+tight collaboration of different teams 
+through a feature team.
+Motorola™s
+ stand-alone MDD pro
+-cess typically applies iterations from 
+the high-level design phase to the sys
+-tem integration testing phase only. All 
+other phases follow a tailored V-Model 
+process. This is justi˜ed because differ
+-ent teams collaborate loosely.
+In agile MDD, to align with the ag
+-ile process, MDD has been changed to 
+enable end-to-end iterationsŠthat is, 
+apply iterations to all phases, from sys
+-tem requirements speci˜cation all the 
+way down to system testing.
+System Engineering
+In both Motorola™s agile and MDD 
+processes, the typical system engineer
+-ing artifacts are handwritten docu
+-ments (such as FrameMaker ˜les). De
+-velopers
+ usually use UML diagrams 
+only occasionally for documentation. 
+No downstream reuse is attempted.
+In agile MDD, to support short iter
+-ation cycle time, we streamline system 
+engineering and development phases as 
+follows. We create
+ a system engineer
+-ing UML model to precisely de˜ne a 
+system architecture and its dynamic 
+behavior in a layered fashion. In this 
+way, a given application system is de
+-composed layer by layer until each leaf 
+active class can be implemented as a 
+separate OS process (which is handled 
+as a separate UML model in the devel
+-opment sprint). We
+ syntax check the 
+system engineering model and create it 
+with downstream reuse in mind, such 
+as by reusing the interface, signals, and 
+corresponding sequence diagrams of 
+each leaf active class in the develop
+-ment sprint. Handwritten documents 
+are created only for information that 
+is not suitable for UML modeling, such 
+as textural system requirements.
+Coding
+In the agile process, coding means to 
+write programs in any chosen program
+-ming language. In MDD, the mean
+-ing of coding varies depending on the 
+UML modeling tools in use. For a tool 
+that only supports a state-oriented state 
+machine and uses a programming lan
+-  MARCH/APRIL 2011
+ | IEEE SOFTWARE
+ 89guage as a UML action language, the 
+tool typically generates a code skele
+-ton. In this case, coding is a mixture of 
+UML modeling and normal program
+-ming within the tool. If the tool sup
+-ports reverse engineering, the coding 
+can also include modifying the tool-
+generated source code ˜les in the specif
+-ically marked regions and then reverse 
+engineering the changes back into the 
+model.
+In agile MDD, coding is modeling, 
+and the
+ UML code generator is the
+ UML compiler. In this manner, cod
+-ing is one-way: forward engineering 
+from UML to C/C++. This is achieved 
+by using an
+ MDD tools chain that sup
+-ports UML transition-oriented state 
+machines and can automatically gener
+-ate fully executable code from a UML 
+model.
+Unit Testing
+In the agile process, we use a unit test
+-ing tool (such as CppUnit for C++) to 
+instantiate objects of classes under test
+-ing and call the methods of objects. 
+We test
+ each class as a black box. In 
+MDD, unit testing is message driven. 
+The way of performing unit testing 
+varies, depending on the capability of 
+tools. For example, some UML mod
+-eling tools support the execution of 
+UML sequence diagrams. In this case, 
+unit testing means to execute sequence 
+diagrams. This type of testing is white 
+box in nature and can apply to an indi
+-vidual active class, any active container 
+class, or the entire model as a whole. A 
+major issue with this method is that it 
+can™t test external operations. A com
+-mon solution is to maintain a sepa
+-rate version of external operations for 
+simulation only. Another dif˜culty is 
+that, because the message data can be 
+very complicated, it™s dif˜cult and er
+-ror-prone to de˜ne and associate mes
+-sage data with sequence diagrams by 
+hand. In addition, this testing method 
+can only test the code generated for 
+simulation.
+In agile MDD, to streamline UML 
+unit testing and integration testing, 
+we use the MDD tools chain for unit 
+testing. On the UML side, we use 
+IBM Tau (a UML model veri˜er), and 
+on the unit test harness side, we use 
+IBM Tester. We use a co-simulation 
+tool to bridge the communication be
+-tween these two tools. In this man
+-ner, unit testing means to execute test 
+cases through a test harness. Similar 
+to MDD, this type of testing can ap
+-ply to an individual active class, any 
+active container class, or the entire 
+model as a whole. A major difference 
+is that this method is a combination of 
+both black- and white-box testing: the 
+test harness treats the UML model as a 
+black box, and the UML model veri˜er 
+treats the UML model as a white box 
+in that it shows internal message ex
+-changes among different active classes 
+in the model. A major advantage is that 
+this method can test not only normal 
+UML elements but also external opera
+-tions. Another advantage is that it can 
+be adapted to perform integration and 
+system testing.
+Integration and System Testing
+In the agile process, integration and 
+system testing includes testing all the 
+classes of an application system (or 
+subsystem), related platform integra
+-tion code, and data marshaling code as 
+a whole. Testers use different test cases 
+and procedures for integration and sys
+-tem testing.
+In MDD, integration testing in
+-cludes testing an entire UML model, 
+related platform integration code, and 
+data marshaling code as a whole. Both 
+platform integration code and data 
+marshaling code are typically created 
+by hand. The test cases, procedures, 
+and environments for MDD integration 
+testing are different from those for inte
+-gration testing in an agile process.
+In agile MDD, to streamline unit, in
+-tegration, and system testing, the UML 
+unit testing environment is adapted to 
+implement both integration and system 
+testing environments. Like MDD, the 
+integration testing includes the entire 
+UML model, related platform integra
+-tion code, and data marshaling code as 
+a whole. One difference is that in ag
+-ile MDD, the tools chain automatically 
+generates
+ both platform integration 
+code and data marshaling code. An
+-other difference is that, because we test 
+the UML model as a whole in unit test
+-ing, we reuse the same unit test cases 
+for integration testing. In addition, the 
+same tools chain automates both inte
+-gration and system testing.
+Test-Driven Development
+In the agile process, test-driven devel
+-opment means to write unit test cases 
+(that is, testing code with embedded 
+class method calls) ˜rst, and then im
+-plement and test the class methods 
+until the unit testing passes. In MDD, 
+test-driven development means to cre
+-ate UML sequence diagrams ˜rst, then 
+create the UML model according to the 
+sequence diagrams, and, ˜nally, mod
+-ify and execute sequence diagrams un
+-til the UML unit testing passes.
+In agile MDD, this practice is ex
+-tended to streamline unit, integration, 
+and system testing. First, we
+ create the 
+UML sequence diagrams, then we cre
+-ate both UML model and test cases (for 
+unit, integration, and system testing) 
+according to the sequence diagrams. 
+Finally, we execute the test cases until 
+the unit, integration, and system testing 
+pass.
+Results
+We applied agile MDD to the devel
+-opment of a real-time telecommunica
+-tion system successfully and released 
+the product as planned. Our applica
+-tion system included ˜ve major com
+-ponents, two of which we modeled in 
+UML for automatic code generation. 
+Agile MDD applied to the development 
+of these two UML-based autocoding 
+components only. The development 
+ 90
+ IEEE SOFTWARE
+ | WWW.COMPUTER.ORG/SOFTWARE
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUS: MULTIPARADIGM PROGRAMMING
+FOCUSMULTIPARADIGM 
+PROGRAMMINGFOCUSMULTIPARADIGM PROGRAMMING
+FEATURE:
+ SOFTWARE DEVELOPMENT
+of other hand-coded components fol-
+lowed the normal agile process. All the 
+interfaces among these components are 
+formally de˜ ned in formal languagesŠ
+
+Interface Speci˜ cation Language 
+
+or Abstract Syntax Notation One 
+
+(http://www.obj-sys.com/asn1tutorial/
+asn1only.html)Šfor later marshaling 
+code generation.
+As Figure 2 shows, an automatic 
+code generation toolset maximizes au-
+tomatic code generation. More than 93 
+percent of the entire component code 
+
+was automatically generated. With such 
+a high percentage of code generation in 
+
+conjunction with agile MDD practices, 
+the productivity in number of source 
+code lines per staff month increased 
+
+threefold compared with hand coding. 
+
+We also observed that the quality of au-
+
+tomatically generated code in terms of 
+defects density is signi˜ cantly higher 
+than manual code.
+Regarding UML code generation, 
+we observed that the more complicated 
+the UML state machines, the higher the 
+UML automatic code generation per-
+
+centage. UML code generation alone is 
+limited in increasing the total code gen-
+
+eration percentage. It™s essential to au-
+
+tomate data marshaling and platform 
+
+integration code generation to signi˜ -
+cantly increase the total percentage of 
+code generation.
+We divided the entire software de-
+velopment life cycle into 10 iterations 
+
+and 12 sprints. Early in the project, the 
+
+team struggled to gain and maintain 
+
+traction because we failed to follow ag-
+ile MDD practices. We started the proj-
+ect as a brand-new team that formed in 
+batchesŠnot all team members joined 
+
+at the same time. In particular, a sig-
+ni˜ cant portion of the team started at 
+
+Sprint 6 in an overall plan of 12 sprints. 
+Many team members had no MDD 
+background or prior agile experience. 
+
+In addition, most team members needed 
+
+to pick up new domain knowledge.
+As Figure 3 indicates, the develop-
+ment sprint velocity reached the lowest 
+
+level in Sprint 5. To get the project back 
+
+on track, we created a quick baseline 
+of prior sprints because the agile MDD 
+baseline wasn™t available, established 
+
+a revised plan before executing Sprint 
+6, eliminated manual detailed design 
+documentation, and implemented test-
+
+driven modeling and other agile MDD 
+
+practices. After taking these actions, 
+the development stabilized and gained 
+traction starting at Sprint 6 and going 
+
+forward.
+Similar to Mike Cohn™s de˜ nition 
+of velocity,
+8 the sprint velocity in Fig-
+ure 3 is in terms of the number of story 
+points (similar to use case scenarios) ac-
+
+tually completed in each sprint. As we 
+
+mentioned earlier, we used VersionOne 
+
+for agile project planning and manage-
+
+ment. The data for Figure 3 comes from 
+this tool. The story points are the units 
+of work effort measured and tracked in 
+
+VersionOne.
+We observed that, as we approached 
+the release due date, the defect closing 
+
+rate couldn™t catch up with the defect 
+
+opening rate because certain types of 
+
+testing (such as load or stress testing, 
+3027
+24
+21
+18
+15
+12
+09
+06
+03
+00Workahead 1Workahead 2˜ Sprint 3ŒIT1˜ Sprint 4ŒIT2˜ Sprint 5ŒIT3˜ Sprint 6ŒIT4
+˜ Sprint 7ŒIT5˜ Sprint 8ŒIT6˜ Sprint 9ŒIT7˜ Sprint 10ŒIT8˜ Sprint 11ŒIT9˜ Sprint 12ŒIT10FIGURE 3. 
+Sample sprint velocity chart in terms of number of story points per sprint. The 
+development reached the lowest sprint velocity level in Sprint 5, and stabilized and gained 
+
+traction starting at Sprint 6 and later.
+ABOUT THE AUTHORS
+YUEFENG ZHANG 
+is a senior systems/application engineer at 
+UniqueSoft, a company specializing in model-driven development and 
+engineering. His research interests include model-driven development, 
+
+agile software development processes, aspect and service-oriented 
+
+modeling methodology and tools, and their applications to automatic 
+
+code generation. Zhang has a PhD in computer science from the Uni-
+
+versity of Western Ontario. Contact him at yuefeng.zhang@uniquesoft.
+
+com.
+SHAILESH PATEL 
+is a software engineering development manager 
+at Motorola. His research interests include model-driven development, 
+
+DFSS (Design for Six Sigma)-driven software development, agile soft-
+
+ware development processes, and software measurement. Patel has an 
+
+MS in computer engineering from the University of Illinois. Contact him 
+
+at CSG024@motorolasolutions.com.
+  MARCH/APRIL 2011
+ | IEEE SOFTWARE
+ 91availability testing, and robust testing) 
+happened in the last few weeks. We 
+quickly got this under control by im
+-proving code inspection and the change 
+request resolution process.
+From the MDD perspective, 
+the key to success is to maxi
+-mize automation using the 
+MDD tools chain to enable mistake-
+free (high-quality) development and 
+signi˜cant productivity increase. From 
+the agile perspective, the key is to ef
+-˜ciently achieve end-to-end iterations, 
+from system engineering all the way 
+down to system testing. This requires 
+streamlining different process activities 
+such as system engineering, develop
+-ment, and testing.
+Agile MDD is still relatively new in 
+real software development. The learn
+-ing curve is sharp for any new orga
+-nization to adopt due to process, cul
+-ture, methodology, and other related 
+changes. Thus, adopting a new agile 
+MDD process is not likely to produce 
+a short-term bene˜t. But, for the long 
+term, it™s ultimately worth it for large 
+projects with multiple releases.
+Acknowledgments
+We thank the editors and reviewers for their 
+constructive comments. We also thank Mo
+-torola managers (especially Cathal Tierney 
+and Mike Wirtjes) for their strong support 
+for agile model-driven development and ap
+-proval of this article™s publication.
+References
+ 1.
+ K. Schwaber and M. Beedle, 
+Agile Software 
+Development with SCRUM
+, Pearson, 2002.
+ 2.
+ K. Beck, 
+Extreme Programming Explained
+, Addison-Wesley, 2000.
+ 3.
+ I. Jacobson, G. Booch, and J. Rumbaugh, 
+The Uni˜ed Software Development Process
+, Addison-Wesley, 1999.
+ 4.
+ T. Stahl and M. Volter, 
+Model-Driven Soft
+-ware Development
+, John Wiley & Sons, 2006.
+ 5.
+ S.W. Ambler, 
+The Object Primer
+, Cambridge 
+Univ. Press, 2004.
+ 6.
+ Y. Zhang, ﬁTest-Driven Modeling for Model 
+Driven Development,ﬂ 
+IEEE Software
+, vol. 
+21, no. 5, 2004, pp. 80Œ86.
+ 7.
+ J. Ellsberger, D. Hogrefe, and A. Sarma, 
+SDL: 
+Formal Object-Oriented Language for Com
+-municating Systems
+, Pearson, 1997.
+ 8.
+ M. Cohn, 
+Agile Estimating and Planning
+, Pearson, 2006.
+KEEP YOUR  COPY OF IEEE SOFTWARE 
+FOR YOURSELF!Give subscriptions to your colleagues or as graduation or promotion giftsŠ
+ way better than a tie!IEEE Software 
+ is the authority on translating software 
+theory into practice.www.computer.org/
+ software/
+SUBSCRIBE
+Selected CS articles and columns 
+ are also available for free at 
+ http://ComputingNow.computer.org.
