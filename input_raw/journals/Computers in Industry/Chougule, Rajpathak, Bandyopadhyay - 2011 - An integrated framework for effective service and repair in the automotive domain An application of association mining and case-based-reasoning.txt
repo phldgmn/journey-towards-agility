@@ -1,0 +1,1035 @@
+ An integrated framework
+ for effective
+ service and repair in the automotive
+domain: An application
+ of association mining
+ and case-based-reasoning
+Rahul Chougule*, Dnyanesh Rajpathak, Pulak BandyopadhyayDiagnosis & Prognosis Group India Science Lab, General Motors Global Research and Development, GM Technical Centre India Pvt Ltd, Creator Building,International Tech Park Ltd., Whiteﬁeld Road, Bangalore 560 066, India1. IntroductionIn today’s global market there is a continuous pressure on theOriginal Equipment Manufacturers (OEM’s) to improve serviceprocesses that directly relate to the customer satisfaction. After-sales -service is a critical business process that has a signiﬁcantimpact on the consumer’s perception about the brand and theproduct quality. A recent study by J.D. Power and associatesrevealed that customer satisfaction with the dealer service and thecost of service/repair have signiﬁcant impact (over 20%) on thenotion of customer satisfaction [1]. Also, incorrect service results inpoor QRD (quality, reliability and durability) that in turn increasescustomer dissatisfaction. On the other hand, in the last couple ofdecades, the use of electronic systems in automotives has grownrapidly. This growth is driven by the growing requirements forenvironmental protection and demands from the consumers toimprove fuel economy, comfort and safety. As a result, the amountof software embedded in a vehicle increased to tens of millions oflines of codes [2]. Such a complex nature of modern vehiclesystems often restricts service technician’s ability to diagnose theproblem accurately in a short time. This problem furtheraggravates for new/inexperienced
+ technicians. To maintaincompetitive edge in today’s market, it is essential to quicklyidentify technician difﬁculties, identify their training needs, andprovide appropriate training to diagnose and repair the faults in acost-effective way. This paper presents a novel integratedframework that achieves these objectives for continuous improve-ment facilitating lean service in the automotive domain.The notion of ‘lean’ paradigm has been well established andpracticed in the manufacturing domain for the last few decades. Itinvolves: (a) understanding customer value, (b) identifying thevalue stream that adds to this value, (c) creating ﬂow of productand information, and (d) seeking a wasteless perfection [3]. Bruntand Kiff [4], Kiff [5] described how these principles can be adaptedin the service industry for improving the performance related todealer’s service such as delays, defects, rework, unnecessarymovements, and excess stock, among others. In the current work,we focus on improving the factors related to customer satisfaction,in particular, improvement in mean time to repair, ﬁrst time ﬁx, andavoidance of unnecessary repairs. To this end, we make use ofassociation rule mining to detect the anomalies (possible wastes)in the ﬁeld and identify their root causes. Then, we subscribe to thecase-based-reasoning (CBR) and text mining to retrieve correctlysolved cases (i.e. best practices) from the past and learn from them,and further transfer the learnt (discovered) knowledge totechnicians to achieve continuous improvement in the serviceand repair.In Section 2, we provide state-of-the-art review of differentdisciplines that are used in our approach. Then, in Section 3, weComputers in Industry 62 (2011) 742–754A R T I C L E I N F OArticle
+ history:Received 15 January 2010Received in revised form 12 April 2011Accepted 23 May 2011Keywords:Association rule miningAutomotiveCase-based-reasoningLean serviceText miningA B S T R A C TIn this paper, we propose a novel
+ integrated
+ framework
+ combining
+ association
+ rule
+ mining,
+ case-based-
+reasoning
+ and text mining that can be used to continuously
+ improve service
+ and repair in an automotive
+domain.
+ The developed
+ framework
+ enables
+ identiﬁcation
+ of anomalies
+ in the ﬁeld that cause customer
+dissatisfaction
+ and performs root cause investigation
+ of the anomalies.
+ It also facilitates
+ identiﬁcation
+ ofthe best practices
+ in the ﬁeld and learning
+ from these
+ best practices
+ to achieve
+ lean
+ and effective service.
+Association
+ rule mining
+ is used
+ for the anomaly
+ detection
+ and the root cause investigation,
+ while case-based-reasoning
+ in conjunction
+ with text mining is used to learn from the best practices.
+ The integrated
+system
+ is implemented
+ in a web based distributed
+ architecture
+ and has been tested
+ on real life data. 2011
+ Elsevier
+ B.V. All rights reserved.
+* Corresponding author at: General Motors India Pvt. Limited, 2nd Floor, CreatorBuilding, International Technology Park, Whiteﬁeld Road, Bangalore 560 066, India.Tel.: +91 80 4041 4992; fax: +91 80 4115 8562/64.E-mail addresses: rahul.chougule@gm.com, chougulerahul@yahoo.co.in(R. Chougule), dnyanesh.rajpathak@gm.com (D. Rajpathak),pulak.bandyopadhyay@gm.com (P. Bandyopadhyay).Contents lists available at ScienceDirect
+Computers in Industryjo ur n al ho m epag e: ww w.els evier
+ .c om /lo cat e/co mp in d0166-3615/$ – see front matter  2011 Elsevier B.V. All rights reserved.doi:10.1016/j.compind.2011.05.007 describe the architecture of our framework in detail. It involves (a)identiﬁcation of different types of anomalies related to faultdiagnosis and repair, (b) application of association rule mining tocorrectly detect the root causes associated with the anomalies, and(c) intelligent learning and a case-based-reasoner to learn the best-practice knowledge from the correctly solved cases. In Section 4,we provide results and discuss the performance of our system.Finally, in Section 5, we conclude this paper by highlighting themain contributions of this work.2. Related workAs described earlier, to achieve our objective of lean service, wepropose a novel hybrid system that makes use of the principles ofdata mining and knowledge discovery - especially, association rulemining, text mining, and case-based-reasoning. Related work inthese different streams of technologies is discussed here.Agarwal et al. [6] formalized the notion of association rulemining to ﬁnd the associations between two sets of products in atransaction database using Artiﬁcial Immune Systems (AIS) andApriori algorithms. In their approach, if ‘I’ represent the set ofproduct items and ‘T’ represent the set of transactions, where eachtransaction includes a set of products that are purchased together,then the association rule mining establishes the associations of theform: X!Y, where X2I and Y2I. Several association measures suchas support, conﬁdence, conviction, lift, coverage, correlation, andodds ratio have been reported in the literature [7]. However,support and conﬁdence are the most popularly used [8]. The supportis the percentage of transactions that contains both X and Y,whereas, the conﬁdence is the fraction of transactions containing Xthat also contains Y. A notion of Apriori algorithm has beenproposed to minimize the computational complexity, especially,while dealing with very large databases. The Apriori algorithminvolves ﬁnding frequent item sets (with previously assigned levelof support) and then generating the rules that comply withpreviously assigned level of conﬁdence. Recently, Buddhakulsom-siri et al. [9] developed association rule mining algorithms usingApriori and elementary set concept techniques to ﬁnd therelationships between the product attributes (such as productiondate, repair date, mileage, engine type) and the causes of failure(related labor code) for warranty data analysis.The case-based-reasoning
+ is an analogical
+ reasoning method
+which
+ relates
+ previously solved
+ problems or experiences
+ to thecurrent unsolved problem.
+ Generally stating, the CBR approach
+consists
+ of the following steps – (a)
+ storing successfully
+ solvedcases
+ in the form of problems and solutions
+ in a case-base,
+ (b)retrieving similar
+ past
+ cases
+ based on a set of attributes
+ of aproblem
+ at hand and using the solution
+ of past cases
+ to solve newproblem,
+ and
+ (c)
+ adapting (if necessary)
+ the solution of a previous
+case to the new problem
+ [10,11]. The CBR methodology
+ became
+popular
+ in the last
+ few years mainly
+ because of the following
+beneﬁts:
+ (a) it enables
+ ﬁnding solutions to complex problemsquickly,
+ (b) captures
+ the experience
+ of a skilled specialist,
+ and, (c)
+provides
+ a basis
+ to discover
+ the decision
+ knowledge
+ from thehidden data [12]. The
+ success of a CBR system depends
+ on its
+ability
+ to retrieve
+ the most relevant
+ case
+ in support of a solution
+ toa new problem.
+ A number
+ of methods
+ have been proposed for thecorrect
+ case
+ retrieval,
+ and some inﬂuential
+ ones
+ include
+ induc-tion,
+ knowledge-based
+ indexing,
+ and the nearest
+ neighbor
+algorithms
+ [13]. Further,
+ Textual CBR (TCBR) [14]
+ and text
+ mining
+techniques
+ have
+ been
+ developed
+ and applied
+ in situations
+ where
+experiences
+ are
+ predominantly
+ captured
+ in the form of text.
+Typically,
+ the text
+ mining tasks
+ consists
+ of text
+ categorization,
+text
+ clustering, concept/entity
+ extraction,
+ relationship
+ extraction
+between
+ concepts,
+ production
+ of taxonomies,
+ and documentsummarization.Recently, a signiﬁcant amount of work has been reported onapplication of the case-based-reasoning
+ and text retrieval tech-niques for fault diagnosis and troubleshooting to improvemaintenance and service. Park et al. [15] developed a decisionsupport system using the CBR approach to accumulate knowledgefor solving problems in a complex production system. Yang et al.[16] integrated the CBR with an Adaptive Resonance Theory-Kohonen Neural Network (ART-KNN) to enhance fault diagnosis. Inthis case, the Neural Network is used to guide the CBR module tosearch for the similar previous cases. Saxena et al. [17] used theCBR approach for integrated fault diagnosis and health mainte-nance architecture for ﬂeet vehicles. Liu and Ke [18] developed aknowledge support framework for solving problems in productionenvironment using the CBR and text mining. Chougule andChakrabarty [19] employed the CBR using semantically enhancedontology guided search to retrieve fault diagnosis knowledge in avehicle assembly plant. Wang and Hsu [20] integrated CognitiveTask Analysis (CTA), hierarchical clustering and ontologies for PCtroubleshooting
+ knowledge management systems. Jin et al. [21]used domain speciﬁc ontology to represent facility fault diagnosisknowledge and used it for fault diagnosis.In summary, the association rule mining with the Apriorialgorithm has been used for automotive warranty data analytics.However, one of the limitations of such approach is that infrequentassociations are likely to be overlooked. To alleviate this problemconstraint based association rule mining has been used in thecurrent work. The incorporation of the domain speciﬁc knowledge(constraints) helps to reduce the computational complexity as wellas noise while identifying the meaningful associations betweendata. Such incorporation
+ of the domain speciﬁc knowledge ismissing in previous work. The CBR and text mining have becomepopular for fault diagnosis and troubleshooting
+ over the last fewyears. Several applications of the CBR and ontology have beenreported for machine (manufacturing) fault diagnosis. However, itappears that very limited work has been reported on application ofthe CBR to automotive domain which poses its own challenges. Inparticular, automotive domain provides an acid test for the CBRtechnique in retrieving the correct k-nearest cases for solutionsthat are associated with millions of vehicles in the ﬁeld. The searchspace becomes more complex because there are thousands oftechnicians involved in the service and repair of millions ofvehicles. Firstly, it is essential to identify proper cases involvingaccurate ﬁxes in a cost effective way. Secondly, often a signiﬁcantlylarge number of similar cases are retrieved from the archived case-base and it is essential to aggregate the knowledge derived fromthese retrieved cases to suggest possible solutions. As a result, inthe current work, we make use of the inductive and knowledgeguided approach to correctly retrieve the past cases and learn fromthem. In addition, the text mining approach is used for solutionadaptation and learning. It appears that, a seamless integration ofthe association rule mining, case-based-reasoning and text miningtechniques for maintenance
+ and service improvement is notreported earlier.In the next section, we describe the overall architecture of ourproposed framework that combines the association rule mining,case-based-reasoning
+ and text mining for the anomaly detection,its root cause investigation and learning from the best practices inthe ﬁeld to achieve continuous improvement in the service andrepair.3. Framework architectureWhen an abnormal behavior (or fault) is detected in a vehicle,diagnostic trouble codes (DTCs) are generated and stored on thevehicle memory bus. At dealers’ end, a technician extracts theseDTCs to identify the root cause of anomalies and determine theR. Chougule et al. / Computers in Industry 62 (2011) 742–754 743 repair actions that need to be performed on that vehicle. Usually,the predeﬁned codes, i.e. labor codes (LC), which characterize thenature of repair actions are assigned to the repairing tasks that areperformed by a technician to ﬁx a vehicle problem. In addition tothis, the information related to labor time, parts changed, dealer(technician) involved and technician verbatim entries are alsomaintained as useful data. The technician verbatim describes thetextual summary of the actual on-ﬁeld repair tasks performed by atechnician. It typically consists of the symptoms that are observedwith a speciﬁc part and the repair actions that are taken to ﬁx theroot cause of symptoms. Fig. 1 shows overall architecture of ourframework at a coarse-grained level, which consists of followingcomponents – anomaly detector, case classiﬁer, root cause analyzerand, intelligent learning and reasoner.The anomaly detector takes as input the data coming from thetwo databases (Symptoms and Claims) and detects different typesof anomalies, such as, cases with high time to repair or the caseswith repeat visits. The Symptoms database contains data related tovehicle, DTC and the date on which a particular DTC is read. TheClaims database contains data related to vehicle, labor codes (LCs),the date on which speciﬁc repairs are performed along withtechnician verbatim that are written in a free ﬂowing naturalEnglish language. The anomaly detector makes use of the Claimsdatabase to identify following types of anomalies – (a) repair casesin which a technician has taken high time to repair, (b) repeat visitcases where a vehicle visits a dealer again within a short period oftime, and (c) cases involving high cost repair, e.g. unnecessary partchanges. Having identiﬁed such anomalies, the remaining casesthat are residing in the database represents cases in which thetechnicians have correctly solved the problem in a cost-effectiveway. The case classiﬁer takes as an input the anomalous casesdetected by the anomaly detector, and also the correctly solvedcases, and classiﬁes them into two buckets. The ﬁrst bucketrepresents instances of correctly analyzed cases, that is, the casesin which a vehicle related problems are correctly ﬁxed bytechnicians. The second bucket represents instances of incorrectlyanalyzed cases by technicians at different dealers. The successfullysolved cases (ﬁrst bucket) form the ‘‘case-base’’ in the learning andthe reasoning process. The main aim of the root cause analyzer is toidentify possible root causes, i.e. symptoms that are associatedwith the anomalous cases. And for this, it makes use of theassociation rule mining and text mining techniques. The symp-toms identiﬁed by the root cause analyzer are then presented to theend user (the engineers and the domain experts from quality,product engineering and service). The intelligent learning andreasoner makes use of the case-based-reasoning
+ technique, whichtakes these symptoms as an input and then retrieves similar casesfrom the archived case-base and then learns how such cases havebeen diagnosed correctly in cost-effective way. The text miningcomponent facilitates solution adaptation and learning in caseswhere the inference from the retrieved cases cannot directly beapplied to the problem at hand. To deal with this, the text miningengine analyzes the text written in the technician verbatim entries,especially, in order to ﬁnd additional not-DTC symptoms recordedin the technician verbatim. This process of adaption and learning isperformed interactively by the end user. Finally, the suggestedsolutions are presented to domain experts for validation. Thevalidated knowledge is retained and disseminated to techniciansto improve their performance in solving similar cases in a cost-effective way. In summary, main steps involved in process areoutlined below and described in consequent subsections: Detection of anomalies in the ﬁeld. Root cause analysis of anomalies using association rule mining. Reasoning and intelligent learning from non anomalous cases toidentify best practices.Fig. 1. The overall system architecture.R. Chougule et al. / Computers in Industry 62 (2011) 742–754744  Retain and disseminate newly discovered knowledge forcontinuous improvement.The following sections describe each of these steps in detail.3.1. Anomaly detection from on-ﬁeld dataFirst step towards lean service is to successfully identify wastesand other adverse factors that are contributing to customerdissatisfaction, such as repairs contributing to high repair time,repairs contributing to repeat visits, and expensive repairs. Thefollowing section describes these anomalies and their detection.3.1.1. Repairs contributing to high repair timeAs mentioned earlier, the repair tasks that are performed by atechnician are assigned to predeﬁned labor codes (LCs) along withthe repair time. Here, the anomaly is characterized in terms of therepair cases in which the time assigned to the labor codes is higherthan the predeﬁned standard time that has been determined byperforming time study. Severity of labor codes pertaining to suchanomalies is expressed in terms of the notion of contribution. It isdeﬁned as the ratio of summation of extra repair time taken for allthe instances of a given labor code (say, Li) to summation of extrarepair time taken for all labor codes (including Li). It is calculated byusing the formula described below:Let L = {L1, L2, . . ., Ln} be the set of n distinct labor codes. Let tibethe standard repair time for labor code Li, where, 1  i  n. Let Lioccurs for miinstances. Let tijbe the repair time duration for jthoccurrence of labor code LiPercentage contribution of labor code Liin high repair time¼100 Pmik¼1ðtik tiÞPni¼1Pmik¼1ðtik tiÞ(1)The anomaly detection related to high repair time and theconcept of contribution has been explained with a case study inSection 4.1.3.1.2. Repairs contributing to repeat visitsThe repeat visit is one of the important factors that contribute tocustomer inconvenience, especially, when a customer visits thedealer again within a short period of time with the same problem.Moreover, the repeat visits also play a crucial role in determining aperceived quality and reliability of the product. To this end, our aimis to minimize the number of repeat visits of customers byidentifying the anomalies related to the repeat visits. In ourapproach, such anomalies are identiﬁed by using association rulemining approach. Here, we ﬁrst identify the associations betweenthe labor codes that are used during two consecutive visits of thesame vehicle to the dealer.Let S1 ¼ fL11; L1
+2; L1
+3; . . . ; L1pg be the set of labor codes (repairs)used during the ﬁrst visit of vehicle V1.Let S2 ¼ fL21; L2
+2; L2
+3; . . . ; L2qg be the set of labor codes (repairs)used during the second visit of vehicle V1.We take the Cartesian product of the two sets, S1 and S2 toobtain possible associations between the repairs that areperformed during the ﬁrst and the second visit of vehicle V1.Set of possible associations; C ¼ fL11; L2
+1g; fL11; L2
+2g; . . . ; fL1p; L2
+qg (2)Aggregation of such associations for all the vehicles within aspeciﬁc period of time allows us to highlight major repairs1that arecontributing to repeat visits to dealers.Here, we show with an example how this approach is used toidentify the repeat visit issues. Table 1 shows the repair datacorresponding to two consecutive visits of 4 vehicles and theassociations between the labor codes at each vehicle level.Aggregation of these associations shows that the repairs {L1,L2}are involved in maximum number of repeat visit cases (here, 3). Itimplies that, the technicians are not able diagnose for L1 properlyduring the ﬁrst visit resulting into the second visit of the vehicle.In the association rule mining, domain speciﬁc ﬁlters have beenused to restrict analysis to a speciﬁc system or subsystem of avehicle. The association results are also useful to extract the causalrelations between the failures. These causal relations can be usedto anticipate the future failures and take corrective action in theﬁrst visit itself. For example, it was observed that the vehicles thatwere repaired for ‘power steering hydraulic hose replacement’were visiting to the dealer again within short period of time toperform the repair related to ‘power steering pump assembly.’ It islikely that, the leakage from the pipes can lead to malfunctioning ofthe pump assembly. Under such circumstances,
+ dealers can beinformed to check the pump assembly after replacing the hose.Such kind analysis and knowledge transfer helps to reduce thenumber of visits to the dealer.3.1.3. Repairs with expensive repair costIn addition to the repairs contributing to high repair time andrepeat visits, another factor that causes inconvenience to thecustomers is unnecessary expensive repairs, especially, when thesame problem can be solved by other cost-effective ways. Forexample, in some cases, a vehicle visits a dealer with a fault say‘loose mirror assembly’ and an experienced technician ﬁxes thefault by simply repairing the assembly. In some other cases, thesame fault may get ﬁxed through the replacement of a faultyassembly by inexperienced technicians. In such cases, it is crucialto learn the service knowledge from the repairs where technicianssuccessfully ﬁxed the faults by making optimal utilization ofresources, i.e. cost and time.3.2. Root cause analysis of anomalies using association rule miningThe main aim of the root cause analysis is to identify thefrequent symptoms related to anomalous cases. The associationrule mining technique has been used to ﬁnd the associationsbetween the data from the Symptoms (DTCs) and the Claimsdatabases for the anomalous cases. Moreover, it also identiﬁeswhether any speciﬁc technicians (or dealers) are involved in theanomalous cases so that they can be trained to prevent occurrenceof such anomalies in the future.Before performing the association rule mining, it is necessary toselect a correct set of data from the Symptom and the Claimsdatabases and then ﬁlter the retrieved data such that it can be usedfor performing the association rule mining. The ﬁrst step involvedin association rule mining is to make use of the ﬁlter that isdeveloped to select the data associated with a speciﬁc vehiclemake, model, and year. It also takes into account the timedifference between DTC read date and repair date such that theTable 1Sample data for repeat visit anomaly detection.Vehicle Labor codes theﬁrst visit (S1)Labor codes duringthe second visit (S2)Associations betweenlabor codes at vehiclelevelV1 L1,L3 L2 {L1,L2},{L3,L2}V2 L1 L2 {L1,L2}V3 L3,L5 L5 {L3,L5},{L5,L5}V4 L1 L2 {L1,L2}1Recall here that each labor code represents a speciﬁc type of repair actionperformed by a technician on a speciﬁc part when a speciﬁc type of symptom isobserved.R. Chougule et al. / Computers in Industry 62 (2011) 742–754 745 association between only related DTCs and LCs are establishedcorrectly. Below we show how the associations are establishedbetween DTCs and LCs.Let,V = {V1,V2,. . .,Vr} be the cases (vehicles) corresponding toanomaly.Vi¼ fVi1; Vi2; Vi3; . . . ; Visg, where, ViV, is a subset of vehicleswith the anomalous labor code Li.Vji¼ fVj1; Vj2; Vj3; . . . ; Vjtg, where, Vji Vi, is a subset ofvehicles with the symptoms Si.Si= {DTC1i, DTC2i,. . ., DTCui}, where, DTC1ito DTCuiare thediagnostic
+ trouble
+ codes
+ in Si. In other
+ words,
+ Siitself
+ consists
+ ofmultiple
+ DTCs
+ associated
+ with
+ it. As a result,
+ it is a non-trivial
+effort
+ to determine
+ which
+ labor
+ codes
+ can
+ be used
+ to ﬁx the
+ given
+set of symptoms
+ to avoid
+ high
+ time
+ to repair
+ and
+ repeat
+ visits.
+We perform the association rule mining to identify whether anyspeciﬁc symptoms Siis a root cause of anomalous repair Li.P ¼ Percentage of instances symptom Siis root cause of the anomaly Li¼jVjijjVij(3)Here,
+ we show
+ with
+ an example
+ how
+ this
+ method
+ is used
+ toinvestigate
+ the
+ root
+ cause
+ of the
+ anomaly.
+ Table
+ 2 shows
+ one
+ such
+ set
+of data,
+ which
+ is used
+ to perform
+ the
+ root
+ cause
+ analysis
+ associated
+with
+ a speciﬁc
+ type
+ of anomaly,
+ say
+ high
+ time
+ to repair.
+ In this
+ table,
+the
+ ‘Symptoms’
+ column
+ indicates
+ the
+ string
+ of DTCs
+ that
+ are
+ set
+ forthe
+ anomaly
+ given
+ in the
+ column
+ ‘Labor
+ Code’.
+ As it can
+ be seen
+ in the
+column
+ ‘Labor
+ Code’,
+ the
+ same
+ labor
+ code
+ L1, appeared
+ in cases
+ {1,
+ 2,3, 4}.
+ Similarly,
+ as shown
+ in column
+ ‘Symptoms’
+ the
+ same
+ set
+ ofsymptoms
+ S1 consisting
+ of DTCs
+ {DTC1
+, DTC2
+, DTC3}
+ appeared
+ incases
+ {1,
+ 3, 4}.
+ As a result,
+ in 75%
+ of cases
+ in the
+ ﬁeld,
+ root
+ cause
+ ofanomaly
+ related
+ to L1 is S1. Typically,
+ in multiple
+ DTCs
+ scenario
+ (i.e.
+with
+ symptoms
+ DTC1
+, DTC2
+, DTC3
+), an experienced
+ technician
+ takes
+less
+ time
+ to diagnose
+ the
+ problem
+ by identifying
+ the
+ fact
+ that
+ there
+may be only
+ a single
+ failure
+ that
+ is causing
+ all
+ DTCs
+ i.e.
+ DTC1
+, DTC2
+ and
+DTC3
+ in a vehicle
+ system
+ or subsystem.
+ As a result,
+ less
+ diagnosis
+ and
+repair
+ time
+ is needed
+ to ﬁx the
+ single
+ failure
+ which
+ in turn
+ ﬁxes
+ all
+the
+ DTCs.
+ Comparatively,
+ inexperienced
+ technicians
+ may
+ take
+ more
+diagnosis
+ and
+ repair
+ time
+ as they
+ may
+ tend
+ to diagnose
+ the
+ faults
+ forindividual
+ DTC
+ in S1. As the
+ claims
+ data
+ also
+ contain
+ information
+related
+ to dealer
+ involved
+ in the
+ repair,
+ investigation
+ can
+ be done
+ toidentify
+ whether
+ any
+ dealer
+ (or
+ technician)
+ is involved
+ frequently
+ inthe
+ anomalous
+ cases.
+ This
+ helps
+ to identify
+ the
+ training
+ needs
+ at anindividual
+ technician
+ level.
+ The
+ text
+ mining
+ of technician
+ verbatim
+corresponding
+ to these
+ cases
+ facilitates
+ further
+ investigation
+ into
+ the
+facts.
+ The
+ details
+ of the
+ text
+ mining
+ component
+ are
+ described
+ inSection
+ 3.3.2
+. In the
+ following
+ section,
+ we describe
+ the
+ CBR
+component
+ of the
+ architecture
+ for the
+ intelligent
+ learning
+ from
+the
+ best
+ practices.
+3.3. Reasoning and learningThe main aim of the reasoning and learning component of thesystem is to identify the correct procedures to ﬁx the symptomsthat are causing different anomalies and transfer the learntknowledge to inexperienced technicians to improve the service.We subscribe to case-based-reasoning
+ as a problem-solving
+technique that allows us to make use of the correctly solved casesin the past to improve the performance.The CBR problem-solver
+ consists of following main steps: (a)retrieve the similar cases to provide the most likely solution tosolve the problem (symptoms), (b) validation of suggestedsolutions, and adaptation and learning if the solution cannot beused directly to solve the problem at hand, (c) retain anddisseminate the solution (knowledge) for future use. Fig. 2 showsdifferent steps that are used in the case-based-reasoning compo-nent of our system. These are described in detail in the followingsub-sections.3.3.1. Case retrievalRetrieval of the correct case from the case-base is one of themost critical steps in the CBR process. In our approach, all the casesresiding in a case-base consists of: Problem description: It describes the state of the world, that is,observed symptoms (DTCs), DTC read date, correspondingvehicle identiﬁcation number (VIN), vehicle model, model year,vehicle engine type, transmission type and sale region. Therationale to choose these attributes is, DTCs as well as theconditions to set the DTC varies with the vehicle model (such as,Impala, Cadillac STS), model year (such as, 2009, 2010), enginetype (example, 1.4 Liter Engine, 1.6 Liter Engine), transmissiontype (example, Automatic, Manual) and sale region (example,USA, Canada, China). Solution: The solution includes labor codes that are used to solvethe problem in the past for each VIN, repair date and thetechnician verbatim corresponding to each labor code.The case retrieval component of our system takes as an inputthe attributes related to the problem description such as productdetails and symptoms. These symptoms represent the DTCs thatare difﬁcult to diagnose and lead to anomalies in the ﬁeld. The caseretrieval component retrieves similar cases from the bucketcontaining correctly solved cases (cf. Section 3). Here, the caseswith the exact match of these attributes are retrieved such that thevalue of similarity is either 1 or 0.As it can be imagined, at any given instance there is a largepopulation of vehicles present in the ﬁeld. As a result, the case-baseconsists of several thousands of cases which potentially can beused to identify the solution for the symptoms and also there aremultiple solutions that can be used to ﬁx the symptoms in the ﬁeld.Based on our experience we realize that, it is not always possible toretrieve the nearest neighbor solution by using the k-nearestneighbor algorithm because too many similar cases with variedsolutions may get retrieved from population of millions of vehiclesin the ﬁeld. Under such circumstances,
+ it is essential to aggregatethe knowledge from retrieved cases to determine the likeliestsolution. As a result, knowledge guided inductive reasoning andlearning has been used to ﬁnd the likeliest solution to the problemat hand. In our approach, we formalized the domain speciﬁcSimilarityinput problem , past case¼ 1ðif all attributes related to product and DTCs matchÞ¼ 0ðif there is a mis-match in any one of the attributesÞ(4)Table 2Sample data for root cause analysis of anomalies.Cases (vehicles) Labor code Symptoms Dealer/Technician1 L1 DTC1, DTC2, DTC3 Dealer 12 L1 DTC6 Dealer 23 L1 DTC1, DTC2, DTC3 Dealer 14 L1 DTC1, DTC2, DTC3 Dealer 15 L2 DTC7, DTC8 Dealer 2R. Chougule et al. / Computers in Industry 62 (2011) 742–754746 knowledge in the form of rules which can be used to guide thereasoner to establish associations between the DTCs (i.e. symptom)at hand with the possible relevant labor codes. In contrast with thenearest neighbor algorithm which looks for similar case/cases fromthe case-base and apply its solution to the problem at hand, weaggregate past experience and knowledge from such similar cases(i.e. solutions) that can be applied to ﬁx the DTCs at hand. Thisprocess of knowledge aggregation involves several preprocessingsteps to remove the noise. In many instances, multiple DTCs areuploaded from various sources (such as OnStar,2Dealer diagnos-tics) over a period of time and also multiple repairs are performedon vehicle over a period of time. To deal with these, the temporalconstraints in the form of rules are speciﬁed to restrict the scope ofdata such that the data residing only within a speciﬁc time windowis considered for the knowledge aggregation. One such example ofthe rule is described below:‘‘the events observed for the same vehicle in Symptoms data arerelated to the events observed in Claims data if the lag between‘‘Repair Date’’ and ‘‘DTC Read Date’’ is between x days, e.g. =5days.’’Further, in many cases, technicians perform additional miscel-laneous repairs/services (such as ‘courtesy transportation’, ‘Tirepressure check’) to maintain customer satisfaction. However, suchrepairs may not necessarily be directly related to any of the DTCswhich technician is diagnosing and often introduce a noise. Toalleviate this problem, we make use of the domain knowledgeformalized in the form of rules. One such example of a rule statesthat, if a DTC is a powertrain related DTC then only consider therepairs which are related to engine and transmission in the processof aggregation. Such rules are crafted manually based on thedomain knowledge. These rules are represented by deciphering thecodes corresponding to DTCs and LCs. For example, all power trainrelated DTCs start with P [22] while the labor codes related toengine and transmission start with J and K respectively. Thus, ifDTC starts with P then the labor codes starting with J and K areconsidered in the process of knowledge aggregation.Having
+ identiﬁed possible labor codes as solutions, aconﬁdence
+ value is assigned
+ to them
+ to determine
+ to what
+extent
+ a given
+ labor code
+ can
+ be seen
+ as appropriate to ﬁx thesymptom.
+ The conﬁdence
+ value of 1 indicates
+ that related
+ laborcode
+ (repair) is used in all
+ previous
+ cases
+ for a given symptom.
+The method that
+ is used to compute the conﬁdence
+ is similar tothe one described in Section
+ 3.2
+ and Eq. (3). For example,
+ theconﬁdence
+ of using labor
+ code L1 for a string of DTCs say DTC1,DTC2
+, DTC3 is given as,
+ConfidenceðDTC
+1; DTC
+2; DTC3 ) L1Þ¼NðL1; DTC
+1; DTC2; DTC3ÞNðDTC1; DTC
+2; DTC
+3Þ(5)where,N(DTC1,DTC2,DTC3) = number of instances of diagnostic troublecodes (DTC1,DTC2,DTC3) set on a correctly diagnosed vehicle,N(L1,DTC1,DTC2,DTC3) = number of instances L1 used to ﬁx DTC1,DTC2, DTC3 occurring together.In the case where more than one solution can be used as repairaction, it is necessary to rank these solutions based on theconﬁdence factor. Rank 1 indicates the most likely repair for thegiven symptoms. The case retrieval and ranking will lead to one ofthe following scenarios:Scenario 1. The repair with rank 1, that is, the most likely repairhas very high conﬁdence factor and statistically signiﬁcantnumber of similar cases are present in the case-base. Thestatistical signiﬁcance is decided by the end user based onnumber of cases and own judgment.Fig. 2. The case-based reasoning component of the system.2OnStar is a service network that uses wireless communication to providediagnostic and navigation services to a driver (www.onstar.com).R. Chougule et al. / Computers in Industry 62 (2011) 742–754 747 Scenario 2. In some cases the top n repairs suggested by thesystem have the same conﬁdence factor and, therefore, itbecomes difﬁcult to determine the most likely solution (repair).Scenario 3. The number of cases that are retrieved in theretrieval phase are statistically not signiﬁcant at all.In the case of scenario 1, the solution suggested by the systemcan be used as a valid solution with a very little adaptation.Scenario 2 requires further case adaptation and learning. In thepresent approach, the case adaption and learning phase isperformed interactively by the end user and the text miningmodule facilitates this process. This process is described in detail inthe next sub-section. In the case of scenario 3, that is, in theabsence of sufﬁcient cases in the case-base, solutions to DTCs areevolved collaboratively by an ofﬂine consultation between team ofdomain experts from multiple disciplines (such as brand quality,service and product engineering).3.3.2. Case adaptation and learningFor the set of solutions which require further adaptation, weﬁrst retrieve the technician verbatim entries associated with thelabor codes. These verbatim consist of natural language descriptionof repairs that are performed by technicians to ﬁx the speciﬁc typesof symptoms that are observed on a vehicle.As mentioned in the last section, in some cases the feasible setof solutions that are suggested by the system may have the sameconﬁdence value and it becomes rather difﬁcult to rank thesolutions (Scenario 2). All the technician verbatim associated withthe labor codes with the same conﬁdence value are ﬁrst collectedand they are analyzed to establish more evidence from the textrecords to break the tie. In other words, we gather additionalevidence by analyzing additional facts, that is, non-DTC relatedsymptoms recorded in technician verbatim. As an example, for DTCP0300 (i.e. ‘engine misﬁre detected’), let us assume that repairs‘spark plug replacement’ and ‘drive belt replacement’ have sameconﬁdence level. However, other non DTC related symptom ‘pitchtapping noise’ has been found predominantly in technicianverbatim for repairs related to ‘drive belt replacement’. Thus, forvehicles with DTC P0300 and ‘pitch tapping noise’ the likeliestrepair is ‘drive belt replacement’.The text mining component consists of following three sub-modules – document annotation engine, semantic extractor, and termbased clustering engine (please refer to Fig. 3). The D&P (Diagnosisand Prognosis) ontology forms the back bone of text mining. TheD&P ontology and different sub-modules of text mining aredescribed in the next subsections.3.3.2.1. Diagnosis and prognosis ontology. The D&P
+ ontologyconsists
+ of domain-speciﬁc
+ knowledge
+ of parts,
+ part location,
+actions,
+ and symptoms.
+ It is formalized
+ in RDF(s)
+ (Resource
+Description
+ Framework)
+ [23]. The D&P
+ ontology
+ is constructed
+by making
+ use
+ of different
+ databases,
+ e.g.
+ symptoms
+ and claims,
+other
+ textual
+ sources like
+ service manuals,
+ technician
+ servicebulletins, and also by consulting with
+ SMEs
+ (Subject
+ Matter
+Experts). At a coarse grained
+ level,
+ the D&P
+ ontology
+ is astructure of the form:
+ D&Ponto
+:¼ ðC; Csubclass
+; RCi; IÞ. The class,
+ C, inthe D&P ontology
+ represents
+ the top level concepts,
+ such
+ as Part,Action,
+ PartLocation,
+ Symptom,
+ and LaborCode.
+ The instance,
+ I,formalizes
+ the real world objects
+ of domain speciﬁc concepts,
+ forexample,
+ Door is an instance
+ of the concept
+ Part,
+ etc.
+ In manycases, the parts are written
+ by using
+ inconsistent
+ vocabulary.
+ Forexample,
+ the part
+ called
+ ‘Electronic
+ Brake
+ Control
+ Module’
+ can bewritten
+ in the ﬁeld
+ data as either
+ ‘brake
+ control
+ module’
+ or‘EBCM’,
+ and it is crucial
+ to handle such
+ terminological
+ variations
+in the data.
+ To handle such
+ cases, each
+ concept
+ in the D&P
+ontology
+ has a namespace called
+ ‘<baseWord
+> Electronic
+ BrakeControl
+ Module
+</baseWord>’ and corresponding
+ synonymsassociated
+ with
+ it. The synonyms are
+ also useful to handle thecases in which
+ symptoms
+ are recorded by using phrases,
+ forexample,
+ ‘cooling fan inoperative
+’, ‘cooling fan
+ always
+ on’, ‘coolingfan failing to shut off’, and so on.
+ The base words
+ are used todisambiguate
+ between
+ inconsistent terminological
+ references
+that
+ are observed in the ﬁeld
+ data.
+ The class PartLocation
+ allowsus to specify
+ the precise location
+ of each
+ part in vehicle
+architecture,
+ for example ‘front
+ left tire’.
+ The class Action
+ onthe other
+ hand represents
+ different types
+ of repair actions
+ that
+can be performed
+ to ﬁx the symptoms.
+ The class Symptom
+ is usedto formalize
+ the clues
+ that
+ can be used to identify
+ the nature
+ offaults.
+ This class
+ is further
+ specialized
+ into two
+ subclasses
+DTCRelatedSymptom
+ and nonDTCRelatedSymptom.
+ The more
+speciﬁc
+ representation
+ of the top level concepts
+ is organized
+ interms
+ of the class-subclass
+ hierarchy,
+ Csubclass
+. For instance,
+ theparts
+ such
+ as ‘engine
+ control
+ module’, ‘rear left door’
+ provide
+more speciﬁc
+ representation
+ of the top level
+ parts
+ such as‘control
+ module’ and
+ ‘door’, which
+ appear
+ in vehicle
+ architecture.
+The top level
+ class
+ can have one or more subclasses
+ associated
+with
+ it. Finally, the binary relationships
+ of the form RCi! Cjare
+deﬁned
+ in our ontology
+ to formalize
+ how two
+ or more classes
+ are
+associated
+ with
+ each other.
+ Some
+ of the main relationships
+ in theD&P ontology involve
+ – PartHasALocation
+ (Part
+ PartLocation),
+ActionPerformedOnPart
+ (Action
+ Part), SymptomAssociatedWith-
+Part (Symptom
+ Part), ActionRectiﬁesSymptom
+ (Action
+ Symp-
+tom), and ActionHasLaborCode
+ (Action
+ LaborCode).
+ The existing
+Tec
+ hnician 
+verbati
+ mcorpus
+Docume
+ ntAnnotation 
+Engine
+Vehicle X Mod
+ yr 2009
+Sem
+ anti
+ cExtractor
+D&P
+ Onto
+ logy
+Term based
+Clustering
+Engine
+REMOVE & REPLACE THE
+MIRROR ASSEMBLY FOR
+JAMM
+ ED MOV
+ EMENT 
+~OK
+  .2
+Subjec
+ t Matt
+ er Experti
+ seFig. 3. The overall process.R. Chougule et al. / Computers in Industry 62 (2011) 742–754748 version of the D&P
+ ontology
+ consists of 2508 parts,
+ 78 actions,
+and 432 symptoms.
+3.3.2.2. Document annotation engine. The document annotationengine correctly identiﬁes parts, actions, and DTCs as well asnon-DTC related symptoms that are recorded in the technicianverbatim. To annotate the textual information, the documentprocessing engine subscribes to the D&P ontology. For annotation,each technician verbatim in the corpus is ﬁrst split into sentencesand then tokenized. The stop words, like ‘a’, ‘an’, ‘the’, ‘who’, thatare considered as non-descriptive are removed from the tokens toreduce the noise in the text. The ﬁltered tokens are then stemmedusing Porter stemming algorithm [24]. In theory, the lemmatiza-tion can be used to reduce the inﬂated form of the words thatappear in a technician verbatim by taking into account the context.However, in many cases the ﬁeld data is incomplete in nature, i.e.only the part and repair action is recorded but no information isprovided about the symptoms, or written brieﬂy. To this end, itbecomes difﬁcult to realize the context in which speciﬁcinformation is recorded. In future version of the text mining toolour aim is to make use of the missing data techniques (such asglobal imputation based on missing attributes) to transformincomplete data into complete technician verbatim, and thenmake use of lemmatization.
+ The processed tokens are consideredas a bag-of-words which are then matched with the concepts in theontology. Initially, the algorithm performs full-string matching tosee whether a token, say ‘door’, can be matched directly with thecorresponding concept from the ontology. In cases the tokenscannot be matched directly because they are recorded by usingabbreviations, say ‘TPS’. To handle such cases, the abbreviationterm, ‘Termi’ to be disambiguated is identiﬁed from the textdocument and the base-words, that is ‘Base-Wordj’ and ‘Base-Wordk’ associated with ‘Termi’ (for example ‘tank pressure sensor’and ‘tire pressure sensor’) from the D&P ontology are selected. Foreach base-word the algorithm ﬁrst identiﬁed the text documentsin which it is recorded and then the word window of four terms isset on the either side of a selected base-word and the pairs of theform – Base-Wordj2 ({Base-WordjSymptomj}, {Base-WordjActionk}) and Base-Wordk2 ({Base-WordkSymptomj}, {Base-WordkActionk}) are constructed by taking into account thesymptoms and the actions that appear in the word window ofBase-Wordjand Base-Wordk. The conditional probabilities P(Base-WordjjSymptomj), P(Base-WordjjActionk) and (Base-WordkjSymptomj), P(Base-WorkkjActionk) are calculated to realizethe probability of ‘Base-Wordj’ and ‘Base-Wordk’ appearing withSymptomjand Actionkin a corpus. The set of pairs with highestconditional probability are treated as the valid pairs and the base-word, which is a member of the valid pair is established as thecorrect meaning of an abbreviation in the given context.3.3.2.3. Semantic extraction engine. The semantic extraction enginetakes as an input each annotated verbatim and extracts theannotated text from it. The semantic extraction engine provides aﬂexible way to extract semantics from the annotated technicianverbatim in terms of different combinations like <part action>,<part symptom>, and a triple <part action symptom>. This makessure that no information is overlooked that can be used by theclustering engine while generating different clusters.3.3.2.4. Term based clustering engine. The term based clusteringengine implements three novel hierarchical clustering algorithmsto construct the clusters of technician verbatim such that it enablesthe end users to derive more evidence about the non-DTC relatedsymptoms that are recorded in the technician verbatim. In otherwords, there are hundreds of thousands of technician verbatimdata available in the ﬁeld and for the end users it is crucial toidentify the technician verbatim cases that are associated withfrequently failing parts along with symptoms that are associatedwith the parts and ﬁnally the repair actions that are used to ﬁx thesymptoms. To this end, three clustering algorithms are deployed –Part-based clustering, Part-Symptom based clustering, and Part-Symptom-Action
+ based clustering. The Part-based clusteringalgorithm clusters the technician verbatim that are associatedwith each part, which helps the end users to identify the number ofcases that are associated with each part failure in the ﬁeld.Similarly, the Part-Symptom clustering algorithm clusters thetechnician verbatim which consists a record of a speciﬁc part alongwith symptoms that are associated with it, say ‘battery-dead’,‘battery-leak’, which helps the end users to quickly identifyfrequent types of symptoms that are associated with each partfailure. Finally, the Part-Symptom-Action
+ clustering algorithmclusters the technician verbatim, which consist a record of aspeciﬁc part along with symptoms that are associated with eachpart, and the repair actions that are used to ﬁx the symptoms, say‘battery-dead-recharge’
+ or ‘bcm-internal_failure-replace’.
+ Thishelps the end users to identify the frequently used repair actionsfrom the data when a speciﬁc type of symptom is observed with apart.The Part-based clustering algorithm takes as the input parts,partiextracted by the semantic extractor along with the corpus oftechnician verbatim. Each technician verbatim is then treated as abag-of-concepts
+ and the frequency of each concept is calculated todetermine the criticality of each part in a given corpus. Eachtechnician verbatim is represented as a vector, tvf= {tv1, tv2,...,tvm},where tvmis the frequency of extracted semantic in a technicianverbatim [25,26]. The agglomerative process of clustering isinitialized by assigning a minimum frequency threshold of two toeach partito determine the validity. The minimum frequencythreshold in our case is set to two because in many cases threedifferent types of verbatim namely customer verbatim, correctionverbatim and causal verbatim are collected. The customer verbatimprovides a description of the problem that is faced by a customer,for example ‘reduced engine power’. The correction verbatimprovides a description of the repair actions that are performed toﬁx the problem, for example ‘Powertrain control module isreplaced’. The causal verbatim provides a description of the rootcause associated with the fault, for example, ‘there was an internalshort to Powertrain control module’. If partioccurs only once in asingle verbatim with no symptoms or actions co-occurring withparti, then it provides limited contextual information to considerpartias the valid ﬁeld failure. Our main aim is to identify the partfailures that are associated with the symptoms and the repairactions used to ﬁx the faults, and, therefore, at any stage ouralgorithm relies on collecting as much contextual knowledge thatis related with partiin the form of symptoms or actions. Havingidentiﬁed the minimum frequency threshold, the two most similarclusters i.e. Cf partig[ Cf partjg¼ Cf parti; partjgare merged and theprocess is iterated till there is one large cluster. For merging twoclusters, Cf partigand Cf partjgthe distance between them is calculat-ed by the average linkage.The Part-Symptom clustering algorithm uses the clustersconstructed by the Part-based algorithm and the pair {PartSymptom}sem-extractthat are extracted by the semantic extractoras the cluster label and these clusters are subdivided in such a waythat each sub-cluster consists the cases of technician verbatimwith a record of a speciﬁc part and the symptoms that areassociated with it. Here, in each sentence of a technician verbatimﬁrst the focal term, that is, Parti, is identiﬁed and the word windowof four terms is set on the either side of Partito construct the pairs{PartiSymptomj} by taking into account the symptoms that areappearing in the word window (for example {battery dead},{battery leakage}, and so on). In our approach, we take theR. Chougule et al. / Computers in Industry 62 (2011) 742–754 749 viewpoint that the symptoms that are appearing with a part in theword window are more likely to be associated with a part incomparison with any other symptom that may be written in adocument further away from a part. Each newly constructed pair{PartiSymptomj} is then matched with the label pair {PartSymptom}sem-extractto make sure that it is a valid pair.Alternatively, if {PartiSymptomj} is not a member of the labelpair {Part Symptom}sem-extractthen instead of directly using {PartiSymptomj} to construct the clusters its frequency is calculated tosee whether it occurrence is greater than the minimum frequencythreshold in the corpus. In the Part-Symptom-Action
+ clusteringalgorithm, the clusters constructed by the Part-Symptom cluster-ing algorithm along with the triples {Part Symptom Action}sem-extractare taken as the input. The new clusters are constructed insuch a way that each cluster consist the cases of technicianverbatim with the record of a speciﬁc part along with thesymptoms that are associated with it and the repair actions used toﬁx the symptoms. Similar to the Part-Symptom clusteringalgorithm, in this algorithm, ﬁrst the focal term, that is, Symptomjin each sentence of a technician verbatim is identiﬁed and the wordwindow of four terms is set on the either side of Symptomjtoidentify the actions, Actionk, that are appearing in the word windowto construct the triple of the form {PartiSymptomjActionk}, forexample, ({Battery Dead Replace}, . . ., {Battery Leakage Repair}.Each action appearing in a word window is deemed to be the onethat is used to ﬁx Symptomjin the ﬁeld. Each newly constructedtriple is then checked to see whether newly constructed triplematches with {Part Symptom Action}sem-extractand then itsfrequency is calculated to see whether it is greater than theminimum frequency threshold.These clusters are presented to the end users to get theirrecommendations about whether the useful non-DTC relatedsymptoms can be used in conjunction with DTCs to improve theconﬁdence for a repair action suggested by system.3.3.3. Knowledge retention and disseminationsThe likely solutions/recommendations
+ suggested by the systemare validated by a domain expert and then retained in theknowledge base. Thus, as new knowledge gets added to the system,it progressively becomes richer and thereby minimizes the burdenon end-user in the process of adaptation. Such a type of knowledgeis considered as the best-practice knowledge in reducingunnecessary time and cost that may be spent by technicians toﬁx the anomalies. This knowledge is further disseminated todealers to ﬁx the similar symptoms for the future cases. Naturally,this helps to improve the performance of technicians such thatthese anomalies can be ﬁxed accurately in a cost-effective way.Thus, the case-base also gets richer as more number of correctlysolved cases are continuously added and the system progressivelybecomes more and more intelligent with time.4. Results and discussionThe overall approach has been implemented from scratch in aprototype system as a web-based distributed client-serverarchitecture using the Java 2 Platform, Enterprise Edition (J2EE).The J2EE platform simpliﬁes the development of enterpriseapplications using modular components like Enterprise JavaBeans(EJB), Java Servlets and Java Server Pages (JSP). The database hasbeen implemented using Oracle database management system.The users from different groups (such as brand quality, productengineers and service) can access the database and perform theanalysis. In actual practice, one brand quality manager isresponsible to handle the service related issues and to maintainthe knowledge base for each vehicle model. This helps to avoidinconsistencies in the process. The prototype version of the systemis tested with input from the domain experts on the real-life data.Here, we ﬁrst explain the working of the system with a case study.4.1. Case studyWe illustrate working of the system with a case study forreducing the time to repair. This case study is performed for a mid-sized sedan built and sold in North America. The top 5 repairsrelated to the high repair time identiﬁed by the system are shownin Fig. 4. An extra repair time (cf. Section 3.1.1) assigned to eachlabor code is described as Other Labor Hour (OLH). As shown in theﬁgure, repair ‘Power train control module (PCM) Replacement’ is ofthe highest severity in terms of contribution to total OLH. The ‘PCMreplacement’ operation has been performed in the ﬁeld 593 times.Out of these 593 cases, in 183 cases an extra repair time has beenassigned by the technicians and total extra repair time correspond-ing to these 183 cases is 310.3 h. The total extra repair timeFig. 4. Anomalies related to high time to repair.Table 3Association mining results for ‘PCM Replacement’.DTCs Count Percentageof casesTotal OLH(Hours)P0315,P0633,P0513 93 51 192.7P0315,P0633 34 19 73.4P0601 7 4 11.5P2135 4 2 5.5P0513 2 1 1.2R. Chougule et al. / Computers in Industry 62 (2011) 742–754750 corresponding to all labor codes was 13080 h. Hence, contributionof labor code ‘PCM replacement’ is 2.37% (i.e. 310.3  100/13080).The association rule mining technique has been used to furtherinvestigate into the root cause of high repair time cases. Asmentioned before, this has been achieved by ﬁnding theassociations between the Symptoms (DTCs) and the Claims relatedto the anomalous cases. Results of the association rule mining forthe anomalous cases related to labor operation ‘PCM Replacement’are shown in Table 3. In 51% of the cases, an extra repair time hasbeen taken by the technicians when the DTCs P0315, P0633 andP0513 occur together.The learning for the DTCs ‘P0315, P0633, P05130has beenperformed for the non anomalous cases (Fig. 5). As it can berealized from the ﬁgure, when DTCs ‘P0315, P0633, P05130occurtogether PCM has been replaced in all the cases. Under suchcircumstances it can be concluded that, the root cause for the DTCs‘P0315, P0633, P05130is PCM which needs to diagnosed andreplaced. From anomalous cases, it was also realized thattechnicians (especially, inexperienced technicians) tend to diag-nose these DTCs separately, which in turn increases the diagnosistime. The discovered knowledge i.e. ‘‘when the DTCs ‘P0315,P0633, P05130occur together ﬁrst diagnose PCM’’ was communi-cated to the technicians to reduce the diagnostic time and cost.Thus,
+ the
+ anomaly
+ detection
+ and
+ the
+ root
+ cause
+ investigation
+components
+ provide
+ analytics
+ capabilities
+ to identify
+ the
+ issues
+ inthe
+ ﬁeld
+ and perform
+ its root
+ cause
+ investigation,
+ while
+ reasoning
+provides
+ a decision
+ support
+ to reduce
+ the
+ anomalies.
+ The
+ developed
+system
+ is evaluated
+ to see
+ whether
+ the
+ solutions
+ provided
+ by the
+system
+ (reasoning
+ component)
+ indeed
+ concur
+ with
+ those
+ provided
+by the
+ domain
+ expert.
+ We also
+ investigated
+ into
+ the
+ effect
+ of addition
+of domain
+ speciﬁc
+ knowledge
+ (cf.
+ Section
+ 3.3.1
+) in improving
+ the
+performance
+ of the
+ reasoner.
+ In addition,
+ the
+ entire
+ system
+ has
+ been
+evaluated
+ for the
+ scalability
+ in real
+ life
+ industrial
+ set up.
+4.2. Performance evaluationIn this section, we ﬁrst describe the evaluation strategy for thecase-based-reasoner followed by related results. Then, we presentthe results for the scalability evaluation.4.2.1. CBR evaluation strategyFrom the anomaly detection and the root cause investigationmodules, it was realized that certain DTCs are difﬁcult to diagnosein the ﬁeld leading to high time to repair or repeat visits. One suchset of DTCs are listed in Table 4. We presented these DTCs to thedomain experts and asked them to propose n likely solutions forthese DTCs and rank them based on their likelihood using theirexperience. We then used these ranked solutions as a baseline toevaluate the performance of the CBR component of system.The same sets of DTCs are then used by the case retrieval andlearning component to retrieve the past cases from the case-baseto ﬁnd the likely solutions and rank them based on their conﬁdencefactor. We then compared and contrasted the likely solutionsproposed by our system with the solutions suggested by thedomain expert.The retrieval performance of the system is evaluated based onmeasures precision and recall. The precision is the fraction ofretrieved solutions that are relevant to the symptoms, whereas, therecall is the fraction of the relevant solutions that are successfullyretrieved.Precision ¼jrelevant solutions extractedjjset of extracted solutionsj(7)Recall ¼jrelevant solutions extractedjjtotal relevant solutionsj(8)In our experiments, we restricted solution retrieval to top nsolutions (i.e. number of relevant solutions suggested by thedomain expert). This leads to the same value for the precision andthe recall. In these experiments, we also evaluated whether themost likely solution suggested by the system (i.e. solution withhighest conﬁdence) is in compliance with the most likely solutionsuggested by the domain expert. Several such experiments wereperformed to test the system.As mentioned earlier, to improve the performance of oursystem, we incorporated the domain knowledge formalized in theform of rules (cf. Section 3.3.1). We also investigated into theperformance improvement of the reasoner by addition of thedomain speciﬁc knowledge. For this, we repeated the aboveexperiments to ﬁnd the likely solutions for the same set of DTCswithout rule-based domain knowledge. The solutions were onceagain compared with the solutions suggested by the domain expertto determine the precision (or recall). Finally, the precision valuesfor solution retrieval without the domain knowledge are comparedwith the precision values for solution retrieval with domainknowledge to identify the improvement.4.2.2. CBR evaluation resultsSeveral experiments are performed to study the effectiveness ofsolution retrieval and reasoning. The results of these experimentsare summarized in Table 4. The performance of the system in termsFig. 5. Reasoning for DTCs ‘P0315, P0513, P06330.Table 4Comparative analysis of the solutions retrieved by reasoner.DTC symptoms Number of likelysolutions suggestedby domain expert (n)Case retrieval and reasoning with domain knowledge Case retrieval and reasoning without domain knowledgeNumber ofretrieved
+solutionsRank ofmost likelysolutionsNumber ofrelevant
+solutionsPrecision/recallNumber ofretrieved
+solutionsRank ofmost likelysolutionNumber ofrelevant
+solutionsPrecision/recallP0300 5 5 1 5 100% 5 1 3 60%P0455 3 3 2 3 100% 3 2 2 67%P0463 3 3 1 3 100% 3 1 2 67%P0315, P0513,P06331 1 1 1 100% 1 1 1 100%P0172 7 7 1 7 100% 7 1 5 71%R. Chougule et al. / Computers in Industry 62 (2011) 742–754 751 of solution retrieval (precision and recall) is as good as the domainexpert. In all cases, solutions suggested by system are matchingwith the solutions suggested by the domain expert. It was observedthat in most of the cases, the most likely solutions suggested by thesystem matched with the most likely solutions suggested by thedomain expert. However, in case of the DTC P0455, the most likelysolution from the ﬁeld data was not in compliance with thesolutions proposed by the domain expert. Thus, the system alsoenabled to discover new knowledge (which is again validated bythe domain expert) from the data. In such scenario, the newlyvalidated knowledge can be transferred to dealers to diagnose theproblem in the sequence that was suggested by the system toreduce the diagnosis and repair time. In real practice, thisdissemination of knowledge happens through service manual ortechnical service bulletins (TSBs). These service manuals or TSBsexplain step by step instructions about disassembling a particularsystem or subsystem, diagnosis procedure and repair action torectify the symptoms. The new knowledge discovered from thecase-based-reasoning is used to improve the service manualsequence (to improve the mean time to repair) and content (toreduce repeat visits). New failure modes and actions discoveredfrom the ﬁeld are added to the service manual to ﬁx the problem‘right ﬁrst time’.The performance improvement by incorporating the domainknowledge is illustrated with an example of DTC P0172. In theabsence of the domain knowledge (Fig. 6a), the most likely repairsuggested by the system for DTC P0172 is ‘mass airﬂow sensor withintake air temperature sensor replacement.’ This repair was incompliance with the most likely repair suggested by the domainexpert. However, two repairs suggested by the system (i.e. repairsrelated to ‘control assembly radio’ and ‘reprogram ICS’) were not incompliance with those suggested by the domain expert. Further,some of the repairs suggested by the domain expert i.e. repairrelated ‘fuel injector’ and ‘transmission reprogramming’ were notpresent in the solutions suggested by the system. The incorpo-ration of domain knowledge helped to remove noise and also allthe repairs that were suggested by the system were in compliancewith those suggested by the domain expert (Fig. 6b).The results for improvement in the solutions retrieval forvarious cases are shown in Table 4. In the worst case (i.e. for DTCP0300), about 40% of the top n solutions retrieved by the systemdid not appear in the list of the likely solutions proposed by thedomain expert. The overall improvement of 0–40% was achieved inthe systems’ performance by using knowledge guided (domainknowledge in the form of rules) retrieval.In some
+ cases,
+ we realized
+ that
+ the
+ top
+ solutions,
+ i.e.
+ labor
+ codes
+say L1 and
+ L2 retrieved
+ by the
+ system
+ showed
+ the
+ same
+ conﬁdence
+value,
+ and
+ as a result
+ it was
+ difﬁcult
+ to rank
+ the
+ solutions.
+ To deal
+with
+ such
+ situation,
+ the
+ text
+ mining
+ component
+ of the
+ system
+ was
+used
+ to get
+ more
+ ﬁne-grained
+ insight
+ into
+ the
+ problem.
+ Here,
+ ﬁrst
+ the
+technician
+ verbatim
+ records
+ associated
+ with
+ L1 and L2 were
+retrieved
+ and correctly
+ annotated
+ to highlight
+ the
+ non-DTC
+ related
+symptom
+ (e.g.
+ leak
+ or noise)
+ recorded
+ by the
+ technicians.
+ Such
+additional
+ information
+ was
+ used
+ for
+ performing
+ further
+ analysis
+(Fig.
+ 7). The
+ document
+ annotation
+ engine
+ and
+ semantic
+ extractor
+component
+ of the
+ system
+ successfully
+ managed
+ to retrieve
+ all
+ the
+non-DTC
+ related
+ symptoms
+ correctly
+ without
+ missing
+ any
+ one ofthem.
+ The
+ term
+ based
+ clustering
+ engine
+ clustered
+ the
+ set
+ oftechnician
+ verbatim
+ in which
+ the
+ non-DTC
+ related
+ symptoms
+extracted
+ by the
+ system
+ were
+ recorded.
+ Each
+ cluster
+ of technician
+verbatim
+ generated
+ for non-DTC
+ related
+ symptoms
+ were
+ analyzed
+interactively
+ by the
+ end
+ users.
+ These
+ non-DTC
+ related
+ symptoms
+that
+ appeared
+ in the
+ highest
+ number
+ of technician
+ verbatim
+ entries
+in conjunction
+ with
+ DTCs
+ were
+ used
+ to assign
+ priorities
+ for labor
+codes
+ L1 and
+ L2. In practice,
+ it was
+ observed
+ that
+ there
+ were
+ multiple
+linguistic
+ variations
+ to describe
+ the
+ same
+ symptom
+ in technician
+verbatim
+ entries.
+ For
+ example,
+ the
+ symptom
+ ‘noise’
+ was
+ also
+recorded
+ as ‘rattle’
+ or ‘cling’.
+ The D&P
+ ontology
+ consisted
+ synonyms
+of symptoms,
+ helped
+ to disambiguate
+ between
+ different
+ linguistic
+variations
+ and
+ improved
+ the
+ clustering
+ performance
+ of the
+ system.
+Fig. 6. Reasoning for DTC P0172 (a) without domain knowledge and (b) with shallow domain knowledge.R. Chougule et al. / Computers in Industry 62 (2011) 742–754752 4.2.3. ScalabilityThe scalability is one of the most important criteria todetermine the usefulness of the system in a real environment.We performed a set of experiments with the data sets of differentsizes for different vehicle makes and models to see amount of timetaken by the system to – (a) identify the anomalous cases and thelabor codes contributing to high repair time, (b) perform the rootcause investigation of the labor code contributing maximum tohigh repair time and identify the culprit symptoms (DTCs), and (c)perform learning and reasoning for these DTCs. All the experimentswere performed on OS Type: Microsoft Windows XP Professional,Memory size: 3.5 GB, Processor: Intel[R] Core[TM] 2 Duo CPUT9300 @ 2.50 GHz 2.49 GHz. Table 5 gives details of this evaluation.Before implementing our system, it was not possible for the endusers to analyze the ﬁeld data efﬁciently and in many cases thecrucial anomalies were overlooked. It was observed that, the timerequired to perform such analysis was reduced from three to fourweeks to few minutes by using our system.5. ConclusionsIn this paper, we developed a novel integrated approach thatuses the association rule mining, CBR and text mining forcontinuous improvement in the service and repair. The developedmethodology has been implemented in a prototype framework toidentify the anomalies in the ﬁeld, perform its root cause analysisand to identify the training needs of the service technicians.Moreover, it also facilitates the learning the best practices and thediscovery of new knowledge to achieve an overall improvement inthe service.The existing version of the system was tested on the real wordautomotive data related to millions of vehicles. A signiﬁcantimprovement in term of time has been observed to detect theanomalies and learn from the best practices. It was realized that,with the developed integrated approach the time required toperform the analysis and learn from the ﬁeld was reduced from fewweeks to few minutes. More importantly, it also identiﬁed theanomalies and the best practices in the ﬁeld which wereoverlooked because of the overwhelming data size. In future,our aim is to automate the process of case adaptation and learningto reduce the burden on end users. This involves, automaticallyextracting the domain knowledge from other sources such servicemanuals, service bulletins, engineering documents and comparethe knowledge from these sources with the ﬁeld data to ﬁnd theanomalies as well as discover new knowledge. Further, the work onthe association rule mining for repeat visits can be extended tomultiple visits to identify the sequence of repairs that are involvedin the anomalous cases. Nevertheless, the existing versionsuccessfully helped to identify the wastes that cause customerinconvenience, perform its root cause investigation and learn thebest practices to achieve continuous improvement and the leanservice in the automotive domain.Fig. 7. A sub-cluster of technician verbatim with part symptom pair.Table 5Scalability performance of the system.Claim selectionperiodNumber of recordsin Claims databaseTime taken toidentify anomalouscases related to highrepair time (s)Number of cases relatedto LC contributing highestto high repair timeTime taken to performroot cause investigationto identify DTCs relatedto LC (s)Time taken to performreasoning andlearning (s)One month 218,095 25 23 8 32Three months 715,132 38 148 17 74One year 3,425,293 69 362 38 133R. Chougule et al. / Computers in Industry 62 (2011) 742–754 753 The developed approach can be applied to improve thediagnosis and repair in various domains (such as manufacturing,aerospace, medical) where data related to the symptoms and theremedial (repair) actions exist. In the manufacturing plants, thefailures and the symptoms are recorded in ‘Down Time Reporting(DTR)3’ systems. The repairs performed by the plant maintenancetechnicians to ﬁx the symptoms are recorded in maintenancemanagement systems [27]. The developed approach can be appliedto such manufacturing
+ data to reduce the machine down time andto improve the overall operational efﬁciency of the plant. In themedical domain, electronic medical records [28] can be mined toinvestigate into the symptoms that are difﬁcult to diagnosecausing inconvenience to the patients (example, repeated visits)and learn the best practices to treat such symptoms. This will helpto reduce the diagnostic cost and visits to hospital.To the best of our knowledge, a seamless integration of theassociation rule mining, case-based-reasoning
+ and text miningtechniques for improving the service is the ﬁrst of its kind, and wehope that it will spur further research in the manufacturing,aerospace and medical communities.Acknowledgement
+The authors would sincerely like to thank Sugato Chakrabarty(General Motors Global R&D) for providing initial dataset todevelop D&P ontology, Marty Case (General Motors, Warren, USA)for providing useful domain speciﬁc knowledge and Maneka Berlin(HCL, India) for programming support. The authors would also liketo acknowledge Steve Holland and Ravikumar Karumanchi(General Motors Global R&D) for valuable feedback.References[1] J.D. Power Associates, What Car? 2009 UK Vehicle Ownership Satisfaction Study,available at http://www.testdriven.co.uk/jd-powerwhat-car-2009-uk-vehicle-
+ownership-satisfaction-study/, 2009.[2] M. Broy, I. Kruger, A. Pretschner, C. Salzmann, Engineering automotive software,Proceedings of the IEEE 95 (2) (2007) 356–373.[3] J. Womback, D. Jones, Lean Thinking: Banish Waste and Create Wealth in YourCorporation, Simon & Schuster, New York, 2003.[4] D. Brunt, J. Kiff, Creating Lean Dealers, Lean Enterprise Academy Ltd, 2007.[5] J. Kiff, The lean dealership:
+ a vision for the future: from hunting to farming,Marketing Intelligence and Planning 18 (3) (2000) 12–126.[6] R. Agarwal, T. Imielinski, A. Swami, Mining association rules between sets of itemsin large databases, in: Proceedings
+ of the ACM SIGMOD Conference, WashingtonDC, USA, 1993.[7] P. Tan, V. Kumar, J. Srivastava, Selecting the Right Interestingness Measure forAssociation Patterns, in: Proceedings of the SIGKDD’02 Conference, Edmonton,Alberta, Canada, 2002.[8] S. Kotsiantis, D. Kanellopoulos, Association rules mining: a recent overview,International Transactions on Computer Science and Engineering 32 (1) (2006)71–82.[9] J. Buddhakulsomsiri, Y. Siradeghyan, A. Zakarian, X. Li, Association rule-genera-tion algorithm for mining automotive warranty data, International Journal ofProduction Research 44 (14) (2006) 2749–2770.[10] J. Kolodner, Improving
+ human decision making through case based decisionaiding, AI Magazine 12 (2) (1991) 52–68.[11] A. Aamodt, E. Plaza, Case-based-reasoning: Foundational issues, methodologicalvariations and system approaches, AI Communications 7 (1) (1994) 39–59.[12] R Bergmann, S. Breen, M. Goker, M. Manago, S. Wess, Developing Industrial Case-based-reasoning Applications—The INRECA Methodology, Springer, Berlin, 1998.[13] K. Kim, I. Han, The cluster indexing method for case-based-reasoning
+ using selforganizing maps and learning vector quantization for bond rating cases, ExpertSystems with Applications 21 (2001) 147–156.[14] R. Weber, K. Ashley, S.S. Bruninghaus,
+ Textual case-based-reasoning, The Knowl-edge Engineering Review 20 (3) (2005) 255–260.[15] M. Park, I. Lee, K. Shon, Using case-based-reasoning for problem solving in acomplex production process, Expert System with Application
+ 15 (1998) 69–75.[16] B. Yang, T. Han, Y. Kim, Integration of ART-Kohonen neural network and case-based-reasoning for intelligent fault diagnosis, Expert System with Applications26 (2004) 387–395.[17] A. Saxena, B. Wu, G. Vachtsevanos, Integrated diagnosis and prognosis architec-ture for ﬂeet vehicles
+ using dynamic case-based-reasoning,
+ in: Proceedings
+ of theIEEE Autotestcon, 2005.[18] D. Liu, C. Ke, Knowledge Support for problem-solving in a production process:
+ ahybrid of knowledge discovery and case-based-reasoning, Expert Systems withApplications 33 (2007) 147–161.[19] R. Chougule, S. Chakrabarty,
+ Application
+ of ontology guided search for improvedequipment diagnosis in a vehicle assembly plant, in: Proceedings of Fifth AnnualIEEE Conference on Automation Science and Engineering, Bangalore, India, 2009.[20] S. Wang, S. Hsu, A Web-based CBR knowledge management system for PCtroubleshooting, The International
+ Journal of Advanced Manufacturing Technol-ogy 23 (7–8) (2004) 532–540.[21] Y. Jin, Y. Choi, Y. Xiong, K. Han, S. Shin, Y. Lee, A knowledge acquisition andmanagement system for fault diagnosis and maintenance
+ of equipments, in:Proceedings of the 6th WSEAS International
+ Conference on Applied ComputerScience, Hangzhou, China, 2007.[22] OBD II Trouble Codes, URL: http://www.obd-codes.com/trouble_codes/
+, 2011.[23] D. Beckett (Ed.), RDF/XML Syntax Speciﬁcation (Revised), W3C Recommendation,10 February 2004, URL: http://www.w3.org/TR/rdf-syntax-grammar/
+, 2004.[24] M. Porter, An algorithm for sufﬁx striping, Program 14 (3) (1980)
+ 130–137.[25] A. Jain, M. Murty, P. Flynn, Data clustering: a review, ACM Computing Surveys 31(3) (1999) 264–323.[26] G. Salton, M. McGill, Introduction to Modern Information
+ Retrieval, McGraw-Hill,1983.[27] A. Labib, World-class maintenance using a computerized maintenance manage-ment system, Journal of Quality in Maintenance
+ Engineering 4 (1) (1998) 66–75.[28] A. Jha, C. DesRoches, E. Campbell, K. Donelan, S. Rao, T. Ferris, A. Shields, S.Rosenbaum, D. Blumenthal, Use of electronic health records in U.S. Hospitals, NewEngland Journal of Medicine 360 (2009) 1628–1638.Rahul Chougule is a senior researcher in the Diagnosisand Prognosis Group at the General Motor’s IndiaScience Laboratory. He received Bachelor of Engineer-ing and Masters of Engineering in Mechanical andProduction Engineering in 1996 and 2000 respectivelyfrom Shivaji University, India. He received Ph.D. inMechanical Engineering from the Indian Institute ofTechnology, Bombay in 2005. His research interests arein the area of knowledge based systems, case basedreasoning, multiple criteria decision making and theirapplications to manufacturing and operations manage-ment. Rahul has been awarded with General MotorsIndia President Award, Charles L. McCuen award (GM R&D), and GM’s mostprestigious ‘‘Boss Kettering’’ award.Dnyanesh G. Rajpathak is a senior researcher in theDiagnosis and Prognosis Group at the General Motor’sIndia Science Laboratory. He received Bachelor ofEngineering in Production Engineering from the Uni-versity of Pune in 1996; Master of Science degree inAdvanced Manufacturing Management and Technologyfrom the University of Surrey, UK in 1998; Ph.D. inArtiﬁcial Intelligence from the Open University, UK in2004. Dnyanesh’s research interests are in the area ofdata mining, text mining, integrated vehicle healthmanagement, next generation automotive engineeringand design, knowledge-based engineering, and ontolo-gy engineering. Dnyanesh has been awarded with General Motors India PresidentAward, Charles L. McCuen (GM R&D), and GM’s most prestigious ‘‘Boss Kettering’’award for the work in the area of data mining and text mining.Pulak Bandyopadhyay is a Technical Fellow and a LabGroup Manager for the Diagnosis and Prognosis Groupat the General Motor’s India Science Lab. Pulak receivedhis Ph.D. from the University of Wisconsin – Madison inthe area of Production Engineering. He is a seniormember of the Society of Manufacturing Engineers, andserved in the board of directors of North AmericanManufacturing Research Institute. Pulak’s researchinterest includes math-based modeling of processesand systems, agile/reconﬁgurable system design, datamining technologies for diagnosis and prognosis, andreal-time monitoring and control. Pulak has wonseveral external and internal GM awards including SME Outstanding YoungManufacturing Engineer, R&D100 Top innovation award, and GM’s most prestigious‘‘Boss Kettering’’ award three times.3http://www.premier-system.com/ﬁles/SS%20Auto-IT%20Downtime%20Repor-
+ting%20DTR.pdf.R. Chougule et al. / Computers in Industry 62 (2011) 742–754754

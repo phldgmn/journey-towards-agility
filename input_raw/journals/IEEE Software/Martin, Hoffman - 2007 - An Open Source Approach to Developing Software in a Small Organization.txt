@@ -1,0 +1,908 @@
+ 46IEEE SOFTWARE
+Published by the IEEE Computer Society0740-7459/07/$20.00 © 2007 IEEEsmall settings provides a good introductionto these issues, statistics, and relevant lessons
+learned.1Over the past eight years, Kitware has grownfrom having two developers to having more
+than 30. We produce a mixture of commercial
+
+closed-source and open source products. Some
+products are internal to Kitware, but others
+have collaborators located around the world.
+Likewise, some projects are small, with only one
+or two developers, but others have 30 or more.
+So, any development approach we use must
+have low enough overhead that we can use it
+with smaller projects but also be able to handle
+larger projects consisting of thousands of source
+files. Given all these requirements, plus the need
+to cross-develop on Windows, Linux, and Mac
+
+OSX, itÕs clear that any viable solution must be
+
+very flexible.Our software development approach ad-dresses some of these concerns. WeÕve been re-
+fining our approach while working on projects
+
+such as the Visualization Toolkit
+2and the InsightSegmentation and Registration Toolkit (ITK),
+3widely used open source toolkits with thousands
+of source files and many distributed developers.
+WeÕve also applied these techniques to ParaView,
+
+a scientific visualization application thatÕs open
+
+source but has a smaller development commu-
+nity, and VolView, a closed-source, internal, med-
+
+ical volume-rendering application. This article dis-
+cusses the specific tools and processes weÕve used,
+the costs and benefits, and the lessons weÕve
+learned.Origins of our software processIn 1999, the US National Library of Medi-cine (NLM) at the National Institutes of
+Health (NIH) awarded a three-year contract
+to develop an open source registration andfocusAn Open Source Approachto Developing Software 
+in a Small Organization
+How does a small group of software developers exploit the soft-
+ware engineering practices that large software organizations typ-
+ically use? Small groups certainly need all the benefits that such
+practices provide but often lack the infrastructure and economiesof scale that larger groups can leverage. A small software group typically
+doesnÕt have a dedicated QA team or testing farm, or possibly even a dedi-
+
+cated system administrator. The SEI report on process improvement for 
+SE challenges in small companiesKen Martin and Bill Hoffman, 
+KitwareKitwareÕs 
+software
+development
+approach borrows
+techniques from
+agile development
+and Extreme
+Programming 
+and emphasizes
+long-term, 
+ongoing projects. segmentation toolkit, which eventually came tobe known as ITK.3The initial development teamconsisted of three commercial partners (GE Cor-
+porate R&D, Kitware, and MathSoft) and three
+
+academic partners (University of North Car-
+olina, University of Tennessee, and University of
+
+Pennsylvania). This large, geographically sepa-
+rated group was tasked with a difficult software
+
+engineering problem: to develop a reusable
+cross-platform open source toolkit in C++ that
+would contain the state of the art in medical im-
+aging algorithms and be useful for both research
+
+and development.At the projectÕs start, we surveyed the avail-
+able tools to determine what we needed to de-
+velop and what we could use. We also studied re-
+
+cent software development trends. The emerging
+Extreme Programming4and test-driven develop-ment5methodologies provided many good ideasand helped us to develop our process. XPÕs testa-
+
+bility requirement was of particular interest. ITK
+would have many developers and many plat-
+forms to support. For development to move for-
+ward at the correct pace, the developers would
+
+have to rely on the system working almost con-
+
+tinuously. XP principles also encouraged the use
+
+of code standards and collective ownership. Six-
+
+sigma quality efforts led the team to use metrics
+such as daily code coverage analysis during test-
+ing. In many ways, our approach resembles the
+
+Agile Unified Process;6both are lightweight, iter-ative, incremental, and tool independent.The process in detailWe organized the process into five major
+parts: communication and documentation, revi-
+sion control, build management, testing, and re-
+lease creation. The motivation behind this or-
+ganization is looking at the software process
+from a steady-state perspective, and itÕs particu-
+
+larly suited for long-term projects. Communica-
+
+tion, for example, is always happening with new
+requirements, design discussions, and end-user
+feedback, all of which occur concurrently on an
+ongoing basis.We designed the process to be lightweight
+and allow for rapid development, with a re-
+quirement that the majority of the tools used
+had to be open source. For communication and
+documentation, the process initially used the
+Mailman mailing list software, Doxygen for au-
+tomatic documentation of source code, and ph-
+pBugTracker for issue tracking (available at
+
+http://sourceforge.net). In recent years, weÕveadded the Wiki,
+7another powerful com-munication tool. For revision control, we picked
+the Concurrent Versions System (CVS)
+8becauseof its easy-to-use, nonlocking client-server
+model. For the build process, at the start of the
+
+ITK project, no tool existed that could build
+complicated C++ projects on all of the sup-
+ported platforms, so we developed a tool called
+CMake.9For automatic testing of software, theITK team decided to develop another tool, even-
+tually called Dart (http://svn.na-mic.org:8000/
+svn/Dart/trunk/Dart.pdf). Over the past eight
+years, weÕve also developed a process for using
+all these tools together to generate regular re-
+leases as well, and weÕve recently begun work
+on creating a new tool called CPack to aid in the
+release process. The process has proven to be
+flexible, and it adapts well to new tools and
+technologies as they appear.
+Communication and documentationGood communication and documentationare arguably the most important aspects of a
+
+software process. We use several techniques to
+
+encourage constructive communication and doc-
+umentation during software development and
+maintenance.Mailing lists.Mailing lists have proven to be anindispensable form of communication between
+software developers and users. The Mailman
+list manager is a simple, easy-to-manage, Web-
+
+based tool for creating and maintaining mailing
+
+lists. Each project normally has a developersÕ
+
+list and a usersÕ list. The developersÕ list con-
+tains detailed discussions about design issues.
+The usersÕ list provides a place for end users to
+pose questions about how to use the software.
+
+Users often help each other, although develop-
+
+ers commonly subscribe to the usersÕ list as well
+
+to counter any bad advice that might appear. In
+
+a projectÕs early days (when the software has no
+
+users), this list isnÕt required. When the project
+
+reaches a certain maturity level, it makes sense
+
+to create a separate list for users, which Mail-
+man lets you do easily.
+Mailing lists are also beneficial becausethey result in searchable archives, which pro-
+vide a source of documentation and can con-
+tain the most current information about how
+
+to use a project. So, email lists are dynamic
+communication channels that can react quickly
+as systems evolve in response to changes such
+as new operating system or compiler releases.January/February 2007
+IEEE SOFTWARE
+47Goodcommunicationanddocumentationare arguably the mostimportantaspectsof a software
+process.  Wiki. An excellent adjunct to mailing lists is theWiki, a Web page that the software community
+
+can edit quickly. This allows for the rapid doc-
+
+umentation of discussions on a mailing list. For
+example, consider a situation in which the re-
+
+lease of a new compiler results in a software
+
+compile failure unless a special compiler flag is
+added to the build process. The first lucky user
+
+to run into the problem would post it to the
+usersÕ mailing list. Somebody in the community
+would then identify a workaround, post the fix
+to the list, and ask the original user to verify the
+
+solution. Once the user has verified the solu-
+
+tion, somebody would update the Wiki with the
+
+fix, which then becomes part of the software
+
+documentation. We use MediaWiki, which is
+
+freely available as open source software.Doxygen.As with XP, weÕve incorporated Lit-
+erate Programming ideas into KitwareÕs devel-
+
+opment process. As Wayne Sewall explains,
+
+ÒIn general, literate programs combine source
+and documentation in a single file. Literate
+programming tools then parse the file to pro-
+duce either readable documentation or compi-
+lable source.Ó10The Doxygen tool employs a simple com-ment markup language in C++ or C source
+code and generates extensive source code doc-
+umentation. Because the tool automatically
+generates the documentation from the source,
+
+it can be automatically updated each night to
+match the most recent copy of the code in the
+
+revision control system. Programmers gener-
+ally donÕt like to write documentation, but
+
+they do like to write code. So, if theyÕre devel-
+
+oping documentation while writing the code,
+itÕs far more likely that the documentation will
+
+stay current and follow the code.Issue tracker.
+Another powerful tool in the soft-ware process is the bug or issue tracker. An issue
+
+tracker lets developers and users report software
+issues and provides a place to store feature re-
+quests so theyÕre not forgotten. We chose the
+
+Web-based phpBugTracker system because itÕs
+
+easy to install, has a clean user interface, and
+can easily handle multiple projects. As develop-
+ers and users create issues in the system, the is-
+sues are given a unique ID and can be assigned
+a severity and priority. The issue trackerÕs ad-
+
+ministrator can give developers extra privileges,
+so that they can assign status and resolutions to
+issues. The system also lets you attach files to is-sues, providing a way to give reproducible testcases and even source patches. The issueÕs initia-
+
+tor and the developer assigned to it are notified
+via email when the issueÕs status changes. This
+
+allows for dialogue between the reporter and the
+developer.
+However, having a good issue tracker isnÕt
+the end of the story. For the tool to remain use-
+
+ful, someone must manage it, and the team
+must get together periodically and ÒtriageÓ the
+issuesÑthat is, adjust their priorities and reas-
+sign them to the appropriate developers or cat-
+egories. Triage normally occurs before a release
+
+and involves getting the entire team together
+for some form of real-time communication (ei-
+ther in the same room, or via a telephone or
+video conference). Without this attention, issue
+
+trackers can quickly become a list of things
+that never get done.Revision controlAll software projects, large and small, shoulduse some sort of revision control. A revision
+control system lets developers track changes in
+the software over time. Many tools have been
+created to manage file versions. Most revision
+control software works by keeping a central
+repository for files under revision control. The
+central repository usually stores the files as a his-
+tory of changes or deltas. Each time a developer
+changes a file, he or she can ÒcommitÓ the
+change to the repository, making it available to
+
+other developers. This can be problematic when
+two people change a file at the same time. This
+problem has two basic solutions:limit access to a single developer, allowing
+
+changes to a file only after the developer
+obtains permission to modify it from a
+
+central server, or
+allow concurrent edits of the same file and
+
+provide a way to merge the changes auto-
+matically, marking conflicting changes if
+
+they occur.
+In our software process, the concurrent editmode works best. It allows flexibility in location,
+so developers can make edits while on a plane or
+
+when working from home. The most popular
+tool for this type of revision control is CVS,
+which is built on a client-server architecture. The
+server stores the files in the project, and the
+clients can connect to the server and check out
+copies of the software. The client can request any48IEEE SOFTWARE
+www.computer.org/software
+If programmersare developingdocumentationwhile writingcode, itÕs farmore likely that thedocumentationwill staycurrent. version of a file in the system. CVS can also tagand branch files. A tag is a symbolic name for a
+
+group of files that provides a project snapshot at
+a given point in time. Branches let multiple paths
+of development occur concurrently and inde-
+pendently. Changes committed to one branch
+
+donÕt affect the other branches. One special
+
+branch, which we call the Òmain treeÓ or trunk,
+is the default development path checked out if
+none is specified. A newer tool called Subversion
+has a few advantages over CVS and can be used
+in place of it. Notably, Subversion provides http/
+
+https server mode and lets you move and rename
+directories, and branching and tagging are com-
+
+putationally cheap.
+When itÕs time to create a release for a soft-
+ware project, one developer is assigned to be the
+release manager. He or she tells all the develop-
+
+ers to get all final edits into the repository, which
+
+is then locked down, with only the release man-
+ager having write access. The release manager
+then tests the system and, when the desired fea-
+tures are present, creates a branch for the re-
+lease. The release manager then applies fixes
+only to the branch. CVS can be set up to block
+other developers from committing changes onto
+a branch. The rest of the developers can then
+move back to the main tree and start developing
+the next version of the software.Build management
+An important but often overlooked part of
+any software project is managing the build
+process. The build process takes a group of
+source code files and transforms them into end-
+
+user applications and libraries. A large software
+package frequently employs a suite of tools,
+consisting of compilers, custom generators, link-
+ers, and archiving tools, for this purpose. Coor-
+dinating all of these tools consistently from
+computer to computer and developer to devel-
+oper can be difficult and time-consuming. These
+tools and the way that theyÕre used vary signifi-
+cantly from platform to platform, so managing
+the build process across Windows, Unix, and
+
+Macintoshes is difficult.Before CMake, Kitware developers used au-toconf on Unix platforms and a Visualization
+
+Toolkit-specific nmake makefile generator on
+
+Windows. The approach consisted of hand-
+
+crafted makefiles including generated lists of
+source files. The process was error prone and
+restrictive, with only a few developers knowing
+
+how to make changes to the build.
+CMake takes as input simple script files inthe CMake language. CMake uses the input files
+to perform system introspection and describe
+how to construct executables, libraries, and cus-
+tom targets. Unlike many cross-platform build
+
+tools, CMake is designed to be used in conjunc-
+tion with the native build environment by gen-
+erating build files for native build tools. This lets
+developers use the tools with which theyÕre most
+
+proficient. This is important for small compa-
+nies because training people to use standard
+tools can be costly and might generate resent-
+ment among developers who are forced to use a
+
+corporate-mandated build environment. Larger
+organizations might have entire teams devoted
+to maintaining the build process, but by au-
+tomating much of the work involved with the
+build process, CMake lets smaller teams develop
+portable software. It also lets developers gener-
+ate an executable in just a few lines of code that
+will compile on multiple platforms.CMake has been in active developmentsince 1999 and has grown into a powerful gen-
+eral-purpose tool with a growing user base.
+Recently, the K Desktop Environment commu-
+
+nity selected CMake to replace autoconf and
+Scons (KDE is one of the worldÕs largest open
+
+source projects). CMake is now a mature, fully
+featured build tool that allows for full cus-
+tomization of the build process and can replace
+the dedicated build team found in many larger
+organizations. The CMake languageÕs simple
+
+syntax lets any developer easily create the exe-
+cutables and libraries required by the project
+being developed.Testing
+Testing is a key tool for producing and
+maintaining robust, valid software.Types of tests.
+The tests for a software packagecan take many forms. At the most basic level
+
+are smoke tests, such as those that simply ver-
+ify that the software compiles. Although this
+
+might seem simple, with the wide variety of
+
+platforms and configurations available, smoke
+tests catch more problems than any other type
+of test. Another form of smoke test is one that
+verifies that a test runs without crashing. This
+
+can be handy when the developer doesnÕt want
+
+to spend time creating complex tests but is
+
+willing to run some simple ones. These simple
+tests are often small example programs. Run-
+ning them verifies not only that the build was
+January/February 2007
+IEEE SOFTWARE
+49By automatingmuch of thework involvedwith the buildprocess, the CMake build tool letssmaller teamsdevelopportablesoftware.
+ Although smoketests mightseem simple,they catch moreproblems thanany other typeof test.successful, but that any required shared li-braries can be loaded (for projects that use
+
+them) and that at least some of the code can be
+executed without crashing.Moving beyond basic smoke tests leads tomore specific tests such as regression, black-
+
+box, and white-box testing. When a regression
+test fails, a quick look at recent code changes
+can usually identify the culprit. Unfortunately,
+
+regression tests typically require more effort to
+create than other tests.The final type of testing we discuss is soft-
+ware standard compliance testing. Whereas
+the other test types focus on determining if the
+code works properly, compliance testing tries
+
+to determine if the code adheres to the pro-
+
+jectÕs coding standards. For example, such
+
+testing could check to verify that all classes
+have implemented some key method or that all
+functions have a common prefix. The options
+for this type of test are limitless, and you can
+
+perform such testing in several ways.Our approach to testing.We provide a simple
+framework in which to add tests to projects
+and an easy mechanism to run those tests and
+view their results. For small or short-lived proj-
+ects, testing is often limited to build and smoke
+tests. For larger, longer projects, we put more
+
+effort into testing and create specific regression
+
+tests to exercise key capabilities.We leverage numerous tools to perform test-
+ing. The first is CTest, a command line program
+
+that Kitware develops and bundles with CMake.
+
+CTest reads in test description files typically gen-
+
+erated by CMake and lets the user run all or
+
+some of the tests defined for a project. A typical
+development sequence is to modify the source
+code, compile, run CTest to verify that existing
+
+tests still pass, and then commit the changes to
+revision control. For projects with many tests
+that might take hours to run, we typically use a
+
+subset of tests selected by pattern matching or by
+
+using a specified stride to skip tests (for example,
+execute every 10th test). The goal is to provide
+some basic level of testing before committing the
+code without requiring the developer to wait for
+more than a few minutes. The automated testing
+tools do more exhaustive testing.Our automated testing approach runs CTest
+on the client but, instead of reporting results
+on the command line, it submits testing results
+to Dart, an open source, Web-based test re-
+
+porting tool developed at the GE Global Re-search Center. CTest is typically run at night by
+cron or the task scheduler and does a complete
+checkout, build, and test cycle. Typically, a sin-
+
+gle client tests multiple projects or revision
+branches during the night and submits multiple
+entries to Dart. Dart, in turn, runs on a server
+and accepts results from many clients. A single
+server might handle many software projects
+and provides a quick way to see if any build or
+testing issues exist on the test platforms. Figure
+1 shows a Dart dashboard for CMake. Each
+row summarizes testing results for a single test
+client. Web links let developers drill down to
+
+see the specific text of any build, including
+warnings or errors, as well as the output of any
+tests. Typically, clients submit coordinated
+
+dashboard entries (generally running at night)
+
+based on the same source code revision, so you
+can compare one clientÕs results against an-
+
+otherÕs. Dart accepts entries continuously, and
+
+most larger projects use this feature to contin-
+uously report build and test status for a subset
+of testing clients as the source code changes
+throughout the day. This lets you find and cor-
+
+rect cross-platform issues, often on the same
+day theyÕre introduced.In addition to reporting build and test results,Dart accepts and reports code-coverage and dy-
+namic-analysis results. Code coverage provides
+a quick metric of how much of the code the test-
+ing process is exercising. You can set this up eas-
+
+ily on a Linux test client by changing the com-
+pile flags for one of that clientÕs nightly runs (for
+
+example, using gcov). CTest will automatically
+
+discover the coverage files, analyze them, and
+submit them to Dart, where developers can view
+
+them and drill down into them, line by line if
+they want to. For dynamic analyses, we typically
+use the free Linux tool valgrind. Again, this is
+easy to set up, typically requiring some minor
+changes to the compile flags and pointing CTest
+
+to valgrindÕs installation site. Dynamic analysis
+
+of the tests reports array-bound write errors,
+uninitialized memory reads, and so on. Purify
+and Bounds Checker are other options for per-
+forming dynamic analysis.Using Dart, CTest, CMake, valgrind, gcc,
+and gcov, configuring a mature test process is
+
+fairly quickÑyou can typically do it in a day
+once youÕre familiar with the process. The chal-
+lenge then becomes access to testing platforms
+(that is, a combination of hardware, operating
+system, and compiler). For open source projects
+that will be compiled by many people, a wide50IEEE SOFTWARE
+www.computer.org/software
+ variety of test platforms is mandatory. Even
+with closed source projects, itÕs good to have ac-
+
+cess to many platforms because, for example,
+any one compiler might not identify problems
+with the source code. For a small group, obtain-
+ing these resources can be difficult and cost pro-
+hibitive. At Kitware, we have about 30 dedi-
+cated test machines and 30 developers. Although
+
+this is expensive, you can leverage some cost-
+cutting measures. On Microsoft Windows cli-
+
+ents, you can use an MSDN subscription to pro-
+vide the operating system and compilers for
+your dedicated test machines at a greatly re-
+duced price. Likewise, for Linux, the key soft-
+ware tools that we use are all free. Some ven-
+dors, such as Intel, provide discounted lease
+arrangements for testing and development hard-
+ware. We also use vendor-provided test machine
+
+access from IBM and HP for testing coverage on
+some AIX and HPUX platforms that we donÕt
+
+have in house.Release processThe process for managing a release tree in-volves checking out both a main tree and a
+branch version of the software on the same ma-
+chine. The release manager then periodically
+merges patches from the branch to the trunk
+(you can use tools such as WinMerge to per-
+
+form merging). Developers send email to the
+
+manager when they want changes moved to the
+branch. At some point, the branch is tagged
+again and a new (incremental) release is made.Having a stable branch of the source code towork from is only part of the problem; we must
+then package the software for release. Two types
+
+of releases exist: source and binary. We typically
+
+release to three major platforms: Windows,
+
+Unix, and Mac. Each has a different way of
+packaging sources and binaries. On Windows,
+
+we use a tool called NSIS (Nullsoft Scriptable
+Install System) to create Windows installers; on
+
+Unix, we use compressed tar files; and on Mac,
+we use a DMG disk installer.
+This process is similar on the various plat-forms in that they all create a binary build of the
+software and then package it for distribution. To
+
+leverage this commonality, Kitware is developing
+
+a new tool called CPack, which abstracts out the
+creation of the various types of binary releases.Costs and lessons learnedHaving worked with this software develop-ment process for eight years, weÕve learned nu-
+merous lessons and reckoned with many costs. It
+
+might seem obvious, but one of our clearest find-
+ings was that a project needs a quality champion
+or many of these processes will break down. Al-
+though we automate wherever we can, in the
+end, someone must care about the state of the
+software for this to work. Someone must look at
+the testing dashboard and investigate or delegate
+any problems that show up.WeÕve found that, even for small projects,
+January/February 2007
+IEEE SOFTWARE
+51Figure 1. Part of a Dart
+dashboard for CMake. 52IEEE SOFTWARE
+www.computer.org/software
+Although we automatewherever wecan, in the end,someone mustcare about the state of the software 
+for this processto work.testing quickly pays for itself. For us, automatedtesting identifies roughly four issues for every
+user-reported issue. Our automated testing has
+
+shown that after an issue is fixed, itÕs often rein-
+
+troduced in later code changes, and automated
+testing catches this. In the area of testing, our
+mantra is, ÒIf it isnÕt tested, it doesnÕt work.Ó
+
+Even for experienced developers, this is often
+true. Daily testing also reduces the cost of fixing
+issues because identifying a problemÕs source is
+
+much easier when youÕre considering only a sin-
+gle dayÕs changes. On the few occasions when
+
+we deferred testing until release, developers had
+
+to inspect many monthsÕ worth of changes to
+find an issueÕs cause.
+WeÕve found that automation is key to mak-
+ing processes work within a small organization.
+Everyone is busy, and software engineering prac-
+
+tices are often one of the first places developers
+cut corners. Automating common coding stan-
+
+dards through editor modes and enforcing them
+by automated commit checks takes much of that
+effort off the developers. The same applies to
+testing. If creating, running, and examining tests
+
+isnÕt easy for developers to do, they simply wonÕt
+
+do it. Using Dart and CTest lets developers see
+
+the state of the software quickly by visiting a
+Web page; they can then perform a quick drill-
+
+down to identify any problems.Acquiring and maintaining a large test farmis also challenging for small organizations. You
+
+can use vendorsÕ test farms to some extent, al-
+
+though sometimes the contractual agreements
+
+to obtain access arenÕt worth it. Open source
+
+projects can leverage external developersÕ re-
+sources to expand the suite of testing platforms.
+Surprisingly, weÕve found that the main costs of
+
+testing farms are the HVAC, electricity, and la-
+
+bor, not the price of the hardware and software.
+Although weÕve developed in-house tools forour software process, this generally isnÕt an op-
+
+tion for small groups. CMake, CTest, and CPack
+
+represent more than six years of development,
+and without supporting funding from NLM,
+
+NIH, NSF (National Science Foundation),
+
+NAMIC(National Alliance for Medical ImageComputing), ASCI (Accelerated Strategic Com-
+puting Initiative), and DoE (Department of En-
+ergy) as well as contributions and patches from
+the open source community, it wouldnÕt have
+
+been possible. For small software organizations,
+typically the only viable option is to leverage
+
+larger open source or publicly funded efforts.
+However, because most of our work in the soft-
+ware process area has been open source, other
+small groups could certainly exploit our process
+as described with modest initial costs.The Wiki has proven to be a powerful train-
+ing tool for new employees. Prior to the advent
+of Wikis, new employees often asked certain ex-
+
+pert employees how to perform tasks. (For ex-
+ample, one person might be an expert in creat-
+
+ing and maintaining CVS branches.) To avoid
+
+interruptions, those experts can put their knowl-
+edge into the company Wiki for anyone to see.
+
+Employees maintain the Wiki for selfish rea-
+
+sons, almost guaranteeing that it will be useful.WeÕre always looking to improve and
+automate our software process. Our
+next plan is to create tools that canquickly configure the entire development
+process for a specific project. Currently, if the
+
+project duration is short, itÕs often not cost-
+
+effective to set up a testing dashboard, Wiki,
+
+and mailing list because configuring a project re-
+quires setup time from the system administrator.
+
+We plan to make the setup a Web-based, auto-
+
+matic process that lets even the smallest project
+exploit the software process from inception.Although a small organization might nothave the resources a large company has, it can
+reap the benefits of many software engineering
+practices. WeÕve seen a much greater degree of
+
+cross-platform compatibility by using these
+techniques. Many of the tools weÕve mentioned
+can be leveraged when setting up documented
+procedures for FDA compliance. For example,
+issue tracking and revision control for both code
+and communications are two key aspects of
+policies typically put in place for FDA QSR 820
+and ISO 13485 compliance. With the variety of
+
+open source and closed-source tools available, a
+small organization can build high-quality robust
+software and save time in the process.References1.S. Garcia, C. Graettinger, and K. Kost, eds., 
+Proc. 1stIntÕl Research Workshop for Process Improvement in
+
+Small Settings,tech. report CMU/SEI-2006-SR-001,2006.2.W.J. Schroeder, K. Martin, and B. Lorensen, 
+The Visual-
+ization Toolkit: An Object Oriented Approach to Com-
+
+puter Graphics, 4th ed., Kitware, 2006.
+ January/February 2007
+IEEE SOFTWARE
+53About the AuthorsKen Martin
+is a vice president of Kitware and a lead architect for both the VisualizationToolkit and CMake. His main research interests are visualization techniques, development man-
+
+agement, and cross-platform tools. He received his PhD in computer vision from Rensselaer
+Polytechnic Institute. Contact him at Kitware, 28 Corporate Dr., Clifton Park, NY 12065; ken.
+
+martin@kitware.com.Bill Hoffman
+is a vice president of Kitware and creator of the CMake project. He workson computer vision and software process projects at Kitware. He received his masterÕs degree in
+
+computer science from Rensselaer Polytechnic Institute. Contact him at Kitware, 28 Corporate
+Dr., Clifton Park, NY 12065; bill.hoffman@kitware.com.
+3.L. Ibanez et al., 
+The ITK Software Guide, Kitware, 2003.4.K. Beck, 
+Extreme Programming Explained: EmbraceChange,Addison-Wesley, 1999.
+5.D. Astels, 
+Test Driven Development: A Practical Guide,
+Prentice Hall, 2003.6.K. Aguanno, ed., 
+Managing Agile Projects,Multi-MediaPublications, 2005.7.B. Leaf and W. Cunningham, 
+The Wiki Way: Quick
+Collaboration on the Web
+, Addison-Wesley, 2001.
+8.K. Fogel and M. Bar, 
+Open Source Development withCVS, 3rd ed., Paraglyph Press, 2003.9.K. Martin and B. Hoffman, 
+Mastering CMake: ACross-Platform Build System,3rd ed., Kitware, 2006.
+10.W. Sewell, 
+Weaving a Program: Literate Programming
+in WEB, Van Nostrand Reinhold, 1989.
+For more information on this or any other computing topic, please visit ourDigital Library at www.computer.org/publications/dlib.
+Mid Atlantic (product/recruitment)Dawn Becker
+Phone:+1 732 772 0160
+
+Fax:+1 732 772 0164
+
+Email: db.ieeemedia@ieee.orgNew England (product)Jody Estabrook
+Phone:+1 978 244 0192
+
+Fax:+1 978 244 0103
+
+Email: je.ieeemedia@ieee.orgNew England (recruitment)John Restchack
+Phone:+1 212 419 7578
+
+Fax:+1 212 419 7589
+
+Email: j.restchack@ieee.orgConnecticut (product)Stan Greenfield
+Phone:+1 203 938 2418
+
+Fax:+1 203 938 3211
+
+Email:  greenco@optonline.net
+Southwest (product)Steve Loerch
+
+Phone:   +1 847 498 4520
+
+Fax:       +1 847 498 5911
+
+Email: steve@didierandbroderick.comNorthwest (product)Peter D. Scott
+Phone:+1 415 421-7950
+
+Fax:+1 415 398-4156
+
+Email:   peterd@pscottassoc.com
+Southern CA (product)Marshall Rubin
+Phone:+1 818 888 2407
+
+Fax:+1 818 888 4907
+
+Email: mr.ieeemedia@ieee.org
+Northwest/Southern CA (r
+ecruitment)Tim Matteson
+
+Phone:+1 310 836 4064
+
+Fax:+1 310 836 4067
+
+Email: tm.ieeemedia@ieee.orgMidwest (product)Dave Jones
+Phone: +1 708 442 5633
+
+Fax:+1 708 442 7620
+
+Email: dj.ieeemedia@ieee.org
+Will Hamilton
+Phone:+1 269 381 2156
+
+Fax:+1 269 381 2556
+
+Email: wh.ieeemedia@ieee.org
+Joe DiNardo
+Phone:+1 440 248 2456
+
+Fax:+1 440 248 2594
+
+Email: jd.ieeemedia@ieee.orgSoutheast (recruitment)Thomas M. Flynn
+Phone:+1 770 645 2944
+
+Fax:+1 770 993 4423
+
+Email: flynntom@mindspring.comMidwest/Southwest (recruitment)
+Darcy Giovingo
+
+Phone:+1 847 498-4520
+
+Fax:+1 847 498-5911
+
+Email: dg.ieeemedia@ieee.orgSoutheast (product)Bill Holland
+Phone:+1 770 435 6549
+
+Fax:+1 770 435 0243
+
+Email: hollandwfh@yahoo.comJapanTim Matteson
+
+Phone:+1 310 836 4064
+
+Fax:+1 310 836 4067
+
+Email: tm.ieeemedia@ieee.orgEurope (product) Hilary Turnbull
+
+Phone:+44 1875 825700
+
+Fax:+44 1875 825701
+
+Email:impress@impressmedia.com
+ADVERTISER/PRODUCT INDEX JANUARY/FEBRUARY 2007
+Advertising PersonnelAdvertiser/Product                 Page Number
+Marion DelaneyIEEEMedia, Advertising Director
+
+Phone:+1 415 863 4717
+
+Email: md.ieeemedia@ieee.orgMarian AndersonAdvertising Coordinator
+Phone:+1 714 821 8380
+
+Fax:+1 714 821 4010
+
+Email: manderson@computer.org
+Sandy BrownIEEE Computer Society,
+
+Business Development Manager
+Phone:+1 714 821 8380
+
+Fax:+1 714 821 4010
+
+Email: sb.ieeemedia@ieee.orgAdvertising Sales RepresentativesElite Systems4
+John Wiley & SonsCover 2
+
+Microsoft Press92
+
+MIT Press94
+
+Morgan Kaufmann93
+
+RE 2007Cover 3
+
+SD West 2007Cover 4
+Boldface denotes advertisements in this issue.

@@ -1,0 +1,691 @@
+ Preliminary evaluation of a Tag-based Knowledge 
+Condensation Tool in Agile and Distributed Teams 
+Gilberto Borrego 
+Facultad de Ciencias 
+Universidad Autónoma de Baja California 
+Ensenada, México 
+gilberto.borrego
+@uabc.edu.mx 
+Alberto L. Morán 
+Facultad de Ciencias 
+Universidad Autónoma de Baja California 
+Ensenada, México 
+alberto.moran@uabc.edu.mx 
+Ramón Palacio 
+Departamento de Computación y Diseño 
+Instituto Tecnológico de Sonora 
+Navojoa, México 
+ramon.palacio@itson.edu.mx 
+ 
+Abstract
+—An important challenge in Agile Global Software 
+Development (AGSD) is architectural knowledge vaporization, 
+i.e., the loss of technical knowledge due to a lack of 
+documentation. In a previous work we identified that technical 
+knowledge is usually available in unstructured textual 
+electronic means (e.g. chat, mail, blogs, etc. – also known as 
+UTEMs) used by AGSD workers during development, 
+although not necessarily easily accessible. Also, we proposed 
+the concept of Knowledge Condensation as a means to recover 
+knowledge from UTEMs, by introducing a structure to their 
+contents along with means to retrieve knowledge. In this work 
+we present our first step towa
+rds a Knowledge Condensation 
+tool, through a prototype tagging mechanism to structure 
+architectural knowledge during UTEM interactions.  We 
+evaluated the prototype and obtained the following results: (1) 
+a high perception of usefulness and a high projected intention 
+of use; and (2) the identification of 6 tagging behavior profiles 
+from participants. These tagging behaviors can be grouped as 
+(i) participants who tag as expected, (ii) participants who tag 
+more than expected, and (ii) participants who tag less than 
+expected. These results suggest that it is important to cope with 
+“little or no tagging” and “excessive tagging” behaviors to 
+implement knowledge condensation based on UTEM tagging. 
+Furthermore, we identified that tagging could be a good option 
+to structure UTEM interactions, and to retrieve architectural 
+knowledge from UTEM logs. Future work includes improving 
+the tagging mechanism prototype based on the participants’ 
+suggestions and overall evaluation results, and implementing a 
+searcher prototype to further evaluate the concept of 
+knowledge condensation based on tagging of UTEM 
+interactions. 
+Keywords- agile global software development; architectural 
+knowledge; unstructured and textual electronic media; 
+knowledge vaporization, knowledge condensing. 
+I.
+ 
+ 
+I
+NTRODUCTION
+ 
+Nowadays, the number of agile and distributed (or 
+global) teams are increasing day by day. In these kind of 
+teams, Agile Software Development (ASD) and Global 
+Software Development (GSD) clash due to their distinct 
+nature and distinct principles. On the one hand, 
+ASD was 
+designed for co-located teams, while teams are distributed in 
+GSD. Also, in ASD knowledge sharing is preferably done 
+through individuals interactions to maintain a rapid 
+development [1], while in GSD is preferred to share 
+knowledge by structured means (e.g. documents, wikis, 
+knowledge repositories, etc.) to decrease the effect of the 
+four inherent distance in this paradigm (physical, temporal, 
+cultural and linguistic) [2]. These differences lead to 
+problems in knowledge management 
+[3], [4]. 
+A highly valuable knowledge in any software 
+development paradigm is relate
+d to software architecture; 
+from the most granular (detailed design, technical 
+knowledge) to the most abstract (architectural patterns, good 
+architectural practices, etc.). This kind of knowledge is 
+called Architectural Knowledge (AK)
+, which also includes 
+design decisions and design rationale 
+[5]
+. 
+In agile and global teams (AGSD teams) AK 
+management (AKM) 
+[6]
+ is a challenge, due to the preference 
+of personal interaction over documentation, and to time 
+reduction to write proper documentation, which negatively 
+affect the coding phases 
+[7]. So
+, in AGSD tacit knowledge 
+tends to predominate over explicit knowledge 
+[4], [8]
+. 
+AGSD conditions lead to documentation debt, which 
+refers to the lack of documents in the software development 
+cycle 
+[9]
+. AKM is affected by documentation debt when 
+technical documents are missed, e.g. architecture design, 
+data models, architectural rules, etc. We can say that the 
+main reasons of documentation debt in AGSD are: (1) the 
+agile principles which suggest to make “lighter” and 
+“sufficient” documents, but the pressure to complete a sprint 
+causes documentation omissions 
+[10]
+; (2) agile developers 
+are reluctant about documentation, since they consider it as a 
+secondary and non-creative activity 
+[11]
+. 
+A consequence of documentation debt in any agile 
+method is AK vaporization, i.e., losing AK caused by 
+2017 IEEE 12th International Conference on Global Software Engineering (ICGSE)978-1-5386-1587-4/17 $31.00 © 2017 IEEEDOI 10.1109/ICGSE.2017.14512017 IEEE 12th International Conference on Global Software Engineering (ICGSE)978-1-5386-1587-4/17 $31.00 © 2017 IEEEDOI 10.1109/ICGSE.2017.1451 improper technical documents 
+[12]
+. Once AK has been 
+vaporized, the popular way to recover it is through source 
+code analysis, which is time consuming. Further, the 
+knowledge obtained is generally unstructured, incomplete, 
+and inconsistent 
+[13]
+, which does not guarantee that the 
+software evolve as it was planned at designing time. 
+Analogously to the AK vaporization concept, in a 
+previous work we proposed [14] the concept of AK 
+condensation. This concept is based on the AGSD 
+developers’ preference of using text media to interact with 
+remote members, since these means (which we will call 
+unstructured textual electronic media – UTEM) reduce 
+communication problems caused by language differences 
+[15]
+. In another previous study we found that UTEM logs 
+contain important AK for AGSD developers [16], but this 
+knowledge is unstructured, inaccessible, dispersed and prone 
+to be vaporized. To avoid knowledge vaporization, UTEM 
+interactions have to be stored in a common and accessible 
+repository, and there should be a classification mechanism to 
+structure the UTEM interactions; so that AGSD team 
+members could find AK aided with this classification 
+scheme. 
+In this paper, we present a classification mechanism 
+based on manual tagging (as in social networks) performed 
+by developers during their UTEM interactions. This way, 
+these interactions will be tagged and stored in a repository, 
+so AGSD team members could search for AK based on the 
+classification tags inserted. We 
+also present an evaluation of 
+the UTEM interactions manual tagging, where usability, 
+intention of use, and tagging behavior were obtained. We 
+discuss the results and finally we present our conclusions. 
+II.
+ 
+T
+AGGING MECHANISM
+ 
+Tagging has been used in Integrated Development 
+Environments to find and remember information on source 
+code, with good adoption by developers [17]–[20]. Also, 
+auto-tagging mechanisms have been developed to relate 
+emails with requirements, but on
+ly with a 70% of accuracy 
+[21], which could be unacceptable in a production 
+environment. Thus, we think that AGSD developers could 
+also adopt UTEM tagging. 
+However, 
+one of the characteristics of tagging in social 
+media is the excessive creation of tags, known as tag 
+explosion [22]. For our purposes, 
+this is a problem since the 
+author of the tag could be the only one who knows its exact 
+meaning, i.e. interpretation difference and locality of tags 
+could be present [22]. Thus, knowledge retrieval could be 
+problematic if it is based on a classification scheme produced 
+by a mechanism without tag creation control. 
+Thus, we developed a prototype mechanism to help 
+AGSD developers to tag UTEM interactions. This 
+mechanism uses a list of tags that 
+are defined a priori by the 
+group of AGSD developers (users). All tags must be related 
+to a set of meta-tags that are embedded in the tagging 
+mechanism and that cannot be edited or deleted. The set of 
+meta-tags is based on the results of a previous empirical 
+study, where we analyzed a set 
+of UTEM interactions among 
+AGSD developers [16]. These meta-tags represent the AK 
+that AGSD developers share, according to our study (see Fig. 
+1). The aim of relating custom tags and meta-tags is to 
+provide a more abstract and structured way to store and find 
+AK. For example, the #pythonTricks tag could be related to 
+the #Code meta-tag, so that when a developer wants to 
+recover AK but he does not remember the exact name of the 
+tag, he could use the meta-tag to conduct a first search. 
+The tagging mechanism was developed in Javascript and 
+it was added to a custom in
+stant messenger (IM) tool 
+(developed ex professo). The ta
+gging mechanism is triggered 
+when the hash character and a letter are typed on a UTEM 
+interface (e.g. “#a”). Then the mechanism shows a list of the 
+proposed completions based on the preloaded list of tags and 
+meta-tags. Then the developer selects the tag that better fits 
+to the interaction topic, and the tag is inserted on the text of 
+the current message (see Fig. 2). Either the mouse or the 
+keyboard can be used for tag selection (using the up/down 
+arrows to navigate the tag list and tab to select it). When an 
+inexistent tag is entered, i.e. 
+a tag that is not part of the 
+preloaded list of tags and meta
+-tags, the mechanism deletes 
+that tag, as for the current implementation new tags cannot 
+be added to the custom list through this mechanism. New 
+tags are added using an administration module during Sprint 
+planning or Sprint retrospective meetings.  
+III.
+ 
+E
+VALUATION DESIGN
+ 
+We conducted an evaluation to obtain the usability 
+perception and the intention of use of the tagging 
+mechanism. We also observed the tagging behavior of 
+participants during their interactions. Participants were 30 
+developers from five Mexican software development 
+companies (avg. age = 27.2, std. = 3.2) with 4.7 average 
+years of experience on software
+ engineering (std. = 3.8), 2.3 
+years of experience on ASD 
+(std. = 1.1), and 1.3 average 
+years of experience on Dist
+ributed Software Development 
+(std. = 0.8). 
+The evaluation was designed as follows. Firstly, we 
+explained to each pair of participants the problem of AK 
+ 
+Figure 2. Tagging mechanism (autocomplete example) 
+Artifact
+Generated
+Technological support
+Documentation
+Software
+Necessity
+Topic
+Architectural view
+related to
+related to
+Code
+Component
+Architectural
+decision
+related to
+Architectural knowledge
+ 
+Figure 
+1. Ontology that represents the involved as
+pects in AK articulation 
+through UTEM in AGSD teams (reproduced from [14]) 
+5252 vaporization in AGSD, and the proposed solution based on 
+UTEM interactions tagging. Then, we presented the custom 
+IM tool and the proposed tagging mechanism to them. They 
+freely used it during two minutes to realize how it worked. 
+Later, we asked to the participants to assume to be in a 
+scenario in which both of them work for different software 
+companies (A and B), and that they are collaborating in the 
+same project. Company B depends of a RESTful service that 
+is currently being developed by
+ company A, and there is no 
+actual documentation on that service yet. The developer from 
+company B has to obtain the AK of the service from the 
+developer from company A. With that in mind, we asked 
+them to use the custom IM tool following a chatting script 
+(one per participant) in separated rooms. According to the 
+chatting scripts each participant has to ask three questions 
+related to the RESTful service. Also, the scripts had three 
+parts where we suggested them to use a tag, without 
+specifying the exact tag name. With this aim, we preloaded 
+four custom tags to the tagging mechanism, which were 
+related to the scripts topic. These tags were: #Security, 
+#ErrorHandling, #UserStory, and #BusinessRule. It is worth 
+noting that we said to participants that they were free to use 
+the tags, if they thought that any tag fits in the conversation. 
+The complete chatting activity had an average duration of 20 
+minutes.  
+Once the scripts were entirely followed, participants 
+answered SUS and TAM questionnaires. Finally, we asked 
+participants to provide a fina
+l comment or suggestion about 
+the tagging mechanism. 
+IV.
+ 
+E
+VALUATION 
+R
+ESULTS
+ 
+A.
+ 
+ Tagging behavior. 
+We counted the number of used tags per participant, 
+distinguishing between custom tags and meta-tags, and 
+identifying when they were semantically correctly used. 
+Based on their behavior, we identified six different 
+participant behavior profiles: 
+1)
+ 
+Expected. 
+Participants who used only the three tags 
+that were suggested, i.e., each 
+correct tag, one 
+instance per 
+tag. 
+2)
+ 
+Expected + repeated. 
+Participants who used the three 
+suggested tags, and that repeated its use in another place in 
+the conversation, i.e., each correct tag, more than one 
+instance per tag. 
+3)
+ 
+Expected + meta-tags. 
+Participants who used the 
+three tags as suggested, and that used meta-tags in other 
+places in the conversation (each correct tag, plus meta-tags, 
+one or more instances per tag). 
+4)
+ 
+Less than expected. 
+Participants who used less of the 
+three expected tags. 
+5)
+ 
+Less than expected + repeated. 
+Participants who used 
+less of the three expected tags,
+ and that repeated its use in 
+other places in the conversation, i.e., more than one instance 
+of any used tag. 
+6)
+ 
+Less than expected + meta-tags. 
+Participants who 
+used less of the three expected
+ tags, and that used meta-tags 
+in other places in the convers
+ation (one or more instances 
+per tag).
+ 
+We observed that only 7 participants were classified as 
+having the expected profile (see Table 1). Also, we observed 
+that 17 participants used correctly more than the expected 
+tag instances ((Expected + repeated) + (Expected + meta-
+tags)), and only 5 
+used them incorrectly. Further, 6 
+participants used less than the 
+expected tag instances, where 
+2 of them repeated an expected instance and 3 used one 
+meta-tag at least.  
+We represented the tagging behavior in a bubble graph 
+(see Fig. 3), where we observed 
+that most of the participants 
+used up to 5 tag instances. Al
+so we observed an outlier case 
+of 8 used tag instances. In the 
+case of the tag instances used 
+incorrectly, most of the cases are of only one instance. 
+B.
+ 
+Usability and intention of use. 
+In terms of usability, we obtained an averaged SUS 
+ 
+Figure 3. Tags’ instances used per participants’ profile (LE = Less than expected, LE+R = Less than expected + Repeated, LE+M =
+ 
+Less than 
+expected + Meta-tags, E = Expected, E+R = Expected + Repeated, E+M = Expected + Meta-tags). 
+TABLE I. 
+ 
+S
+UMARY OF NUMBER OF PARTICIPANTS PER PROFILE
+. 
+Participant profile 
+Number of participants 
+Correct 
+Incorrect 
+Expected 
+7 
+0 
+Expected + repeated 
+10 
+1 
+Expected + meta-tags 
+7 
+4 
+Less than expected 
+6 
+0 
+Less than expected + repeated 
+2 
+1 
+Less than expected + meta-tags 
+3 
+1 
+5353 score of 86.66 (std = 10.98), suggesting a high usability 
+perception on the tagging mechanism. However, Fig. 4 
+presents this result using a curved grading scale [23], where 
+we observe that around 10% of
+ the participants perceived 
+the tagging mechanism as having a low usability (C and D 
+grades on Fig. 4). 
+Concerning the TAM questionnaire results, we 
+obtained a perceived usefulness of 6.05 using a Likert-7 
+scale (std = 0.89), i.e., the pa
+rticipants consider that the 
+tagging mechanism is highly useful. Regarding the 
+perceived ease of use, we obtained 6.45 in Likert-7 scale 
+(std = 0.86). This TAM result coincides with the SUS result, 
+suggesting that participants perceived the tagging 
+mechanism is as highly usable. 
+V.
+ 
+D
+ISCUSSION 
+ 
+One of the main findings was that the number of 
+participants who used more th
+an the expected tag instances 
+was higher than the participants who used only the expected 
+tags and less than expected. Th
+is suggests that software 
+engineers did not have any problems on tagging their UTEM 
+interactions using the proposed mechanism. The tagging 
+behavior of the participants could be reflecting the popularity 
+of tagging in social systems [24], however we must explore 
+better this possibility. Further, we observed that they really 
+assumed their roles in the evaluation, so they were interested 
+in tagging correctly to facilitate future knowledge retrieval. 
+Despite the good usability perception, supported by the 
+results of the SUS and TAM questionnaires, participants 
+suggested a list of possible improvements, including: (1) a 
+customizable way to select and navigate the completion 
+suggestion list (i.e. some parti
+cipants had problems using the 
+TAB key to select a tag); (2) a context aware manner to 
+suggest tags, i.e., based on the interaction topic; (3) include 
+an additional way to see the available tags, i.e. in addition to 
+autocompletion (e.g. a tag searcher, or a tree of available 
+tags); (4) a mechanism to identify frequent concepts and then 
+convert them into tags. These suggestions may provide 
+possible explanations about the low usability perception on 
+the proposed tool by 10% of the participants as identified 
+using the SUS questionnaire. This 
+in turn suggests that it is 
+necessary to keep working on improving the usability of the 
+tagging mechanism. 
+ Also, it is necessary to express a word of caution 
+regarding an excessive use of tags during the interactions, as 
+in this evaluation we had a participant who used 8 tag 
+instances instead of the 3 required. Considering a longer 
+chatting period (e.g. a whole da
+y), excessive tagging could 
+affect the effectiveness of AK retrieval. We proposed to use 
+tags to find knowledge, so if there are many similar tags in 
+UTEM interactions, the search hit list could grow big, 
+resulting in information overloading. In fact, after 
+concluding the evaluation, about 50% of the participants 
+asked for the search tool characteristics, and requested to 
+consider the effectiveness of the search results, so that 
+obtaining the desired knowledge in less time could be 
+possible. 
+Another finding was that parti
+cipants used meta-tags in a 
+correct manner; despite we never explained them their 
+meaning. This suggests that the names proposed for these 
+meta-tags are expressive, and that they relate to everyday 
+situations in DSD and/or ASD. However, there are some 
+meta-tags that were consistently used incorrectly (e.g. 
+#TechnologicalSupport, #ArchitecturalView), and others that 
+were never used (e.g. #Topic, #Generated). In the case of the 
+tags that were used incorrectly, it is necessary to identify a 
+more adequate name for them. Considering the meta-tags 
+that were not used, we consider that the evaluation scenario 
+was not suitable for the use of those tags. Thus, it is 
+necessary to keep evaluating the tag set in other scenarios. 
+Also we found cases were participants used less tags than 
+those expected. During the evaluation, we observed that 
+those participants had difficulties to select a tag, caused 
+either by the selection mechanism or because they did not 
+find any tag that matched the sc
+ript's suggestion
+; as a result 
+they preferred to send the message without a tag. This 
+behavior showed us that a customizable way to select tags is 
+important and useful to decrease the “little or no tagging” 
+cases, as well as, a mechanism to add new tags during 
+interactions (thus, in-Sprints). However, we must be careful 
+with the provision of a mech
+anism to add new tags freely, 
+because it could lead into tags explosion. 
+Further, participants from this profile seemed in a hurry 
+to conclude the evaluation, as they did not wanted to spend 
+too much time trying to perform the activity in a correct 
+manner. In real settings, ASD developers deal with similar 
+in-a-hurry situations, even though this kind of situations 
+cause technical debt [10]. For this reason, it is necessary to 
+improve the mechanism usability 
+to correctly cope with this 
+kind of situations.  
+Finally, the behavior of participants in the “Less than 
+expected” profile, in terms of AK retrieving, could 
+negatively affect knowledge acquisition, as there would be 
+few (or inexistent) points to refer to when trying to find the 
+required knowledge on the UTEM logs.  
+VI.
+ 
+C
+ONCLUSION 
+ 
+In this paper we presented a prototype mechanism to aid 
+AGSD developers to tag UTEM interactions in order to later 
+retrieve AK through them. This mechanism was evaluated by 
+30 software engineers in a simulated AGSD scenario. They 
+perceived the mechanism as highl
+y usable and they showed a 
+high intention of use. However, we received suggestions to 
+improve the usability of the tagging mechanism. 
+We also used the evaluation to observe the participants’ 
+tagging behavior. We identified 6 participant profiles that 
+can be grouped on (1) participants who tag as expected, (2) 
+ 
+Figure 4. Curved grading scale of the obtained SUS score 
+5454 participants who tag more than 
+expected, and (3) participants 
+who tag less than expected. We noted that the number of 
+participants who tag more than 
+expected was higher than the 
+others groups, which coincides with the high perception of 
+usability and intention of use of participants on the tagging 
+mechanism. These results suggest that tagging could be a 
+good option to structure UTEM interactions, in the aim to 
+retrieve AK from UTEM logs (a naturally unstructured 
+source of knowledge). 
+Also, we discussed about the importance to cope with 
+“little or no tagging” and “excessive tagging” behaviors, as 
+well as, the possibility to add new tags “on the fly”, in the 
+aim to implement AK condensation based on tagging.  
+As future work, we will consider the participants’ 
+suggestions and the overall results of the presented 
+evaluation, to improve the 
+proposed tagging mechanism 
+prototype. Also, we will refine the meta-tags (see Fig. 1) 
+through an additional eval
+uation using the improved 
+prototype. Finally, we will implement a tag searcher 
+prototype in order to be closer to the implementation of AK 
+condensation based on tagging of UTEM interactions. 
+A
+CKNOWLEDGMENT
+ 
+The authors are grateful to the participating companies: 
+EMCOR, Sahuaro Labs, Repobox and Tufesa, for the 
+support provided to carry out the present study, and for their 
+willingness to continue working 
+with us in future projects. 
+Also, we are grateful to Conacyt for supporting this study 
+with scholarship 394125 for the first author. 
+R
+EFERENCES
+ 
+[1] M. Beck, K., Beedle, M., van Bennekum, A., Cockburn, A., 
+Cunningham, W., Fowler, “The Agile Manifesto.” 2001. 
+[2] A. Vizcaíno, F. García, M. Piattini, and P. Garrido, “El desarrollo 
+global del software,” in 
+Desarrollo Global de Software
+, A. Vizcaíno, 
+F. García, and M. Piattini, Eds. Ra-ma, 2014, pp. 37–58. 
+[3] S. Dorairaj, J. Noble, and P. Malik, “Knowledge Management in 
+Distributed Agile Software Development,” in 
+2012 Agile Conference
+, 
+2012, pp. 64–73. 
+[4] A. R. Yanzer Cabral, M. B. Ribeiro, and R. P. Noll, “Knowledge 
+Management in Agile Software Projects: A Systematic Review,” 
+J. 
+Inf. Knowl. Manag.
+, vol. 13, no. 1, p. 1450010, 2014. 
+[5] M. Babar, T. Dingsøyr, P. Lago, and H. van Vliet, 
+Software 
+architecture knowledge management: theory and practice
+. Springer 
+Berlin Heidelberg, 2009. 
+[6] H. Van Vliet, “Software architecture knowledge management,” in 
+Software Engineering, 2008. ASWEC 2008. 19th …
+, 2008, pp. 24–31. 
+[7] R. Noordeloos and C. Manteli, “From RUP to Scrum in Global 
+Software Developmen: A Case Study,” 2012. 
+[8] V. Clerc, P. Lago, and H. Van Vliet, “Architectural Knowledge 
+Management Practices in Agile Global Software Development,” in 
+2011 IEEE Sixth International Conference on Global Software 
+Engineering Workshop
+, 2011, pp. 1–8. 
+[9] E. Tom, A. Aurum, and R. Vidgen, “An exploration of technical 
+debt,” 
+J. Syst. Softw.
+, vol. 86, no. 6, pp. 1498–1516, 2013. 
+[10] H. M. Sneed, “Dealing with Technical Debt in agile development 
+projects,” 
+Lect. Notes Bus. Inf. Process.
+, vol. 166 LNBIP, pp. 48–62, 
+2014. 
+[11] T. Clear, “Documentation and Agile Methods: Striking a Balance,” 
+SIGCSE Bull.
+, vol. 35, no. 2, pp. 12–13, Jun. 2003. 
+[12] J. Bosch, “Software Architecture: The Next Step.,” in 
+EWSA
+, 2004, 
+vol. 3047, pp. 194–199. 
+[13] B. Selic, “Agile Documentation, Anyone?,” 
+IEEE Softw.
+, vol. 26, no. 
+6, pp. 11–12, 2009. 
+[14] G. Borrego, “Condensing architectural knowledge from unstructured 
+textual media in agile GSD teams,” in 
+2016 IEEE 11th International 
+Conference on Global Software Engineering Workshops
+, 2016, pp. 
+69–72. 
+[15] H.-C. Estler, M. Nordio, C. A. Furia, B. Meyer, and J. Schneider, 
+“Agile vs. Structured Distributed Software Development: A Case 
+Study,” in 
+Proceedings of the IEEE International Conference on 
+Global Software Engineering
+, 2012. 
+[16] G. Borrego, A. L. Morán, R. Palacio, and O. M. Rodríguez, 
+“Understanding Architectural Knowledge Sharing in AGSD Teams: 
+An Empirical Study,” in 
+2016 IEEE 11th International Conference on 
+Global Software Engineering (ICGSE)
+, 2016, vol. 0, pp. 109–118. 
+[17] C. Treude and M. A. Storey, “How tagging helps bridge the gap 
+between social and technical aspects in software development,” 
+Proc. 
+- Int. Conf. Softw. Eng.
+, pp. 12–22, 2009. 
+[18] M. A. Storey, J. Ryall, J. Singer, D. Myers, L. T. Cheng, and M. 
+Muller, “How software developers use tagging to support reminding 
+and refinding,” 
+IEEE Trans. Softw. Eng.
+, vol. 35, no. 4, pp. 470–483, 
+2009. 
+[19] C. Treude and M. A. Storey, “Work item tagging: Communicating 
+concerns in collaborative software development,” 
+IEEE Trans. Softw. 
+Eng.
+, vol. 38, no. 1, pp. 19–34, 2012. 
+[20] F. Calefato, D. Gendarmi, and F. Lanubile, “Investigating the Use of 
+Tags in Collaborative Development Environments: A Replicated 
+Study,” 
+Proc. 2010 ACM-IEEE Int. Symp. Empir. Softw. Eng. Meas.
+, 
+p. 24:1--24:9, 2010. 
+[21] S. M. Sohan, M. M. Richter, and F. Maurer, “Auto-tagging emails 
+with user stories using project context,” 
+Lect. Notes Bus. Inf. 
+Process.
+, vol. 48 LNBIP, pp. 103–116, 2010. 
+[22] E. Bagheri and F. Ensan, “Semantic tagging and linking of software 
+engineering social content,” 
+Autom. Softw. Eng.
+, vol. 23, no. 2, pp. 
+147–190, 2016. 
+[23] J. Sauro and J. R. Lewis, 
+Quantifying the User Experience: Practical 
+Statistics for User Research
+, 1st ed. San Francisco, CA, USA: 
+Morgan Kaufmann Publishers Inc., 2012. 
+[
+24] S. Yazdani, I. Ivanov, M. AnaLoui, R. Berangi, and T. Ebrahimi, 
+“Spam Fighting in Social Tagging Systems,” in 
+Social Informatics: 
+4th International Conference, SocInfo 2012, Lausanne, Switzerland, 
+December 5-7, 2012. Proceedings
+, K. Aberer, A. Flache, W. Jager, L. 
+Liu, J. Tang, and C. Guéret, Eds. Berlin, Heidelberg: Springer Berlin 
+Heidelberg, 2012, pp. 448–461. 
+ 
+5555

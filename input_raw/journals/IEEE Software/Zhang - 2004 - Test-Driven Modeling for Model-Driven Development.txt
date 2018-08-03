@@ -1,0 +1,644 @@
+ 80IEEE SOFTWARE
+Published by the IEEE Computer Society0740-7459/04/$20.00 © 2004 IEEEThis article presents a new software develop-ment process based on model-driven develop-
+
+ment (MDD), called 
+test-driven modeling. (Thebasis of this article is a project in MotorolaÕs
+
+iDEN division that is extending and migrating a
+large legacy telecommunication system to new
+platforms using TDM.)This process involves
+
+automatic testing through simulation and using
+executable models as living software system ar-
+chitecture documents. In TDM, we use the same
+message sequence charts (MSCs) for both sys-
+tem analysis (or design documents) and unit test
+cases. Similarly, we use the same high-level mod-
+
+eling diagrams for both automatic code genera-
+tion and living software architecture documents
+to guide the systemÕs detailed implementation in
+later phases. Thus, we can save a significantamount of time by reusing MSCs and modeling
+diagrams compared with traditional plan-driven
+methods. We all know that testing is important for
+any software development, and itÕs challenging
+
+to figure out how much testing is enough. Cov-
+erage analysis in TDM addresses this difficulty.
+Test-driven modelingFigure 1 outlines the TDM workflow. TDMÕs
+main idea is to apply the XP test-driven para-
+digm to an MDD process.4,5We can divide the
+TDM process into six phases:System requirements specificationHigh-level modeling (HLM)Low-level modeling (LLM)Modeling-quality controlAutomatic code generationTarget platform testing
+This article focuses on TDMÕs modeling as-
+pect and thus discusses only the HLM, LLM,
+feature
+Test-Driven Modeling forModel-Driven DevelopmentExtreme Programming is a code-centric, lightweight software devel-opment process.
+1Ð3One of XPÕs main goals is achieving agilityÑthat
+is, delivering working products to customers and quickly adapting to
+changes. XPÕs strategy is to minimize software development effort
+(by doing Òthe simplest thing that could possibly workÓ1) and documentation.Testing plays a key role in this because XP developers write test cases before
+
+code and the code is only complete once it has successfully passed its test cases.3model-driven developmentA new software development process called test-driven modeling
+applies the Extreme Programming test-driven paradigm in a model-
+driven development environment. Practical results show that
+developers can effectively apply TDM to large projects with high
+productivity and quality in terms of the number of code defects.Yuefeng Zhang, 
+Motorola modeling-quality control, and code generation
+phases. For convenience, the modeling dia-
+
+grams I use in this section are based on the
+
+Specification and Description Language (SDL)
+modeling language6(ITU-T Z 100, www.itu.
+int/rec/recommendation.asp?type=products&la
+ng=e&parent=T-REC-Z) and the commercial
+
+modeling tool Telelogic TAUSDL Suite (www.
+
+telelogic.com/products/tau/sdl). The Object
+
+Management Group (OMG; www.omg.org)
+
+adoptedSDLÕs main modeling features in UML
+
+2.0 (www.omg.org/uml), which is supported by
+
+the next-generation modeling tool Telelogic
+
+TAU G2/Developer. Thus, we should be able to
+
+use TDM with TAU G2 with minimum change.
+
+To avoid disclosing MotorolaÕs proprietary in-
+
+formation, I used the SDL diagrams for a demo
+model in this article. Normally, MSCs are part
+
+of a model.4,5However, for the convenience of
+discussion, I treat MSCs as separate entities in
+
+the rest of this article.High-level modelingHLM starts with system requirements.HLMÕs two main goals include identifying
+The systemÕs use case scenarios (that 
+
+is, MSCs) from the system requirements
+
+specificationThe software system architecture that can re-
+alize the identified use case scenarios (that is,
+MSCs)MSCs represent the systemÕs dynamic behav-
+ior, and the software system architecture rep-
+
+resents the systemÕs static behavior.
+A system MSC (see Figure 2) in HLM treats
+the system as a black boxÑthat is, it only indi-
+
+cates message exchanges between the system and
+
+the system environment (UML actors). The soft-
+
+ware system architecture only indicates which
+
+subsystems are used in the system (see Figure 3),
+
+how they are connected to each other to form a
+
+system, and which active and passive classes and
+objects are used and how they are connected
+
+within a subsystem (see Figure 4). An active/pas-
+
+sive object is an instance of an active/passive
+
+class. HLM doesnÕt define an active or passive
+
+objectÕs behavior. This definition is one of the
+
+major tasks in LLM. However, we can define a
+
+dummy state-transition chart for each active ob-
+
+ject in HLM for architecture-verification pur-
+poses. These dummy state-transition charts just
+
+need to be good enough to reproduce the identi-
+fied MSCs. At this point, the MSCs focus on sig-nals and ignore the data associated with signals.
+
+We replace the dummy state-transition charts
+
+with real state-transition charts in LLM. After
+that, we can refine the system MSCs with signal
+
+data and finish the system unit testing by execut-
+ing the refined system MSCs. 
+HLM is test driven because we create the sys-tem MSCs first and then define the software sys-
+tem architecture against them. The MSCs are
+
+automatically executed by simulation to verify
+whether the software system architecture meets
+
+system requirements (MSCs). Finally, we refine
+
+and execute the MSCs for system unit testing. September/October 2004IEEE SOFTWARE
+81Modeling-qualitycontrolAuto codenononoyesyesPassing?Execute system MSCs by simulationCreate systemmessage sequence charts (MSCs)System requirementsTarget platform testing
+Identify software system architecturePassing?Next iteration?Execute subsystemMSCs by simulationCreate subsystem MSCsMeet coverage criteria?Perform coverage analysisAutomatic code generationLow-level design:state transition chartsLow-level modelingHigh-level modelingnoyesyesFigure 1. Test-drivenmodeling (TDM) 
+workflow.
+ Low-level modelingLLMÕs main goal is to define the subsys-
+temsÕ dynamic and static behavior. Similar to
+
+the system definition, subsystem MSCs define
+
+the subsystemÕs dynamic behavior. Addition-
+ally, a subsystemÕs static behavior is defined by
+the static behavior of the sub-subsystems,
+and/or possibly by the static behavior of the
+active or passive objects within the subsystem.
+An active object has its own thread of execu-
+
+tion, and it calls passive objects for services. A
+state-transition chart in SDL defines an active
+
+objectÕs static behavior. For example, Figure 5
+
+shows the state-transition chart of the active
+
+object ssm from the demo model in Figure 3.
+Similar to a system MSC, a subsystem MSCin LLM treats the subsystem as a black boxÑ
+
+that is, it only indicates message exchanges be-
+tween the subsystem and its environment. Sub-
+system MSCs are derived from system MSCs
+
+through MSC decomposition. A decomposed
+MSC shows the systemÕs internal behaviorÑ
+
+that is, message exchange between subsystems
+and active objects. The system and subsystem
+MSCs are suitable for system and subsystem
+unit (black box) testing, while the decomposed
+MSCs are useful for system integration testing. The amount of work for LLM can be huge,depending on a projectÕs size. Thus, typically
+
+we subdivide LLM into multiple iterations.
+
+Each iteration implements a subset of subsys-
+tem MSCs. In this manner, like XP and other
+
+model-driven processes,4,5TDM is incremen-tal and iterative because the system function-
+ality is developed in multiple iterations. Each
+iteration adds more system features on top of
+previous iterations incrementally.
+LLM is test driven in that we create sub-
+system MSCs first and then define the detailed
+design (state-transition charts) of subsystems
+
+against subsystem MSCs. Finally, we enhance
+
+the subsystem MSCs with signal data and then
+automatically execute them by simulation to
+
+verify whether the subsystemsÕ design meets
+subsystem requirements (that is, MSCs).
+Modeling-quality controlAs I described earlier, MSCs are used as test
+cases in TDM. An MSC can refer to other MSCs
+
+(see Figure 2for an example) and thus we can
+
+build an MSC hierarchy. So, a test case can in-
+
+clude other test cases. A set of related MSCs can
+
+be organized and executed by the modeling tool
+
+together as a test suite; such a suite is called a
+
+module in Telelogic TAU SDL Suite. Like tradi-
+
+tional test cases, multiple suites of MSCs are al-
+
+lowed and can be executed by the Telelogic TAU
+
+SDL Suitetogether in a batch mode. Once an
+
+MSC execution is completed, a summary report
+82IEEE SOFTWARE
+www.computer.org/software
+Figure 2. The system MSC call_establishment for a demo SDL model.The rounded rectangle represents an MSC reference, indicating that the
+MSC call_establishmentrefers to the MSC define_macros for reuse. Bsc
+
+is the subsystem, and ssm and jr are active classes. Env_0 represents
+the subsystem bscÕs environment.Figure 3. A demo SDL model in Telelogic TAU SDL Suite, indicating 
+an application system Proto that contains subsystem bsc, which 
+contains two active classes, ssm and jr. The model includes two 
+
+data type and SDL signal definition files, maps.pr and BSC.sdl.env_0bscdefine_macrosCallReq($CALL_REQ_DATA)ResReqResReqAck($RES_REQ_DATA)($RES_REQ_DATA)CallReqAckCallEst($CALL_REQ_ACK_DATA)($CALL_EST_DATA)CallEstAck($CALL_EST_ACK_DATA)to ssmto ssmto ssmfrom jrfrom jrfrom jr will be automatically generated by the modelingtoolto indicate which MSCs passed or failed the
+
+testing. If an MSC execution fails, then the mod-
+eling toolwill automatically generate and display
+
+an MSC graphically to indicate the exact failure
+
+point.The challenge with testing is to determinehow much is enough. For manual coding, the an-
+
+swer to this question is typically fuzzy. However,
+
+in TDM, the answer is intuitiveÑthat is, we
+
+hope to achieve a high coverage percentage (ide-
+
+ally 100 percent). We obtain the answer by look-
+
+ing at graphical coverage trees that the modeling
+
+tool automatically generates.A coverage tree
+
+shows which design elements and state transi-
+tions have been covered by the executed MSCs
+
+(see Figure 6 as an example). By looking at the
+
+uncovered design elements and state transitions
+in the coverage trees, we can easily identify addi-
+tional MSCs (typically exception-handling use
+
+case scenarios) to cover them. These additional
+MSCs are normally directly executed without
+model changes (see the LLM phase in Figure 1).
+
+In this manner, we can effectively increase the
+
+coverage percentage. One project goal is to agree
+
+on a coverage percentage amount that, when
+reached, indicates we have completed testing.
+A coverage tree for a reasonably large SDLmodel tends to be too big for easy analysis. Inthis case, I recommend showing only the SDL
+
+symbols that MSC execution doesnÕt cover, as
+
+Figure 6 shows.The model quality is test driven in that the
+coverage tree is generated by executing MSCs
+and itÕs in turn used to identify more MSCs to
+
+be executed. 
+September/October 2004IEEE SOFTWARE
+83process ssmCallSetup(7)idleŒCallReq(itcHeader,
+CallReqData)truetrueelsefalseSccpNum :=CallReqData!sccp_id!data;in_map(SccpMap, SccpNum)ŒŒNullfalseCallTerminatedData!sccp_id!data :=
+SccpNum;jrCallReq(itcHeader,
+CallReqData)
+to offspring via ssm_jradd(SccpMap,SccpNum,offspring)offspringCallTerminated(itcHeader,
+
+CallTerminatedData)
+
+via stimFigure 5. Part of the
+state-transition chart for
+
+the active object ssm in
+the demo model.block bscmain(1)vpubscvpureqvpubsc[(jrtovpu)]vpuackstimbsc[(ssmtostim)][jrtostim][(jr_to_ssim)][(ssm_to_jr)]ssm_jr[(stimtossm)][(vputossm)]stimbscack
+stimjr(0,10000)ssm(1,1)Figure 4. The architecture of the subsystem bsc, indicating that twoactive classes ssm and jr are used within bsc. The dashed arrow 
+
+represents that an active object ssm creates the instances of the 
+active class jr.
+ 84IEEE SOFTWARE
+www.computer.org/software
+Automatic code generation
+Like other MDD processes,5TDM is model-
+centric in that a modeling tool automatically
+
+generates the code from a design model.
+Typically, we install and use a modeling
+tool to generate code on a generic machine
+(Solaris in this case), but the target machine is
+
+a different platform. In this case, the automat-
+ically generated code for simulation will differ
+from the automatically generated code for the
+target platform. In addition, we canÕt do per-
+formance testing through simulation. Thus,
+target platform testing is necessary even
+though the simulation results indicate that the
+
+design is correct in terms of meeting system
+
+and subsystem requirementsÑthat is, passing
+MSC execution. Automatic testing tools such
+as the Telelogic TAU TTCN Suiteare available
+
+for target platform test automation. By using
+
+TTCN tools and a related MSC-to-TTCN test
+case translation tool, the same set of MSCs
+used in the system and subsystem testing with
+simulation can be modified and then trans-
+formed into TTCN test cases for the system
+
+and subsystem testing on the target platform.
+Automatically generated code is test drivenbecause itÕs subject to testing on the target plat-
+
+form, and the issues (such as auto code defects
+and performance issues) revealed during target
+platform testing will trigger code regeneration
+after the issues have been resolved by tracing
+them back to either design (modeling) or code-
+generator issues (defects or enhancements).Comparing TDM and a test-driven processAs I mentioned earlier, TDM aims to use the
+test-driven idea underlying a typical test-driven
+software development process such as XP to en-
+hance a typical model-driven software develop-
+ment process for agility and quality. Thus, we
+
+can compare many TDM process activities, arti-
+facts, or characteristics with those of another
+test-driven process (see Table 1). 
+Table 1Comparing test-driven modeling with a test-driven process (such as Extreme Programming)CorrespondenceTDMTest-driven process 
+Corresponding processImplementation ModelingCoding
+activitiesTestingSimulationTest-case execution against real application code
+Corresponding processTest caseMSCTest-case implementation (for example, a set of test
+artifactsdriver objects calling a set of application object methods)Test suiteA set of MSCsA set of test-case implementations
+Corresponding process Test drivenCreate MSCs firstCreate test cases first
+characteristicsTest automationAutomatic MSC execution using a Automatic test-case execution using a tool (such as
+tool (such as Telelogic TAU)JUnit for Java)
+Regression testingExecute all the MSCs for the current Execute all the test-case implementations for the current
+and previous iterationsand previous iterations
+IterativeMultiple development iterationsMultiple development iterations
+
+IncrementalEach iteration implements more system Each iteration implements more system functionality on
+functionality on top of previous iterationstop of previous iterationsFigure 6. Part of an SDL symbol coverage tree for the subsystem bsc
+in the demo model. Leaf nodes represent SDL symbols, and different
+
+shapes represent different SDL symbols. White leaf nodes indicate the
+
+SDL symbols not covered, while grayed leaf nodes (not shown in this
+figure) indicate the SDL symbols covered. The number associated
+with a leaf node represents the number of times the corresponding
+
+SDL symbol was executed during MSC execution (zero indicates the
+symbol was never executed). Practical experiencesHere we discuss our experiences in model-
+ing-tools selection and our implementation of
+a project using TDM with the selected model-
+
+ing tool. Tools selection
+A key factor in adopting TDM with successis the modeling toolÕs capability. Many com-
+
+mercial modeling tools are available, but not
+all of them will let us effectively implement
+
+TDM. The following were themajor criteria
+
+in tools selection for the project:
+Full code generation. In TDM, modeling
+is codingÑthat is, developers only work
+with models (such as SDL or UML dia-
+grams) and code will be automatically
+generated from models. This requires that
+the modeling tool be able to generate fully
+executable code rather than a skeleton of
+code as certain modeling tools do.MSC verification. To be test driven in
+TDM, MSCs must be used as test cases.
+This requires that the modeling tool we
+
+use can execute MSCsÑthat is, given an
+MSC, the tool can automatically verify
+whether or not the model (design) can re-
+
+produce the MSC. Certain modeling tools
+
+only support MSC tracingÑthat is, gener-
+ating an MSC based on an interactive sim-
+ulationÕs execution. Then, visual compari-
+
+son is necessary to verify whether the
+
+generated MSC meets requirements. These
+tools canÕt implement TDM effectively.
+Test automation.
+TDM requires regres-
+sion unit testingÑthat is, in each iteration,
+not only the MSCs assigned to that itera-
+
+tion but also all the MSCs implemented in
+
+previous iterations must be executed. Thus,
+
+there can be numerous MSCs. This requires
+
+that the modeling tool we use can execute a
+
+set of MSCs without human intervention.
+Standards compliance.To avoid being
+locked into a particular tool vendor, the
+
+modeling tool must support internation-
+ally standardized modeling languages
+(such as SDL and UML). In addition, the
+tool vendor must support the latest model-
+ing language, UML 2.0, in the near future.CPU performance.Our project has spe-cific CPU performance requirements from
+customers. The code that the modeling
+
+tool generates must meet these require-
+ments. MotorolaÕs historical data indi-
+cates that tool vendors tend to fail to en-
+
+hance their modeling tools in time if a
+
+CPU performance problem occurs with
+
+the code that their tools generated. In
+
+some cases, tool vendors canÕt enhance
+
+their modeling tools to meet our CPU per-
+
+formance needs. We avoid this difficulty
+
+by using a Motorola proprietary auto-
+matic code generator. To this end, the
+
+modeling tool we use must be able to in-
+
+terface with the Motorola code generation
+
+tool so we can replace the modeling toolÕs
+
+built-in code generator with the Motorola
+code generator when necessary.
+Based on these criteria, we found that Tele-
+logic TAU SDL Suite was the only tool that
+
+met all the requirements.We observed one limitation with Telelogic
+TAU SDL Suite. Currently, the simulator gener-
+
+ated from an SDL model by Telelogic TAU SDL
+
+Suite doesnÕt let the data value associated with
+
+a signal or message in an MSC change without
+breaking the MSC execution. Hence, MSCs are
+sensitive to model changes (especially the
+changes to data types) because the execution of
+
+some MSCs can fail due to those changes. It can
+
+be time consuming to fix all broken MSCs if the
+
+number is large. We can resolve or alleviate this
+
+problem by defining macros in MSCs to cen-
+
+tralize the modification of data values. 
+ResultsTDM was applied in the project to develop
+the core components of a large telecommuni-
+cation system in Motorola using SDL and
+Telelogic TAU SDL Suite. The system consists
+
+of nine subsystems that are deployed as sepa-
+rate operating system processes. Six of these
+subsystems are automatically generated, and
+the other three (including user interfaces)
+arenÕt suitable for SDL modeling. More than
+
+60 people work on this project, divided into
+groups. Some external groups are in different
+
+geographical locations. A big group is subdi-
+vided into multiple teams, and each team con-
+
+sists of two to 10 developers. Different teams
+
+are responsible for developing different sub-
+systems. The memb
+ers in a typical team sit
+close to each other and often work together.
+
+Weekly face-to-face group meetings foster com-
+
+munication among teams within a group as do
+
+weekly conference call meetings among groups.September/October 2004IEEE SOFTWARE
+85Telelogic TAU
+SDL Suite wasthe only toolthat met all therequirements. 86IEEE SOFTWARE
+www.computer.org/software
+About the AuthorA modeling and code-generation coordinatorhelps coordinate modeling and code-genera-
+tion activities across teams and groups.Practical experiences demonstrateTDM can improve productivity signifi-
+
+cantly compared with a traditional plan-
+
+driven development process by automatic
+
+code generation. For instance, some metrics
+
+data from MotorolaÕs iDEN division indi-
+
+cated that this project achieved approxi-
+
+mately five times productivity improve-
+ment in terms of KAELOC/Staff Month.
+TDM can improve quality level signifi-
+cantly by comprehensive simulation and
+coverage analysis. For example, some met-
+rics data from MotorolaÕs iDEN division
+
+indicated that this project achievedap-
+
+proximately 20 percent better phase con-
+
+tainment in terms of the number of defects
+
+that escaped from the modeling phase into
+
+the target platform testing phase. For
+
+some projects in MotorolaÕs iDEN divi-
+
+sion, we achievedfrom two to three times
+
+better phase containment up to zero de-
+
+fects in target platform testing.
+Telelogic TAU SDL Suite supports simula-
+tion (MSC execution) at different levels (sys-
+
+tem, subsystem, and active object). This lets
+
+TDM apply the test-driven mechanism at both
+the system and subsystem level. Telelogic TAU SDL Suite supports symbol
+and state-transition coverage trees. The symbol
+(that is, modeling element) coverage tree is
+similar to the traditional code path coverage,
+but the state-transition coverage tree is unique
+for MDD. A state-transition coverage tree
+shows which combinations of states and sig-
+nals are covered. With this project, we can typ-
+
+ically achieve close to 100 percent symbol cov-
+erage by performing coverage analysis if we
+donÕt use  third-party components (such as
+
+SDL abstract data types). However, the achiev-
+
+able state-transition coverage percentage level
+can be low in certain circumstances. For exam-
+ple, SDL lets asterisk states and input signals
+indicate any states and signals. An asterisk
+
+state immediately followed by an asterisk inputsignal in SDL means that any state can handleany input signals in a state-transition chart.
+This can make the state-transition coverage
+percentage extremely low for a reasonably
+large model with many states and signals. We
+
+can resolve this problem by temporarily re-
+placing an asterisk state or signal with a con-
+crete representative state or signal during cov-
+erage analysis.
+In theory, we can use TDM to develop proj-
+ects of any size. However, like other MDD
+
+processes,4,5from a return-on-investment per-
+spective, the major benefit of adopting TDM
+
+normally comes from reusing the process to
+
+develop multiple releases of an application
+
+system or related systems and subsystems. It
+might not make economic sense to adopt the
+
+process for a one-time small project due to
+process start-up overheads (such as a model-
+ing tool license fee and learning curve).The practical experiences of the project
+show that the Telelogic TAU SDL
+
+Suite meets our needs in implement-ing TDM. The TDM process and the modeling
+tool Telelogic TAU SDL Suite helped us suc-
+
+cessfully start the development of the first re-
+lease of our product. Two new product releases
+
+are already underway using the same develop-
+ment process and modeling tool. To maintain
+
+the current product releases and to develop
+new releases, we expect to use the same process
+and tool in the foreseeable future. A similar
+process has also been successfully used in other
+organizations within Motorola.AcknowledgmentsI thank Associate Editor-in-Chief Stan Rifkin for
+his recommendation, careful review, and proofread-
+
+ing. I also thank the reviewers for their constructive
+comments and Motorola managers for approving this
+articleÕs publication.
+References1.K. Beck, 
+Extreme Programming Explained, Addison-Wesley, 2000.
+2.G. Succi and M. Marchesi, 
+Extreme Programming Ex-amined, Addison-Wesley, 2001.
+3.K. Auer and R. Miller, 
+Extreme Programming Applied,Addison-Wesley, 2002.
+4.I. Jacobson, J. Rumbaugh, and G. Booth, 
+The UnifiedSoftware Development Process, Addison-Wesley, 1999.
+5.B. Douglass, 
+Real-Time Design Patterns
+, Addison-Wes-
+ley, 2003.
+6.J. Ellsberger, D. Hogrefe, and A. Sarma, 
+SDLÑFormalObject-Oriented Language for Communicating
+Systems, Pearson Education, 1997.Yuefeng Zhang
+is a distinguished member of the technical staff at Motorola. His re-search interests include model-driven development, agile software development process, and
+modeling tools and their applications to automatic code generation. He received his PhD in
+computer science from the University of Western Ontario, London, Ontario, Canada. Contact
+
+him at iDEN BSC, iSD/GTSS/Motorola, Arlington Heights, IL; yzhang1@email.mot.com.

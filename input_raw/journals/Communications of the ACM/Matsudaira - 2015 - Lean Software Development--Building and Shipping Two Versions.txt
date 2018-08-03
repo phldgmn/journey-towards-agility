@@ -1,0 +1,224 @@
+ 56    COMMUNICATIONS OF THE ACM
+   |  DECEMBER 2015  
+|  VOL. 58  
+|  NO. 12
+practice
+DOI:10.1145/2814346    Article development led by 
+ queue.acm.orgCatering to developers™ strengths 
+ while still meeting team objectives.
+BY KATE MATSUDAIRA
+ONCE UPON A time (and isn™t that how all good stories start?) I was managing a software team and we were working on several initiatives. Projects were assigned based on who was available, their skillsets, and their 
+development goals. This resulted in two developers, 
+let™s call them Mary and Melissa, being assigned to the same project.Mary and Melissa had been working together for a few weeks when I started hearing complaints in my 
+one-on-ones with each of them about the other. Mary 
+was complaining that Melissa was taking too long to 
+do her part, and spending time on unit tests that did 
+not make sense because things were in ˜ux with the project. Meanwhile, Melissa was complaining that Mary wrote sloppy code and did not 
+write enough tests (she even showed me 
+comments in the code like ﬁhack:–.ﬂ 
+and ﬁto do: someone should add more 
+
+error handling hereﬂ). Each of them had 
+valid points and feedback for the other.
+I spent the next few weeks coaching 
+each of them on how to improve and ad-dress the other™s concerns. With Mary 
+
+I was focused on pushing her to write 
+more tests and not just throw things to-gether, and with Melissa I was focused 
+
+on having her prototype something 
+quickly and then add the polish after it 
+was working. Both of them tried really 
+hard, and both were miserable. It just 
+was not what they were meant to do.These two women were just not meant to collaborate. This got me 
+thinking: how could we change the 
+process so they both could write code the way they liked to create (and that catered to their strengths) and we 
+could still meet our team objectives?From this was born the v1/v2 devel-opment process.You see, certain developers love 
+building the ˜rst versions or prototyp-
+ingŠthey are the ones who love hack-ing things together to get something 
+working quickly. They love (and are 
+
+best at) building version 1 of a prod-uct. The other type of developers love 
+building the second version. They see 
+their code as a craft and write unit 
+tests for everything. ﬁTest coverageﬂ 
+
+and ﬁbeautiful codeﬂ are phrases they 
+use a lot.And of course this de˜nition is not 
+black and whiteŠthere are people who 
+
+fall on different sides of the line at differ-ent times, so it is more like a spectrum.Typically, the v1 person does not like working with the v2 person, and 
+vice versaŠnot for personal reasons, but because of the ways they think and create software. At the heart of it, the 
+fundamental thing they enjoy about what they do is different.By changing the way we thought about software, we were able to ad-
+dress this concern and actually make the team more agile and solve some business problems along the way.
+Lean Software 
+DevelopmentŠ
+
+Building 
+ and Shipping 
+ Two Versions
+ DECEMBER 2015  
+|  VOL. 58  
+|  NO. 12  
+|  COMMUNICATIONS OF THE ACM
+    57The V1/V2 ProcessWhen it comes to software develop-ment there are many ways to build and 
+create products.In my experience it is dif˜cult to 
+build the right product the ˜rst time. 
+
+By ﬁrightﬂ I do not just mean something 
+customers will want and use, and that 
+hopefully will generate revenue, but 
+
+also the right technical solution. How 
+customers will use products can be dif-˜cult to predict. For example, before 
+
+you ship the ˜rst version of a product it 
+can be dif˜cult to answer questions like: ˜How quickly will the data grow? ˜How fast will writes need to be? ˜Will it be feasible to write directly to the data store or do you need a queue 
+to manage writes? ˜What will the throughput be, and is it enough? ˜Will the system scale with usage?Even if you could reasonably an-swer these questions, or if you built a 
+system that took all these things into 
+account such that you could ﬁjust add 
+hardware,ﬂ the effort would probably be larger than if you had simply pushed to ship a ˜rst version quickly. And it is 
+possible (if not always probable) such 
+a system would be over-engineered (since it was designed to solve prob-lems or scale in a way that may not be 
+useful), or even have other unforeseen issues. While there are certainly pros 
+
+to doing it right the ˜rst time, in prac
+-tice it is very dif˜cult to get it right, and building the end-all system will take 
+longer, delaying the answers to all of the questions indicating you are mov
+-ing in the right direction.There is a popular movement called Lean Startup that advocates fast itera-
+tion and data collection to home in on the right product and requirements as quickly as possible. It is all about 
+˜guring out what customers will use and then building those things. These 
+ideas can also be applied to the techni-
+cal ways we build products.Build V1 Fast, Then Build V2 Right
+Similar to creating a minimum viable product (MVP), build the minimum viable technical implementation that 
+meets the business goals (meaning the product can meet current usage re-
+quirements and performance).Most engineering teams have been taught to think about software design and architecture from the beginning and to build something that can scale. 
+However, if you do not have any cus-tomers yet, scaling really is not your challenge. So in some ways, designing 
+
+for scale when you do not have to scale 
+yet is solving the wrong problem.Of course I am not advocating doing something stupid, or writing bad code, 
+
+but do not over-engineer or solve prob
+-
+lems before you have them. Here are some examples: ˜Foregoing the deployment of a 
+multi-node Cassandra cluster and stor-
+ing the initial data in a single database (with backup) that is fast and easy to 
+
+make arbitrary queries against; ˜Faster UI development using stan
+-dard forms and charts versus interest-ing shapes or fancy custom graphs; and ˜Cutting corners on unit tests (be
+-cause the units are in ˚ux) or com
+-
+ments and documentation.All these shortcuts will help you get something out faster. They may not be 
+
+best practices but they do ensure you are building the right thing.In many ways, this process is about looking at the problems differently 
+and, instead of solving the ﬁbigﬂ prob-lem, focusing on speed and ef˜cien-cyŠgetting the highest ROI (return 
+on investment) for your development resources.So you modify your development process to ship the ˜rst version quick-IMAGERY BY 3D-SPARROW
+ 58    COMMUNICATIONS OF THE ACM
+   |  DECEMBER 2015  
+|  VOL. 58  
+|  NO. 12
+practice
+The v2 will take much longer than the v1. I have personally seen this process evolve across four projects (no, it is not a large sample set), and in each case 
+the v2 took more than twice as long as the v1 to create and launch. Of course, every v2 I have launched had a lot of ex-tra features, and they did not always le-verage a lot of the v1 code. Some people 
+assume the v2 will be faster, since ﬁyou have already built it once before,ﬂ but I have not found this to be the case.Have a tight feedback loop with your customers. Make sure it is easy to get 
+
+insight into what people use, what they like, and what they do not likeŠthat way you can build a great v2.Make sure v1s and v2s are celebrated equally. 
+Sometimes teams or compa-nies celebrate the ˜rst launch of a fea
+-
+ture in a much grander way than the next version. But in this case the next version is what you need to grow your 
+business. It is just as important as v1, if not more so. Make sure you value 
+each of these equally, or people will gravitate to the project with the most fanfare, not necessarily the one suited 
+to their strengths and talents.Be open to people being good at both 
+v1s and v2s. Sometimes I think I have 
+
+someone pegged and then they prove 
+me wrong. Be open to the fact there are 
+not two types of people, and some peo-ple are just good at everything. (I just 
+wish I was one of those people!)I hope some of these ideas will prove useful for you and your team. If any-
+thing, let this anecdote inspire you to 
+question the way you are doing things, and look critically at innovative ways to improve how you build software.   Related articles 
+   on queue.acm.orgA Conversation with Tim Bray
+
+http://queue.acm.org/detail.cfm?id=1046941
+Big Games, Small ScreensMark Callow, Paul Beardow, and David Brittain
+
+http://queue.acm.org/detail.cfm?id=1331296
+Major-league SEMAT - Why Should an 
+Executive Care?
+
+Ivar Jacobson, Pan-Wei Ng, Ian Spence, and 
+
+Paul E. McMahon
+
+http://queue.acm.org/detail.cfm?id=2590809
+Kate Matsudaira 
+(katemats.com) is the founder of  her own company Popforms. Previously, she worked 
+ in engineering leadership roles at companies such as  Decide (acquired by eBay), Moz, and Amazon.© 2015 ACM 00010782/15/11 $15.00
+ly, and then once v1 is out in the wild, plan to start on v2 right afterward.Then your v2 can address all the problems with the ˜rst version of the 
+product. You can improve usability, 
+cut or add features based on custom-er usage and feedback, pick the right technology and libraries to power the 
+product, and spend time writing accep-
+tance tests and unit tests are unlikely to change. From a business perspective, you get the product out there faster, so 
+it is easy to see if this product is going to drive revenue and success.Why This Process Makes SenseIt reduces the risk of over-engineering. As noted earlier, getting something 
+out quicker and understanding how 
+it is used (or how successful it is in 
+
+the market) will help confirm you 
+are building the right product and 
+solving the right technical problems 
+
+for your business. This allows you to 
+mitigate the risk of building or scal-ing out systems that may not address 
+the production issues.If you build the wrong thing you can correct it. Since the product is truly the minimum viable product, you reduce the risk of wasting resources creating 
+the wrong product. Furthermore, you will get feedback earlier in the release cycle and can pivot or make changes faster (since it is always more dif˜cult to change a system with a plethora of 
+moving parts). Chances are you will get to market 
+faster. 
+Building something quickly will help you launch sooner, which will 
+help you test and determine the viabil-ity of your product faster than waiting 
+for the bigger launch. This means you will not spend time building software your customers will not use or you can-not sell.Staf˜ng and personnel happiness. This is one of the biggest upsides to 
+this method. Software engineers get to do what they love, in a way that caters to 
+their strengths. Moreover, they are not forced to work with people who do not share their approach, and they do not 
+have to work in a code base they cannot sculpt into their desired piece of art.So, What Are the Downsides?Total time to build is more than if you 
+
+just got it right the ˜rst time. In this model it is likely v2 development will 
+be ˜nished later and the total develop-ment time will be greater than if you built the product once. If you build the v1 using one technology (say, a MySQL 
+database that will not scale the way you 
+need it to), and then the v2 needs a dif-ferent one (say, a proper key value store 
+for faster queries), the team will spend time shipping and building expertise 
+on one database, only to have to learn and manage another.
+Operations can be a headache.
+ Most 
+seasoned engineers will tell you that 
+
+building something really fast can 
+result in operations nightmares if 
+the usage or data grows in a way that 
+was not considered. No team likes 
+
+being operational and ˜ghting ˜res. 
+Of course, if this is a problem it prob
+-ably means your product has achieved 
+
+some adoption and success, so at 
+least you are solving something that 
+produces real value. However, even for 
+
+the v1 it is still worthwhile to identify 
+risks and potential bottlenecks, so in 
+the event there are problems the team 
+will have some ideas for solutions.So You Want to Try It 
+ at Home – Err – Work?
+Like any software process or method-
+ology it is important to assess if this makes sense for your business, prod
+-uct, and companyŠit certainly is not a one-size-˜ts-all. However, it de˜nitely 
+has its merits, so feel free to steal the 
+pieces you like.If you do embark on this journey, 
+here are some pointers from my expe-
+rience:Get management buy-in. This is really critical, because a key to this approach 
+being successful is always building a v1 and a v2. If you do not have buy-in and your boss is content to keep and operate the v1, your team is going to hate you. Seriously. No one wants to 
+
+get stuck supporting crufty v1 soft-ware inde˜nitely. So make sure every
+-one knows and understands the plan 
+ahead of time.Measure everything. In order to build the right v2 you need to know what to build. Where are your bottlenecks? How is the data growing? Without this 
+data it is very dif˜cult to realize many of the advantages of this model. Make sure you think about what you need to 
+measure, and how you will measure it, before the product ships.

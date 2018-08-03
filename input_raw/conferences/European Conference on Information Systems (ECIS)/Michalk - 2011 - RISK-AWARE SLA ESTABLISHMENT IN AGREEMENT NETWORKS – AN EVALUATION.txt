@@ -1,0 +1,1494 @@
+ Association for Information SystemsAIS Electronic Library (AISeL)RISK-AWARE SLA ESTABLISHMENT INAGREEMENT NETWORKS Ð ANEVALUATIONWibke MichalkECIS2011 Proceedings. RISK
+-AWARE 
+SLA ESTABLISHMENT IN
+ AGREEMENT 
+NETWORKS 
+Ð  AN EVALUATION
+ Michalk, Wibke
+, Karlsruhe Institute of Technology
+, Englerstrasse 14
+, 76133 Karlsruhe
+, Germany
+, michalk
+@kit.edu
+ Abstract 
+ The rise of Software as a Service (SaaS) pla
+tforms is driven by the 
+current trend towards
+ customer
+-oriented, agile and scalable service provisioning. CustomersÕ
+ demand for highly specialized services 
+can mostly not be met by a single provider that offers a holistic solution but 
+by a consortium of 
+providers that cooperate. 
+In order to enable the combination of services and hence, the collaboration 
+between different service providers, technical challenges like the compatibility of interfaces have to be 
+dealt with. 
+In addition
+, economic issues concerning profit, reliability an
+d risk
+ of service failure
+ have to 
+be taken into consideration.
+ A model of Agreement Networks
+ (ANs)
+ is presented 
+that illustrate
+ the
+ legal bindings
+ that are 
+established or under negotiation
+ between
+ service providers and
+ a methodology
+ is introduced
+ that 
+supp
+orts providers in 
+ANs
+ to decide 
+on the 
+establishment of a 
+combination 
+of 
+Service Level 
+Agreements (
+SLAs
+) that incurs the lowest risk of SLA violation.
+ Finally, a benchmark 
+for
+ risk
+-based 
+decision
+s is derived
+ that serves to evaluate 
+the efficiency of the choice. 
+The impact of the available 
+amount of monitoring data on the decision is investigated and a minimal amount of 100 observations 
+for each SLA combination is suggested.
+ Keywords: 
+Service Composition, Service Level Agreement, Agre
+ement Network, Risk
+.   1 Introduction
+ The service market changed remarkably over the last years. From monolithic, holist
+ic solutions that 
+were offered Ò
+on premiseÒ by single providers, customer requests are nowadays met by composing a 
+variety of standardized
+ services.
+ This trend manifests 
+itself 
+in a growing demand for web service 
+compositions.
+1 In order to facilitate the dynamic composition of services
+ in highly business
+-relevant scenarios, 
+agreements on the quality and other terms of provision of the respec
+tive services
+ are 
+established
+. While existing literature on 
+service composition mainly
+ focuses on technical feasibility or on the 
+efficient choice 
+of 
+service providers for singular service requests
+, this work illustrate
+s the 
+interdependent network of Servi
+ce Level A
+greements (SLAs) that arises between service providers. 
+Agreement 
+Network
+s (ANs)
+ depict providers and their 
+legal bindings
+ that are established or under 
+negotiation
+. Those bindings include 
+service offers enriched by quality assurances as well as 
+prices for 
+ser
+vice execution and penalties that have to be paid in case of
+ (partial) 
+service failure.
+ In order to 
+enforce the 
+application
+ of penalties, 
+service monitoring has to be in place. 
+ A service provid
+er who offers services in an AN 
+is concerned 
+wit
+h the 
+adherence to
+ active 
+SLAs 
+and 
+wants to avoid SLA violation
+s. SLA violation
+s lead
+ to the payment of penalties
+. However
+, public 
+knowledge about the 
+violation of an SLA can
+ lead to a loss of reputation 
+and consequently could 
+decrease future 
+demand for 
+the provider
+Õs services
+. Hence, a provider in an AN has to account 
+for their
+ risk of violating an SLA when deciding 
+about 
+the establishment of SLAs. 
+This paper 
+presents an 
+approach 
+that 
+allows for risk
+-based decision about the establishment of combinations
+ of SLAs
+ about 
+services that a provider offers
+.  In order to substantiate the theoretical results, 
+a benchmark for
+ risk
+-based decision
+s derived from
+ known probability distributions of SLA violations
+ is provided
+. Furthermore, the
+ impact of 
+the amount 
+of 
+available monitoring information, that is
+, the available number of observations is 
+investigated and 
+it is show
+n that 
+a relatively low amount 
+of monitoring data is required 
+for 
+a high degree of 
+efficient
+ decisions. 
+ This paper is structured in 
+seven section
+s. Section 
+2 gives an overview over related literature and 
+discusses complementary work. 
+In S
+ection 
+3, the need
+ for 
+risk
+-based
+ decision
+s in agreement netw
+orks 
+is motivated by means of an outsourcing scenario 
+of highly business
+-relevant services. 
+Section 
+4 introduces a method
+ology 
+that
+ support
+s decisions about 
+the establishment of risk
+-minimal SLA 
+combinations. 
+In Section 
+5, an approach 
+is introduced 
+that allows the benchmarking of 
+the 
+metho
+dology introduced in Section 
+4. The results of the evaluation 
+are presented in Section 
+6. Section 
+7 concludes the paper
+ and 
+discusses
+ further challenges and future work.
+ 2 Related Work
+ The trend of business cooperation away from static value chains towards networks of firms has been 
+observed for years. The rise of so
+-called Business Webs (see
+ Steiner 
+(2004); Tapscott, Lowy a
+nd Ticoll 
+(2000)), where firms provide complements to a common product architecture, builds the basis 
+for the composition of services. The technical composition of Web services that facilitates the 
+provision of automated complex serv
+ices such as insurance brokering, travel planning, insurance 
+liability services or package tracking has been discussed intensively in the literature
+ (Papazoglou a
+nd Dubray 2004)
+.                                              1 http://www.programmableweb.com/
+ [last accessed: December 2, 2011]
+  Apart from the technical perspective of service composition, economic aspect
+s like the coordination of 
+value creation are of major concern. 
+In 
+Blau 2009
+, a mechanism
+-design approach is applied in order to 
+find the efficient combination of service offers that on the one hand satisfies 
+a customerÕs preferences 
+and on the other hand 
+meets providersÕ constraints. This mechanism 
+distributes 
+the customerÕs 
+payment to those providers that 
+are chosen in the efficient allocation. 
+It considers the possibility of 
+service failure and penalizes providers
+ appropriately
+. Incentives for providers 
+are set to submit truthful 
+offers about a
+ serviceÕs properties. The risk of service failure is not taken into account ex ante when 
+choosing the efficient combination of service offers but is only penalized ex post, that is, after service 
+execution. 
+A diffe
+rent approach is chosen in 
+Conte, et al. 2009
+ that relies on work from cooperative 
+game theory. 
+The payoff function
+ in 
+Conte, et al. 2009
+ distributes the customerÕs payment 
+contribution
+-based
+ to all 
+providers that are offering their services and hence, 
+con
+tribute to the variety 
+of 
+alternatives.
+ The risk of service failure is not taken into account.
+  A model that describes governance, risk and compliance for service outsourcing is introduced in 
+Asnar, Lim, et al. 
+(2010). Challenges in the context of Service 
+Oriented Architectures (SOAs) and 
+hence, service composition are highlighted and t
+he paradigm of compliance by control is applied 
+for 
+enforcing compliance based on monitoring results. 
+The model 
+allows for the 
+qual
+itative identification 
+of risk
+, that is, 
+what the risk is,
+ and 
+the
+ definition of counter
+-measures in a very technical way but it 
+does not 
+support the quantita
+tive measurement of risk
+, how severe the impact of the risk is,
+ or risk
+-based decision support. 
+In 
+Asnar, Giorgini a
+nd Mulyanto 
+(2007), a r
+isk management model 
+is 
+introduced. Analogously to 
+Asnar, Lim, et al. 
+(2010), the identification of risk is possible, but 
+quantitative risk measurement is not possible with this approach.
+ Similarly,
+ Kompella, Yates a
+nd Greenberg 
+(2010) introduce an approac
+h for risk modeling for localizing fault in IP networks. 
+Risk is 
+applied for the analysis of monitoring data to identify common failure patterns. This way, error 
+propagation along links in IP networks can be 
+detected and common risks can be identified. 
+Ana
+logously to 
+Asnar, Giorgini a
+nd Mulyanto 
+(2007) and 
+Asnar, Lim, et al. 
+(2010), a qualitative 
+description of risk 
+is given and no 
+quantifica
+tion or metric is introduced that would allow 
+the eval
+uation of
+ the severity of a failure.
+ In summary, 
+the 
+aforementioned
+ literature either proposes 
+an efficient allocation 
+but does not take 
+service failure 
+into account ex ante or 
+does not give the possibility to quantify risk for decision 
+support.
+ Michalk, et al. 
+(2010) introduce a decision support model 
+for c
+hoosing 
+the risk
+-minimal SLA 
+combination
+ to establish
+. The model 
+allows for 
+risk stemming from past SLA violations
+ with respect 
+to 
+concurrently established SLAs
+. The approach is 
+based on 
+H. 
+M. 
+Markowitz 
+(1952) and 
+H. M. 
+Markowitz 
+(1959
+), where 
+the risk of security portfolios 
+is determined by means of past variations of 
+the portfolios
+Õ return.
+ In order to be able to 
+express SLA violations 
+quantitatively, 
+Michalk, et al. 
+(2010) assume the existence of
+ a resource monitoring system that 
+creates repo
+rts 
+about the 
+relative 
+adherence to 
+a portfolio of SLAs. 
+In contrast
+, t
+he work at hand 
+relies
+ on the assumption 
+that 
+a service 
+monitoring 
+system is in place
+, so that 
+each SLA is monitored 
+individually. 
+For expressing risk, the 
+concurrently established SLAs
+ are taken into account.
+ The approach presented in Sections 3 and 4 
+adapts the risk
+-based decision model from 
+Michalk, et al. 
+(2010) for a scenario, when service 
+monitoring is in place.
+ Finally
+ in Section
+s 5 and 
+6, the approach is 
+evaluated. 
+ 3 Scenario
+ Service composition
+ is facilitated through the 
+establishment
+ of agre
+ements 
+- commonly called SLAs. 
+An SLA is specified according to 
+Andrieux, Czajkowski a
+nd Keahey 
+(2007) by the provider 
+!, the 
+consumer 
+!!!, the respective service to be executed
+, !!!! as well as multiple Service Level 
+Objectives (SLOs) 
+!!!!!. SLOs are constituted 
+of key performance indicators (KPIs) that are 
+defined as target values of measurable properti
+es of a service execution, e.g. 
+response time in 
+!", throughput in GB/s
+, etc
+. Furthermore, an SLA 
+! comprises a price 
+!!! that is 
+charg
+ed for service 
+execution as
+ well as a penalty
+, !!! that the provider has to pay in case of an SLA violation. An SLA 
+! is therefore defined as 
+!!!!!!!!!!!!!!!!!.   Service providers are characterized by their supply of services 
+!!! as well as their resource 
+constraints 
+!! that denote the maximum amount of available technical resources such as disk space, 
+throughput rate or availability. Note that resource constraints do not map one
+-to-one to KPIs 
+that are 
+defined in SLAs. Only tho
+se KPIs that relate directly to 
+monitored 
+resources can be applied when 
+determining the violation of a resource constraint.
+ Each service provider can have multiple SLAs even 
+with the same contractual partner. The number and kind of contracts is only limite
+d by the resource 
+constraints 
+!! associated with the service provider 
+!.  The structure that results from 
+agreements
+ between service providers is depicted 
+in Figure 1
+. An AN 
+opens the
+ perspective on the legal structure that facilitates the cooperation between service providers 
+in contrast to
+ the technical compatibility and
+ provision of complex services
+. Figure 1 
+shows an AN 
+that contains service providers 
+!!!!!!!! and the customer
+ !.   Figure 
+1.  Agreement Network Extract
+ The decision problem 
+that 
+a service provider 
+! is confronted with in an AN may be formulated as 
+follows: What is the optimal configuration and combination of SLAs to be 
+established
+?  In order to 
+separate the effect of negotiation and strategic pricing decisions
+ from SLA portfolio 
+optimization
+, the 
+configuration, that is, 
+KPIs, 
+prices and penalties
+, is
+ assumed to be determined 
+exogenously.
+ The separation of effects 
+in this work allows 
+the analysis of
+ risk
+-based decision making 
+while avoiding 
+the
+ influence of pricing strategies on decision
+-making.
+ The availability of a data basis that is big en
+ough to draw conclusions from is ensured by the 
+restriction of
+ the set of possible SLAs and the
+ir configurations 
+to a predefined set 
+! from which
+ a service provider 
+! may select
+.  A service provider 
+! that has to choose 
+an SLA portfolio 
+! knows that dependencies exist among 
+KPIs. Exemplarily, assured throughput may influence the response time. As these dependencies are 
+very complex to detect and to monitor in practice, the model at hand will not constitute dependencies 
+explicitly.
+ In theor
+y, the straightforward approach to calculating the failure risk of a certain 
+combination of SLAs would require the knowledge of the variances of failure of the single SLAs, as 
+well as of the covariances between all possible SLAs. Applying this approach, ho
+wever, would imply 
+the assumption that the risk of SLA violation for one SLA is the same regardless of other concurrently 
+active SLAs and hence, executed services. 
+In the approach at hand, d
+ependencies are incorporated 
+implicitly by means of treating each 
+possible combination of SLAs as a single
+ entity
+, which 
+directly
+ reflects the correlation among attributes in the respective combination. The evaluation of the risk of 
+failure is crucial for 
+! as outages or failures will result in penalties 
+! that 
+! has 
+to pay in order to 
+compensate the c
+ustome
+rs. Accordingly, a service provider's risk measure in ANs has to account not 
+only for the probability and extent of failure but also for the size of the penalties that will result from a 
+failure. 
+ We assume that 
+service providers' attitude towards risk can be represented by a von Neumann
+-CaptionService Level 
+Agreement Specification2pService Provider
+p3pAgreement Option1!i!1pAgreement Relation3!2!4!"Service Consumer" Morgenstern utility function that implies risk
+-aversion. According to 
+Sandmo 
+(1971), risk
+-aversion 
+may be assumed for 
+firms. 
+Apart from avoiding risk
+, service providers are intere
+sted in as high 
+an expected profit 
+as possible 
+thro
+ugh the provision of services. 
+ A decision model 
+is proposed 
+that
+ determines the optimal combination of SLAs
+!! for service provider 
+!! Here, optimal means
+ minimizing
+ the
+ risk imposed on 
+! while considering a constraint on the 
+expected profit
+, which specifies the minimum payoff the service provider wants to achieve. 
+Furthermore, the resource constraints that describe the maximum resources available to the service 
+provider are included
+ in the decision problem.
+ The following section introduces the optimization 
+problem.
+ 4 Methodology
+ As stated in Section
+ 2, a service provider monitors their
+ own adherence to single SLAs in 
+portfolios
+ ! and stores the collected data
+ as periodic reports
+. The 
+reports contain information about the agreements 
+that were established in each period and the
+ir respective 
+degree of violation
+. We assume the existence 
+of a metric that aggregates the 
+degree of violation
+ of single 
+KPI
+s into one value 
+!!!!!! that states relative
+ violation of
+ an SLA. In contrast to the approach in 
+Michalk, et al. 
+(2010) that relies on resource 
+monitoring, in this paper service monitoring is applied.
+ This implies that each SLA is monitored 
+individually and a 
+degree of
+ violation
+ can be determined respectively.
+  A sample of a provider's monitoring data 
+including the periods 
+!, the respective agreements for this 
+period 
+!! and relative failure of an SLA 
+!!!!!! is shown in
+ Table 1
+.  Time
+ SLA
+ !" SLA
+ !# SLA
+ !$ 1 0 0   2 0 0   3   0.5
+ 0.5
+ 4 1 1   5   0.7
+ 0.4
+ 6 0.78
+ 0.9
+ 0.8
+ 7 0.82
+ 0.9
+   8 0.67
+   0.5
+ 9 ? ? ? Table 
+1.  Extract of Service ProviderÕs Monitoring Reports
+ The
+ entries in the first row 
+of 
+Table 
+1 show that in 
+!!!!! the service provider 
+established
+ two different 
+SLAs, 
+!! and 
+!! !!!!!!!!!, and he failed on none of them 
+!!!!!!!!!!!!!!!!!!!!!!!!!.  Providers' risk in the focus of this paper stems from the uncertainty of 
+SLA violation
+ and the resulting 
+monetary outcomes. 
+Applying the semi
+-variance 
+(H. M. Markowitz 1991)
+ of 
+penalties 
+as a proxy for 
+risk 
+implies 
+that those violations 
+of SLAs that lead 
+to higher penalties than expected 
+are perceived 
+as 
+uncertain 
+and hence, are taken into account for the calculation of risk.
+ The semi
+-variance of penalties as 
+a proxy for risk has been employed in portfolio optimizati
+on ever 
+since the beginnings of finance theory and is especially useful to account for asymmetric probabilistic 
+distributions and downside r
+isk.
+2 In order to apply 
+the semi
+-variance 
+as a proxy for risk
+, the following assumptions need to hold:
+ (1)
+ Probability d
+istribution
+s of 
+SLA v
+iolations donÕt change over time.
+                                             2 See 
+Levy 
+(1992) and 
+Eeckhoudt, Schlesinger a
+nd Gollier 
+(2005), for an overview of the different risk measures and a 
+definition of downside risk aversion as well as 
+Elton, et al. 
+(2003) and 
+H. M. Markowitz 
+(1959) for its relation to the shape of 
+the distribution function.
+  (2)
+ The a
+ggregation of 
+relative violations of single KPIs
+ to one 
+SLA violation 
+value is possible
+. (3)
+ Each provider can 
+compare v
+iolation v
+alues 
+of different SLAs
+ (a violation of 0.5 
+for
+ SLA 1 
+implies the same
+ as a violation of 0.5 
+for
+ SLA 2)
+. A provider 
+! can apply the semi
+-variance 
+as a proxy for risk 
+for an SLA combination 
+! if 
+at some 
+point in the future the 
+same combination of SLAs 
+! is chosen
+. The calculation of the semi
+-variance of 
+penalties 
+for
+ a certain SLA combination 
+! is conducted in four steps:
+ 1. the actual sum of penalties
+ !!!! for each period is calculated, 
+ 2. the mean percentage of failure 
+!!!! for a particular SLA 
+!! belonging to a specified SLA 
+configuration 
+! is computed, 
+ 3. the 
+average penalty of 
+! that 
+! was supposed to pay is calculated based on 
+!!!!!and finally 
+ 4. the semi
+-variance is calculated as the squared deviations of actual penalties from the mean 
+penalties.
+ The actual sum of penalties
+ !!!! that a service provider would have had to pay in period 
+! depends on 
+the relative failure of SLA 
+!! in the combinati
+on of SLAs 
+! in this peri
+od and is given by
+: !!!!!!!!!!!!!!!!!!!!!             (1)
+!Define 
+!!!!!!!!!!!!! if 
+!!!!!!!!!!!!! and 
+!!!!!!!!!!!!!, otherwise. This variable serves to indicate 
+whether the SLA 
+!! was 
+established
+ (!!!!!!!!!!!!!) or not 
+!!!!!!!!!!!!!!! in a particular period 
+!. The mean percentage of failure for a particular SLA 
+!! belonging to a specified SLA configuration 
+! may be calculated as
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!           (2)!where 
+!!!!!!!!!!!!!!!!!!!!!!! and 
+!!!!!!!!!!!!!!!!!!!!!!!!!!, w
+ith 
+!! referring to
+ all SLA 
+portfolios 
+other than
+ !. The indicator variables 
+!!!!!!!! and 
+!!!!!!!!! serve to select from the 
+observations in the service provider's records only the subset of observations, which pertains to a 
+particular portfo
+lio of SLAs 
+!. Thus, 
+!!!!!!! is the number of periods in that the particular SLA 
+combination 
+! appears in the records of the service provider.
+ For the average penalty, which the service provider was supposed to pay in the past for the 
+combination of SLAs 
+!, one obtains
+ !!!!!!!!!!!!!!!!!!!.            (3)
+ Based on this, the semi
+-variance of due penalties for the portfolio of SLAs 
+! can be calculated. It is 
+the risk measure based on which the service provider chooses the optimal combination of SLAs and 
+it is defined
+ as: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!      (4)!where 
+!!!!!!!!!!!!!!!!!!!! and
+ !!!!!"!!!!!!!!!!!!!!!!"!!!!!!!!!!!!!!"!!!!!!!!!"#!
+ In order to represent the decision 
+model as stated in Section 
+3, apart from the
+ objective function 
+(Equation (4
+)), the constraints on
+ available resources of the provider 
+!! and the
+ minimum expected 
+profit requirement 
+!! need to be defined
+: !!!!!!!!!!!!!!!!!!!!!            (5) !!!!!!!!!!!!,               (6) where 
+!!!!!!!!!!!!!!!!!!  describes the KPIs (
+where 
+! is the number of attributes) agreed upon in 
+SLA 
+!!!!, and 
+!! analogously denotes the maximum 
+of resources 
+available
+ to the provider.
+ The minimum expected pro
+fit the provider wants to achieve
+ is denoted by 
+!!, and the expected profit 
+from an SLA combination 
+! is denoted by
+:  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!,         (7) where 
+!!!!! denotes the price that the provider charges for the provision of Service 
+!! in SLA 
+!! and 
+!!! denote
+s the provider
+-specific costs that arise with the execution of service 
+!!. In order to illustrate the approach consider the example in
+ Table 1
+. For c
+ompleteness of the numerical 
+example further assume that the SLAs appearing in the table are defined as follows:
+ !!!!!!!!!!!!!!!!!"#$
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"#$
+!!!!"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"#$
+!!!!!!!!!!!!!!!!!!!!!!!!!!where 
+!"#$
+ denotes throughput 
+in Mbit/s 
+for the provision of the service. Let the provider 
+!! face a 
+maximum throughput of 15
+, which constitutes the optimization constraint 
+(Equation (5
+)), and a 
+min
+imum expected p
+rofit 
+!!!! in money units
+ (MU)
+, as well as internal costs for service execution 
+of 
+!!!!!!!"!!!!!!!!".  For the selection 
+of the optimal SLA combination, 
+the constraints have to be checked 
+for each SLA 
+combination 
+and in case they are met 
+the semi
+-variance is computed. 
+Exemplarily
+, consider the SLA 
+combination 
+!!!!!!!!!. It can be easily verified that this combination of SLAs satisfies the 
+throughput constraint
+, as 
+!!!!!!!!!!!"!!!!!!". In the past records 
+it appears four times in 
+periods 
+!!!!!!!!!! such that 
+!!!!! in 
+Equation (4
+).  The sum of penalties that the provider had to pay in each of these periods
+ according to Equation (1)
+ and the sample data from Table 1
+, is !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"!!!!!!!!!!!!!!For the mean percentage of failure of the SLAs one obtains
+ !!!!!!!!!!!!!!"!!!!!""!!!!!!!!!!!!!!!!!!!!"#!!Insert these results into Equation (3),
+ the average penalty paid in the past for the SLA combination 
+! is !!!!!!!!!!!!!!!!!!!!!!!!!!!"! Substituting into 
+Equation
+ (7), it shown that the expecte
+d profit constraint (Equation (6
+)) is met
+: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"  After substituting into 
+Equation (4
+) the semi
+-variance can be 
+calculated
+.  !!!!!!!!!!!!!"#
+!!!!!!!!"!!!"#
+!!!!!!!!"!!!!"#
+!!!!!!!!"!!!"#
+!!!!!!!!!!!"!!!!!!"#!In order to select the risk
+-minimal combination of SLAs that satisfies the constraints in Equations (5) 
+and (6), the above procedure has to be 
+repeated for each SLA combination for which monitoring data 
+is available.
+ In this example
+, !!!!!!!!! is the only portfolio that meets the constraints. For single 
+SLAs, there is no monitoring data available. 
+!!!!!!!!! and
+ !!!!!!!!!!!! violate 
+the throughput 
+constraint, whereas
+ !!!!!!!!! violates the expected profit constraint. Therefore, the semi
+-variance 
+only has to be calculated for 
+!!!!!!!!!! 5 Evaluation Plan
+ In a real
+-world scenario, 
+a decision
+-maker takes into consideration all of t
+he monitoring data that is 
+available and comes to
+ a decision based on this data. 
+If there is no monitoring data
+ for a specific 
+service/SLA, the risk cannot be 
+estimated by means of the semi
+-variance. However, in a real
+-world 
+scenario, a provider
+ will most 
+likely have monitoring dat
+a for services that
+ he offers.
+ The amount of available data has a major impact on the 
+quality of the proxy that is calculated. The 
+more monitoring data is available the 
+more information is available on the distribution of SLA 
+viol
+ations in certain SLA portfolios a
+nd hence, the better 
+the proxy calculated from the data
+ is. In 
+order to find 
+a threshold
+ for the number 
+of observations that is 
+required
+ for a sufficiently good 
+decision
+, a benchmark for the decision 
+has to be defined. 
+  A straightforward approach for benchmarking the method wou
+ld involve real monitoring data. The 
+decision that has been made based on a certain number 
+! of observations from the real monitoring data 
+would be compared to the 
+real SLA violation in period 
+!!!. Repeating this approach for different 
+lengths of 
+observations 
+would
+ lead to the desired threshold.
+ As was argued in Section 4, the 
+calculation of the semi
+-variance relies on assumptions that need to be met.
+ Assumption (2) expects 
+that the monitoring result
+s are available as one aggregated value per SLA that specifies the 
+degree of
+ violation of the 
+respective 
+SLA. 
+In order to enable the aggregation to one value per SLA, the 
+degree of
+ violation or adherence has to be specified 
+for each SLO in the SLA. 
+Furthermore, the decision
+-makerÕs preferences with respect to the impact of each of the SLOs
+ have to be known. For most 
+monitoring systems, monitoring reports contain only information the violation of KPIs in the form of 
+Boolean values (yes/no) 
+and 
+not 
+in 
+the form of relative violation (e.g., x% violated). Aggregating this 
+information, in case
+ the decision
+-makerÕs preferences are known, 
+would result in a value that states the 
+relative violation of the SLA. A more precise proxy of relative SLA violation woul
+d require 
+monitoring systems to 
+determine the relative violation per KPI.
+ Assumption (1) requires that 
+probability distributions of SLA violations donÕt change over time. 
+For real services that are 
+monitored, this assumption cannot be met due to the fact t
+hat underlying infrastructure is 
+subject to 
+improvements and changes over time. Hence, real monitoring data can hardly be applied for 
+benchmarking. 
+ In order to overcome 
+the drawback
+s of real data, 
+monitoring data is created by means of a 
+numerical 
+simulat
+ion
+ that was implemented in Java.
+ Benchmarking by means of simulated viola
+tion data is 
+advantageous,
+ as the 
+probability distribution func
+tion
+ (PDF)
+ of SLA violations is known
+ for all SLAs 
+in all possible SLA combinations
+. The simulation is conducted as 
+follows.
+ First, a predefined number of
+ SLAs 
+including prices and penalties is created. Then, 
+all possible 
+combinations of SLAs
+ is created by means of 
+the power
+-set of SLAs
+, and 
+the violation 
+probability 
+distribution function (PDF) for the degree of violati
+on is determined for each SLA in each S
+LA 
+portfolio
+. Violations can be observed in 
+[0;
+1] and hence, a PDF with domain [0;1] is required.
+ Furthermore, 
+paramete
+rization of the PDF
+ may not exceed a reasonable level, as the 
+simulation is 
+repeated for different
+ instantiations of the PDFs. 
+A family of distribution functions that 
+meets
+ those 
+requirements is the family of Beta distribution functions, 
+!!!!!!. Keeping 
+! fixed and altering 
+" in a 
+specified interval 
+allows 
+to 
+mod
+el 
+a different PDF 
+for 
+an SLA depending on the concurrently 
+active 
+SLAs
+. The higher 
+" is, the 
+higher is the probability for 
+a high degree of violations.
+ The parameter 
+! was arbitrarily chosen to be 1. 
+Choosing a different number would have no impact on the shape of the 
+distribution as long as the manipulation of 
+" would stay the same. 
+" is determined as follows:
+ !!!!!!"#$
+!!, where 
+!  is a random draw in 
+U(0,1.0)
+. In order to neglect effects that 
+stem from 
+the variation of prices or penalties
+ the input parameters for number of SLAs, prices, penalties and 
+costs were fixed. 
+Table 
+2 summarizes the input parameters to the evaluation.
+ In the next step, 
+the benchmark 
+for the decisions based on monitoring data is calculated from the 
+PDFs 
+that were determined in the step before. 
+Calculating 
+the semi
+-variance of due penalties from 
+the PDFs
+ represent
+s the most precise specification of risk
+ and hence, is chosen as benchmark.
+ The semi
+-variance 
+is calculated by a
+dapti
+ng the calculation of the vari
+ance of a PDF so that it takes only those deviations 
+into account that are worse than the expected 
+value. 
+Additionally
+, the PDF is weighte
+d by the penalties 
+from the re
+spective SLA. Consequently, the semi
+-variance of due penalties for combinations of SLAs 
+is calculated as follows. For al
+l SLAs in the portfolio, the sum of 
+squared deviations from 
+the 
+exp
+ected 
+penalty
+ is calculated. The integral from the overall expected degree of violation through 1 of this sum 
+determines the semi
+-variance of due penalties, as only those deviations that are worse than expected 
+are taken into account:
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"#$%&'()!
+!!!!!          (8)!where 
+!!!!!! denotes the probability density function of violations of
+ SLA 
+!!!!!! !!!!!! denotes the expected penalty, that is
+, the expected violations of 
+the SLA portfolio 
+! weighted by the 
+respective penalties 
+!!!.    Parameter
+ Value
+ Number of SLAs
+ 3 PDF 
+" !!!!"#$
+!! PDF 
+! 1 Prices
+ !!!!!!!=1.5, 
+!!!!!!!=2, 
+!!!!!!!=5 Penalties
+ !!!= 2, 
+!!!= 1.3, 
+!!!= 5
+ Costs
+ !!!!! = 1, 
+!!!!! = 1.5, 
+!!!!! = 2
+ x x~U(0,1.0)
+ n 1000 y 5,10,20,30,50,100,200,300,400,500,600,700,800,900,1000
+ Table 
+2 Evaluation Parameters
+ In the next step, samples of length 
+y are drawn from the PDFs for each SLA in each portfolio. This 
+way, for each portfolio, monitoring data of 
+length 
+y is obtained. In order to remove the statistical error 
+from which computer
+-created random numbers suffer
+ (Chung 2004)
+, this random draw is repeated 
+n = 1000 times.
+ For the risk
+-based decision, for each of the obtained 
+monitoring samples, the semi
+-variance is 
+calcu
+lated according to Equation (8
+). Based on this semi
+-variance from samples, the risk
+-minimal 
+portfolio is chosen for each sample. 
+Figure 2 illustrates 
+the 
+simulation setup.
+  Figure 
+2 Simulation Setup
+ For eac
+h of the samples
+, the correctness of the sample
+-based decision is determined by comparing the 
+chosen portfolio from sample data to the benchmark portfolio. The resulting value for correctness is 
+stored in a table, so that there is one
+ table for each of the distribu
+tions that shows for each length of 
+history as illustrated in Table 
+2 for each of the 
+n repetitions if the decision was correct or not.
+  The procedure from Figure 2 is repeated 150 times in order to achieve independence from a specific 
+PDF. 
+After r
+unning t
+he Simulation for 150 times, mean fractions of correct 
+choices with respect to 
+different lengt
+hs of history as shown in
+ Table 3
+ and 
+Figur
+e 3
+ are retrieved.
+   Length of History
+ Mean
+ N Standard Deviation
+ 5 .57816 150 .235697 10 .66289 150 .235654 20 .72848 150 .235191 30 .75949 150 .235105 50 .78821 150 .235929 100 .81622 150 .241372 200 .83239 150 .256013 !"#"$%&'(#)(*)+
+,-./)0(1
+"$2."&)(*)+
+,-./)%#3)$%#3(4'5"3)6
+78.9%:;<:%&'(#)(*)
+="#;>4%$?
++"4'2@
+%$'%#;"
+7$%1)!)&'4".)*$(4)"%;>)
+678/);$"%&")A
+(#'&($'#B)
+7%&%)(*):"#B&>)
+!)*($)"%;>)
++,-)'#)"%;>)0($&*(:'(
+9%:;<:%&")*$(4)
+A(#'&($'#B)7
+%&%
++"4'2@
+%$'%#;"
+CDE)$"0"%&)
+")&'4".
+CFE)'#;$"%.")
+! 300 .83936 150 .265794 400 .84352 150 .273200 500 .84645 150 .278414 600 .84889 150 .282153 700 .85066 150 .284915 800 .85214 150 .287201 900 .85371 150 .288685 1000 .85373 150 .291605 Total
+ .79695 2250 .273777 Table 
+3  Mean Fraction
+ of Correct Choices for 150 Simulation Runs
+  Figure 
+3 Mean Fraction of Correct Choices
+ The following Section illustrates the results of the statistical test for the required amount of monitoring 
+data for a sufficiently good 
+decision.
+ 6 Results
+ The amount of required data is determined based on a statistical analysis as the threshold value from 
+which on the fraction of correct choices cannot be increased significantly any more. Therefore, an 
+analysis of variance is carried out i
+n order to prove that the length of history has a statistically 
+significant impact on the quality of the fraction of correct decisions. The hypothesis that the mean of 
+the fraction of correct choices is equal for different lengths of history is analyzed. A
+fterwards, 
+a two
+- sided matched
+-pairs t
+-test is conducted for consecutive lengths of history to test the hypothesis that the 
+mean difference between fractions of correct choices is equal to zero. From the specific length of 
+history for which the hypothesis
+ cannot be neglected any more, the providerÕs decision cannot be 
+improved significantly any more. 
+ Figure 
+2 implies that an increasing length of 
+history 
+increases 
+the 
+fraction of correct choices. This 
+implication is 
+tested by m
+eans of an analysis of variance. The hypothesis that the mean fraction of 
+correct choices is 
+equal 
+for
+ different lengths of history can be neglected according 
+to the results of the 
+analysis of var
+iance as is shown in 
+Table 
+4. Furthermore, 
+Figure 2
+ reveals that the 
+marginal 
+improvement in the fraction of correct choices 
+decreases with an increasing history. 
+This allows to 
+identify 
+the threshold value
+ for 
+the requi
+red amount of monitoring data
+ as the amount of data from 
+which on 
+the fraction of correct choices 
+cannot be 
+improved 
+significantly any more. 
+This is 
+facilitated 
+Length of History1000900800700600500400300200100503020105Mean Fraction of Correct Choices1,0000,8000,6000,4000,2000,000Error Bars: 95% CISeite 1 by exerting 
+two
+-sided 
+unpaired 
+t-tests on 
+the 
+mean fractions 
+of correct choices 
+for sequential 
+lengths 
+of history, i.e. 
+average
+ fraction of correct cho
+ices for history of length 100 and
+ average
+ fraction of 
+correct choices for history of length 50.
+ The hypothesis
+ that 
+the mean
+s of fraction
+ of correct choices 
+are equal
+ is tested
+ to confidence level of 5%
+. As a result
+ of this test, a length of 20
+ observations 
+per 
+SLA portfolio is identified 
+as the threshold value as the Null hypothesis 
+cannot be rejected 
+any more
+ (compare to 
+the Significance Value in 
+Table 5
+).   Sum of squares
+ Mean Square
+ F Sig.
+ Between Groups
+ 14.269 1.019 14.763 .000 Within Groups
+ 154.02 .069   Total
+ 168.571    Table 
+4 Analysis of Variance: Fraction of Correct Choices
+   t Sig.
+ Diff.
+ 10 to 2
+0 -2.413
+ .016 Diff 20 to 3
+0 -1.142
+ .254 Table 
+5 Results of pairwise two
+-sided unpaired t
+-tests
+ 7 Conclusion
+ In this paper, 
+the model of Agreement Networks 
+was proposed
+ and a
+ decision support model 
+for
+ service providers that enables
+ the selection of SLA combinations 
+was introduced that 
+allows for 
+the
+ providerÕs
+ risk
+-awareness. 
+Risk 
+of SLA violation 
+in this context is expressed
+ analogously to security 
+portfolio risk stemming from finance.
+ This approach enables a service provider to 
+select the 
+combination of SLAs 
+based 
+upon past observations that
+ is expected to incur the lowest risk of SLA 
+violation 
+on the provider while 
+meetin
+g a pre
+-defined expected profit constraint.
+ Note that
+ our 
+approach might reject combinations of SLAs
+, which combine above average expected profit 
+with only 
+slightly higher variance. To avoid this inefficiency of choice, the trade
+-off between risk and expected 
+profit in the 
+provider
+Õs preferences could be explicitly taken into account, e.g. by applying a utility 
+function as an objective function.
+ The
+ approach was evaluated
+ by investigating
+ the required amount of available monitoring data and 
+identified 
+and 
+suggests 
+20 observations for each SLA combination.
+ This
+ amount of data is required in 
+case that all monitoring data is treated equal and no prefere
+nces for the age of the monitoring data are 
+included. 
+In order to 
+investigate the impact 
+of changing violation probability distributions that could 
+be caused e.g. by an extension of the infrastructure
+, the measure of ris
+k has to be adapted in order to 
+weight more recent data higher than older data. This could be achieved by an approach like 
+exponential smoothing
+ (Trigg a
+nd Leach 1967)
+.  Further future work includes the evaluation of an extension of the risk
+-aware decision support in a 
+scenario with a se
+rvice intermediary. 
+The intermediary on the one hand
+ has to make a decision 
+analogously to the one presented in the work at hand
+ about the 
+SLAs
+ that he wants to offer to 
+consu
+mers. On the other hand, the intermediary does not p
+rovide all of the services by
+ themsel
+f but 
+requests services from providers
+ and hence, has to select providers and SLAs for those services. 
+ References
+ Andrieux, Alain, Karl Czajkowski, and Kate Keahey. "Web Services Agreement Specification (WS
+-Agreement) 2007." W3C, 
+GRAAP, 2007.
+ Asnar, Yudistira, Hoon Wei Lim, Fabio Massacci, and Claire Worledge. "Realizing Trustworthy 
+Business Services Through a New GRC Approach." 
+ISACA Journal 
+- Jonline
+ 2 (2010).
+  Asnar, Yudistira, Paolo Giorgini, and Adi Mulyanto. "Risk in Secure an
+d Dependable System: a 
+Survey." 
+Proceedings of the 1st International Conference and Workshop on Risk Technology and 
+Management
+, April 2007.
+ Blau, Benjamin. "Coordination in Service Value Networks 
+- A Mechanism Design Approach." 
+(Universit−tsverlag Karlsruh
+e) 2009: 236.
+ Bodenstaff, Lianne, Andreas Wombacher, Manfred Reichert, and Michael C Jaeger. "Monitoring 
+Dependencies for SLAs: The MoDe4SLA Approach." 2008. 21
+-29. Chung, Christopher A. 
+Simulation Modeling Handbook.
+ London: CRC Press, 2004.
+ Conte, Tobias,
+ Benjamin Blau, Gerhard Satzger, and Clemens van Dinther. "Enabling Service 
+Networks Through Contribution
+-Based Value Distribution." 
+Proceedings of the Fifteenth Americas 
+Conference on Information Systems
+, August 6
+-9, 2009.
+ Eeckhoudt, Louis, Harris Schlesi
+nger, and Christian Gollier. 
+Economic and financial decisions under 
+risk.
+ Princeton Univ. Press, 2005.
+ Elton, EJ, MJ Gruber, SJ Brown, and WN Goetzmann. 
+Modern Portfolio Theory and Investment 
+Analysis.
+ 6. John Wiley & Sons, 2003.
+ Hahn, Gerald J., and Samue
+l S. Shapiro. 
+Statistical Models in Engineering.
+ New York: John Wiley & 
+Sons, 1967.
+ Levy, Haim. "Stochastic Dominance and expected utility: survey and analysis." 
+Management Science
+ 38 (1992): 555
+-593. Markowitz, Harry M. 
+Portfolio Selection: Efficient Dive
+rsification of Investments.
+ Wiley, 1991.
+ Markowitz, Harry. "Portfolio Selection." 
+Journal of Finance
+ 7 (1952): 77
+-91. Michalk, Wibke, Benjamin Blau, Jochen Stoesser, and Christof Weinhardt. "Risk
+-Based Decision 
+Support in Service Value Networks." 2010.
+ Papazoglou, M.P., and J. Dubray. 
+A Survey of Web Service Technologies.
+ 2004. Sandmo, Agnar. "On the Theory of the Competitive Firm Under Price Uncertainty." 
+The American 
+Economic Review
+ 61, no. 1 (1971): 65
+-73. Steiner, Florian. 
+Formation and Early Growth 
+of Business Webs: Modular Product Systems in 
+Network Markets.
+ Heidelberg: Physica
+-Verlag Heidelberg, 2004.
+ Tapscott, D, A Lowy, and D Ticoll. "Digital Capital: Harnessing the Power of Business Webs." 
+Ubiquity
+ (Harvard Business School Press) 1 (2000).
+ Trigg
+, D. W., and A. G. Leach. "Exponential Smoothing with an Adaptive Response Rate." 
+Operational Research Quarterly
+ 18, no. 1 (March 1967): 53
+-59.  

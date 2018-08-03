@@ -1,0 +1,601 @@
+ 0740-7459/12/$21.00 © 2012 IEEE
+ JULY/AUGUST 2012
+ | IEEE 
+SOFTW
+ARE 9WHEN ONE OF 
+us (Chris) accepted the 
+post of project manager/lead developer 
+on a scienti˜c software development 
+project, he was blissfully ignorant of 
+the challenges he faced. Six years later, 
+
+he emerged bloody but unbowed with 
+a software product that now has a re
+-spectable and growing user base. This 
+article is the story of his journey as told 
+to Judith and the lessons he learned and 
+
+shared with her along the way. 
+Project Background
+The project was to develop a labora
+-tory information management system 
+(LIMS) for biologists working on pro
+-tein structures. The process by which 
+they search for such structures involves 
+
+several steps in a laboratory, with each 
+step made up of multiple variables (the 
+concentration of various chemicals, 
+
+temperatures, and so on). These steps 
+
+often aren™t well understood and fre
+-quently lead to failure. Practice has 
+
+recently changed in many labs so that 
+
+each step is performed as a set of trials 
+done in parallel, with each trial differ
+-ing slightly in contextŠthat is, in vari
+-able value and type. 
+The ˜rst requirement for the LIMS 
+was to record the context of each of 
+these trials, whether they were suc
+-cesses (so they could then go into a li
+-brary of known procedures) or failures 
+(so that scientists could be deterred 
+from making the same mistake twice). 
+
+To develop this LIMS, the chief cus
+-tomersŠgenerally, the heads of the labs 
+involvedŠprovided Chris with a list of 
+very high-level requirements, an imple
+-mented model of the science (that is, of 
+the relevant biochemical objects and 
+the relationships between them) along 
+
+with an automated mechanism for gen
+-erating the database and the interface, 
+and a development team consisting of 
+people with backgrounds in either soft
+-ware engineering or structural biology. 
+
+The development plan followed an iter
+-ative incremental feedback model with 
+
+scheduled releases spaced at every few 
+
+months; users could provide feedback 
+to inform the next release, which would 
+also implement further requirements. 
+Lessons Learned 
+from a Scienti˜c 
+
+Software 
+
+Development 
+
+Project
+Chris Morris, 
+Science and Technology Facilities Council, UK
+Judith Segal, 
+Open University, UK
+In the mid-90s, I was working for a company transitioning 
+to agile software development. We hadn™t considered 
+that our biggest problem in this change was that 
+developers would be talking directly to customers. 
+After some small disasters, we realized that somehow 
+we needed to transfer the expertise and experience 
+of our business and marketing teams to developers. 
+When I ˜rst read the current Insights article, I 
+immediately recognized many patterns in the list of 
+lessons learned and that what these authors have 
+to say is much broader than ﬁscienti˜cﬂ softwareŠ
+it™s about any kind of software, actually, any kind of 
+
+development effort. Š
+Linda Rising, Associate Editor
+INS
+IGHTS:
+ SOFTWARE DEVELOPMENT
+ 10
+ IEEE 
+SOFTW
+ARE | WWW.COMPUT
+ER.ORG/SOFTW
+AREINS
+IGHTS:
+ SOFTWARE DEVELOPMENT
+What could possibly go wrong? Chris 
+soon found out.
+Lesson 1: Choose Carefully 
+between Soon and Good
+It™s generally agreed that it™s impor
+-tant that iterative incremental feedback 
+development models quickly deliver 
+a piece of software, which, while of 
+
+limited functionality, offers something 
+
+of value to the customer and the user. 
+This delivery, it is hoped, will encour
+-age customers and users both to trust 
+the developers and to engage with the 
+
+development. As to delivering some
+-thing good, there are many different 
+
+quality goals that might be met. Such 
+
+goals vary with each development con
+-text: Does the output have to be cor
+-rect to three decimal places, or does it 
+
+just have to follow some trend? Does 
+
+the software have to be easy to install? 
+Is software ˚exibility more important 
+than absolute correctness? Is portabil
+-ity more important than ef˜ciency? 
+At the beginning of the development,
+  Chris presented his customers with 
+a list of quality goals that he wanted 
+them to rank. They didn™t. Whether 
+this was because they had no time or 
+
+because they thought it was Chris™s re
+-sponsibility wasn™t clear. The articu
+-lation and ranking of quality goals 
+
+emerged gradually, through a deeper 
+
+understanding of the context of work. 
+However, one quality goal immedi
+-ately became apparent as being of the 
+upmost importanceŠdeposited data 
+
+shouldn™t be lost or corrupted. Fortu
+-nately, Chris thinks he got that right 
+
+from the beginning. Another funda
+-mental quality goal was that scientists 
+needed to ˜nd the LIMS useful and de
+-posit their data in it in the ˜rst place. 
+
+Satisfying this goal turned out to be far 
+
+more of a problem. 
+Lesson 1a: Customers Don™t
+ Always Know User Needs
+One impetus for delivering the ˜rst 
+
+version of the LIMS quickly was that 
+the scientists were already producing 
+data that needed managing. It seemed 
+
+clear to Chris that he should base this 
+
+˜rst version on the implemented data 
+model and its associated mechanism as 
+supplied to him by the customers. This 
+
+produced a piece of software that was 
+
+incredibly complicated to use, with a 
+user interface (UI) driven by the data 
+model rather than user requirements. 
+
+The users refused to have anything to 
+do with it, so any idea of a feedback 
+model of development seemed doomed. 
+
+Chris soon realized that he needed to 
+
+consider the software from the user 
+viewpointŠthat is, the bench scien
+-tists who entered the data, as well as 
+from that of the customers providing 
+the money.
+Lesson 1b: Asking Users 
+ Doesn™t Establish Requirements
+The list of requirements Chris origi
+-nally received proved to be at too high 
+a level to guide implementation. 
+His ˜rst attempt at more detailed 
+requirements gathering was to ask one 
+member of the development team, a 
+structural biologist, to draw up a set of 
+use cases in collaboration with a user 
+
+group. This set would have suf˜ced in 
+
+a situation such as the development of 
+new software to support the adminis
+-tration of insurance policiesŠthat is, 
+somewhere with well-understood goals, 
+practices, and software embedded in 
+the practice. In this particular situation, 
+
+however, use cases turned out to be a 
+˚op. The developers didn™t fully under
+-stand the variations in practice between 
+labs or the possible ways to embed data 
+
+management software within practice. 
+One of the original goals of the LIMS 
+as stated by the customers was to en
+-able data sharing and mining across 
+
+the whole protein structure commu
+-nity. But a sizeable number of the users 
+
+were PhD students, and their primary 
+
+goal was to get their PhDŠas far as 
+they were concerned, the wider scien
+-ti˜c community could look after itself. 
+More senior scientists were similarly 
+
+ambivalent about this sharing and min
+-ing goal. A very limited pot of public 
+
+money funds their labs, and they essen
+-tially compete with each other for this 
+
+pot, so it™s easy to understand why they 
+view the issue of data sharing with a 
+certain degree of ambivalence. 
+Presumably because of this tension 
+between the goals of individuals and in
+-dividual labs and the community, ask
+-ing users directly about their require
+-ments wasn™t always very informative. 
+The development team experienced re
+-peated instances of the following cycle: 
+a user group said they couldn™t use the 
+
+software because a particular feature 
+wasn™t implemented. The team imple
+-mented it. Then the users said they still 
+couldn™t use the software because of 
+
+the absence of some other feature. The 
+team implemented whatever that was. 
+The users then said they still couldn™t 
+
+use the software because it lacked 
+something else. And so on. Chris con
+-cluded that users must have had some 
+deep-seated reason for not using the 
+
+software and were unwilling or unable 
+to communicate it to him. 
+Another reason why asking users for 
+requirements doesn™t always work is 
+because they™re experts in (in this case) 
+protein science, not in imagining how 
+Asking users directly about 
+ their requirements wasn™t always 
+ very informative.
+  JULY/AUGUST 2012
+ | IEEE 
+SOFTW
+ARE 11software can help them. In particular, 
+they don™t know which software fea
+-tures are or are not feasible. One way 
+
+of addressing this challenge is for de
+-velopers to acquire a deeper under
+-standing of context, but this takes time 
+and resources and is in direct con˚ict 
+with the necessity of delivering value 
+
+quickly. This brings us to lesson 1c.
+Lesson 1c: Start from 
+ What Users Do Now
+You can still deliver software of value 
+
+to users even when your understanding 
+of the work context is incomplete.
+In retrospect, Chris wishes he™d 
+started by asking users how they used 
+their computers and moved forward 
+from there. Then he could have delivered 
+as part of the LIMS a subsystem for, 
+
+say, keeping stock of and reordering 
+
+chemicals. While not contributing to the 
+stated primary aim, Chris thinks this 
+would have had the effect of gaining 
+
+user trust and engagement while buying 
+time to improve his understanding of 
+the work context.
+Chris was aware that one big barrier 
+to uptake of early versions of the system 
+was its perceived lack of usabilityŠthe 
+UI, in particular, was an inconsistent 
+
+mess. Chris initially responded to this 
+
+by asking the developer responsible 
+for the UI to write a ﬁdesign guide,ﬂ 
+but this turned out to be a write-only 
+
+document. It wasn™t used, and even had 
+
+it been, it would have only re˚ected 
+the views of the developer-writer and 
+not of the users. Later, Chris realized 
+
+that all the users were familiar with the 
+concept of entering data into lab books, 
+so the team redesigned the UI based on 
+
+that metaphor. This redesign appeared 
+
+to be very successful.
+As the development team™s under
+-standing of the work context improved, 
+
+they were able to construct tools (such 
+
+as personas) that proved helpful in pri
+-oritizing implementation. This increas
+-ingly deep understanding also enabled 
+
+the developers to be creative with the 
+software and introduce innovations 
+
+(such as providing templates for proce
+-dures as opposed to a static database) 
+that the users found effective. 
+Lesson 2: Good Communication 
+between Developers
+ Can™t Be Taken for Granted 
+All developers, we think, are aware of 
+the need for good communication be
+-tween developers and users and are 
+prepared to put in the resources to sup
+-port this. However, many of them take 
+for granted good communication and 
+
+trust among members of the develop
+-ment team. Chris couldn™t do this. His 
+team members comprised nine differ
+-ent people at ˜ve different sites with 
+˜ve different line managers (some of 
+
+whom headed user labs) and ˜ve dif
+-ferent nationalities. Some members had 
+
+backgrounds in software engineering, 
+
+some in structural biologyŠfor oth
+-ers, it was their ˜rst job after univer
+-sity. This variety offered plenty of po
+-tential for disagreement, for example, 
+
+when line managers in user labs pri
+-oritized the needs of their own insti
+-tution. Communication was dif˜cult, 
+
+and not just because of cultural norms 
+
+(such as people from country x tending 
+to be more forthright than those from 
+country y)Šthere was also a lack of 
+
+common knowledge, with some peo
+-ple having no idea what ﬁblack-box 
+testingﬂ means and others a bit fuzzy 
+about the term ﬁgene.ﬂ (We™ve since 
+
+discovered that there is considerable 
+discussion among biologists about ex
+-actly what a gene is, but we™re referring 
+here to everyday use of the term). This 
+
+mismatch of goals and common knowl
+-edge together with general dif˜culties 
+
+in communication led initially to what 
+
+Chris perceived to be mistrust by the 
+development team of him as the project 
+manager. 
+He took positive steps to address 
+this situation by commissioning an
+-nual training in soft skills such as con
+-˚ict management and appreciation of 
+
+cultural differences. Some developers 
+described this training as very useful; 
+others were more circumspect. Whether 
+by means of this training or by dint of 
+the experience of working together over 
+
+time to overcome the various dif˜culties, 
+
+the team succeeded in gelling approxi
+-mately halfway through the project.
+Lesson 3: Plan for Sustainability 
+from the Beginning
+Scienti˜c software developments are 
+often funded by research money that™s 
+only available for a certain period of 
+timeŠin this case, ˜ve years. Later, as 
+
+the technical and scienti˜c environment 
+
+changes, the software remains use
+-ful only if it™s maintained. But who is 
+
+to pay for such maintenance? One way 
+
+to address this question is to grow the 
+
+user community so that you gain a crit
+-ical mass of scientists eager to use the 
+
+software after the period of research 
+
+funding ends. Alternatively, it might be 
+possible for the software to be licensed 
+so that it™s free for academic use, but 
+
+commercial users have to pay, with the 
+
+latter subsidizing the former. 
+Clearly, you need to grow a user 
+community quickly. In retrospect, 
+
+Chris wishes that he™d prioritized some 
+
+development features in light of this 
+need from the beginning. 
+Deep understanding enabled 
+ the developers to be creative.
+ 12 IEEE 
+SOFTW
+ARE | WWW.COMPUT
+ER.ORG/SOFTW
+AREINS
+IGHTS:
+ SOFTWARE DEVELOPMENT
+Lesson 4: If Adopting Software 
+Changes Work Practices, Its 
+
+Development 
+Has Special 
+Challenges 
+Compare the use of the LIMS with, for 
+example, the use of software to sup
+-port the working practices of the in
+-surance industry. Insurance companies 
+
+have used software to support their 
+
+record keeping for decades. The same 
+isn™t true for lab scientists: keeping re
+-cords in lab books has been engrained 
+in their work culture for centuries. It™s 
+only recently, with the growth of col
+-laboration and data sharing in the bio
+-logical sciences, that the advantages of 
+electronic record keeping have become 
+apparent. The implication is that de
+-velopers in this context can™t use well-
+established techniques without a lot of 
+
+thought. It might also be that the itera
+-tive incremental feedback development 
+
+model, often taken as the one most suit
+-able for scienti˜c software development 
+
+because it mirrors the essential nature 
+of scienti˜c discovery, should be modi
+-˜ed so that it incorporates an extended 
+period at the beginning of the develop
+-ment to understand the work context. 
+Clearly, we learned a lot in six 
+
+years, and we would be very 
+pleased to hear about expe
+-riences from other scienti˜c software 
+ developers.
+ABOUT THE 
+AUTHOR
+SCHR
+IS MORR
+IS is a software project manager at STFC, developing data 
+management software for life scientists. Morris has an MA in mathematics 
+from the Queens College, Oxford. Contact him at chris.morris@stfc.ac.uk.
+JU
+DIT
+H SE
+GAL
+ is a senior lecturer in computing at the Open University, UK. 
+Her research interests include the impact of software engineering on scienti˜c 
+
+software development, the practice of software development, and interaction 
+
+design. Segal has PhD in mathematics from the University of Warwick, UK. 
+
+Contact her at j.a.segal@open.ac.uk.
+Selected CS articles and columns 
+ 
+are also available for free at 
+ 
+http://ComputingNow.computer.org.
+IEEE SOFTWAR
+E CALL FOR PA
+PERS
+Twin Peaks of Requirements and Architecture
+
+
+
+
+
+
+
+
+
+
+When features must be added or modi˜ed in deployed software, the 
+
+new requirements are constrained by previous architectural deci
+-sions, and their feasibility and impact must be evaluated in light of 
+
+the current system.  Today™s agile and lean approaches make the re
+-lationships between requirements and architecture less obvious and 
+
+more dif˜cult to establish and maintain, especially across multiple 
+
+development iterations and throughout the maintenance phase.
+IEEE Software 
+seeks submissions for a special issue on the 
+synergies of requirements and architecture with special focus on 
+
+the post-release phase of a project.  Suggested topics include the 
+
+following:
+Eliciting, specifying, and managing architecturally signi˜cant 
+
+requirements for systems with well-established architectures
+Evolving requirements and architectures in parallel, perhaps in 
+
+incremental and/or agile environments
+Architecture breakers, where new requirements cannot be 
+
+accommodated without signi˜cant refactoring at the architec
+-tural level
+Establishing light-weight, effective traceability techniques to 
+
+capture relationships between requirements and architecture
+Visualizing relationships between requirements and architec
+-ture to communicate sensitivity points and tradeoffs
+Refactoring architectural decisions to accommodate previously 
+
+unanticipated requirements, and accommodating changes 
+without degrading system quality
+QUESTIONS
+?For more information about the issue™s focus, contact the guest 
+editors:
+Jane Cleland-Huang, DePaul University, jhuang@cs.depaul.edu
+Robert S. Hanmer, Alcatel-Lucent
+Mehdi Mirakhorli, DePaul University
+Sam Supakkul, NTT Data
+For the full call for papers: 
+ 
+http://www.computer.org/software/cfp
+
+For author guidelines: 
+ 
+http://www.computer.org/software/author.htm
+
+For submission details: software@computer.org
+
+To submit an article: https://mc.manuscriptcentral.com/sw-cs

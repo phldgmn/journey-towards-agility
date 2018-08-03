@@ -1,0 +1,691 @@
+ Taming the Embedded Tiger Ð Agile Test Techniques for EmbeddedSoftwareNancy Van Schooenderwoert, Ron MorsicatoAgile Rules, Lexington, MAnancyv@agilerules.com,ronm@agilerules.comAbstractStrongunittestingisthefoundationofagile
+softwaredevelopmentbutembeddedsystems
+presentspecialproblems.Testofembedded
+
+softwareisboundupwithtestofhardware,
+
+crossingprofessionalandorganizational
+
+boundaries.Evenwithevolvinghardwareinthe
+
+picture,agilemethodsworkwellprovidedyouuse
+multipleteststrategies.Thishaspowerful
+implicationsforimprovingthequalityofhigh-
+
+reliabilitysystems,whichcommonlyhave
+
+embedded software at their heart.Keywords.Agilemethodologies,Extreme
+Programming,EmbeddedDevelopment,Embedded
+Agile,HighReliabilitySoftware,Real-time
+
+Software, Agile Testing.1.Introduction
+Thispaperfocusesonthetestingtechniques
+theauthorsusedonarecentembeddedreal-time
+project.Ourteamandmanagementwentthrough
+
+atransitiontoExtremeProgrammingand
+experiencedmanyofthesameinsightsand
+difficultiesdescribedbyotherteams,butthis
+
+paperwillconcentrateprimarilyonthetest
+
+techniquesweused.Thereasonsforthatchoice
+
+are¥ExtremeProgrammingisalmost
+
+unheard-ofinembeddedwork,possibly
+
+becausethereislittleguidanceonhowto
+
+do agile testing there¥Weassembledasetofpowerfultest
+
+techniquesandagooddescriptionof
+
+them is enough material for one paper¥Ourgoalwiththispaperistohelpother
+
+real-time/embeddedteamsgetonboard
+
+withagiletechniquesÐstrongtestingis
+where it starts!Weofferthistechnicalpaperwithonecaveat:
+We,andmanyotherXPpractitioners,havecome
+
+tounderstandthatagilesoftwaredevelopmentis
+
+firstapeople-centeredactivityandonly
+
+secondarilyatechnicaldiscipline.XPcannotbe
+
+imposedondeveloperswhodonÕtbuyintoits
+
+philosophy.ItisaperfectexampleofwhatW.
+EdwardsDeming[1]calledanÒintrinsic
+motivatorÓinthatitdependsonpeopleÕspridein
+
+theirwork,wantingtobepartofateam,and
+
+willingnesstopitchin.Theoppositeiswhathe
+
+calledÒextrinsicmotivatorsÓlikearbitrary
+
+deadlines,threats,andbureaucraticrules.Those
+
+thingscannevergeneraterealteamworkÐthey
+
+destroyit.Youneedrealteamworktogetthe
+
+mostfromthetesttechniquesdescribedinthis
+
+paper.2.Our Situation
+Theauthorsworkedtogetheronarecentreal-
+timeembeddedproject,Nancyasteamtechnical
+
+leader and Ron as a senior member of the team.TheprojectÕsgoalwastoproduceamobile
+spectrometer,usinganewlydeveloped
+
+proprietarytechnology.Itwasanewproduct,
+
+beingdesignedfromscratch.Thesystemwould
+receiveaspectrumofdata,applyacomplex
+mathematicalalgorithm,andsendresultsoutover
+
+acommunicationlinktoaseparatelysupplied
+
+display unit.Ourdesigncalledfora32-bitmicroprocessor
+withfloatingpoint.WeusedCwithsome
+
+assembler,anRTOS,andhadtosupporttwo
+
+differentcommunicationsprotocols.Thefinalsize
+
+oftheembeddedcodewasjustunder30,000lines,
+
+excluding comments.Proceedings of the Agile Development Conference (ADC™04) 
+0-7695-2248-3/04 $ 20.00 IEEE 
+ Thisprojectistypicalofmanyreal-time
+embeddedprojectsÐadataacquisitionstage,
+applicationofanalgorithm,followedbyoutputof
+
+a result.Thesetesttechniquesthemselvesarenotnew,
+butweusedthemtoanextentwehavenotseen
+before,andinacombinationwehavenotseen
+before.Thefollowingsectionsoneachtechniquewill
+presenttheproblemitaddressesandthendiscuss
+
+howwellthattechniqueworkedforus.The
+
+concludingsectionwillpresentourreflectionson
+
+the use of these practices in combination.2.1.Evolution of Hardware Platform
+Inembeddeddevelopment,thehardwareis
+alwayschanging.Itevolvesinstepsthatthe
+
+softwaremustsupport.Thisdovetailsnicelywith
+
+iterativesoftwaredevelopment.Ourprojectwas
+
+usinganewmicroprocessor,whichcouldonlybe
+obtainedaspartofanevaluationboardfromthe
+
+chipvendor.Thiswasbecausethechipwasnot
+
+yetfullyworkingÐtheCPUworkedbutnotallof
+
+the on-board peripherals.Figure1givesanideaofthehardware
+evolutionweexperienced,whichisnotatall
+unusualinembeddedwork.Earlyon,an
+evaluationboard(oftenseveralofthemfrom
+
+differentvendors)isobtainedsoengineerscan
+
+selectaCPUandcheckoutitsperformance.The
+
+figureshowsconfiguration1ashavingarev-A
+
+microprocessor.Laterconfigurationsadda
+
+prototypeboard.Inourcasethisboardwasan
+
+earlyversionofthesensorhardwareforbringing
+
+inthespectrumthatwouldbemeasured.Thefinal
+
+configurationwoulddispensewiththeevaluation
+
+boardandcombineeverythingononeboardfor
+
+economicalproductioncosts.Ideallyonewould
+gostraightfromConfiguration4toConfiguration
+7ifpossible.ItÕsnotuncommonthattheboard
+
+intendedtobeforfinalproductionbecomes
+
+insteadonemorepre-productionboard,as
+
+problems or new requirements are discovered.AEvalConfig 1Config 2BEvalConfig 3CEvalProto-AConfig 4DEvalProto-BConfig 5GPre-Production-AConfig 6HPre-Production-BConfig 7JProduction-AFigure 1.  Evolution of the hardware
+Anyembeddedsoftwaredevelopmentstrategy
+mustdealwithchanginghardware.Acommon
+approach(andtheoneweused)istolet#define
+
+statementscontrolpartsofthecodethatare
+
+specifictoagivenhardwareconfiguration.This
+
+strategywasusedinparallelwiththeremaining
+
+test practices described here.3.Embedded Testing Techniques
+3.1.Trouble Log ThatÕs Always On
+Anancientdefenseagainstbugsistocodea
+mechanismfordisplayingbriefmessagesto
+
+indicatethatsomeportionofthecodewas
+
+reached,oravariablehasaninvalidvalue,etc.
+
+Thesemethodsareawkward,andwhenenabled
+
+theycanmakethecodeexecutedifferently,
+Proceedings of the Agile Development Conference (ADC™04) 
+0-7695-2248-3/04 $ 20.00 IEEE 
+ frustratingattemptstotroubleshootaproblem.
+Theloggingisnormallydisabledbecauseit
+
+consumestoomanysystemresources.Having
+
+seenthingslikethisonpastprojects,wewanted
+
+to improve on it.Earlyinourproject,Nancyestablisheda
+differentkindoftroublelogtoavoidthose
+
+disadvantages.ItÕsanextensionoftheideaput
+
+forthbySteveMaguire[2]thatmakesuseofthe
+
+ClibraryÒassertÓmacro.Theordinaryassert
+
+macro can be used to state an assumption, e.g.       assert( bufcount > 0);sothatexecutionwillhaltiftheexpressionin
+theparenthesesisnottrue.Suchahaltletsyou
+
+examinethecallstacktoseewhatwentwrong.
+
+ThatÕsokinthedevelopmentlab,butthecode
+shouldnÕthaltwhenitÕsincustomeruse!A
+
+wrapperfunctionprovidedthesmartstoeitheruse
+
+theplainassertmacroorquietlywriteadiagnostic
+
+messagetoabuffer,dependingonaflagthat
+
+indicated development or field environment.TheoverheadofaÔprintfÕcallishighforan
+embeddedsystem,andthereistypicallyno
+
+displaydeviceanyway.Soweusedacircular
+
+bufferinRAMtoholdbrieffixed-lengthtext
+
+messages.Eachmessagereportedthesourcefile,
+
+linenumber,severity,anddiagnostictext.Hereis
+
+anexampleofatroublelogmessagebeing
+
+written:    Log( I, __FILE__, __LINE__, "BeginningAlgo run.\n" );andhowtheresultinglogfilelooks(below)
+Rec #   Sev   Filename    Line #             Description              Timer Ticks  4     I     meas_prd      654      Beginning Algo run.                  17384  5     W     stat_tbl     2536      2147565568:BIT check failed          17383
+  6     I     can_comm     2421                                           17112
+  7     I     meas_prd      654      Beginning Algo run.                  16939  8     W     stat_tbl     2536      2147565568:BIT check failed          16938  9     E     meas_prd     1029      Bailing out -'prod_name' error       14951
+ 10     W     det_cons      601      No Product selected.                 14951Figure 2. Sample trouble log output
+Ourembeddedsystemhadacommunication
+linktoaPCthatalloweduploadofthetrouble
+log.Becausethisloggingsystemwasthefirst
+
+codewritten,theteamuseditthroughoutallofthe
+
+codetovalidateassumptions,andtotrace
+
+executionofcodethatisdifficulttotraceany
+
+otherway.Forexample,adiagnosticcouldbe
+writtenatthestartandfinishofanISR,andsince
+thetroublelogcontainedtheclocktickforeach
+entry,youcouldjustsubtracttoseehowlongthe
+
+ISR took to execute.WeÕdcodeaseveritylevelintoeachtrouble
+logcall.Thatwasnecessarytogovernthe
+
+behavior of the system, as follows:SeverityAction in DevelopmentAction in Field
+InformationalWrite to bufferWrite to buffer
+WarningHaltWrite to buffer
+ErrorHaltWrite to buffer
+FatalHalt
+Writetobufferanddoorderly
+shutdownTable 1. Trouble Log Severity levels and ActionsThebestthingaboutthetroublelogwasthatit
+wasalwayson.Becauseitwasonlyawriteto
+memory(fastexecution)andusedacircular
+
+buffer(smallmemoryfootprint)itwasanagile
+waytobalanceresourceusewiththebig
+advantagethatyoucouldtroubleshootabug
+
+withoutalteringthewaythecodeexecutesby
+
+enabling the logging system.Whentheproductwasinfieldtest,wecould
+lookatatroublelogdumpandknowagreatdeal
+
+aboutthestateofthesystem.Itwasatremendous
+
+helpindiagnosingfieldproblemssincethe
+sciencebehindtheproductideawasalsobeing
+tested.Inthedevelopmentlab,itwaswonderful
+
+tohavethecodesimplyhaltwhenanassertion
+
+failed;thewholestorywasthereinthecallstack.
+Proceedings of the Agile Development Conference (ADC™04) 
+0-7695-2248-3/04 $ 20.00 IEEE 
+ Mostofthetimetheproblemcausewasinstantly
+clear.Thistechniquedependsontheteamtoput
+enoughcallsintothecodeandattherightplaces.
+
+Italsorequiresthateveryoneunderstandthe
+
+severitysystemanduseitcorrectly.Wereliedon
+codereviewsandpairprogrammingtohelpus
+achievethorough,consistentuseoftroublelog
+
+calls in the code.3.2.Dual-Targeting
+Whenyoutrytorunnewlywrittensoftwareon
+yourembeddedplatform,youaretacklingmany
+
+unknownssimultaneously.Aproblemonthe
+board,theCPUcircuitry,theconnectors,orthe
+cablingcanmasqueradeasasoftwarebugsending
+
+youoffonahugeandfrustratingwasteoftime.
+
+Hardwarethatworkedperfectlyoneminutecan
+
+bebuggythenextÐintermittenthardwarebugs
+
+arehorrendoustodealwith.Weneededa
+
+practicalwaytocompletelyisolatethesoftware
+
+undertestÐtoavoiddebugginghardwareand
+
+software simultaneously!OurapplicationranonadesktopPCaswellas
+onthetargetCPU.Wemaintainedthiscapability
+
+throughoutdevelopment,evenafterwehadgood
+hardware.Withsomanyhardwarecomponentsat
+earlystagesintheirowndevelopment,wesimply
+
+couldnotriskhavingtotroubleshootwith
+
+multipleunknowns.Verylittleoftheapplication
+
+hadtointeractdirectlywithhardware.A#define
+
+wasusedtobracketcodethatdependedon
+
+hardware,andskipoveritwhenrunningonaPC.
+
+Iftheskippedcodebroughtinsensordata,weÕd
+
+justsubstitutedummydatawhenrunningonthe
+
+PC.Fortesting,thatwasbetterthanrealdata
+
+anywaybecausewecouldcontriveittoexercise
+desired code paths.Wewould'vebeenoverwhelmedwithoutthe
+abilitytoquicklyisolatehardwareproblems.By
+gainingconfidenceinourcodethroughtestingit
+
+onstablehardware(insideadesktopPC),we
+
+couldthenbringittothetargetCPUknowingthat
+
+theonlyareaslefttotestweretiming-related
+
+behaviorsanddirectinteractionwithhardware,
+
+suchascontrollingamotororLED.Another
+
+advantageofthisapproachisthattestdatainputs
+
+wererightthereinthecode,bracketedby#defines
+
+forexecutiononaPC.Evenafterthecodewas
+migratedtothetargetCPU,itcouldbeexercised
+at any time on the PC.Thistesttechniquerequiredalltheteam
+memberstohaveaclearunderstandingofthe
+boundarybetweenÒpureÓcodeandhardware-
+
+specificcode.That,initself,wasgoodfor
+
+softwaredesignandmodularity.Finally,by
+continuingwiththedualtargetingstrategy,we
+wereabletomaintainanenvironmentthatwas
+
+amenabletoautomation.Eachnightwewereable
+
+torunscriptsthatbuiltandranthefullbevyof
+
+unittestsonthePC,andbuiltthetestharnesses
+
+fortheembeddedtarget,whichwecouldrun
+
+manually the next day if desired.3.3.Hardware Driver Unit Tests
+Theprobleminourdual-targetingstrategyis
+thatwehadnoexplicittestcodeforthepartsof
+
+thesoftwarethatdrovehardware;wewere
+
+jumpingoverthosespots(asdescribedinthe
+
+previous section).Inacomplexembeddedsystemtherewillbe
+classesthattouchthehardwareandothersthatdo
+
+not.Oftheclassesthattouchhardware,wemust
+
+furtherdistinguishbetweencomponentsthatare
+
+drivenbytheenvironment(suchasISRs),and
+
+thosethatdrivehardware.Fortheformer,theunit
+testingstrategyistostub,asdescribedabove.But
+forthelatter,weneededaspecialtypeofunittest
+
+that can only be run on target hardware.Forcomponentsthatdrovehardware,the
+secondunittestwasformanualexecutiononlyon
+
+thetargetCPU.Thesehardwareunittestscall
+
+productionroutinesinthemodulethatdirectly
+
+accesshardwaretoactuateamotor,turnona
+
+LED,orwhatever.Asanexample,ourhardware
+
+hada3-positionshuttertoletallthelightsignal
+
+in,blockitcompletely,orpassitthroughafilter.
+Thesoftwareunittest(theonerunningonaPC)
+wouldskipovercodethatactuatedtheshutter
+
+motor.Withoutourhardwareunittest,theonlywayto
+checkthemotorlogicwouldbewiththefull
+
+systemrunning.Butitwastime-consumingto
+
+bringthefullsystemintoeachofthestatesthat
+
+wouldmovetheshuttertoallitspossible
+
+positions.Anintegrationtestisnotagood
+
+substituteforamissingunittest.Allwereally
+
+neededwastopassshutterpositioncommandsto
+
+thefunctionthatmonitoredandoperatedthe
+motor.Thatisallthehardwareunittestcodedid.
+Proceedings of the Agile Development Conference (ADC™04) 
+0-7695-2248-3/04 $ 20.00 IEEE 
+ Onecouldcompilethathardwareunittestcode,
+loadittotargethardware,thenstepthroughwith
+
+thedebuggerandwatchtheshuttermovetoeach
+
+of its positions.Thesehardwareunittestsareveryvaluablefor
+groupsoutsidethesoftwareteamÐelectrical
+engineers,testpersonnel,andproduction
+technicians.Forthem,thealternativeofhavingto
+
+runthefullsystemandtrickitintodoingthingsto
+
+movetheshutterÕspositionwassimplynot
+
+feasible.Dittoforotherhardwaredevicesinthe
+
+system.Thiskindofsupporttorelated
+
+professionalorganizationsfosteredacollaborative
+
+environmentbetweenthemandthesoftwareteam,
+
+whichbecameexceptionallymeaningfulduringa
+
+periodofintensephenomenologicalinvestigation
+
+just prior to going to market.Weputasetofourhardwareunitteststogether
+underneathasimplecommandlinemenuandsent
+
+thattoourboardvendortorunasafinaltest
+
+beforetheyshippedboardstous.Becausethe
+
+verysamecodewasdrivingthehardwareinthe
+
+application,weneverhadtodebugcodeatthat
+
+levelonceitcorrectlydrovethehardware.This
+
+helpedtheelectricalengineersweworkedwithto
+
+have confidence in our software.3.4.Domain Level Tests
+Aspecificproblemforuswasthattheserial
+communicationsdomainwashavingunexpected
+
+delaysbetweenreceivingacommandand
+
+responding.Unittestsweretoofine-grainedto
+
+addressthis,buttestingwiththefullsystem
+
+broughtintoomanyvariables.Unittestscould
+
+address logic but not timing.Anytimeyoucannotdistinguishwhethera
+problemiswithinadomainorissomewhereelse
+inthesystem,youneeddomainleveltests.In
+embeddedsystemsyouaremorelikelytoruninto
+
+thiskindofsituationbecauseoftiming
+
+constraints.Wecouldbuildanexecutablecontainingonly
+theserialcommunicationsdomain,loadthatto
+
+targethardware,andsendittestcommandsover
+
+theseriallink.Fromalaptopwecouldthensend
+
+commandstothesystem,whichnowconsisted
+
+onlyoftheserialcommunicationsdomain,and
+
+checktheresponsetime.Becausedomainshad
+
+littlecouplingtotherestofthesystem,itwaseasy
+tobuildmockobjectstocoverthoseinputsand
+outputs.Ourtimingproblemwasobservedbothwith
+thefullsystemrunning,andwithjusttheserial
+communicationsdomainrunningÒstandaloneÓ.
+
+Thereforeweknewtheproblemwaswithinthe
+
+serial communications domain.Domainsaretothesystemwhatmethodsareto
+aclass.Thistechniqueletususethesametesting
+
+strategy, raised up one level.Thisdomain-leveltestingbecameacrucialtool
+forisolatingproblemsobservedatthesystem
+
+level,suchastimingdelays.Itwasespecially
+
+helpfulwhendebuggingproblemsassociatedwith
+
+thepuzzlingdisplays.Adistributedteamata
+
+partnercompanydevelopedcodeforaseparate
+
+controlanddisplayunitforusewithour
+
+spectrometer.DomainleveltestsofourteamÕs
+
+interfacingdomainquicklydeterminedwherethe
+problems were.3.5.SpecialTestModeforVolatile
+DomainsThemathematicalalgorithmtobeimplemented
+inoursoftwarewasinapreliminarystate.
+Mathematicianswerebusyrevampingitallthe
+
+time,usingMatlabtoruntestdatathroughits
+
+logic.Itwasagiventhattheminutewecodedit,
+
+weÕdhavestacksofchangestoimplement,and
+
+theyÕd keep coming.Tokeepalgorithmchangesfrombecominga
+blackholeinourefforts,Nancyproposedaplan
+
+tohavethecomputercheckourcomputations
+
+againstdataobtainedfromMatlabbythe
+
+mathematicians.Wedidnotwriteunittestsof
+
+eachstageofcomputationbecausepreparationof
+realistictestdata(arraysandmatrices)would
+havebeendifficulttodoonourownandthe
+
+mathematiciansÕ time was already stretched thin.Insteadwetookadvantageoftheworkthey
+alreadydidtopreptestdataforuseinMatlab.The
+
+datapathforourproductoriginatedinsensor
+
+hardwareandwentthroughavariablenumberof
+
+computationstagesbeforeafinalresultwas
+
+complete.Ifwecouldgetoursoftwareto
+
+optionallyinjectthesameinitialtestdata,and
+
+comparetheendresultwiththeMatlabresult,that
+wouldmaketestingmucheasier.Ifwegota
+differentendresultforthesameinputdata,weÕd
+
+knowtherewasamistakeinthesoftware.Butthat
+Proceedings of the Agile Development Conference (ADC™04) 
+0-7695-2248-3/04 $ 20.00 IEEE 
+ wouldleaveuswiththejobofnarrowingdown
+whichstageofthecomputationhadthebug.No
+
+problemÐitwasnÕtmuchmoreefforttoalso
+checktheintermediatestageresults.Thefigure
+
+below shows this idea.SensorHardwareSoftwareStage 1computationSoftwareStage 2computationSoftwareStage ncomputationResultDummyInput dataMatlabStage 1computationMatlabStage 2computationMatlabStage ncomputationResultComparedataComparedataComparedataFigure 3.  Test Strategy Mathematical Algorithm
+ThealgorithmdesignersdidnÕtmindgivingus
+thesetsofMatlabdatafromtheirtestsbecause
+thiswaseasytogenerate.Eachtimetheywanted
+anewversionofthealgorithmimplementedinthe
+
+embeddedsoftware,theygaveustheirtestdatain
+
+additiontothemathchanges.Ourcodehada
+
+variabletoenablethistestmode,andasetoffiles
+
+topulltheMatlabdatafrom,forcomparison.The
+
+testmodewasconditionallycompiled,sothe
+
+extramemorynecessaryforthisonlyhadtobe
+
+present on development units.Thistechniqueallowedustoeasilyimplement
+andtestchangesnomatterhowoftenthey
+
+occurred.Becausethetestisafull-systemteston
+targethardware,alonglistofpossibletrouble
+sources could be checked off quickly.Thistechniqueamountedtodoingintegration
+testandunittestofthealgorithmsimultaneously.
+
+Theefforttosetupthedatafilesandthecodeto
+
+controlthetestmodewaspaidbackmanytimes
+
+over.Incaseswhereadomainisexpectedto
+undergomanychangesthroughoutdevelopment,
+
+thereishighinterestbysystemdesignersin
+
+monitoringthechangesatwhateverlevelof
+maturitytheremainderofthesystemmaybein.
+Iterativereleasessupportconcurrentdevelopment
+
+[3].Inourcase,iterationswereagreatadvantage
+forourcooperationwiththealgorithmdesigners.
+
+Nevertheless,adomainbynatureisnottotally
+independentfromotherdomains,andtheeffectof
+otherdomainsmaybeofinteresttosystem
+
+designers.4.Reflections
+Thebiggestresultofusingthesetesting
+techniquesisthatwehadanamazinglylowbug
+
+rate.Attheunitlevel,bugswerecaughtso
+
+quicklyandeasilythatwedidnÕtbothertocount
+
+them.Wedidkeepalogofeverybugthatmadeit
+
+tointegrationtestorfurtherÐthosehad
+
+somethingtoteachus.Inthreeyearsof
+
+developmenttherewereonlyfifty-oddbugsin
+thisgroup.Ourlistofopenbugsneverhadmore
+than2itemsatanyonetime.Thatmeanswespent
+
+closeto100%ofourtimeaddingvalueinsteadof
+
+scrambling to fix defects.Ourrelationshipwiththehardwaregroupwas
+qualitativelydifferentfromwhatweÕveobserved
+
+innon-agileprojects.InmostshopswheneveritÕs
+
+unclearwhetherabugisinthesoftwareorthe
+
+hardware,softwareisguiltyuntilproveninnocent.
+
+Weturnedthataroundbymakingitveryeasyto
+
+checkthesoftwareinnicelyisolatedchunks.The
+Proceedings of the Agile Development Conference (ADC™04) 
+0-7695-2248-3/04 $ 20.00 IEEE 
+ electricalengineersworkingwithusbeganto
+double-checkhardwarebeforeconcludingthere
+
+was a software problem.Theabilitytothoroughlytestthemath
+algorithm,andtofollowthestateofthesystem
+
+outinfieldtestsviadumpingthetroublelog,
+allowedustoprovideanswerswhentheunits
+behavedstrangelyinthefieldandquestionscame
+
+up.Newhardwareandnewspectroscopyscience
+
+werebeingtestedÐitturnedoutthatthesoftware
+
+was the most stable part of the system.5.Acknowledgements
+Ellen Lord, Dana Sawyer for their leadership.MarkObremskiandMikeGrodin,our
+hardware co-workers, for excellent collaboration.BillGrove,TonyLee,StephanieLeongfor
+great software teamwork.6.References
+[1]Deming,W.Edwards,
+TheNewEconomicsFor
+Industry,Government&Education
+2ndEdition,MIT
+Press, Cambridge, MA, 1993[2]Maguire,Steve,
+WritingSolidCode,
+MicrosoftPress, 1993[3]Poppendieck,Mary,
+LeanSoftwareDevelopment
+,Addison Wesley, 2003Proceedings of the Agile Development Conference (ADC™04) 
+0-7695-2248-3/04 $ 20.00 IEEE 

@@ -1,0 +1,437 @@
+ Software Architecture 
+and
+ Agile Software 
+Development
+ÑA Clash of Two Cultures? 
+Philippe Kruchten
+ Electrical and Computer Engineering 
+University of British Columbia 
+Vancouver, BC, Canada
+ +1 (604) 827
+-5654 pbk@ece.ubc.ca
+     ABSTRACT Software architecture
+ is tak
+ing a bad rap with the agilists
+Ñ 
+proponents of agile and lean software development approaches: 
+ÒBUFD big up
+-front designÓ, ÒYAGNI You AinÕt Gonna Need 
+ItÓ, Òmassive documentationÓ, Òsmells of waterfallÓ, it is pictured 
+
+as a typical non
+-agile practice. However, certain classes of 
+system, ignoring architectural issues too long Òhit a wallÓ and 
+
+collapse by lack of an architectural focus. ÔAgile architectureÕ: a 
+paradox, an oxymoron, two totally incompatible approaches? In 
+this tutorial, we 
+examine
+ the r
+eal issues at stake, 
+beyond
+ the 
+rhetoric and posturing, and show that the two cultures can coexist 
+
+and support each other, where appropriate. We define heuristics 
+
+to scope how much architecture a project really needs, to assign 
+
+actual value to an otherwise
+ invisible architecture; and we review 
+management and development practices that do work in the 
+
+circumstances where some significant architectural effort is 
+
+needed, when you are actually going to need it.
+   Categories and Subject Descriptors D.2.11 [
+Softwa
+re Engineering
+]: Software Architecture. D.2.9 
+[Software Engineering
+] Management 
+Ð 
+Software Process 
+Models
+. K.6.1 [
+Management of computing and information 
+systems
+] Project and People Management. K.6.3 [
+Management 
+of computing and information systems
+] Software management 
+Ð 
+Software P
+rocess
+ General Terms Management, Design, Human Factors.
+ Keywords
+ Agile process, software architecture.
+ 1. TUTORIAL OBJECTIVES 
+The overall objective of the tutorial is to demonstrate that there is 
+
+actually very little conflict, 
+other than misunderstandings, 
+between the use of an agile software development method (XP
+[1]
+, Scrum
+ [2]
+, Lean
+ [3]
+, Agile RUP, DSDM
+ [4]), and a healthy, early 
+focus on architectural design
+ [5, 6]
+. Using the conceptual model 
+from ethnosociology of 
+culture
+ an
+d intercultural conflicts, we 
+provide the attendees with tools they can use to deal with this 
+
+tension 
+Ð agility 
+!"
+ architecture 
+Ð in their own projects.
+ 2. TUTORIAL CONTENT Agilistas world
+-wide continue to perceive and describe 
+software 
+architecture
+ a somethi
+ng of the past, or even ÔevilÕ; they equate it 
+with 
+Big Up
+-Front Design
+ (BUFD) (i.e., a bad thing), leading to 
+massive amount of documentation, implementing features 
+
+YAGNI (You AinÕt Gonna Need It). They see a low value of 
+
+architectural design, assert that
+ a metaphor should suffice in most 
+cases and the architecture should emerge gradually sprint after 
+sprint, as a result of succession of small refactoring. Conversely, 
+in places where architectural practices are well developed, agile 
+practices are often seen as amateurish, unproven, limited to very 
+small web
+-based socio
+-technical systems.                         
+ The tension seems to lie on the axis of 
+adaptation versus 
+anticipation
+, where agile methods want to be resolutely adaptive: 
+deciding at the Òlast r
+esponsible momentÓ or when changes occur, 
+and they perceive software architecture to be pushing too much 
+on the anticipation side: planning too much in advance. And 
+where architects may be tempted to anticipate too much, too 
+early.
+ Spencer
+-Oatey defines cu
+lture as Òa fuzzy set of attitudes, beliefs, 
+behavioral
+ norms, and basic assumptions and values that are 
+shared by a group of people, and that influence each memberÕs 
+behaviour and his/her interpretations of the ÔmeaningÕ of other 
+
+peopleÕs behaviourÓ
+ [7]. 
+Agility is more a culture than an 
+engineering method and probably to a lesser extent is the less 
+
+visible community of software architecture [8]. They both have 
+developed, based on specific beliefs, a set of values (Ôagile 
+manifestoÕ
+ [9]
+), and 
+behaviors
+ (me
+thods, practices, artifacts), 
+sometimes also rituals and jargon that tend to detract outsiders. 
+
+As for any clash of two cultures, the members of one culture go 
+through several phases:
+ ¥ Ethnocentrism
+: my culture is right, is the reference by which 
+other cultures must be judged, others are bad, etc. The attitude 
+is defensive, dismissive, and coercive.
+ ¥ Ethnorelativism
+: leading to acceptance of other 
+viewpoints
+, values, and possibly attempts to coexistence and integration. 
+It may guide the definition of new beha
+viors, and from this 
+new values and possibly evolution of the beliefs.
+ I personally stand with one foot in each of these two cultures: 
+architecture and agility, and like other ethnic cultures, I see two 
+
+parties not really understanding the real issues at h
+and, stopping 
+at a very shallow, caricatural view of the Òother cultureÓ, not 
+ Permission to make digital or hard copies of all or part of this work for 
+personal or classroom use is gra
+nted without fee provided that copies are 
+not made or distributed for profit or commercial advantage and that 
+copies bear this notice and the full citation on the first page. To copy 
+otherwise, or republish, to post on servers or to redistribute to lists, 
+requires prior specific permission and/or a fee.
+ ICSE '10, 
+May 2
+-8, 2010, Cape Town, South Africa
+ Copyright © 2010 ACM 978
+-1-60558-719-6/10/05 ... $10.00
+. 497 understanding enough of the surroundings, beliefs, values of the 
+other one, and stopping very quickly at judging behaviors
+. 
+The issues of trying to understand the apparent confli
+ct and 
+reconcile the two sides are in multiple 
+dimensions
+: 
+1) Semantics
+: What do we mean in this project or organization by 
+ÒarchitectureÓ? The concept of architecture often has fuzzy 
+
+boundaries. In particular, not all design is architecture. Agreeing 
+
+on a
+ definition is a useful exercise, and a good starting point.
+ 2) Scope
+: How much architectural activity will you actually 
+need? Most software development projects have a de facto, 
+implicit architecture when they start; they will not need much of 
+an architec
+tural effort.
+ 3) Lifecycle
+: When in the lifecycle should we focus on 
+architecture? Well, early enough, as Òarchitecture encompasses 
+the set of significant decisions about the structure and behaviour 
+of the systemÓ 
+[10
+]: these are the decisions that will be
+ the hardest 
+to undo, change, refactor. Which does not mean an only focus on 
+
+architecture, but interleaving architecture ÒstoriesÓ and functional 
+ÒstoriesÓ in early iterations.
+ 4) Role
+: Who are the architects? On large, challenging, novel 
+system, you may n
+eed a good mix of experience, of 
+Òarchitectus 
+reloadusÓ
+Ðmake
+r and keeper of big decisions, focusing on 
+external coordination
+Ð 
+and 
+Òarchitectus oryzus
+ÓÐ
+mentor, 
+prototyper, troubleshooter, more code
+-facing and focused on 
+internal coordination
+Ð 
+to follow Martin FowlerÕs metaphor 
+[11
+]. 
+5) Documentation
+: How much of an explicit description of the 
+architecture is needed? While in most cases, an architectural 
+prototype, starting with a walking skeleton, for example, will 
+suffice, and one or a small number of solid
+ metaphors to convey 
+the message, there are circumstances where more explicit 
+
+software architecture documentation will be needed: to 
+communicate to a large audience, to comply with external 
+
+regulations, for example.
+ 6) Method
+: How are we identifying and re
+solving architectural 
+issues? While we saw above that agile methods are not opposed 
+
+to the concept of architecture, they are all rather silent on how to 
+proceed to identify architecturally significant requirements, to 
+perform incremental architectural design, to validate architectural 
+features, etc. There are architectural methods, see for a quick 
+inventory, but they are not well known.
+ 7) Value and cost
+: All agile approaches strive to deliver business 
+value early and often. The problem seems often that whi
+le the 
+cost of architecture is somewhat visible, its value is hard to grasp, 
+
+as it remains very invisible. An approach such as the 
+Incremental 
+Funding Method
+ [
+12] may allow 
+casting
+ the right compromise 
+between architecture and functionality, without falling into the 
+trap of 
+ÒBig Up
+-Front Design
+Ó. 
+In this tutorial, I propose a method to help define how much 
+architecture is needed for a given project, using the 8 dimensions 
+listed above. This is done in a workshop mode, where the various 
+
+opposing factions hav
+e to draw a common map of the territory. 
+This map will help define a common language, a common mental 
+model of where the various practices fit and contribute to the 
+project success. 
+ We then define a management and technical process to weave 
+
+architectural activities in an agile iterative process, called the 
+Òzipper modelÓ, in which a balance is struck between 
+
+development items or features that provide visible value (to the 
+
+business) and more invisible features such as architecture.
+ The concept of 
+technical 
+debt
+ is then introduced, using Steve 
+McConnellÕs taxonomy
+ [13]
+, to show the (possible) negative 
+consequence of a lack of focus on architecture, or to at least make 
+the decisions to not focus on architecture, or to defer it to a later 
+stage, a more enlighte
+ned one. We define also heuristics (based 
+on the projectÕs context) as to when deliberately incurring 
+
+technical debt is a reasonable approach.
+ Throughout the presentation, a case study of a large organization 
+
+(which shall remain unnamed) and its unfortunat
+e attempts at 
+both ends of the spectrum 
+[agility 
+!"
+ architecture
+] will be used 
+to illustrate the proposed approach.
+ In the movie 
+The Matrix Reloaded
+ [14], the Architect 
+tells Neo: 
+ÒThe first matrix I design
+ed was quite naturally perfectÉ
+ a 
+triumph equaled 
+only by its monumental failure. I have since 
+come to understand that the answer eluded me because it required 
+
+a lesser mind, or perhaps a mind less bound by the parameters of 
+
+perfection.Ó
+ 3. REFERENCES 
+[1]
+ Beck
+, K
+. 2000. Extreme Programming Explained: Embrace 
+Cha
+nge. Addison
+-Wesley.
+ [2]
+ Schwaber
+, K. and Beedle, M. 2002. Agile Software 
+Development with SCRUM. Prentice
+-Hall.
+ [3]
+ Poppendieck,
+ M. and 
+Poppendieck
+, T. 2009. Implementing 
+Lean Software Development
+--From Concept to Cash. 
+Addison Wesley.
+ [4]
+ Stapleton, J.
+ 1998. DSDM, D
+ynamic Systems Development 
+Method: The Method in Practice. Addison
+-Wesley.
+ [5]
+ Bass, 
+L., 
+Clements
+, P., and 
+Kazman
+, R. 2003. Softwa
+re 
+Architecture in Practice. 2
+nd ed. Addison
+-Wesley.
+ [6]
+ ISO/IEC 42010 CD1,
+ 2010. S
+ystems and software 
+engineering
+ÑArchitectur
+al descr
+iption, c
+ommittee draft 
+#1. 
+(February 2010) ISO.
+ [7]
+ Spencer
+-Oatey
+, H. 2000. Culturally Speaking: Managing 
+Rapport through Talk across Cultures. Cassel.
+ [8]
+ Kruchten,
+ P. 2007. Voyage in the Agile Memeplex: Agility, 
+Agilese, Agili
+tis, Agilology. ACM Queue. 5, 5 
+(Ju
+ly/August). 
+ 38
+-44. [9]
+ Agile Alliance,
+ 2000. Manifesto for Agile Software 
+Development. Available at:
+ http://agilemanifesto.org
+. 
+[10]
+ Kruchten, P. 2003.
+ The Rational Unified Process: An 
+Introduction. 3
+rd ed. Addison
+-Wesley.
+ [11]
+ Fowler,
+ M. 2003. Who needs an architect? 
+IEEE Software. 
+20, 4
+ (July/August). 2
+-4. [12]
+ Denne
+, M., and 
+Cleland
+-Huang
+, J. 2004. The Incremental 
+Funding Method: Data
+-Driven Software Development. IEEE 
+Software. 21, 3. (May/Jun
+e), 39
+-47. [13]
+ McConnell,
+ S. 
+2007. Technical debt. 
+Accessible a
+t: 
+http://blogs.const
+rux.com/blogs/stevemcc/archive/
+ 2007/11/01/technical
+-debt
+-2.aspx
+.  [14]
+ Wachowski, A. and Wachowski,
+ L. (writers and directors)
+ 2003. The Matrix Reloaded. Warner Bros
+498

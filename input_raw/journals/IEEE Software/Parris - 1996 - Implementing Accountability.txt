@@ -1,0 +1,950 @@
+ Implementing Accountability KATHY V. C. PARRIS, Lockheed Martin Tactical Aircraft Systems n the prime of its life, the F-16 fighter aircraft 
+is undergoing a heart transplant. A willing victim 
+of its own success, 
+the F- 16 approaches midlife with cus- tomer demand for 
+new and modified capabilities 
+exceeding its already repeatedly 
+expanded avionics computer capacity. Affordability and agility, 
+the imperatives of the post-cold-war military, 
+drove the United 
+States Air Force and F-16 contractor Lockheed Martin Tactical Arcraft Systems to embrace a bold, far-sighted solu- 
+tion: development 
+of a modular mission computer designed to increase computing capacity by an order of magnitude and reduce the cost and schedule 
+of future software changes. 
+To tackle this challenging project, 
+the USAF F-16 
+System Program Office and 
+Lockheed Martin elected to form an 
+Integrated Product Development' team. 
+The participants thus faced a dual challenge: 
+development of state-of-the-art avionics hardware and software, 
+concurrent with the development of team culture and modes 
+of operation. This article presents 
+a case study of the resulting management 
+systems and 
+underly- ing mental models, written from my partisan viewpoint 
+as their chief advocate and designer. 
+IEEE SOFTWARE 07.10 7459/96/505 00 0 1996 IEEE  CONTEXT The software products of the IPD effort coinprise 
+more than four 
+million lines of code, more than a quarter of which must meet hard real-time 
+dead- lines in a flight environment. The plat- form in which the flight program will operate is also concurrently in 
+develop- ment, including a new inultiprocessoi 
+message-passing computer architec- ture, several custom applicaaon-specific 
+integrate d - ci r cu 
+1 t chips, associated 
+devlce drivers, and 
+real-time extensions to the 
+Ada iun-time system Other hardware aiid software elements 
+also developed or iinplerneiited coiicurreiit- 
+ly are the software engineering work- station network, 
+the Ada compiler for 
+the modular mission computer, soft- ware build and 
+configuration manage- 
+mcnt tools, sirnulatlon software 
+aiid test equipment for debug and integration, and the interfaces tor loading MMC software into thc airplane Flight software capability require- inents are 
+perhaps the best understood and imx~ suble aspect of the project, since the MCMC IS to duplicate the func- tions of a mature, fainiliar avlonics sys- 
+tem New requirements have been a ininor part 
+of the initial development effort, although add-on capabilities 
+are expected to expand the soh are devel- 
+opment effort by another million or so lines of code. The well-known capabilities, 
+how- ever, were 
+to be implemented in 
+an unfaniiliar LC ay The imperatives of affordability and agility 
+called for t 1 ﬁcapability modularﬂ software,™ to be achieved by adopting the Ada language and object-oriented analysis and design 
+methodology in 
+place of the F-16 lega- cy of Jovial language and functional partitioning. This sn-itch of language and methodology, together 
+with the transition from 
+mainframe terminals 
+to personal workstations, constituted an 
+extensive concurrent reengineering of the software factory. 
+The magnitude of the MMC under- talung, combined with the budget cut- 
+backs and refocusing 
+of the USAF™s mil- itary mission caused 
+by the collapse of Communism, left the project creeping 
+along at a severely underfunded pace for its first 
+two years. In the final proposal, the very best 
+we could challenge 
+our- selves to do-better than ne had ever 
+done-proved barely good 
+enough to win a contract. Strong interest from 
+the F- 16 consortium™s European partners and from other foreign customers 
+ulti- mately saved the MAIC from financial starvation-but, ironically, also locked 
+in rigid need dates. The resulting software 
+development schedule, featuring 
+three incremental flight-test releases of rough- ly equal task 
+size, known as tapes, was universally viewed as high risk. The first tape was a schedule concern 
+because of the methodology learning 
+curve, coii- current ha r dw a r e d eve 
+1 o p ni en t , and concurrent development of the software en gin e er i n g 
+Many thought that the 
+second tape, con- 
+strained to 
+a still shorter schedule that significantly overlapped development 
+of the first tape, had crossed the line from high schedule risk to ﬁimpossible,ﬂ 
+even before Tape 1 difficulties further com- pressed Tape 2™s schedule. Thus, the cost and schedule 
+convnitments needed to keep the program alive significantly magnified the technical challenges. 
+The scope and magnitude of the MiMC development effort called for a sizable team: more than 500 contribu- tors at Lockheed Martin Tactical Aircraft Systems; dozens more at com- puter subcontractor 
+Texas Instruments™ e nvi r o n ni e n 
+t . plant some 
+60 miles away, plus roughly a dozen government 
+participants. Since 
+not all LMTAS contributors are full- time participants, 
+the equivalent staffing 
+level is around 250, with about 80 per- cent involved in software tasks. This team of seemingly unwieldy proportions 
+is made manageable 
+through an internal 
+structure consisting of eight product 
+teams plus 
+a chief engineer and a 
+pro- gram manager and 
+their staffs. Our desire to operate as an ﬁintrapre- neurial,ﬂ self-managed team 
+initially met with resistance 
+from some of the depart- ments providing team members. 
+A con- tractual requirement to comply with 
+IPD concepts™ and 
+establish IPD teams made our choice irrefutable, 
+though not easy to implement. 
+We came from a matrix organization 
+of strong functional departments interwoven with separately 
+man aged programs , with technic a 1 direction flowing primarily 
+through the 
+functional hierarchy. 
+Participation in teams was familiar, in the 
+context of each team member representing 
+a func- tional department and making decisions 
+through functional management™s 
+authority (and often after their 
+review). However, the IPD concept of a team- pulling qualified individuals 
+from their 
+functional homes and empowering 
+them as a cohesive interdisciplinary work 
+unit to conduct 
+business through its own sep- arate channels 
+of accountability and ele- 
+vation-was a major culture change 
+with coni p an yw i d e 
+repercussions. Collocating 300 team members 
+(240 in a 
+dedicated MMC development building, 
+60 in the 
+systems integration laboratory) 
+was an important step, without which the accountability process described herein could not have succeeded in bringing about the 
+culture change. 
+Although the ultimate degree 
+of suc- cess of 
+the MMC development pro- grain is yet to be realized, interim results exceeding 
+customer and compa- 
+ny ex p e c 
+t a ti on s va li d a t e th e team approach and 
+our still-evolving man- agemeiit systems. 
+The government has recognized excellent 
+team performance 
+JULY 1996  with a 
+special award 
+in excess of $2.3 million. The high-risk first software increment (Tape 1) recovered schedule 
+and was released to flight test one week early, with glowing reports from 
+test pilots on its unexpected level of 
+maturi- ty. The second ﬁimpossibleﬂ software 
+increment, Tape 2, was released on schedule for laboratory 
+testing. Tape 3, the final increment, passed critical design review 
+on schedule. Not all the interim results are 
+so rosy. Tape 2 is struggling through a seemingly endless 
+morass of 
+integration difficulties, as did Tape 1. Late discover- ies of 
+chip problems 
+have further con- founded hardware-software 
+integration and affected hardware production schedules. Campaigns 
+are underway to reduce MMC memory and throughput utilization to meet 
+specified reserve requirements. These difficulties notwithstanding, experience to date indicates that the 
+accountability process 
+described in the following sections is playing an indispensable role in what will prove to be a successful program. ACCOUNTABILITY MODEL The accountability model described here and summarized in Figure I is more prescriptive than descriptive: it advocates how things 
+shozrld be, rather than asserting how 
+things are. It lives behind the scenes as an aid to the design and troubleshooting of management systems. The implementation and prac- 
+tice of these management 
+systems grad- ually molds reality in 
+the shape of the model, as will be seen 
+later. The model views accountability as a proactive co.lztinumu pF-ocess, not as a vague concept of obligation, nor as a reporting 
+relationship on an organization chart. 
+The participants in this process are a team and its 
+stakeholders. ﬁTeamﬂ means the collection of people sharing responsibility for 
+a desired result, and 
+ﬁstakeholderﬂ means anyone 
+affected by 
+the desired result or the means of Desired results Figure 1. Our accountability model advocates how things should be, rather than issevting how things arpe. achieving it. A team™s stakeholders include its customers and suppliers, 
+both internal and external; 
+the functional organizations that provide people and 
+other resources to the team; the mern- bers of the team; and any organizations 
+of which the team is a part, such as larg- er program teams. 
+The process is an ongoing exchange of accountings and consequences. An accounting is a report 
+of what you 
+have done, are doing, or intend to do, 
+backed up on request with an explanation of why the reported action makes sense. Consequences provide feedback, 
+in the form of information, help, 
+resources, restrictions, rewards, or punishment. This exchange is intended to collec- tively determine what makes seme in a given situation, so that the 
+team can then act accordingly. Every decision 
+we make, individually or collectively, is determined by what makes sense to us at the time based on the information 
+we have, the resources available to us, what we know how to do, and what 
+we are motivated to do.™ Whenever a team™s 
+accountings make sense 
+to its stakehold- ers, the teain thereby establishes trust and ﬁbuy-in.ﬂ 
+When a team™s account- ings don™t Inake sense to its stakeholders, open discussion of the information, resources, know-how, and motivators that influenced the team™s decisions can 
+often yield preferable alternatives. 
+An accounting may focus on end results, performance 
+to plan, or plan- ning. The end-results focus is tradi- tionally the most common, yet 
+the least effective, 
+for if the results report- ed don™t make sense 
+to stakeholders, it is too late for alternatives 
+to remedy the situation. The performance-to- plan focus 
+is more productive, since the opportunity remains for correction 
+if needed. Accountings for planning 
+are by far the most powerful, 
+because the hest knowledge and resources 
+of all stake h o 1 de rs and team 
+members together can usually 
+identi+ weakness- es in a plan that the 
+originator either 
+couldn™t recognize 
+or didn™t know how to correct. 
+Furthermore, strengthening 
+a plan up front 
+is much more cost- effective than the recovery required if the plan fails. Unfortunately, the plan- ning focus is also the least popular, verging on an infringement of privacy: ﬁThis is my responsibility; why should 
+you meddle 
+in my plans? I™m 
+the one 
+IEEE SOFTWARE  accountable if you™re not happy with 
+tlie rcs~~lts.ﬂ The accountability cycle operates continuously throughout a project. The emphasis is likely to vary, focusing pri- 
+marily on planning at the beginning, 
+then shi‚iung inore toward performance- 
+to-plan and 
+elid results. However, on a complex project, in which each 
+stage reveals previously 
+unknown information 
+about the 
+next stage, 
+planning nevei- ends, nor should accountability for planning. 
+In a competitive environment where 
+reduction of costs and 
+cycle times is an ever-present goal, active accountability 
+for planning continually fuels the improvement process. 
+We directly applied our accountabili- ty model to die design of management systems and team 
+operating procedures. These systems and procedures were themselves means toward 
+a higher end: 
+shaping attitudes and 
+behaviors, which 
+are ultimately 
+the greatest determinants 
+of a team™s success. + ‚yust tell me what you want, 
+then + ﬁThe less information I share, tlie leave me alone to get the job done.ﬂ a privileged class of people; to emphasize beiizg good rather than 
+looking good. Early attempts 
+to make this culture 
+change through discussion evoked 
+little disagreement, yet proved ineffective 
+in changing behaviors. We realized that the systems already 
+in place (not all of them conscious or lisible) drove behav- 
+iors more 
+forcefully than our advocated beliefs. By implementing new systems 
+based on our accountability model, incrementally and 
+11-ith numerous cor- 
+rections e71 rmte, we padually began to see behaviors change. 
+status review. On a three-week rotation, each product team takes 10 to 40 min- utes to give an accounting of perfor- IMPLEMENTATION The management systems described 
+here co-evolved over 
+a period of two or more years. They are not clearly sepa- 
+rable from each other, in description or in use. Although we hare hundreds of team members and 
+even more stakeholders, none of these systems involves 
+so many direct participants. 
+A team leader 
+or some other spokesperson appropriate to 
+the occasion typically 
+represents each of the eight product teams. Although 
+we encourage the stakeholders who are most immediately 
+affected to participate directly in 
+the accountability process, those actively engaged are 
+far outnum- bered by, and serve as de facto proxies progress performance reports, and 
+pri- oritized problem 
+lists, as described later. The program manager 
+and chief engineer routinely attend 
+TSRs, along with representatives 
+of any teams depen- 
+dent on the products or services of the presenting team. 
+TSR sessions tend to be highly interactive. No matter how 
+much dialogue has taken place 
+outside this meeting, it is unusual to coniplete a TSR with no ﬁcourse correctionsﬂ 
+or realizations of some miscommunication. 
+To reinforce individual responsibil- ity, personal action items 
+are recorded with explicit closure 
+criteria and 
+sus- pense dates, and are tracked to com- pletion. An action item is as likely to be assigned to a stakeholder as to a member of the presenting team, 
+when the action required is removing some obstacle, clarifying requirements, rec- onciling conflicts, or providing miss- ing information. Each team 
+is expected to take the ini- tiative to identify risks and remove 
+obstacles. For example, when presenting 
+uiimet resource needs, 
+a team is expect- ed to discuss not only what they need, 
+but also what they have done to meet that need. Instances of whining, in which the team has not initiated appro- priate action 
+to fill their own needs, gen- erally bounce back as an action item for the team leader. Instances 
+where an obstacle duly elevated 
+remains unre- solved may create an action item for 
+the chief engineer or program manager. 
+Activity roadmaps. Performance to plan would be 
+easy to monitor if each team had only 
+one activity, fully 
+laid out according to one 
+nice, linear 
+plan. Unfortunately, this has never been the case for any 
+of our product teams. Each 
+team has multiple, overlapping, separate 
+but often related activities, which seem 
+to operate 
+according to some vexatious law reminiscent of small 
+children: whichever one yozi™w watching isrz™t the one gettiFzg into wouble. When we were right down to the 
+line on the 
+first major 
+design review, JULY 1996  I Today I MMC Software team activity roadmap This illustration is not intended to accurately reflect actual project 
+plans Figure 2. The activitj ipoadmap. It includes, at a summa ry level, everything 
+a team has to accomplish. Each bar wpiweizts a sepamte activity jir monitoring pzqoses. barely meeting a milestone already 
+once postponed, we realized 
+that the 
+overlap- ping activity in 
+preparation for the next major review had 
+been overlooked 
+in the rush. We were seriously behind before wc started-which inay have 
+been inevitable, but at least we would have felt better had it been consciously 
+reflected in our plans. Rising from the flames of this inci- dent (which singed 
+the feet of a layer or two of management above the team) came the activity roadmap shown 
+in Figure 2, fondly known 
+as the ﬁcrayon chartﬂ after the shape of the activity bars. Each team™s activity 
+roadmap was to include, at a summary level, eveiything they had to accomplish. Each bar repre- sented a separate activity for 
+monitoring purposes. Unless agreed 
+by stakeholders and so noted on the activity bar, each activity was to have some kind of progress performance report to 
+convey concisely yet accurately whether the activity was on track. Recognizing that some 
+downstream activities could 
+not be planned 
+in detail until certain prerequisite 
+activities were 
+completed, the points of the ﬁcrayonsﬂ were to indicate when detailed planning should be 
+in place to guide ensuing 
+activities. By glancing down 
+the ﬁtodayﬂ line, one could instantly tell 
+how many 
+progress perforrnaiice reports would together tell the whole story. 
+Thus, in the TSRs, the activity roadmap served as an index to the progress performance 
+reports that followed. Once the 
+team got used to the con- 
+cept, the roadmap also became a 
+valu- able tool 
+in detecting holes 
+in the plan. A stakeholder concerned 
+that a 
+task: may have heen overlooked could bc reassured 
+by pointing to its activity bar, and, if necessaiy, unfolding the next layer of 
+planning to pinpoint the task in ques- 
+tion. If none of the ﬁcrayonsﬂ eiico~ii- passed the task in question, the responsi- ble team could be 
+sent back to the draw- ing board to include it in their 
+plans. Progress performance reporting. 
+To accw rately track 
+our planning and progress 
+performance, we 
+laid out time spans and 
+dependencies for all major activities early in the program, 
+using cost estimat- 
+ing models, corporate experience on comparable tasks, and critical-path 
+methodology. Detailed 
+task plans 
+then evolved as the necessary information IEEE SOFTWARE  t 1. 3,000 r 2,500 L Product X development status Today 7 2,000: /™ I C 3 l5Oo /: , / 5001 a Key: c - 3- Planned completions 
+U - - Actual completions 1,00Or I /AY ~ 0 e_ _~_d=q/,- 12 3 4 5 6 7 8 9 10111213141516 Week Figure 3. Sample eamed-value mmrnaiy chart. For sofizzm-e, xork packnge szze and the y-axzs ﬁeamed value ﬂ a7.e z~szially denominated in epinalent delin- eirable sozwce instmctions. became available. If the point of a crayon passed the today line 
+with no detailed task plan in evidence, we knew we were headed for 
+trouble. Some detailed task plans could be 
+fully contained on a page or two of Gantt chart, in which 
+case the progress report consisted of 
+showing inchstones 
+completed. Other detailed task plans 
+comprised so many inchstones (some- times thousands) 
+that concise reporting necessitated statistical 
+summaries. To serve this 
+need, we inherited from 
+the LM T AS Avi o ni c s D e p 
+a r tni en t the long-standing best practice 
+of earned- value statusing.™ EVS is useful when many compo- 
+nents must 
+pass through the 
+same series of process steps-for example, through requirements analysis, preliminary design, detailed 
+design, coding, and so on. For 
+each process 
+step, explicit exit 
+criteria are 
+defined and 
+a development phase weight is assigned to reflect what percent of the total process each 
+step constitutes, in 
+relative effort. Likewise, 
+each component is assigned a work package size that reflects its 
+proportion of the total product. Detailed 
+task schedules assign a due date 
+for each 
+component to 
+complete each process step. When a component meets the exit criteria for a step, the 
+actual completion date is recorded and earned value points 
+are awarded, 
+in the amount 
+of work package size multiplied bj- dei-elopment phase weight. 
+Planned and acmal curnu- 
+lative values 
+earned are plotted 
+as a function of time along the 
+x-axis to pro- duce a concise statistical summary of performance to plan, as shonn in Figure 
+3. For sohare, work package size and 
+the y-axis ﬁearned valueﬂ are usually denominated in equivalent 
+Deliverable Source Instructions. 
+A stakeholder familiar with EVS charts can tell instantly from 
+the slopes of the planned and actual lines, and 
+the ;ap in between, when 
+an activity 
+is headed south.™™ However, perfectly aligned planned and actual lines 
+don™t always mean all is well. When using EVS to report progress, care 
+must be taken not to let offsetting ahead-of- 
+schedule and behind-schedule 
+tasks paint a misleading picture. 
+Two equally weighted components or process steps may play significantly different roles 
+in the critical path. In such cases, the reporting teain supplements the EVS graph with back-up 
+material-such as lower-level Gantt charts, exception lists, 
+or explanatory notes-to support a determination of what, if any, corrective 
+action is warranted. Prioritized problem lists. Although the final product delivery is still well 
+ahead of us, we 
+have already ﬁdeliveredﬂ 
+many internal products 
+that are crucial to the completion of other products. Once the development of 
+a product 
+is complete, it is no longer covered by progrm perfor- mance reporting. The focus shifts 
+to how well the pyodzict is performing and how responsive the providing team is in resolving problems. 
+For each internally delivered prod- uct or product set, the providing team 
+maintains a prioritized problem list. Although the list is maintained by the providing team, 
+the prioritization is determined by the stakeholders. For instance, if an internally 
+developed tool is used by several 
+teams, the providing team collects tool-problem reports 
+from all users, coordinates priorities 
+with all affected teams, and 
+uses the resulting prioritized 
+list to work the most important 
+problems first. Although the addition, closure, and 
+prioritization of problems happens 
+on a day-to-day, person-to-person basis, a 
+snapshot of the top 
+five items on each list is also 
+presented in TSRs. This ﬁsafety netﬂ catches occasional lapses 
+in communication. It also provides an 
+opportunity for the more peripheral stakeholders to challenge whether the priorities really best serve 
+program interests. For example, are 
+the demands of a single user driving 
+an inappropriate 
+investment of program resources? Can some third party 
+offer a workaround that is more affordable in the long run 
+than the planned fix? Special emphasis. 
+Although the three- JULY 1996  week rotation of TSRs has been an 
+effective inethod for routine account- abiliity, many situations havc arisen to necessitate a tighter accountability loop. 
+When TSRs or informal coinmunica- 
+tioiis indicate 
+that an 
+activity is ﬁheaded southﬂ or already in trouble, 
+it becomes a caiididate for 
+the program manager™s special-emphasis list. 
+A weekly meeting, chaired by the program manager, nar- rowly focuses 
+stakeholdcr attention on 
+the designated topics. 
+I~Iere the responsible teain presents 
+a much narrower but deeper 
+view of the at-risk or out-of-bounds activities. Emphasis is on deteriiiining conse- qut:nces with an iinmediate positive effect: What can anyone 
+do to improve performance-to-plan now? When war- ranted, the program manager 
+calls for daily updates on the activity and related 
+action items. 
+Once identified for special emphasis, an activity reinains on the weekly agenda until subsequent 
+progress reports make it clear that die corrective action has been effective and there is no significant danger of relapse. 
+While fulfilling its 
+intended purpose, this list 
+has also generated some interest- 
+ing side effects: 
+t Exwa motivation. Although special 
+emphasis is not intended to be punitive, 
+a team 
+inay suddenly find itself able 
+to cure a marginal problem through sheer 
+determination to get off the list. t Orgataizational bonding. 
+Special emphasis is the only aspect of the accountability process 
+in which the team inemhers™ home-department managers frequently participate. 
+The team hene- 
+fits from the managers™ experience, 
+per- spective, and power 
+to remove obstacles. 
+The functional organization benefits 
+by getting- up-to-date information 
+first- hand, thus 
+avoiding unpleasant surprises. 
+The team tends to have a healthier rela- 
+tionship of interdependcnce with 
+the functional organizations 
+whose man- agers do participate in 
+the special- emphasis meetings, although 
+it is unclear whether this is cause 
+or effect. t Pmblem coordination. Because of its focus (problem resolution) and 
+atten- dance (often broader than 
+TSRs), it is not uncoinmon for a special-emphasis presentdtlon to dissolve into on-the-spot 
+troubleshooting or brainstorming of a possible solution. While a quick dose 
+of this can render instant 
+progress, discus- 
+sions that ramble too far afield can soak 
+up the valuable ume of those waitlng in line to discws their own 
+acuwties. Here the program manager as gatekeeper plays a real balancing act. 
+Handoffs. The accountability imple- mentahons discussed so far have a com- 
+mon prerequisite. you must 
+first know who your stakeholders aie aiid what they 
+need. Thc needs of our ultimate cus- tomers were, for 
+the most part, dearly identified in specifications and 
+contract statements of work. The part that 
+was hard to get our arms around 
+was what each team neededfiom each 0th- In the early planning stage, certain dependencies stood out clearly as we looked back 
+from our still-imaginary end product. 
+To deliver a validated avionics system, we needed MMC hardware, MMC software, and test 
+equipment on which to verify it. NLMC software in 
+turn required an 
+Ada com- piler, an operating system, and 
+inaiiy software development tools, 
+not to mention a clear 
+definition of software requirements and 
+interfaces. It was what we couldn™t see from this vantage point that concerned us. In frustration, we abandoned our nuinerous attemms to draw out all the provide, to an outside customer 
+or to 
+any other team? + Who needs it? t When will we provide it? 2. What are all the inputs I need from t Who will provide it? t When do we need it? 3. For each output and input listed, where have we documented our provider/consumer agreements 
+on t What exactly will be provided (product requiremendcapabilities)? t What exactly will 
+constitute completion of the handoff (terms and 
+conditi ons)? 
+Using Filemaker Pro database soft- 
+ware on a Macintosh computer, 
+we developed an information model 
+to cap- hire and analyze 
+the resulting answers. If a team identified the need for an 
+input that 
+no team planned 
+to output, or if the provider™s plans 
+didn™t meet the need date, 
+the information model raised 
+a flag and nagged 
+us until we resolved the discrepancy. If an output 
+was planned that nobody needed, after dou- other teams to produce the outputs? dependencies on paper. More and more dependencies became vlsible 
+as detailed planning progressed, 
+hut often they 
+were spotted 
+with insufficient lead 
+hme. We needed an 
+expedihous way to detect all the underwater hazards and incorpo- 
+rate thein 
+into our planning, or we would surely run agi defining all team-to-team handoffs. The thought process each 
+team engaged in simultaneously went something like this. 
+1. What are all the outputs I must ble-checking for miscommunications, 
+we deleted all associated tasks from plans. The question of ﬁWhat other inputs do you need™ﬂ kept reasserting 
+itself until all teams certified that their 
+detailed planning had progressed far enough that 
+they coiild confidently During its first six months, 220 handoffs were incorporated 
+into the 
+information model, 
+with another 10 percent trickling 
+in since 
+then. These So we began the grueling process 
+of ™ answer ﬁNone!ﬂ IEEE SOFTWARE  figures exclude 60 handoffs that were recorded and 
+later deleted for various reasons such 
+as duplication, not need- ed, or represented an ongoing support 
+activity rather than 
+a handoff. No wonder our attempts to draw all the dependencies on a single sheet of paper had failed! 
+Basing it on user-friendly, flexible software made 
+the information 
+model easy to expand and revise 
+to meet our evolving rnanagernent needs. 
+When we wanted to know all the handoffs that were necessary 
+to get 
+Tape I out the door, the 
+handoff system could be tweaked to tell us. When we wanted to know everything that depended on a single handoff 
+that was in jeopardy, 
+a few keystrokes were 
+all it took to find out. When we wanted to focus 
+attention on just those 
+handoffs that were past due or in jeopardy, it was easy to select them based on the latest stahis 
+the pro- viding team had given. 
+After the information model 
+had paid its way by 
+helping with macro 
+planning, we unleashed it on 
+micro planning. We were beginning to 
+recog- nize some undesirable 
+patterns, scenar- ios that seemed to get us in trouble over and over again: 
++ Provider and consumer did not reach agreement on exactly what would be handed off, or did not write it down prccisely, resul tiiig in the consumer not getting what he expected. 4 Provider and consumer did not reach agreement on or 
+did not record handoff terms and conditions, which resulted in 
+the omission of essential tasks and affected the schedule. For example: 4 Provider™s plans-task schedules, methods, staffing plans, resource plans, 
+and so on-weren™t thorough and robust 
+enough to execute successhlly. +Provider lackcd adequate means 
+of apprising stakeholders 
+of progress to plan. 
+To reflect each 
+of these scenarios, fields were added 
+to the information model to force inquiry about the 
+ade- quacy of planning and to record the joint assessments 
+of the providing team 
+and its 
+stakeholders. checklist was devised to guide these adequacy 
+assess- ments, for use b>- each team in develop- 
+ing their planning, 
+and for continual update to reflect team learning. 
+If an 
+area of planning was deemed inadequate 
+for some handoff, 
+the information model demanded 
+to know the next step: 
+who would do what, by when, to improve the planning? The most ser- ous cases required a long string 
+of next steps before 
+we were comfortable with 
+the planning. Early each week, each 
+team lead receives a printout of all handoffs need- 
+ing attention, 
+and feeds the appropriate 
+updates back into the 
+information model 
+through an administrator 
+who verifies that all changes are consistent and 
+have been properly coordinated. 
+At midweek the team 
+reviews any handoffs 
+still flagged. This review is facilitated by an overhead system 
+that displays the Macintosh screen 
+to the entire 
+audience, ~ so that changes in the information- model can be made 
+on-line as they are 
+coordinated. Statistics of overall team performance on handoffs are also reviewed at this meeting, periodically resulting in challenges 
+from the 
+chief ™ engineer to improve our batting average on meeting internal commitments. 
+Assistance. If giving good accountings 
+is a hard skill to learn, dispensing valu- 
+able consequences 
+is even harder. Management ﬁhelpﬂ that 
+doesn™t help 
+is such a familiar theme that 
+countless engineers think Dilbert 
+or his creator Scott Adams must live in die next cubi- 
+cle. Yet this area 
+offers some of the most notable success stories of the MMC experience. We have found out what it™s like 
+to be far cnough behind schedule 
+to attract serious management attention. 
+Such attention could easily have assumed team-unfriendly forms, such 
+as replacing team leadership or dispers- ing the 
+decision-making authority back into the 
+functional departments. This didn™t happen. 
+On the first such occasion, 
+we clear- ly-in retrospect-needed help from outside the team, 
+but hadn™t asked for it. 
+The help we received came in the form of the director 
+of the affected functional department, who brought with him extensive software manage- 
+ment experience and 
+an inclination to reinforce rather than 
+replace the team accountability process. Consequences during and as a result of his special assignment included 
++ recalibrating.plans for the second increment of software development based on actual production rates for 
+die first increment; + shifting some highly 
+visible cus- tomer design-review milestones 
+to accommodate the more 
+realistic time spans resulting 
+from this recalibration; 
++ temporarily waiving the ceiling on overtime pay for team 
+members with tasks on the critical path; 
++ adding experienced personnel, both from within LMTAS and from our partner, Texas Instruments; 4 redistributing leadership responsi- 
+bility within the team to ensure 
+both planning and technical 
+direction could receive adequate attention; and + adding and upgrading workstations. 
+These examples of 
+positive and 
+con- structive consequences came 
+at a critical time in the team™s growth. JULY 1996  Desirable behaviors and attitudes 
+ahout assistance were further reinforced by an award-fee 
+clause in the 
+MMC contract. Each 
+year the government 
+determines what 
+Dercent of 
+a uredeter- items, upcoming events, 
+current status, and anv uroblems or issues. The more il formal channel of quarterly program 
+management reviews brings the same players face-to-face 
+for a thorough minjed award fiind 
+best reflects excep- accounting 
+of program performance-to- 
+tional contractor performance, 
+based on , plan and results-to-date. These weekly criteria made known to the team at the ~ and quarterly interactions 
+are particular- beginning of the performance period. 
+ly important and effective for the ongo- 
+The criteria emphasized mutual assis- ing clarification and occasional adjust- 
+tame within the joint USAF/contractor 
+ment of customer expectations. They team, and also 
+the sharing of lessons also afford us a socially acceptable learned with 
+other projects. This , opportunity to hold our customer emphasis inspired 
+the following initia- i accountable for meeting their commit- 
+tives, reflected in a first-period award of 
+~ ments, such 
+as action items, document 
+over 94 percent: approvals, and 
+contract changes. + convening periodic ﬁgraybeard 
+One of our hardest lessons to learn, reviewsﬂ of highly experienced and 
+in the 
+sense of changing behaviors, 
+has respected industry and 
+government been in the 
+area of 
+customer account- 
+experts to review our plans and status 
+~ ability: the customer expects to hear the and make 
+recommendations to the 
+~ bad news as well 
+as the good, and to joint team, share in the 
+solution of problems before 
++ forming joint ﬁred teainsﬂ 
+to ana- they become crises. The next section 
+lyze alternatives and 
+recommend soh- explains why this is such a hard lesson. tions to program-critical problems, 
++ extracting applicable lessons 
+learned from 
+F-22 Advanced Tactical , CONNECTIONS Fighter activities, and 
++ borrowing the most senior design 
+and process experts available to help for- mulate key teain decisions. Cirstomer accountability. 
+USAF partici- pants in the 
+MMC program have operated quite 
+effectively in a dual role, acting both as members of the joint MMC IPD Team and as the customer to whom the contractor team is accountable. The most important and effective channel for customer accountability 
+has been day-to-day, person-to-person corn- 
+muriication. Because of the TPD approach, this ongoing communication is distributed among a dozen or more 
+couriterpart pairs, including but by no means restricted 
+to the program manag- 
+er anid chief enginecr. To ensure these 
+one-to-one channels don™t calcify into silos, weekly telecon- 
+ferences bring all the counterparts 
+together for a review of open action 
+Anyone seriously considering 
+the possibility of 
+implementing this kind of an accountability process should be aware of 
+a couple of interdependencies: between accountability and 
+trust, and between accountability and 
+learning. Our experience indicates 
+&at neither of these interdependencies 
+can be broken 
+without rendering 
+the accountability process ineffective. 
+In choosing to implement our model, you marry the entire family. Accountability and 
+trust. Accountability depends on trust. The team offering 
+up its accountings 
+must have trust in its 
+stakeholders: + that consequences will be fair, + that assistance will truly be + that direction will be knowledge- 
+Stakeholders must equally have 
+trust helpful, and 
+able and consistent. 
+in the team: + tliat accountings will be honest, 
++ that no important information will be suppressed, and 
++ that the competing 
+interests of multiple stakeholders 
+will be fairly and appropriately balanced. The bad news 
+is that trust must be 
+earned, not given. The good news is that a proactive accountability process 
+is a powerful 
+agent in bringing about 
+trust. We have found that from a suffi- cient initial margin of trust, account- ability and trust can and will symbioti- cally grow. We have also 
+encountered instances where 
+carefully planned 
+interventions were required to reverse a downward spiral 
+of distrust before an 
+effective accountability process could 
+be implemented. Accountability and 
+learning. Account- ability depends on learning. More accurately stated, true accountability presumes a learning organization as described by Peter Senge in The Fifth ﬁTeam learning,ﬂ as Senge calls it, is what fuels the accountability cycle. The team must believe it can learn 
+(that is, improve) from the 
+feedback of stakeholders. Stakeholders must believe in their obligation to provide useful, carefully 
+considered consequences, 
+as an inte- gral part of the learning process. Stakeholders must also be 
+willing to learn from 
+the team™s accountings and reflect 
+their learning in ever more appropriate and effective con- sequences. Neither party can believe that learning or teaching is some- body else™s job, or unnecessary. Exercising accountability 
+is a critical IEEE SOFTWARE  skill. There is an art to 
+providing clear, comprehensive, yet concise account- ings. There is wisdom in knowing when and how to help and 
+when to refrain. Every team 
+member and stake- holder should be part 
+of an ongoing proficiency development program 
+to cultivate such skills. Learning to embrace a 
+process that is based on unfamiliar mental models 
+is difficult for team members. However, this learning 
+process can 
+be accelerated dramatically through consistent man- agement reinforcement. 
+In implement- ing our 
+accountability process, 
+we repeatedly found 
+that notable learning 
+bursts and measurable improvements in process adherence followed when the chief engineer or program manager 
+focused personal attention on that process and 
+reminded everyone of its importance. Embracing new mental models 
+is even harder for managers 
+at the 
+upper boundary of whatever organization is attempting the 
+culture change. 
+To begin with, 
+if the next higher layer of management is outside the culture change boundary, 
+there is no soLirce of consistent management reinforcement to accelerate the learning process. Furthermore, changing mental models is truly an 
+act of courage for 
+those at the upper 
+boundary. Raymond 
+Smith, CEO of Atlantic Bell, describes this discomfort in an interview with 
+Business Ethics™ magazine : I had to completely 
+chazge my own ,mindset. And that meant taking someone who hnd lenmed skills exceedin& iid, mid in effect trading them i7zfiibl- n ne::™: softe7. set. It™s nmch ensiei- to covinm7id niid co-ontrol thnrz to be nn evipo?:.ei-ing n-eaticig- eizcozimging boss. It meniis being exposed, to allox people to coach yozi. MASTERING ACCOUNTABILITY function of product design than of on- line ~ontrol.ﬂ~ By analogy, prog~am robustness, the likelihood of achieving desired results 
+in the 
+presence of noise, should be more a function 
+of planning than of performance-to-plan monitoring and consequences. 
+The derived notion of ﬁplanning robustnessﬂ seems 
+a promising foundation for 
+a more proac- tive version of risk management. Viewed 
+from this angle, program risk is just an inverse measure 
+of planning robustness. 
+As instigator of the proactive Hence ﬁriskmanagementﬂ means identi- accountability process, 
+I look back and fymg noise (how reality may vary 
+from marvel at how far we™ve come; I look 
+assumptions), finding 
+tlie nonrobust ahead and despair 
+at how far away the areas in plans, strengthening them 
+if vision still seems. Ure have a long 
+way possible, and 
+otherwise making 
+to go to master accountability; 
+the allowances for the 
+possible repercussions ,A!KhfC program may 
+well end first. The in coordination with stakeholders. pursuit will continue until it does. If the most 
+productive strategy 
+tlien Here™s a sam-oline of n-hat™s on the road is to detect the weak areas 
+in Dlans as IU ahead, ranging 
+from near-term 
+possibil- ities to wishful thinking. 
+Propagating mental models. To date, pri- 
+marily the first and second tiers 
+of team leadership-less than IO percent of team members-have been directly 
+involved in the 
+accountability process. For the most 
+part, changes in attitudes and behaviors are irisible in those who early as possible, why 
+not apply proven 
+techniques such 
+as software inspectionsﬁ 
+in the 
+planning process? 
+Our previously mentioned handoff-planning adequacy- 
+assessment checklists provide 
+a starting 
+point for 
+pursuing this strategy. Just rewards. We have seen that the ability to proactively hold ourselves accountable-implementing manage- have participated. The potential bene- 
+fits of proactive accountability 
+and the underlying mental 
+models are the same regardless of the scope and 
+level of team to which they are applied. 
+We have yet to propagate what 
+the leaders have learned throughout the remainder 
+of the team. ment systems that in turn 
+shape our mental models-lies largely within our sphere of control as a team. The fur- ther we progress, the more our 
+ability to proceed is affected by factors that lie, at best, only marginally within our sphere of influence. Our success in mastering accountability depends on each individual™s conviction 
+that fulfill- ing multiple stakeholder 
+expectations in a balanced fashion defines 
+success. Yet this desired 
+belief is often under- mined by the reward systems 
+that dominate not only our company but Even when bombarded with 
+daily examples, it is hard to decipher what is happening to us here. We begin with well-considered corporate visions, niis- sions, goals, 
+and objectives. To base each individual™s reward 
+on his or her Robust planning. Accountability for 
+Ph?Zi?Zg remains our greatest opportuni- ty for improvement. 
+For our 
+next gener- ation of accountability-for-planning sys- tems, we are adapting 
+ideas from tlie quality process. 
+most of industry. Genech Tapchi, one of the masters of the quality process, focuses 
+on the concept of ﬁrobustnessﬂ: the degree to 
+which a product 
+Overcomes unplanned variations in its environment. He asserts that ﬁproduct 
+‚robustness™ is more a JULY 1996  contribution to these objectives, 
+we dis- 
+sect corporate goals and disperse chunks 
+to line organizations, further subdivid- ing the chunks at each level of 
+the hier- archy. Then we define metrics so that we may objectively measure each chunk. 
+Naturally, we reward the people within 
+each line 
+organization based on these metrics. So what™s going 
+wrong? Optimizing the 
+chunks does not optimize the organism from 
+which they were 
+sliced. Subdividing the original goal 
+carves the life out of it. What is best for the organism is fre- quently suboptimal for 
+some chunks, which all but guarantees opposition 
+from their owners. Absent preventive measures, such 
+opposition can kill a significant global cost reduction innovation that makes one organiza- tion™s metrics look bad. To make matters worse, 
+the metric 
+is only an 
+imdicatoi- of the chunk, 
+and not always a very good one. 
+The map, how- 
+ever precise, 
+is not the territory. 
+So maximizing the metrics doesn™t 
+neces- sarily even 
+optimize the chunks: the metric becomes the graven image 
+sub- stituted for the forgotten 
+goal. A goal of delivering perfect products may 
+lead us to base rewards on defect-density reductions. Absent preventive measures, 
+defect density can and will be reduced by not$?adilzg or 1-eporting defects if this is the behavior the reward reinforces. 
+The degree to which many team 
+members are willing to divorce them- selves from the reward system 
+in pref- erence for ﬁdoing the right 
+thingﬂ is truly remarkable, and 
+adds credence to the theory 
+that monetary rewards are a minor factor in employee motivation. Unfortunately, punishment is a stronger motivation, even when limit- 
+ed to subtle disapproval. Potential reward, when withheld, equates 
+to punishment. Many who are willing to forego personal 
+gain in the interest 
+of furthering team goals will retreat when faced with the prospect of costing their boss a metrics-based reward. We persist in this folly not because we™re stupid, but because we have not yet found 
+a way to design a fair and objective reward system 
+that reinforces desirable values and behaviors. REFERENCES I. L.J. ,,l/lenker, Re.nilt.y ofthe Aei-onautical Systems Diuisioii Critical 
+l‚vocess Team on Integrated I™voduct Development, Tech. Report ASD-TR-90-5014, Air Force Systems Command, Wright-Patterson AFB, Ohio, 1990. Computing iiz Acmpuce Confirence, accessible via http://lmtas.com./Cap,l/lod/AWAIndex.hunl. 2. R.D. Schlappe and R. 
+W. Royston, ﬁSoftware Reuse 
+for Capability Modularity,ﬂ l™roc. IYYIAIAA 3. C. Carr, Sn7.ai-t Trui7zing, McGraw-IIill, New York, 1992, 
+pp. 13-18. 4. S.R. Covey, 
+The Seven Habits ofHigh1~~ Effective People, Simon & Schuster, New York, 1989. 
+5. D.W. Uencon, ﬁAn F.arned-Value 
+Methodology for Statusing Software 
+Development,ﬂ f‚roc. STARS Bzisiness l™ractice,y Areu ~Wunqgement Workshop, Software Technology for Adaptable Reliable Systems 
+™L‚echnology Center, Advanced Research Projects 
+Agency, Arlington, Va., 1985; 
+also accessible via 
+http://lmtac.com/Cap~od/ev~main.htm. 6. P. Conklin, ﬁEnrollmcnt Management, 
+,Managing the Alpha AXP Program,ﬂ Digitul TechnicalJf., 
+Vol. e, 1992. Reprinted in IEEE Softzzam, July 1996, pp. 53-64. 
+h Discz$liize, Doubleday/Currency, New York, 1990. 8. M. Kelly, ﬁInterview with Raymond 
+Smith,ﬂ Busmess Ethics, 
+MajdJune 1992, 
+pp. 28-30. 
+9. G. Taguchi and D. Clauaing, ﬁRobust Quality,ﬂ Hmva7-d Busshess Rev., Jan./Feb. 1990, pp. 65-75. 10. A.13‚. Ackerruan, 13. Buchwald, and F.H. Lewski, ﬁSoftware Inspections: 
+An Effective Verification Process,ﬂ IEEE Software, IMay 1989, pp 31-36. Management by objectives is deeply root- ed. Raymond Smith8 argues convinc- ingly for moving beyond 
+MBO to man- agement by commitment, but the 
+imple- mentation of a corresponding reward system is not discussed in the interview cited. Does anyone out there have a 
+turnkey management by behaviors reward system? The search continues. 
+ive years of MMC team experi- F ence substantiate 
+some significant 
+conclusions that, with two years 
+remaining in the 
+program, must 
+still be qualified as ﬁinterim.ﬂ MMC experi- ence has shown 
+that a team 
+can, by its own initiative, establish an 
+interaction with its stakeholders 
+through which it obtains resources, directions, assistance, 
+and clarification 
+of expectations--in short, can empower itself. Management systems that are based on our 
+account- ability model, and in turn reinforce responsible attitudes and behaviors, 
+are the key to this empowerment strategy. We hope to prove that this strategy can turn an ﬁimpossibleﬂ program into an unqualified success. 
++ Kathy Van Cleave Pams is a full-time leader 
+of the Modular Mission Computer ™learn 
+at Lockheed Martin Tactical 
+Aircraft Systems. 
+As an cngineering project manag- 
+er. her roles include team 
+effectiveness facilitator, vision tender, managen lent cyctcm dcsiper, nadfly he - -. tener, referee, wordsmith, 
+web weaver, and learning advocate. 
+Her 22 years in aerospace as software engineer, systcm designer, supervisor, chief engineer, instructor, 
+team leader, 
+and program manager 
+include contributions to space shuttle, F-111, and F-16 avionics, simulation, and 
+tCSt systcn1s. Parris received a BA in Mathematics and Philosophy from Rice University. Address questions about this article 
+to Parris at MZ 5963, Lockheed Martin Tactical 
+Aircraft Systems, P.O. Box 748, Fort Worth, TX, 76101; kvparris@l~~c.lockhecd.corn. IEEE SOFTWARE 

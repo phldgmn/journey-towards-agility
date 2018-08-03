@@ -1,0 +1,905 @@
+ An interoperable
+ architecture
+ and principles
+ for implementing
+strategy
+ and policy in operational
+ processesYiwei Gong*, Marijn JanssenFaculty of Technology, Policy and Management, Delft University of Technology, Jaffalaan 5, 2628 BX Delft, The Netherlands1. IntroductionStrategies and policies are inﬂuenced by all kind of develop-ments and frequently change. Managers, customers and severalother stakeholders expect changes in strategies and policies to beimplemented quickly. Strategy formulation is often viewed as aconveyor belt in which opportunities and issues are recognized asproblems, alternative courses of actions are formulated, and theseare affected, implemented, executed and evaluated [1]. Armisteadet al. [2] distinguished between operational or horizontal processesand direction-setting
+ or vertical process (see Fig. 1). Horizontalprocesses are concerned with the production and delivery ofproducts or services, while vertical processes involve strategy andpolicy formulation and deployment. Vertical processes areinitiated by factors such as changes in customer needs, technologydevelopments, market conditions and changes in the regulatoryenvironment and often need to be implemented within a shorttime frame for reasons like competitiveness,
+ legal compliance anddealing with changed circumstances. A lack of interoperabilitytypically happens in the intertwinement between the vertical andhorizontal processes. Both processes are often developed andexecuted independently, and are typically supported by differentsystems. The implementation of strategies and policies cannot andshould not be blocked or hindered by a lack of interoperable
+systems, but this is often the case as shown by some examples suchas the Walvis [3]. In this situation a new policy was made forreducing the administrative burden by simplifying the employ-ment insurance law, but it failed in implementation
+ in time. A mainissue in this example is the need to create interoperability betweenthe strategic level and the administrative processes executing thepolicy, as this facilitates fast and low-cost implementation of newpolicies. Interoperability is the ability to exchange informationbetween systems [4] and is necessary for connecting the systemssupporting vertical and horizontal processes. Interoperabilityenables strategic and operational systems to exchange informationwith each other (Fig. 1). Only if these are connected the horizontalprocesses can adapt to the changes managed and stored in thevertical systems. Our system architecture will relate systemssupporting strategy and operational process using business rulesmodels.Interoperability should enable agility, which can be deﬁned asthe speed in responding to variety and changes [5]. Being able torespond quickly is vital in a continuously changing environment inwhich the systems need to be continually improved in order toreﬂect changes [6]. However, whereas much literature is focusedon horizontal processes, scant attention has been given to therelationship between vertical and horizontal processes. The focusof this research is on the adaptation of horizontal processes tostrategy and policy changes. A generic architecture and principlesis presented in this paper as the solution for adapting horizontalprocesses to changes from vertical processes.Computers in Industry 64 (2013) 912–924A R T I C L E I N F OArticle
+ history:Received 6 April 2013Accepted 25 June 2013Available online 23 July 2013Keywords:
+Interoperability
+Agility
+System architectureArchitectural principlesBusiness processStrategy implementationA B S T R A C TIn today’s
+ economy managers
+ expect
+ new strategies
+ and policies
+ to be implemented
+ quickly. Yet practice
+shows
+ that
+ current
+ systems are not able to implement
+ changes
+ within
+ a short
+ time frame. Nowadays
+ avariety
+ of technologies
+ including
+ semantic
+ web
+ services, business
+ rules and software
+ agents
+ are available
+as building
+ blocks
+ for interoperable
+ systems.
+ Yet these technologies
+ are rarely
+ used
+ in combination
+ andare not adapting
+ operational
+ processes
+ to changing
+ business
+ strategies
+ and other
+ requirements.
+ Ageneric
+ architecture
+ is presented
+ in this
+ paper
+ which
+ is able to adapt processes
+ to changing
+ requirements
+based
+ on three
+ types of knowledge
+ repositories
+ (domain
+ ontology,
+ service
+ description
+ and business
+ rule)which,
+ when combined,
+ allows for
+ direct
+ employment
+ of strategy
+ in business
+ processes.
+ The architecture
+is tested
+ using scenarios.
+ The testing
+ shows
+ that the
+ architecture
+ improves
+ the interoperability
+ betweenpolicy/strategic
+ and operational
+ level and results in a higher agility and better
+ compliance.
+ 2013
+ Elsevier
+ B.V. All rights reserved.
+* Corresponding author. Tel.: +31(0)15 2788069.E-mail addresses: Y.Gong@tudelft.nl (Y. Gong), M.F.W.H.A.Janssen@tudelft.nl(M. Janssen).Contents lists available at SciVerse ScienceDirect
+Computers in Industryjo ur n al ho m epag e: ww w.els evier
+ .c om /lo cat e/co mp in d0166-3615/$ – see front matter  2013 Elsevier B.V. All rights reserved.http://dx.doi.org/10.1016/j.compind.2013.06.018 In this paper a system architecture is proposed which allowsagile implementation of new strategies and policies into opera-tional processes. Along with the architecture, architecturalprinciples that lay the foundation for the system architectureare provided. The rest of this article is organized as follows. In thenext section the background and related work in the ﬁeld ofinteroperability and architecture is presented. Next the designscience research approach is presented followed by a description ofthe architecture. Then we present the architecture including thearchitectural principles. Thereafter architecture is illustrated by aprototype. The paper ends with a conclusion and prospects forfuture work.2. Background and related workAmong many deﬁnitions of interoperability, the one providedby IEEE is most commonly used [7]: ‘‘the ability of two or moresystems or components to exchange information and to use theinformation that has been exchanged’’ [4] (p. 114). Accordingly,interoperability can be between systems or within a systemconsisting of subsystems. In the context of strategy and policyimplementation, interoperability can be viewed as the ability totranslate strategy and policy that are stored in systems intosoftware systems that support operational processes. It concernsthe use of ICTs to facilitate the coordination of work andinformation ﬂows [8]. Such ability is reﬂected by the agility ofstrategy and policy implementation, namely the speed, costs andthe quality (e.g. compliance) of strategy and policy implementa-tion [3]. In the evaluation of the architecture we will look thereforeat these four evaluation criteria:1. Agility – the speed of implementing new strategy and policy [9];2. System ﬂexibility – the ability to adjust processes and includenew subsystems or components [10];3. Compliance – meeting the requirement imposed by strategies,policies and regulations on the tasks that are performed byorganizations [3]. In essence compliance is about whetherstrategies, policies and regulations are reﬂected in operationalprocesses;4. Implementation costs – upfront costs for creating an executableprocess [11].According to Naudet et al. [7], the need for interoperabilityarises
+ when
+ two
+ or more
+ incompatible
+ systems
+ are
+ placed
+ inrelation.
+ Interoperability
+ is often
+ studied
+ from
+ a technical
+ perspec-
+tive
+ (cf.
+ [12]
+), where
+ different
+ ICT
+ applications
+ are considered
+ to beindividual
+ technical
+ systems
+ that
+ require
+ interoperability
+ to connect
+with
+ each
+ other.
+ Interoperability
+ is often
+ studied
+ from
+ a semantic
+perspective
+ (cf.
+ [8]), where
+ the
+ information
+ exchanged
+ between
+heterogeneous
+ systems
+ should
+ be meaningful
+ and
+ all
+ the
+ commu-
+nicating
+ parts
+ should
+ interpret
+ it in the
+ same
+ way.
+ Interoperability
+has
+ been
+ studied
+ from
+ an organizational
+ perspective
+ (cf.
+ [13]
+), where
+different
+ departments
+ are
+ thought
+ of as individual
+ sub-organiza-
+tional
+ systems
+ that
+ require
+ interoperability
+ to cooperate
+ with
+ each
+other.
+In literature several approaches for achieving interoperability
+have been developed including, standards (e.g. [14]), referencemodels (e.g. [15]), architectures (e.g. [16]), and frameworks (e.g.[17]) [8]. However, strategy and policy implementation
+ rarelyreceives attention. General interoperability frameworks like theEuropean Interoperability Framework [17] and INTEROP NOE [15]framework mainly help to identify and structure the knowledge ofthe domain e.g. ‘‘interoperability concerns’’ (data, services,processes and business) and ‘‘interoperability barriers’’ (concep-tual, organizational and technological). Although these frame-works can be used to classify and structure the basic aspects ofinteroperability, their intent is not to provide working solutionsfor the implementation
+ of strategies and policies [17]. In strategyimplementation
+ interoperability is necessary to translate strate-gies and policies into executable business processes. In such asituation vertical and horizontal processes are intertwined, as theoutcome of vertical processes inﬂuences the horizontal processes.This intertwinement is the focus of this research. Interoperabilityframeworks provide structure of concepts to present problems andknowledge. In this paper we do not propose another interopera-bility framework but specify an architectural solution with anemphasis on technical and semantic perspective to solveinteroperability problem between strategic and operationalsystems.Architectural solutions for interoperability are aimed at dealingwith system heterogeneity. Heterogeneity is a ‘‘double-edgedsword’’. On the one hand, heterogeneity allows the use oftechnologies that can solve the problem at hand with highefﬁciency. On the other hand, heterogeneity in data and knowledgesystems is obstacle for the interoperation of systems [18]. To ﬁnd away out of this dilemma, architectural solution is required tobalance heterogeneity and interoperability
+ (e.g. [19]). Heteroge-neity can be classiﬁed into paradigm heterogeneity (two systemsexpress their knowledge using different modeling paradigms),language heterogeneity (two systems express their knowledge indifferent representation languages), ontology heterogeneity (twosystems make different ontological assumptions about theirFig. 1. The intertwinement between vertical and horizontal processes.Y. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924 913 domain knowledge), and content heterogeneity (two systemsexpress different knowledge) [18]. Bridging and homogenization(or linking and merging) are the alternatives mentioned in theliterature to solve heterogeneity problems [7,20,21]. Homogeni-zation is an a priori solution to deal with heterogeneity. It meansthat a given system resource (e.g. code of software), available in aninitial format, will be translated into other format [21]. Bridgingdeals with heterogeneity by inserting a new system that will serveas an intermediate between inter-related systems. In ourarchitecture a mix of strategies will be followed, a domainontology will be developed for homogenization;
+ and an inferenceengine and translation component will be used for bridging.Typical examples of bridging solutions in IT are enterpriseapplication integration (EAI) and service-oriented architecture(SOA). Those solutions mainly involve web services as this is thecurrent widest accepted approach of integration, and businessrules as this is the common approach in knowledge intensiveorganizations [22,23]. Orrie¨ns et al. [24] have suggested that BRscan be used to create compositions out of available services. Yet,limited research of interoperability
+ issues between BRs and webservices can be found in literature. Some of them tried tointerweave BRs into a BPEL frame [25], whereas others intendedto build a framework without using BPEL, e.g. [26,27]. However, inthose approaches, BRs and web services were not interoperabledue to the use of different ontologies. D’Mello et al. [28] arguedthat business rule driven service composition requires BRs to bedocumented in a uniﬁed ontology.The state-of-the-art research combines often both homogeni-zation and bridging approaches to solve interoperability problemat technical and semantic level. This often results in theintegration of semantic technologies into existing infrastructure,e.g. [12,29,30]. Combining semantic web service (SWS), businessrule (BR) and software agent technology (SAT) is desired becauseeach of them can contribute to a foundation for creatinginteroperability among strategy and operational processes. SWSsare an extension of web services with semantic descriptions inorder to provide formal declarative deﬁnitions of their interfacesand functionality [31]. In this way, the web services can beautomatically composed into an operational process. BRs can beused to represent strategy and policy in decision making as well asthe formulation of operational processes. SAT can be used toconstruct a dynamic execution environment where operationalprocesses are created and executed according to BRs.A BR is a statement that deﬁnes or constrains certain aspects ofthe business. It is intended to assert business structure or to controlor inﬂuence the behavior of the business [32]. BRs can be describedin different formal or natural languages. The way to translatestrategy and policy into operational processes often goes alongwith deﬁne, translate and deploy various BRs to convert knowledgeinto software system for execution. The execution of BRs has beenstudied within software agent environments (e.g. [33]). Softwareagents provide a way of structuring a complex process systemaround autonomous and communicative components. In strategyand policy implementation, many BRs originate from strategy andpolicy and inﬂuence process creation. For example, a strategy is toprovide feedback to clients in their preferred ways, which dependon how they submitted their applications. This strategy results in aBR deﬁning whether the process should use email or post forproviding feedback. The consistency of those BRs has to beguaranteed to ensure the compliance of operational processes withstrategy and policy. While some studies (e.g. [34]) proposed usingSWSs and software agents for process composition,
+ rare of thempay attention to the requirement of the compliance with strategyand policy. In our architecture, a technical solution to balanceheterogeneity and interoperability between system components isprovided for ensuring interoperability between strategic andoperational processes. It combines SWS, BR and SAT to createbusiness processes. The combination of these three technologiesall together allows knowledge from strategy and policy to be usedin process creation and execution directly.Other related work can be found in software conﬁgurationmanagement (SCM), which is the discipline of controlling thechanges of complex software systems [35]. Typical SCM methodsdo not describe and explain the links between strategy and policyaspects that require certain functions delivered by a softwaresystem and the system itself [36]. Mohan et al. [37] proposed anapproach to combine SCM with traceability to manage knowledgeabout the process of the development of software artifactsthroughout the development lifecycle, which nevertheless doesnot explicitly address links to policy and legislation aspects.Apostolou et al. [6] presented a primary attempt to bridge thestrategy and policy aspects in service systems. They proposed asoftware framework for representing changes in service models,ﬁnding inconsistencies caused by a requested change, generatingand propagating changes to affected service artifacts, and alertingusers about such changes. Yet they focused on the ontology modelsfor decision making knowledge management. In our architecture,ontology model will be used for providing technical interoperabili-ty to allow process creation. It goes beyond the scope of SCM asstrategy and operational processes are linked and three differentkinds of technologies are integrated.3. Research approachOur research followed a design science research methodologyby identifying problem, deﬁning the objective of the solution witharchitectural principles, designing and developing the architecturecomponents and relationship, demonstrating them by prototypingand evaluating the prototype. The steps are based on the six stepsof the design science research methodology of Peffers et al. [38].1. Problem identiﬁcation and motivation: deﬁne the interopera-bility research problem and justify the value of an interoperablearchitecture as the solution. This was based on the practicalproblem of translating strategies into operational processes.2. Deﬁne the objectives for a solution: the objectives of thearchitecture and accompanying architectural principles weredetermined in this step. Existing knowledge of what is possibleand feasible based on the practical problem (as identiﬁed in theprevious) was examined by conducting a literature survey. Thearchitectural principles are used to constrain the solutions spacein the following step.3. Design and develop the architecture components and relation-ship: in this step the system components and their relationshipare deﬁned guided by the architectural principles.4. Demonstrate the architecture: to demonstrate the architecture aprototype was developed and implemented. A scenario todemonstrate the architecture solution was developed.5. Evaluate the prototype: experts were asked to observe andevaluate how well the prototype supports a solution to theinteroperability problem.6. Communication: this contains communication within the casestudy and in research outlets.The architectural principles were derived from empiricalstudies of the problem. The architecture components and theirrelationship were developed according to those principles withfurther consideration
+ regarding to the elements of a system, theirfunctions and interoperability. Testing is an important part of anydesign science approach [39]. For the purpose of testing, aprototype is used to implement a scenario derived from a policyin the agricultural subsidizing processes for farmers (from DutchY. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924914 Ministry of Economic Affairs, Agriculture and Innovation). In theprototype, the related policy is translated into BRs and certain pre-designed SWSs are composed into different processes according tothe different service requests from clients. Software agents areused to model the disturbed IT infrastructure in the processescreation. Dynamic processes are automatically created at runningtime based on services requests and BRs. Qualitative evaluationwas performed by asking experts about their judgment on theimprovement in comparison to the existing situations based ontime and cost criterion. Agility and interoperability are evaluatedby the capability of dynamic process creation and fast processadaption based on quantitative measures of speed and cost.Although the architecture is demonstrated in a case study in whicha policy is translated into operational processes the ﬁndings can begeneralized to other areas having similar characteristics. This iswhat Yin calls ‘analytic generalization’ [40] (p. 38).4. Architecture designOur architecture aims to lay the foundations for an interopera-ble infrastructure for organizations in which vertical processesdetermine the implementation of horizontal processes. Accordingto the ISO/IEC 42010 (IEEE 1471) [41] (p. 3) standard, anarchitecture is ‘‘the fundamental organization of a system embodiedin its components, their relationships to each other and to theenvironment, and the principles guiding its design and evolution’’.TOGAF 9 [42] explains this concept and indicates the elements of asystem architecture to be: (1) the principles and guidelinesgoverning the design and evolution of the architecture over time,and (2) a blueprint of the system at the component level to guideits implementation. Based on this concept, our architecture shouldinclude the following elements that will be described in the nextsubsections: The architectural principles: the consideration
+ of necessarydesign decisions to develop a concrete architecture; and The system components and their relationship: the componentsof the system and their functional relationship which describeshow they interoperate to create business processes.4.1. Architectural principles of an interoperable architectureThe use of architectural principles for designing service systemsare commonly used in the design of systems [43,44]. Developingprinciples can be based on practice or by studying literature. Theprinciples presented in this section derived from our empiricalstudies of the policy implementation in public organizations [3].A literature review was conducted using the systematicalscanning approach proposed by Levy and Ellis [45] and followed byinformation systems scholars (e.g. [46,47]). An extensive search ofjournals, conference proceedings and working papers wasperformed using ACM, IEEE Xplore, AISnet, ProQuest (ABI/Informs),
+Science Direct and Google Scholar. These databases contain the topinformation systems (IS) journals and conferences [45]. In thesearching, we used the key words of ‘architecture principle’ or‘architectural principle’ and ‘interoperability’. Although near 400articles were found in the searching, most of them did not providewell-formulated principles but refer to the use of principles inguiding the design at high level. Those principles are mainly comefrom various reference frameworks (e.g. INTEROP NOE [48],Government of Canada Federated Architecture [49] and theNGOSS Technology-Neutral
+ Architecture [50]) or well-knownbasic concepts (e.g. [51]). Based on this literature review anoverview of brief principle concepts was made for furtherelaboration. It was our goal to cover a broad range of beneﬁtsand barriers rather than determining how often they were found.As a result we focus on three concepts for developing architecturalprinciples with the consideration of interoperability: (1) modular-ity, (2) separation of concerns, and (3) representation.As there are no sound architectural principles found but onlygeneric concepts and concerns, a project team with 15 memberswas assembled to elaborate those concepts into architecturalprinciples. The team members included 6 researchers from 2 twouniversities, and other members were architects either from publicorganizations or IT solution providers. The development processwas a two round meeting each with steps of presentation,individual review and group discussion.The Open Group Architecture Forum provide a template fordescribing principles, in which principles description by a briefexplanation of the rationale and implications of following theprinciple [42]. Aier et al. analyzed literature about principles andfound that principles can include statement, rationale, implica-tions, key actions, and measures and an extended deﬁnition takingthe use and impact of an EA principle in its environment intoaccount [52]. In Table 1 we summarize the three main principles ofour architecture.4.1.1. Principle 1: create business processes using business servicesService orientation should not be only at the technical level butalso at the business level so as to enable organizationalinteroperability. Organizations can adopt service orientation byusing service centers providing business services such asidentiﬁcation, background checks, and collecting informationand payments that are relatively general and used in multipleprocesses. Determining business services is difﬁcult and largely anintuitive processes. Parnas [53] recommends that systems shouldbe decomposed along lines encapsulating design decisions. In thisway changes are (ideally) limited to the scope of the businessTable 1Overview of the principles.Principles 1 Principles 2 Principles 3Name Create business processes using BusinessServicesSeparate business rules derived from policyfrom operational concernsDistinguish between business rules atorganizational, semantic and technical levels, andkeep them consistentStatement Complexity is decomposed in manageablecomponents that can be reusedIdentifying the BRs derived from policy canmaintain legal compliance of horizontalprocessesMaintaining the compliance with strategy and policyrequires the consistent use of BRs in verticalprocessesRationale Modularity promotes interoperability bymaking reusable components easier to beidentiﬁed and composedSeparation of concerns helps in focusing onBRs that require interoperability betweenpolicy/strategic and operational processesDifferent representations allow heterogeneity (besttechniques used at different levels), and consistencyrequire bringing to ensure interoperabilityImplication Deﬁne BSs, Deﬁne interfaces to enablebusiness services to be interoperableDeﬁne and distinguish decision andsupportive servicesDevelop domain ontology to enable bridging the BRsat different levelsUse and impact BSs are the basic unit in the composition ofbusiness processesThe use of decision and supportive servicesallows the separation of BRs derived frompolicy and BRs derived from other concernsDifferent representations all use uniﬁed vocabularyprovided by the domain ontologyY. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924 915 service. A Business Service (BS) can be deﬁned as a component thatis assigned clear responsibilities and accountabilities,
+ encapsulatesa business function and can be reused in several processes. BSs canbe viewed as a set of capabilities that can be reconﬁgured to meetchanging objectives, e.g. [54]. They serve to map IT functionalities(e.g. functionalities implemented by software components anddata structures) with activities (business structures necessary forprocess execution) [20]. BSs are loosely coupled and should enablethe creation of dynamic business processes spanning informationsystems and even organizations.Ideally, SOAs enable the on-demand composition of newbusiness processes using existing services and minimizing thedevelopment efforts required to build new systems from scratch.As such, the creation of service compositions becomes animportant issue. ‘‘Service composition combines modular servicesfollowing a certain composition pattern to achieve a business goal,to solve a problem, or provide new service functions in general’’([55], p. 30). An end-user service thus comprises a number ofservices, which in turn may be automatic services or compositedservices which might involve external services. Nevertheless, theexecution might involve humans, for example when the invocationtriggers a workﬂow to manually collect additional information andto make decisions based on criteria that are hard to automate.Human decision making can be modeled as a service executed byhuman. In this way a composite service is created and only existswhile it is being executed.4.1.2. Principle 2: separate business rules derived from policyfrom operational concernsOrganizations
+ take
+ the
+ strategy
+ and
+ policy
+ as input
+ and
+implement
+ it in their
+ operational
+ processes.
+ Business
+ rule
+ approach
+is the
+ common
+ way
+ for this
+ purpose
+ as it has
+ stronger
+ capability
+ todeal
+ with
+ changes
+ in the
+ environment,
+ in a comparison
+ with
+ graph-
+based
+ approach
+ (e.g.
+ BPMN)
+ [56]
+. The
+ decision
+ for solving
+ paradigm
+heterogeneity
+ has been
+ made
+ when
+ the
+ organization
+ decides
+whether
+ use
+ rule-based
+ or graph-based
+ approach.
+ For most
+knowledge
+ intensive
+ organizations,
+ business
+ rule
+ approach
+ is their
+choice
+ [22,23]
+. Translating
+ policies
+ into
+ business
+ rules
+ is done
+ byderiving
+ process
+ design
+ requirements
+ from
+ the
+ policy
+ descriptions
+[57]
+. However,
+ BRs
+ can
+ be created
+ from
+ multiple
+ sources.
+ If once
+source
+ is updated,
+ only
+ the
+ BR related
+ to these
+ sources
+ should
+ beupdated,
+ and
+ this
+ should
+ not
+ inﬂuence
+ BRs
+ related
+ to other
+ sources.
+According
+ to Goedertier
+ and
+ Vantienen
+ [58]
+, the
+ following
+ concerns
+can
+ be included
+ in deﬁning
+ BRs:
+ The business strategy, internal directives, and procedures; Information prerequisites: the information required to start anactivity; and Technical and common-sense constraints.For example, in a subsidizing service for electronic branding(see the context in Section 5.1) the policy describes how tocalculate a subsidy according to the number of sheep or goats. Thiscalculation can be executed by using the BRs derived from thepolicy. Besides, it is a common-sense constraint that an applicantof this subsidy should be a farmer who already has a farm.Otherwise, the subsidy application might be a fraud. If theapplicant is a new farm owner, a physical investigation of the farmmight be required before the decision is made to provide thesubsidy. BRs for checking farm ownership can be used to ﬁlterapplications, but they are not derived from the policy.Horizontal processes use business rules derived from multiplesources. Organizations have to identify the rules derived frompolicy in order to maintain legal compliance of horizontalprocesses. This can be done by deploying strategy and policyderiving BRs into decision services which are a type of businessservice. Taylor and Raden [59] used the term ‘‘decision service’’ todescribe
+ a self-contained callable
+ component with
+ a view of all
+conditions
+ and actions
+ that
+ need
+ to be considered in making anoperational
+ business
+ decision. Decision
+ services
+ refer
+ to policy,which
+ implies that
+ the use of these decision
+ services ismandatory and they
+ are the main
+ services that
+ can satisfy theservice request
+ in the ﬁnal decision
+ making.
+ In the execution
+ ofthe decision
+ services,
+ another
+ kind of business service –supportive
+ services – might be needed. In contrast,
+ BRs insupportive
+ services
+ are
+ not derived from policy but depend
+ onother
+ concerns
+ of the organization,
+ for example the BRs forchecking
+ farm ownership.
+ Supportive
+ services
+ can be used asinfrastructural services
+ with
+ high reusability.
+ Services
+ likeinformation retrieval
+ have
+ a purpose
+ to provide information/
+data
+ for decision
+ making. They
+ allow a single
+ information sourceto be reusable
+ for multiple decision
+ services.
+ Other
+ supportive
+services
+ may facilitate
+ decision
+ services
+ by providing
+ userinterfaces
+ or report generation.
+ The use of decision andsupportive
+ services
+ allows the separation of BRs derived
+ frompolicy
+ and
+ BRs derived from other
+ concerns
+ in horizontal
+processes.
+ This
+ has the advantage
+ that if policies
+ are
+ changed
+only (the
+ BR of) the decision
+ services
+ are affected
+ and supportive
+services
+ can
+ remain the same.
+4.1.3. Principle 3: distinguish between business rules atorganizational, semantic and technical levels, and keep themconsistentDeploying BRs derived from strategy and policy into decisionservices separates them from other BRs in horizontal processes. Yetmaintaining the compliance with strategy and policy requires theconsistent use of BRs in vertical processes. Weigand et al. [60]distinguish the business and service execution environment, andsuggested viewing the policy, formulation and execution of BRs asdifferent levels. Interoperability is the clear connection betweenthose levels. This refers to the bridging solution for solvinglanguage heterogeneity.BRs have different forms depending on the level at which theyare found: organizational, semantic or technical. Strategy andpolicy is focused on realizing desired behavior and fulﬁlling publicvalues. Strategy and policy can be ambiguous, and differentsources of strategy and policy might conﬂict. Therefore, they arenot directly executable, need to be interpreted and often requireextra information. The interpretation can be thought of as BRs atthe organizational level [61]. BRs are contained in the interpreta-tion in the format of a natural language.For deploying the business logic and requirements in the ICTsystems of the organization, the policy interpretation is furthermodeled through knowledge engineering [62]. At the semanticlevel, BRs are described using certain knowledge representation
+technology. The recent development of BRs in the Semantic Webdomain focuses on a standard representation of BRs, e.g. the ruleinterchange format (RIF) from W3C. Although these kinds of BRsare computable, they are not directly operated in a businessprocess. Namely, they are not directly used in process creation anddecision making during process execution. The BRs directly used inprocess creation and decision making during process execution aremaintained at the technical level. There are two kinds of BRs usedduring process execution. The ﬁrst involves operational rules (e.g.condition-action (CA) rules) which are involved in the execution ofdecision services. The other involves declarative rules whichdescribe the process logic. Connecting the above mentioned BRsand maintaining their consistency is the key to creatinginteroperability between vertical and horizontal processes.In practice there is a need to cope with different sources ofstrategy and policy. The use of decision services allows BRs derivedfrom different sources of strategy and policy to be capsulated intoY. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924916 different decision services. Using different levels (organizational,semantic and technical) results in clearer separation, but createslanguage heterogeneity which results in the risks of havinginconsistent rules, as BRs at different levels have different forms.The challenge is to connect knowledge representation models toBRs used by horizontal processes. The rule interchanges betweenlevels refers to our previous research [63].4.2. Architecture components and relationshipThe architecture components and relationship, the blueprint ofthe system, are designed based on the architectural principles. Thecomponents comprising the architecture have different functions,supporting interoperability at the semantic and technical levels.We consider
+ the organizational
+ level,
+ in which
+ law originatesfrom multiple
+ sources
+ and
+ in which
+ processes
+ are executed
+ byindependently
+ operating
+ departments,
+ to be given
+ and depen-dent on the
+ context
+ (see, for
+ example, the case
+ study backgroundin Section
+ 5.1). Next we will discuss
+ the semantic and technical
+level.
+4.2.1. Semantic levelAt the semantic level, there are three knowledge repositories:the domain ontology for describing uniﬁed vocabulary andtaxonomy, the SWS description for semantically presenting webservices, and the BR model for semantic representation of BRs.Domain ontology has been indicated as necessary for interop-erability. A domain ontology refers to the knowledge elements thatcomprise the conceptualization of the domain in which thearchitecture is going to be applied [30]. A domain ontology sharedby all the components can avoid conﬂicts and mismatching onconcepts, because in a well-deﬁned and uniﬁed ontology conceptsare uniﬁed without overlapping each other. Although it is possibleto present BRs in an ontology, a domain ontology is essentiallydifferent from BRs. As its deﬁnition states, the purpose of a BR is toinﬂuence or guide process behaviors. In contrast, a domainontology provides vocabulary and taxonomy (or a concepthierarchy) to facilitate communication. It does not relate to thecontent of the message, and therefore, it does not relate to BRs. Butthe vocabulary provided by the domain ontology can be and shouldbe used by the description of BRs.SWS description semantically describes web services. Dietzeet al. [64] claimed that ‘‘a SWS description is formally representedwithin a particular ontology that complies with a certain SWSreference model such as OWL-S or web service modeling ontology(WSMO)’’ (p. 248). Such a description is suitable for both servicesupply and request. All relevant aspects of a web service should bedescribed, including the distinguishing of a decision service or asupportive service.BR models are the semantic representations of BRs. In ourreference architecture we focus on two kinds of BRs. The ﬁrst kindinvolves operational rules which are translated into executablerules used in decision making and involved in the execution ofdecision services. The other kind of BR concerns declarative ruleswhich describe the process logic. The most important role of theseBRs is to clarify the relationship between service requestors anddecision services. Both these two kinds of BRs are derived frompolicy and should maintain traceability and consistency with theirpolicies.The above-mentioned
+ knowledge entities should be presentedin proper formats that allow an inference engine to performreasoning operations on them. The engine allows the agents to usethe knowledge presented through semantic technologies and touse different forms of BRs to achieve the connection. The selectionof an inference engine thus depends on the technology used inknowledge representation. For example, Pellet [65] is used toinference the domain ontology which is described in OWL 2. Ifnecessary, a rule format translation component should beinvolved, for example a component to translate RIF rules intoBDI agent rules [63]. For the BRs that are encapsulated in webservices, a translation component is also useful for the constructionof the web services, for example by generating codes to assist intheir development.4.2.2. Technical levelAccording to their functionality in process execution, there arethree types of agents for creating processes: operational, processrule manager and resource manager agents. An operational agent isan execution entity that performs tasks in process execution. Byrepresenting its role as a service request, it invokes decision orsupportive services to ﬁnish the tasks. The operational agents,decision and supportive services are the building blocks directlyinvolved in a running business process. For a clear process control,we locate the decision and supportive services according to thetypical horizontal administrative process pattern [66], whichincludes including the following steps: (1) submission andregistration, (2) information gathering, (3) ﬁltering, (4) decisionmaking, and (5) notiﬁcation and issuing. By using this pattern, theoperational agents already know with which agent to communi-cate for the next step in the process. They only need information ofwhat services they should invoke.Process rule and resource manager agents act as coordinatorsby using the knowledge from three knowledge repositories via theinference engine or translation complement. A process rulemanager agent provides knowledge about the decision servicesthat an operational agent can invoke. The resource manager agentprovides information about available supportive services tofacilitate the process creation. The process creation is performedduring its execution by operational agents invocating necessaryservices. Services are shared among operational agents whichcarry similar or different end-user requests. An overview of thearchitecture can be seen in the following ﬁgure (Fig. 2).5. Prototyping and testing: agricultural subsidizing processesThe goal of the testing was to ﬁnd out whether the architectureis interoperable by analyzing whether new policies stored inpolicy/strategic
+ systems (vertical processes) can be automaticallytranslated into the workﬂow systems (horizontal processes). Thedomain was selected based on the need to adapt frequently and forproviding access to the information needed. The test of architec-tural principles was done indirectly, by developing and evaluatinga prototype within an organizational context; and directly, byasking experts to provide their opinions about the value of theprinciples. We performed the following steps:1. Build domain ontology2. Deﬁne business services3. Deﬁne business rules4. Test dynamic process creationThe Dutch Ministry of Economic Affairs, Agriculture andInnovation (Ministerie van Economische Zaken, Landbouw enInnovatie, or EL&I) is responsible for promoting sustainableeconomic growth in the Netherlands and collaborates with farmerstoward more sustainable agriculture. The Ofﬁce of Arrangements1takes part in the policy-making surrounding agriculture andnature. It provides a variety of services in the ﬁelds of: manuremanagement; ﬁnancial, subsidy and EU regulations; permits and1http://www.noorderlink.nl/deelnemers/ministry-of-economic-affairs-agricul-
+ture-and-innovation.Y. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924 917 waivers; the identiﬁcation and registration of animals, parcels andrelations; and crisis management. All of these services need to befrequently changed due to changes in agricultural policies.Implementation is often delayed due to a lack of interoperabilitybetween policy and workﬂow systems used for service provision-ing. The systems use for supporting the vertical strategyformulation process and the systems handling the execution ofoperational processes are not able to communicate with eachother. Recently there was a change in their strategy which aimed toenhance the speed of its policy implementation and the policiesshould help to reduce the administrative burdens for the sectorand the government.Working as a window of EL&I is an important feature of theOfﬁce of Arrangements, as it is also a central Customer ContactCenter, where farmers, intermediaries and others employed in theagricultural sector can go to if they have any questions and/orremarks. The Ofﬁce of Arrangements is an agency of theNetherlands as well as an agency of the EU and has branches inAssen, Den Haag, Deventer and Roermond. With the help fromexperts at the Ofﬁce of Arrangements, a policy was selected forprototyping, and business services and business rules weredetermined by interviewing domain experts. The experts alsoveriﬁed the results to ensure their correctness.5.1. BackgroundTo demonstrate the architecture, we selected certain technolo-gies to implement each components of the system. Yet, thearchitecture does not stick to particular technologies. Fordeveloping the domain ontology model, we use OWL as themodeling language. OWL, from W3C, is currently the most popularontology representation language [67]. OWL 2 describes thedomain in terms of individuals, classes, properties, data types andvalues. It consists of a set of axioms and facts that describe thedomain. Ontologies that are described in OWL 2 can (and generallyare) stored as Web documents and can be combined into largercollections of information. Prote´ge´2is used as the developmenttool for editing OWL and OWL 2 ontologies.As modeling languages for SWS description, OWL-S [68],formerly DAML-S, was selected. This is an ontology for thedescription of semantic web services expressed in OWL, and a coreset of markup language constructs for describing the propertiesand capabilities of web services in unambiguous, computer-interpretable form. Its inherent compatibility with OWL makes it areasonable choice. Tool development for OWL-S has largely takenplace as separate elements or components developed by differentresearch groups on a stand-alone basis rather than as a full-ﬂedgedframework covering the entire life cycle of Semantic Webapplications [69]. Although there is an OWL-S Prote´ge´-basedEditor plus-in available, it only works for Prote´ge´3.2 or earlierversions, in which OWL 2 was not supported. This means thedeveloper either uses OWL 1 and earlier versions of Prote´ge´together with OWL-S editor plus-in, or uses OWL 2 with currentversion of Prote´ge´and other stand-alone editors like the OWL-SEditor3and ASSAM [70].The current
+ development
+ of business
+ rule standards allowsthem
+ to be described
+ using semantic technology.
+ The rule
+interchange
+ format
+ (RIF)
+ became
+ a W3C recommendation
+ in2010. For declarative
+ BRs which
+ clarify
+ the
+ relationship between
+service requesters and decision services,
+ we used
+ RIF asthe technique
+ to represent BRs because
+ of its compatibility
+ withOWL.
+Lying between the knowledge representations and the multi-agent system, the engine must be able to do the reasoning on theknowledge repositories. The currently available inference enginethat satisﬁes most of the above requirements is Pellet [65]. Pellet isan OWL 2 reasoner. It provides standard and cutting-edgereasoning services for OWL ontologies. Pellet is viewed as theleading choice for systems for which sound-and-complete OWL DLreasoning is essential [71]. It includes support for OWL 2 proﬁlesincluding OWL 2 EL. However, in terms of rule supporting, Pelletdoes not support RIF. Instead, it supports reasoning with SWRL [72]rules. SWRL is a rule language which was designed as an extensionto OWL. It is one of the simpler rule languages, and mostSWRL features are covered by RIF-BLD, with the exception ofFig. 2. Interoperability architecture for policy implementation.2http://protege.stanford.edu/.3http://staff.um.edu.mt/cabe2/supervising/undergraduate/owlseditFYP/OwlSE-dit.html.Y. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924918 ‘‘different-from’’, thus it should be possible to exchange mostSWRL rules via RIF
+ [73]
+. In fact,
+ we were
+ not able to ﬁnd anyreasoner
+ that
+ currently supports RIF.
+ RIF
+ is quite a new standard;the
+ industry and academia
+ still need
+ time to develop
+ supportingtools
+ for it. It is not clear
+ whether
+ Pellet
+ will include
+ support forRIF
+ in the future.
+ But
+ the compatibility
+ between
+ RIF
+ and
+ SWRL
+allowed
+ us to choose Pellet.
+ In the development
+ we used Prote´ge´4.1, together
+ with
+ Pellet
+ Reasoner
+ Plus-in version
+ 2.2, to build theprototype.
+5.1.1. The contextOne highly volatile topic in the agricultural ﬁeld is thesubsidizing of the electronic branding of sheep and goats. Theobjective of this policy is to encourage farms to use electronicbranding under the ﬁnancial capability of the government. Thesubsidy policy frequently changes due to the government ﬁnancialsituation and changes in other agricultural policies and strategy. Inthis study, we selected a 2010 version of this policy. Reopened in2010 from the original ministerial regulation ‘‘CAP Income 2006’’(GLB-inkomenssteun 20064), the following policy is in part aboutthe opportunity to receive support for the electronic branding ofsheep and goats. For the purposes of this paper we only list atranslation of (a part of) Article 38, 38a and 38b. This policy has 78articles in total and includes a much broader scope with morerelated concepts and legislation.Article 38(. . .)b. Sheep or goat: sheep or goat, as deÞned in Article1, subdivision q respectively subdivision r of theRegulation identiÞcation and registration of animals;c. Electronic brands: identifying a sheep or goat,according to Article 12e, Þrst paragraph, Sections Athrough H, of the regulation ÔIdentiÞcation and Regis-tration of AnimalsÕ.Article 38a1. The Minister shall provide one-time specialassistance to farmers in the form of a Þnancialcontribution for the electronic branding of sheep andgoats. 2. SpeciÞc support amounts tos4 per sheep orgoat, taking into account that this amount is reducedproportionally for all reimbursement requests to beconsidered if the total of the requests that should betaken into account for compensation exceeds the amountofs2,000,000.Article 38b1. The assistance, referred to in Article 38a, Þrstparagraph, can only be requested by farmers who wereowner or tenant on May 15, 2010, of an agriculturalcompany that is assigned to a UBN and on which, on thebasis of Article 37, Þrst paragraph, of the regulationÔIdentiÞcation
+ and Registration of AnimalsÕ, as it readon November 1, 2009, it was indicated that based on UBNat that moment more than 100 sheep or goats were kept. 2.The Minister shall only provide support for theelectronic branding of sheep and goats that were bornon or before December 31, 2009. 3. The Minister shallprovide support only if 90% of the animals born beforeJanuary 1, 2010, which are present at the UBN on June 30,2010, are electronically branded on or before June 30,2010. (. . .)Simply speaking, the above policy describes a number ofrelevant legal rules, which can be reformulated in the following.- Speciﬁc support may be provided only to farmers who keep morethan 100 sheep or goats;- The amount of speciﬁc support is re-calculated and reducedproportionally if the total request exceeds the amount ofs2,000,000;- Speciﬁc support is only provided for the electronic marking ofsheep and goats that are born on or before December 31, 2009;- Speciﬁc support may be provided only if 90% of the animals areelectronically branded by June 30, 2010;- Speciﬁc support should be provided if the above conditions aremet; and- Only the Minister can provide speciﬁc support.In this illustration we intentionally hide the complicatedpreconditions and calculation methods of the speciﬁc support toavoid the explosion of involved legal concepts. In the rest of thischapter we will describe how such policy can be implemented withour architecture. The pilot implementation
+ is a system that regardsfarmers as end-user and provides them a convenient way to gainsubsidy for their use of electronic branding. Currently theorganization provides the subsiding service in a semi-automaticway, where some segment sub-processes and componentsisolated. They have their CRM application to manage clients’proﬁles, risk control application to identify clients with rottenrecords, and an expert system to help in the calculation of subsidy.Yet those components are not well interacted and manyFig. 3. Subsiding process and its interactions with clients.4http://lexius.nl/regeling-glb-inkomenssteun-2006.Y. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924 919 connections are manual and paper-based tasks. In our prototyping,a pilot system integrates those segment sub-processes andapplications into a service delivery process for clients. We usethe following process diagram written in the Archimate modelinglanguage to demonstrate the steps of a subsiding process and itsinteractions with clients (Fig. 3).5.2. Building a domain ontologyThe above policy refers to many legal concepts, such as ‘‘sheep’’,‘‘goat’’, ‘‘animal’’ and ‘‘speciﬁc support’’. Fig. 4 is an illustrativedomain ontology to describe the concepts used in this case study.Due to space reason, many issues fall outside the scope of thisontology: for example, the different kinds of farmers (if it isnecessary to distinguish them), the departments of EL&I, thedifferent subsidies (if they are all relevant to electronic branding ofsheep and goats), and the different kinds of sheep and goats (if thisimpacts the gain of speciﬁc support). Moreover, the data propertyof an entity (e.g. ‘‘person’’ has ‘‘ID’’ and ‘‘account’’; ‘‘farmer’’ has‘‘sheep number’’, ‘‘goat number’’, ‘‘sheep electronic brand number’’and ‘‘goat electronic brand number’’; ‘‘sheep’’ and ‘‘goat’’ have‘‘date of birth’’; ‘‘electronic brand’’ has ‘‘date of branding’’, and‘‘result’’ has ‘‘amount’’ as the result of calculation) mighteventually need to be included into the domain ontology foroperational reasons.5.3. Deﬁning business servicesThe process that allows clients to apply for subsidy for theelectronic branding of their sheep and goats is composed byseveral business services. BSs are divided into decision andsupportive services, as shown in Table 2. Decision services holda tight connection with the policy, and the connection between thepolicy and the business rules in execution should be traceable.Decision services ensure that the processes comply with the policy.Supportive services allow for the reusability of resource amongdifferent processes.Both decision and supportive services are described withsemantics. The service description is formally represented in aformat speciﬁed as {service functionality, input set, output set}which complies with a certain SWS reference model such as OWL-S. Eventually, the services will be described in OWL-S format withthe help of proper development tools.BSs are derived
+ using the criteria
+ of Parnas [53], whosuggested that
+ each
+ module
+ should hide some design decision
+from the rest of the system. We assume that the system
+ needs adecision
+ service
+ (DS01)
+ to calculate
+ how
+ much subsidy
+ isavailable
+ for a client. We also need
+ another
+ decision
+ service
+(DS02)
+ to allow
+ manual
+ investigation
+ of special cases. To startthe process, the system
+ needs
+ at least one supportive service(SS01)
+ for submission intake. Alternative
+ intake services
+ can
+ beissued to allow
+ multiple
+ submission channels
+ (e.g.
+ one forelectronic
+ channel,
+ and one for front ofﬁces).
+ We also
+ need asupportive
+ service
+ (SS02)
+ to check
+ via the UBN
+ system
+ thenumber of sheep
+ and goats born before January 1, 2010 that
+belonged
+ to the client
+ and how many of them
+ were electroni-
+cally
+ branded by June 30, 2010. Similar information
+ gathering
+services
+ can
+ be issues for e.g.
+ checking client
+ information
+ from aCRM system.
+ At least
+ a ﬁltering service (SS03)
+ is needed tocategorize
+ submissions for automatic
+ decision
+ making ormanual decision
+ making. This step can vary depending
+ on theorganizational
+ strategy,
+ e.g.
+ using
+ a simple black list or some
+complex risk models.
+ The EL&I
+ currently uses a complex
+ riskcontrol
+ model concerning
+ the historical
+ behaviors
+ of the client.
+ Ahigh risk
+ will trigger
+ manual
+ investigation
+ for decision
+ making.Furthermore, we need
+ one supportive
+ service (SS05)
+ for banktransactions.
+5.4. Deﬁning business rulesBRs that
+ are used
+ in the decision
+ service
+ are separated
+ fromthe BRs that describe
+ the process
+ logic.
+ Rules
+ used in decision
+service are closely
+ related
+ to the policy.
+ Being traceable
+ to the
+piece
+ of legal source text
+ allows
+ easy maintenance of them.
+ Many
+expert systems can
+ fulﬁll such
+ a requirement.
+ In our prototypethe rule models are represented
+ in RIF-Core.
+ An example
+ of rules
+in decision
+ service
+ is given
+ as follows.
+ This rule strictly
+ respondson the calculation
+ method described in the policy. Note
+ that
+most of the IRIs
+ used in the examples
+ of this paper
+ are ﬁctitious
+and do not represent
+ real entities.
+ To improve the
+ visual appeal,
+the example
+ takes
+ advantage
+ of the syntactic
+ shortcuts
+ (allowedby the RIF Datatypes
+ and
+ Built-ins
+ speciﬁcation).
+ For instance,
+100
+ is used instead
+ of ÔÔ100’’^^’’xs:integer’’
+. For the same reason,
+we directly
+ use the mathematical
+ and binary relations opera-
+tions.
+ For example,
+ in practice,
+ ?a > 10 should be deﬁned asExternal(pred:numeric-greater-than(?a
+ 10))
+, where pred
+ is theFig. 4. Illustrative domain ontology in the CAP case (created using Prote´ge´).Y. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924920 preﬁx
+ deﬁned
+ as Preﬁx
+ (pred
+ <http://example.com/rif-builtin-
+predicate#
+>).Another
+ kind
+ of BR we used
+ focuses
+ on the
+ business
+ process
+ logic
+that
+ describes
+ the
+ relationships
+ between
+ services.
+ An example
+ ispresented
+ below.
+ This
+ rule
+ indicates
+ the
+ decision
+ service
+ that
+ should
+be called
+ when
+ a client
+ requests
+ the
+ speciﬁc
+ support.
+5.5. Policy implementation
+In the ﬁnal
+ step, the implementation
+ of changed
+ policy is demons-trated
+ by dynamically
+ creating
+ processes
+ based
+ on the
+ changes
+made
+ to it. We tested
+ the
+ creation
+ by implementing
+ two
+ types
+ ofchanges
+ in policy
+ occurring
+ several
+ times
+ the
+ last
+ couple
+ of years:
+ The changes in calculation method: the criteria of subsidycalculation are changed from year to year; and Exceptions that require manual decision making: not all thesubmissions are standardized; some special submissions requirehuman intervention and this happens frequently.Below is an example of such a process creation.Fig. 5 shows
+ that
+ the end-to-end
+ process
+ is supported
+ by thearchitecture.
+ Departments
+ can continue
+ operating
+ autonomously,
+have resource
+ proprietorship,
+ and operate
+ in their
+ existing
+ hierarchy.5.6. EvaluationThe results were discussed with the Ofﬁce of Arrangements. Inits opinion, the architecture creates the interoperability betweenthe previous disparate policy and operational workﬂow systemsand is able to adapt to changes in policy by using the output of thevertical system as input for adapting horizontal processes. Thefollowing main advantages were viewed:1. Agility: some new policies (e.g. updating the criteria of subsidycalculation) can be implemented immediately in decisionservices, whereas
+ others
+ need extensions/modiﬁcations
+ ofthe supportive services
+ (e.g.
+ adding
+ new subsidy policies
+ for
+ theelectronic
+ branding
+ of animals
+ other than
+ sheep
+ and
+ goats).
+Changes in the calculation
+ criteria
+ are capsulated
+ in thedecision
+ service DS01.
+ This even allows
+ for parallel
+ decision
+services, as different
+ versions
+ of a single policy that
+ arevalidated
+ in different years. ‘‘At the ﬁrst
+ glance,
+ it already
+indicates
+ where
+ the horizontal
+ process
+ will
+ be changed,’’
+ one of theinterviewees
+ said. Although
+ adaption
+ within
+ a certain
+ service
+can vary, ﬁnding
+ out the impact
+ from changed
+ policy
+ onhorizontal processes
+ is easier
+ than
+ before.
+ This
+ reduces theuncertainty
+ in policy
+ implementation.
+2. System ﬂexibility: new extensions, such as the risk managementtask executed by a subsystem, can be easily integrated into thehorizontal process. An interviewee commented that ‘‘riskmanagement is another kind of important information andknowledge in the routine processes but is not mentioned in thepolicy’’. The EL&I has made use of its cumulative knowledgeof risk management for many years. This is the importantinternal strategy that strongly impacts the horizontal processdesign. The architecture is able to support this consideration.Table 2Examples of business service proﬁles in the subsidizing process.SWS Speciﬁcation ExplanationDecision servicesDS01 {{Calculate, Speciﬁc_Support}, {ID, Sheep_Number, Goat_Number, Sheep_Electronic_Brand_Number, Goat_ Electronic_Brand_Number}, {ID, Result}}Calculate the speciﬁc support according to the policy.DS02 {{Decide, Speciﬁc_Support}, {ID, Sheep_Number, Goat_Number, Sheep_Electronic_Brand_Number, Goat_ Electronic_Brand_Number}, {ID, Result}}Manually decide the speciﬁc support according to speciﬁc legislation(e.g. judicial interpretations).Supportive servicesSS01 {{Receive, Submission}, {ID, Account}, {ID, Account}} Receive the submission from a client.SS02 {{Check, Electronic_Brand}, {ID, Date_Of_Birth, Date_Of_Branding},{Sheep_Number, Goat_Number, Sheep_ Electronic_Brand_Number, Goat_Electronic_Brand_Number}}Check the UBN system as to how many sheep and goats born before a certaindate belonged to the client, and how many of them were electronically brandedby a certain date.SS03 {{Check, Risk}, {ID}, {Risk}} Check whether the client has an acceptable risk level.SS04 {{Return, Result}, {ID, Result}, {1}} Notify the client of the ﬁnal decision result (normally via an ofﬁcial letter).SS05 {{Transfer, Speciﬁc_Support}, {Account, Amount}, {1}} Transfer speciﬁc support to the bank account of the client.Prefix(mes <http://example.com/message#>)Forall ?result (If  And(?result # mes:Result?sheep_Number + ?goat_Number >= 100(?sheep_ Electronic_Bran d_Numbe r+ ?go
+ at_  Electronic_Brand_Number)/(?sheep_Number + ?goat_Number) >= 0. 9)Then Do( Modify(?result[result:amount-> 4 * (?sheep_
+  Electronic_Brand_Numbe r+ ?goat_ Electronic_Bran
+ d_Numbe r)])  ) )Prefix(act <http://example.com/action#>)Forall ?Farme r(act:receiv e(?Farmer  <specific_Support>) :-calculat
+ eSpecificSupport (?Farme r))    Y. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924 921 Furthermore, human intervention can be considered as servicesand involved into the horizontal processes with a standardizedinterface.3. Compliance: as interoperability between the policy and work-ﬂow systems ensures that the output of the vertical processes isdirectly translated into horizontal processes, compliance topolicy is ensured.4. Implementation cost: as the architecture allow quick imple-mentation and easy adaption for changes, less FTEs is required.This results in cost reduction of new changes, after the upfrontcosts of having the architecture in place have been made.Current operational process in the organization connects eachstep manually, as each of them is performed by a siloeddepartment. Although ICT applications provide support for thebusiness processes within each department, interoperabilitybetween them is hardly achieved. Manual documenting andcommunicating on cases is a daily job. The architecture providesa solution for achieving interoperability resulting in a reductionof a number of manual tasks.As the architecture is based on three main principles, the valueof the principles is also reﬂected in the testing. Principle 1 suggeststhe use of business services. This eventually results in the agility torespond changes in policy. Principle 2 suggests the separation ofbusiness rules from different sources. This facilitates the mainte-nance of the compliance to policy and also enables new extension.Principle 3 suggests the consistency of business rules at differentlevels. This eventually ensures the compliance of operationalprocesses to the policy. The interviewees all agreed on the beneﬁtof those principles.There were also a number of disadvantages mentioned, relatedto complexity, knowledge and process. Knowledge about ontol-ogies is required; especially policy-makers ﬁnd it difﬁcult to buildand maintain a complex ontology. Furthermore, a closer coopera-tion between policy-makers and business process implementers isrequired. Reusability of decision services is limited, as they aredeveloped for supporting speciﬁc processes. Some intervieweescommented that some ﬁltering of submissions also requiresknowledge from decision services.6. ConclusionWhereas most research in interoperability is focused onhorizontal (workﬂow) processes, little research has been doneon vertical interoperability to enable communication betweendisparate strategic and operational systems. The outcome ofvertical direction-setting processes inﬂuences the horizontal oroperational processes. A lack of interoperability between those twoprocesses results in long delays and high costs in the implementa-tion of new strategies and policies. Traditionally strategy andoperational processes are separated and viewed as two different ofa kind, whereas today’s fast changing environment requiresinteroperability to ensure that changes can be quickly implemen-ted. We have presented an architecture which lays the foundationsfor interoperability between vertical and horizontal systems andprocesses. This architecture is based on three main principles: todeﬁne business processes using Business Services; to separatebusiness rules derived from policy from other concerns; and todistinguish between business rules at the organizational, semanticand technical levels while at the same time keeping themconsistent. Whereas oftentimes principles are not tested, in ourresearch the architecture is tested in a prototype using scenarios inwhich policies are directly implemented in horizontal businessprocesses. The testing shows that the architecture helps toimplement some policies immediately and others in a fastermanner than previously possible, in this way contributing to theagility of policy implementation. The architecture has theadditional advantages that the business processes comply withstrategy and policy, new elements can be included more easily, andthe cost can be reduced. As the principles are the foundation of thearchitecture, the testing also reﬂects that those principles areuseful for improving interoperability.In the system architecture the three knowledge repositories–domain ontology, semantic service description and business rulemodels–are used for creating semantic interoperability amongSWSs, BRs and SAT. By combining these technologies interopera-bility between vertical and horizontal processes is created. SWSsare used for semantically describing services, software agentsexecute the service composition by invoking SWSs, and BRstranslate strategy/policy statement into executable rules fordecision making and operational processes creation. Althoughthe architecture achieves fast policy implementation at low costsand ensure that operational processes comply with the strategyand policies, there are two drawbacks: deﬁning and maintainingthe domain ontology is resource-intensive,
+ and the use of theprocess pattern limits the reusability of decision services.The architecture captures the technical and semantic level andthe organizational level was left out. Connecting vertical andFig. 5. An example of dynamic process creation in the subsidizing process.Y. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924922 horizontal processes requires governance mechanisms to make itwork. At the organizational level there also exist factors inﬂuenc-ing agility and interoperability which relationship was notinvestigated. Related to this, a limitation is that we only evaluatedthe architectures within a certain setting using a single type ofpolicy. Within these setting analytical generalizations is possible,however, it might be that within other settings or with otherstrategic directions the architecture might not provide thenecessary interoperability.
+ In particular when large changesrequiring a drastic change of operational processes, the interoper-ability provided by the architecture might not be sufﬁcient. Theboundaries of the usefulness of the architecture should be furtherinvestigated.References[1] J.J. Stewart, D.M. Hedge, J.P. Lester, Public Policy: An Evolutionary
+ Approach, 3rded., Cengage
+ Learning, Boston, USA, 2007.[2] C. Armistead, J.-P. Pritchard, S. Machin, Strategic business process managementfor organizational effectiveness,
+ Long Range Planning 32 (1) (1999) 96–106.[3] Y. Gong, M. Janssen, From policy implementation
+ to business process manage-ment: principles for creating ﬂexibility and agility, Government InformationQuarterly 29 (1) (2011) 61–71.[4] IEEE, Interoperability, IEEE Standard Computer
+ Dictionary: A Compilation
+ of IEEEStandard Computer Glossaries, Institute of Electrical and Electronics Engineers,New York, USA, 1990.[5] R.E. McGaughey, Internet technology:
+ contributing to agility in the twenty-ﬁrstcentury, International Journal
+ of Agile Management Systems 1 (1) (1999) 7–13.[6] D. Apostolou, G. Mentzas,
+ L. Stojanovic,
+ B. Thoenssen, T.P. Lobo, A collaborative
+decision framework for managing changes in e-government services, Govern-ment Information Quarterly 28 (1) (2010) 101–116.[7] Y. Naudet, T. Latour, W. Guedria, D. Chen, Towards a systemic formalisation ofinteroperability,
+ Computers in Industry 61 (2) (2010) 176–185.[8] C.-M. Chituc, A. Azevedo, C. Toscano, A framework proposal for seamless inter-operability in a collaborative networked environment, Computers in Industry 60(5) (2009) 317–338.[9] M.P.A. Van Oosterhout, E. Waarts, E. Van Heck, Business agility: need, readinessand alignment with it strategies, in: K.C. Desouza (Ed.), Agile Information Sys-tems: Conceptualization, Construction and Management, Elsevier, Burlington,2006, pp. 52–69.[10] L. Li, X. Zhao, Enhancing competitive edge through knowledge management inimplementing
+ ERP systems, Systems Research and Behavioral Science 23 (2)(2006) 129–140.[11] D. Moitra, J. Ganesh, Web services and ﬂexible business processes: towards theadaptive enterprise, Information & Management 42 (7) (2005) 921–933.[12] L. Guijarro, Semantic interoperability in eGovernment
+ initiatives, Computer
+Standards & Interfaces 31 (1) (2009) 174–180.[13] N. Benamou, A. Busson, A. Keravel,
+ Impact of e-government interoperability inlocal governments, in: R. Traunmu¨ller (Ed.), Electronic Government,
+ Third Inter-national Conference, Springer, Berlin, Germany,
+ 2004.[14] ISO, ISO 19439:2006 Enterprise Integration – Framework
+ for EnterpriseModelling, 2006.[15] A.-J. Berre, A. Hahn, D. Akehurst, J. Bezivin, A. Tsalgatidou,
+ F. Vermaut, L. Kutvonen,P.F. Linington, State-of-the art for interoperability architecture approaches, in:INTEROP, 2004.[16] G. Weichhart, T. Feiner, C. Stary, Implementing organisational interoperability –The SUddEN approach, Computers in Industry 61 (2) (2010) 152–160.[17] IDABC, European Interoperability Framework for pan-European eGovernment
+services (Version 1.0),
+ European Commission, Luxembourg,
+ 2009.[18] P.R.S. Visser, D.M. Jones, T.J.M. Bench-Capon, M.J.R. Shave, Assessing heterogene-ity by classifying ontology mismatches, in: International Conference on FormalOntology in Information Systems (FOIS), IOS Press, (1998),
+ pp. 148–162.[19] C.F. Da Silva, L. Me´dini, S.A. Ghafour, P. Hoffmann, P. Ghodous, Semantic
+ inter-operability of heterogeneous semantic resources, Electronic Notes in TheoreticalComputer Science 150 (2) (2006) 71–85.[20] S. Aier, R. Winter, Virtual decoupling for IT/business alignment – conceptualfoundations,
+ architecture
+ design and implementation
+ example,
+ Business & Infor-mation
+ Systems Engineering
+ 1 (2) (2009) 150–163.
+[21] V. Rosener, T. Latour, E. Dubois, A model-based ontology of the software inter-operability problem: preliminary results, in: CAISE04 Workshops, EMOI 04, 2004,241–252.[22] W.M.P. Van der Aalst, M. Weske, D. Gru¨nbauer, Case handling: a new paradigm forbusiness process support, Data & Knowledge Engineering
+ 53 (2) (2005) 129–162.[23] H. Lienhard, U.-M. Ku¨nzi, Workﬂow and business rules: a common approach, in: L.Fischer (Ed.), Workﬂow Handbook 2005, Future Strategies Inc., Lighthouse Point,2005, pp. 129–140.[24] B. Orrie¨ns, J. Yang, M.P. Papazoglou,
+ A Framework for business rule driven
+ servicecomposition, in: B. Benatallah, M.-C. Shan (Eds.), Technologies for E-Services,Springer, Heidelberg, 2003, pp. 14–27.[25] A. Charﬁ, M. Mezini, AO4BPEL: an aspect-oriented extension
+ to BPEL, World WideWeb 10 (3) (2007) 309–344.[26] H. Weigand, W.-J. Van den Heuvel, M. Hiel, Rule-based service composition andservice-oriented
+ business rule management, in: Regulations Modelling andDeployment (ReMoD’08), CEUR, 2008.[27] Y. Yao, H. Chen, A rule-based web service composition approach, in: SixthInternational
+ Conference on Autonomic and Autonomous Systems, IEEE, 2010,150–155.[28] D.A. D’Mello, V.S. Ananthanarayana, S. Salian, A review of dynamic web servicecomposition
+ techniques, in: N. Meghanathan, B.K. Kaushik, D. Nagamalai (Eds.),Advanced Computing, Springer, Heidelberg, 2011,
+ pp. 85–97.[29] T. Sabol, K. Furdı´k, M. Mach, Employing semantic technologies for the orchestra-tion of government services, in: T. Vitvar, V. Peristeras,
+ K. Tarabanis (Eds.),Semantic Technologies for E-Government, Springer, Heidelberg, 2010, pp. 47–74.[30] F. Garcı´a-Sa´nchez, L.A´. Sabucedo, R. Martı´nez-Be´jar, L.A. Rifo´n, R. Valencia-Garcı
+´a,J.M. Go´me, Applying intelligent agents and semantic web services in eGovern-
+ment environments, Expert Systems 28 (5) (2011) 416–436.[31] S.A. McIlraith, T.C. Son, H. Zeng, Semantic web services, IEEE Intelligent Systems16 (2) (2001) 46–53.[32] T. Morgan, Business Rules and Information Systems: Aligning IT with BusinessGoals, Addison-Wesley, Indianapolis, IN, USA, 2002.[33] S. Ali, B. Soh, T. Torabi, A novel approach toward integration of rules into businessprocesses using an agent-oriented framework, IEEE Transactions on IndustrialInformatics 2 (3) (2006) 145–154.[34]
+ S. Wang,
+ W. Shen,
+ Q. Hao,
+ An agent-based
+ web service
+ workﬂow
+ model forinter-enterprise
+ collaboration,
+ Expert
+ Systems
+ with
+ Applications
+ 31 (4) (2006)
+787–799.
+[35] J. Estublier, D. Leblang, A. Van der Hoek, R. Conradi, G. Clemm, W. Tichy, D.Wiborg-Weber, Impact of software engineering research on the practice ofsoftware conﬁguration
+ management, ACM Transactions on Software Engineeringand Methodology 14 (4) (2005) 383–430.[36] B. Ramesh, M. Jarke, Toward reference models for requirements
+ traceability, IEEETransactions on Software Engineering 27 (1) (2001) 58–93.[37] K. Mohan, P. Xu, L. Cao, B. Ramesh, Improving change management
+ in softwaredevelopment:
+ integrating traceability and software conﬁguration management,Decision Support Systems 45 (4) (2008) 922–936.[38] K. Peffers, T. Tuunanen, M.A. Rothenberger, S. Chatterjee, A design scienceresearch methodology for information systems research, Journal of ManagementInformation Systems 24 (3) (2007) 45–77.[39] A.R. Hevner, S.T. March, J. Park, S. Ram, Design science in information systemsresearch, MIS Quarterly 28 (1) (2004) 75–105.[40] R.K. Yin, Case Study Research Design and Methods, 4th ed., Sage Publications,2009.[41] ISO/IEC, ISO/IEC Standard for Systems and Software Engineering – RecommendedPractice for Architectural Description of Software-Intensive Systems, ISO/IEC,New York, USA, 2007.[42] TOGAF, The Open Group Architecture Framework, The Open Group, 2009.[43] G.L. Richardson, B.M. Jackson, G.W. Dickson, A Principles-based enterprise archi-tecture: lessons from Texaco and star enterprise, MIS Quarterly 14 (4) (1990)
+385–403.[44]
+ P. Van
+ Bommel, S.J.B.A.
+ Hoppenbrouwers,
+ H.A.E. Proper,
+ T.P. Van
+ der
+ Weide,
+Giving
+ meaning
+ to enterprise
+ architectures:
+ architecture
+ principles
+ with ORMand
+ ORC,
+ in:
+ R. Meersman,
+ Z. Tari, P. Herrero
+ (Eds.),
+ On the Move to Meaningful
+Internet Systems
+ 2006:
+ OTM 2006
+ Workshops,
+ Springer,
+ Berlin,
+ (2006),
+ pp.
+1138–1147.
+[45] Y. Levy, T. Ellis, A systems
+ approach to conduct an effective literature review insupport of information systems research, Informing Science Journal 9 (2006)181–211.[46] J.H. Lee, H.J. Shim, K.K. Kim, Critical success factors in SOA implementation:
+ anexploratory study, Information Systems Management 27 (2) (2011) 123–145.[47] C. BenMoussa, Investigating barriers to knowledge management success: aconceptual model and a comparative case, Analysis Journal of Information &Knowledge Management 9 (4) (2010) 303–318.[48] InterOP-VLab, Interoperability Research for Networked Enterprises Applicationsand Software (Deliverable D6.1): Practices, Principles and Patterns forInteroperability,
+ University Bordeaux 1, 2005.[49] GoC, Government of Canada Federated Architecture Iteration One, 2000.[50] TMF, The NGOSS Technology-Neutral
+ Architecture, TeleManagement Forum,2003.[51] S. Angelov, P. Grefen,
+ An e-contracting reference architecture, Journal of Systemsand Software 81 (11) (2008) 1816–1844.[52] S. Aier, C. Fischer, R. Winter, Construction and evaluation
+ of a meta-model forenterprise architecture design principles, in: The 10th International Conferenceon Wirtschaftsinformatik, Zurich, Switzerland, (2011), pp. 637–644.[53] D.L. Parnas, On the criteria to be used in decomposing systems into modules,Communications of the ACM 15 (12) (1972) 1053–1058.[54]
+ L. Cherbakov,
+ G. Galambos,
+ R. Harishankar,
+ S. Kalyana,
+ G. Rackman, Impactof service
+ orientation
+ at the business
+ level,
+ IBM Systems Journal
+ 44 (4)
+ (2005)
+653–668.
+[55] F. Curbera, R. Khalaf, N. Mukhi, S. Tai, S. Weerawarana, The next step in webservices,
+ Communications of the ACM 46 (10) (2003) 29–34.[56] R. Lu, S. Sadiq, A survey of comparative business process modeling approaches, in:W. Abramowicz
+ (Ed.), Business Information Systems, Springer,
+ Heidelberg, 2007,pp. 82–94.[57] A. Boer, T. Van Engers, R. Winkels, Traceability and change in legal requirements
+engineering, in: P. Casanovas, U. Pagallo, G. Ajani, G. Sartor (Eds.), AI Approachesto the Complexity of Legal Systems. Complex Systems, the Semantic Web,Ontologies,
+ Argumentation, and Dialogue, Springer,
+ Heidelberg, 2010, pp. 74–92.Y. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924 923 [58] S. Goedertier, J. Vanthienen, Declarative process modeling with business vocab-ulary and business rules, in: R. Meersman, Z. Tari, P. Herrero (Eds.), On the Move toMeaningful Internet Systems 2007: OTM 2007 Workshops Proceedings. Part I,2007.[59] J. Taylor, N. Raden, Smart (Enough) Systems: How to Deliver Competitive Advan-tage by Automating Hidden Decisions, Prentice Hall Press, Indianapolis, USA,2007.[60] H. Weigand, W.-J. Van den Heuvel, M. Hiel, Business policy compliance in service-oriented systems, Information Systems 36 (4) (2011) 791–807.[61] K.M. Eisenhardt, D.N. Sull, Strategy as simple rules, Harvard Business Review 79(1) (2001) 107–116.[62] P. Kordelaar, F. Van Teeseling, E. Hoogland, Acquiring and modelling legalknowledge using patterns: an application for the Dutch immigration and natur-alisation service,
+ in: P. Cimiano,
+ H.S. Pinto (Eds.), Knowledge Engineering andManagement by the Masses, Springer, Heidelberg, 2010, pp. 341–349.[63] Y. Gong, S. Overbeek, M. Janssen, Integrating semantic web and software agents:exchanging RIF and BDI rules, International Journal of Systems and Service-Oriented Engineering
+ 2 (1) (2011) 60–76.[64] S. Dietze, N. Benn, J. Domingue, A. Conconi, F. Cattaneo,
+ Two-fold service match-making – applying ontology mapping for semantic web service discovery, in: A.Go´mez-Pe´rez, Y. Yu, Y. Ding (Eds.), 4th Asian Semantic
+ Web Conference (ASWC2009), Springer, Heidelberg, (2009), pp. 246–260.[65] Clark & Parsia, Pellet: OWL 2 Reasoner for Java, Clark & Parsia LLC, 2011.[66] H. Bouwman, H. Van Houtum, M. Janssen, G. Versteeg,
+ Business architectures inthe public sector: experiences from practice, Communications of the Associationfor Information Systems 29 (2011) 411–426.[67] D. Gasˇevic´, D. Djuric´, V. Devedzˇic´, Model Driven Engineering and OntologyDevelopment, 2nd ed., Springer, Berlin, Germany, 2009.[68] D. Martin, M. Burstein, J. Hobbs, O. Lassila, D. McDermott,
+ S. McIlraith, S.Narayanan, M. Paolucci,
+ B. Parsia, T. Payne, E. Sirin, N. Srinivasan, K. Sycara,OWL-S: Semantic Markup for Web Services, W3C Member Submission, 2004.[69] C. Pedrinaci, J. Domingue, A.P. Sheth, Semantic web services, in: J. Domingue, D.Fensel, J.A. Hendler (Eds.), Handbook
+ of Semantic
+ Web Technologies, Springer,Berlin, Germany, 2011.[70] A. Heß, E. Johnston, N. Kushmerick, ASSAM: a tool for semi-automatically
+ anno-tating semantic web services, in: S.A. McIlraith, D. Plexousakis, F. Van Harmelen(Eds.), The Semantic Web – ISWC 2004, Springer, 2004.[71] S. Singh, R. Karwayun, A Comparative Study of Inference Engines International
+Conference on Information Technology: New Generations, IEEE, Las Vegas, NV,USA, 2010, pp. 53–57.[72] W3C, SWRL: A Semantic Web Rule Language Combining OWL and RuleML, WorldWide Web Consortium,
+ 2004.[73] W3C, RIF FAQ, World Wide Web Consortium, 2011.Dr. Yiwei Gong is a researcher at the Information andCommunication Technology section of the Faculty ofTechnology, Policy, and Management at Delft Universi-ty of Technology, the Netherlands. His researchinterests include IT Architecture, Business ProcessManagement and Service Engineering. He received aPh.D. in Information Systems (2012) and a M.Sc. inComputer Science (2008) from Delft University ofTechnology. During his research, he worked directlyon the AGILE project funded by the NetherlandsOrganisation for Scientiﬁc Research (NWO) and pro-vided consultation to the Immigration and Naturaliza-tion Service (IND) for business process improvement.He has been involved in several international conferences as a program committeemember or reviewer, including IADIS Information Systems Conference. Contact himat y.gong@tudelft.nl.Prof. Dr. Marijn Janssen is full professor in ICT andgovernance of the Technology, Policy and ManagementFaculty of Delft University of Technology. He is Directorof the interdisciplinary Compliance & Design Manage-ment Master programme. His research interests are inthe ﬁeld of infrastructures, public-private networks andhis research focuses on orchestration, shared services,intermediaries, open data and open government. He hasbeen a consultant for the Ministry of Justice andreceived a Ph.D. in information systems (2001). He isassociate editor of Government Information Quarterly(GIQ) and the International Journal of E-GovernmentResearch (IJEGR), serves on several editorial boards andis involved in the organization of a number of conferences, including IFIP EGOV. Hehas published over 260 refereed publications. For more information visitww.tbm.tudelft.nl/marijnj.Y. Gong, M. Janssen / Computers in Industry 64 (2013) 912–924924

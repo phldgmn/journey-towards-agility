@@ -1,0 +1,5028 @@
+ The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ Contents lists available at ScienceDirect
+ The Journal of Systems
+ and Software
+ journal homepage: www.elsevier.com/locate/jss
+ Environmental
+ factors
+ analysis
+ and comparison
+ affecting
+ software
+ reliability
+ in development
+ of multi-release
+ software
+ Mengmeng Zhu,
+ Hoang Pham Department of Industrial and Systems
+ Engineering, Rutgers University,
+ Piscataway,
+ NJ 08854 United
+ States
+ a r t i c l e i n f o Article history:
+ Received
+ 15 December
+ 2016
+ Revised
+ 9 May
+ 2017
+ Accepted
+ 25 May
+ 2017
+ Available
+ online 20 June 2017
+ Keyword:
+ Environmental
+ factors
+ Multi-release
+ software
+ Principle component analysis
+ Multiple linear regression
+ Lasso regression
+ Stepwise
+ backward
+ elimination a b s t r a c t As the application of the principles of agile and lean software
+ development,
+ software
+ multiple release
+ becomes
+ very
+ common in the modern society.
+ Short iteration
+ and short release
+ cycle
+ have
+ driven
+ the signiﬁcant changes
+ of the development
+ process
+ of multi-release
+ software
+ product,
+ compared
+ with sin- gle release
+ software
+ product.
+ Thus, it is time to conduct a new
+ study
+ investigating
+ the impact
+ level
+ of environmental
+ factors
+ on affecting
+ software
+ reliability
+ in the development
+ of multi-release
+ software
+ to provide
+ a sound and concise guidance to software
+ practitioners
+ and researchers.
+ Statistical
+ learning meth-
+ ods, like
+ principle component
+ analysis,
+ stepwise
+ backward
+ elimination, lasso regression,
+ multiple linear regression,
+ and Tukey
+ method,
+ are
+ applied
+ in this study.
+ Comparisons
+ regarding
+ signiﬁcant environmental
+ factors
+ during the whole development
+ process,
+ principle components,
+ signiﬁcant environmental
+ factors
+ in each
+ development
+ phase and signiﬁcance level
+ of each
+ development
+ phase between
+ the development
+ of single release
+ software
+ and multi-release
+ software
+ are
+ also discussed.
+ ©2017
+ Elsevier
+ Inc. All rights
+ reserved.
+ 1. Introduction
+ As software
+ systems
+ are
+ more
+ deeply
+ embedded
+ in our every-
+ day
+ life,
+ the dependence of our modern society
+ on complex,
+ intel-
+ ligent
+ and reliable
+ large-scale
+ software
+ system
+ is rapidly
+ growing
+ ( Mohanty et al., 2013
+ ). Meanwhile,
+ the possibility of carrying
+ more
+ faults
+ in the large-scale
+ software
+ system
+ is higher than decades ago.
+ Software
+ failures
+ are
+ becoming
+ increasingly
+ common in the ﬁeld environment
+ as the increasing
+ complexity
+ of software
+ prod-
+ uct ( Sahoo et al., 2010
+ ). In order
+ to continually
+ align with the fast-
+ changing
+ customer’s
+ requirement
+ and provide
+ more
+ reliable
+ prod-
+ uct to the market,
+ most
+ companies
+ will release
+ multiple versions
+ of the software
+ product
+ since it is unlikely
+ to deliver
+ all the features
+ in a single release
+ and satisfy all the constraints
+ within limited
+ re-
+ source
+ ( Kapur et al., 2011
+ ; Saliu and Ruhe,
+ 2005
+ ). The principles of multi-release
+ software
+ are:
+ adding new
+ features
+ in the next
+ release
+ and ﬁxing the remaining
+ faults
+ from
+ previous
+ release
+ due to the fact
+ that bug-free
+ software
+ product
+ is not
+ likely
+ to be delivered
+ in any
+ release
+ ( Maurice
+ et al., 2006
+ ). Software
+ multiple releases
+ not
+ only
+ makes
+ company
+ easily
+ balance the competing
+ stakeholder’s
+ demand and beneﬁts
+ but also increases
+ reliability
+ and customer
+ satisfaction
+ level
+ during each
+ release
+ ( Svahnberg
+ et al., 2010
+ ; Ruhe
+ and Momoh, 2005
+ ). It is very
+ pragmatic
+ yet
+ interesting
+ to inves-
+ Corresponding
+ author.
+ E-mail addresses:
+ hopham@soe.rutgers.edu
+ , hopham@rci.rutgers.edu
+ , hoang84pham@gmail.com (H.Pham).
+ tigate
+ what are
+ the signiﬁcant environmental
+ factors
+ on affecting
+ software
+ reliability
+ during the development
+ of multi-release
+ soft-
+ ware.
+ Although no general
+ deﬁnition has been
+ given
+ to deﬁne what are
+ the environmental
+ factors
+ affecting
+ software
+ reliability
+ dur-
+ ing software
+ development
+ process,
+ there
+ have
+ been
+ a number
+ of related
+ works
+ in the literature
+ deﬁned
+ different
+ types of factors
+ in software
+ development
+ from
+ various
+ perspectives.
+ For
+ instance,
+ Misra
+ et al. (2009)
+ identiﬁed
+ some success factors
+ in agile soft-
+ ware
+ development
+ based
+ on data analysis
+ technique.
+ Chow
+ and Cao (2008)
+ provided
+ a survey
+ study
+ on the critical success factor
+ of ag- ile software
+ development
+ using quantitative
+ approach.
+ Clarke
+ and O’Connor (2012)
+ studied
+ the situational factors
+ affecting
+ software
+ development
+ process.
+ Zhang and Pham (20 0 0) deﬁned
+ 32 environ-
+ mental factors
+ to capture
+ the characteristics
+ affecting
+ software
+ reli-
+ ability during software
+ development
+ process
+ for single release
+ soft-
+ ware.
+ Another
+ exploratory
+ analysis
+ is also provided
+ ( Zhang et al., 2001
+ ) to further analyze
+ the detailed
+ relation
+ of these environmen-
+ tal
+ factors.
+ Furthermore,
+ Zhu et al. (2015
+ ) presented
+ a comparison
+ analysis
+ to compare
+ the changes
+ of these 32 environmental
+ fac-
+ tors
+ affecting
+ software
+ reliability
+ after
+ Zhang and Pham (20 0 0) ﬁrst
+ proposed
+ this idea. However,
+ these researches
+ mainly
+ focus on the development
+ process
+ for single release
+ software.
+ To the extent
+ of our knowledge,
+ we have
+ not
+ seen any
+ research
+ studied
+ the impact
+ of the environmental
+ factors
+ affecting
+ software
+ reliability
+ during the development
+ of multi-release
+ software.
+ http://dx.doi.org/10.1016/j.jss.2017.05.097
+ 0164-1212/©2017ElsevierInc.Allrightsreserved.
+  M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ 73 1.1.
+ Research
+ motivation
+ In today’s
+ fast-changing
+ technology
+ environment,
+ it is unlikely
+ to include all the required
+ features
+ in a single release
+ software.
+ Most
+ software
+ companies
+ will modify the parts
+ of the exist-
+ ing modules to extend
+ the current
+ functionality and usability by adding new
+ features
+ in the next
+ release
+ and correcting
+ the is- sues from
+ previous
+ release
+ ( Gorschek
+ and Davis,
+ 2008
+ ). The im- portance
+ of software
+ multiple release
+ has been
+ brought
+ to our at- tention
+ ( Febrero
+ et al., 2016
+ ). Compared
+ with traditional
+ release
+ cycle,
+ the modern software
+ release
+ cycle
+ is shortened
+ from
+ tradi-
+ tional 18-month
+ to 3-month ( Al-Emran
+ and Pfahl,
+ 2007
+ ). More-
+ over,
+ the challenges
+ caused
+ by modern realities
+ are
+ more
+ wide- spreading.
+ The rapid-changing
+ market,
+ the increasing
+ involvement
+ of end-users during software
+ development
+ and the new
+ competi-
+ tive
+ threats
+ all require
+ reliable
+ products
+ ( Beck
+ et al., 2001
+ ). Hence, how
+ to assure
+ reliability
+ and quality
+ for multi-release
+ software
+ in such
+ a challenging
+ environment
+ is critical to the company
+ and re-
+ search
+ institution.
+ The resources
+ and constraints
+ for the development
+ of multi- release
+ software
+ are
+ different.
+ Software
+ development
+ team
+ needs
+ to select the corresponding
+ features
+ presented
+ in the next
+ re-
+ lease with respect
+ to customers’
+ feedback
+ and market
+ require-
+ ments. Since software
+ will be released
+ in increments
+ for multi- release
+ software,
+ thus, coupling this concept
+ with other
+ principles such
+ as continuous unit testing
+ and pair programming
+ will better
+ arrange
+ the cost
+ distribution
+ ( Beck
+ et al., 2001
+ ). During the past
+ decades, software
+ version
+ planning and release
+ has been
+ studied
+ by many
+ researchers.
+ Szoke
+ (2011)
+ developed
+ a staged-delivery
+ global optimized
+ model for agile release
+ plan- ning. Li et al. (2014)
+ proposed
+ a multi-objective
+ optimization
+ tech-
+ nique
+ to optimize
+ three
+ main objectives
+ with respect
+ to cost,
+ rev-
+ enue, and uncertainty
+ for robust
+ next
+ release
+ problem.
+ Etgar
+ et al. (2017)
+ explored
+ several
+ optimization
+ approaches
+ to determine
+ the content
+ and release
+ date
+ for each
+ release
+ in order
+ to provide
+ opti-
+ mal net
+ present
+ value
+ (NPV). In addition, software
+ reliability
+ model related
+ to software
+ multiple release
+ is also investigated
+ by some researchers.
+ Hu et al. (2011)
+ proposed
+ a software
+ reliability
+ model considering the effect
+ of multiple releases
+ on the fault
+ detection
+ process
+ in software
+ development.
+ Yang
+ et al. (2016)
+ incorporated
+ fault
+ detection
+ and fault
+ correction
+ process
+ in multi-release
+ soft-
+ ware
+ reliability
+ modeling. Time
+ delay
+ is assumed
+ in fault
+ repair
+ after
+ detecting
+ faults.
+ However,
+ all of the past
+ research
+ related
+ to release
+ planning or multi-release
+ software
+ reliability
+ modeling did not
+ investigate
+ the impact
+ of environmental
+ factors
+ on software
+ re-
+ liability in the development
+ of multi-release
+ software.
+ Therefore,
+ it is plausible
+ to conduct a new
+ study
+ to investi-
+ gate
+ the impact
+ of these environmental
+ factors
+ on software
+ reli-
+ ability for multi-release
+ software
+ and compare
+ the difference
+ be-
+ tween
+ single release
+ software
+ and multi-release
+ software.
+ 1.2.
+ Research
+ objectives
+ As discussed
+ in the previous
+ section, the development
+ process
+ for multi-release
+ software
+ is different
+ with single release
+ software.
+ For
+ example,
+ how
+ to select the features
+ in which
+ release
+ and how
+ to determine
+ the removal
+ percentage
+ of detected
+ software
+ faults.
+ This study
+ aims to revisit
+ the environmental
+ factors
+ in terms
+ of their impact
+ on software
+ reliability
+ for multi-release
+ software.
+ This study
+ is carried
+ out by conducting a survey
+ of environmental
+ fac-
+ tors
+ affecting
+ software
+ reliability
+ for the next
+ release’s
+ develop-
+ ment. First,
+ we need
+ to ﬁnd out what are
+ the signiﬁcant environ-
+ mental factors
+ affecting
+ reliability
+ in the development
+ of multi- release
+ software.
+ Secondly,
+ what are
+ the correlations
+ between
+ en- vironmental
+ factors
+ and is it possible to reduce
+ the dimension of those variables
+ to provide
+ concise and sound information for re-
+ searchers
+ and practitioners?
+ Moreover,
+ the signiﬁcant environmen-
+ tal
+ factors
+ in each
+ development
+ phase and the signiﬁcance level
+ for each
+ development
+ phase are
+ also investigated
+ in order
+ to provide
+ a helpful time/resource
+ allocation matrix for software
+ development
+ team.
+ Thirdly,
+ we also compare
+ the signiﬁcant environmental
+ fac-
+ tors
+ during the whole development
+ process,
+ principle components,
+ the signiﬁcant environmental
+ factors
+ in each
+ development
+ phase, signiﬁcance level
+ of each
+ development
+ phase between
+ the devel-
+ opment of single release
+ software
+ and multi-release
+ software.
+ At the end of this study,
+ other
+ statistical
+ method
+ in terms
+ of variable
+ selection is also applied
+ in this paper to provide
+ an insightful ma- trix for readers
+ according
+ to their selection priority.
+ Software
+ prac-
+ titioners can choose
+ the results
+ coming from
+ different
+ methodolo-
+ gies based
+ on their requirements.
+ Section 2 brieﬂy
+ describes
+ how
+ we collected
+ the data for this survey.
+ Section 3 presents
+ the detailed
+ analysis
+ for the environ-
+ mental factors
+ and each
+ development
+ phase in the development
+ of multi-release
+ software.
+ Section 4 compares
+ the new
+ ﬁndings for multi-release
+ software
+ in this study
+ with the previous
+ ﬁndings for single release
+ software
+ ( Zhu et al., 2015
+ ). Section 5 reveals
+ the signiﬁcant environmental
+ factors
+ based
+ on other
+ variable
+ selection method.
+ Section 6 concludes this study
+ and discusses the sound and pressing
+ suggestion
+ for the future
+ research.
+ 2. Data
+ collection In order
+ to align with the latest
+ survey
+ data analysis
+ focused
+ on the signiﬁcant environmental
+ factors
+ on affecting
+ software
+ reli-
+ ability during the development
+ of single release
+ software
+ ( Zhu et al., 2015
+ ) and maintain
+ the similarity for the comparison
+ of envi-
+ ronmental
+ factors,
+ we still
+ use the same 32 environmental
+ factors
+ deﬁned
+ in Zhang and Pham (20 0 0) . 45 survey
+ responses
+ are
+ collected
+ from
+ various
+ industry
+ includ- ing computer
+ software,
+ internet,
+ banking, semiconductor,
+ online retailing,
+ ﬁnancial service, IT service & consulting and research
+ in- stitution.
+ Participants
+ ranked
+ the environmental
+ factors
+ based
+ on the impact
+ of each
+ environmental
+ factor
+ on software
+ reliability
+ as- sessment during the development
+ of multi-release
+ software.
+ The software
+ development
+ experiences,
+ software
+ applications, years
+ of experience,
+ and job title are
+ also provided
+ from
+ the participants.
+ All the participants
+ are
+ currently
+ working
+ in IT Department in dif- ferent
+ industry
+ or working
+ on software
+ development
+ in high-tech
+ company
+ in favor
+ of the validity
+ and reliability
+ of the survey
+ re-
+ sponse. Hence, we are
+ expecting
+ the survey
+ response
+ data is valid
+ and reliable.
+ 3. Findings
+ and results
+ 3.1.
+ Environmental
+ factors
+ analysis
+ 3.1.1.
+ Relative
+ weighted
+ method This survey
+ investigation
+ includes 32 environmental
+ factors.
+ In terms
+ of their impact
+ level
+ on software
+ reliability
+ assessment dur-
+ ing the development
+ of multi-release
+ software,
+ participants
+ need
+ to provide
+ a rank
+ ranging
+ from
+ 1 to 7 for each
+ environmental
+ fac-
+ tor.
+ For
+ example,
+ if participants
+ think one environmental
+ factor
+ is extremely
+ important
+ on affecting
+ software
+ reliability
+ for the next
+ release’s
+ development,
+ they
+ can rank
+ 7; on the contrary,
+ if partic- ipants
+ think one environmental
+ factor
+ does not
+ have
+ a signiﬁcant impact
+ on affecting
+ software
+ reliability
+ during the development
+ of next
+ release,
+ they
+ may
+ rank
+ 1. Relative
+ weighted
+ method
+ is applied
+ in this study
+ to provide
+ intuitive
+ information regarding
+ the impact
+ of each
+ environmental
+ factor
+ affecting
+ software
+ reliability.
+ The summation of the ranking
+ for all 32 environmental
+ factors
+ is from
+ 0 to 224.
+ In this study,
+  74 M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ Table
+ 1 Environmental
+ factors
+ ranking
+ by relative
+ weighted
+ method.
+ Rank
+ Factor
+ Description
+ Normalized
+ weight
+ 1 f1 Program
+ complexity
+ 0.039087909 2 f11
+ Requirement
+ analysis
+ 0.038455884 3 f8 Frequency
+ of program
+ speciﬁcation change
+ 0.036885309
+ 4 f22 Testing
+ effort
+ 0.0361219
+ 5 f12
+ Relationship
+ of detailed
+ design to requirement
+ 0.03557156
+ 6 f4 Amount of programming
+ effort
+ 0.035339928
+ 7 f25 Testing
+ coverage
+ 0.034279917
+ 8 f18
+ Program
+ workload
+ (stress)
+ 0.034200235
+ 9 f6 Percentage
+ of reused
+ modules 0.03417967
+ 10 f5 Level
+ of programming
+ technologies
+ 0.034081437
+ 11 f15
+ Programmer
+ skills 0.033737498
+ 12 f21
+ Testing
+ environment
+ 0.033712626
+ 13 f23 Testing
+ resource
+ allocation 0.033061158
+ 14 f10
+ Design methodology
+ 0.032923068
+ 15 f24
+ Testing
+ methodologies
+ 0.032877178
+ 16 f19
+ Domain knowledge
+ 0.032722566
+ 17 f27
+ Documentation
+ 0.032237781
+ 18 f3  of programming
+ 0.032026308 19 f26 Testing
+ tools
+ 0.031219573
+ 20 f14
+ Development
+ management
+ 0.031112885
+ 21 f16
+ Programmer
+ organization
+ 0.03065609
+ 22 f2 Program
+ categories
+ 0.030317901
+ 23 f20 Human nature
+ 0.030067289
+ 24 f17
+ Development
+ team
+ size 0.029361362
+ 25 f9 Volume of program
+ design documents
+ 0.029125828
+ 26 f13
+ Work
+ standards
+ 0.028696588 27 f28 Processors
+ 0.02485165
+ 28 f32 System
+ software
+ 0.024722279
+ 29 f29 Storage
+ devices
+ 0.024614
+ 4 4 4 30 f7 Programming
+ language
+ 0.02261143
+ 31 f30 Input/output
+ devices
+ 0.021177569
+ 32 f31
+ Telecommunication
+ devices
+ 0.019963182
+ the summation for all survey
+ responses
+ ranges
+ from
+ 87 to 191.
+ The equation
+ for normalization each
+ score
+ in their original survey
+ is given
+ as W ij = r ij  N i =1 r ij where
+ r ij represents
+ the score
+ of each
+ environmental
+ factor
+ in its
+ original survey,
+ which
+ can be explained
+ as the score
+ of the i th fac-
+ tor
+ in the j th survey.
+ N is the total
+ number
+ of factors
+ ﬁlled
+ up by the j th participant in the j th survey.
+ Since all the participants
+ ﬁlled
+ up the survey
+ form in this investigation,
+ thus N is 32 for all survey
+ responses.
+ We can easily
+ ﬁnd the ﬁnal weight
+ for the i th factor
+ by W i =  L j=1 W ij L where
+ L is the number
+ of complete
+ form, which
+ is 45 in this study.
+ As a result,
+ we are
+ able to calculate
+ the normalized
+ weight
+ for each
+ environmental
+ factor
+ and ﬁnd their ranking,
+ as shown
+ in Table
+ 1 . Program
+ complexity
+ becomes
+ top
+ 1 on the ranking,
+ which
+ has higher impact
+ on affecting
+ software
+ reliability
+ for the develop-
+ ment of next
+ release
+ than other
+ environmental
+ factors.
+ In general,
+ the higher rank
+ of an environmental
+ factor
+ in Table
+ 1 , the higher impact
+ on software
+ reliability
+ in the development
+ of multi-release
+ software.
+ 3.1.2.
+ Principle component
+ analysis
+ for
+ environmental
+ factors
+ In order
+ to keep
+ the similarity of this study
+ with the previous
+ study
+ ( Zhu et al., 2015
+ ) and compare
+ what is the difference
+ be-
+ tween
+ these two
+ studies
+ with respect
+ to single release
+ software
+ and multi release
+ software,
+ we are
+ using the same methodology
+ to Table
+ 2 Eigenvalue
+ and proportion
+ of the principle components.
+ Component Eigenvalue
+ Proportion
+ of variance
+ Cumulative
+ proportion
+ PC1 3.9836
+ 0.3821
+ 0.3821
+ PC2 1.2567
+ 0.1303
+ 0.5124
+ PC3 1.1596
+ 0.1273
+ 0.6397
+ PC4 1.0539
+ 0.1113
+ 0.751
+ PC5 0.8239 0.0832 0.8342 PC6 0.6142
+ 0.0654
+ 0.8996 PC7 0.4195
+ 0.0429
+ 0.9425
+ PC8 0.2871
+ 0.0241
+ 0.9666
+ PC9 0.2418
+ 0.0192
+ 0.9858
+ PC10
+ 0.1596
+ 0.0141
+ 1.0
+ 0 0 0 analyze
+ environmental
+ factors.
+ Since so many
+ environmental
+ fac-
+ tors
+ are
+ investigated
+ in this study
+ and it is unlikely
+ to apply
+ all of them in practice
+ or software
+ reliability
+ modeling, thus how
+ to reduce
+ the dimension of environmental
+ factors
+ is brought
+ to our attention
+ especially
+ some of the environmental
+ factors
+ are
+ corre-
+ lated.
+ Principle component
+ analysis
+ (PCA)
+ is applied
+ to reduce
+ the di- mension of the environmental
+ factors.
+ PCA
+ is a statistical
+ method
+ commonly
+ used
+ to reduce
+ the dimensionality of a dataset
+ while re-
+ taining
+ as much
+ of the variation
+ present
+ in the dataset
+ as possible ( James et al., 2013
+ ). This technique
+ often
+ brings out strong
+ pattern
+ in the dataset
+ and makes
+ dataset
+ easy to explore
+ and visualize. The top
+ 10 most
+ important
+ environmental
+ factors
+ based
+ on the rela-
+ tive
+ weighted
+ method
+ are
+ selected
+ to perform principle component
+ analysis.
+ The top
+ 10 environmental
+ factors
+ are
+ f1,
+ f11,
+ f8, f22, f12,
+ f4, f25, f18,
+ f6, f5. We can notice
+ that the ranking
+ is quite
+ different
+ com- pared
+ with the ﬁndings from
+ Zhu et al., (2015)
+ . The group
+ of sig- niﬁcant environmental
+ factors
+ affecting
+ software
+ reliability
+ is also different
+ between
+ the development
+ of multi-release
+ software
+ and single release
+ software.
+ R software
+ is utilized
+ to perform princi- ple analysis
+ in this study.
+ The covariance
+ matrix of 10 ×10 will be calculated
+ in order
+ to obtain the eigenvalues
+ and eigenvectors.
+ Eigenvalues,
+ from
+ the highest
+ to the lowest,
+ are
+ listed
+ in Table
+ 2 in terms
+ of their impact
+ level
+ on the principle components.
+ As seen from
+ Table
+ 2 , four principle components
+ will be re-
+ tained,
+ which
+ are
+ PC1,
+ PC2, PC3, PC4. The ﬁrst
+ four principle com- ponents
+ can address
+ over
+ 75% of the data variation.
+ 38.2% of the data variation
+ can be explained
+ by the ﬁrst
+ principle component;
+ about 13%
+ of the data variation
+ can be explained
+ by the second principle component.
+ Likewise,
+ the third
+ and the fourth
+ principle component
+ are
+ able to represent
+ 12.7%
+ and 11.1%
+ of the data vari-
+ ation, respectively.
+ All other
+ principle components
+ only
+ can rep-
+ resent
+ less than 10%
+ of the variation,
+ respectively.
+ For
+ PC5, PC6, PC7,
+ PC8, PC9, PC10,
+ the compensation
+ of adding one more
+ princi- ple component
+ is considerately
+ high according
+ to the contribution it can bring in. After
+ retaining
+ the principles components
+ for environmental
+ factors
+ during the development
+ of multi-release
+ software
+ prod-
+ uct, the next
+ question
+ we want
+ to discuss is the contribution of each
+ environmental
+ factor
+ to each
+ principle component.
+ Speciﬁ- cally,
+ each
+ principle component
+ is the linear combination of the environmental
+ factors.
+ Table
+ 3 shows
+ the environmental
+ factors
+ which
+ are
+ strongly-correlated
+ with the principle components.
+ The loading  is utilized
+ to measure
+ the contribution of each
+ environmental
+ factor
+ to the principle components.
+ Relationship
+ of detailed
+ design to requirement
+ is highly
+ correlated
+ with the ﬁrst
+ principle component;
+ amount of programming
+ effort
+ is highly
+ cor-
+ related
+ with the second principle component;
+ program
+ complexity
+ and frequency
+ of speciﬁcation change
+ are
+ highly
+ correlated
+ with the third
+ and fourth
+ principle component,
+ respectively.
+  M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ 75 Table
+ 3 Principle component associated
+ with strong-correlated
+ environmental
+ factors.
+ Principle component EFs Description
+ Loading  PC1 f12
+ Relationship
+ of detailed
+ design to requirement
+ −0.399 f25 Testing
+ coverage
+ −0.383 f22 Testing
+ effort
+ −0.383 f11
+ Requirement
+ analysis
+ −0.323 f5 Level
+ of programming
+ technologies
+ −0.294
+ PC2 f18
+ Program
+ workload
+ (stress)
+ 0.52 f4 Amount of programming
+ effort
+ −0.308 PC3 f6 Percentage
+ of reused
+ modules −0.526 f1 Program
+ complexity
+ 0.509 PC4 f8 Frequency
+ of program
+ speciﬁcation change
+ 0.629 3.1.3.
+ Hypothesis
+ testing
+ There
+ is a common question
+ that software
+ practitioner
+ often
+ brings up: do these 32 environmental
+ factors
+ have
+ the same im- pact on software
+ reliability
+ assessment during the development
+ of multi-release
+ software?
+ In this section, one-way
+ ANOVA
+ (Analysis
+ of Variance) is applied
+ to compare
+ the signiﬁcance level
+ of those environmental
+ factors.
+ From
+ the R output, F-statistic
+ for the envi-
+ ronmental
+ factors
+ analysis
+ is 8.342 with a p- value
+ less than 2 e −16 ; while the value
+ of F 31,
+ 1408
+ is 1.459.
+ Statistically,
+ the null hypothe-
+ sis is rejected
+ when F value
+ is larger
+ than F critical value
+ of 1.459.
+ Therefore,
+ the signiﬁcance level
+ of each
+ environmental
+ factor
+ on software
+ reliability
+ assessment is different
+ during the development
+ of multi-release
+ software.
+ 3.1.4.
+ Correlation
+ analysis
+ If researchers
+ desire
+ to ﬁnd out the linear relationship
+ between
+ any
+ pair of these 32 environmental
+ factors,
+ principle component
+ analysis
+ cannot
+ satisfy this purpose. In order
+ to provide
+ a clear and sound framework
+ of the linear relationship
+ for all 32 environmen-
+ tal
+ factors,
+ correlation
+ analysis,
+ a measure
+ of linear association be-
+ tween
+ two
+ environmental
+ factors,
+ is also applied
+ in this study
+ to ﬁnd out the strength
+ and direction
+ of each
+ relation.
+ Table
+ 4 (see Appendix) presents
+ the Pearson’s
+ r associated
+ with each
+ pair of en- vironmental
+ factors.
+ The range
+ for Pearson’s
+ r is from
+ −1 to 1. The higher of the absolute
+ value
+ of a Pearson’s
+ r, the stronger
+ linear correlation
+ of these two
+ environmental
+ factors.
+ Due to the limita- tion of the page,
+ we only
+ choose
+ the absolute
+ value
+ of Pearson’s
+ r is larger
+ than 0.45 to present
+ in the table.
+ 3.2. Development
+ phase analysis
+ 3.2.1.
+ Signiﬁcance level
+ of each
+ development
+ phase As described
+ in Zhang and Pham (20 0 0) , 32 environmental
+ fac-
+ tors
+ can be categorized
+ into
+ ﬁve
+ development
+ phases during soft-
+ ware
+ development,
+ general,
+ analysis
+ and design, coding, testing,
+ and hardware
+ system.
+ We are
+ interested
+ to know
+ whether
+ these ﬁve
+ development
+ phases have
+ the same impact
+ on software
+ reli-
+ ability assessment during the development
+ of multi-release
+ soft-
+ ware.
+ Thereafter
+ the comparison
+ between
+ the development
+ of sin- gle release
+ software
+ and multi-release
+ software
+ in terms
+ of the signiﬁcance level
+ of each
+ development
+ phase can be made in Section 4 . One-way
+ ANOVA
+ method
+ is utilized
+ to compare
+ the sig- niﬁcance level.
+ The hypothesis
+ is present
+ as follows.
+ H 0 : µGeneral
+ = µAnalysis
+ & design
+ = µCoding
+ = µTesting
+ = µHardware
+ system
+ H a : not
+ all
+ equal
+ From
+ the R output, the F-statistic
+ for the development
+ phase is 35.98
+ with p-value
+ less than 2 e −16 . The F critical value,
+ F 4, 1435
+ , is 2.378
+ from
+ F table,
+ which
+ is much
+ less than 35.98.
+ Therefore,
+ during the development
+ of multi-release
+ software,
+ the impact
+ of each
+ development
+ phase on software
+ reliability
+ is different.
+ Fig.
+ 1. Boxplot
+ for
+ each
+ development
+ phase. Fig.
+ 1 shows
+ the box
+ plot
+ for each
+ development
+ phase. General
+ phase, analysis
+ and design phase, coding phase, and testing
+ phase have
+ the similar mean value.
+ In addition, Tukey
+ method
+ is utilized
+ to group
+ different
+ development
+ phase based
+ on the mean value
+ of each
+ phase. From
+ the R output of Tukey
+ multiple comparison
+ of mean, we can consider general,
+ analysis
+ and design, coding and testing
+ as a group.
+ The grouping
+ distribution
+ is quite
+ different
+ with the previous
+ ﬁndings from
+ Zhu et al. (2015)
+ , for which,
+ we will discuss in Section 4 . 3.2.2. Signiﬁcant environmental
+ factors
+ in each
+ development
+ phase Backward
+ elimination provides
+ an  alternative
+ to select the best
+ subset,
+ thereby
+ backward
+ elimination method
+ is applied
+ to select the signiﬁcant environmental
+ factors
+ within each
+ devel-
+ opment phase on affecting
+ software
+ reliability
+ during the devel-
+ opment of multi-release
+ software
+ ( James et al., 2013
+ ). Why
+ do we need
+ to address
+ the signiﬁcant environmental
+ factors
+ for each
+ de- velopment
+ phase? Software
+ development
+ is a risky and expensive
+ process
+ ( Adolph
+ et al., 2012
+ ). Since there
+ is limited
+ time and re-
+ source
+ for developing
+ each
+ software
+ release,
+ how
+ to optimally
+ im- prove
+ the reliability
+ within limited
+ resource
+ is critical for software
+ development
+ team.
+ Thus, the signiﬁcant factors
+ within each
+ phase can provide
+ guidance for the software
+ developers
+ to optimally
+ al- locate
+ the resource
+ regarding
+ reliability
+ improvement.
+ For
+ the variable
+ selection process,
+ we use reliability
+ value
+ ob- tained
+ from
+ the survey
+ as a response
+ variable
+ and the environmen-
+ tal
+ factors
+ in each
+ phase as explanatory
+ variables.
+ For
+ instance,
+ in general
+ phase, f1,
+ f2, f3, f4, f5, f6, f7 are
+ explanatory
+ variable,
+ the reliability
+ value
+ is obtained
+ from
+ survey.
+ Table
+ 5 presents
+ the sig- niﬁcant environmental
+ factors
+ in each
+ development
+ phase. Back-
+ ward
+ elimination starts
+ with all variables
+ in each
+ phase, eliminates
+ the predictors
+ according
+ to the comparison
+ between
+ p-value
+ and Alpha-to-Remove
+ value,
+ and stops
+ when the p-value
+ for all predic-
+ tors
+ is less than or equal
+ to Alpha-to-Remove
+ value
+ ( Montgomery
+ et al., 2015
+ ). As seen from
+ Table
+ 5 , most
+ of the signiﬁcant factors
+ in general
+ and analysis
+ and design phase are
+ also stay
+ on Top
+ 10 ranking
+ EFs calculated
+ by relative
+ weighted
+ method.
+ It is very
+ in-  76 M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ Table
+ 5 Signiﬁcant factors
+ in each
+ development
+ phase. Development
+ phase Signiﬁcant factor
+ Description
+ Parameter
+ estimate
+ p -value
+ General
+ f4 Amount of programming
+ effort
+ −0.074
+ 0.0175
+ f5 Level
+ of programming
+ technologies
+ 0.09 0.0066
+ f7 Programming
+ language
+ 0.049
+ 0.023 Analysis
+ and design f11
+ Requirement
+ analysis
+ 0.08 0.0026
+ Coding f20 Human nature
+ 0.092 6.11E
+ −06 Testing
+ f23 Testing
+ recource
+ allocation 0.099 0.0025
+ Table
+ 6 Comparison of ranking
+ between
+ multi-release
+ software
+ and single release
+ software.
+ Rank
+ Multi-release
+ software
+ (New
+ ranking)
+ Single release
+ software
+ ( Zhu et al., 2015
+ ) Factor
+ Description
+ Factor
+ Description
+ 1 f1 Program
+ complexity
+ f8 Frequency
+ of program
+ speciﬁcation change
+ 2 f11
+ Requirement
+ analysis
+ f22 Testing
+ effort
+ 3 f8 Frequency
+ of program
+ speciﬁcation change
+ f21
+ Testing
+ environment
+ 4 f22 Tesing
+ effort
+ f25 Testing
+ coverage
+ 5 f12
+ Relationship
+ of detailed
+ design to requirement
+ f1 Program
+ complexity
+ 6 f4 Amount of programming
+ effort
+ f15
+ Programmer
+ skills 7 f25 Testing
+ coverage
+ f6 percentage
+ of reused
+ modules 8 f18
+ Program
+ workload
+ (stress)
+ f12
+ Relationship
+ of detailed
+ design to requirement
+ 9 f6 Percentage
+ of reused
+ modules f24
+ Testing
+ methodologies
+ 10 f5 Level
+ of programming
+ technologies
+ f19
+ Domain knowledge
+ teresting
+ to observe
+ that human nature
+ (f20) becomesa
+ signiﬁcant factor
+ in coding phase. Human nature
+ refers
+ to the characteristics
+ of software
+ developer,
+ such
+ as the ability to avoid
+ making mistakes.
+ As the software
+ release
+ cycle
+ becomes
+ shorter,
+ the software
+ devel-
+ opment cycle
+ is also getting
+ shorter
+ accordingly.
+ In such
+ a scenario, the consequence
+ of human nature
+ on affecting
+ software
+ reliability
+ is getting
+ more
+ attention
+ in the development
+ of multi-release
+ soft-
+ ware.
+ 4. Comparisons
+ between
+ single release
+ software
+ and Multi-release
+ software
+ All of the previous
+ studies
+ ( Zhang and Pham, 20 0 0, 20 01 ; Zhu et al., 2015
+ ) only
+ focused
+ on the impact
+ of environmental
+ fac-
+ tors
+ on reliability
+ for the development
+ of single release
+ software.
+ Hence, one of the objectives
+ for this paper is to compare
+ the differences
+ of environmental
+ factors
+ affecting
+ software
+ reliability
+ between
+ the development
+ of single release
+ software
+ and multi- release
+ software.
+ These differences
+ will be addressed
+ from
+ vari-
+ ous aspects.
+ For
+ example,
+ the ranking
+ of environmental
+ factors,
+ the signiﬁcance level
+ of each
+ environmental
+ factor
+ on software
+ relia-
+ bility assessment, principle components,
+ the signiﬁcance level
+ of each
+ development
+ phase, the signiﬁcant factors
+ in each
+ develop-
+ ment phase. 4.1.
+ The ranking
+ of environmental
+ factors
+ There
+ are
+ 60% environmental
+ factors
+ on the top
+ 10 ranking
+ for single release
+ software
+ still
+ stay
+ on the top
+ 10 ranking
+ for multi- release
+ software,
+ however,
+ the order
+ of importance
+ has changed.
+ The detailed
+ comparison
+ of the top
+ 10 ranking
+ between
+ single re-
+ lease software
+ and multi-release
+ software
+ is presented
+ in Table
+ 6 . In order
+ to stay
+ competitive
+ in the market,
+ most
+ of software
+ company
+ frequently
+ release
+ new
+ updated
+ versions
+ of their software
+ product.
+ Depending on the purpose of the new
+ release,
+ some ver-
+ sion may
+ be released
+ on a frequent
+ basis, for instance,
+ ﬁx urgent
+ faults
+ in the previous
+ software
+ release;
+ some version
+ may
+ be re-
+ lease on a long term
+ basis since it will bring in major
+ updates
+ ( Fritsch
+ et al., 2010
+ ). Also, large
+ software
+ companies
+ like
+ Ericsson increasingly
+ apply
+ the principles of agile and lean software
+ de- velopment
+ in an iterative
+ manner in order
+ to quickly
+ respond
+ to customers’
+ feedback
+ ( Staron
+ et al., 2012
+ ). It is understood
+ that the importance
+ level
+ of testing
+ phase for multi-release
+ software
+ is not
+ as signiﬁcant as it in single release
+ software.
+ Likewise,
+ this study
+ also supports
+ this point of view.
+ For
+ example,
+ as shown
+ in Table
+ 6 , there
+ are
+ four environmental
+ factors
+ are
+ coming from
+ testing
+ phase for single release
+ software,
+ while only
+ two
+ environmental
+ factors
+ are
+ coming from
+ testing
+ phase for multi-release
+ software.
+ Environmental
+ factors,
+ f11,
+ f4, f18,
+ f5, are
+ showing
+ in the top
+ 10 ranking
+ for the ﬁrst
+ time. f11,
+ f4, f18,
+ f5 refers
+ to requirement
+ anal- ysis,
+ amount of programming
+ effort,
+ program
+ workload
+ (stress),
+ and level
+ of programming
+ technologies,
+ respectively.
+ Environmen-
+ tal
+ factor,
+ f11,
+ requirement
+ analysis,
+ usually
+ comes from
+ customers,
+ is fundamental for the following
+ design and coding work.
+ The speciﬁcations that software
+ developers
+ generate
+ mostly
+ based
+ on the requirements
+ from
+ customers.
+ It is also known
+ that continu- ous delivery
+ of customer
+ requirement
+ is critical for software
+ devel-
+ opment company
+ in this very
+ market-driven
+ environment
+ ( Staron
+ et al., 2012
+ ). Thus, it is reasonable
+ that requirement
+ analysis
+ has signiﬁcant impact
+ on affecting
+ software
+ reliability
+ in the develop-
+ ment of multi-release
+ software.
+ f4 and f5 are
+ both
+ from
+ general
+ phase, are
+ getting
+ into
+ top
+ 10 ranking
+ in this study.
+ f4, amount of programming
+ effort,
+ which
+ may
+ directly
+ improve
+ the  and reliability
+ of the product.
+ f5 refers
+ to the level
+ of programming
+ technologies.
+ The programming
+ technologies
+ are
+ classiﬁed
+ into
+ four categories:
+ design techniques,
+ documentation
+ techniques,
+ program-
+ ming techniques
+ and development
+ techniques.
+ We can see that f5 illustrates
+ a comprehensive
+ framework
+ of software
+ development.
+ Due to the short release
+ of the software
+ and the quick
+ response
+ to customer
+ requirements,
+ programming
+ technologies
+ have
+ more
+ signiﬁcant impact
+ on affecting
+ the quality
+ and reliability
+ of multi- release
+ software.
+ 4.2. Principle components
+ for
+ environmental
+ factors
+ Principle component
+ analysis
+ is applied
+ in both
+ studies
+ to de- termine
+ the principle components
+ to capture
+ the characteristics
+ of the top
+ 10 ranking
+ environmental
+ factors.
+ The top
+ 10 ranking
+ en- vironmental
+ factors
+ are
+ not
+ the same for this two
+ studies.
+ Thus, some environmental
+ factors,
+ like
+ f24,
+ testing
+ methodologies,
+ f19,
+ domain knowledge,
+ f15,
+ programmer
+ skills, and f21,
+ testing
+ en- vironment
+ are
+ not
+ included
+ in the data analysis
+ of multi-release
+  M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ 77 Table
+ 7 Comparison of principle components
+ between
+ multi-release
+ software
+ and single release
+ software.
+ Priciple components
+ for
+ multi-release
+ software
+ Priciple components
+ for
+ single release
+ software
+ ( Zhu et al., 2015
+ ) Component EFs Description
+ Component EFs Description
+ PC1 f12
+ Relationship
+ of detailed
+ design to requirement
+ PC1 f25 Testing
+ coverage
+ f25 Testing
+ coverage
+ f21
+ Testing
+ environment
+ f22 Testing
+ effort
+ f22 Testing
+ effort
+ f11
+ Requirement
+ analysis
+ f24
+ Testing
+ methodologies
+ f5 Level
+ of programming
+ technologies
+ f12
+ Relationship
+ of detailed
+ design to requirement
+ PC2 f18
+ Program
+ workload
+ (Stress)
+ f6 Percentage
+ of reused
+ modules f4 Amount of programming
+ effort
+ PC2 f8 Frequency
+ of program
+ speciﬁcation change
+ PC3 f6 Percentage
+ of reused
+ modules f19
+ Domain knowledge
+ f1 Program
+ complexity
+ PC3 f15
+ Programmer
+ skills PC4 f8 Frequency
+ of program
+ speciﬁcation change
+ f1 Program
+ complexity
+ Table
+ 8 Comparison of ﬁnal grouping.
+ New grouping
+ Grouping
+ from
+ Zhu et al. (2015)
+ Development
+ phase Mean Final
+ grouping
+ Development
+ phase Mean Final
+ grouping
+ General
+ 4.540 1 General
+ 5.225 1 Analysis
+ and design 4.641
+ 1 Analysis
+ and design 5.034 2 Coding 4.470
+ 1 Coding 4.933
+ 2 Testing
+ 4.707
+ 1 Testing
+ 4.722
+ 3 software.
+ Four
+ principle components
+ are
+ obtained
+ in this paper for multi-release
+ software,
+ which
+ can represent
+ over
+ 75% variation
+ for the collected
+ data; three
+ principle component
+ were
+ generated
+ in the previous
+ ﬁndings for single release
+ software,
+ which
+ can explain
+ 69% variation
+ of the collected
+ data. The detailed
+ comparisons
+ are
+ shown
+ in Table
+ 7 . In summary,
+ software
+ developers
+ need
+ to choose
+ the corresponding
+ results
+ according
+ to their product
+ requirements.
+ 4.3. Signiﬁcance level
+ for
+ each
+ development
+ phase Tukey
+ method
+ is utilized
+ on both
+ studies
+ to compare
+ the four development
+ phases. The comparison
+ of signiﬁcance level
+ of each
+ development
+ phase is shown
+ in Table
+ 8 . The null hypothesis
+ for both
+ studies
+ is all development
+ phases have
+ the same signiﬁcance level
+ in terms
+ of their impact
+ on software
+ reliability
+ assessment. During the development
+ of single release
+ software,
+ three
+ groups
+ are
+ categorized
+ from
+ previous
+ study.
+ Testing
+ phase obviously
+ gets
+ the most
+ important
+ phase on affecting
+ software
+ reliability;
+ analysis
+ and design and coding phase have
+ the same signiﬁcance level;
+ gen-
+ eral
+ phase has the least
+ signiﬁcance level.
+ However,
+ in the devel-
+ opment of multi-release
+ software,
+ all of four development
+ phases have
+ the equal
+ impact
+ on affecting
+ software
+ reliability.
+ As we dis- cussed
+ earlier,
+ the application of agile and lean software
+ develop-
+ ment method
+ results
+ in short iteration
+ and short release
+ in order
+ to quickly
+ response
+ customer
+ feedback.
+ Thus, the signiﬁcance level
+ of testing
+ phase in the development
+ of multi-release
+ software
+ is not
+ as high as it in the development
+ of single release
+ software.
+ 4.4. Signiﬁcant environmental
+ factors
+ in each
+ development
+ phase Backward
+ elimination method
+ is applied
+ in both
+ studies
+ to achieve
+ the signiﬁcant environment
+ factors
+ of each
+ development
+ phase for single/multi release
+ software.
+ The response
+ for linear backward
+ elimination method
+ is the improvement
+ on software
+ re-
+ liability,
+ which
+ is described
+ as percentage.
+ The comparison
+ for sin- gle/multi release
+ software
+ is illustrated
+ in Table
+ 9 . In both
+ studies,
+ we can see that most
+ of the signiﬁcant fac-
+ tors
+ in each
+ development
+ phase are
+ also on the top
+ 10 ranking
+ environmental
+ factors.
+ The signiﬁcant factors
+ in each
+ development
+ phase are
+ different
+ between
+ single release
+ software
+ and multi- release
+ software.
+ For
+ multi-release
+ software,
+ the signiﬁcant factors
+ in general
+ phase are
+ f4, amount of programming
+ effort,
+ f5, level
+ of programming
+ technologies,
+ and f7,
+ programming
+ language;
+ while the signiﬁcant factors
+ in general
+ phase for single release
+ software
+ are
+ f4, amount of programming
+ effort
+ and f6, percentage
+ of reused
+ modules. Only
+ f4, amount of programming
+ effort,
+ st ays as signif- icant factor
+ in both
+ studies.
+ Analysis
+ and design phase still
+ have
+ the similar choice
+ of signiﬁcant factors
+ in this two
+ studies
+ since f11,
+ requirement
+ analysis,
+ and f12,
+ relationship
+ of detailed
+ design to requirement,
+ both
+ focus on the alignment of customer
+ require-
+ ments. In coding phase, the interesting
+ ﬁnding is that multi-release
+ software
+ development
+ focuses more
+ on human nature
+ due to the fact
+ that quickly
+ response
+ to customer
+ requirements
+ leads to short release
+ cycle,
+ in which,
+ how
+ to avoid
+ making mistake
+ is crucial in the development
+ process.
+ In testing
+ phase, testing
+ resource
+ alloca- tion is signiﬁcant in both
+ studies.
+ Technical-related
+ environmental
+ factors
+ like
+ testing
+ methodology
+ and coverage
+ are
+ more
+ empha-
+ sized
+ in the development
+ of single release
+ software.
+ In summary,
+ the selection of the signiﬁcant factors
+ in these two
+ studies
+ both
+ reﬂects
+ its
+ product
+ characteristics.
+ 5. Other statistical
+ learning method
+ to select environmental
+ factors
+ In this section, the main purpose is to select variables
+ by the use of lasso regression
+ and compare
+ with the results
+ from
+ other
+ variable
+ selection methods
+ discussed
+ earlier.
+ Why
+ do we choose
+ lasso regression
+ to ﬁt the model instead
+ of least
+ squares?
+ It is the trade-offbetween
+ the variance
+ and bias due to the prediction
+ ac- curacy
+ and model interpretability
+ ( James et al., 2013
+ ). The least
+ squares
+ estimates
+ tend
+ to have
+ low
+ bias if the relationship
+ between
+ the response
+ and the predictors
+ is linear.
+ If n p , that is, if the number
+ of observations,
+ n , is much
+ larger
+ that the number
+ of vari-
+ ables, p , the least
+ squares
+ tends
+ to have
+ low
+ variance
+ and performs well
+ on the test
+ observations.
+ However,
+ if n is not
+ larger
+ than p , then a lot
+ of variability
+ can be occurred
+ in the least
+ squares
+ esti-
+ mates.
+ Over
+ ﬁtting and poor prediction
+ can also appear in the fu- ture
+ observations
+ which
+ are
+ not
+ used
+ in the model training
+ ( James et al., 2013
+ ). In this study,
+ we have
+ collected
+ 45 survey
+ responses
+ while 32 environmental
+ factors
+ are
+ presented.
+ The number
+ of ob- servations
+ is not
+ much
+ larger
+ than the number
+ of variables.
+ In or-
+  78 M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ Table
+ 9 Comparison of signiﬁcant factors.
+ Signiﬁcant factors
+ for
+ multi-release
+ software
+ Signiﬁcant factors
+ for
+ single release
+ software
+ ( Zhu et al., 2015
+ ) Development
+ phase Signiﬁcant factor
+ Description
+ p -value
+ Development
+ phase Signiﬁcant factor
+ Description
+ p - value
+ General
+ f4 Amount of programming
+ effort
+ 0.0175
+ General
+ f4 Amount of programming
+ effort
+ 0.0 0 01 f5 Level
+ of programming
+ technologies
+ 0.0066
+ f6 Percentage
+ of reused
+ module 0.013
+ f7 Programming
+ language
+ 0.023 Analysis
+ and design f8 Frequency
+ of program
+ speciﬁcation change
+ 0.006
+ Analysis
+ and design f11
+ Requirement
+ analysis
+ 0.0026
+ f12
+ Relationship
+ of detailed
+ design to requirement
+ 0.014
+ Coding f20 Human nature
+ 6.11E
+ −06 Coding f15
+ Programmer
+ skills 0.032 Testing
+ f23 Testing
+ recource
+ allocation 0.0025
+ f18
+ Program
+ workload
+ (stress)
+ 0.0 0 01 Testing
+ f23 Testing
+ resource
+ allocation 0.001
+ f24
+ Testing
+ methodologies
+ 0.017
+ f25 Testing
+ coverage
+ 0.002
+ der to reduce
+ the variance
+ at the cost
+ of increasing
+ bias, we of- ten
+ shrink the estimated
+ s.
+ Therefore,
+ lasso regression,
+ a shrinkage
+ regression
+ method,
+ in which
+ some s
+ can be estimated
+ towards
+ zero,
+ hence, is applied
+ to perform variable
+ se- lection. As the turning parameter
+ is y
+ large,
+ some  cients can be exactly
+ equal
+ to zero
+ in lasso regression.
+ For
+ our survey
+ dataset,
+ 32 environmental
+ factors
+ are
+ considered
+ as predic-
+ tors
+ and reliability
+ value
+ is treated
+ as response
+ variable.
+ By ap- plying
+ lasso regression,
+ the non-zero
+ variables
+ are
+ f11,
+ f20, f23, represent
+ requirement
+ analysis,
+ human nature,
+ and test-
+ ing resource
+ allocation, respectively.
+ They
+ are
+ considered
+ as sig- niﬁcant predictors
+ for affecting
+ reliability
+ in the development
+ of multi-release
+ software
+ from
+ lasso regression.
+ Different
+ variable
+ selection methods
+ may
+ provide
+ different
+ set
+ of signiﬁcant factors,
+ but similarity could still
+ exist
+ in these sets.
+ For
+ instance,
+ relative
+ weighted
+ method
+ and backward
+ elimination for each
+ development
+ phase both
+ conclude f11,
+ requirement
+ anal- ysis,
+ is an important
+ environmental
+ factor.
+ Moreover,
+ f20, human nature,
+ and f23, testing
+ resource
+ allocation, are
+ selected
+ as sig- niﬁcant factor
+ in each
+ development
+ phase addressed
+ in Section 3 . There
+ are
+ also some drawbacks
+ on selecting variables
+ using lasso regression.
+ We can understand
+ that other
+ variables
+ which
+ are
+ highly-correlated
+ with the selected
+ variables
+ may
+ be eliminated
+ in the selection process
+ based
+ on the mathematical theory,
+ however,
+ some of them may
+ possess more
+ practical
+ meaning than the se- lected
+ variables.
+ On this point of view,
+ Table
+ 4 can provide
+ detailed
+ explanation
+ on their correlations.
+ 6. Conclusions and remarks
+ Most
+ literature
+ only
+ address
+ the signiﬁcant factors
+ in the de- velopment
+ of single release
+ software.
+ However,
+ as the application of the principles of agile and lean software
+ development,
+ multi- release
+ software
+ becomes
+ very
+ common in the modern society.
+ Hence, this study
+ aims to investigate
+ the impact
+ of environmen-
+ tal
+ factors
+ on affecting
+ software
+ reliability
+ assessment during the development
+ of multi-release
+ software.
+ Researchers
+ also can con- sider the signiﬁcant environmental
+ factors
+ into
+ software
+ reliability
+ modeling for multi-release
+ software
+ to better
+ describe
+ the impact
+ of development
+ environment.
+ Comparisons
+ between
+ this study
+ and previous
+ ﬁndings regarding
+ single and multi release
+ software
+ are
+ also discussed.
+ 1. 60% environmental
+ factors
+ listed
+ on the top
+ 10 ranking
+ from
+ previous
+ study
+ still
+ stay
+ on the top
+ 10 ranking
+ in this study.
+ However,
+ the order
+ of importance
+ has changed
+ a lot.
+ The impor-
+ tance
+ level
+ of testing
+ phase in the development
+ of multi-release
+ software
+ is not
+ as signiﬁcant as it in single release
+ software
+ be-
+ cause
+ of the increasing
+ application of agile software
+ develop-
+ ment method.
+ Correspondingly,
+ factors
+ related
+ to testing
+ phase are
+ not
+ important
+ as before,
+ while factors
+ related
+ to customer
+ requirement/feedback
+ analysis
+ are
+ getting
+ more
+ attention
+ on af- fecting
+ software
+ reliability
+ in the development
+ of multi-release
+ software.
+ 2. In order
+ to quickly
+ response
+ customers’
+ feedback,
+ short itera-
+ tion and short release
+ are
+ required
+ for the modern software.
+ The signiﬁcance level
+ of testing
+ phase for the development
+ of multi-release
+ software
+ is not
+ as high as it in the development
+ of single release
+ software.
+ All of four development
+ phases in multi-release
+ software
+ can be categorized
+ as one group,
+ while three
+ groups
+ are
+ retained
+ for single release
+ software.
+ 3. Signiﬁcant factors
+ in each
+ development
+ phase are
+ not
+ the same for single/multi release
+ software.
+ The weight
+ of testing-related
+ and programmer-skill-related
+ factors
+ decreases,
+ as the weight
+ of customer-related
+ factors
+ increases.
+ 4. Other statistical
+ learning methods,
+ like
+ lasso regression,
+ is ap- plied
+ in the survey
+ analysis.
+ Requirement
+ analysis,
+ human na- ture,
+ and testing
+ resource
+ allocation are
+ considered
+ as signiﬁ- cant predictors
+ on predicting
+ reliability
+ for the development
+ of multi-release
+ software.
+ Different
+ variable
+ selection method
+ has its
+ own
+ limitation, researchers
+ and practitioners
+ can choose
+ the suitable
+ results
+ depends on their application. In this study,
+ survey
+ responses
+ from
+ different
+ indus- try/project/region
+ are
+ considered
+ as one group
+ to investigate
+ the signiﬁcance level
+ of environmental
+ factors
+ on affecting
+ soft-
+ ware
+ reliability
+ in the development
+ of multi-release
+ software.
+ Several
+ research
+ directions
+ can be addressed
+ in the future
+ re-
+ search.
+ For
+ example,
+ the comparison
+ of the conclusions amongst
+ industry,
+ project,
+ or even
+ region
+ can be further discussed
+ since the variance
+ exists
+ in those groups
+ are
+ considerably
+ worthy
+ to investigate.
+ Acknowledgments
+ The authors
+ would
+ like
+ to thank the editor
+ and reviewers
+ for their valuable
+ comments and suggestions
+ to improve
+ this paper.
+ Appendix A Table
+ 4 . Appendix B Deﬁnitions of the environmental
+ factors
+ 1. Program
+ complexity.
+ McCabe’s
+ V(G), Halstead’s
+ E and program
+ size are
+ well
+ known
+ complexity
+ measures.
+ There
+ exists
+ a signiﬁcant relationship
+ be-
+ tween
+ each
+ of these measures.
+ However,
+ it has been
+ proved
+ that  M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ 79 Table
+ 4 Correlation
+ analysis
+ for
+ environmental
+ factors.
+ Factor
+ Description
+ Correlated
+ factor
+ Pearson’s
+ r f1 Program
+ complexity
+ f5 Level
+ of programming
+ technologies
+ 0.452 f11
+ Requirement
+ analysis
+ f22 Tesing
+ effort
+ 0.574
+ f29 Storage
+ devices
+ −0.565 f5 Level
+ of programming
+ technologies
+ 0.561
+ f12
+ Relationship
+ of detailed
+ design to requirement
+ 0.553 f28 Processors
+ −0.539 f23 Testing
+ recource
+ allocation 0.485
+ f25 Testing
+ coverage
+ 0.477
+ f22 Tesing
+ effort
+ f25 Testing
+ coverage
+ 0.764
+ f23 Testing
+ recource
+ allocation 0.684
+ f26 Testing
+ tools
+ 0.679
+ f21
+ Testing
+ environment
+ 0.671
+ f27
+ Documentation
+ 0.632 f5 Level
+ of programming
+ technologies
+ 0.627
+ f17
+ Development
+ team
+ size 0.584 f14
+ Development
+ management
+ 0.573
+ f12
+ Relationship
+ of detailed
+ design to requirement
+ f10
+ Design methodology
+ 0.554 f11
+ Requirement
+ analysis
+ 0.553 f6 Percentage
+ of reused
+ modules 0.496
+ f4 Amount of programming
+ effort
+ f3  of programming
+ 0.646
+ f15
+ Programmer
+ skills 0.524
+ f7 Programming
+ language
+ 0.476
+ f25 Testing
+ coverage
+ f24
+ Testing
+ methodologies
+ 0.801
+ f22 Tesing
+ effort
+ 0.764
+ f21
+ Testing
+ environment
+ 0.712
+ f26 Testing
+ tools
+ 0.704
+ f23 Testing
+ recource
+ allocation 0.69 f17
+ Development
+ team
+ size 0.624
+ f14
+ Development
+ management
+ 0.57
+ f13
+ Work
+ standards
+ 0.55 f27
+ Documentation
+ 0.539 f5 Level
+ of programming
+ technologies
+ 0.534 f11
+ Requirement
+ analysis
+ 0.477
+ f2 Program
+ categories
+ 0.463 f32 System
+ software
+ 0.451
+ f18
+ Program
+ workload
+ (stress)
+ f20 Human nature
+ 0.497
+ f19
+ Domain knowledge
+ 0.491
+ f17
+ Development
+ team
+ size 0.467
+ f6 Percentage
+ of reused
+ modules f12
+ Relationship
+ of detailed
+ design to requirement
+ 0.496
+ f5 Level
+ of programming
+ technologies
+ 0.484
+ f5 Level
+ of programming
+ technologies
+ f22 Tesing
+ effort
+ 0.627
+ f11
+ Requirement
+ analysis
+ 0.561
+ f25 Testing
+ coverage
+ 0.534 f26 Testing
+ tools
+ 0.510
+ f6 Percentage
+ of reused
+ modules 0.484
+ f23 Testing
+ recource
+ allocation 0.474
+ f1 Program
+ complexity
+ 0.452 f15
+ Programmer
+ skills f7 Programming
+ language
+ 0.647
+ f19
+ Domain knowledge
+ 0.603 f16
+ Programmer
+ organization
+ 0.591
+ f4 Amount of programming
+ effort
+ 0.524
+ f21
+ Testing
+ environment
+ f25 Testing
+ coverage
+ 0.711
+ f22 Tesing
+ effort
+ 0.671
+ f23 Testing
+ recource
+ allocation 0.643
+ f17
+ Development
+ team
+ size 0.627
+ f26 Testing
+ tools
+ 0.57
+ f20 Human nature
+ 0.538 f24
+ Testing
+ methodologies
+ 0.475
+ f23 Testing
+ recource
+ allocation f26 Testing
+ tools
+ 0.842 f25 Testing
+ coverage
+ 0.69 f22 Tesing
+ effort
+ 0.685
+ f24
+ Testing
+ methodologies
+ 0.668
+ f21
+ Testing
+ environment
+ 0.643
+ f17
+ Development
+ team
+ size 0.558 f14
+ Development
+ management
+ 0.555 f9 Volume of program
+ design documents
+ 0.492
+ f11
+ Requirement
+ analysis
+ 0.485
+ f13
+ Work
+ standards
+ 0.479
+ f5 Level
+ of programming
+ technologies
+ 0.474
+ f10
+ Design methodology
+ f14
+ Development
+ management
+ 0.604
+ f9 Volume of program
+ design documents
+ 0.563 f12
+ Relationship
+ of detailed
+ design to requirement
+ 0.554 ( continued on next
+ page )  80 M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ Table
+ 4 ( continued ) Factor
+ Description
+ Correlated
+ factor
+ Pearson’s
+ r f24
+ Testing
+ methodologies
+ f25 Testing
+ coverage
+ 0.8 f13
+ Work
+ standards
+ 0.715
+ f14
+ Development
+ management
+ 0.694
+ f23 Testing
+ recource
+ allocation 0.668
+ f22 Tesing
+ effort
+ 0.625 f26 Testing
+ tools
+ 0.621
+ f9 Volume of program
+ design documents
+ 0.613
+ f17
+ Development
+ team
+ size 0.599 f27
+ Documentation
+ 0.564
+ f32 System
+ software
+ 0.508 f31
+ Telecommunication
+ devices
+ 0.47
+ f19
+ Domain knowledge
+ f29 Storage
+ devices
+ 0.741
+ f7 Programming
+ language
+ 0.653 f16
+ Programmer
+ organization
+ 0.631
+ f15
+ Programmer
+ skills 0.603 f20 Human nature
+ 0.564
+ f17
+ Development
+ team
+ size 0.513
+ f18
+ Program
+ workload
+ (stress)
+ 0.491
+ f27
+ Documentation
+ f14
+ Development
+ management
+ 0.642
+ f22 Tesing
+ effort
+ 0.632 f24
+ Testing
+ methodologies
+ 0.564
+ f13
+ Work
+ standards
+ 0.551
+ f25 Testing
+ coverage
+ 0.539 f31
+ Telecommunication
+ devices
+ 0.512
+ f17
+ Development
+ team
+ size 0.493
+ f3  of programming
+ f4 Amount of programming
+ effort
+ 0.646
+ f7 Programming
+ language
+ 0.538 f26 Testing
+ tools
+ f23 Testing
+ recource
+ allocation 0.843 f25 Testing
+ coverage
+ 0.703
+ f22 Tesing
+ effort
+ 0.679
+ f24
+ Testing
+ methodologies
+ 0.621
+ f21
+ Testing
+ environment
+ 0.57
+ f5 Level
+ of programming
+ technologies
+ 0.51
+ f32 System
+ software
+ 0.492
+ f17
+ Development
+ team
+ size 0.459 f2 Program
+ categories
+ 0.451
+ f14
+ Development
+ management
+ f24
+ Testing
+ methodologies
+ 0.694
+ f27
+ Documentation
+ 0.642
+ f10
+ Design methodology
+ 0.604
+ f22 Tesing
+ effort
+ 0.573
+ f23 Testing
+ recource
+ allocation 0.554 f13
+ Work
+ standards
+ 0.498
+ f16
+ Programmer
+ organization
+ f19
+ Domain knowledge
+ 0.631
+ f31
+ Telecommunication
+ devices
+ 0.611
+ f29 Storage
+ devices
+ 0.596 f15
+ Programmer
+ skills 0.592 f17
+ Development
+ team
+ size 0.522 f28 Processors
+ 0.504
+ f2 Program
+ categories
+ f13
+ Work
+ standards
+ 0.715
+ f9 Volume of program
+ design documents
+ 0.472
+ f25 Testing
+ coverage
+ 0.463 f26 Testing
+ tools
+ 0.451
+ f20 Human nature
+ f19
+ Domain knowledge
+ 0.564
+ f7 Programming
+ language
+ 0.563 f21
+ Testing
+ environment
+ 0.538 f18
+ Program
+ workload
+ (stress)
+ 0.497
+ f17
+ Development
+ team
+ size f32 System
+ software
+ 0.663
+ f21
+ Testing
+ environment
+ 0.627
+ f24
+ Testing
+ methodologies
+ 0.599 f22 Tesing
+ effort
+ 0.584 f31
+ Telecommunication
+ devices
+ 0.572
+ f23 Testing
+ recource
+ allocation 0.560 f30 Input/output
+ devices
+ 0.56 f15
+ Programmer
+ skills 0.55 f16
+ Programmer
+ organization
+ 0.522 f19
+ Domain knowledge
+ 0.513
+ f27
+ Documentation
+ 0.493
+ f14
+ Development
+ management
+ 0.483
+ f7 Programming
+ language
+ 0.477
+ f18
+ Program
+ workload
+ (stress)
+ 0.467
+ f26 Testing
+ tools
+ 0.459 ( continued on next
+ page )  M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ 81 Table
+ 4 ( continued ) Factor
+ Description
+ Correlated
+ factor
+ Pearson’s
+ r f9 Volume of program
+ design documents
+ f2 Program
+ categories
+ 0.472
+ f10
+ Design methodology
+ 0.563 f13
+ Work
+ standards
+ 0.584 f14
+ Development
+ management
+ 0.500
+ f23 Testing
+ recource
+ allocation 0.492
+ f24
+ Testing
+ methodologies
+ 0.613
+ f13
+ Work
+ standards
+ f2 Program
+ categories
+ 0.715
+ f24
+ Testing
+ methodologies
+ 0.715
+ f9 Volume of program
+ design documents
+ 0.584 f27
+ Documentation
+ 0.551
+ f25 Testing
+ coverage
+ 0.550 f14
+ Development
+ management
+ 0.498
+ f23 Testing
+ recource
+ allocation 0.479
+ f28 Processors
+ f29 Storage
+ devices
+ 0.887 f30 Input/output
+ devices
+ 0.668
+ f31
+ Telecommunication
+ devices
+ 0.561
+ f16
+ Programmer
+ organization
+ 0.506
+ f19
+ Domain knowledge
+ 0.469 f7 Programming
+ language
+ 0.459 f11
+ Requirement
+ analysis
+ −0.539 f32 System
+ software
+ f17
+ Development
+ team
+ size 0.663
+ f30 Input/output
+ devices
+ 0.654 f31
+ Telecommunication
+ devices
+ 0.65 f25 Testing
+ coverage
+ 0.571
+ f24
+ Testing
+ methodologies
+ 0.508 f26 Testing
+ tools
+ 0.492
+ f14
+ Development
+ management
+ 0.474
+ f22 Tesing
+ effort
+ 0.467
+ f29 Storage
+ devices
+ f28 Processors
+ 0.886 f30 Input/output
+ devices
+ 0.683
+ f31
+ Telecommunication
+ devices
+ 0.619
+ f16
+ Programmer
+ organization
+ 0.596 f7 Programming
+ language
+ 0.503 f19
+ Domain knowledge
+ 0.471
+ f11
+ Requirement
+ analysis
+ −0.565 f7 Programming
+ language
+ f4 Amount of programming
+ effort
+ 0.476
+ f15
+ Programmer
+ skills 0.647
+ f17
+ Development
+ team
+ size 0.477
+ f19
+ Domain knowledge
+ 0.653 f20 Human nature
+ 0.563 f28 Processors
+ 0.459 f29 Storage
+ devices
+ 0.503 f30 Input/output
+ devices
+ 0.467
+ f30 Input/output
+ devices
+ f31
+ Telecommunication
+ devices
+ 0.829 f29 Storage
+ devices
+ 0.683
+ f28 Processors
+ 0.668
+ f32 System
+ software
+ 0.654 f17
+ Development
+ team
+ size 0.56 f16
+ Programmer
+ organization
+ 0.497
+ f7 Programming
+ language
+ 0.468
+ f31
+ Telecommunication
+ devices
+ f30 Input/output
+ devices
+ 0.839 f32 System
+ software
+ 0.65 f29 Storage
+ devices
+ 0.619
+ f16
+ Programmer
+ organization
+ 0.612
+ f17
+ Development
+ team
+ size 0.572
+ f28 Processors
+ 0.561
+ f14
+ Development
+ management
+ 0.488
+ none of these seemed
+ signiﬁcantly
+ better
+ than program
+ size. For
+ this reason,
+ program
+ size (Kiloline of code: KLOC)
+ is used
+ as a measure
+ of program
+ complexity.
+ The level
+ of this factor
+ is “High”means the program
+ size is greater
+ than 50 KLOC,
+ otherwise
+ the level
+ is “Low”.
+ 2. Program
+ categories.
+ The program
+ categories
+ indicate
+ system
+ complexity.
+ There
+ are
+ four program
+ categories:
+ operating
+ system,
+ communication control
+ program,
+ data base management
+ system
+ and languages
+ processor.
+ 3.  of programming
+ (PDIF).  of programming
+ is deﬁned
+ according
+ to Putnum as follows:
+ P DIF
+ = k t 2 man years
+ /year
+ s 2 where
+ k is the amount of programming
+ effort,
+ t is the amount of programming
+ time. 4. Amount of Programming
+ effort.
+ The deliberate
+ programming
+ effort
+ may
+ be regarded
+ as effective
+ for reducing
+ the number
+ of errors
+ made. This is calculated
+ in man years.
+ 5. Level
+ of programming
+ technologies
+ (TLVL).
+ The programming
+ technologies
+ are
+ classiﬁed
+ into
+ four cate-
+ gories:
+ design techniques,
+ documentation
+ techniques,
+ program-
+ ming techniques
+ (including programming
+ languages)
+ and develop-
+ ment computer
+ access environment.
+ Each
+ of the categories
+ had a rating
+ scale (low,
+ middle, and high) and the rating
+ scores
+ T = 0.8, 1, 1.2,
+ respectively,
+ are
+ allocated.
+ These rating
+ scores
+ were
+ deter-
+ mined
+ by referring
+ to Boehm’s cost
+ driver
+ productivity
+ range.
+ The  82 M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ ﬁnal TLVL
+ is computed
+ as follows
+ by using the rating
+ scores:
+ T LV L = 4  i =1 T i where
+ T i is the rating
+ score
+ of category
+ i . 6. Percentage
+ of reused
+ code/modules (PORC).
+ When people develop
+ some new
+ software
+ products
+ or when they
+ update
+ the old version
+ of their software
+ products,
+ they
+ usu- ally
+ keep
+ some of the module of the code which
+ can be reused,
+ and add in some new
+ ones. That is why
+ the measure
+ is important
+ to include. P ORC
+ = S 0 S N + S 0 where
+ S 0 represents
+ kiloline of code for the existing
+ module and S N represents
+ kilolineof code for new
+ modules. 7. Programming
+ language.
+ Different
+ programming
+ languages
+ have
+ different
+ complexity
+ and structure,
+ therefore
+ the possibility for different
+ languages
+ to intro-
+ duce errors
+ are
+ different.
+ 8. Frequency
+ of program
+ speciﬁcation change
+ (SCHG). SCHG is calculated
+ from
+ the number
+ of pages
+ of problem
+ re-
+ ports
+ generated
+ to change
+ the program
+ design speciﬁcations during programming
+ phase of development.
+ 9. Volume of program
+ design documents (DOCC). Program
+ design documents that lack
+  contents
+ for the program
+ produce
+ errors.
+ DOCC is calculated
+ from
+ the number
+ of pages
+ of new
+ and modiﬁed
+ program
+ design documents. 10.
+ Design methodologies.
+ Different
+ design methodologies
+ for the same software
+ may
+ have
+ different
+ im pact on the quality
+ of the ﬁnal software
+ products.
+ There
+ are
+ two
+ types of design methodologies:
+ structured
+ design and functional design. 11.
+ Requirements
+ analysis.
+ Requirements
+ usually
+ come from
+ customers.
+ Based
+ on the re-
+ quirements
+ software
+ developers
+ generate
+ speciﬁcations. Usually
+ customers
+ and developers
+ meet
+ to verify
+ the requirements
+ and achieve
+ understanding
+ of the problems.
+ Requirement
+ analysis
+ is fundamental for the following
+ design and coding work.
+ 12.
+ Relationship
+ of detailed
+ design to requirement.
+ At the end of design phase, detailed
+ design is compared
+ with requirements.
+ Inspections are
+ performed
+ to verify
+ whether
+ the functions designed
+ meet
+ the requirements.
+ Modiﬁcations can be made to remove
+ the misunderstanding
+ between
+ the customers
+ and developers.
+ 13.
+ Work
+ standards.
+ Work
+ standard
+ is the norm the developing
+ team
+ needs
+ to obey.
+ This could be company
+ standard
+ or group
+ standard.
+ Work
+ standard
+ indicates
+ products
+ to be made at each
+ phase, design document for-
+ mat, design document description
+ level
+ and content,
+ and the items
+ to be checked
+ in verifying
+ the design documents. Having
+ this kind of norms or not
+ has impact
+ on the quality
+ of software
+ products.
+ 14.
+ Development
+ management.
+ Development
+ management
+ includes all the organization
+ and decision-making activities.
+ From
+ the speciﬁcation phase to design, code, and testing
+ and even
+ operational
+ phase, development
+ man- agers
+ schedule
+ the meeting
+ time, keep
+ all participants
+ in touch
+ and keep
+ track
+ of the development
+ progress
+ and work
+ standards,
+ give
+ instructions,
+ make
+ decisions. 15.
+ Programmer
+ skills (PSKL). PSKL has direct
+ impact
+ on the reliability
+ of software
+ products.
+ PSKL can be deﬁned
+ as the average
+ number
+ of years
+ of program-
+ ming experience
+ of programmers.
+ P SKL
+ =  n i =1 I i n ( years
+ ) where
+ I i is the number
+ of years’
+ experience
+ of programmer
+ I , and n is the total
+ number
+ of programmers.
+ 16.
+ Programmer
+ organization
+ (ICON).
+ ICON
+ is deﬁned
+ as the percentage
+ of high-quality
+ programmers.
+ ICON
+ is computed
+ as follows:
+ ICON
+ = n h n where
+ n h is the number
+ of programmer
+ whose programming
+ ex-
+ perience is more
+ than 6 years,
+ and n is the total
+ number
+ of pro-
+ grammers.
+ 17. Development
+ team
+ size. Team
+ size has impact
+ on the quality
+ of software
+ products.
+ There
+ are
+ some people believe
+ that large
+ team
+ size will improve
+ the qual-
+ ity of the software
+ since there
+ are
+ more
+ people involving
+ on the development
+ process.
+ But others
+ claim that smaller but experi-
+ enced
+ development
+ team
+ will be better.
+ 18.
+ Program
+ work
+ contents
+ (Stress).
+ During the software
+ development,
+ stress
+ factors
+ in terms
+ of “work
+ contents”such
+ as schedule
+ pressure
+ and too
+ much
+ work
+ are
+ the major
+ factors.
+ This includes developer’s
+ mental stress
+ and physical
+ stress.
+ Stress
+ can be classiﬁed
+ into
+ several
+ degree
+ groups.
+ 19.
+ Domain knowledge.
+ Domain knowledge
+ refers
+ to the programmer’s
+ knowledge
+ of the input
+ space and output target.
+  knowledge
+ may
+ cause
+ problems
+ in coding and testing
+ procedures.
+ 20. Human nature.
+ This refer
+ to the developers’
+ characteristics,
+ including the ability to avoid
+ making the working
+ mistakes,
+ careless
+ work
+ omission. 21.
+ Testing
+ environment.
+ In order
+ to ﬁnd out more
+ errors
+ during testing
+ phase, testing
+ environment
+ should mimic the operational
+ environment.
+ This can be deﬁned
+ as the degree
+ of the compatibility
+ of testing
+ and opera-
+ tional environments.
+ 22. Testing
+ effort.
+ Testing
+ effort
+ can be deﬁned
+ as the number
+ of testing
+ cases generated,
+ testing
+ expenditures,
+ or human years
+ testing
+ takes.
+ 23. Testing
+ resource
+ allocation. Testing
+ resource
+ allocation refers
+ to different
+ schemes
+ to allo- cate
+ the testing
+ resources,
+ in terms
+ of testers,
+ facilities
+ and sched-
+ ules of the testing
+ activities.
+ 24.
+ Testing
+ methodologies.
+ Different
+ testing
+ methodologies
+ have
+ different
+ impact
+ on the quality
+ of software
+ products.
+ Good testing
+ methodologies
+ may
+ test
+ more
+ paths and need
+ less time. 25. Testing
+ coverage.
+ Test
+ coverage
+ is deﬁned
+ as the percentage
+ of the source
+ code which
+ are
+ covered
+ by the test
+ cases. It can be expressed
+ as: T CV G = S c S T where
+ S c represents
+ kiloline of code which
+ is covered
+ by testing,
+ and S T represents
+ total
+ kiloline of code 26. Testing
+ tools.
+ There
+ exist
+ many
+ different
+ testing
+ tools.
+ These include the soft-
+ ware
+ packages
+ testers
+ utilize to carry
+ out the testing
+ tasks.
+ Differ-
+ ent tools
+ also provide
+ different
+ quality
+ and testing
+ measures.
+ 27.
+ Documentation.
+ Documentation
+ includes all paperwork
+ from
+ speciﬁcation to de- sign, coding and testing.
+ This can serve
+ as resources
+ for developers
+ to allocate
+ changes
+ and problems;
+ for programmers
+ to review
+ the codes and for testers
+ to examine
+ the codes and detect
+ bugs. Factors
+ 28–32 are
+ the hardware
+ systems
+ used
+ for software
+ de- velopment.
+ The deﬁnite
+ is obvious.
+  M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ 83 References
+ Adolph,
+ S. , Kruchten,
+ P. , Hall, W. , 2012.
+ Reconciling
+ perspectives:
+ a grounded
+ theory
+ of how
+ people manage
+ the process
+ of software
+ development.
+ J. Syst.
+ Software
+ 85 (6), 1269–1286
+ . Al-Emran,
+ A. , Pfahl,
+ D. , 2007.
+ Operational
+ planning, re-planning
+ and risk analysis
+ for
+ software
+ releases.
+ In: International
+ Conference
+ on Product
+ Focused
+ Software
+ Process
+ Improvement.
+ Springer
+ Berlin
+ Heidelberg,
+ pp. 315–329
+ . Beck,
+ K., Beedle,
+ M., Van Bennekum,
+ A.,
+ Cockburn,
+ A.,
+ Cunningham, W.,
+ Fowler,
+ M., Grenning,
+ J., Highsmith, J., Hunt, A.,
+ Jeffries,
+ R., Kern,
+ J., 2001.
+ Manifesto
+ for
+ agile software
+ development.
+ www.agilemanifesto.org
+ . Chow,
+ T. , Cao, D.B. , 2008.
+ A survey
+ study
+ of critical success factors
+ in agile software
+ projects.
+ J. Syst.
+ Software
+ 81 (6), 961–971
+ . Clarke,
+ P. , O’Connor,
+ R.V. , 2012.
+ The situational factors
+ that affect
+ the software
+ devel-
+ opment process:
+ towards
+ a comprehensive
+ reference
+ framework.
+ Inf. Software
+ Technol.
+ 54 (5), 433–447
+ . Etgar,
+ R. , Gelbard,
+ R. , Cohen, Y. , 2017.
+ Optimizing
+ version
+ release
+ dates
+ of research
+ and development
+ long-term
+ processes.
+ Eur.
+ J. Oper.
+ Res.
+ 259, 642–653
+ . Febrero,
+ F. , Calero,
+ C. , Moraga,
+ M.Á.
+ ,2016.
+ Software
+ reliability
+ modeling based
+ on ISO/IEC SQuaRE. Inf. Software
+ Technol.
+ 70,
+ 18–29
+ . Fritsch,
+ B.L., Bibr,
+ V., Blagojevic,
+ V., Goring, B.R., Shenﬁeld, M., Vitanov,
+ K.B., 2010.
+ U.S.
+ Patent
+ No.
+ 7,747,995.
+ Washington,
+ DC: U.S.
+ Patent
+ and Trademark
+  Gorschek,
+ T. , Davis,
+ A.M.
+ , 2008.
+ Requirements
+ engineering: In search
+ of the depen- dent variables.
+ Inf. Software
+ Technol.
+ 50 (1), 67–75
+ . Hu, Q.P.
+ , Peng,
+ R. , Xie, M. , Ng, S.H. , Levitin,
+ G. , 2011.
+ Software
+ reliability
+ modelling and optimization
+ for
+ multi-release
+ software
+ development
+ processes.
+ In: Pro-
+ ceedings
+ of International
+ Conference
+ on Industrial
+ Engineering and Engineering Management
+ (IEEM). IEEE, pp. 1534–1538
+ . James, G. , Witten,
+ D. , Hastie,
+ T. , Tibshirani,
+ R. , 2013.
+ An Introduction
+ to Statistical
+ Learning (vol.
+ 6). New York:
+ Springer
+ . Kapur,
+ P.K.
+ , Pham, H. , Anand, S. , Yadav,
+ K. , 2011.
+ A uniﬁed
+ approach
+ for
+ developing
+ software
+ reliability
+ growth
+ models in the presence
+ of imperfect
+ debugging and error
+ generation.
+ IEEE Trans.
+ Reliab.
+ 60 (1), 331–340
+ . Li, L. , Harman, M. , Letier,
+ E. , Zhang, Y. , 2014.
+ Robust
+ next
+ release
+ problem:
+ handling uncertainty
+ during optimization.
+ In: Proceedings
+ of the 2014
+ Annual Conference
+ on Genetic
+ and Evolutionary
+ Computation.
+ ACM,
+ pp. 1247–1254
+ . Maurice,
+ S. , Ruhe,
+ G. , Saliu, O. , 2006.
+ Decision support for
+ value-based
+ software
+ re-
+ lease planning. In: Value-Based
+ Software
+ Engineering. Springer,
+ Berlin
+ Heidel- berg,
+ pp. 247–261
+ . Misra,
+ S.C. , Kumar,
+ V. , Kumar,
+ U. , 2009.
+ Identifying some important
+ success fac-
+ tors
+ in adopting
+ agile software
+ development
+ practices.
+ J. Syst.
+ Software
+ 82 (11),
+ 1869–1890
+ . Mohanty,
+ R. , Ravi,
+ V. , Patra,
+ M.R. , 2013.
+ Hybrid intelligent
+ systems
+ for
+ predicting
+ software
+ reliability.
+ Appl. Soft
+ Comput. 13 (1), 189–200
+ . Montgomery,
+ D.C. , Peck,
+ E.A.
+ , Vining, G.G. ,2015.
+ Introduction
+ to Linear Regression
+ Analysis.
+ John Wiley
+ & Sons . Ruhe,
+ G. , Momoh, J. , 2005,
+ January.
+ Strategic
+ release
+ planning and evaluation
+ of op- erational
+ feasibility.
+ In: Proceedings
+ of the 38th Annual Hawaii
+ International
+ Conference
+ on System
+ Sciences. IEEE, p. 313
+ . Sahoo, S.K. , Criswell,
+ J. , Adve,
+ V. , 2010,
+ May.
+ An empirical
+ study
+ of reported
+ bugs in server
+ software
+ with implications
+ for
+ automated
+ bug diagnosis. In: 2010
+ ACM/IEEE
+ 32nd International
+ Conference
+ on Software
+ Engineering, 1. IEEE, pp. 4 85–4 94 . Saliu, O. , Ruhe,
+ G. , 2005.
+ Software
+ release
+ planning for
+ evolving
+ systems.
+ Innovations
+ Syst.
+ Software
+ Eng. 1 (2), 189–204
+ . Staron,
+ M. , Meding,
+ W. , Palm,
+ K. , 2012,
+ May.
+ Release
+ readiness
+ indicator
+ for
+ mature
+ agile and lean software
+ development
+ projects.
+ In: International
+ Conference
+ on Agile Software
+ Development.
+ Springer,
+ Berlin
+ Heidelberg,
+ pp. 93–107
+ . Svahnberg,
+ M. , Gorschek,
+ T. , Feldt,
+ R. , Torkar,
+ R. , Saleem, S.B. , Shaﬁque,
+ M.U.
+ , 2010.
+ A systematic
+ review
+ on strategic
+ release
+ planning models. Inf. Software
+ Technol.
+ 52 (3), 237–248
+ . Sz ˝oke,
+ Á. , 2011.
+ Conceptual
+ scheduling
+ model and optimized
+ release
+ scheduling
+ for
+ agile environments.
+ Inf. Software
+ Technol.
+ 53 (6), 574–591
+ . Yang,
+ J. , Liu, Y. , Xie, M. , Zhao, M. , 2016.
+ Modeling and analysis
+ of reliability
+ of multi- -release
+ open source
+ software
+ incorporating
+ both
+ fault
+ detection
+ and correction
+ processes.
+ J. Syst.
+ Software
+ 115,
+ 102–110
+ . Zhu, M. , Zhang, X. , Pham, H. , 2015.
+ A comparison analysis
+ of environmental
+ factors
+ affecting
+ software
+ reliability.
+ J. Syst.
+ Software
+ 109,
+ 150–160
+ . Zhang, X. , Pham, H. , 20 0 0. An analysis
+ of factors
+ affecting
+ software
+ reliability.
+ J. Syst.
+ Software
+ 50 (1), 43–56 . Zhang, X. , Shin, M.Y.
+ , Pham, H. , 2001.
+ Exploratory
+ analysis
+ of environmental
+ fac-
+ tors
+ for
+ enhancing the software
+ reliability
+ assessment. J. Syst.
+ Software
+ 57 (1), 73–78
+ .  84 M. Zhu, H. Pham / The Journal of Systems
+ and Software
+ 132
+ (2017)
+ 72–84
+ Mengmeng Zhu is a Ph.D. candidate
+ of the Department of Industrial
+ and Systems
+ Engineering at Rutgers
+ University.
+ She received
+ the B.S. degree
+ in Industrial
+ Engineering from
+ Nanjing
+ University
+ of Technology
+ and the M.S. degree
+ in Industrial
+ Engineering from
+ Rutgers
+ University.
+ She has published
+ 4 journal papers including in Annals of Operations
+ Research
+ and Journal of Systems
+ and Software.
+ Her research
+ interests
+ include software
+ reliability
+ modeling and failure
+ data
+ analysis.
+ Hoang Pham is a Distinguished
+ Professor
+ and former
+ Chairman of the Department of Industrial
+ and Systems
+ Engineering at Rutgers
+ University.
+ He is the author
+ or coauthor
+ of ﬁve
+ books
+ and has published
+ over
+ 140
+ journal articles, and edited
+ 10 books
+ including Springer Handbook in Engineering Statistics
+ and Handbook in Reliability
+ Engineering. He has been
+ served
+ as editor-in-chief,
+ editor,
+ associate
+ editor,
+ guest
+ editor
+ and board
+ member
+ of many
+ journals. He is the editor
+ of Springer Book Series in Reliability
+ Engineering and editor
+ of World
+ Scientiﬁc Book Series on Industrial and Systems
+ Engineering. His numerous
+ awards
+ include the 2009
+ IEEE Reliability
+ Society
+ Engineer of the Year
+ Award
+ . He is a Fellow
+ of the IEEE and IIE. 

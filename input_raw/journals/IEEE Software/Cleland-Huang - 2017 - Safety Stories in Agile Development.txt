@@ -1,0 +1,510 @@
+ 16 IEEE SOFTWARE 
+ |  PUBLISHED BY THE IEEE COMPUTER SOCIETY 0740-7459/17/$33.00 © 2017 IEEEALMOST 15 YEARS 
+ago, I gave a 
+talk at a pacemaker manufacturer 
+and was somewhat surprised to dis
+-cover it using agile development. 
+At the time, the idea of agility for 
+safety-critical systems seemed oxy
+-moronic. (For a brief de˜nition 
+of safety-critical systems, see the 
+sidebar.) However, the company™s 
+
+software engineers explained that 
+they performed a rigorous, up-
+
+front hazard analysis from which 
+they discovered safety goals and 
+requirements and that they initi
+-ated the iterative sprint-based agile 
+process only after specifying these 
+requirements.
+In contrast, at a more recent 
+meeting with another medical-device 
+manufacturer, its developers claimed 
+not to follow any speci˜c safety 
+
+practices. They trusted that safety 
+
+problems would be identi˜ed and 
+addressed as a natural byproduct 
+of their agile Scrum process. Their 
+
+slightly alarming, unmitigated faith 
+
+in the agile process led me to con
+-template ways in which safety activi
+-ties could and should be addressed 
+
+in agile development.
+I™m clearly not the ˜rst person to 
+think about this. The Open Platform for 
+
+Evolutionary Certi˜cation of Safety-
+
+Critical Systems (OPENCOSS; www
+ .opencoss-project.eu) and IBM™s re
+-port 
+Adopting Agile Methods for 
+Safety-Critical Systems Develop
+-ment
+1 provide detailed techniques 
+for developing safety-critical sys
+-tems using agile methods. However, 
+
+I focus here on a lighter-weight ap
+-proach for software systems at lower 
+
+levels of safety criticality.
+Consider a healthcare device for 
+Safety Stories
+ in Agile Development
+Jane Cleland-Huang
+  JULY/AUGUST 2017 
+ |  IEEE SOFTWARE
+ 17monitoring the physical exercise of 
+someone rehabilitating after a heart 
+attack, or a system using unmanned 
+aerial vehicles (UAVs) to deliver 
+
+commercial goods to consumers. 
+
+Both systems could cause harm if 
+they malfunctioned. Their failure™s 
+impact, although not catastrophic, 
+
+would certainly not be negligible. 
+
+The healthcare monitor might fail 
+to warn its user when vital signs 
+reach unacceptable limits; a UAV 
+
+might lose control and ˚y into a 
+crowd of people. Because compa
+-nies are adopting agile processes 
+to develop such systems, we need 
+
+effective ways to integrate safety 
+practices.
+Safety processes typically include 
+preliminary hazard analyses and 
+safety assurance activities. Here, I 
+look at both of these and how they 
+˜t into the Scrum cycle. In particu
+-lar, I show how developers can use 
+
+safety stories
+ to improve safety pro
+-cesses. All my examples come from 
+
+the 
+Dronology
+ system we™re develop
+-ing at the University of Notre Dame. 
+Dronology uses UAVs to support 
+search-and-rescue missions.
+Preliminary Hazard Analysis
+The ˜rst step in any safety process 
+
+is a preliminary hazard analysis 
+that systematically identi˜es poten
+-tial hazards and their contributing 
+faults. For example, consider a haz
+-ard in which a UAV crashed because 
+its battery failed without warning. 
+There were three potential contrib
+-uting faults:
+Ł The battery level detector re
+-ported an incorrect level.
+Ł The battery level monitor failed 
+to detect a low level.
+Ł The battery discharged faster 
+than anticipated, allowing insuf
+-˜cient time for remedial action.
+Hazard identi˜cation can be sup
+-ported by brainstorming, checklists, 
+and analyzing reports of previous 
+failures. These activities should be 
+
+conducted carefully and rigorously to 
+produce a Fault Mode Effect Analy
+-sis (FMEA) listing the hazards and 
+their contributing faults. Likelihood 
+
+and impact ratings can be attached 
+to each hazard. Then, safety ana
+-lysts, developers, and other project 
+stakeholders can decide which faults 
+
+to address and how to mitigate them. 
+For example, you could partially 
+mitigate an incorrectly reported bat
+-tery level by raising an alarm if the 
+reported level falls outside the ex
+-pected bounds. Such mitigations can 
+be speci˜ed as safety requirements.
+For Dronology, we adopted 
+Alistair Mavin™s EARS (Easy Re
+-quirements Speci˜cation)
+2 format to 
+specify safety requirements, which 
+I™ll call safety stories from now on. 
+EARS is indeed easy to use. It pro
+-vides a simple format for specifying 
+
+requirements for ˜ve types of behav
+-ior: ubiquitous, event driven, state 
+
+driven, optional, and unwanted. Ta
+-ble 1 shows an example safety story 
+
+for each of these types.
+It™s important to understand and 
+document any assumptions made on 
+
+external systems. In our case, we ex
+-pect the UAVs to behave as described 
+
+in their speci˜cations. For exam
+-ple, we assume that ﬁThe Model-X 
+
+drone is able to transmit messages 
+
+at distances up to 1,000 meters,ﬂ 
+
+as speci˜ed by its manufacturer. So, 
+we write the safety story, ﬁThe UAV 
+must remain within 900 meters of a 
+
+ground control station at all times.ﬂ 
+This minimizes the likelihood of ac
+-cidents associated with the lack of 
+direct UAV control.
+Safety Assurance
+Once you™ve identi˜ed hazards and 
+
+faults, speci˜ed safety stories, and 
+built the system to realize those sto
+-ries, you need to convince yourself 
+and potential certi˜ers that the sys
+-tem is safe for use. Many techniques 
+exist for doing this. However, the un
+-derlying premise is that you must con
+-struct a convincing argument that the 
+hazard analysis has been performed 
+systematically and thoroughly and 
+that the system as built effectively 
+
+mitigates all important faults.
+One solution is to use an FMEA 
+SAFETY-CRITICAL SOFTWARE SYSTEMS
+Safety-critical software systems are systems whose failure or malfunction 
+might result in death or serious injury to people or in loss or severe damage 
+to equipment or property. The US Federal Aviation Administration de˜nes ˜ve 
+criticality levels: catastrophic, hazardous, major, minor, or no effect.
+1Reference
+1. W.S. Greenwell, E.A. Strunk, and J.C. Knight, ﬁFailure Analysis and the Safety-Case Life
+-cycle,ﬂ 
+Human Error, Safety and Systems Development
+, C.W. Johnson and P.A. Palanque, 
+eds., Kluwer, 2004, pp. 163Œ176.
+ 18
+ IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+in which each row represents a 
+speci˜c fault, each fault is linked to 
+a safety story, and each safety story 
+is linked to speci˜c code ˜les and as
+-sociated tests and test logs. In other 
+
+words, you establish traceability 
+links from safety stories to any other 
+artifacts that help satisfy those sto
+-ries.
+3 These links don™t need to add 
+signi˜cant overhead to the project 
+because you can leverage typical de
+-velopment environments to capture 
+them. For example, you can set up a 
+
+JIRAŒGitHub bridge so that as code 
+is checked in, the commit message 
+includes a tag referencing its associ
+-ated safety story. However, particu
+-larly impactful hazards and faults 
+might require additional analysis, 
+perhaps throughout construction 
+
+of a state transition model to care
+-fully analyze and specify behavior. 
+
+You can then use this model to pro
+-vide evidence that a speci˜c fault has 
+
+been adequately mitigated.
+Some engineers in the safety-
+critical domain use 
+safety assurance 
+
+cases
+ to systematically construct ar
+-guments comprising claims, argu
+-ments, and evidence that the system 
+is safe for use. I don™t have space to 
+
+elaborate on these techniques here; 
+
+the 
+NASA System Safety Handbook
+ provides a great introduction.
+4Fitting Safety into Scrum
+Figure 1 illustrates how all this ˜ts 
+
+into a typical Scrum cycle. First, 
+stakeholders express their needs 
+in terms of user stories, which are 
+
+placed into the product backlog. 
+
+Then, a subset of quali˜ed and in
+-formed stakeholders brainstorm po
+-tential safety hazards and their con
+-tributing faults, record them in an 
+
+FMEA, specify safety stories that 
+mitigate the faults, and add the sto
+-ries to the backlog. At this point, 
+the backlog contains a mix of tradi
+-tional user stories and safety stories.
+During each iteration™s planning 
+stage, the set of faults can be contin
+-ually reviewed and augmented. For 
+
+example, if new features are com
+-bined in the product, new faults trig
+-gered by individual features or by 
+
+their interactions with other features 
+
+can be identi˜ed. This will lead to 
+the creation of new mitigation strate
+-gies and safety stories.
+At the start of each sprint, the 
+customer can select a combination 
+of user stories and safety stories for 
+
+development. However, this means 
+
+that the executable, working code 
+produced at the end of each sprint 
+might or might not be safe for use. 
+
+Dependencies exist between user 
+stories and safety stories, and some 
+features (represented by user sto
+-ries) might well be delivered before 
+
+the associated safety stories are im
+-plemented and released. In these 
+
+circumstances, the system might 
+
+function under normal happy-day 
+
+scenarios but could be unsafe when 
+malfunctions occur. Stakeholders 
+need to be gatekeepers, determining 
+
+at the end of each sprint whether the 
+system can be safely deployed. Ide
+-ally, safety stories associated with 
+speci˜c user stories will be released 
+
+in tandem with those stories; how
+-ever, for scheduling purposes, this 
+won™t always be the case.
+It™s widely acknowledged that 
+the cost and effort invested in safety 
+should be commensurate with the 
+criticality of the system under de
+-velopment.
+5 As I mentioned before, 
+TABLE 1
+Safety stories speci˜ed using 
+ the Easy Requirements Speci˜cation (EARS) format.
+Behavior type
+Basic safety story format
+Example safety story
+Ubiquitous
+The <
+component name
+> shall <
+response
+>.The drone shall maintain a minimum separation distance from 
+other drones at all times.
+Event driven
+When <
+trigger
+>, the <
+system name
+> shall <
+system 
+response
+>.When the drone is within 
+x centimeters of the minimum distance 
+from another drone, the collision avoidance system shall provide 
+directives to all drones in the vicinity.
+State driven
+While <
+in a speci˜c state
+>, the <
+system name
+> shall 
+<system response
+>.While in landing mode, the drone shall descend vertically until it 
+reaches the ground.
+Optional
+Where <
+feature is included
+>, the <
+system name
+> shall 
+<system response
+>.Where parachute mode is enabled and a drop is initiated, the 
+
+drone shall scan the drop zone for obstacles.
+Unwanted
+If <
+optional preconditions
+> <trigger
+>, the <
+system
+ name
+> shall <
+system response
+>.If wind gusts exceed the desired velocity but are below the 
+
+maximum velocity, the drone shall return to the base.
+  JULY/AUGUST 2017 
+ |  IEEE SOFTWARE
+ 19
+the process I described here targets 
+software systems that have safety 
+implications at lower levels of the 
+criticality spectrum. Many proj
+-ects that might not be traditionally 
+
+classi˜ed as safety critical actually 
+have safety implications. Integrat
+-ing analysis into the Scrum process 
+provides a lightweight, yet robust 
+
+approach for exploring and mitigat
+-ing such safety concerns.
+This is my last Requirements 
+
+column for 
+IEEE Software
+. I™ve enjoyed being a colum
+-nist over the past several years and 
+
+the opportunity it has given me to 
+
+think about requirements practices 
+in a rapidly evolving IT environ
+-ment. I™m thrilled to hand the reins 
+over to Sarah Gregory from Intel. 
+Sarah has been an active participant 
+in the requirements-engineering re
+-search community over the past de
+-cade and is a popular teacher and 
+trainer and an experienced practitio
+-ner. I look forward to learning from 
+her in what I™m sure will be exciting, 
+
+insightful future columns.
+References
+1. Adopting Agile Methods for Safety-
+Critical Systems Development
+, white 
+paper, IBM; www-01.ibm.com
+ 
+/common/ssi/cgi-bin/ssialias?infotype
+ =SA&subtype=WH&html˜d=RAW1
+ 4313USEN.
+2.
+ A. Mavin et al., ﬁEasy Approach to 
+
+Requirements Syntax (EARS),ﬂ 
+Proc. 
+
+17th IEEE Int™l Requirements Eng. 
+
+Conf.
+ (RE 09), 2009, pp. 317Œ322.
+3.
+ J. Cleland-Huang, ﬁTraceability in 
+
+Agile Projects,ﬂ 
+Software and Sys
+-tems Traceability
+, Springer, 2012, 
+pp. 265Œ275.
+4.
+ NASA System Safety Handbook, 
+
+Vol. 2: System Safety Concepts, 
+
+Guidelines, and Implementation Ex
+-amples
+, NASA/SP-2014-612, NASA, 
+Nov. 2014.
+5. W.S. Greenwell, E.A. Strunk, and 
+
+J.C. Knight, ﬁFailure Analysis and the 
+
+Safety-Case Lifecycle,ﬂ 
+Human Error, 
+
+Safety and Systems Development
+, C.W. Johnson and P.A. Palanque, 
+
+eds., Kluwer, 2004, pp. 163Œ176.
+JANE CLELAND-HUANG 
+is a professor of 
+software engineering at the University of Notre 
+
+Dame. Contact her at janeclelandhuang@nd.edu.
+1.2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.10.
+11.
+12.Input from stakeholders, 
+customers, users, 
+and the teamSafetyanalystsProductowner
+Product backlog
+SprintScrum meetingRanked list of what™s
+requiredŠfeatures, 
+user stories, and
+safety storiesPreliminary 
+hazard 
+analysisPreliminary Fault Mode 
+Effect Analysis (FMEA)
+FMEA for stories placedinto the sprint backlog 
+and for new feature interactions
+The team selects userstories for the sprintIncrementally 
+constructedsafety assurance 
+caseWorking
+productIs it currently
+safe?!!!!!!FIGURE 1. 
+Safety activities injected into the Scrum cycle. This process targets software systems at lower levels of safety criticality.
+Read your subscriptions 
+through the myCS 
+publications portal at
+ http://mycs.computer.org

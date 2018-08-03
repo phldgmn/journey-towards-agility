@@ -1,0 +1,448 @@
+ An integrated approach
+ for warehouse
+ analysis
+ and optimization:
+A case studyMariagrazia Dotolia,*, Nicola Epicocoa, Marco Falagariob, Nicola Costantinob,Biagio TurchianoaaDepartment of Information and Electrical Engineering, Politecnico di Bari, ItalybDepartment of Mechanics, Mathematics and Management, Politecnico di Bari, Italy1. IntroductionNowadays, factors like globalization, competition, rapid marketchanges, short product life cycles, high productivity and reductionof time-to-market make the impact of logistics on production byfar wider than in the past [1–5]. Such a complex scenario has led toa considerable interest in the design, planning and control ofwarehousing systems as new research topics ([6–10], Gu et al.,2010; [11,12]). Warehouses may be deﬁned as material handlingstations dedicated to receiving, storage, order-picking, accumula-tion, sorting and shipping of goods [13]. This deﬁnition coversa wide variety of systems, and may be broadly categorized bythree types of warehouses [14]: (i) distribution warehouses, (ii)production warehouses and (iii) contract warehouses.This paper considers production warehouses, a class that coversthe vast majority of warehouses and may be deﬁned as productionsites facilities for storing raw materials, semi-ﬁnished products,and ﬁnal products [14]. Moreover, considering the traditionalclassiﬁcation of strategic, tactical, and operational problems, wefocus on the strategic design of production warehouses, that hasbeen shown to be a sector in need for investigation, as opposed tothe strong research oriented on single sub-problems at anoperational level that seems to be dominant in the literature [11].The available literature on production warehouse strategicdesign and performance evaluation/optimization
+ may be classiﬁedbased on three main issues [15,16]: (i) contributions addressingwarehouse design decisions, typically concentrating on orderpicking routing or product location strategies; (ii) papers propos-ing analytic or simulation models and (iii) publications onbenchmarking and performance evaluation. The interested readermay refer to the comprehensive reviews by Baker and Canessa[17], Gu et al. [16] and Rouwenhorst et al. [11] for a discussion onthe ﬁrst two topics. In spite of the importance of warehouse designand their management, the technical literature on warehouseperformance assessment is meager, with two main streams [15]:(a) contributions proposing frameworks for designing or analyzingwarehouses and (b) those which directly address performanceassessment. The reader interested in the latter topic is addressed toComputers in Industry 70 (2015) 56–69A R T I C L E I N F OArticle
+ history:Received 14 June 2013Received in revised form 11 June 2014Accepted 10 December 2014Available onlineKeywords:Warehouse
+Analysis
+Optimization
+Value Stream MappingUniﬁed Modeling LanguageGenba ShikumiA B S T R A C TThe paper focuses
+ on the analysis
+ and optimization
+ of production
+ warehouses,
+ proposing
+ a novelapproach
+ to reduce inefﬁciencies
+ which employs three
+ lean
+ manufacturing
+ tools in an integrated
+ anditerative
+ framework.
+ The proposed
+ approach
+ integrates
+ the Uniﬁed Modeling
+ Language
+ (UML) –providing
+ a detailed
+ description
+ of the warehouse
+ logistics
+ – the
+ Value Stream
+ Mapping
+ (VSM)
+ tool –identifying
+ non-value
+ adding activities
+ – and a mathematical
+ formulation
+ of the so-called
+ Genba
+Shikumi
+ philosophy
+ – ranking such system anomalies
+ and assessing
+ how they
+ affect
+ the warehouse.
+ Thesubsequent
+ reapplication
+ of the
+ VSM produces
+ a complete
+ picture of the
+ reengineered
+ warehouse,
+ andusing
+ the
+ UML tool allows describing
+ in detail
+ the updated
+ system.
+ By applying
+ the
+ presented
+methodology
+ to the warehouse
+ of an Italian
+ interior
+ design producer,
+ we show that
+ it represents
+ a usefultool to systematically
+ and dynamically
+ improve
+ the warehouse
+ management.
+ Indeed,
+ the application
+ ofthe approach
+ to the company
+ leads
+ to an innovative
+ proposal
+ for the
+ warehouse
+ analysis
+ andoptimization:
+ a warehouse
+ management
+ system
+ that leads
+ to increased
+ proﬁtability
+ and quality
+ as wellas to reduced
+ errors.
+ 2014
+ Elsevier
+ B.V. All rights reserved.
+*Corresponding author. Tel.: +39 0805963667.E-mail addresses: mariagrazia.dotoli@poliba.it (M. Dotoli),nicola.epicoco@poliba.it (N. Epicoco), marco.falagario@poliba.it (M. Falagario),nicola.costantino@poliba.it (N. Costantino), biagio.turchiano@poliba.it(B. Turchiano).Contents lists available at ScienceDirect
+Computers in Industryjo ur n al ho m epag e: ww w.els evier
+ .c om /lo cat e/co mp in dhttp://dx.doi.org/10.1016/j.compind.2014.12.004
+0166-3615/ 2014 Elsevier B.V. All rights reserved. [15], where the authors tackle the warehouse coordinationproblem by analyzing the warehouse as a single system andquantifying its performance as a whole by a data envelopmentanalysis approach. On the contrary, many authors agree on the lackof systematic approaches on warehouse analysis and optimization[17,18]. This paper ﬁlls this gap proposing an integrated approachfor warehouse analysis and optimization which employs severaltools borrowed from lean manufacturing.Lean manufacturing, originating from the Toyota productionsystem, is the most widely known approach for industrialimprovement [19]. Basically, the major goal of lean productionis to reduce costs by eliminating any possible source of wastewithin the company. The seven sources of waste identiﬁed by thelean manufacturing are: over-production, waiting time, transpor-tation, over-processing, inventory, motion, and scrap [20]. Hence,lean manufacturing is a multi-dimensional approach whichcomprises a variety of management practices and tools [21]. How-ever, these tools are not integrated but are usually employed on anisolated basis. Moreover, they are typically applied to improve theinternal logistics of the company and not the warehouse.The research community has only recently started theapplication of lean principles to the warehouse [22,23]. Amongthe lean manufacturing tools, one of the most commonly cited inthe related literature is Value Stream Mapping or VSM [24], thanksto its ability to provide a compact display of the system underexamination. For this reason, there are several applicationexamples of VSM to discrete manufacturing systems (see e.g.[25–27]). However, only few papers employ VSM for leanwarehousing (see for instance [28–30]). Moreover, these contri-butions do not consider VSM in an integrated fashion with othertools for the systematic analysis and optimization of thewarehouse.Summing up only the integration of lean tools allows to analyzethe overall warehouse management problem from different pointof view solving it in a more logical approach.Based on the lack of joined tools found in the related literature,this paper proposes a lean warehousing approach for analyzingand reducing waste in production warehouses. The presentedmethodology integrates the Uniﬁed Modeling Language (UML)formalism, the VSM lean manufacturing tool, and the so-calledGenba Shikumi philosophy. In particular, the UML formalism isadopted to describe and analyze the warehouse activities and thecorresponding responsibilities; this detailed representation
+ isemployed by the VSM tool to highlight in which area any possiblewaste is located; hence, the Genba Shikumi philosophy is adoptedto rank the analyzed waste and determines the most signiﬁcantones to eliminate. This scope is obtained by reapplying the VSMand UML tools to respectively redesign the system without thedescribed anomalies and detail its ﬂows and activities. Thephysical implementation of the designed changes follows in theso-called ﬁnal reengineering phase.The iterative nature of the presented integrated approachbrings to the so-called ‘‘kaizen’’, that is the continuous improve-ment which the lean philosophy is based on.To enlighten the methodology, we employ a real case study, anItalian producer of interior design objects. The proposed techniqueis applied to improve some key performance indicators (KPI) of thecompany production warehouse, enlightening the approacheffectiveness and leading to an innovative proposal for thewarehouse optimization, with particular reference to the keyorder picking process.The remainder of the paper is structured as follows. Section 2presents an overview of lean manufacturing techniques motivat-ing the presented approach, which is described in detail in Section3, where its merits are also discussed with respect to the relatedliterature. Hence, Section 4 presents the case study in order tovalidate the presented approach and discusses the obtainedresults, describing a possible reengineering proposal and theconsequent future mapping of the case study. Subsequently,Section 5 presents the conclusions and possible future develop-ments. The paper is concluded by the reference section.2. Summary of lean manufacturing techniques and papermotivationLean manufacturing
+ includes numerous tools and methodolo-gies [31]. Among these, we recall those somehow connected withthe methodology proposed in this paper.1. VSM – VSM [21] is a tool used to visually map the ﬂow ofproduction and to show the current and future state ofprocesses in a way that highlights opportunities for improve-ment. Dharmapriya and Kulatunga [28] apply VSM to optimizewarehouse operations and use the simulated annealingheuristics to determine an optimal layout. Moreover, Gopa-kumar et al. [29] employ discrete event simulation and VSM forstudying the dock allocation problem in a food distributioncenter, while Chen et al. [30] investigate the use of VSM withradiofrequency identiﬁcation in the warehouse.2. Genba – Genba [32] is a philosophy that recommendsmanagers to spend their time on the plant ﬂoor (rather thanin their ofﬁce), i.e., in the place where real action occurs; it is acompanion approach of VSM that focuses on the wasteidentiﬁcation and removal, i.e., the ideal system, rather thanon the actual one.3. Jidoka – Jidoka [33] consists in partially automating themanufacturing process (note that partial automation istypically much less expensive than full automation) andautomatically stopping when defects are detected.4. Bottleneck analysis – it consists in identifying which part of themanufacturing process limits the overall throughput andimprove the performance of that part of the process [34].5. Kaizen – it stands for a proactive strategy for achievingcontinuous improvement [35].6. Key performance indicator (KPI) evaluation – it is a techniquerelated to kaizen that consists in the continuous analysis andmonitoring of metrics designed to track and encourageprogress toward critical goals of the organization [36].7. Muda removal – it consists in the reduction or elimination ofanything in the manufacturing process that does not add valuefrom the customers’ perspective [37].8. PDCA – PDCA (Plan, Do, Check, Act) is an iterative methodologyfor implementing continuous improvement of processes andproducts [38].9. Poka-Yoke – it is the design error detection and prevention intoproduction processes with the goal of achieving zero defects[39].10. Root cause analysis – it is a problem solving methodology thatfocuses on resolving the underlying problem instead ofapplying quick ﬁxes that only treat immediate symptoms ofthe problem [40].11. Visual factory – it consists in the utilization of visual indicators,displays, and controls throughout manufacturing plants toimprove the communication of information [41].12. Responsibility based planning and control – it is the practice ofinvolving engineers in the planning process in order to ensuredeadlines are met, backup plans are available, and tasks arecompleted [42].It is to be noted that all these lean tools are rarely integratedinto a streamlined, high quality system [43]. Recently, theM. Dotoli et al. / Computers in Industry 70 (2015) 56–69 57 application to lean manufacturing of information and communi-cation technologies (ICT) is attracting the interest of researchersand the reader is addressed to Mo [44], Riezebos and Klingenberg[45], Riezebos et al. [46], and Powell et al. [47] for some discussionson the topic. In such a lean and ICT change scenario, companies areinvolved in their entirety with all their different areas, but adecisive role is played by internal logistics and particularly bywarehouse management, which is aimed at optimizing the ﬂow ofmaterial and information within the company to maximize proﬁt[48]. In this sense, warehouses provide useful services, such as thepossibility to quickly respond to demand changes or to reducetransportation costs and to provide better customer services.Nevertheless, warehouse analysis and optimization is typicallycarried out in a traditional context, e.g., by using simulation [18],eventually in an uncertain environment [49]. Moreover, theexisting contributions do not typically consider the problem ofwarehouse design in a continuous improvement context. On thecontrary, with the enhanced customer demand and globalcompetition, many manufacturing industries have to continuouslymonitor and progress the warehouse process. Indeed, although themanufacturer’s main objective is obviously to minimize theirproduction costs, there are numerous non-value adding activitieslike warehousing that contribute to create additional costs in theoverall production. Furthermore, the main customer requirementsare to get the desired goods on time, at the lowest price and in goodcondition. Therefore, in order to meet the customer andmanufacturer perspectives, warehouse operations have to beoptimized, eliminating inefﬁciencies and making them reliable interms of cost. Hence, the importance of warehouse design andcontinuous improvement arises in industrial management andcontrol. In the sequel we present an approach addressing such anemerging need for implementing lean operations in warehouses.3. Overview of the proposed approachThe proposed warehouse analysis and optimization approach isaimed at reducing inefﬁciencies in warehouses employing leanmanufacturing tools in an integrated and iterative framework.More in detail, we reengineer the company’s product warehouseproposing a novel lean warehousing strategy that integrates theUML formalism [50] to describe in detail the internal logistics andthe warehouse activities, and the VSM lean manufacturing tool as asimple and effective approach to identify and reduce the systemanomalies (i.e., waste or muda in the Japanese term) in the valuestream with particular reference to the warehouse, whileimproving the overall operational control. Moreover, if somemuda are detected, the Genba Shikumi approach (the Japanese forengineering method) [51] is used to rank their signiﬁcance. Basedon the Genba Shikumi results, the VSM approach is hence adoptedto establish the future vision of the value stream, where the impactof non-value added activities is strongly reduced. Hence, the UMLtool is employed to suitably detail the updated warehouse,removing the main system anomalies previously detected, andimplementing the designed changes. The implementation of thereengineering of the warehouse takes then place.The proposed methodology is visually represented in Fig. 1,which describes all the previously summarized steps composingthe approach. The approach is iterative, in order to ensure thatimprovement may be continuously achieved, in accordance withthe lean philosophy perspective. In the following we detail eachstep of the approach.3.1. UML: describe and detail the warehouseAccording to the ﬁrst step of the approach in Fig. 1, we use UMLto represent in detail the system activities. Indeed, UML is astandardized general-purpose modeling language, accepted in theyear 2000 by the International Organization for Standardization(ISO) as an industrial standard. It includes a set of graphical tools tospecify, visualize, modify, construct and document a system; itcombines techniques derived from data modeling (entity relation-ship diagrams), business modeling (work ﬂows), object modeling,and component modeling. UML can be used with almost anyprocesses and across different implementation
+ technologies,offering a standard way to visualize a system’s architectureblueprints, including elements such as activities, actors, businessprocesses, database schemas, logical components [50]. UMLdiagrams represent two different possible views of a systemmodel [52]: (1) a structural view, emphasizing the static structureof the system using objects, attributes, operations and relation-ships by means of class diagrams and composite structurediagrams; (2) a behavioral view, emphasizing the dynamicalbehavior of the system and showing collaborations among objectsand changes to the internal states of objects by means of sequencediagrams, activity diagrams and state machine diagrams. Inparticular, UML activity diagrams are similar to ﬂowcharts butalso allow representing a parallel processing in order to explain theworkﬂow of the system and the critical points in each activity,pointing out all the possible paths, parallel processes, and theirsubdivisions and showing the actor and responsibility of eachactivity, hence providing also a dynamic view of the system.The main elements to build these diagrams are the following:(1) the initial and ﬁnal activities, respectively represented by asolid black circle and a bull’s-eye symbol (an encircled blackcircle); (2) activities, represented by rounded rectangles; (3)arrows, that run from the start toward the end and represent theorder in which activities happen; (4) forks and joins, representedby a thick bar, where forks refer to actions whose execution beginsimultaneously, while joins indicate that all incoming actions mustend before the ﬂow proceeding; (5) decisions, i.e., alternate paths,represented by diamonds with options on each arrow; (6) swimlanes dividing the diagram in columns, expressing responsibilities;(7) numbers in and out of the ﬂow, that refer to another diagram inwhich the individual activities between them are further detailed.3.2. VSM: identify the anomaliesIn this section, according to the second step of the leanwarehousing approach shown in Fig. 1, all the problems andanomalies occurring in the warehouse are identiﬁed, with the aimof determining the sources of errors and inefﬁciencies andremoving them. The main purpose is to describe all the existinginteractions between the parts composing the warehouse pro-cesses, in order to standardize and optimize them. To this aim, theproposed lean warehousing approach uses the VSM technique, afundamental tool of the so-called lean philosophy.VSM is a lean tool used to analyze and design the ﬂow ofmaterials and information required to bring a product or a serviceUML
+Describe
+and
+  detail
+the 
+warehouse
+VSMIdenfy
+the 
+anomali
+ esGenb
+ a-Shikumi
+Quanfy
+and
+  rank
+the 
+anomali
+ esVSMVerify
+the
+updated
+warehouse
+UML
+Upd
+ ate the 
+ warehouse
+removing
+the 
+anomali
+ esSelect
+the 
+suitable
+tech
+ nology
+Ree nginering
+Fig. 1. A scheme of the proposed approach for warehouse analysis and optimization.M. Dotoli et al. / Computers in Industry 70 (2015) 56–6958 to a consumer. It can be applied to nearly any value chain [53]. Infact, although VSM is often associated with manufacturing, thepertinent literature shows that it can be also successfully used inlogistics, supply chain, service related industries, healthcare,software development, product development, administrativeand ofﬁce processes, and many more.VSM allows identifying waste and its causes, providing agraphical mapping of all processes and activities of the logisticsﬂow, helping to develop improving solutions [21].The main elements which constitute the VSM procedure areusually the following [54]:(i) Identify the target product to map: ﬁrstly the value stream tobe improved is determined, identifying the start and the endpoints.(ii) Draw the current state of the value stream map: the currentstate of material and information ﬂows in the value stream aredescribed, including any possible information (e.g., regardingcurrent steps, tasks, costs, times, delays, etc.). To this aim, ateam has to observe the manufacturing processes, document-ing each fact (e.g., cycle times, buffer sizes, personnelrequirements, etc.), and describing the system in an appropri-ate map by mean of standardized icons (see [55] for a completelist) in order to represent entities.(iii) Assess the current state map: the procedure investigateswhether each process activity is adding value or not, thusallowing to identify the system anomalies. Each detectedimperfections in the ﬂow are signalized by means of a ‘‘bomb’’icon.3.3. Genba-Shikumi: quantify and rank the anomaliesAfter
+ describing
+ the warehouse
+ by the UML and
+ VSM
+ tools,
+ theproposed
+ approach
+ suggests,
+ as schematized
+ in Fig.
+ 1, to analyze
+processes
+ by means
+ of the
+ Genba
+ Shikumi
+ technique
+[32,51]
+. Genba
+ is a Japanese
+ term,
+ literally
+ meaning
+ ‘‘the
+ real
+place’’,
+ while
+ Shikumi
+ is the Japanese
+ word
+ which
+ refers
+ tosomething
+ with
+ different
+ parts
+ that
+ are
+ organized
+ to work
+together
+ under
+ some
+ intention.
+ Hence,
+ substantially
+ Genba
+Shikumi
+ stands
+ for
+ engineering
+ method.
+ In lean
+ manufacturing,
+the main
+ idea
+ of Genba
+ is that
+ problems
+ are
+ visible,
+ and the
+ best
+improvement
+ will
+ come
+ from
+ directly
+ going
+ on the ﬁeld
+ to look
+ for
+waste
+ and opportunities.
+ Hence,
+ if a problem
+ occurs,
+ themanagement
+ has to go where
+ it occurs
+ in order
+ to thoroughly
+understand
+ its
+ impact,
+ gathering
+ data
+ from
+ all
+ available
+ sources.
+By applying
+ the
+ Genba
+ philosophy,
+ we consider
+ the
+ list
+ of the main
+problems
+ and
+ anomalies,
+ obtained
+ in the
+ previous
+ VSM
+ step
+ and
+signalized
+ by means
+ of ‘‘bomb
+’’ icons.
+On the basis of the Pareto principle, also known as the 80–20rule, the law of the vital few, or the principle of factor sparsity,according to which for many events, roughly 80% of the effectscome from 20% of the causes, we reﬁne the results, assessing howeach critical issue affects the overall value stream. In such a way weprovide a mathematical formulation of the Genba philosophy.More in detail, we ﬁrst compute a so-called muda matrix, shown inTable 1, in which for each problem the type of waste and its causeare rated.Denoting by p the number of bombs in the as-is state map and wthe number of identiﬁed waste types and of their causes (man/method), the muda matrix M ¼ fmi jg 2 f0; 1gpxwmay be deﬁned asa binary matrix whose generic element mijfor i = 1, . . ., p and j = 1,. . ., w is as follows:- mij= 1 if the ith identiﬁed problem has inﬂuence on the jth type ofwaste or error cause.- mij= 0 if the ith identiﬁed problem does not have any inﬂuenceon the jth type of waste or error cause.Moreover, a muda vector MV ¼ fmvig 2 Zp(see the exampleshown in Table 1) is calculated so that each mviis equal to the sumof the elements in the ith row of M, i.e.:mvi¼Xwj¼1mi jfor each i ¼ 1; . . . ; p: (1)Hence, we deﬁne a correlation matrix C = {cij} 2 {0, 1}pxp, whichis a binary square matrix of dimension p (equal to the number ofdetected bombs) where the generic element cijfor i,j = 1, . . ., p andi 6¼ j is as follows:- cij= 1 if the ith identiﬁed problem is correlated with the jth one.- cij= 0 if the ith identiﬁed problem is not correlated with the jthone.The generic diagonal element of C ciiwith i = 1, . . ., p is set equalto zero.Thus, C allows comparing in a pair wise
+ manner each bombassessing
+ the
+ degree of correlation between
+ them. Hence, acorrelation vector CV ¼ fcvig 2 Zp, an example of which isshown in the
+ last
+ column in Table 2, is determined
+ such
+ that
+each cviequals the summation
+ of the elements
+ in the ith row ofC, i.e.:cvi¼Xpj¼1ci jfor each
+ i ¼ 1; . . . ; p: (2)Therefore, each CV element quantiﬁes the correlation of eachbomb with the others: the higher the correlation, the higher theelement.Subsequently, a so-called priority matrix P = {pij} 2 Zpxkiscomputed, evaluating the impact of each identiﬁed issue on eachof the k chosen performance indicators.The generic element pijof P for i = 1, . . ., p and j = 1, . . ., k isdeﬁned as follows:- pij= 2 if the ith identiﬁed problem has high impact on the jthchosen indicator.- pij= 1 if the ith identiﬁed problem has low impact on the jthchosen indicator.- pij= 0 if the ith identiﬁed problem has no impact on the jthchosen indicator.Table 1Example of muda matrix and vector.# Observed problems Waste 1 Waste 2 [. . .] Waste w MV1 Problem 1 12 Problem 2 1 1 2. . . [. . .] 1 1p Problem p 1 1 2M. Dotoli et al. / Computers in Industry 70 (2015) 56–69 59 Hence, a priority vector PV ¼ f pvig 2 Zpis calculated, as inTable 3, so that each pviof PV is the summation of the elements inthe ith row of P, i.e.:pvi¼Xkj¼1pi jfor each i ¼ 1; . . . ; p: (3)The priority vector elements quantify how each waste impactson the chosen performance indicators: the higher the priority, thehigher the corresponding vector element.Table 4 shows the so-called absolute importance vector (AIV),obtained by summing up the three previously computed vectors:AIV ¼ MV þ CV þ PV; (4)Elements in the AIV vector quantify the severity of eachevaluated criticism in the as-is state map: the greater suchelements, the greater the need for solving the related problem.Finally, we calculate a so-called area matrix, shown in Table 5,in which the AIV values are summed taking into account the area inwhich each issue occurs, thus allowing to identify the mostproblematic area, that are those requiring an immediate action.Denoting by a the number of areas in the company, the areamatrix is A = {aij} 2 Zpxa, and the area vector is AV ¼ favig 2 Za, sothat each aviis the sum of the elements in the ith column of A, i.e.:avi¼Xpi¼1ai jfor each j ¼ 1; . . . ; a: (5)3.4. VSM-UML-Reengineering:
+ verify, update and reengineer theredesigned warehouseAt this point the future state map is drawn. Hence, in this stepthe warehouse is re-designed eliminating (at least a certainnumber of) the non-value adding activities in the descending orderof importance obtained from the previous step. Hence, the idealfuture state of the system is drawn, showing the desired way inwhich processes should look in the future after eliminating the(top) detected criticalities.Subsequently, the UML framework is reapplied to detail thewarehouse activities according to the redesigned state map.Finally, the identiﬁed improvement plans are implemented inthe warehouse, so as to obtain the desire future state.Obviously, to ensure a continuous improvement and to verifythe implementation plans, the proposed approach for warehouseanalysis and optimization is continuously iterated, e.g., at leastonce a year.3.5. Discussion of the proposed approach with respect to the literatureWe conclude this section by a discussion of the merits of theproposed lean warehousing technique with regard to the relatedliterature.With respect to the classical VSM technique for manufacturingsystems optimization, the proposed procedure offers severaladvantages: (i) it can be easily applied even to complexwarehousing systems (while VSM is typically applicable to linearTable 4Example of absolute importance vector.# Observed problems MV CV PV AIV1 Problem 1 1 1 2 42 Problem 2 2 2 4 8. . . [. . .] 1 2 1 4p Problem p 2 1 3 6Table 5Example of area matrix and vector.# Observed problems Area 1 Area 2 [. . .] Area a1 Problem 1 6 22 Problem 2 3 2. . . [. . .] 6 6 1p Problem p 2 4 5AV 17 6 6 8Table 2Example of correlation matrix and vector.# Observed problems Problem 1 Problem 2 [. . .] Problem p CV1 Problem 1 1 12 Problem 2 1 1 2. . . [. . .] 1 1 2p Problem p 1 1Table 3Example of priority matrix and vector.# Observed problems KPI1KPI2[. . .] KPIk PV1 Problem 1 1 1 0 0 22 Problem 2 1 1 1 1 4. . . [. . .] 1 0 0 0 1p Problem p 0 0 2 1 3M. Dotoli et al. / Computers in Industry 70 (2015) 56–6960 ﬂows systems, see e.g. [1]); (ii) it leads at the same time to detailingthe process activities with their players and responsibilities(thanks to the UML formalism) and to depicting the overallwarehouse in a high level picture (using the VSM synthesis ability);(iii) it allows the quantitative assessment of the detected systemanomalies (thanks to the Genba Shikumi methodology).Moreover, with respect to the existing literature contributionsrelated on the warehouse management topic, e.g., the recalledpapers by Gagliardi et al. [18] and Kofjac et al. [49], it is to beremarked that the presented approach is systematic, general, andis based on the lean philosophy of reducing waste.In addition, comparing the presented methodology with thefew contributions in the related literature we remark the followingissues. With respect to the approach proposed by Gopakumar et al.[29], our methodology beneﬁts from the use of the UML frameworkin order to detail the optimized warehouse conﬁguration and fromthe mathematical formalization of the Genba Shikumi philosophyfor a synthetical and yet effective evaluation of the warehousecriticalities, while avoiding complex simulation that require a verydeep data investigation and analysis campaign in order to beeffective. Moreover, with respect to the approach by Chen et al.[30], our methodology, thanks to the integration of UML andGemba Shikumi with VSM, leads to a more systematic and generaltechnique to detail the optimized warehouse. Furthermore,comparing the presented approach with the recalled contributionby Dharmapriya and Kulatunga [28] we remark that, while ourmethodology is focused on optimizing the warehouse byidentifying, ranking, and eliminating waste, their approach israther addressed at the layout design problem in a lean context.4. The case studyIn this section we present an application of the approach to thecase study. The company is an Italian producer of interior designobjects, originally founded as a craft business cabinet that hasrecently strongly increased its worldwide market. Its logistics iscurrently organized with a low-tech and low information contents,and currently generates many wastes, hence the ﬁrm plans to setup an integrated and automated logistics platform to match itsneeds of growth and to reduce anomalies. The internal logistics arecurrently managed mainly manually by the staff supported by abasic information system. The warehouse management is mainlybased on a shared storage strategy, hence, when one locationbecomes empty, it may be reassigned even to a different kind ofproduct. This leads to a high utilization of space, but at the sametime, since products change their location over time, it is time-consuming for workers to search for them. For these reasons, it isapparent that an effective warehouse management strategy wouldrequire a software support and more disciplined warehouseprocesses.The warehouse ﬂows are as follows. Goods arrive at thewarehouse following two main streams: (1) from the outside, withthe supply of wood panels, silver, glue, and various decorations forthe assembly of ﬁnished products, and (2) from within thecompany, after the working of wood panels and/or theircustomization and/or ﬁnal assembly. The wood panels stock isarranged outside the company, while a semi-ﬁnished productswarehouse is located inside the company. Both are managedwithout any ICT support. The current company database includesmore than 20 000 products, all fully customizable, which is why awarehouse of ﬁnished products is not present.According to the ﬁrst step of the lean warehousing approach inFig. 1, we use UML in order to represent in detail the systemactivities and highlight the respective actors and responsibilities.Fig. 2 shows that in the company orders are handled based ontheir dimension: hence, two different ﬂows may be singled out.Particularly, in case of large orders (that is, more than 100 pieces),the ‘‘Sales and Logistics Ofﬁce’’ registers them by assigning to eachone a priority, that derives from the planned delivery date, asagreed with the customer. The record ends with the delivery of thepicking list and the order requirements to the ‘‘Design Ofﬁce’’.Here, with the help of a CAD software, the cutting of the woodFig. 2. Activity diagram of the company logistics (as-is).M. Dotoli et al. / Computers in Industry 70 (2015) 56–69 61 panels to fulﬁll the order is planned. Subsequently, panels are cutwith a numerically controlled milling machine in the ‘‘ProductionOfﬁce’’, then they are customized with prints or laser engravings inthe ‘‘Customization Ofﬁce’’, and the production process ends withthe delivery of the ﬁnished customized pieces to the ‘‘AssemblyOfﬁce’’, where it is applied the requested decoration (silver, glass,etc.). Finally, assembled products are delivered to the ‘‘Packagingand Shipping Ofﬁce’’, where they are packaged and an identiﬁca-tion code is applied for the ﬁnal delivery to an external carrier.On the other hand, in case of small orders, the ‘‘Sales andLogistics Ofﬁce’’ collects them together with similar orders,creating the order list which is delivered to the ‘‘Customization
+Ofﬁce’’. Here the availability of the required semi-ﬁnishedproducts is checked. If these are available, the required customi-zation is performed, followed by the assembly process, with theapplication of the requested decoration, and ﬁnally the productsare packaged with the identiﬁcation code application anddelivered to the external carrier, as seen before. Otherwise, incase semi-ﬁnished products that are necessary to complete theorder are not immediately available, the number of needed piecesis forwarded to the ‘‘Production Ofﬁce’’. Here the availability of therequired components is checked in the temporary warehouse, orotherwise their production is started. Then the needed pieces aredelivered to the ‘‘Customization Ofﬁce’’, where they follow thesame previous ﬂow.Among all the activities described above, the one that mostlyinterfaces with the warehouse is wood working (that is the activitybetween labels 4 and 5 in Fig. 2), hence its current UML activitydiagram is shown in Fig. 3.In the production phase depicted in Fig. 3, the cutter operatorchecks for the availability of the wood panels that are needed tocomplete the order. In case they are unavailable or present inlimited quantities, he sends an order to the ‘‘Logistics Ofﬁce’’.Once obtained the panels, he loads the cut project on anumerically controlled milling machine and launches the cuttingprogram. When the cut is over, panels are grossly sanded, inorder to separate pieces and obtain a predetermined desiredthickness. Afterwards panels are put into an oven, where a layerof ﬁller and insulating material is applied. Then the pieces arepolished and sanded to be placed in the temporary warehouse,becoming available in case of need. Subsequently, jointly withother items related to unexecuted orders, it is applied abackground of white paint or color, depending on the type ofdesired customization. Hence, hinges, nails and anything elsenecessary to a ﬁrst assembly are applied, and ﬁnally a randomquality control is made. Whether non-compliance is detected,the entire batch is fully checked, so that all non-compliantpieces are produced again. On the other hand, pieces that passthe inspection are loaded onto the internal lift to be transportedin the ‘‘Customization Ofﬁce’’.Having detailed the company ﬂows, by the second step inFig. 1 we identify in detail all the problems and anomaliesoccurring in the internal logistics, with the aim of identifying thesources of errors and inefﬁciencies and removing them. Themain purpose is to describe all the existing interactions betweenthe parts composing the warehouse processes, in order tostandardize and optimize them. To this aim, the proposed leanwarehousing approach uses the VSM technique, a fundamentaltool of the so-called lean philosophy, which, in the case study,allows obtaining the overall current state map in Fig. 4, wherethe actors and supply policies are graphically depicted and thelegend describes symbols. The ﬁgure shows that componentsthat ﬂow through the warehouse are composed by packagescoming from the internal or external production that are storedin the warehouse, prepared due to an order, and ﬁnally deliveredto the carrier.Basically, the warehouse represents the decoupling pointbetween the main activities of production and distribution. Infact, it receives incoming goods from the ‘‘Production Ofﬁce’’according to a push policy (labeled by the so-called ‘‘Push ArrowIcon’’ in Fig. 4), while they are stored and retrieved in presence of anorder following a pull strategy (labeled by a ‘‘Pull Arrow Icon’’ inFig. 4). More precisely, if an order is present, then all the requiredgoods are moved to the loading bay, where an inventory structure(signaled by a ‘‘Supermarket Icon’’ in Fig. 4) is available to pickers.Here goods veriﬁcation and truck loading are performed.After describing the company internal logistics and warehouseby means of UML and VSM, processes are analyzed by means of theproposed mathematical formulation based on the Genba Shikumiphilosophy and on the Pareto principle.Fig. 3. UML diagram of the wood working activity 4–5 of Fig. 2 (as-is).M. Dotoli et al. / Computers in Industry 70 (2015) 56–6962 We ﬁrst compute the muda matrix and the muda vector, shownin Table 6, in which for each problem the type of waste (i.e.,overproduction, underproduction,
+ movements, space, waitingtime, safety, over processing ﬂows) and its cause (i.e., manualerror or type of method adopted) are rated.The muda matrix clearly shows that the current problems in thecase study warehouse are generated by a lack of ICT andautomation, leading above all to wasted time, under productionand unnecessary movements, as shown by the values in the lastrow in Table 1. Furthermore, it is clear that the lack of methods andstandardized procedures are relevant for the examined company.Hence, we deﬁne the correlation matrix and the correlation vectorto compare each bomb assessing the degree of correlation betweenthem, as shown in Table 7.The CV values in Table 7 show that the problems of lack ofcommunication with the ‘‘Assembly Ofﬁce’’ and with the‘‘Customization Ofﬁce’’ are linked with eight other issues andthat the un-replaceable
+ staff is linked to six among the otheridentiﬁed problems.Subsequently, the priority matrix and the priority vector arecomputed and reported on Table 8, evaluating the impact of eachidentiﬁed issue on each of the k = 3 chosen performance indicators.These include both tangible or numerically measurable KPIs –namely the errors percentage, i.e., the percentage of wrong lines inan order, and proﬁtability, measured in terms of the number ofshipped parcels per hour – and an intangible KPI, i.e., the qualityperceived by the customer, detected by means of customersatisfaction interviews.Fig. 4. Overall VSM current state map (as-is).Table 6The muda matrix and vector.# Observed problems Overproduction Underproduction Movements Space Waiting time Safety Overprocessing Man Method MV1 Lists creating 1 1 22 Order entry 1 1 1 1 1 53 Database updating 1 1 24 Checking the availability of externalsuppliers1 1 1 35 Communication with the production ofﬁce 1 1 1 1 1 56 Checking the availability of woods panels 1 1 1 37 Checking the availability on thetemporary warehouse1 1 1 1 1 58 Checking the availability of whitesemiﬁnished1 1 1 1 1 1 1 79 Checking the availability of othersemiﬁnished1 1 1 1 1 1 1 710 Difﬁculty in ﬁnding semiﬁnishedand decorations1 1 1 1 1 1 1 711 Non-replaceable staff (11a–11c) 1 1 1 1 412 Correspondence check of codes 1 1 213 Communication with the assembly andcustomization ofﬁces1 1 1 1 45 8 6 1 12 0 4 8 12M. Dotoli et al. / Computers in Industry 70 (2015) 56–69 63 Table7
+Thecorrelationmatrixandvector.
+#Observed
+problemsListscreatingOrderentryDatabaseupdatingCheckingthe
+availability
+ofexternal
+
+suppliersCommunicationwiththe
+
+production
+ofﬁceCheckingthe
+availabilityof
+
+woodspanels
+Checkingthe
+availabilityon
+
+thetemporary
+
+warehouseCheckingthe
+availability
+ofwhite
+
+semiﬁnishedCheckingthe
+availability
+ofother
+
+semiﬁnishedDifﬁcultyin
+ﬁnding
+semiﬁnished
+anddecorations
+Nonreplaceable
+
+staff
+(11a–11c)Correspondencecheckofcodes
+Communicationwiththe
+
+assemblyand
+
+customization
+ofﬁcesCV1Listscreating1
+122Orderentry11
+133Database
+updating1113
+4Checkingthe
+availabilityof
+
+externalsuppliers
+112
+5Communication
+withthe
+
+productionofﬁce
+11136Checkingthe
+availabilityof
+
+woodspanels
+1111
+47Checkingthe
+availabilityonthetemporary
+
+warehouse11114
+8Checkingthe
+availabilityof
+
+whitesemiﬁnished
+1113
+9Checkingthe
+availabilityof
+othersemiﬁnished
+1113
+10Difﬁcultyin
+ﬁndingsemiﬁnished
+
+anddecorations
+1113
+11Non-replaceable
+staff(11a–11c)
+1111116
+12Correspondence
+checkofcodes
+11213Communication
+withtheassembly
+
+andcustomization
+
+ofﬁces111111118
+M. Dotoli et al. / Computers in Industry 70 (2015) 56–6964 By analysing Table 8 it can be observed that the problem ofverifying the correspondence
+ between the codes has a strongweight in the company production processes, as well as ﬁndingsemi-ﬁnished and decorations in the warehouse, and the lack ofcommunication with the Production Ofﬁce.Table 9 shows the absolute importance vector (AIV), whichquantify the severity of each evaluated criticism in the as-is statemap.Hence, we calculate the area matrix, shown in Table 10, inwhich the AIV values are summed taking into account the area inwhich each problem occurs, thus allowing to identify the mostproblematic area, that are those requiring an immediate action.As it is clear from Table 10, the ‘‘Assembly Ofﬁce’’ and the‘‘Customization Ofﬁce’’ are the areas characterized by the greatestwaste, while, among these, those numbered 10, 11, 13 (in adescending order of importance) require an urgent action plan. Inparticular, the search of semi-ﬁnished and decorations in thewarehouse results to be the most severe problem, hence, to solvethis issue and all those related to it (as evaluated by the correlationmatrix), in the subsequent section we propose to set up areengineered warehouse.The subsequent step of the lean warehousing approach, asdepicted in Fig. 1, is to remove the most relevant identiﬁedanomalies. To this aim, since the main problems are ﬁnding semi-ﬁnished parts and decorations in the warehouse and the lack ofcommunication between the various business ofﬁces, and theareas characterized by the greatest waste are the ‘‘AssemblyOfﬁce’’ and the ‘‘Customization Ofﬁce’’, we re-design the companyTable 8The priority matrix and vector.# Observed problems Error % Proﬁtability Quality PV1 Lists creating 1 1 0 22 Order entry 1 1 1 33 Database updating 1 0 0 14 Checking the availability of external suppliers 0 0 1 15 Communication with the production ofﬁce 2 2 0 46 Checking the availability of woods panels 0 0 1 17 Checking the availability on the temporary warehouse 0 0 1 18 Checking the availability of white semiﬁnished 0 1 0 19 Checking the availability of other semiﬁnished 0 1 0 110 Difﬁculty in ﬁnding semiﬁnished and decorations 2 2 0 411 Non-replaceable staff (11a–11c) 1 2 0 312 Correspondence check of codes 2 2 0 413 Communication with the assembly and customization ofﬁces 0 1 0 1Table 10The area matrix and vector.# Observed problems Sales andlogistics ofﬁceDesignofﬁceProductionofﬁceFirst assemblyand qualitycontrol ofﬁceCustomizationofﬁceAssemblyofﬁcePackaging andshipping ofﬁce1 Lists creating 62 Order entry 113 Database updating 6 6 64 Checking the availability of external suppliers 6 65 Communication with the production ofﬁce 12 12 12 126 Checking the availability of woods panels 87 Checking the availability on the temporary warehouse 108 Checking the availability of white semiﬁnished 119 Checking the availability of other semiﬁnished 1110 Difﬁculty in ﬁnding semiﬁnished and decorations 14 1411 Non-replaceable staff (11a–11c) 13 13 13 13 1312 Correspondence check of codes 813 Communication with the Assemblyand Customization Ofﬁces13 13 13 13AV 67 19 31 25 69 69 8Table 9The absolute importance vector.# Observed problems MV CV PV AIV1 Lists creating 2 2 2 62 Order entry 5 3 3 113 Database updating 2 3 1 64 Checking the availability of external suppliers 3 2 1 65 Communication with the production ofﬁce 5 3 4 126 Checking the availability of woods panels 3 4 1 87 Checking the availability on the temporary warehouse 5 4 1 108 Checking the availability of white semiﬁnished 7 3 1 119 Checking the availability of other semiﬁnished 7 3 1 1110 Difﬁculty in ﬁnding semiﬁnished and decorations 7 3 4 1411 Non-replaceable staff (11a–11c) 4 6 3 1312 Correspondence check of codes 2 2 4 813 Communication with the assembly and customization ofﬁces 4 8 1 13M. Dotoli et al. / Computers in Industry 70 (2015) 56–69 65 warehouse. Hence, we propose to adopt sliding compact shelves,and, based on the strategic importance of the ICT solutions in leanmanufacturing, to implement an automated control of the pickingarea and pickers paths by a dedicated warehouse managementsystem (WMS).A WMS is mainly an information and communication technol-ogy (ICT) system that is used to physically control the warehousedatabase [56], thus supporting the daily operations within thewarehouse, helping to manage inventory, storage locations andworkforce. It primarily aims at supporting and monitoring themovement and storage of materials within a warehouse andprocessing the associated transactions, including inbound pro-cesses (receiving and put-away), and outbound processes (orderpicking, packing and shipping), as well as returns. A WMS alsodirects and optimizes stock put-away based on real-timeinformation about the status of utilization.Fig. 5. Overall VSM future state map (to-be).Fig. 6. Activity diagram of the company logistics (to-be).M. Dotoli et al. / Computers in Industry 70 (2015) 56–6966 Hence, we obtain the future state map of the proposed solution,realizing that it leads to eliminating all bombs and manualcontrols, thus reducing the error probability and increasingproﬁtability. Fig. 5 depicts the to-be state map, showing howthe WMS coordinates both material and information ﬂows, thusallowing to reduce the errors due to human intervention or derivedfrom the adopted method.Subsequently, it is necessary to develop the UML model of thefuture state map including the proposed WMS solution. Fig. 6shows the to-be UML macro activity diagram and Fig. 7 depicts theto-be UML production activity.Comparing the UML to-be diagrams in Figs. 6 and 7 with thecorresponding as-is diagrams depicted in Figs. 2 and 3, it can beremarked once again that most of the ﬂows, both of informationand material type, are coordinated by the WMS in the reengineeredwarehouse, thus demonstrating its contribution in their manage-ment and the resulting possibility to reduce errors.Since there are neither available data on competitor ware-houses nor a historical database on customer orders, to judge theeffectiveness of the redesigned warehouse, we compare it with theactual warehouse, hence ﬁxing the warehouse geometry andlayout, and the freight mix, in order to obtain absolute data that aredirectly evaluable. The data of the as-is state and the estimatedones in the to-be state (i.e., by adopting sliding compact shelvesand WMS) are illustrated in Table 11, while Table 12 shows theobtained value of some suitable performance indices. In particular,Table 12 shows how the reengineered solution implementation
+has led to about a 25% average increase in the occupied stockvolumes and a 30% average increase in the available free surface(i.e. the surface that is not occupied by shelves and material on theﬂoor, and is not required for handling), hence decreasing thewarehouse saturation, with a corresponding increase in organiza-tional efﬁciency and chances of larger stocks. Note that theimprovements underlined in Table 12 are connected to theadoption of sliding shelves, since those due to the WMSimplementation
+ are related to the information exchange and arenot yet quantiﬁed. Hence, the improvement is a well conservativeestimate.Obviously, the implementation requires a KPI monitoring of thenovel solution, so as to estimate how much this action plancorresponds to expectations (reduction of error probability,increase of proﬁt and service quality perceived by customers).Hence, the ﬁrm has to start a warehouse activity proﬁling(including an ABC analysis in order to know what stock unitsmostly matter, or determine the Pareto curves in order to rank thestock units by popularity, e.g. the number of requests), with acareful measurement and statistical analysis of warehouse activityand on customer orders, and how these determine the workloadwithin the facility. It is also important to understand how theintensity of work varies over time, since most products have somenatural cycle or seasonality that repeats over the year (e.g., forChristmas products). Note that all data required to supportproﬁling, that is those pertaining to each stock unit, thosepertaining to customer orders, and those related to stock locationswithin the warehouse, may be easily collected by the WMS.Clearly, applying in a recursive way the proposed approach, theobtained improvements can be further identiﬁed and quantiﬁed.Fig. 7. Activity diagram of the wood working 4–5 activity of Figure 6 (to-be).Table 11Warehouse data.Data Meaning as-is to-beVsAvailable shelves volume [m3] 300 376SsSurface occupied by shelves [m2] 40 50ShHandling area [m2] 120 130SfArea occupied by materials on the ﬂoor [m2] 52 –SwWarehouse area [m2] 320 320M. Dotoli et al. / Computers in Industry 70 (2015) 56–69 67 5. ConclusionsThis paper presents a lean warehousing approach for thestrategic design and reengineering of production warehouses. Theproposed approach integrates the Uniﬁed Modeling Language(UML), Value Stream Mapping, and Genba Shikumi methodologies.Their combination allows detecting the critical issues of awarehouse, assessing them quantitatively, and identifying themost appropriate response actions to achieve the desiredimprovement. In particular, the UML formalism is adopted inorder to describe and analyze the internal logistic, warehouseactivities and the corresponding responsibilities, and the VSM toolis used in order to highlight in which area any possible waste islocated. The application of the Genba Shikumi philosophy isadopted in order to further characterize waste, and thanks to anovel mathematical formulation based on the Pareto principle, torank their importance. The iterative nature of the presentedintegrated approach brings to the continuous improvement whichis central to the lean philosophy.The application of the proposed technique to an Italianproducer of interior design objects shows its simplicity andeffectiveness, highlighting that the problems affecting thecompany warehouse and inferring that they are caused by theabsence of an integrated and automated warehouse management.Using the proposed approach, we show that the adoption of awarehouse management system leads to improvements in theproduction warehouse performance. Future investigations willdeal with enhancing the company warehouse reengineering by awidely used solution for warehouse material handling, character-ized by high accuracy, high speed and high storage capacity, i.e.,automated storage and retrieval systems or carousels, henceembedding the warehouse control system. Moreover, oncehistorical data are available, a comparison with competitors willbe possible, e.g., by using a cross-efﬁciency data envelopmentanalysis approach.References[1] V. Bevilacqua, N. Costantino, M. Dotoli, M. Falagario, F. Sciancalepore, Strategicdesign and multi-objective optimization of distribution networks based ongenetic algorithms, International Journal of Computer Integrated Manufacturing25 (12) (2012) 1139–1150.[2] N. Costantino, M. Dotoli, M. Falagario, M.P. Fanti, A.M. Mangini, F. Sciancalepore, AFuzzy Programming Approach for the Strategic Design of Distribution Networks,
+CASE 2011, Trieste (Italy) (2011), 24–27.08.2011.[3] N. Costantino, M. Dotoli, M. Falagario,
+ M.P. Fanti, A.M. Mangini,
+ A model for supplymanagement of agile manufacturing supply chains, International
+ Journal ofProduction Economics 135 (2012) 451–457.[4] M. Dotoli, M.P. Fanti, C. Meloni, M.C. Zhou, A multi-level
+ approach for networkdesign of integrated supply chains, International Journal of Production Research43 (20) (2005) 4267–4287.[5] M. Dotoli, M.P. Fanti, C. Meloni,
+ M.C. Zhou, Design and optimization of integratede-supply chain for agile and environmentally conscious manufacturing, IEEETransactions on Systems Man and Cybernetics, Part A 36 (1) (2006) 62–75.[6] N. Costantino, M. Dotoli, M. Falagario, M.P. Fanti, A.M. Mangini, F. Sciancalepore,
+W. Ukovich,
+ A model for the strategic design of distribution
+ networks, CASE 2010,Toronto (Canada) (2010), 21–24.08.2010.
+[7] M. Dassisti, M. Dotoli, N. Epicoco, M. Falagario, Internal Logistics Integration byAutomated Storage and Retrieval Systems: A Reengineering Case Study. IndustryCase Studies Program of the 7th International
+ Workshop on Enterprise Integra-tion, Interoperability
+ and Networking, Rome, Italy, 2012, 78–82.[8] R. De Koster, T. Le-Duc, K.J. Roodbergen, Design and control
+ of warehouse orderpicking: a literature review, European Journal of Operational Research 182 (2007)481–501.[9] M. Dotoli,
+ M.P.
+ Fanti,
+ A coloured
+ timed
+ Petri
+ net model
+ for automated
+ storage
+and retrieval
+ systems
+ serviced
+ by rail-guided vehicles:
+ a control
+ perspective,
+International
+ Journal
+ of Computer
+ Integrated
+ Manufacturing
+ 18 (2005)
+ 122–
+136.[10] M. Dotoli, M.P. Fanti, Deadlock detection and avoidance strategies for automatedstorage and retrieval systems, IEEE Transactions on Systems, Man and Cybernet-ics, Part C 37 (2007) 541–552.[11] B. Rouwenhorst, B. Reuterb, V. Stockrahmb, G.J. van Houtumc, R.J. Mantela,W.H.M. Zijmc, Warehouse design and control: framework
+ and literature review,European Journal of Operational Research 122 (2000) 515–533.[12] N. Costantino, M. Dotoli, N. Epicoco, M. Falagario, F. Sciancalepore,
+ A novel fuzzydata envelopment analysis methodology for performance evaluation
+ in a two-stage supply chain, CASE 2012, Seoul (Korea) (2012), 20–24.08.2012.[13] J.P. van den Berg, W.H.M. Zijm, Models for warehouse management: classiﬁ-cation and examples, International Journal of Production Economics
+ 59 (1999)519–528.[14] J.P. van den Berg, A literature survey on planning and control of warehousingsystems, IIE Transactions 31 (1999) 751–762.[15] A. Johnson,
+ L. McGinnis,
+ Performance measurement in the warehousing industry,IIE Transactions 43 (3) (2011) 220–230.[16] J.X. Gu, M. Goetschalckx,
+ L.F. McGinnis, Research
+ on warehouse design andperformance evaluation: a comprehensive
+ review, European
+ Journal of Opera-tional Research 203 (3) (2010) 539–549.[17] P. Baker, M. Canessa, Warehouse design: a structured approach, European Journalof Operational Research 193 (2) (2009) 425–436.[18] J.P. Gagliardi, J. Renaud, A. Ruiz, A simulation model to improve warehouseoperations, in: Proc. Winter Simulation Conference,
+ 9–12 December 2007, Univ.Laval, Quebec,
+ Canada, 2007, pp. 2012–2018.[19] C. Karlsson, P. A˚hlstro¨m, A lean and global smaller ﬁrm? International Journal ofOperations & Production Management 17 (10) (1997) 940–952.[20] J. Narasimhan, L. Parthasarathy, P.S. Narayan, Increasing the effectiveness of valuestream mapping using simulation tools in engine test operations, in: 18th IASTEDInternational Conference on Modeling and Simulation, Montreal, Canada, (2007),pp. 260–264.[21] A. Abdulmalek, J. Rajgopal, Analyzing the beneﬁts of lean manufacturing andvalue stream mapping via simulation: a process sector case study, International
+Journal of Production
+ Economics 107 (1) (2007) 223–236.[22] K. Ackerman, Lean Warehousing, Ackerman Publications,
+ 2007.[23] D. Bartholomew, Putting Lean Principles in the Warehouse, Lean EnterpriseInstitute, 2008.[24] P. Hines, N. Rich, The seven value stream mapping tools, International Journal ofOperations & Production Management 17 (1) (1997) 46–64.[25] S. Keil, G. Schneider, D. Eberts, I. Kristina Wilhelm, R. Gestring, A. Lasch, Deutsch-la¨nder,
+ Establishing continuous ﬂow manufacturing in a Wafertest-environment
+via value stream design, in: 22nd IEEE/SEMI Advanced SemiconductorManufacturing Conference, 2011, 7 pp..[26] H.L. McManus, R.L. Millard, Value stream analysis and mapping for productdevelopment, in: 23rd Congress International Council of the Aeronautical
+Sciences, 2002, 6103.1–6103.10.[27] V. Ramesh, K.V. Sreenivasa Prasad, T.R. Srinivas, Implementation of a lean modelfor carrying out value stream mapping in a manufacturing industry, Journal ofIndustrial and Systems Engineering 2 (2008) 180–196.[28] U.S.S. Dharmapriya, A.K. Kulatunga, New strategy for warehouse optimization –lean warehousing, in: Proc. of the 2011 International
+ Conference on IndustrialEngineering and Operations Management,
+ Kuala Lumpur, Malaysia, January 22–24, 2011.[29] B. Gopakumar, S. Sundaram, S.Y. Wang, S. Koli, K. Srihari, A simulation basedapproach for dock allocation in a food distribution center, in: Proc. WinterSimulation Conference, WSC 2008, 7–10 December 2008, 2008, 2750–2755.[30] J.C. Chen, C.-H. Cheng, P.T.B. Huang, K.-J. Wang, C.-J. Huang, T.-C. Ting, Warehousemanagement with lean and RFID application: a case study, International Journalof Advanced Manufacturing
+ Technology (2013), 12 pp., Published online 18 May2013.[31] D. Seth, V. Gupta, Application of value stream mapping for lean operations andcycle time reduction:
+ an Indian case study, Production Planning & Control: TheManagement of Operations 16 (1) (2005) 44–59.Table 12Warehouse performance indices.Index Meaning as-is to-be ImprovementI1% = Ss/SwSurface occupied from the shelves over the total 12.50% 15.63% 25.00%I2% = [Vs(to_be)  Vs(as_is)]/Vs(as_is) Increase in the available volume – 25.33% 25.33%I3% = (Sw Sf Ss)/SwTotal available free surface 71.25% 84.38% 18.42%I4% = (Sw Sf Ss Sh)/SwFree surface 33.75% 43.75% 29.63%M. Dotoli et al. / Computers in Industry 70 (2015) 56–6968 [32] N.A. Scott, Lean conversion and Genba Shikumi, in: International
+ Conference onAgile Manufacturing,
+ 2007, 168–171.[33] S. Subramaniam, S. Husin, Y. Yusop, A. Hamidon, Real time shop ﬂoor monitoringsystem for a better production line management, in: Proc. Asia-Paciﬁc Conferenceon Applied Electromagnetics, 2007, Melaka, Malaysia, 4–6 December 2007,(2007), pp. 1–4.[34] V.S. Jorapur, V.S. Puranik, A.S. Deshpande, Research
+ issues in detection of bottle-necks in discrete manufacturing systems – a review, International Journal
+ ofEngineering Research & Technology 1 (8) (2012), 6 pp..[35] M. Imai, Kaizen: The Key to Japan’s Competitive
+ Success, McGraw-Hill, 1986.[36] V.S. Palmer, Inventory
+ management Kaizen, in: Proc. 2nd Int. Workshop onEngineering Management for Applied Technology,
+ Austin, Texas, 16–17 August2001, (2001), pp. 55–56.[37] A. Audenino,
+ Kaizen and lean management autonomy and self-orientation,
+potentiality and reality, in: Proc. 2nd International Conference on Communica-tions, Computing and Control Applications,
+ Marseille, France, 6–8 December2012, (2012), pp. 1–6.[38] R. Moen, C. Norman,
+ Evolution of the PDCA Cycle, API Publications,
+ 2009, pp. 5–9.[39] S. Shingo, A. Dillon, A Study of the Toyota Production System From an IndustrialEngineering Viewpoint, Productivity Press, Portland, OR, 1989.[40] J.J. Rooney, L.N.V. Heuvel, Root cause analysis for beginners, Quality Progress 37(7) (2004) 45–53.[41] M. Greif, The Visual Factory: Building Participation Through Shared Information,Productivity Press, Portland, OR,
+ 1991.[42] M. Poppendieck, T. Poppendieck, Lean Software Development: An Agile Toolkit,
+Addison-Wesley Professional, 2003.[43] R. Shah, P.T. Ward, Lean manufacturing: context, practice bundles, and perfor-mance, Journal of Operations Management 21 (2003) 129–149.[44] J.P.T. Mo, The role of lean in the application
+ of information technology tomanufacturing, Computers in Industry 60 (4) (2009) 266–276.[45] J. Riezebos, W. Klingenberg,
+ The role of IT in advancing lean manufacturing,Computers in Industry 60 (4) (2009) 235–236.[46] J. Riezebos, W. Klingenberg,
+ C. Hicks, Lean production and information technolo-gy: connection or contradiction?
+ Computers in Industry 60 (4) (2009) 237–247.[47] D. Powell, E. Alfnes, J.O. Strandhagen, H. Dreyer, The concurrent application
+ oflean production and ERP: towards an ERP-based lean implementation process,
+Computers in Industry 64 (3) (2013) 324–335.[48] M. Christopher, Logistics
+ and Supply Chain Management: Creating Value-addingNetworks, 4th ed., Prentice Hall, Edinburgh, UK, 2010.[49] D. Kofjac, M. Kljajic, V. Rejec, The anticipative concept in warehouse optimizationusing simulation in an uncertain environment, European Journal of OperationalResearch 193 (3) (2009) 660–669.[50] G. Booch, I. Jacobson, J. Rumbaugh, The Uniﬁed Modeling Language User Guide,
+2nd ed., Addison
+ Wesley Longman, Computer & Engineering Publishing Group,2005.[51] J.P. Womack, D.T. Jones, Lean Thinking, Simon and Schuster, New York, 1996.[52] J. Holt, UML for Systems Engineering: Watching the Wheels, 2nd ed., TheInstitution of Engineering and Technology, 2004.[53] M. Rother, J. Shook, Learning to See: Value Stream Mapping to Add Value andEliminate Muda, The Lean Enterprise Institute, Inc., Brookline, MA, 1999.[54] G.-Q. Pan, D.-Z. Feng, M.-X. Jiang, Application
+ research of shortening delivery timethrough value stream mapping analysis, in: IEEE 17th International
+ Conferenceon Industrial Engineering and Engineering Management, 2010, 733–736.[55] M. Braglia, G. Carmignani,
+ F. Zammori, A new value stream mapping approach forcomplex production system, International
+ Journal
+ of Production Research 44(2006) 3929–3952.[56] J.-Y. Shiau, M.C. Lee, A warehouse management system with sequential pickingfor multi-container deliveries, Computers & Industrial Engineering
+ 58 (2010)382–392.Mariagrazia Dotoli received the Laurea degree inelectronic engineering with honors in 1995 and thePh.D. in electrical engineering in 1999 from Politecnicodi Bari (Italy). She has been a visiting scholar at the Paris6 University and at the Technical University ofDenmark. She is an expert evaluator of the EuropeanCommission since the 6th Framework Program. In1999 she joined the Department of Electrical andElectronic Engineering of Politecnico di Bari as AssistantProfessor in Control Systems Engineering and is nowAssociate Professor. She has been the Vice Rector forresearch of Politecnico di Bari for 4 years until 2013 anda member elect for the 2012-2015 triennium of theAcademic Senate of the same University. Her researchinterests include modeling, identiﬁcation, management, control and diagnosis ofdiscrete event systems, Petri nets, manufacturing systems, logistics systems, trafﬁcnetworks. Prof. Dotoli was co-chairman of the Training and Education Committee ofERUDIT, the European Commission network of excellence for fuzzy logic anduncertainty modeling in information technology, and was key node representativeof EUNITE, the EUropean Network of excellence on Intelligent Technologies. She isAssociate Editor of the IEEE Trans. of Automation Science and Engineering and amember of the editorial board of the journals: Mediterranean J. of Measurement andControl, INT. J. of Automation and Control, Int. J. of Systems Signal Control andEngineering Application, and Int. J. of Discrete Event Control Systems. She is theWorkshop and Tutorial chair of the 2015 IEEE Conference on Automations Scienceand Engineering. She was the Special Session co-chair of the 2013 IEEE Conferenceon Emerging Technology and Factory Automation and chair of the NationalCommittee of the 2009 IFAC Workshop on Dependable Control of Discrete Systems.She has been member of the International Program Committee of 40+ internationalConferences and Symposia. She is a member of the following committees: IFACTechnical Committee on Discrete Event and Hybrid Systems (since 2011); IEEESystems Man and Cybernetics Society Technical Committee on Discrete EventSystems (since 2007); IEEE Control Systems Society Technical Committee onDiscrete Event Systems (since 2005). She is author or co-author of 150+ printedpublications, including 1 book (in Italian) and 35+ papers on international journals.Her h-index equals 16.Nicola Epicoco was born in Bari, Italy, in 1976. Hereceived the Laurea degree in Mechanical Engineeringat Politecnico di Bari in 2002. He is currently carrying onhis Ph.D. in Electrical and Information Engineering atPolitecnico di Bari, focusing on the impact of ICT toolson intermodal transport systems. His research interestsinclude modeling, simulation, optimization, manage-ment and control of discrete event systems, Petri nets,supply chains and urban trafﬁc networks, manufactur-ing systems, distribution and internal logistics, trans-portation systems.Marco Falagario was born in Bari, Italy, in 1976. Hereceived the Laurea degree in Mechanical Engineeringat Politecnico di Bari in 2001, where he received hisPh.D. in Economics and Business Engineering in2005. He is consultant for companies both in theprivate and public sector. His research interests includemodeling, optimization, management and control ofdiscrete event systems, supply chains and urban trafﬁcnetworks, manufacturing systems, distribution andinternal logistics, transportation systems.Nicola Costantino was born in Bari in 1951. Hereceived the Laurea degree in electronic engineeringwith honors at Politecnico di Bari, in 1975. He is fullprofessor in Economic and Business Administration atPolitecnico di Bari. He was Rector of Politecnico di Barifrom 2009 to 2013. He is currently the sole director ofAcquedotto Pugliese S.p.A., the largest European aque-duct. He is author or co-author of more than 150 printedpublications, including more than 80 on internationaland national books or journals. His main researchinterests are construction management and supplychain management.Biagio Turchiano was born in Bitetto (Bari), Italy. Hereceived the Laurea degree with honors in electricalengineering from the University of Bari, Bari, Italy, in1979. He joined in 1984 as an Assistant Researcher theDepartment of Electrical and Electronic Engineering,Politecnico di Bari, Italy, where he is currently a FullProfessor of automatic control. His current research andteaching interests include production automation,systems and control theory, and modeling and controlof discrete event systems. Prof. Turchiano has been anAssociate Editor of the IEEE Transactions on AutomationScience and Engineering for years 2008-2014.M. Dotoli et al. / Computers in Industry 70 (2015) 56–69 69

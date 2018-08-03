@@ -1,0 +1,893 @@
+ to rewrite from scratch a legacy application todemonstrate the technologyÕs ability to inte-
+
+grate with other applications. The legacy ap-
+plication was an event notification system
+written in Forte and Sybase procedures. By
+
+writing custom applications monitoring spe-
+
+cific business events (for instance, the price of
+natural gas), users could use the event notifi-
+cation application to notify interested parties.When ThoughtWorks recommended Ex-
+treme Programming1as a development ap-proach, some of TCPLÕs architects and project
+managers had concerns. For instance, XPÕs
+lack of investment in up-front design and doc-
+umentation differed from the more traditional
+forms of application development they knew.
+
+They also werenÕt sure who would be respon-
+
+sible for the systemÕs overall architecture. For-
+
+tunately, converting skeptics was not a task
+
+for the project team. Rather, we aimed to
+
+demonstrate that XP worked by example. We
+
+had six months to prove the technology, train
+
+the team in XP, learn the business, and pro-
+
+duce a production-ready application. The project team comprised approximately13 people, including a project manager, an it-
+
+eration manager, a build master, a business
+
+analyst, a tester, four junior developers (with
+
+no prior XP experience), and four intermedi-
+ate to senior developers (who had XP experi-
+ence). Upon delivery, the greenfield code base
+feature
+Introducing XP intoGreenfield Projects:
+Lessons LearnedOne of ThoughtWorksÕ clients, TransCanada Pipelines Limited, is a
+leading North American energy company that specializes in natu-
+ral gas transmission and power generation. TCPL builds many
+custom applications using Sun MicrosystemsÕ Java J2EE. TCPLengaged ThoughtWorks for two reasons. First, TCPL wanted to determine
+
+whether Web service technologies and standards were mature enough to
+
+warrant building applications within the enterprise. Second, they wanted usExtreme Programming
+0740-7459/03/$17.00 © 2003 IEEEPublished by the IEEE Computer SocietyIEEE SOFTWARE
+21ThoughtWorks introduced Extreme Programming into an organizationand successfully completed a bleeding-edge technology project 
+with client staff that had no previous experience using an agile
+development approach. This article describes how XP helped the
+project succeed and shares lessons learned.
+Jonathan Rasmusson, ThoughtWorks
+ had 21,000 lines of application code and16,000 of test code. The practicesThe project applied many software devel-opment practicesÑnot all of them exclusive to
+
+XP. The following practices worked well and
+
+contributed significantly to the projectÕs over-
+
+all success.Pair programmingI believe pairing is the most powerful XP
+practice and made the largest contribution to
+
+our overall project success.2Unit testing, refac-toring, test-first design, and simplicity are vital.
+
+Pairing, however, let the team apply these prac-
+
+tices to their fullest extent. Pairing was the most
+effective way to communicate and demonstrate
+
+XP practices to new team members. Not unex-
+pectedly, people embraced XP at different
+
+speeds. Not everyone immediately started writ-
+
+ing test-first code, it took time to learn effective
+unit testing, and refactoring was not second na-
+
+ture. Pairing, however, brought a level of con-
+
+sistency to the team regarding XP practices. Advice for senior developers pairing withjunior developers would be to work at the ju-
+niorÕs speed. A junior developer commented
+
+that he initially found pairing difficult because
+the senior person would work too quickly.
+
+The junior felt more like a passenger traveling
+on a high-speed train while the senior devel-
+oper did all the work. Both developers in a
+pair should feel like theyÕre contributing as ef-
+fectively as possible.Stand-up meetingsFred Brooks reminds us of the importance
+of communication when describing why the
+Tower of Babel failed.
+3The Tower of Babel
+was manÕs second major undertaking, after
+
+NoahÕs Ark. This project had almost every-
+
+thing going for it: a clear mission, plenty of
+manpower, materials, time, and sound tech-
+
+nology. So, why then did a project with so
+
+much going for it fail? It lacked communica-
+tion and organization.XP advocates daily stand-up meetings as ameans of enhancing project communication.
+Just putting everyone in a room and quickly
+sharing knowledge at a high level efficiently
+enables mass communication between team
+members and stakeholders. Team members
+
+ranked stand-ups very high among factorsthey considered essential to the projectÕs suc-
+cess. They became Òtown hall meetingsÓ that
+everyone wanted to attend for updates on all
+the daily project events.
+The trick to holding effective stand-ups is toset expectations early. Let the team know that
+
+the point of the meeting is to communicate
+quickly and clearly anything directly related to
+the project. Design issues, requests for help,
+and problems and solutions discovered are all
+relevant. Meetings should typically not exceed
+15 minutes, and attendance is mandatory. 
+Other positive side effects of stand-up meet-ings included project visibility and strong team
+building. Everyone from developer to project
+manager knew the projectÕs state at any given
+
+time. You could raise small problems and ad-
+
+dress them before they became big problems.
+Also, XPÕs social side really shone through
+
+when people got together, shared experiences,
+
+and collectively looked for solutions.Unit testingIf I could only recommend one coding prac-tice to software developers, those who use XP
+or otherwise, it would be to write unit tests.Unit tests are low-level tests developerswrite (typically at the class method level) to
+
+prove that their code behaves as expected. On
+this project, these tests were invaluable in let-
+ting us refactor.
+4The tests provided immediate
+feedback when we broke something in the
+
+code. They highlighted the sometimes subtle
+and difficult-to-detect differences between our
+production and development environments. In
+a sea of change, the unit tests were our anchor. 
+Everyone on the team bought into the con-
+cept of unit tests and saw their value. Effective
+
+unit testing, however, took time to learn and
+
+was best implemented in pairs. By pairing those
+
+with JUnit (www.junit.org/index.htm) experi-
+
+ence and those new to unit testing, we quickly
+
+got everyone into the habit of writing tests. Developers seem to evolve somewhat when
+it comes to writing unit tests. The first stage, be-
+coming test infected(http://junit.sourceforge.net/doc/testinfected/testing.htm), is often sim-
+ply convincing developers that writing tests is a
+good thing. Once comfortable with the me-
+
+chanics of unit testing, developers can look at
+
+more advanced techniques, such as test-driven
+development and using MockObjects (www.
+
+c2.com/cgi/wiki?MockObject). Eventually, test-
+
+infected developers will also start to use tests inXPÕs social sidereally shonethrough whenpeople gottogether, shared
+experiences,and collectivelylooked forsolutions.22IEEE SOFTWARE
+http://computer.org/software
+ their object-oriented designs. When given a de-sign problem, instead of focusing immediately
+
+on the implementation, developers can use the
+
+tests to help establish the objectÕs interfaces
+
+first. Once the tests are written (what the object
+is supposed to do), they can go on to make
+them pass (how the object behaves).
+When writing unit tests, watch out for du-plication. Although you donÕt want to be over-
+
+critical about it at the projectÕs beginning (after
+
+all, we want developers writing lots of tests),
+you need to carefully apply the XP practice of
+Òtesting everything that could possibly break.Ó
+Overzealous application can result in redun-
+dant testing of proven functionality. YouÕll no-
+
+tice this when youÕre working in different parts
+of the system and you see similar-looking unit
+
+tests. Another warning sign is if you or your
+partner are cutting and pasting parts of unit
+test code from one test class to another.
+Fortunately, everyone on the team saw the
+value of unit tests, but IÕve also been on client
+sites where selling unit testing to developers
+was more challenging. An unobtrusive ap-
+proach is to start by convincing developers
+that writing a unit test for each bug they fix
+will guarantee that the bug will never be rein-
+troduced at a later date. Another tactic is to
+first get developers to buy into refactoring and
+then remind them that you canÕt refactor ef-
+
+fectively without unit tests.Whatever approach you take, developers
+must buy into unit tests. Unit tests are the
+foundation on which much of XP rests. It lets
+developers make changes to the code base with
+confidence, minimizes the chances of reintro-
+ducing bugs into the system, and allows the
+team to refactor continuously and aggressively.
+Test-driven development
+TDD is a software development technique inwhich you write unit tests prior to implementa-
+tion.5Initially, most developers on the team
+were unfamiliar with the concept of writing test
+code before the implementation. Introducing
+TDD took time because of the number of skills
+needed before we could apply this practice with
+
+confidence. Developers must first be comfort-
+able with the mechanics of writing unit tests.
+Strong object-oriented skills and a philosophy
+of simple design also aided in applying TDD.Developers often view test-first design asonly a testing technique. However, when ap-
+
+plied effectively, test-first design also helps de-
+velopers enhance their OO designs. Tests are an
+important side effect, but more important is the
+
+resulting design the technique helps produce.
+Pairing was critical when introducing TDD to
+the team. On our project, TDD tended to occur
+only when one or both developers in a pair were
+keen on its application. Working with someone
+
+confident and able to demonstrate TDD by ex-
+ample went a long way into bringing others on
+board. When people worked alone or with oth-
+ers unfamiliar with TDD, the pair often slipped
+back into their more comfortable nontest habits.
+Introducing the practice into new environments
+requires patience and persistence. Ultimately,
+
+however, approximately one-third of the code
+
+was implemented with TDD. RefactoringRefactoring changes a software system sothat it doesnÕt alter the codeÕs external behavior
+
+yet improves its internal structure.
+4If simplicityis the destination, refactoring is the vehicle that
+
+gets us there. Taken in isolation, each refactor-
+
+ing is quite simple. How to refactor effectively
+
+is not so obvious. People new to refactoring are
+
+sometimes unclear about when to refactor, and
+
+to what extent. Management can view refactor-
+
+ing negatively when itÕs misapplied. I once wit-
+
+nessed a development team who delayed all
+
+refactoring and testing until the last three days
+
+of a three-week iteration. Over time, the code
+became more resistant to change, and introduc-
+
+ing new functionality became nontrivial and
+
+time-consuming. When asked why new features
+
+took so long to implement, developers replied
+
+that they were having to spend large amounts
+of time refactoring the code. This resulted in
+
+missed deadlines, unhappy customers, and
+management who wanted to hear nothing more
+about this practice called refactoring. ItÕs not
+
+fair to blame improperly applied refactoring as
+the sole cause of all this projectÕs woes. How-
+
+ever, IÕve seen teams make refactoring a scape-
+
+goat for missed deadlines and other project ills.
+Developers should avoid this kind of situation
+because refactoring plays an important role on
+XP projects and would be a beneficial practice
+
+regardless of the development methodology
+
+used.One of XPÕs cornerstones is that the code
+must be in its cleanest and simplest state at all
+times,1letting teams more easily handle futurerequirement changes. This is easiest to accom-
+plish when developers refactor continuously,
+May/June 2003IEEE SOFTWARE
+23Pairing wascritical whenintroducing TDDto the team. On our project,TDD tended tooccur onlywhen one orboth developersin a pair werekeen on itsapplication.  as opposed to setting aside dedicated timepurely for refactoring. When we did not refactor continuously, the
+code became more cumbersome and resistant to
+change. Once again, pairing those new to refac-
+toring with those more experienced helped
+
+demonstrate this techniqueÕs effective applica-
+
+tion. When faced with large refactorings, use
+stand-up meetings to share your insights and de-
+sign goals for that part of the application. Put
+warning signs in the code to prevent others from
+propagating the undesired design. Over time,
+you and the rest of the team will be able to move
+toward the simpler, cleaner solution while si-
+
+multaneously delivering new functionality.
+Simplest thing possibleEveryone on the team agreed that wewanted to always do the simplest thing possible
+
+when writing code. However, defining simplic-
+
+ity was challenging, particularly relative to the
+use of design patterns.
+6Some team memberswere quite comfortable with multiple layers of
+indirection and applying design patterns. How-
+ever, for others, the prescribed design pattern
+
+solutions often seemed overly complex for the
+
+problem at hand. The XP literature reminds us
+
+that we should always Òdo the simplest thing
+
+that could possibly work.Ó Any extra work we
+do anticipating future requirements is often un-
+warranted and misapplied. Prematurely apply-
+ing design patterns is an example of unneces-
+
+sary complexity in the codeÑfor example, a
+
+Strategy pattern with only one strategy.
+Design patterns and XP practices appear toclash on the issue of simplicity. Joshua Kerievsky
+
+presented the best explanation IÕve seen regard-
+ing this conundrum.7Kerievsky points out thatthe XP simplicity practice has definite merit.
+Why overdesign a system in a vain attempt to
+anticipate future requirement changes? Instead,
+start simply and let the code tell you whether the
+use of a pattern is warranted. Design patterns
+should be targets for our refactorings. Refactor
+into the pattern rather than start there. This sim-
+
+ple advice is powerful and yields a good balance
+between XPÕs quest for simplicity and patternsÕ
+
+expressive power.
+Continuous integrationWhere JUnit aided us in testing, anotheropen source project called Ant (http://jakarta.
+
+apache.org/ant/index.html) helped us continu-
+ously integrate our code into the master build.Ant build scripts resemble make files in Unix.
+Our Ant build scripts could check out our lat-
+est code, compile it, release it to our target en-
+vironment, and run all unit tests through a sin-
+gle command. Because Ant is written in Java,
+we were able to run the same build process on
+various development environments.We also used an open source project started
+at ThoughtWorks called CruiseControl (http://
+
+cruisecontrol.sourceforge.net). CruiseControl
+periodically scans version control systems for
+
+newly checked-in code. When new code is
+
+checked in, CruiseControl runs the build scripts
+
+and promptly reports if anything is wrong. By continuously checking in code through-out the day and having a build process moni-
+tor the applicationÕs state, the team avoided
+
+much of the pain traditionally associated with
+software integration.Looking back, I wish weÕd put more em-phasis on making the tests run faster, without
+
+compromising the ability to test the system ex-
+actly as it would run in production. At the pro-
+jectÕs end, our system took 24 minutes to build.
+
+As a result, developers started running a subset
+of the tests only before checking in codeÑless
+then ideal. One way to speed up our tests
+would be to use MockObjects to fake out Web
+
+container and database calls. Another option
+would be to direct our tests against fast, light-
+weight, in-memory databases instead of their
+full-blown production counterparts. The environmentLike any ecosystem in nature, certain envi-
+ronmental conditions help its inhabitants live
+
+and thrive. This projectÕs optimal ecosystem
+
+was when the team was colocated, working
+
+within earshot of one another. Big open spaces
+
+with large tables where developers could sit side
+
+by side and pair-program were most conducive
+
+to a productive work environment. The envi-
+
+ronment resembled the Òcaves and commonÓ
+room layout described by Ken Auer.
+8In thisscenario, there is a common area for pairs and
+groups of developers to congregate and a caves
+area for people when they require privacy. This
+
+seems to strike a nice balance between the high-
+
+bandwidth pairing environment and the more
+
+secluded private space we all sometimes need.
+Our project did experience a setback, how-ever, regarding the environment. About three
+
+quarters through the project, the team was
+moved into another building. Consequently,
+Why overdesigna system in a vain attempt to anticipatefuturerequirementchanges?Instead, startsimply and letthe code tellyou whetheryou need to use a pattern.24IEEE SOFTWARE
+http://computer.org/software
+ we lost our big open area and were placed intotraditional small offices. The immediate effects
+were that team members suddenly spent a
+
+greater part of their day getting up and walk-
+ing the halls searching for the people they
+needed. Communication between team mem-
+bers suffered. Stand-up meetings then played
+an even more central role in coordinating and
+organizing the team.ItÕs the little things that count
+Like all things in life, the little things oftenend up making the biggest differences. Little
+
+pats on the back were greatly appreciated.
+
+Management realized that by making the devel-
+
+opers feel genuinely appreciated, developers
+continuously went that extra mile. Tasty snacks
+
+for those long iteration-planning meetings and
+occasional mid-afternoon coffee runs helped
+
+keep the project fun and the morale high. The
+
+QA department (our tester) also demonstrated
+
+her appreciation to developers who wrote a
+
+thorough set of unit tests by rewarding them
+with stickers (much like the ones you might re-
+ceive in grade school). These soon became
+
+sought-after items by developers. Although
+these small gestures might seem trivial by them-
+
+selves, cumulatively they aided to the projectÕs
+
+success. I encourage teams to look for ways of
+making their projects fun and to give each other
+
+occasional pats on the back for a job well done.Release managementWe found TCPL very receptive to how XP
+handles release management. We based our re-
+
+lease cycles on two-week iterations, with a for-
+mal release in six months. Two weeks sufficed to
+
+predictably add new functionality to the system
+and to give management a sense of the projectÕs
+
+progress. The two-week period also kept devel-
+opers focused on delivering quickly, without be-
+
+ing lulled into a sense of complacency that can
+occur with longer iteration periods. Story plan-
+ning worked best when someone with authority,
+
+who could speak on behalf of the customer, was
+
+present. The client also appreciated the fact that
+you could reprioritize stories without hugely af-
+fecting the project schedule. The XP metaphor The XP metaphoris the words and terms
+used to describe the systemÕs overall architec-
+
+ture. Before this project, I did not place the
+metaphor practice in high standing relative toother XP practices such as unit testing or
+refactoring. Many of the experience reports
+and personal conversations with other teams
+practicing XP led me to believe that the
+metaphor wasnÕt important. My own experi-
+
+ence showed this as we didnÕt talk about or
+
+raise the XP metaphorÕs profile at TCPL. 
+Upon reflection, however, I believe we did
+have a project metaphor for the project; we
+just didnÕt appreciate it at the time. We de-
+
+scribed the event notification system as having
+paging-like capabilities. Subscribers to busi-
+ness events could be either groups of people or
+single individuals. Furthermore, our system
+was built up by aggregating existing Web serv-
+
+ices to form a larger application. Although
+simplistic, these words and descriptions of
+
+what the system did played an important role
+in realizing it. The words used in the metaphor
+
+manifested themselves as abstractions in the
+software. ThatÕs the point of the metaphor. 
+Although those applying XP often overlookthe metaphor, itÕs a very important aspect of
+
+the development process and shouldnÕt be
+
+overlooked. In future projects, I would aim to
+
+raise the metaphorÕs visibility and importance
+
+in the hopes of realizing better abstractions
+
+and insights in the code.Room for improvementHindsight is 20/20. Given a second chance,we would do some things differently. 
+Communication with external groupsIn the later development stages, we needed
+external services and expertise, such as data-
+base and system administrators for configur-
+ing and setting up our production environ-
+ments. We set up stories within our iterations
+
+regarding interaction with these external
+groups. These stories became the most diffi-
+cult and the longest to complete.
+One mistake we made was assuming that
+these other groups would work within our time
+
+framesÑtwo-week iteration periods. When
+working with external groups, itÕs helpful if you
+
+can send a scout ahead (preferably a project
+manager to talk to the external groupsÕ leaders)
+
+to ensure everyone is on the same page and to
+
+minimize any roadblocks ahead of time. It
+
+might also have helped to invite external group
+
+members to a few of our stand-up meetings.
+
+Through their presence at these meetings, we
+could have gently shown them how we worked
+May/June 2003IEEE SOFTWARE
+25Little pats on
+the back were greatlyappreciated.Managementrealized that by making thedevelopers feelgenuinelyappreciated,developerscontinuouslywent that extra mile. and shared with them our objectives and goals.
+More communication would have led to better
+task, activity, and schedule coordination. If you
+
+depend on an external group, start working
+with them sooner rather then later.
+Get a real business customerThe projectÕs direction was periodically chal-
+lenged. Because the projectÕs business backers
+
+periodically changed, so did the requirements.
+So, it wasnÕt always clear what business prob-
+
+lem we were trying to solve. On one hand, our
+
+mandate was to replace a legacy application. On
+the other hand, the new technology we were
+working with could also help other groups
+within TCPL solve their business problems. Story planning sometimes became tricky,
+and the analyst and project manager had to pe-
+riodically juggle stories for multiple clients.
+
+Story planning would have been much easier if
+we had a single business customer continuously
+
+present on the project driving requirements.Looking back, I believe we did a good jobof gathering and implementing requirements
+from multiple stakeholders. How might things
+have turned out if we had a single strong busi-
+ness partner from the beginning? Would we
+
+have forgone certain technology investigative
+spikes? Might we have done things even more
+simply? Although not always feasible, I would
+strive for a single business customer.
+Make testers a part of the teamWe added our quality assurance resource, or
+tester, to the team partway through the project.
+
+As a developer who was continuously writing
+tests, it was not immediately clear to me what
+role this person would play. Would she write
+
+further tests we hadnÕt thought of? Perhaps she
+
+would devise a formal test plan verifying that
+
+the new application sufficiently matched the
+legacy applicationÕs functionality. Fortunately,
+
+our tester had the experience and foresight to
+
+see that a testerÕs role on an XP project differed
+
+from than that of a QA-style project. 
+Initially, she primarily focused on the ap-
+plicationÕs quality. She would pair test user
+
+stories with developers; she highlighted
+missed test cases and verified that a suffi-
+cient number of tests were being written. She
+collected metrics the team wanted to see (for
+instance, ratio of production code to test
+
+code and unit test coverage). She manually
+tested the application, looking at usabilityissues with a focus on how well the program
+intent matched customer expectations.
+As the project progressed, our testerÕs focus
+shifted. Although she always kept one eye on
+overall application quality, she began playing
+
+more of an analyst role on the team. She began
+attending story-planning meetings and helped
+flush out requirements for future iterations.
+
+She built trust with external customers by
+
+helping them write acceptance tests.
+After reviewing this article, our tester com-
+mented that early XP literature did not de-
+
+scribe what role testers should play on XP
+projects. It seemed that formal, traditional QA
+testers werenÕt part of the XP team. She asked
+
+me to answer the following question: ÒDid
+
+you find having a QA tester as part of the
+team invalidated or supplemented any of the
+other XP practices?Ó This question was easy
+to answer because our tester became a valu-
+able team member and greatly contributed to
+the projectÕs overall success. ItÕs important to
+
+note, however, that she didnÕt play the tradi-
+
+tional role of QA testerÑthat role didnÕt exist.
+
+Testing and quality are a team responsibility
+
+that you shouldnÕt relegate to an outside en-
+
+tity, such as a traditional QA group. Better re-
+
+sults will be achieved when testers are made a
+core part of the team. They can aid customers
+
+in defining and automating acceptance tests as
+
+well as play the role of analyst and flush out
+hidden requirements and assumptions. Lisa
+Crispinand Tip HouseÕs book, 
+Testing Ex-
+treme Programming, is a good reference forthe role testers play on XP projects.9How did we get people to do XP?Pete McBreen points out that itÕs difficult to
+find software developers who are neutral on the
+
+subject of XP.
+10ItÕs hard to be neutral as a de-
+veloper because of how XP practices can differ
+
+from more traditional forms of software devel-
+
+opment. For example, consider pair program-
+ming and TDD. Most developers today do not
+
+write code in pairs and do not write tests before
+
+implementing the solution in code. These prac-
+
+tices do not come naturally for most develop-
+
+ers, and many who tried applying XP on proj-
+ects commented on the difficulty of getting
+developers to apply these two key practices.So how did we manage to get most of theteam applying XPÕs practices most of the time?
+
+Fortunately, on this project, most project partic-
+
+ipants were keen on applying XP by the book.ItÕs hard to beneutral as a developerbecause of howXP practicescan differ from moretraditionalforms ofsoftware
+development.26IEEE SOFTWARE
+http://computer.org/software
+ We didnÕt have to defend XP or its practices; we
+simply had to apply them to the best of our abil-
+ity. Even with strong backing from most of the
+
+management team, however, it was still a chal-
+
+lenge to get everyone to continuously apply the
+practices at a high level. XP takes discipline.Having good communicators and team play-ers in key positions on the project played an im-
+
+portant part in transitioning the team to XP.
+
+Without a strong iteration manager, demon-
+
+strating iterative development would have been
+challenging. The iteration manager performed
+many tasks. He ensured that stories were writ-
+ten in a timely manner and conducted the bi-
+
+weekly iteration meetings. He collected esti-
+mates and tracked developer velocity. In short,
+
+he helped set the projectÕs rhythm. 
+The build master also played an importantrole. Although not represented formally in XP
+literature, this role helped in setting up project
+build files and enabling continuous integration
+services. A strong technical lead and develop-
+ers who worked well with others rounded out
+the team. Having a critical mass of people
+(about half the team) on the project who were
+familiar with XP helped demonstrate both the
+spirit of XP and its practices.Extensive pair programming best demon-strated routine XP practices. The very practice
+
+that many found difficult to apply on XP proj-
+
+ects was a tremendous learning and communi-
+cation tool for our team. Not only was pairprogramming instrumental in demonstratingXP practices, it also spread domain knowledge
+
+throughout the team. Pair programming and
+colocated team members kept everyone on the
+same page and prevented problems from
+falling through the cracks.Demonstrating good citizenship towardother team members also helped create a
+
+team-oriented culture supportive of XP prac-
+
+tices. For instance, it was not uncommon dur-
+ing stand-up meetings for developers to offer
+their help when other team members were
+
+having trouble with their stories. The team
+
+leaders reminded everyone that it was accept-
+able to stop and help others, sometimes at the
+expense of their own work. A culture built on
+
+acts such as this helped form a strong team.
+People sincerely wanted to help one another
+and make the project a success. A secondary
+effect of encouraging good citizenship was
+that the code was kept in a relatively clean
+state. Because developers felt that they had the
+time to do the right thing, many Òbroken win-
+dowsÓ11were fixed before they became largerproblems.Finally, but perhaps most importantly, hav-
+ing team members who worked well with oth-
+ers helped gently introduce XPÕs more foreign
+
+practices such as pair programming and TDD.
+XP is a very social way of developing software.
+The success of its adoption is greatly enhanced
+if the people working together are effectiveMay/June 2003IEEE SOFTWARE
+27Table 1Our experience with XP practicesXP practice Degree of adoptionComments
+Planning gameFullThe team met regularly for story planning. Stories were captured and tracked on an Excel 
+spreadsheet.Small releasesFullIterations took two weeks.
+MetaphorPartialWe developed models and words, not explicitly referred to as metaphor, to describe the system. 
+Simple designFullWe kept the design simple, but we could have done things even more simply.
+Test-driven developmentPartialThose comfortable with TDD wrote all code test first. Those developers unfamiliar with TDD 
+slipped back into non-test-first periodically.
+RefactoringFullWe continuously refactored all code.
+Pair programmingFullMost code was worked on in pairs. This practice was crucial for demonstrating XP by example.
+Collective ownershipFullAll developers could (and did) work with any area of the application at any time.
+
+Continuous FullAn automated build process compiled, tested, and deployed our software integration multiple 
+times a day. This was done with CruiseControl, Ant, and JUnit.
+Sustainable paceFullThere was no overtime on the project. Developers typically worked about 40 hours a week.
+
+On-site customerPartialThe customer responsible for proving Web services technology was on-site. The customer of 
+the legacy application we were replacing was not.Coding standardsFullThe team discussed and agreed on coding standards at the projectÕs start.
+ communicators, like working in teams,are humble, and enjoy learning from
+
+others. All of this is important to help
+create a Òno blameÓ culture, where peo-
+ple arenÕt afraid to help one another
+
+and do what is right for the project.
+Fortunately, the team members on this
+
+project possessed these characteristics.This project was a success for
+all parties involved. We fin-
+
+ished on time and on sched-ule. TCPL uses the system in produc-
+
+tion and is planning further
+enhancements. TCPL was very im-
+
+pressed with agile development
+methodologies and will continue to use
+them on future projects. As with any
+
+project, it helps tremendously if you
+have good peopleÑgood not only in
+their ability to work with technology
+and develop software but, more impor-
+tantly, possessing good communication
+
+skills. XP is a team-orientedway of de-
+
+veloping software and works best with
+people who can express their ideas and
+work well with others. Teams made up
+
+of good people will always find a way
+to make projects successful. AcknowledgmentsThis article would not have been pos-sible without the help and support of
+many people. I thank Vivek Sharma,
+
+Dean Larsen, Jason Yip, Eric Liu, Paul
+
+Julius, David Fletcher, Olga Babkova,
+
+Janet Gregory, Brad Marlborough, Lau-
+
+rie Williams, and Tannis Rasmusson for
+
+their insightful comments on drafts of
+this article.References1.K. Beck, 
+Extreme Programming Explained:Embrace Change,Addison-Wesley, 2000.
+2.L. Williams and R. Kessler, 
+Pair ProgrammingIlluminated, Addison-Wesley, 2002.
+3.F. Brooks, 
+The Mythical Man-Month, Addi-son-Wesley, 1975.
+4.M. Fowler et al., 
+Refactoring: Improving theDesign of Existing Code, Addison-Wesley,
+1999.5.K. Beck, 
+Test-Driven Development: By Exam-
+ple, Addison-Wesley, 2002.
+6.E. Gamma et al., 
+Design Patterns: Elements ofReusable Object-Oriented Software, Addison-Wesley, 1995.
+7.J. Kerievsky, ÒPatterns and XP,Ó 
+Extreme Pro-gramming Examined, G. Succi and M. March-esi, eds., Addison-Wesley, 2001.
+8.K. Auer and R. Miller, 
+Extreme ProgrammingApplied: Playing to Win
+, Addison-Wesley,
+2002.9.L. Crispin and T. House, 
+Testing Extreme Pro-
+gramming,Addison-Wesley, 2002.
+10.P. McBreen, 
+Questioning Extreme Program-ming, Addison-Wesley, 2003.
+11.A. Hunt and D. Thomas, 
+The Pragmatic Pro-grammer: From Journeyman to Master, Addi-son-Wesley, 1999.
+For more information on this or any other computing topic,please visit our Digital Library at http://computer.org/
+
+publications/dlib.About the AuthorJonathan Rasmussonis a computer engineer with ThoughtWorks. He enjoys building enterprise
+applications and searching for better ways to write software. His research interests include agile develop-
+ment methodologies and exploring the human side of software development. He received an MS in com-
+puter engineering from the University of Alberta, Canada. Contact him at ThoughtWorks, 805-10th Ave.
+
+SW, 3rd Floor, Calgary, Alberta, Canada T2R 0B4; jrasmusson@thoughtworks.com.
+How to Reach UsWriters
+For detailed information on submitting articles,
+write for our Editorial Guidelines (software@
+computer.org) or access http://computer.org/
+
+software/author.htm.
+Letters to the EditorSend letters toEditor, 
+IEEE Software10662 Los Vaqueros Circle
+
+Los Alamitos, CA 90720
+software@computer.org
+Please provide your title, affiliation, and emailaddress with your letter.
+On the Web
+Access http://computer.org/software for
+
+information about IEEE Software.SubscribeVisit http://computer.org/subscribe. 
+Subscription Change of AddressSend change-of-address requests for magazinesubscriptions to address.change@ieee.org. 
+Be sure to specify IEEESoftware
+.Membership Change of AddressSend change-of-address requests for IEEE
+and Computer Society membership to 
+member.services@ieee.org.
+Missing or Damaged CopiesIf you are missing an issue or you received 
+a damaged copy, contact help@computer.org.
+Reprints of ArticlesFor price information or to order reprints, 
+send email to software@computer.org or fax
+
++1 714 821 4010.Reprint PermissionTo obtain permission to reprint an article, 
+
+contact William Hagen, IEEE Copyrights and
+Trademarks Manager, at whagen@ieee.org.
+How to Reach Us

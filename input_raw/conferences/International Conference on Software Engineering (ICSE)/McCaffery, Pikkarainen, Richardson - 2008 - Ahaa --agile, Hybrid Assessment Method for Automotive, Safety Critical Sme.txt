@@ -1,0 +1,1774 @@
+ AHAA ŒAgile, Hybrid Assessment Method for Automotive, Safety Critical SMEs  Fergal Mc Caffery Dundalk Institute of Technology   & Member of Lero  Dundalk  + 353-42-9370522 Fergal.McCaffery@dkit.ie Minna Pikkarainen Lero, University of Limerick & VTT Technical Research Centre of Finland +358407539880  Minna.Pikkarainen@ul.ie Ita Richardson Lero Œ the Irish Software Engineering Research Centre University of Limerick +353-61-202765 Ita.Richardson@ul.ie ABSTRACT The need for software is increasingly growing in the automotive 
+industry. Software development projects are, however, often 
+
+troubled by time and budget overruns, resulting in systems that do 
+
+not fulfill customer requirements. Both research and industry lack 
+
+strategies to combine reducing 
+the long software development 
+lifecycles (as required by time-to
+-market demands) with increasing 
+the quality of the software de
+veloped. Software process 
+improvement (SPI) provides the first step in the move towards 
+
+software quality, and assessments are 
+a vital part of this process. 
+Unfortunately, software process 
+assessments are often expensive 
+and time consuming. Additionally, 
+they often provide companies 
+with a long list of issues without 
+providing realistic suggestions. The goal of this paper is to descri
+be a new low-overhead assessment 
+method that has been designed sp
+ecifically for small-to-medium-
+sized (SMEs) organisations wish
+ing to be automotive software 
+suppliers. This assessment method in
+tegrates the structured-ness of 
+the plan-driven SPI models of Capability Maturity Model 
+
+Integration (CMMI) and Automotive SPICE
+TM with the flexibleness 
+of agile practices.  
+Categories and Subject Descriptors Software and Software Engineering General Terms Management, Performance, Reliability, Security, Standardization. 
+Keywords: 
+Software Process Improvement, Agile Practices, 
+CMMI, Automotive SPICE
+TM, Assessment Methods, Safety-critical. 
+1. INTRODUCTION Due to the nature of the final pr
+oduct, many software industries are 
+expected to produce high-quality software through the use of 
+
+processes. For example, regula
+tions within the medical device 
+industry have existed for many years and the automotive industry is 
+
+now moving in that direction. In the last decade, there been a 
+significant growth in the production of automotive software Œ a 
+growth which is expected to conti
+nue Œ and this software must be 
+developed faster and in a more cost effective way, but still in a 
+
+quality environment. It is expected that the industry markets will 
+
+require process maturity levels from companies to demonstrate the 
+
+quality of their software. 
+In many countries (Ireland and Finla
+nd are the focus of this paper), 
+there is a vibrant software indus
+try with many small-to-medium 
+sized enterprises (SMEs). The European Union definition states that 
+
+a SME has less than 250 employees, turnover of less than 
+
+•50million and is less than 25% owned by a non-SME. However, to 
+
+survive and grow SMEs, must be aware of software opportunities. 
+
+One such industry is the automotive industry. As software is 
+
+becoming more safety-critical, automotive software suppliers need 
+
+to aware of safety considerations
+ such as those described in ICE 
+61508 [22], ISO WD 26262 [24] and DIN 31000 [10].  
+Assessments provide a valuable 
+mechanism to start improvement 
+initiatives towards achieving high quality software. The agile, 
+
+hybrid assessment method for the automotive industry (AHAA) 
+
+presented in this paper supports th
+e integration of agile practices 
+with the more traditional plan-driven practices that are associated 
+
+with SPI in safety-critical compan
+ies. The paper presents how this 
+method was used within a SMEs so
+ftware development organization and illustrates how ﬁgoal-basedﬂ
+ improvements may be achieved 
+through adopting a combination of plan-driven and agile based 
+
+recommendations. Whenever automotive software is not safety-
+
+critical it is feasible for the AHAA to recommend a combination of 
+
+both plan-driven and agile based practices. However, in the case of 
+
+safety-critical automotive software development (complying with 
+
+ICE 61508 and ISO WD 26262) the AHAA will only recommend 
+
+plan-driven practices. In section 2, process within automo
+tive software SMEs is discussed. 
+Section 3 presents the need for AHAA, the assessment method we 
+
+developed. Section 4 describes its
+ development, while Section 5 
+presents the implementation of 
+the assessment method within an 
+SME, AutoSoft. In Section 6 we discuss feedback from the 
+
+company, with conclusions 
+presented in Section 9. 2. SOFTWARE IN AUTOMOTIVE SMEs According to [35] software was first introduced into cars in 1976 
+and in recent years, there has been a substantial increase in 
+
+automotive software. The number of 
+electronic control units (ECUs) 
+is increasing Œ consequently, more interfaces need to be developed 
+
+between these ECUs. While much
+ automotive software is not 
+ Permission to make digital or hard copi
+es of all or part of this work for 
+personal or classroom use is granted 
+without fee provided that copies are 
+not made or distributed for profit or 
+commercial advantage and that copies 
+bear this notice and the full citation on the first page. To copy otherwise, or 
+
+republish, to post on servers or to redistribute to lists, requires prior specific 
+
+permission and/or a fee. 
+
+ICSE™08
+, May 10Œ18, 2008, Leipzig, Germany. 
+Copyright 2008 ACM 978-1-60558-079-1/08/05...$5.00.   safety-critical, for example, so
+ftware within navigation and 
+infotainment systems, safety-critical functions, such as braking, are 
+
+becoming more software dependa
+nt. Furthermore, the driver 
+requires some safety-critical inform
+ation, for example, the speed at 
+which the car is travelling. While 
+the driver can intervene in the 
+execution of these functions, the increase in software dependence 
+
+requires that operational safety
+ must be accounted for when 
+developing automotive software.   Figure 1 Œ Support processes for Electronic Systems and 
+Software Development (Adapted from Schauffele and Zurawka, 
+[39]) This has resulted in the imposition of safety regulations (for 
+example, DIN 31000 within the automotive industry and many 
+
+automotive companies have already faced challenges to develop 
+
+complex software where the goal is to achieve high quality safety-
+
+critical software components. Th
+e implementation and improvement of software processes can be used to support the development of 
+
+automotive software as illustrated in Figure 1. While core 
+
+development processes are required, 
+there is also a need for support 
+processes such as configuration 
+management, project management 
+(including risk management),
+ requirements management, 
+subcontractor management and quality assurance. Due to the 
+
+challenges of controlling the increased complexity that innovations 
+
+bring, a HIS (Herstellerinitiativ
+e Software) process assessments 
+working group was ﬁfunded to establish a common approach for 
+
+determining software capability/maturity of suppliersﬂ [18]. 
+
+Consequently, there is an increas
+ing requirement for the quality of 
+software to be monitored and 
+assessed throughout the development 
+process.  2.1 Importance of the SME sector In Europe, and specifically in count
+ries such as Ireland and Finland, 
+where the researchers are based, th
+ere is an increasing emergence of 
+the small firm as a key component
+ of the industrial profile of 
+individual countries.  Information and Communications T
+echnology is a growth sector 
+which has been recognised stra
+tegically by Government as 
+important to the Irish economy. The success of the growth of this 
+
+sector is attributed to a number of factors which include low 
+
+corporation tax, an English speaki
+ng workforce, the availability of a 
+highly qualified and educated work
+force, a strong indigenous firm 
+base and deployment of EU struct
+ural and cohesion funds to Ireland 
+[12,13, 15, 44].  With 760 i
+ndigenous software companies 
+employing over 11,100 people, they 
+provide 47% of employment in 
+the Irish software sector [13].  
+In Finland, software companie
+s employ over 13,000 people [43]. 
+Revenue in Finnish software co
+mpanies increased at 2005 by 24.2 
+% [41] and again in 2006 by 13 % [38]. In Finland, these increases 
+
+can be attributed to both large and small software companies [41]. 
+
+However, many SMEs are carryi
+ng out sub-contract development 
+and are supporting the needs of large embedded product 
+
+development companies [30]. Evalua
+tions have also shown that the 
+critical success factor of the Finnish software industry will be 
+
+support, increased know how and in
+ternationalization, especially, 
+among the SME sector [30].  
+The increasing need for software in the automotive sector provides 
+opportunities for SMEs to become software suppliers to the large 
+
+automotive organizations. Our research has demonstrated that SMEs 
+
+who wish to take up this opportunity
+ need to demonstrate that their 
+process is capable of producing high-quality software. Thus, they 
+
+require a cost-efficient assessmen
+t which supports their business 
+requirements.  2.2 Use of SPI Models SPI initiatives can be based on 
+various models such as the 
+Capability Maturity Model (CMM) [31], more recently CMMI [7] 
+
+or process standards such as ISO 15504 [23] and ISO 9001 [1, 42]. 
+
+Implementation of changes identifie
+d during SPI assessments enable 
+organizations to reduce software
+ development costs and time-to-
+market [1,16, 42]. For example, 400 projects reported increased 
+
+productivity and software developm
+ent speed due to CMMI based 
+improvement programs [16]. According to this study, 12% of the 
+
+overall lead time in software product development and 49% 
+
+reduction in defects was obtaine
+d using CMM or CMMI based 
+improvement programs. 
+However, many compan
+ies have refused to 
+adopt the assessment part of these 
+models as they tend to be too 
+heavy and expensive for SMEs [14]. Furthermore, several 
+
+organizations have adopted time 
+consuming SPI programmes, the 
+benefits of which will take a long time to be realized [17]. 
+In the automotive sector, a challe
+nge that faced the HIS process 
+assessment working group was that each manufacturer had a 
+
+different approach to evaluating suppliers™ capability/maturity [19]. 
+
+For example, BMW and Porsche us
+ed an internal questionnaire 
+[19]. Based on the different requi
+rements for a common assessment 
+method, ISO/IEC TR 15504 [23] (S
+PICE) has been adopted for 
+supplier assessment within the HIS. From 2001 to 2006, HIS 
+
+members have executed some 
+200 ISO 15504 assessments [18]. 
+According to [3] ﬁthe focus on software capability assessment has 
+
+already provided significant business benefits for its use, but at the 
+
+same time has highlighted the 
+scale of the potential problem, 
+particularly with suppliers of 
+safety-critical embedded software 
+system componentsﬂ. 
+Automotive SPICE
+TM is an initiative of the Automotive Special 
+Interest Group (SIG), which is a joint special interest group of The 
+
+SPICE User Group, and the Procurement Forum together with 
+
+major automotive manufacturers [3]. One of the reasons behind this 
+
+initiative is that the experience (gathered during assessments) 
+
+indicates that there is a demand for an automotive specific guidance 
+
+of the standard [19]. Automotive SPICE
+TM consists of a Process 
+Assessment Model (PAM) and a Pr
+ocess Reference Model (PRM) [3]. The Automotive SPICE
+TM Process Assessment Model is based 
+on the ISO/IEC 15504-5 [23]. Thirty-one of the processes from 
+
+ISO/IEC 15504 were selected for inclusion in Automotive 
+
+SPICETM. Furthermore, from 2007, all HIS members will perform 
+and accept only Automotive SPICE
+TM assessments. Therefore 
+ automotive assessments based on ISO/IEC TR 15504 will be 
+replaced by Automotive SPICE
+TM. The results of the assessments 
+can be used for the identification of process improvements for a 
+
+supplier as well as a criterion for supplier selection [3]. 
+2.3 Suitability of Agile Approaches Agile approaches such as eXtreme Programming [4] and Scrum [40] 
+have been increasingly used in companies as a way of addressing 
+
+key problems in software developmen
+t [25] such as: ﬁsoftware takes 
+too long to develop, costs too 
+much and has quality issues upon 
+deliveryﬂ [21]. Although, agile soft
+ware development practices have 
+benefited some companies producing 
+safety-critical software [11, 
+46], Boehm and Turner [6] have argued that plan-driven approaches 
+
+are better suited to these situati
+ons. However, the way forward may 
+be to combine suitable agile practices as part of a company™s current 
+
+plan-driven software development activities [6, 33]. Although 
+
+assessments are often characterized as a plan-driven technique for 
+
+SPI and are rarely used within agile practices, Paulk [32] argues that 
+
+ﬁAdopting the two methods (CMMI and agile) can create synergy, 
+
+particularly in conjunction with other good engineering and 
+
+management practices.ﬂ The first step in engaging in SPI is to assess the current state of the 
+software development practices. 
+A SPI path may be developed 
+based upon a combination of this starting point and the business 
+
+goals of the organisation [28]. Pro
+cesses in SMEs must be catered 
+for in a different manner than within large companies [37] as 
+
+existing SPI assessment methods are very heavyweight and are not 
+
+suited to the needs of SMEs. Furthe
+rmore, they do not consider both 
+plan-driven and agile practices. Small companies need specialized 
+
+assessment methods because they do not have the same ability to 
+
+invest in SPI as the bigger enterp
+rises. However, they require high 
+quality software and fast software production. [26].  
+Organizational maturity indicators 
+like CMMI levels, SPICE ratings 
+or specific ISO standards have 
+become important for software 
+development. Customer organiza
+tions often rely on them when 
+selecting a supplier as the results of these assessments can serve as 
+
+indicator of process maturity. At
+ the same time, agile methods 
+continue to gain popularity due to increasing speed and quality 
+
+demands. It has been argued that the CMMI model is too heavy-
+
+weight for software development 
+projects adopting agile practices 
+[36] and that its use would lead 
+to an undesirable document-driven 
+software development approach [9, 
+20]. This presents a challenge to 
+enable organizations relying on CMMI as an indicator for process 
+
+maturity (which is supposed to tr
+anslate into product quality) to also 
+benefit from using agile methodologies like XP and Scrum. This paper presents how a light
+weight assessmen
+t method (AHAA) 
+has been developed for the automotive industry. This method 
+
+provides software development SM
+Es an assessment of how their 
+existing software development prac
+tices will be required to change 
+in order to become automotive software suppliers. The AHAA 
+
+integrates the plan-driven SPI models of CMMI and Automotive 
+
+SPICETM with agile practices. It has been specifically developed to 
+provide a low cost way of introduc
+ing software development SMES 
+to the requirements of the automotive industry.  
+3. NEED FOR AHAA One of the main goals of Lero 
+(the Irish Software Engineering 
+Research Centre) is to develop an
+ automotive software development 
+industry within Ireland. Additionally
+, VTT (the Technical Research 
+Centre of Finland) is interested in
+ investigating the advantages that 
+agile practices can bring to automotive software development. The 
+Adept method [28] was previously
+ developed to provide a light-
+weight assessment of software pro
+cesses (mainly against the generic 
+SPI model of the CMMI [7], with some reference to ISO/IEC 
+
+15504). In parallel to this, an agile assessment approach [33, 34] 
+
+was developed to provide a way to identify agile based 
+
+improvement solutions for Finnish 
+software companies. The Adept 
+method has now been integrated with this agile assessment 
+
+approach, taking Automotive SPICETM process areas into account, 
+producing AHAA. The overall objective is to encourage software 
+
+SMEs to enter the automotive software supply market.  
+AHAA enables software developmen
+t organisations to gain an 
+appreciation of the fundamental process areas from the CMMI
+® and 
+Automotive SPICE
+TM SPI models through diagnosing strengths and 
+weakness in their software devel
+opment practices. It is different 
+from other assessment methods as 
+it also provides an organization 
+with a combination of plan-drive
+n and agile-based improvements. 
+AHAA was designed to adhere to 8 of the 10 criteria outlined by 
+
+Anacleto et al. [2], for the deve
+lopment of lightweight assessment 
+methods: low cost, detailed description of the assessment process, 
+guidance for process selection, de
+tailed definition of the assessment 
+model, support for identificati
+on of risks and improvement 
+suggestions, conformity with IS
+O/IEC 15504, no specific software 
+engineering knowledge required fro
+m companies™ representatives, 
+and tool support is provided. Th
+e two exceptions to the criteria 
+outlined Anacleto et al. [2], are that no support is provided for high-
+
+level process modeling and only the authors currently have access to 
+
+method. AHAA also shares the fo
+llowing requirements with Adept: 
+improvement is more important th
+an certification, a rating is not 
+required, preparation time required 
+by the company is minimised; 
+assessment time is minimized, and 
+companies should be enabled to 
+select assessment in process areas that are most relevant to their 
+
+business goals. While the focus of AHAA is to encourage software SMEs to 
+become automotive software suppliers, the method provides an ideal 
+
+opportunity to educate software SMEs in terms of generic SPI. 
+
+Therefore, the assessment should not become ﬁa waste of timeﬂ if 
+
+the company decided not to become an automotive software 
+
+supplier. Consequently, AHAA provides automotive specific and 
+
+non-automotive specific recommendations. The assessed company 
+
+was supplied with feedback in relation to both CMMI
+® and 
+Automotive SPICE
+TM process models which enables such 
+companies to decide whether they wish to follow a CMMI or an 
+
+Automotive SPICE
+TM SPI path. Additionally, AHAA suggests agile 
+based improvement solutions for automotive companies coping with 
+
+high quality complex software development within the automotive 
+
+business environment. AHAA provide
+s the assessed company with 
+a findings document presented in terms of CMMI
+®, Automotive 
+SPICETM processes and agile practices.  
+4. DEVELOPMENT OF AHAA As AHAA is based upon relevant CMMI
+® process areas, existing 
+Adept questions were used as the foundation for the AHAA. 
+
+Questions were added to enable 
+coverage of relevant Automotive 
+SPICETM processes and agile practices. Even though each 
+assessment component adopts a CMMI
+® process area name, it also 
+contains questions providing 
+coverage of Automotive SPICE
+TM and 
+agile practices.  
+A key decision in the developm
+ent of AHAA was ‚what process 
+areas are most applicable?™. Process areas were included because: 
+ A. Based on our previous research, they are process areas which 
+provide a significant level of be
+nefit to Irish SMEs software 
+development organisations [5, 8, 29, 45]; 
+B. They have been highlighted within automotive engineering 
+literature as fundamental to the development of efficient 
+
+software development [39]; 
+C. They have process area counterparts included within the HIS 
+subset of 15 process areas [19]; 
+D. They were previously included in the Adept method [28]; 
+E. They were previously included in the agile assessment 
+approach [33, 34].  
+Each of the CMMI
+® process areas was analysed (See Table 1). 
+Table 1. Suitability of CMMI® process areas for inclusion in 
+AHAA CMMI® Process Area  A ? B ? C ? D? E ? 
+Requirements Management Yes Yes Yes Yes Yes 
+Project Planning Yes Yes Yes Yes Yes 
+Project Monitoring & Control Yes Yes Yes Yes Yes 
+Configuration Management Yes Yes Yes Yes  
+Measurement & Analysis 
+   Yes  
+Process & Product QA 
+ Yes Yes Yes  
+Supplier Agreement Management 
+ Yes Yes   
+Requirements Development 
+   Yes Yes 
+Technical Solution 
+  Yes Yes Yes 
+Verification    Yes Yes 
+Product Integration   Yes Yes Yes 
+Validation 
+   Yes Yes 
+Organisational Process Focus 
+     
+Integrated Supplier Management 
+  Yes   
+Organisational Environment for Integration 
+     
+Organisational Process Definition 
+     
+Organisational Training 
+     
+Integrated Project Management 
+     
+Risk Management 
+   Yes  
+Decision Analysis & Resolution 
+  Yes   
+Integrated Teaming      
+Organisational Process Performance      
+Quantitative Project Management      
+Organisational Innovation & Deployment      
+Causal Analysis & Resolution      
+ Table 1 illustrates that only three of the twenty-five process areas 
+from the CMMI® model satisfied all five factors and these were 
+therefore included in the first release of AHAA. As Configuration 
+
+Management satisfied four of the fi
+ve factors it was also included in 
+this release. In addition to AHAA focusing on four CMMI
+® process 
+areas, related Automotive SPICE
+TM processes and agile practices 
+must also be assessed. Selection was as follows: 
+Step 1
+. Serially scan the chosen CMMI
+® process areas against the 
+following list of 15 HIS process areas and select related Automotive 
+
+SPICETM processes:- 
+ System requirements analysis; System architectural design; 
+Software requirements analysis
+; Software design; Software 
+construction; Software integrati
+on; Software testing; System 
+integration; Software testing;
+ System integration; System 
+testing; Quality assurance; Configuration management; Problem 
+
+resolution management; Change 
+request management; Project 
+management; Supplier monitoring. Step 2. Map relevant agile practices against the process area.  
+As a result of performing these 
+steps AHAA will provide coverage 
+of 4 CMMI
+® process areas, 5 Automotive SPICE
+TM processes and several agile practices as illustrated in Table 2. To encourage uptake of AHAA assessment by software SMEs, on-
+site interviewing is restricted to
+ one day [28] thus minimising the 
+time and cost associated with the assessment.  
+Table 2. CMMI
+®, Automotive SPICETM and agile linkages CMMI® Process Area HIS Automotive SPICE
+TM Process  
+Agile Practices  
+Requirements 
+management 
+Software requirements 
+analysis  
+
+Change request management 
+Stories; Product Backlog; 
+Planning Game; Daily 
+
+meetings; On-site customer; 
+
+Self-organizing teams 
+Project Planning 
+
+Project 
+Monitoring & 
+Control Project management 
+Problem resolution 
+
+management 
+Planning Game, Small 
+releases, Tasks, Estimations, 
+
+RetrospectivesUser Stories, 
+
+Small Releases, Daily Stand 
+
+Up Meetings Retrospective 
+Configuration 
+management 
+Configuration management 
+Continuous Integration  4.1 Scripted AHAA Questions Table 3 illustrates the breakdown of the scripted AHAA questions. 
+When developing the interview questions we examined the base 
+
+practices, checking the relevant in
+terview questions from the Adept 
+method to ensure coverage of 
+their counterparts in agile and 
+Automotive SPICE
+TM. There is some commonality between related 
+processes in CMMI
+®, agile and Automotive SPICE
+TM. However 
+AHAA questions based solely upon a process within one model will 
+
+not (in isolation) provide full cove
+rage of this process within the 
+other two models (this is illustrated in figure 2 for the project 
+
+planning process).   Table 3. Breakdown of Scripted AHAA Questions 
+AHAA Interviews No. of Adept 
+(CMMI) Questions No. of New 
+Questions No. of AHAA 
+Questions Project Planning 
+65 15 80 
+Project Monitoring 
+& Control 
+36 17 53 
+Requirements 
+management
+ 23 37 60 
+Configuration Management 
+29 6 35 
+Total No. of 
+Questions 
+153 75 228 
+ 4.2 Project Planning Within Adept 65 questions were used to provide coverage of the 
+specific goals of the CMMI
+® Project Planning
+ process area. AHAA 
+is more comprehensive in its cove
+rage of Project Planning and has 
+80 scripted questions for Project
+ Planning (see Table 3). AHAA not 
+only contains CMMI
+® based questions but also 2 additional 
+questions that are specifically related to the Automotive SPICE
+TM Project Management
+ process. Only the planning part of the 
+Automotive SPICE
+TM Project Management
+ process may be mapped 
+against the CMMI
+® Project Planning
+ questions. Five
+ additional questions evaluate the company™s suitability to adopting an agile 
+
+based approach to project planning, and 8 questions that are 
+
+common for Automotive SPICE
+TM and an agile based approach to 
+project planning are also included. The key difference between 
+
+plan-driven and agile-based project planning is that in the agile 
+
+approach, planning is done iteratively during the software 
+
+development life cycle [27]. Figure 2 illustrates that out of the 65 
+
+scripted questions that are applicable to the CMMI model, 7 are also 
+
+applicable to both the Automotive SPICE
+TM model and agile 
+practices, 32 are applicable to the Automotive SPICE
+TM model, 19 
+ are applicable from an agile based perspective, and 21 are only 
+applicable to the CMMI model.  
+  
+ 
+ 
+ 
+ Figure 2. Breakdown of Project Planning Questions 
+For example, estimating the scope of
+ a project is an important part 
+of project planning. The AHAA has 
+15 scripted questions that are 
+asked to gain an understanding of the company™s procedure for 
+
+estimating the scope of a project (see Table 4).  These questions provide coverage of this topic in CMMI, 
+Automotive SPICE
+TM and agile. Six questions are asked which are 
+only applicable in relation to agile
+ practices and these questions are 
+asked to determine if the scope of
+ the project is estimated in an 
+iterative manner and to gain an unde
+rstanding as to who is involved. 
+Two questions are asked that are 
+based solely on the CMMI model 
+and these are used to determine if
+ consideration has been given to 
+either adopting 3
+rd party components or reusing existing 
+components. Two questions are aske
+d that are based solely on the 
+Automotive SPICE
+TM model and these are used to determine how 
+the scope of the project was defined and what interfaces exist for the 
+
+project. Three questions are applicable to CMMI, Automotive 
+
+SPICETM and agile practices and they probe the size and suitability 
+of tasks. A single question is 
+applicable to both CMMI and 
+Automotive SPICE
+TM. This is used to gain an understanding of the 
+boundaries of a project. One question which ensures that the task 
+
+sizes are appropriate for regular
+ monitoring, is common to both 
+Automotive SPICE
+TM and agile. Project Monitoring and Control, 
+Requirements Management and Configur
+ation Management questions were analysed in the sa
+me manner, providing a list of 53, 
+60 and 35 scripted questions respectively 
+4.3 AHAA Stages  AHAA is composed of eight stages
+ (see Figure 3). The assessment 
+team consists of two assessors 
+who conduct the assessment between them.  
+Stage 1
+ (Develop Assessment Schedule and Receive Site Briefing
+) involves a preliminary meeting be
+tween the assessment team and 
+the software company wishing to undergo a SPI assessment. The 
+
+assessment team discusses the main drivers for the company 
+
+embarking upon an AHAA and establishes whether the company is 
+
+interested in becoming an automotive software supplier. During 
+stage 2
+ (Conduct Overview Briefing
+) the lead assessor provides an 
+overview of AHAA for members of 
+the assessed organisation who 
+will be involved in subsequent st
+ages. This session is used to 
+remove any concerns that individuals may have. 
+Stage 3
+ (Analyse Key Documents
+) provides a brief insight into 
+project documentation. The primary source of data for AHAA is 
+through a series of process area interviews conducted during 
+stage 4. In this stage key staff members from the assessed organisation are 
+interviewed. There are 4 interviews, one for each process area. 
+Table 4. AHAA Questions for Estimating project scope 
+Question CMMI Automotive 
+SPICETM Agile  
+How was the scope of work defined?  Yes  
+What view do you have of the project 
+overall scope (features that needs to be 
+
+done)?   Yes 
+How often is the scope of the project re-
+planned and updated?   Yes 
+How do you determine the boundaries of 
+a project? 
+Yes Yes  
+How do you define the features for the 
+overall product? Who is responsible? 
+  Yes 
+How do you prioritise the features for the 
+overall product? How often is this 
+
+updated?   Yes 
+What features are defined in the next 
+release, release after that etc.? 
+  Yes 
+Do you decompose the project into a set 
+of tasks? (how often,
+ for each release, for 
+whole product)? 
+Yes Yes Yes 
+Who participates in the task definition? 
+Who has responsibility? 
+  Yes 
+How do you decide on suitable tasks? Yes  Yes Yes 
+What size are tasks decomposed to? Yes Yes Yes 
+Are the tasks of a manageable size, to 
+ensure that adequate monitoring is 
+
+possible ?  Yes Yes 
+Do you consider the acquisition of 3rd 
+party components? 
+Yes   
+What interfaces do you have (both with 
+sub-projects, suppliers and other parts of 
+
+the organization) ? 
+ Yes  
+Do you consider the potential reuse of any 
+products from this project? 
+Yes   
+ Each interview is scheduled to la
+st approximately 1.5 hours. Each 
+interview involves two assessors, and at least one representative 
+from the company is present for each process area interview. 
+Stage 5 (Generate Assessment Results 
+and Create the Findings Report
+) is a collaborative exercise between the assessors to develop the 
+
+findings report using interview notes for each of the four assessed 
+
+process areas. The resultant findings
+ report consists of a list of 
+strengths, issues and suggested actions for each of the process areas 
+evaluated. Stage 6
+ (Deliver the findings report
+) involves presenting the findings report to participa
+ting staff in the organisation. 
+Stage 7
+ (Develop a SPI Path with the Company
+) involves collaborating with 
+staff to develop a roadmap. This will provide guidance to the 
+
+assessed company presenting practices
+ that will provide the greatest 
+benefit in terms of the company™s business goals. Companies 
+
+wishing to become automotive suppliers are recommended to focus 
+
+upon establishing working practices that will assist them in future 
+Automotive SPICE
+TM assessments. 
+Stage 8
+ (Re-assess the SPI Path 
+and Produce a Final Report
+) involves revisiting the assessed 
+company approximately 6 months after the completion of stage 7 
+
+and reviewing progress against the SPI path. The outcome of this 
+
+stage is an updated SPI path and 
+a final report detailing the progress 
+that has been accomplished along with additional recommendations. 
+
+This stage provides feedback and assistance to the assessed 
+
+company after a period of time and also assists in compiling 
+
+research material in terms of SPI experiences.  
+  12  CMMI 
+ Automotive SPICE 
+Agile 7 25 5 2 21 8   Off-Site        On-site 
+    
+ 
+     1. Develop Assessment Schedule & Receive 
+Site Briefing 
+4. Conduct PA interviews
+3. Anal
+yse Ke
+y Documents 
+6. Deliver Final Re
+port5. Generate Assessment Results &  
+Create the final re
+port 
+7. Develop SPI Path with Company 
+8. Re-assess SPI path & produce a 
+progress report  
+2. Conduct Overview Briefing 
+ Figure 3. Stages of AHAA 5. AHAA IMPLEMENTATION  We implemented AHAA in an Irish
+ software development SME, 
+AutoSoft (a pseudonym). AutoSo
+ft currently has 8 software 
+development staff and works closely 
+with its larger parent company 
+in Denmark. However, AutoSoft
+ develops non-automotive safety-
+critical software and plans to enter the automotive sector in the near 
+
+future. They want to understand th
+eir current software development 
+practices and the extent to whic
+h these practices would have to 
+change when entering the automotive software industry. They also 
+
+sought a low-cost method to obtain guidance as to how they could 
+
+deliver higher quality software in a more timely manner. AutoSoft 
+
+was an ideal candidate for an AHAA.  
+During stage 1 of the AHAA, the goals and schedule of the AHAA 
+were determined, involving the a
+ssessment team (2 people), the 
+managing director and 2 project 
+managers from AutoSoft. During 
+stage 2 the lead assessor provided an overview briefing of the 
+
+AHAA to the AutoSoft software de
+velopment staff. The assessment 
+team briefly inspecting a sample
+ project plan, a requirements 
+document, sample minutes from a 
+project review meetings and a 
+configuration management document 
+(Stage 3). This enabled them 
+to gain a basic understanding of 
+documentation procedures within 
+AutoSoft, which assisted the a
+ssessors in developing additional 
+questions for the process area interv
+iews. All eight of the AutoSoft 
+software development staff partic
+ipated in stage 4 of the AHAA, 
+with the assessment team interviewing 4 staff within each of the 
+
+process area interviews.  
+During Stage 5, held off-site, a
+ssessment team wrote a findings 
+report, listing strengths and issues for each of the 4 process areas. It 
+
+combined plan-driven and agile 
+based recommendations to address 
+these issues which were based 
+on the business goals that were 
+highlighted in stage 2. The main
+ business goal that emerged was 
+that high quality software should be developed in a shorter time-
+
+frame than was currently the case. The findings report was then 
+
+presented to AHAA participants (stage 6).  
+5.1 Project Planning Findings  The Project Planning process area 
+contained more questions (80 
+scripted questions) than any of the other process areas. Therefore, it 
+
+was no surprise that the most st
+rengths (10), issues (22) and 
+recommendations (13) were produced for this process area (see 
+
+Table 5). The action part of the table illustrates how plan and agile 
+
+based suggestions (PPAct1-13) were
+ provided to address each of the 
+issues (PPIss1-22) that arose during the AHAA.  
+Table 5. AHAA Project Planning Findings 
+Strength   Description of Strengths 
+PPStr1 
+Evidence of high-level planning 
+PPStr2 Project is decomposed into suitable tasks 
+ŒﬁSplitting tasks into daily unitsﬂ 
+PPStr3 Involvement of development sta
+ff in developing project plans 
+PPStr4 Known resources are allocated into the project plan PPStr5 Risk is considered during the planning phase 
+PPStr6 Risks are identified on the critical path 
+PPStr7 Good informal communication channels 
+PPStr8 Understanding of interfaces and boundaries 
+PPStr9 Efficient use of 3rd Party Components 
+PPStr10
+ Some evidence of component reuse  
+Issue No. Description of Issues 
+PPIss1 
+No evidence of requirement
+s in the Project Plan PPIss2
+ Little evidence of the Project Plan be
+ing updated e.g. to include change 
+requests as the project progresses, scope etc. 
+PPIss3
+ Limited evidence of formal estimation approaches 
+PPIss4
+ Historical data is not used  
+PPIss5
+ Estimates based solely on knowledge/f
+amiliarity of system components 
+PPIss6
+ Insufficient linkage between project budget and estimates 
+PPIss7
+ No usage of short iterations and milestones 
+PPIss8
+ The initial project plan does not contai
+n the full set of resources required  
+PPIss9
+ Requirements are not always define
+d in the initial set of resources 
+PPIss10
+ No use of continuous integration approaches 
+PPIss11
+ Fixed price projects Œ so no flexibility for planning Œ not based on any 
+estimates 
+PPIss12
+ No systematic way of managing risk 
+PPIss13
+ No common risk list  
+PPIss14
+ Little evidence of mitigation at the planning stage  
+PPIss15
+ Little evidence of formal communication channels 
+PPIss16
+ Staff utilization load not properly unde
+rstood e.g. how realistic is it to 
+plan for an 7.5 hr day? 
+PPIss17
+ Knowledge and skills are not recorded and managed 
+PPIss18
+ Due to resourcing issues external sk
+ills are sought rather than providing 
+training PPIss19
+ Reactive rather than planned approach to resourcing 
+PPIss20
+ Resources not always costed
+ into the project plan PPIss21
+ Resources tend not to be allocated in a timely manner 
+PPIss22
+ There is no strategy for component reuse 
+Action 
+No: 
+Description of Actions Addresses 
+Issue No: 
+
+PPIss* 
+Plan-
+driven or 
+
+Agile 
+PPAct1 
+Consider the use of historical data as 
+input into the estimation process 
+4, 5, 6, 11 Plan 
+PPAct2 Consider the use of daily estimation 
+procedures e.g. Make use of useful 
+
+metrics 
+3 Plan PPAct3 Plan on the basis of a shorter Œ more 
+realistic (actual working time) day e.g. 
+
+set aside time for ﬁskilling upﬂ etc. 
+3,16 Plan 
+PPAct4 Consider using incremental release 
+delivery  
+7, 10 Agile 
+PPAct5 Perhaps use a senior member as an 
+internal customer 
+7 Agile 
+PPAct6 Update the project plan iteratively 2 Agile 
+PPAct7 Link requirements to the project plan 1 Plan 
+PPAct8 Perhaps use Scrum product Backlog, 
+sprint backlog and Sprint Planning e.g. 
+
+Scrum would also assist with 
+
+formalising communication procedures 
+7, 15 Agile 
+PPAct9 Consider the development of a risk 
+management strategy e.g. include a 
+
+common risk list and mitigations for 
+
+risk items 
+12, 13, 14 Plan 
+PPAct10
+ Consider developing a sk
+ills database  17 Plan 
+PPAct11
+ Provide training opportunities for staff 
+to skill-up  
+18 Plan PPAct12
+ Consider resources at the planning 
+stage 8,9,14, 19,20, 
+21 Plan PPAct13
+ Consider strategy for the reuse of 
+standard components 
+22 Plan   As AutoSoft develops safety-critical
+ software it is important that the 
+software developed is traceable throughout the lifecycle and 
+
+therefore this lends itself to the plan-driven aspects of the AHAA 
+
+and therefore it is no surprise that 9 out of the 13 actions that were 
+
+outlined as a result of the AHAA are plan-driven. The suggested 
+
+plan-driven actions will improve the project planning areas of task 
+
+estimation, requirements linkage, 
+risk management, resourcing and 
+component reuse.   As AutoSoft also wishes to improve the time-to-market of its 
+software agile project planning re
+lated actions were provided in 
+order to improve this aspect. 
+Therefore 4 agile actions were 
+provided (PPAct4/5/6/8), see table 5. For example, the agile 
+
+practices provided a systematic
+ continuous planning procedure 
+based on the time boxed iterations.  ﬁSoftware development life cycles need
+ to be shorter in the whole 
+automotive industry and it would be better if the whole company 
+
+were involved in the change management processﬂ This was suggested by project memb
+ers to assist them in keeping 
+plans up-to-date and communicating them more systematically to 
+
+the project stakeholders.  5.2 Project Monitoring and Control Findings The Project Monitoring and Control area was performed well 
+
+(though informally) by AutoSoft producing 6 strengths, only 3 
+
+issues and 6 actions from the AHAA (largely based upon the 53 
+
+scripted questions).  From a project monitoring and cont
+rol process perspective, 4 plan-
+based and 2 agile-based recommenda
+tions were provided as a result 
+of the AHAA in order to address the 3 issues that were highlighted. 
+
+The plan-driven recommendations were produced to address 
+
+formalizing the project monitori
+ng and control procedures of 
+AutoSoft by tracking actual effort against planned effort and 
+
+recording any deviations for futu
+re reference. The agile-based 
+actions encourage the usage of
+ daily meetings and burn-down 
+charts. Scrum practices were, 
+for example, suggested as a 
+mechanism to measure the project status, and to improve estimation 
+
+and daily risk management in the 
+software development projects.  ﬁThere is no formalized approach fo
+r project monitoringﬂ ﬁthere 
+are no metrics–it would be usef
+ul to compare plans against 
+results to understand how accurate the current estimation process 
+
+is, at the moment, getting such feedback can be difficultﬂ 5.3 Requirements Management Findings The Requirements Management area 
+was highlighted as an area of 
+concern for AutoSoft. A representative from AutoSoft stated the 
+
+following when asked about their requirements capture procedure: ﬁA list of requirements are provided
+ by the parent company in the 
+release document–we were not involved making this 
+
+list–requirements produced by Aut
+oSoft are our interpretation of 
+these requirementsﬂ  This issue arises because AutoSoft currently applies a highly plan-
+driven approach that does not involve direct interaction with the 
+
+customer. In practice, this means that the customer requirements are 
+
+defined by the parent company and delivered to AutoSoft in the 
+
+form of a requirements docum
+ent plus informal, ad hoc 
+communications between the parent company and AutoSoft (see 
+
+Figure 4). Even though, projects we
+re generally well planned, the 
+requirements were often at a high 
+level and were not prioritized. 
+Additionally, as the requirements are initially gathered by the parent 
+company from the customer and this interpretation is then 
+interpreted by AutoSoft there is a risk that incorrect requirements 
+
+will be collected by AutoSoft. This
+ causes a significant risk, as any 
+misconception may not be highlighted until the customer provides 
+
+feedback six months later, at wh
+ich time six months may have been 
+wasted developing the ﬁwrongﬂ product.   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Figure 4. Plan-driven adopted by AutoSoft  
+As a result of performing the AHAA on the requirements 
+management process we produced
+ 3 strengths, 14 issues and 7 
+actions (largely based upon the 60 sc
+ripted questions) to address the 
+highlighted issues.  AHAA provided 7 actions to addre
+ss the 14 issues that were 
+highlighted during the assessment 
+of the requirements management 
+process within AutoSoft. Five 
+plan-based recommendations were 
+provided to enable the company to improve their: requirements 
+
+traceability; the quality of the requirements captured; handling of 
+
+change requests (CRs); mechanis
+m for ensuring that requirements 
+records are updated. Additionally, two agile-based 
+
+recommendations practices were 
+provided. During the assessment 
+analysis, it was found that custom
+er requirement 
+management and 
+change request management are key challenges for the company.  
+5.4 Configuration Management Findings Upon assessment of the Configura
+tion Management process within 
+AutoSoft using AHAA, 8 strengths, 
+3 issues and 3 actions were 
+identified (largely based upon the 35 scripted questions).  
+Configuration management was generally a well applied process in 
+AutoSoft. All work products we
+re managed and controlled, 
+although manually. The 3 actions that were suggested in order to 
+
+resolve the 3 highlighted issues consisted of 1 plan-driven and 2 
+
+agile-based suggestions. The plan
+-driven suggestion encouraged AutoSoft to perform audits on the descriptions entered when items 
+
+are changed in the Configuration Ma
+nagement system to ensure that 
+meaningful and standardized 
+comments are always added. 
+Additionally, we encouraged the 
+usage of continuous integration 
+and scrum as agile-based recommendations to improve the 
+
+configuration management process in AutoSoft.  5.5 Summary of the Findings Upon analysis, the AHAA assessment revealed that AutoSoft may 
+be able to significantly improve
+ their software development 
+practices by adopting a combinati
+on of plan-driven and agile based 
+recommendations. As AutoSoft devel
+ops safety-critical software it 
+is important to ensure that sufficient documentation is in place so 
+
+that components may be traced throughout development and 
+
+therefore plan-driven practices are required. However, as the 
+
+company desires to increase its pr
+oductivity, reduce the length of its 
+Customer
+Parent Company
+Company A
+Requirements
+Document
+Requirements
+Document
+Interpretation
+
+Of 
+Requirements
+Design
+Implementation
+6 months
+ software development lifecycle and become more competitive, 
+AHAA suggests adopting a more hybrid approach. Twenty-nine 
+
+recommendations were provided as 
+to how AutoSoft could improve 
+their software development 
+practices, with 19 of these 
+recommendations being plan-driven 
+and 10 agile based. An assessed company can decide whether they will implement plan-driven 
+
+recommendations only, agile ba
+sed recommendations only or a 
+combination of both.  For example, as a result of the AHAA recommendations we could 
+amend some of AutoSoft™s curre
+nt project planning, project 
+monitoring and requirements management practices by combining 
+both plan-driven and agile ba
+sed recommendations. AutoSoft currently does not have an efficient estimation procedure in place 
+
+and therefore we would encourage them to combine the plan-driven 
+
+practices of making use of histori
+cal data and planning on the basis 
+of a shorter working day, and combining this with introducing daily 
+
+stand-up meetings and burn-down char
+ts (agile based practices) so 
+that actual effort can be compared against planned effort on a daily 
+
+basis. This will enable any deviati
+ons to be monitored very closely 
+and historical records of the actual task times may be recorded for 
+
+future project estimation. This th
+erefore will reduce the risk of both 
+current and future projects.   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Figure 5. Agile-based improvement suggestions for AutoSoft Figure 4 illustrated that requireme
+nts management causes problems 
+for AutoSoft. The AHAA recommendations enable this to be 
+
+resolved through adopting a combination of plan-driven and agile 
+
+based actions. For example, Au
+toSoft may adopt plan-driven 
+practices such as introducing re
+quirements capture templates (to 
+ensure that requirements are complete and verifiable) and 
+
+developing a procedure for handling CRs, in addition to introducing 
+
+the agile based practices of iterative software development cycles, 
+
+backlog-based requirements databases, continuous
+ requirements 
+analysis and continuous requirements prioritisation with the 
+
+customer and parent company (Figure 5).  
+6. FEEDBACK FROM AUTOSOFT During the findings presentation, 
+both management 
+and developers agreed that the highlighted strengths and issues were an accurate 
+
+reflection of company™s software development practices. Both the 
+
+management and devel
+opers of AutoSoft acknowledged that the 
+AHAA recommendations were achievabl
+e and if implemented they 
+could bring benefit to both AutoSoft and the parent company 
+
+(particularly as they both want to embark upon automotive software 
+
+development in the future). As 
+AutoSoft develops fixed price 
+projects the AHAA improvement suggestions for increasing the 
+
+quality of their software whilst decreasing their development time 
+
+through adopting a combination of plan-driven and agile-based 
+practices were of particular interest
+. Furthermore, as AutoSoft is an 
+SMEs, resource is a precious commodity and they welcomed the 
+
+fact that the assessment did not require any preparation time from 
+
+them.  
+Senior management from Auto
+Soft commented that the AHAA 
+improvement recommendations were relevant and important to them for several reasons. First of all, they were satisfied that the AHAA 
+
+provided them with realistic s
+uggestions as to how customer 
+satisfaction might be improved us
+ing both requirements and project management. Secondly, the s
+uggested movement towards 
+incremental software developmen
+t (encompassed regular iteration 
+planning, daily team meetings and iteration reviews) will enable the 
+
+company to respond better to cha
+nge requests from the customer 
+and the parent company. Additionally, AutoSoft™s future success 
+
+depends upon being able to correctly estimate future projects. 
+
+Adopting an incremental developm
+ent approach combined with 
+suggested plan-driven practices for 
+sizing the effort of project tasks 
+could enable the company to develop a capability for providing 
+
+realistic estimates for future projects.  
+The senior management from AutoSoft also stated that they 
+intended championing these improve
+ments and then rolling them 
+out to their parent company so 
+that the overall organisation could 
+benefit from incorporating the new plan-driven and agile-based 
+
+practices into their existing software development practices.  Following the AHAA findings presentation, AutoSoft 
+representatives met internally to discuss developing a SPI path. 
+
+They reviewed and prioritised all the AHAA recommendations, 
+
+planning how they will be implemented in a new project (stage 7 of 
+
+the AHAA). Having gone through this assessment cycle, senior 
+
+management realised the importance of such assessments. 
+
+Therefore, a criticism of the AHAA which they made was that they 
+
+were only assessed 4 process areas. We
+ have agreed to engage in an 
+additional assessment involving othe
+r software process areas (i.e. 
+2nd release of AHAA). They also ha
+ve requested that we re-assess 
+their software processes within 6 months (perform stage 8 of the 
+
+AHAA) so that they may obtain feedback in relation to their 
+
+progress along their SPI path. This will also provide the assessment 
+
+team with an opportunity to valid
+ate their improvement suggestions. 7. CONCLUSION Automotive industries cope with th
+e challenging demands of safety 
+criticality and the increasing amount of electronic component 
+
+software. This creates the opport
+unity (especially for SMEs) to 
+become software suppliers to large automotive companies. 
+
+Therefore, SMEs need to adopt SPI
+ approaches to assist them in 
+improving the quality of software, the speed of software delivery 
+
+and their ability to respond to change requests.  
+Software process assessments can
+ assure quality of development 
+processes. Unfortunately, assessmen
+ts are often too time consuming 
+and expensive for SMEs. Another difficultly in adopting software 
+process assessments is deciding which SPI model the company 
+
+should be assessed against, as 
+different manufacturers may adopt 
+different SPI models and therefor
+e have a different approach to 
+evaluating the capability/maturity of a potential supplier. Both 
+
+CMMI and SPICE are internationally
+ adopted reference models for 
+SPI. However, Automotive SPICE
+TM has now been published to 
+specifically meet the demands of automotive industry. In addition, 
+
+agile software development methods
+ have been shown to provide 
+significant benefit in assisting orga
+nizations to respond to changes, 
+Customer
+Parent Company
+Company A
+Product 
+Backlog
+Sprint Backlog
+Continuous
+Analysis
+of 
+Requirements
+
+Change Requests
+
+and Feedback
+1-2 months
+Design
+Implementation
+Testing
+Integration
+Sprint
+Planning, 
+Review
+Design
+Implementation
+Testing
+Integration
+Sprint
+Planning,
+Review
+Design
+Implementation
+Testing
+Integration
+Sprint
+Planning, 
+Review
+–Daily estimation, monitoring, risk management
+ to increase their software development speed and to increase 
+customer satisfaction.  
+This paper presented a lightwei
+ght method for software process 
+assessments which integrates CMMI, Automotive SPICE
+TM and 
+agile practices in an assessmen
+t method called AHAA. The goal of 
+AHAA is not to provide a certification rating but to provide a low-
+
+resource assessment method which indicates to companies: the 
+
+current state of their software processes; recommendations as to 
+
+how they might improve; the status 
+of their software processes both 
+in terms of CMMI
+® and Automotive SPICE
+TM; and their suitability 
+to becoming automotive software suppliers.  
+From a research point of view AHAA enables both VTT and Lero - 
+the Irish Software Engineering Research Centre to: 
+ Gain an understanding as to whether existing software 
+development practices within companies are more CMMI
+® or 
+Automotive SPICE
+TM based;   Gain an understanding in relation to the strengths (profile) that 
+both Irish and Finnish software companies possess 
+
+particularly in relation to supplying software to the 
+
+automotive industry;  
+ Increase their knowledge of how
+ to combine improving the 
+time to market with the quality of safety-critical software;  
+ Use some parts of AHAA within companies that are already 
+following a path towards certification in CMMI or 
+
+Automotive SPICE
+TM but wish to use agile methods;   Use some parts of AHAA within companies that are already 
+using agile methods but wish to follow a path towards 
+
+certification in CMMI or Automotive SPICE
+TM.  This paper presents how the AHAA was conducted in a safety-
+critical software company. The company has since prioritised 
+
+actions and are currently engaged in adopting a number of the 
+
+recommendations as part of their so
+ftware development practices. It 
+also describes the 1
+st release of the AHAA, providing coverage of 4 
+CMMI® process areas, 5 Automotive SPICE
+TM processes and 
+relevant agile practices. In the future we plan to extend the number 
+
+of process areas that may be assessed. We will initially extend the 
+
+assessment to provide coverage of
+ the remaining two process areas 
+that are listed as being fundamental
+ to the automotive industry [39]. 
+These process areas will be Process and Product Quality Assurance 
+
+and Supplier Agreement Management. The medium term aim will 
+
+then be to provide coverage of each of the 15 Automotive SPICE
+TM processes included in the HIS, with a long-term goal of providing 
+
+coverage of all 31 Automotive SPICETM processes.  
+8. ACKNOWLEDGMENTS This research is supported by 
+the Science Foundation Ireland (SFI) funded project, Global Software De
+velopment in Small to Medium 
+Sized Enterprises (GSD for SMEs) grant number 03/IN3/1408C 
+
+within Lero - the Irish Software Engineering Research 
+
+Centre (http://www.lero.ie), the SFI
+ Stokes Lectureship Programme, 
+grant number 07/SK/I1299 and the ITEA Flexi project, funded by 
+
+TEKES and Nokia Foundation in Fi
+nland as a part of VTT, 
+Technical Research Centre of Finland 9. REFERENCES  [1].
+ Agrawal M, Chari K. 2007. Software Effort, Quality and Life 
+Cycle Time: A Study of CMM Level 5 Projects.
+ IEEE Transaction on Software Engineering 33: 145-155  [2].
+ Anacleto, A, von Wangenheim. C.G, Salviano. C.F, Savi. R. 2004, ﬁExperiences gained from applying ISO/IEC 15504 to 
+
+small software companies in Br
+azilﬂ, 4th International SPICE Conference on Process Assessment and Improvement, Lisbon, 
+Portugal, pp.33-37 (April 2004).  [3].
+ Automotive SIG, The SPICE User Group, Automotive SPICETM Process Reference Model, 2007, available from http://www.automotivespice.com 
+ [4].
+ Beck, K. 2000. Extreme Programming Explained: Empbrace 
+Change. Addison Wesley Longman 
+ [5].
+ Blowers, Rosario and Ita Richardson. 2005, The Capability 
+Maturity Model (SW and Integrated) Tailored in Small 
+
+Indigenous Software Industries, International Research Workshop for Process Improvement in Small Settings, 
+
+Software Engineering Institute, Pittsburgh, Pennsylvania, 
+U.S.A., October 19-20, 2005. 
+http://www.sei.cmu.edu/publications/documents/06.reports/06sr001.html.  [6].
+ Boehm B, Turner R. 2003. Balancing Agility and Discipline, 
+Addison Wesley. 
+ [7].
+ CMMI Product Team, Capability Maturity Model
+® Integration for Development, Version 1.2 (2006), 
+http://www.sei.cmu.edu/publications/documents/06.reports/06tr008.html, Technical Report CMU/SEI-2006-TR-008  [8].
+ Coleman, G. 2005, ‚An Empirical Study of Software Process 
+in Practice™, in Proceedings of the 38th Annual Hawaiian 
+International Conference on System Sciences, - Big Island, 
+
+HI, p. 315c. January 2005. 
+ [9].
+ DeMarco T, Boehm B. 2002. The Agile Methods Fray. IEEE 
+Computer 90-92.  [10].
+ DIN 31000/VDE 1000, General Guide for Designing of Technical Equipment to Satisfy Safety Requirements, 1979. 
+ [11].
+ Drobka J, Noftzd D, Raghu R. 2004. Piloting XP on Four Mission Critical Projects. 
+IEEE Software 70-75  [12].
+ Enterprise Ireland Strategy Group. 2004, Ahead of the Curve: 
+Ireland™s Place in the Global Economy, Dublin: Irish 
+
+Government Publications.  [13].
+ Enterprise Ireland., 2007. Software Industry Statistics 1991-
+2005. (Accessed June 2007) 
+http://www.nsd.ie/htm/ssii/stat.htm   [14].
+ Fayad ME, Laitinen M. 1997, Process Assessment Considered 
+Wasteful. 
+Communications of the ACM 40: 125-128.  [15].
+ Forfas (2004) Employment Survey. Online at www.forfas.ie 
+(Accessed September 2007).  [16].
+ Galin D, Avrahami, M. 2006,. Are CMMI program investment beneficial? Analysis Past Studies. 
+IEEE Software 81-87  [17].
+ Herbsleb J, Carleton A, Rozum J, Siegel D. 1994. Benefits of CMM-based software process improvement: initial results. 
+
+Pittsburgh  [18].
+ Herstellerinitiative Software (OEM Software) Dr. M. Daginnus etc http://www.automotive-
+his.de/download/HIS_Praesentation_2007.pdf  [19].
+ Herstellerinitiative Software, Working Group Assessment: 
+HIS http://www.automotive-his.de/download/HIS-WG-
+
+Assessments_v21.pdf  [20].
+ Highsmith J. 2002. What Is Agile Software Development? 
+Crosstalk 4-9.   [21].
+ Holström H, Fixgerald B, Agerfalk PJ, Conchuir EO. 2006. Agile Practices Reduce Distance in Global Software 
+
+Development, Information and Systems Management 7-18.  [22].
+ International Electrotechnical Commission , IEC 61508: Functional Safety of Electrical/Electronic/Programmable 
+
+Electronic Safety-Related Systems, 1998. 
+ [23].
+ ISO/IEC 15504-5: 2006 Information Technology Œ Process 
+Assessment Œ Part 5: An exemplar Process Assessment Model 
+
+, JTC 1/SC 7  [24].
+ ISO TC 22 SC3 WG16 Functional Safety, Convenor Ch. 
+Jung. Introduction in ISO WD 26262 (EUROFORM-Seminar, April 2007)  [25].
+ Karlström D. 2002. Introducing Extreme Programming - An Experience Report. XP 2002, Alghero, Sardinia, Italy. 24-29. 
+ [26].
+ Kautz K. 1998. Software Process Improvement in Very Small 
+Enterprises: Does it Pay Off. 
+Software Process Improvement and Practice 4: 209-226.  [27].
+ Larman, C. 2003, Agile & Iterative Development ŒA Managers Guide, Addison Wesley 
+ [28].
+ Mc Caffery. F, Richardson. I 
+& Coleman. G. 2006,, ﬁAdept Œ A Software Process Appraisal Method for Small to Medium-sized Irish Software Development Organisationsﬂ. In: Proceedings of the European Software Process Improvement 
+
+and Innovation Conference 2006, EuroSPI06, October, 
+Finland.  [29].
+ Meehan. B and Richardson. I. 2002,, ﬁIdentification of Software Process Knowledge Managementﬂ, Software Process: Improvement and Practice, Volume 7, Issue 2, June 2002, pp 47-56.  [30].
+ Norden, K. 2004, Ohjelmistotuoteala näyttää positiivisia 
+merkkejä, Tekes, 
+http://www.tekes.fi/ajankohtaista/uutisia/uutis_tiedot.asp?id=
+3604 (accessed 10.9.2007)  [31].
+ Paulk M, Curtis B, Chrissis MB, Weber CV. 1993. Capability 
+Maturity Modell for Software
+, Version 1.1. Pennsylvania 
+ [32].
+ Paulk MC. 2001. Extreme Programming from a CMM Perspective. 
+Software 18: 19-26.  [33].
+ Pikkarainen. M and Mäntyniemi. A. 2006, "An Approach for 
+using CMMI in Agile Software Development Assessments: 
+
+Experiences of Three Case Studies," presented at SPICE 
+
+2006, Luxenburg, 2006.  [34].
+ Pikkarainen. M and Passoja. M. 2005,, "An Approach for Assessing Suitability of Agile Solutions:A Case Study," 
+
+presented at The Sixth International Conference on Extreme 
+Programming and Agile Processes in Software Engineering, Sheffield University, UK. 
+ [35].
+ Pretschner. A, Broy. M, Kruge
+r. I.H and Stauner.T. 2006,, Software Engineering for Automotive Systems: A Roadmap, 
+
+Future of Software Engineering, International Conference on 
+Software Engineering, 2006.  [36].
+ Ramachandran M. 2005. A Process Improvement Framework for XP Based SMEs. In Proceedings of the XP, Sheffield, UK. 
+
+202-205.  [37].
+ Richardson. I and von Wangemheim. C.G. 2007,, ﬁWhy are 
+Small Software Organizations Different?ﬂ, Guest Editors™ 
+Introduction, IEEE Software, January/February, 2007, pp 18-
+
+22.   [38].
+ Rönkkö, M. Eloranta, E.M. Mutanen, O.P. Kontio, J. Software Buisiness Lab., 2007, Suomalainen 
+ohjelmistoliiketoiminta 2006 ja 2007, 
+
+http://www.sbl.tkk.fi/oskari/2007_press_slides.pdf (accessed 10.9.2007).  [39].
+ Schauffele. J and Zurawka. T. Automotive Software Engineering: Principles, Processes, Methods and Tools. U.S.A., SAE International (2005).  [40].
+ Schwaber, K, Beedle M. 2002. Agile Software Development with Scrum. Prentice-Hall. 
+Upper Saddle River, N.J.  [41].
+ Spark Online Julkaisu, Turku Science parkin verkkolehti., 2006, Ohjelmistoyritysten kansainvälinen liiketoiminta 
+
+kasvaa,http://www.turkusciencepark.
+com/TSP/lehti.nsf/($Sear
+ch)/4EBA02090435515FC22571D3001B4BCD (accessed 
+10.9.2007)   [42].
+ Stelzer, D, Mellis W. 1998. Success Factors of Organizationsl 
+Change in Software Process Improvement. Software Process Improvement and Practice 4: 227-250  [43].
+ Tietokone lehti, 2007, Softafirmat kilpailukykyisempiä, 
+https://www.tietokone.fi/uutta/uutinen.asp?news_id=311969
+
+&tyyppi=1 (accessed 10.9.2007). Sanoma Magazines, 
+
+Finland.  [44].
+ Trauth, Eileen M. 2000: The Culture of an Information Economy: Influences and Impact
+s in the Republic of Ireland. Boston, MA., Kluwer Academic Publishers. (2000)  [45].
+ Wilkie.F.G, McFall.D, & Mc Caffery. F. 2005, ﬁAn 
+Evaluation of CMMI Process Areas for Small to Medium 
+Sized Software Development Organisationsﬂ Software Process Improvement and Practice Journal: Issue 10: 2, June 2005, Pages 189-201 - Wiley Publishers. 
+ [46].
+ Wils A, Baelen S, Holvoet T, De Vlamincs K. 2006. Agility 
+in the Avionics Software World. XP 2006, Oulu . 

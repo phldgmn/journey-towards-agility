@@ -1,0 +1,650 @@
+ 30IEEE SOFTWARE
+Published by the IEEE Computer Society0740-7459/03/$17.00 © 2003 IEEEobjectives leads to a culture clash when apply-ing basic XP practices. We decided to explore this culture clash
+when the Langley Creativity and Innovation Of-
+ficesolicited bids for exploring nontraditional
+
+methodologies for aerospace engineering re-
+search. C&I was looking for a way to produce
+extraordinary gains in productivity or enable
+entirely new applications. We submitted a bid
+
+and received one-year funding to perform a
+short prototyping assessment of XP at the
+NASA Langley Research Center. We conducted
+the project using a GNU/Linux operating sys-tem, the Emacs integrated development environ-
+ment, and the Ruby programming language.1,2We had prior experience programming related
+
+algorithms for the advection-diffusionequationusing Fortran but no experience in team soft-
+
+ware development, object-oriented design,
+unit testing, or programming with Ruby.
+As the project began, we realized that we
+first had to deal with several cultural conflicts
+before implementing the 12 XP practices.
+Cultural conflictsKent Beck lists nine environments that he
+says donÕt work well with XP.
+3 Six of these
+nine are counter to the existing culture at Lan-
+
+gley. However, Beck prefaces his assertions
+
+with the caveat that the list is based on his per-
+sonal experiences: ÒI havenÕt ever built missile
+focusExploring XP for Scientific ResearchExtreme Programming, as an agile programming methodology, fo-
+cuses on delivering business value. In the realm of exploratory,
+
+long-term, small-scale research projects, prioritizing near-term
+
+tasks relative to their business or scientific value can be difficult.Assigning even a qualitative monetary value can be particularly challenging
+for government research in enabling fields for which business markets have not
+
+yet developed. The conflict between near-term value and long-term research 
+Extreme Programming
+Eight of Extreme ProgrammingÕs 12 practices are seeminglyincompatible with the existing research culture. However, despite
+
+initial awkwardness, the authors successfully implemented an XP
+prototype-assessment project at the NASA Langley Research Center.
+William A. Wood and William L. Kleb, 
+NASA Langley Research Center
+ nosecone software, so I donÕt know what it is
+like. É If you write missile nosecone software,
+you can decide for yourself whether XP might
+or might not work.Ó The software we were de-
+veloping was intended for aerothermal predic-
+tions on nosecones of hypervelocity vehicles
+(see the ÒOur Software ProductÓ sidebar), so
+we set out to decide for ourselves if XP could
+
+work in such a research-oriented environment.
+Here, we detail the six counter environments
+
+as they apply to our project.First, according to Beck, the Òbiggest barrierto the success of an XP projectÓ arises from an
+
+insistence on complete up-front design rather
+than just steering the project along the way. In
+
+February 2002, NASA announced a $23.3 mil-
+lion award to Carnegie Mellon University Òto
+improve NASAÕs capability to create depend-
+
+able software.Ó Two-week training courses in
+
+the Software Engineering InstituteÕs Team and
+
+Personal Software Processes have already be-
+gun, complete with 750 pages of introductory
+
+textbooks. The TSP assigns two-thirds of the
+
+project time to requirements gathering, docu-
+menting, and design. It does not allow coding,
+
+with the possibility for steering, until the final
+third of the project. Furthermore, significant
+steering can trigger a Òrelaunch,Ó in which you
+start the requirements and design processes all
+over again. We used XP exclusively, avoiding
+
+the institutional bias toward the PSP and TSP.
+The second cultural practice at odds withXP is big specifications. LangleyÕs ISO 9001
+
+implementation includes a 45-page flowchart
+for software quality assurance (LMS-CP-4754)
+and a 17-page flowchart for software planning
+and development (LMS-CP-5528), in which
+only one of the 48 boxes, located 75 percent of
+the way through, contains ÒCode and Test.Ó
+
+At the risk of being ISO noncompliant, we ig-
+nored the approved software process, deferring
+the issue to when, or if, an ISO audit uncovers
+the discrepancy.
+Third, Beck observes that ÒReally smartprogrammers sometimes have a hard time
+with XPÓ because they tend to Òhave the hard-
+est time trading the ÔGuess RightÕ game for
+close communication.Ó Not only do re-
+searchers typically have doctoral degrees, but
+the reward structure under which they operate
+is based on peer review of the personÕs stature
+
+in the field. The Research Grade Evaluation
+
+Guide4emphasizes individual stature overteam membership. We had to suppress our de-
+sire to be recognized for solo achievement andbelieve that two people doing XP would be
+
+more productive than the sum of our individ-
+
+ual efforts.  Fourth,although adopting XP for large
+teams has been a frequent subject of debate,
+
+we faced the opposite problemÑa small team
+
+of only two people. Maintaining the distinct
+roles of programmer, customer, recorder, and
+
+coach was challenging. With very small teams,
+
+the literature was unclear as to which tasks we
+could safely perform solo and which would
+rapidly degenerate into cowboy coding. In ad-
+dition, with only two developers, we couldnÕt
+
+have the cross-fertilization benefit of rotating
+partners. Plus, interpersonal conflicts were a
+
+potential problemÑif communication turned
+to confrontation, there were no other team
+
+members to play the role of mediator. Ad-
+
+dressing these concerns required diligence in
+delineating roles and a conscious decision to
+stay focused on productive work. To rein in
+
+cowboy coding, we used test-driven pair pro-
+gramming exclusively when implementing fea-
+tures. We also preferred pair programming
+
+during refactoring but allowed solo refactor-
+ing when scheduling conflicts precluded pair-
+ing. However, we agreed not to break any ex-
+
+isting tests or add any functionality.
+Fifth, according to Beck, ÒAnother technol-ogy barrier to XP is an environment where a
+
+long time is needed to gain feedback.Ó One
+role of a government research center is to pur-
+sue long-term, revolutionary projects. Devel-
+
+opment cycles can last a decade, and the feed-
+back loop on whether the project is headed inMay/June 2003IEEE SOFTWARE
+31The research value we aimed to deliver was a software test bed for eval-
+uating the performance of a numerical scheme to solve a model advection-
+
+diffusion problem. The model employs a multistage Runge-Kutta strategy for
+
+temporal evolution with multigrid sequencing. The particular algorithmic re-
+
+search feature is a strategy for the pointwise optimization of the Runge-
+Kutta coefficients to achieve particular damping characteristics as a tool for
+
+convergence acceleration.1For more information on the actual software
+product,2contact the authors.1. W.L. Kleb, W.A. Wood, and B. van Leer, 
+Efficient Multi-Stage Time Marching for Viscous
+Flows via Local Preconditioning, Paper 99Ð3267, Am. Inst. Aeronautics and Astronautics,1999. 2.W.A. Wood and W.L. Kleb, ÒRunge-Kutta Circular Advection Problem Solver,Ó 
+NASA Tech
+Briefs, vol. 26, no. 12, 2002, p. 38.Our Software Product a fruitful direction is often measured in years.
+XP prefers steering inputs on a days-to-weeks
+
+time frame. We didnÕt know if we could recast
+
+long-term research goals into small, tangibleincrements suitable to XPÕs two-to-three-week
+iteration cycles. Fortunately, in practice, al-
+
+though the research feedback timescale re-
+mains large, we successfully decomposed the
+
+technical features into small iteration chunks
+by following XPÕs simple design practice.
+Finally, Beck cautions against Òsenior peo-
+ple with corner officesÓ because of the barriers
+to communication. At research centers, senior
+
+engineers typically have individual offices or
+cubicles, and colleagues are spread over multi-
+ple buildings at the local campus. Projects can
+also involve collaboration with an off-site
+coworker, such as a university professor. For
+
+our experiment, we refactored our office cubi-
+cal layout into a commons and alcoves5devel-opment room (see Figure 1), with copious
+
+marker board space and a pair programming
+station.The pair programming station had si-
+
+multaneous dual keyboard and mouse inputs
+connected to a 16-processor Beowulf cluster
+(see Figure 2).Implementing XP practicesWe made a serious effort to apply the 12 XP
+practices by the book (see Table 1 for a sum-
+
+mary of our experience). Due to the six cultural
+
+conflicts just listed, eight of the 12 XP practices
+presented implementation challenges.On-site customerThe biggest challenge was the on-site cus-
+tomer. XP places a premium on the cus-
+
+tomerÐdeveloper relationship, requiring an on-
+
+site customer. Both the customer and developer
+
+have clearly defined roles with distinct respon-
+sibilities, interacting on a daily basis. The cus-
+
+tomer focuses the developer on the business
+value, while the developer educates the cus-
+tomer on the feasibility and cost of feature re-
+quests. In the context of long-term research, the
+technologies being explored might be immature
+or uncertain, years removed from commercial
+potential. In this situation, the funder is too far
+
+removed from the research to serve as a suitable
+customer. So, the researcher is essentially the
+
+ÒcustomerÓ for his or her own development ef-
+
+fortÑat least for several years. What happens
+to the balance of power between customer and
+
+developer when they are the same person? This was a significant concern for us, be-cause we were primarily writing software for
+
+our own use. With two team members, we de-
+
+cided that, during the planning game, the indi-32IEEE SOFTWARE
+http://computer.org/software
+Figure 1. (a) The original 15«17«office layout: large, isolated
+work spaces with desks separated by towering bookcases and
+joined by a narrow aisle. (b) The refactored layout: small, 
+
+isolated work spaces with tables and a large common area
+
+consisting of a Beowulf cluster, a pair programming station, a
+
+conference table, and whiteboards. We can move the partition
+
+at the upper right to further isolate a private work area, and
+
+all three areas can now accommodate pair programming.(a)(b)Figure 2. The pair programming station has two task chairs, a 60-inch-wide Anthro AdjustaCart, wireless keyboards and
+
+mice, and two LCD displays supporting a merged 2560 
+1024-pixel desktop. You can see the sustenance itemsÑrefrigerator,
+
+microwave, fresh-air supply, and plantsÑon the right.
+ vidual with the most to gain from using the
+software would serve as the customer while
+the other individual would serve as the devel-
+oper. During coding, we both served as devel-
+
+opers until questions arose, at which point one
+of us answered the question in the customer
+
+role. Switching roles proved challenging for
+the individual performing dual jobs.During the planning game, thinking of sto-ries was difficult without simultaneously esti-
+
+mating their cost. Communication was essen-
+tial, and we had to make a conscious effort to
+think in a goal-oriented way. Furthermore, the
+
+customer had to remain focused on end results
+rather than think of the developerÕs work.
+
+However, forcing a user-oriented viewpoint
+
+helped focus the research effort, and although
+
+difficult and uncomfortable, the explicit role
+
+of customer during the planning game im-
+proved the research projectÕs value. Even out-
+
+side the context of XP, we recommend a plan-
+
+ning game with a customer role for other
+
+research projects as an effective focusing tool.Simple designAnother potential showstopper was the re-quirement for simple designs. Performance is
+always an issue for numerical analysis, and
+past experience with procedurally imple-
+mented and speed-optimized algorithms has
+verified the exponentially increasing cost of
+changing the fundamental design of elaboratecodes. The lure of premature optimization for
+the developer is strong, particularly in the ab-
+sence of a business-value-oriented customer.
+We accepted this practice with skepticism,
+because poorly conceived numerical analysis al-
+gorithms can be prohibitively time-consuming
+to run. Our approach was to include perform-
+
+ance measures in the acceptance tests to flag
+excessive execution times and then to forge
+ahead with the simplest design until the per-
+formance limits were exceeded. Once we en-
+countered a performance issue, we used a pro-
+filer to target refactorings that would speed the
+algorithms enough to pass the performance cri-
+teria. The speed bottlenecks were not always
+intuitive, and it became evident that premature
+optimization would have wasted effort on ar-
+
+eas that were not the choke points while still
+missing the eventual culprits.7Pair programmingPair programming also appeared to be a
+poor fit at firstÑit seemed a small team would
+
+suffer from not being able to rotate pairs.
+
+However, we actually achieved productivity
+
+gains through pairing. The pair pressure effect
+led to intense sessions that discouraged cutting
+corners, and the constant code review pro-
+
+duced cleaner, more readable code that was
+
+much easier to modify and extend. Also, even
+though we each had over 20 years worth of
+programming experience, there was still some
+May/June 2003IEEE SOFTWARE
+33Table 1 Our experience with XP practicesXP practiceDegree of adoptionComments
+Planning gameFullWe followed it by the book.
+1Small releasesFullTwo-week iterations worked well for a project of this scope. 
+MetaphorFullWe used a naive metaphor because both players spoke the same jargon. 
+Simple designFullWe accepted this with skepticism, but it made future optimization easier than expected. 
+Test-driven developmentFullComprehensive test coverage is the key to agility. 
+RefactoringFullThis was integral to test-driven development; we followed 
+Refactoring: Improving theDesign of Existing Code,6often verbatim. Pair programmingFullWe added new functionality only when working in pairs, improving source code readability. 
+Collective ownershipFullWe used CVS code control with no access restrictions. 
+Continuous integrationFullWe implemented four levels of automated tests with feedback ranging from seconds to hours. 
+Sustainable pacePartialConcurrent duties and nonoverlapping schedules made the pace difficult to sustain. 
+On-site customerPartialOur most difficult practice was very beneficial when implemented diligently. It can lead to loss of 
+focusif not followed. 
+Coding standardsFullCode had to be mutually understandable to both members of the pair. Clarity, over
+consistency, was the guideline.
+ cross-fertilization of tricks and tips that accel-
+erated individual coding rates. Collective ownershipThe collective code ownership practice con-flicted with our established practices in the
+
+field and conflicted with the promotion crite-
+
+ria. We didnÕt experience any problems, but
+
+we donÕt yet know the long-term impact of not
+
+having sole code ownership with regard to
+promotion potential. However, we anticipate
+
+that the more prolific research output enabled
+by XP will more than compensate for the loss
+
+of single code ownership in terms of profes-
+sional prestige. Sustainable paceXPÕs 40-hour week was problematic, though
+perhaps for an inverse reason as encountered in
+programming shops. We had only about 10
+
+hours per week mutually available for joint
+programming, with the rest of the time ab-
+
+sorbed by responsibilities for other tasks or un-
+
+available owing to conflicting schedules. We
+
+thus negotiated pair programming time during
+daily stand-up meetings, and we always added
+new functionality during joint sessions in a test-
+
+driven format. With the pair-created tests serv-
+
+ing as a safety net, we allowed solo refactoring
+to increase the rate of progress. Also, we occa-
+sionally conducted disposable spikes and frame-
+work support on our own. Test-driven development
+Testing, perhaps ironically for a scientific re-
+search community, was not commonly done at
+
+the unit level prior to this project, and it also
+
+wasnÕt clear what would be the appropriate
+
+granularity for tests. However, we implemented
+
+four levels of fully automated testing. We wrote
+
+unit tests using an xUnit framework for each
+class. We ran the collection of all unit tests
+along with an instantiation of the algorithms
+devoid of the user interface as the integration
+
+test, running in a matter of seconds. Smoke
+tests, running in under a minute, exercised
+complete paths through the software, including
+
+the user interface. Full stress tests, which took
+hours, included acceptance tests, performance
+monitoring, distributed processing, and numer-
+
+ical proofs of the algorithms for properties such
+
+as positivity and order of accuracy. We could
+
+initiate all levels of testing at any time and au-
+
+tomatically executed all forms nightly.
+MetaphorWe conducted a search for a system
+metaphor and eventually selected the naive
+metaphor, as no other analogy seemed suit-
+
+able. The naive metaphor worked well, since
+both the customer and developer (often the
+same person) spoke the same jargon.Continuous integrationContinuous integration conflicted with thetraditional approach of implementing algo-
+rithms in large chunks. We addressed this by
+
+assembling a dedicated integration machine
+and by crafting scripts to automate develop-
+ment and testing tasks. The planning game
+and simple design helped pare implementa-
+tions down to small chunks suitable for fre-
+quent integration.ResultsThe pilot project consisted of two release
+cycles, each subdivided into three two-week it-
+erations, for a total project length of 12
+
+weeks. Table 2 lists the estimated and actual
+
+pair time spent working on stories and tasks
+for each iteration. The times reported do not
+
+include time spent on the planning game (usu-
+ally two hours at the start of each iteration).
+The overall average velocity for the project
+was approximately one, and the average time
+per week spent on development was approxi-
+mately eight hours.The measured velocities show variations inthe work pace from twice as fast as expected
+
+to half speed. For the first iteration, the actual
+time to code the selected features took about
+as long as we expected. For the next two iter-
+
+ations, our proficiency improved such that we
+completed tasks in about half the time ex-
+
+pected. By iteration 2.1 (first iteration of sec-
+
+ond release cycle), we incorporated the im-
+34IEEE SOFTWARE
+http://computer.org/software
+Table 2Work effort for two-week iterations over 
+two release cyclesIterationTotal
+1.11.21.32.12.22.3
+Estimated hours19141581729102
+Actual hours22888301894
+Velocity12210.51.51
+ proved work rate into our predictions of task
+times, halving the times that would have been
+predicted for the first cycle, so that although
+
+the ÒvelocityÓ dropped to one, the actual work
+pace was remaining constant.During iteration 2.2, the velocity droppeddramatically to one-half. We had become
+
+overly confident and sloppy. The tasks were
+
+not well defined during the planning game and
+the task times were not well estimated. The
+process of breaking requirements down into
+specific tasks during the planning game is a
+key part of system designing in XP, and we
+
+struggledwith the poor design. Although we
+
+could sense during the iteration that the rate
+of progress had slowed, the velocity measure-
+ment clearly made the productivity drop visi-
+ble, and the short iteration cycle kept the
+
+problem from dragging on. We took the plan-
+
+ning game more seriously for the final itera-
+tion and productivity improved.We produced 2,545 lines of Ruby code for
+an average of 27 lines per hour (productivity of
+a pair, not an individual). A breakdown of the
+
+types of code written shows that the average
+
+pair output was the implementation of one
+
+method with an associated test containing six
+
+asserts every 45 minutes. This productivity in-
+
+cludes design and is for fully integrated, refac-
+
+tored, tested, and debugged code. Our prior
+performance on similarly scoped projects not
+developed using XP has shown an average pro-
+ductivity of 12 lines per hour, or 24 lines per
+
+hour for two workers. However, this historical
+
+productivity is for designed and integrated, but
+
+not tested, code. Furthermore, a subjective
+
+opinion of code clarity shows a strong prefer-
+ence toward the pair-developed code.
+Of the total software written, 912 lineswere for production code, 1,135 lines were for
+
+test code, and 498 lines were for testing scripts
+and development utilities. The production
+code contains 120 method definitions, exclu-
+sive of attribute accessor methods. The auto-
+mated test code, both unit and acceptance,
+contain 128 specific tests implementing 580 as-
+sertions. A prior, non-XP project we performed
+
+implementing comparable functionality re-
+quired 2,144 lines of code, approximately
+twice as large as the current production code.
+We attribute the reduction in lines of code per
+
+functionality to merciless refactoring, the con-
+cisely expressive nature of the dynamically
+typed Ruby language, and the continuous codereview inherent in pair programming. Table 3
+summarizes our productivity results.Our results indicate that the XP approachto software development is approximately
+twice as productive as similar historical proj-
+ects weÕve undertaken. This study imple-
+mented functionality at the historical rate but
+also supplied an equal amount of supporting
+tests, which are critical to the research effortÕs
+
+scientific validity and were not included in the
+historical productivity rates. Furthermore, the
+
+functional code base is about half as many
+lines of code as expected, and the codeÕs read-
+
+ability was much improved. Continual refac-
+toring, emergent design, and constant code re-
+view, as provided by XP, are largely responsible
+
+for the improved code aesthetics.Our pilot projectÕs evaluation endorses
+
+using XP for mission-critical software
+
+development at NASAÕs Langley Re-
+search Center. Currently, XP practices are be-
+
+ing adopted by the High-Energy Flow Solver
+Synthesis project, which has been in progress
+for three years and employs 10 to 15 people
+(see http://hefss.larc.nasa.gov). The HEFSS
+
+legacy code contains over 500,000 lines of
+Fortran90, a procedural language that is more
+challenging to apply agile development meth-
+ods to than is an object-oriented language
+such as Ruby. Full XP techniques are being
+
+used with Ruby for a variety of maintenance,
+support, and testing tasks: Fortran templating,
+automated generation of complex arithmetic
+code versions, generalized Fortran unit testing
+framework development, continuous regres-
+sion suite automation, and release, installa-
+tion, and configuration scripting. May/June 2003IEEE SOFTWARE
+35Table 3Productivity measuresTotalPer pair-hour
+aProduction code Lines91210
+Functions1201.3
+Test codeLines113512
+Tests1281.4
+Assertions5806
+Utility scriptsLines4985
+aTotal pair output per hour is the sum of this column, and includes design, keyboarding, and debugging time.
+ 36IEEE SOFTWARE
+http://computer.org/software
+Although the HEFSS teamÕs transition to
+the XP development model is not fully com-
+
+plete, response from the participants has been
+
+favorable. Adhering to XP practices enhanced
+the development pace, bug trapping, and
+maintenance tasks. The prior software devel-
+opment process was not well defined and did
+
+not track progress metrics, precluding a quan-
+tifiable statement about the benefits of XP
+
+adoption for HEFSS.References1. D. Thomas and A. Hunt, 
+Programming Ruby: ThePragmatic ProgrammerÕs Guide
+, Addison-Wesley, 2001.
+2. Y. Matsumoto, 
+Ruby in a Nutshell: A Desktop QuickReference, OÕReilly & Associates, 2002.3. K. Beck, 
+Extreme Programming Explained: EmbraceChange, Addison-Wesley, 2000.
+4. Workforce Compensation and Performance Service: Re-
+search Grade Evaluation Guide, Transmittal Sheet TS-
+23, Office of Personnel Management, Washington,
+
+D.C., 1976; www.opm.gov/fedclass/gsresch.pdf.
+5. C. Alexander, S. Ishikawa, and M. Silverstein, 
+A PatternLanguage: Towns, Buildings, Construction
+, Center forEnvironmental Structure, Oxford Univ. Press, 1977.
+6.  M. Fowler, 
+Refactoring: Improving the Design of Exist-ing Code, Addison-Wesley, 1999.
+7.E.M. Goldratt and J. Cox, 
+The Goal: A Process of On-going Improvement, 2nd ed., North River Press, 1992.For more information on this or any other computing topic, please visit ourDigital Library at http://computer.org/publications/dlib.
+About the AuthorsWilliam A. Wood
+is a researcher in the Aerothermodynamics Branch of the NASA Lang-ley Research Center. His research interests include reentry aerothermodynamics. He received
+
+his PhD in aerospace engineering from Virginia Tech. He is a member of the American Inst. of
+
+Aeronautics and Astronautics.Contact him at william.a.wood@nasa.gov. 
+William L. Kleb
+is a researcherin the Aerothermodynamics Branch of the NASA Lang-
+ley Research Center. His research interests include reentry aerothermodynamics. He is also a
+
+PhD candidate in aerospace engineering at the University of Michigan. He is a member of the
+American Inst. of Aeronautics and Astronautics. Contact him at william.l.kleb@nasa.gov.
+http://computer.org/security
+IEEE Security & Privacy
+Ensure that your networks operate safely and provide critical
+services even in the face of attacks. Develop lasting security
+
+solutions, with this new peer-reviewed publication. Top security
+
+professionals in the field share information you can rely on:  
+DonÕt run the risk!Be secure.Order your charter
+subscription today.
+¥Wireless Security
+¥Securing the Enterprise¥Designing for Security
+¥Infrastructure Security
+¥Privacy Issues
+¥Legal Issues ¥Cybercrime
+¥Digital Rights Management ¥Intellectual Property Protection and
+Piracy
+¥The Security Profession 
+¥Educationfor

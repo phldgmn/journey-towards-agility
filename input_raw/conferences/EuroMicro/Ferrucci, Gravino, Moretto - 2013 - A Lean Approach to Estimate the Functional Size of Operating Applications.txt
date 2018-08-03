@@ -1,0 +1,1362 @@
+ A Lean Approach to Estimate the Functional Size of Operating Applications 
+ 
+ 
+Filomena Ferrucci, Carmine Gravino 
+DISTRA(MIT) 
+University of Salerno 
+Fisciano (SA), Italy 
+{fferrucci, gravino}@unisa.it 
+Guido Moretto  
+InfoCamere  
+Corso Stati Uniti 14, 35127 
+Padova, Italy 
+guido.moretto@infocamere.it
+ 
+ 
+Abstract
+—Functional size measures have been gaining 
+increasing acceptance not only for project estimation and 
+productivity comparisons but also for the evaluation of the 
+company assets concerning with operating applications. 
+However, functional sizing 
+operating applications can 
+represent a complex task (they could be developed in past 
+projects, in some cases by others, with long standing 
+technologies, and without useful documentation supporting 
+them). Thus, companies require cheaper strategies to estimate 
+functional size of these applicatio
+ns. To this end, we proposed 
+some measurement approaches concerning with the number of 
+physical tables and the number of read and read/written tables 
+that can be easily collected from the database schema and the 
+application interfaces. We assessed the effectiveness of the 
+proposals performing an empirical study based on 17 
+applications of an Italian comp
+any. The results highlight that 
+the proposed approaches allowed to obtain accurate functional 
+size estimations, thus turning out 
+to be suitable for the involved 
+company. 
+Keywords- Software functional 
+size measurement, Function 
+Points, Physical tables, Operating applications  
+I.
+ 
+ 
+I
+NTRODUCTION
+ 
+Software sizing is crucial during the whole software 
+development process since it supports other project 
+management activities (e.g., es
+timating, allocating, or 
+tracking) [15]. Among the 
+measurement approaches 
+proposed in the literature, Functional Size Measurement 
+(FSM) is widely employed to measure the size of Users 
+Functional Requirements [20]. The first FSM method was 
+Function Point Analysis (FPA
+) proposed by Albrecht [2]. 
+Function Points are widely adopted since they are 
+independent from the non-func
+tional technical and quality 
+requirements [48]. Furthermore, 
+it is an ISO standardized 
+technique [24] and some organi
+zations (e.g. IFPUG [22] and 
+NESMA [41]) works around the world to improve and 
+promote the application of the approach.  
+Measuring the size of operating software applications is 
+also crucial for companies when they want to have a clear 
+“quantification” of the company software applications stock 
+for several purposes, e.g., to 
+support the decisions of the 
+board of directors, to provide 
+attestations with stakeholders, 
+etc… This measurement is considered a complex task since 
+the company stock can contain applications developed in 
+several past projects that e
+volved several times, possibly 
+with several development processes, in many cases 
+developed by others, with l
+ong standing technologies, and 
+without useful documentation 
+supporting them. Thus, it is 
+often hard to find people of the company that have a 
+complete view of the whole a
+pplication. As a consequence, 
+to carry out the measurem
+ent, it is necessary to 
+contact/interview several people to get information and 
+partial and inconsistent answers could be obtained. As a 
+result an undefined level of uncertainty is introduced in the 
+measurement that is based just on the information specified 
+by the involved people. 
+Furthermore, 
+the measurement of 
+operating applications can also be very expensive since the 
+companies have to involve experts of the specific functional 
+size measurement method.  
+Thus, it could be very useful to identify an approach able 
+to estimate the functional size of operating applications 
+using specific technical compone
+nts, easily available to a 
+project manager without empl
+oying further resources. It 
+could be argued that the most 
+simple way to do this might 
+be to count the number of Lines Of Code (LOC) and then 
+use a backfiring approach [26] to derive an estimation of the 
+functional size of the application. Nevertheless, how 
+highlighted by the practitioners of the software company 
+involved in our study and how it is also reported in the 
+literature [14] LOC and backfiring present several 
+drawbacks due to the use of different platforms and 
+programming languages and the lack of a standard way to 
+do the counting. 
+Thus, in this paper we present simple sizing approaches 
+to be applied on operating applications based on specific 
+software components, such as 
+the number of physical tables 
+and the number of read and read/written tables that can be 
+obtained by the technical responsible of the software 
+application by exploiting the database schema and the 
+application interfaces. This information is that employed by 
+measurers to determine the 
+Base Functional Components 
+(BFCs) when a functional size measurement method, like 
+IFPUG Function Points or COSMIC, is applied to determine 
+the size of an application. Th
+e idea motivating our research 
+is similar to the one behind investigations proposing the use 
+2013 39th Euromicro Conference Series on Software Engineering and Advanced Applications978-0-7695-5091-6/13 $26.00 © 2013 IEEEDOI 10.1109/SEAA.2013.40284 of single BFCs to provide
+ estimates of software 
+development effort 
+as soon as possible during the first 
+phases of the software life cycle (e.g., [8][9][19]).
+ 
+Then, we carried out an em
+pirical study to assess the 
+proposed approaches for estimating the functional size of 
+operating applications given 
+in terms of IFPUG Function 
+Points [22].  
+In particular, the research questions addressed in this 
+paper are:  
+RQ1: 
+Can the number of physical tables be exploited to 
+predict the application size (in terms of Function Points)?
+ 
+RQ2: 
+Can the number of read and read/written tables be 
+exploited to predict the application size (in terms of Function 
+Points)?
+ 
+To perform the empirical analysis we have exploited data 
+from 17 applications managed by an Italian company. As for 
+the technique, we employed linear
+ regression analysis using 
+a leave-one-out cross validation. In order to assess the 
+accuracy of the obtained size es
+timations we have employed 
+summary measures like MMRE, MdMRE, and Pred(25), 
+which are widely used evaluation criteria. Boxplot of 
+residuals and statistical test have been also used to compare 
+the accuracy of the estimations achieved with the different 
+prediction models.  
+The paper is organized as follows: Section 2 discusses 
+related work while Section 3 introduces the research method 
+used in this paper. Section 4 presents and discusses the 
+results from the statistical analysis carried out on the 
+employed industrial sample. Sec
+tion 5 discusses threats to 
+validity while Section 6 provides conclusions of the current 
+work and suggests future research directions. 
+II.
+ 
+R
+ELATED WORK
+ 
+To the best of our knowledge no previous work has exploited 
+information on physical tables and the number of read and 
+written tables to estimate functional size of applications. The 
+works proposing the backfiring approach can be considered 
+related to our investigation since the motivations underlying 
+the two researches are quite close, e.g., lack of time and 
+budget to count Function Points and few (or no) 
+documentation available on software requirements to apply 
+Function Points Analysis [14]. Since the initial proposal of 
+Kaper Jones [26], the backfiring approach has been widely 
+applied in practice (e.g., [21][27][37]). However, some 
+papers have highlighted issues in the application of 
+backfiring, mainly related to the LOC and due to the 
+difficulties rising from the use 
+of different platforms and 
+programming languages for the applications to be measured 
+and the lack of a standard way to do the counting 
+[14][43][50].  
+Other researches that can be related to our work are those 
+proposing and/or investigating 
+the use of approximate or 
+simplified sizing approaches 
+and those about the use of 
+single Base Functional Component
+s (BFCs) to provide a size 
+estimation of the 
+application under development as soon as 
+possible during the first phases 
+of the software life cycle. 
+ 
+Two widely known approaches for simplifying the 
+application of Function Points Analysis are the “Early & 
+Quick Function Points (EQFP)” 
+[46] and simplified version 
+of NESMA [41]. The idea behind the application of EQFP is 
+based on the fact that some estimates are required before the 
+requirements analysis is completed. Thus, some information 
+is not available to fully apply FPA and EQFP relaxes the 
+application of the FP met
+hod by not considering some 
+details. The method can also be applied when a complete 
+requirements documentation is available but the managers 
+intend to complete the measurement in less time and with a 
+lower cost (i.e., admitting a trade-off between a correct 
+measurement and time and budget 
+available). In particular, 
+data and processes of an application are classified in several 
+groups according to a hierarch
+y [46], where some groups 
+contain the BFCs of FPA and 
+other groups are aggregation 
+of Base Functional Processes (e.g., Macro Process, General 
+Process) or Data Groups (e.g., Multiple Data Group). The 
+idea of the approach is that different parts of the software can 
+be measured at the different level of details. Thus, exploiting 
+functional components more coarse-grained than the BFCs 
+of FPA, EQFP approach produces an approximation of the 
+size in terms of Function Points.  
+The first approximation s
+uggested by NESMA (named 
+Indicative NESMA) is based on the identification of Internal 
+Logical Files (ILF) and Extern
+al Interface Files (EIF), i.e., 
+without exploiting the cont
+ribution of Transactions 
+Functions (i.e., EI, EQ, a
+nd EO) of FPA, and applying 
+predefined weights [3]. Th
+e second approximation proposed 
+by NESMA (named Estimated NESMA) exploits all the 
+BFCs of FPA, but the complexity of the identified 
+components are not determined. By default, a low 
+complexity is associated to ILF and EIF elements while a 
+medium complexity is considered for EI, EQ, and EO.   
+The above approaches have been applied in [3], where a 
+model based measurement is combined with the application 
+of the NESMA simplified measurement processes. In 
+particular, the software to be 
+measured is first specified in 
+terms of UML documents providing guidelines that allow 
+designer to model all the info
+rmation required to apply FPA. 
+Then, the proposed measuremen
+t method allows to map the 
+UML elements on the BFCs of FPA and obtain the 
+approximate size.  
+EQFP and the two simplified NESMA have been also 
+applied to size both “traditional”
+ and real-time applications 
+for evaluating their accuracy 
+with respect to FPA [34]. 
+The
+ 
+results of the performed analysis show that EQFP was more 
+accurate in size estimation of non real-time applications, 
+while NESMA approaches turned out to be quite good for 
+both applications types.  
+An initial proposal, very close to EQFP has been 
+presented in [36], where 
+the Early Function Points (EFP) and 
+Extended Function Points (XFP) methods have been 
+presented with the purpose 
+of obtaining the amount of 
+Function Points in the early phases of a software 
+development life cycle reducing time and cost.
+ EFP just 
+suggests to apply FPA with 
+the available information 
+obtaining estimations that are compatible with 
+IFPUG 4.0 
+Function Points. XFP extends EFP by applying correction 
+285 factors, based on the level of 
+reuse and on a classification of 
+algorithms in terms of their complexity. EXP is not 
+compatible with 
+IFPUG 4.0 Function Points but in the study 
+carried out 
+in [36] was able to produce better size estimates 
+than EFP. 
+In [42] two size metrics ba
+sed on information obtained 
+from use cases (i.e., transactions and entity objects) are 
+presented and used for effort
+ estimation in two empirical 
+studies. The first study is base
+d on information coming from 
+four academic projects, while the second one employs data 
+from four industrial projects.
+ The goal of the performed 
+analysis was to compare the es
+timations obtained with these 
+two metrics. The results show the use of transactions as a 
+size metric can provide better effort estimation than those 
+obtained with entity objects.  
+Some studies have analyzed 
+the different contribution of 
+BFCs against the overall ‘fsu’ value (e.g., UFP for IFPUG 
+[24] or CFP for COSMIC [
+11]) in estimating software 
+development effort. In particular, two empirical studies 
+based on ISBSG samples [23] showed that linear regression 
+models employing two or more 
+BFCs (e.g., EI, EO, EQ, ILF, 
+EIF for the IFPUG method and Entry, eXit, and Read, Write 
+for the COSMIC method) as inde
+pendent variables instead of 
+the whole single fsu value (e.g., UFP for the IFPUG method 
+or CFP for the COSMIC method) were characterized by 
+more accurate estimations [8], [19]. The study presented in 
+[17] and its replication described in [9] are further 
+applications of the idea proposed
+ in [8], [19], by exploiting a 
+data set of Web applications developed by a single company 
+operating in Italy. The results
+ of the performed empirical 
+analysis confirmed that the use of combinations of two or 
+more BFCs can provide better estimation of development 
+effort. 
+III.
+ 
+R
+ESEARCH METHOD
+ 
+In the following, a description of the industrial data set 
+used in this study as well as the analysis procedure 
+performed to assess our research questions are presented. 
+A.
+ 
+Data set description 
+In our analysis we employed a data set provided by 
+Infocamere
+1
+, the ICT consortium company responsible for 
+the design and management of the network of the Italian 
+Chambers of Commerce nationwid
+e. Its statutory mandate is 
+the management of its key financial registers (register of 
+companies, register of non pa
+yments, statements of accounts 
+etc.). The customer base consis
+ts of 105 Italian Chambers of 
+Commerce, professional associations, trade associations, 
+local and central public administrations, business and 
+economic information agencies. 
+In particular, InfoCamere 
+has developed and manages the national system of data 
+transmission connecting the 105 Chambers of Commerce 
+and their 300 branch offices via a high speed, high security 
+network. It is also the nati
+onal certifying Authority issuing 
+digital certificates for Tachograph Cards. The company 
+designs, develops and delivers services via a Management 
+                                                             
+1
+ www.infocamere.it 
+System that complies with ISO 9001, having initially been 
+certified in 1997 (ISO 9001:1994), then approved for Vision 
+2000 (ISO 9001:2000) and finally extended to the latest 
+version (ISO 9001:2008) in March 2009.  
+The company provided us information on a set of 17 
+applications consisting of ma
+nagement information systems 
+(50%) and applications mainly characterized by query and 
+reporting systems (50%). These applications were 
+developed between 2005 and 2010 and can be considered 
+quite homogeneous in terms of adopted technologies (Java, 
+Asp, PL/SQL), and development 
+teams. No selection of the 
+applications was done.  
+The information we exploited 
+in our empirical analysis 
+are: application size, in term
+s of number of Function Points, 
+the number of physical tables, a
+nd the number of read tables 
+and the number of read/written tables. The number of 
+Function Points refers to the result of the application of 
+IFPUG measurement method to the deployed software 
+product. This measurement task 
+is included in the software 
+life cycle for each project developed by the company. This 
+information contributes to th
+e productivity database of the 
+company, together with the 
+information on the development 
+effort, and it is exploited for internal benchmarking 
+purposes (to verify the company trend year by year) and by 
+project managers for providing initial estimates for new 
+projects. The number of physical
+ tables has been obtained 
+from the database schema and the application interfaces of 
+the considered operating applications. The available 
+documentation allowed us to collect the number of read 
+tables and the number of read/written tables. We did not use 
+all the three measures together since the number of read 
+tables and the number of read/written tables are obtained by 
+further classifying the physical tables.
+ 
+Data collection was 
+made by the same person of the company to improve 
+consistency among measurements. 
+Table I reports the descriptive statistics of the variables 
+FP, denoting the application size in terms of number of 
+Function Points; T, denoting the number of physical tables; 
+R, denoting the number of tables that are read; and R/W, 
+denoting the number of tables that are read and written, for 
+the applications considered in our study
+2
+. 
+TABLE I. 
+ 
+D
+ESCRIPTIVE STATISTICS OF THE EMPLOYED DATA SET
+ 
+ Entity Obs Min Max Mean Median Std.Dev 
+ FP 17 78 710 234.7 150 182.42 
+ T 17 7 69 24.94 17 18.98 
+ R 17 3 56 19.18 8 19.68 
+ R/W 17 3 21 0.82 8 5.78 
+ 
+B.
+ 
+Analysis procedure 
+The goal of our study is to veri
+fy whether or not the number 
+of physical tables (and the number of read and written 
+                                                             
+2
+ For confidentiality reasons, it’s not possible to provide details 
+from the projects but only the high-level figures. 
+286 tables) can be exploited to predict the application size (in 
+terms of Function Points). To this end, we first verified the 
+strength of the relationship between FP and T and between 
+FP and R and R/W. In particular, we exploited Linear 
+Regression (LR) and Manual Stepwise Regression (SWR). 
+LR is one of the most commonl
+y used statistical techniques 
+for exploring the relationship between a dependent variable 
+and one or more independent
+ variables, providing a 
+prediction model described by an equation [35]:  
+y = b
+1
+x
+1
+ + b
+2
+x
+2
+ + ... + b
+n
+x
+n
+ + c   
+(1) 
+where 
+y
+ is the dependent variable (the size), 
+x
+1
+, 
+x
+2
+, ..., 
+x
+n 
+are 
+the independent variables (the 
+predictors) with coefficient 
+b
+i
+, and 
+c
+ is the intercept. In our empirical study we have 
+exploited LR to obtain linear regression models that use FP 
+as dependent variable and T as independent variable.  
+For R and R/W, we applied SWR that allows us to 
+obtain estimation models by 
+adding, at each step, the 
+independent variable with the highest association to the 
+dependent variable, taking into account all the variables 
+(i.e., R and R/W) currently in the model. To select the 
+variables to be added in the model a Manual SWR (MSWR) 
+can be applied, using the technique proposed by 
+Kitchenham in [28]. The idea underlying this procedure is to 
+find the set of independent vari
+ables that better explain the 
+variation in the dependent variable, and then to use linear 
+regression to obtain the final model.  
+To evaluate the goodness of fit of a regression model, 
+several indicators can be 
+considered. Among them, the 
+square of the linear correlation coefficient, R
+2
+, shows the 
+amount of the variance of the dependent variable explained 
+by the model related to the independent variable. Other 
+useful indicators are the F value and the corresponding p-
+value (denoted by Sign F), which high and low values, 
+respectively, denote a high degree of confidence for the 
+prediction. We have also considered the p-values and t-
+values for the corresponding coefficients and the intercept. 
+The p-values give an insight into the accuracy of the 
+coefficients and the intercept, whereas their t-values allow 
+us to evaluate their importa
+nce for the built model. In 
+particular, p-values less than 0.05 are considered an 
+acceptable threshold, meaning that the variables are 
+significant predictors with a confidence of 5%. As for the t-
+value, a variable is significant if its value is greater than 1.5. 
+It is worth noting that wh
+enever variables are highly 
+skewed they can be transformed before being used in the 
+linear regression. This is done to satisfy the assumptions 
+underlying linear regression anal
+ysis [35]. A widely used 
+transformation is the one considering the natural log (Ln), 
+which makes larger values smaller and brings the data 
+values closer to each other [35]. In addition, whenever a 
+variable needed to be transformed but had zero values, the 
+natural logarithmic transformation was applied to the 
+variables value after adding 1 as done in [38]. Moreover, the 
+stability of each model built using linear regression should 
+be verified. In order to accomplish this step, we can use a 
+residual plot showing residuals vs. fitted values to 
+investigate if the residuals are randomly and normally 
+distributed [35]. Then, Cook's di
+stance values can be used to 
+identify the influential data points. As suggested in [38] 
+each point having distances higher than 3 
+×
+ (4/n), where n 
+represents the total number of
+ projects, ar
+e immediately 
+removed from the data analys
+is. On the other hand, the 
+points having distances higher th
+an 4/n but smaller than (3 
+×
+ 
+(4/n)) are removed and the stability of model is tested by 
+analyzing the effect of their removal on the model. If the 
+goodness of fit improves (i.e., a higher R
+2
+ is obtained and 
+the coefficients of the mode
+l remain stable then the 
+influential data points are not excluded from the analysis. 
+Moreover, to validate the accuracy of the obtained size 
+estimation models (i.e., to verify whether or not the 
+predicted sizes were useful estimations of the actual sizes) 
+we exploited a leave-one-out cr
+oss validation. It is widely 
+used in empirical studies when
+ dealing with small data sets 
+[4]. In particular, to apply the technique, the original data set 
+is divided into N different subsets (where N is the size of the 
+original data set) of training and validation sets, where each 
+validation set has one data point. Then, N steps are 
+performed and at each step, the training set is used to 
+determine the estimation model and the validation set to 
+assess the obtained estimates. The accuracy of the obtained 
+estimations is assessed by using summary measures MMRE, 
+MdMRE and Pred(l) [10], which have been widely used in 
+empirical studies to assess 
+the accuracy of software 
+development effort estimation models (see e.g., [5], [13], 
+[16], [25], [29], [38], [39], [45]). We have calculated 
+summary measures as describe in the following. The 
+Magnitude of Relative Error can be defined as: 
+MRE = |SIZEreal — SIZEpred | / SIZEreal  
+(2) 
+where SIZEreal and SIZEpred are the actual and the 
+predicted sizes, respectively. MRE has been calculated for 
+each point in the data set. All the MRE values were 
+aggregated across all the data points using the mean and the 
+median, giving rise to the Mean of MRE (MMRE) and the 
+Median MRE (MdMRE). 
+The prediction at level 
+l
+ [10], defined as:  
+Pred(l) = k /N     
+(3) 
+where 
+k
+ is the number of data points whose MRE is less 
+than or equal to 
+l
+, and N is the total number of data points. 
+Pred(
+l
+) is a quantification of the percentage of predictions 
+whose error is less than 
+l
+%. In the context of effort 
+estimation, where these measures were proposed [10], 
+l
+ is 
+widely set to 0.25 and a good 
+estimation model should have 
+a MMR
+estimation error should be less than 25%, and at least 75% 
+of the estimated values shoul
+d fall within 25% of their 
+actual values [10]. In the current study, which can be 
+considered a preliminary investigation, we decided to use 
+l
+=0.25. In the future, we will 
+further analyze this point.  
+287 Since MMRE and Pred(0.25) could fail in fully 
+representing a phenomenon as argued in [31], [32], we 
+complemented these indicators 
+with the analysis of the 
+boxplots of absolute residuals. Boxplots are widely 
+employed in exploratory data an
+alysis since they provide a 
+quick visual representation to summarize the data, using five 
+values: median, upper and lower quartiles, minimum and 
+maximum values, and outliers [32]. We used boxplots to 
+graphically render the spread 
+of the absolute residuals, 
+calculated as |SIZEreal – SIZEp
+red|. Moreover, we tested 
+the statistical significance of the obtained results, by using 
+Wilcoxon test on absolute residuals, in order to establish if 
+one of employed estimation models provided better results 
+than the others [32], [46]. In particular, we verified the 
+following null hypothesis: “the 
+two considered populations 
+have identical distributions”. Th
+is kind of test is used to 
+verify the hypothesis that the mean of the differences in the 
+pairs is zero. In all the performed statistical tests we 
+decided, as usual, to accept a probability of 5% of 
+committing a Type-I-Error [49], i.e., of rejecting the null 
+hypothesis when it is actually true. 
+IV.
+ 
+R
+ESULTS AND DISCUSSION
+ 
+A.
+ 
+Relationship between FP and T 
+In order to apply LR we first verified the normality of 
+distributions (i.e., FP and T). In particular, we applied to the 
+Shapiro test [44], by considering as null hypothesis the 
+normality of the distributions. The test results revealed that 
+FP and T distributions were not
+ normally distributed since 
+the p-values were less than 0.05 for almost all the considered 
+data sets (see Table II). So, as usual for this kind of study 
+(see e.g., [5], [6], [30]), 
+we decided to apply a Log 
+transformation of the variables.  
+Moreover, the application of LR requires the verification 
+of the following assumptions: lin
+earity (i.e., the existence of 
+a linear relationship between the independent variable and 
+the dependent variable); homos
+cedasticity (i.e., the constant 
+variance of the error terms for all the values of the 
+independent variable); and residual normality (i.e., the 
+normal distribution of the error terms).  
+TABLE II. 
+ 
+N
+ORMALITY OF DISTRIBUTIONS
+ 
+SHAPIRO  
+TEST 
+ 
+FP T 
+t-statistic 0.745 0.832 
+p-value <0.01 <0.01 
+ 
+Linearity
+. The Pearson's correlation test revealed that there 
+was a linear relationship between the dependent (FP) and 
+the independent variables (T) involved in the model (p-
+value = <0.01) [18]. 
+Homoscedasticity
+. We investigated the homoscedasticity 
+assumption by performing a Breush
+-Pagan Test [1], with the 
+homoscedasticity of the error 
+terms as null hypothesis. The 
+assumption can be considered to be verified since the p-
+values (0.349) was greater than 0.05 and thus the null 
+hypothesis cannot be rejected. 
+Residual normality
+. To verify the normality assumption, we 
+used the Shapiro-Wilk Test, by considering as null 
+hypothesis the normality of error terms. The results of the 
+test revealed that the assumption can be considered to be 
+verified since the p-value (0.
+321) was greater than 0.05 and 
+thus the null hypothesis cannot be rejected. 
+It is worth noting that we al
+so verified the presence of 
+extreme values that might 
+unduly influence the models 
+obtained from the regression analysis. As designed in 
+Section III.B, we used Cook's 
+distance to identify possible 
+influential data points. In par
+ticular, the data points with a 
+Cook's distance higher than 0.
+24 (= 4/17, where 17 is the 
+number of data points) were removed from the 
+corresponding training set in order to test the model stability. 
+The analysis of outliers revealed that data point 17 (Cook's 
+distance = 0.31), 2 (Cook's di
+stance = 0.46), and 7 (Cook's 
+distance = 0.68) may be influe
+ntial data points. New models 
+were generated without these data points. In the new models 
+the independent variable (i.e., T) remained significant, the R
+2
+ 
+improved a little, and the coefficients present similar value to 
+the ones in the previous models. Thus, these data points were 
+not removed [38]. 
+Table III presents the results
+ of the LR analysis with 
+statistics on useful indicators to verify the quality of the 
+obtained models. 
+TABLE III. 
+ 
+T
+HE RESULTS OF THE 
+LR
+ ANALYSIS USING 
+T
+ AS 
+INDEPENDENT VARIABLE
+ 
+ Value Std.Err t-value p-value 
+Intercept 2.715 0.238 11.39 <0.01 
+Coefficient of T 0.850 0.078 10.88 <0.01 
+ R
+2
+ Std.Err F Sign F 
+ 0.888 0.222 118.5 <0.01 
+ 
+We can observe that the linear regression analysis was 
+successfully applied. Indeed, the obtained model is 
+characterized by a high R
+2
+ value (89%), that is the amount 
+of the variance of the dependent variable FP that is 
+explained by the model related to the variable T. 
+Furthermore, a high F value 
+(118.5) and a low p-value 
+(<0.01) are obtained, indica
+ting that the prediction is 
+possible with a high degree of confidence. The t-values and 
+p-values for the coefficient and the intercept are greater than 
+1.5 and less than 0.05, respectively, meaning that T is a 
+significant predictor with a confidence of 95%.  
+The Equation as read from 
+the final model’s output is: 
+LnFP
+ = 0.850 
+·
+ 
+LnT
+ + 2.715  (1a) 
+which, when transformed back 
+to the raw data scale, is: 
+FP
+ = 15.105 
+·
+ 
+T
+0.850
+  (1b) 
+As designed in Section III.B, to evaluate the size 
+estimation accuracy we performed a leave-one-out cross 
+validation, whose results are 
+reported in Table IV. We can 
+288 conclude that T is a good indicat
+or of functional size, when 
+used in combination with LR, since MMRE and MdMRE 
+values are less than 0.25. Pred(0.25) value is quite close to 
+0.75. These results suggest that the software company 
+involved in our study coul
+d obtain application size 
+estimations just exploiting in
+formation on physical tables, 
+with an error of about 21%. 
+TABLE IV. 
+ 
+A
+CCURACY RESULTS FOR 
+T
+ BASED MODEL
+ 
+MMRE MdMRE 
+Pred(0.25) 
+0.21 0.18 0.71 
+ 
+B.
+ 
+Relationship between FP and R and R/W 
+In this section we report on the analysis performed to 
+investigate the contribution of 
+R and R/W to functional size. 
+Similar to the analysis performed in the previous section, 
+before applying linear regression we carried out a Log 
+transformation since the Shapiro 
+test revealed that FP, R, 
+and R/W distributions were 
+not normally distributed.  
+We first verified the linear regression assumptions, i.e., 
+linearity, homoscedasticity, and residual normality. The 
+Pearson's correlation test re
+vealed a linear relationship 
+between FP and R (p-value = <0.01), while for R/W the 
+correlation was not so strong (p-value = 0.07). As for 
+homoscedasticity, we applied the Breush-Pagan Test [1]. 
+The results revealed that the assumption can be considered 
+to be verified (p-value = 0.973). The residual normality 
+assumption was confirmed by the Shapiro-Wilk Test (p-
+value = 0.994). The analysis of outliers revealed the 
+presence of influential data points (extreme values that 
+unduly affected the estimation 
+model), which were removed 
+from the dataset.  
+It is worth to point out that the application of MSWR 
+revealed that the best fitting model was the one including 
+both R and R/W as independent variables.  
+Table V presents the results of LR and MSWR with 
+statistics on useful indicators to verify the quality of the 
+obtained model. We can observe that the model is 
+characterized by a high R
+2
+ since about 94% is the amount of 
+the variance of the dependent variable FP that is explained 
+by the model related to the variables R and R/W. Moreover, 
+the coefficients of R and R/W were characterized by a p-
+value less than 0.05 and a t-value greater than 1.5, meaning 
+that they are significant pred
+ictors with a confidence of 
+95%. 
+The Equation as read from the final model’s output is: 
+LnFP = 
+3.048
+ + 
+0.486
+ · LNR + 
+0.534
+ · Ln R/W 
+(2a) 
+which, when transformed back to the raw data scale, is: 
+FP = 
+21.073
+ · R
+0.486
+ · R/W
+0.534  
+(2b) 
+The leave-one-out cross validation performed to evaluate 
+the size estimation accuracy produced MMRE = 0.11, 
+MdMRE = 0.12, and Pred(0.25) 
+= 0.73 (Table VI). We can 
+conclude that also R and R/W 
+can be profitably exploited to 
+estimate the functional size, when used in combination with 
+linear regression, since MMRE and MdMRE values are less 
+than 0.25. Furthermore, Pred(25)
+ value is quite close to 0.75. 
+In particular, the software company involved in our study 
+could obtain application size 
+estimations that should be 
+characterized by an error less than 12% just exploiting 
+information on the number of read and read/written tables. 
+TABLE V. 
+ 
+T
+HE RESULTS OF THE 
+LR
+ ANALYSIS USING 
+R
+ AND 
+R/W
+ AS 
+INDEPENDENT VARIABLES
+ 
+ Value Std.Err t-value p-value 
+Intercept 3.048 0.209 14.563 <0.01 
+Coefficient of Log R 0.486 0.048 10.563 <0.01 
+Coefficient of Log 
+R/W 
+0.534 0.084 6.371 <0.01 
+ R
+2
+ Std.Err F Sign F 
+ 0.939 0.172 77.71 <0.01 
+ 
+TABLE VI. 
+ 
+A
+CCURACY RESULTS FOR 
+R
+AND 
+R/W
+ BASED MODEL
+ 
+MMRE MdMRE 
+Pred(0.25) 
+0.11 0.12 0.73 
+ 
+C.
+ 
+Comparison of the obtained models 
+The analysis has revealed that
+ T, R, and R/W are significant 
+predictors of functional size and the estimation models are 
+characterized by an MMRE less than 21% in the worst case. 
+Thus, we can positively answer our research questions, i.e., 
+RQ1 and RQ2.  
+We can also observe that the higher R
+2
+ and the lower 
+MMRE were obtained with R and R/W. However, the 
+results of T are close. The an
+alysis of boxplots in Figure 1 
+also suggests that the distribu
+tions of the two models are 
+quite similar since the box length and tails of the two 
+boxplots are quite similar and both have an outlier. 
+However, we can note that the median of the boxplot for the 
+R and R/W based model is more close to zero.  
+ 
+Figure 1. 
+ 
+Fig. 1. Boxplot of absolute residuals 
+This is confirmed by the comparison between the obtained 
+models performed through the 
+analysis of the absolute 
+residuals, looking for statistically significant differences 
+289 [32], [46]. The results of the Wilcoxon test revealed that 
+there was no significant difference between the absolute 
+residuals obtained with the tw
+o models (p-value = 0.643). 
+V.
+ 
+THREATS
+ 
+TO
+ 
+VALIDITY 
+The collection of the information to determine size 
+measures represents a crucial aspect and can bias the 
+construct validity. The measurement task (of development 
+effort and functional size) is included in the software life 
+cycle for each project devel
+oped by the company involved 
+in our study. Thus, we are sure that the collection of 
+information is performed in a uniform fashion. Reliability of 
+the data and lack of standardization should be taken into 
+account for the internal validity [32][33][39]. The 
+questionnaires used to collect the information on the 
+employed measures were the sam
+e for all the applications 
+and the project managers were instructed to correctly 
+provide the required information.
+ Instrumentation effects in 
+general did not occur in this kind of studies. As for the 
+conclusion validity, we carefully applied the estimation 
+method and the statistical test
+s, verifying all the required 
+assumptions. With regard to the external validity, it is 
+recognized that the results obtained in an industrial context 
+might not hold in other contexts [7]. 
+VI.
+ 
+C
+ONCLUSIONS
+ 
+We have presented an empirical study performed to assess 
+whether the number of physical tables and the number of 
+read and read/written tables can be exploited to estimate the 
+functional size of applications. We have employed 17 
+applications from InfoCamere, an Italian company, and 
+exploited linear regression to build the estimation models.  
+The results revealed that both the T based model and the 
+R and R/W based model provided good estimations of the 
+functional size of the 17 appli
+cations involved in the study. 
+Indeed, the models are characterized by an MMRE of 21% 
+and 12%, respectively. 
+The results are considered interesting by the company 
+providing the data since the asset of the software 
+applications stock can be estim
+ated just looking at specific 
+components easy to obtain. I
+ndeed, the main goal was to 
+find a cheap approach to be employed as support for 
+decisions of the board of directors and for attestations with 
+stakeholders. Just to give an idea of the possible benefits, 
+the Italian software company involved in our study needs 
+about 4-6 hours to size a medi
+um application by applying 
+the traditional IFPUG Function Points Analysis (without 
+considering the time spent to interview the people for 
+searching the relevant information). On the other hand, the 
+proposed approach based on the use of tables required about 
+30 minutes. It is important to 
+observe that, before applying 
+the proposed method based on physical tables, InfoCamere 
+tried to apply the LOC based backfiring approach [26]. 
+However it was considered not feasible by project managers 
+due to several managerial issues, e.g., several programming 
+languages were used to develop the operating software 
+applications and the tool em
+ployed for one language could 
+not be employed for another one; a developer of the 
+application to be measured had to be involved; and the 
+source code of a complex application turned out to be hard 
+to analyze.  
+Since replications of a stud
+y, in different settings and 
+with larger data sets, are always required, as future work, we 
+also plan to collect and analyze data from the same 
+company as well as from others. Moreover, we would like 
+to investigate if the proposed approach can be used also to 
+estimate the size expressed in terms of other Functional Size 
+Measurement methods, such as COSMIC. 
+Furthermore, we intend to compare our approach with 
+more sophisticated ones, such
+ as Indicative and Estimated 
+NEMSA, and the four types of
+ approximations proposed for 
+COSMIC, i.e., Average Functional Process, Fixed Size 
+Classification, Equal Size Bands, and Average Use Case 
+[12]. Although they have been proposed with different 
+goals, namely for estimating the size in the early phase of 
+the development, they share with 
+us the need to allow for an 
+estimation of the functional si
+ze using a few information. 
+Thus, we would like to analyze pros and cons of the 
+different approaches not only w
+ith respect to the accuracy of 
+the estimation but also with respect to the information 
+required to apply the methods and then the time needed to 
+carry out the measurement. 
+R
+EFERENCES
+ 
+[1]
+ 
+Breush, T., Pagan, A.: A simple test for heteroscedasticity and 
+random coefficient variation. Econometrica 47 (1992) 1287-
+1294.  
+[2]
+ 
+A. Albrecht, “Measuring Application Development Produc- 
+tivity,” in Procss of the Joint SHARE/GUIDE/IBM Ap- 
+plication Development Symposium, 1979, pp. 83–92. 
+[3]
+ 
+Bianco, V and Lavazza, L. and Morasca, “A Proposal for 
+Simplified Model-Based Cost Estimation Models”; in Procs. 
+of Product-Focused Software Process Improvement, Lecture 
+Notes in Computer Science, vol. 7343, 2012, pp 59-73 
+[4]
+ 
+Briand, L., Wieczorek, I.: Software Resource Estimation. In: 
+Encyclopaedia of Softw. Engi
+neering (2002), pp. 1160–1196.  
+[5]
+ 
+Briand, L., Langley, T., Wiek
+zorek, I.: A Replicated 
+Assessment and Comparison of Common Software Cost 
+Modeling Techniques. Proc. of International Conference on 
+Software Engineering, I
+EEE press, 2000, pp. 377–386. 
+[6]
+ 
+Briand, L., El. Emam, K., Surmann, D., Wiekzorek, I., 
+Maxwell, K.: An Assessment and Comparison of Common 
+Software Cost Estimation Modeling Techniques. Proc. of 
+International Conference on Software Engineering, IEEE 
+press, 1999, pp. 313-322. 
+[7]
+ 
+L. Briand and J. Wust, “Modeling development effort in 
+Object-Oriented systems using design properties,” IEEE 
+Trans. on Softw. Eng., vol. 
+27, no. 11, pp. 936–986, 2001. 
+[8]
+ 
+Buglione, L., Gencel, C.:Impact of Base Functional 
+Component Types on Software Functional Size Based Effort 
+Estimation. Proc. of PROFES, 2008, pp. 75-89. 
+[9]
+ 
+Buglione, L., Ferrucci, F., Gencel
+, C., Gravino, C., Sarro, F.: 
+Which COSMIC Base Functional Components are Significant 
+in Estimating Web Application Development? - A Case 
+Study. Proc. of the IWSM/MetriKon/Mensura 2010, pp. 205-
+224, Shaker Verlag, ISBN 978-3-8322-9618-6. A. Abran, G. 
+Büren, J- J. Cuadrado-Gallego, R. Dumke (eds). 
+290 [10]
+ 
+Conte D., Dunsmore H.E:, Shen V.Y.: Software engineering 
+metrics and models. The Benjamin/Cummings Publishing 
+Company, Inc., 1986.   
+[11]
+ 
+COSMICa, COSMIC v.3.0.1,
+ Measurement Manual, 2009, 
+Common Software Measurement International Consortium, 
+URL: www.cosmicon.com  
+[12]
+ 
+COSMICb, COSMIC Method 
+v3.0 Advanced & Related 
+Topics,” 2008. [Online]. Available: 
+http://www.cosmicon.com/dl manager4. asp?id=60  
+[13]
+ 
+Costagliola G., Di Martino S., Ferrucci F., Gravino C., 
+Tortora G., Vitiello G.: A COSM
+IC-FFP: Approach to Predict 
+Web Application Development Effort. J. of Web Engineering 
+5(2), 2006, pp. 93-120. 
+[14]
+ 
+Dekkers, C., Gunter, I.,  “Using ''Backfiring'' to Accurately 
+Size Software More Wishful Thinking than Science? IT 
+Metrics Strategies, VI(11) (Nov. 2000) pp. 1-8. 
+[15]
+ 
+Ebert, C., Dumke, R., Bundsc
+huh, M., Schmietendorf, A., 
+Dumke, R.: Best Practices in Software Measurement. 
+Springer Berlin Heildelberg New York, ISBN: 3-540-20867-4  
+[16]
+ 
+Ferrucci, F., Gravino, C., Di Martino, S..: Estimating Web 
+Application Development Effort Using Web-COBRA and 
+COSMIC: An Empirical Study. Proc. of Software 
+Engineering and Advanced A
+pplications (SEAA2009), pp. 
+306-312. 
+[17]
+ 
+Ferrucci, F., Gravino, C., Buglione, L.: Estimating Web 
+Application Development Effort
+ using COSMIC: Impact of 
+the Base Functional Component Types. Proc. of the Software 
+Measurement European Forum (SMEF 2010), Roma (Italy), 
+ISBN 978-88-6301-033-6, pp. 103-116. Ton Dekkers (eds.) 
+[18]
+ 
+Freund, J..: Mathematical Statistics, Prentice-Hall, Upper 
+Saddle River, 1084 NJ, 1992. 
+[19]
+ 
+Gencel, C., Buglione, L.,: Do Base Functional Component 
+Types Affect the Relationship between Software Functional 
+Size and Effort? Proc. of IWSM/Mensura 2007, pp. 72-85. 
+[20]
+ 
+Gencel, Ç., Demirörs, O.: Functional size measurement 
+revisited. ACM Trans. Softw. Eng. Methodol. 17(3), 2008. 
+[21]
+ 
+Houston, K.T., “Evolving Standards in Function Point/Lines 
+of Code Ratios”, International Forum on COCOMO and 
+Software Modeling, 2003. 
+[22]
+ 
+IFPUG, International Function Point Users Group. Function 
+Point Counting Practices Manual - Release 4.3.1 (2010) 
+http://www.ifpug.org/ 
+[23]
+ 
+ISBSG, ISBSG Data Repository r10, January 2007, URL: 
+www.isbsg.org  
+[24]
+ 
+ISO/IEC Funct. Size Measurement stand. 14143 Parts 1 to 6. 
+[25]
+ 
+Jeffery, D. R., Ruhe, M., Wieczorek, I.:A comparative study 
+of two software development cost modeling techniques using 
+multi-organizational and company-specific data. Information 
+& Software Technology 42(14), pp. 1009-1016 (2000) 
+[26]
+ 
+Jones, C. “Backfiring: Conver
+ting Lines-of-Code to Function 
+Points”, IEEE Computer vol
+ume 28(11), 1995, pp. 87—88 
+[27]
+ 
+Jones, C., “Estimating Software Costs”, 2nd Edition, , 
+McGraw-Hill, 2007. ISBN 978-0-07-148300-1. 
+[28]
+ 
+Kitchenham, B. A.: A Procedure for Analyzing Unbalanced 
+Datasets. IEEE Trans. Software Eng., 24(4), 1998, 278-301. 
+[29]
+ 
+Kitchenham, B. A., Mendes, E.: Software Productivity 
+Measurement Using Multiple Size Measures. IEEE Trans. 
+Software Eng. 30(12), pp. 1023-1035 (2004) 
+[30]
+ 
+Kitchenham, B., Mendes, E., Travassos, G.: Cross versus 
+Within-Company Cost Estimation Studies: A systematic 
+Review. IEEE Trans. on Softw. 
+Engin. 33 (5) (2007) 316-329. 
+[31]
+ 
+Kitchenham, B., Foss, T., Stensrud, E., Myrtveit, I.: A 
+simulation study of the model evaluation criterion MMRE. 
+IEEE Trans. on Softw. Engin.
+ 29(11) (2003), pp. 985–995. 
+[32]
+ 
+Kitchenham, B., Pickard, L. M., MacDonell, S. G., Shepperd, 
+M. J.: What accuracy statistics really measure. IEE 
+Proceedings Software 148(3) (2001), pp. 81–85. 
+[33]
+ 
+B. Kitchenham, L. Pickard, and 
+S. Pfleeger, “Case studies for 
+method and tool evaluation,” I
+EEE Software, vol. 12, no. 4, 
+pp. 52–62, 1995. 
+[34]
+ 
+Lavazza, L. Liu, G., “ Report on Using Simplified Function 
+Point Measurement Processes”, in International Conference 
+on Software Engineering 
+Advances; 2012, pp. 367-372 
+[35]
+ 
+Maxwell, K. Applied Statistics for Software Managers. 
+Software Quality Institute Series, Prentice Hall, 2002, ISBN 
+0130417890 
+[36]
+ 
+Meli, R., “Early and extended Function Point: A new method 
+for Function Points estimation”, in Procs of the IFPUG-Fall 
+Conference, 1997. 
+[37]
+ 
+Meli, R., Santillo, L., “Function Point Estimation Methods: A 
+Comparative overview”, European Software Measurement 
+Conference (FESMA'99), Ottobre 1999. 
+[38]
+ 
+Mendes E., Kitchenham B.:Further Comparison of Cross-
+company and Within-company Effort Estimation Models for 
+Web Applications. Proc. of International Software Metrics 
+Symposium (METRICS’04), 2004, pp. 348-357. 
+[39]
+ 
+Mendes E., Counsell S., Mosley N., Triggs C., Watson I.: A 
+Comparative Study of Cost Estimation Models for Web 
+Hypermedia Applications. Empi
+rical Software Engineering 
+8(2), 2003, pp. 163-196. 
+[40]
+ 
+Menzies, T., Chen, Z., Hihn, J., Lum, K.: Selecting Best 
+Practices for Effort Estimation. IEEE Trans. Software Eng., 
+32(11), November 2006, pp. 883-895. 
+[41]
+ 
+NESMA. "Definitions and counting guidelines for the 
+application of function point analysis",  (November 2004), 
+140 pages, ISBN 978-90-
+76258-19-5. www.nesma.org. 
+[42]
+ 
+Robiolo, G. and Orosco, R.
+, “Employing use cases to early 
+estimate effort with simpler metrics”, Innovations Syst. 
+Softw. Eng., vol. 4, 2008. 
+[43]
+ 
+Rollo, A., “Functional Size m
+easurement and COCMO – A 
+synergic approach”, In Procs. Of Software Measurement 
+European Forum, (2006), pp. 259-267. 
+[44]
+ 
+Royston, P.: An extension of Shapiro and Wilk's W test for 
+normality to large samples. Applied Statistics 31 (2) (1982) 
+115{124. 
+[45]
+ 
+Ruhe, M., Jeffery, R., Wieczorek,
+ I.: Cost estimation for Web 
+applications. Proc. of International Conference on Software 
+Engineering (ICSE’03)
+, 2003, pp. 285–294. 
+[46]
+ 
+Santillo, L., Conte, M., Meli, 
+R., “Early & Quick function 
+point: sizing more with less”, IEEE International Symposium 
+on Software Metrics, September 2005. 
+[47]
+ 
+Stensrud, E., Myrtveit, I.: Human Performance Estimating 
+with Analogy and Regression Models: an Empirical 
+Validation. Proc. of International Software Metrics 
+Symposium, IEEE press, 1996, pp. 205–213. 
+[48]
+ 
+Total Metrics: How to Decide
+ which Method to Use. Method 
+for Software Sizing, Copyright Total Metrics URL: 
+http://www.totalmetrics.com/function-point-
+resources/downloads/R185_Why-use-Function-Points.pdf 
+[49]
+ 
+Wohlin, C., Runeson, P., Host, M. Ohlsson, M. C., Regnell, 
+B., Wesslen, A.: Experimentation in Software Engineering - 
+An Introduction. Kluwer, 2000. 
+[50]
+ 
+Wong, J. Ho, D., Capretz, L.
+ F., “Calibrating Function Point 
+Backfiring Conversion Ratios Using Neuro-Fuzzy 
+Technique”, in Procs of International Journal of Uncertainty, 
+Fuzziness and Knowledge-Based Systems 16(6), (2008), pp. 
+847-862.  
+ 
+ 
+291

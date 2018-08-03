@@ -1,0 +1,2048 @@
+ Aknowledge-basedframeworkforextractingcomponentsinagile
+systemsdevelopment
+VijayanSugumaran
+ÆMohanTanniru
+ÆVedaC.Storey
+Publishedonline:24July2007
+SpringerScience+BusinessMedia,LLC2007
+Abstract
+Considerablestrideshavebeenmadeintheuse
+ofcomponentsinsoftwaredevelopment.Manyproprietary
+enterpriseresourceplanning(ERP)softwareenvironments
+usemodularcomponentstodevelopandcustomize‚‚best
+
+practices™™tomeetaspeci˚corganizationalneed.Inagile
+applicationdevelopment,manydevelopersandusersare
+askedtodesignsystemsinashortperiodoftime.These
+
+applicationsmayusecomponentsthatareembeddedin
+softwarerepositories.Thechallengethenishowtoselect
+therightsoftwarecomponents(dataandprocedures)to
+
+meetanapplicationrequirement.Althoughexperienced
+developersmayselectandcustomizecomponentstomeet
+theneedsofanapplication,suchexpertisemaynotbe
+
+availabletootherapplications.Thispaperpresentsa
+knowledge-basedframeworktoselectandcustomize
+softwarecomponentsanddemonstratesitsvalueinderiv-
+
+ingqualityspeci˚cations,evenwhenthedevelopersare
+relativelyinexperienced.
+Keywords
+Componentreuse
+Domainmodel
+Agilesystemsdevelopment
+Componentrepository
+Facinganincreasinglycompetitiveanduncertainbusi-
+nessenvironment,enterprisesareseekingnewstrategies
+andtechnologiestoimplementanagileand˜exible
+softwarearchitecturethatwillallowthemtoreact
+
+quicklytomarketchanges.Modularityinthemanage-
+mentofsoftwareprojectsbecamefundamentalinthe
+70™sasthesizeofsoftwaredevelopmenteffortsstarted
+
+toincrease(e.g.evolutionofchiefprogrammerteams).
+Intheearly80™s,when˚rmswanted˜exibilityinsoft-
+waretomeetchanginguser™srequirementsandminimize
+
+softwaremaintenancecosts,thefocusshiftedtomodu-
+larizingthecodewith‚‚wellde˚ned™™structures(struc-
+turedprogramminganddesign).Thesestructuresare
+
+intendedtomakecodechangeeasierwhenrequirements
+change.Similarly,when˚rmswantedtoreusecodein
+largesoftwaredevelopmentprojects,eachmajorfunction
+
+wasdecomposedintosmallerones.Inthe90™s,thereuse
+ofsoftwareobjectsbecamemoredominantasapplica-
+tionsstartedtoincorporatemoreandmoredomain
+
+knowledgewithincreasedpotentialforacertaindegree
+ofcon˚gurability.However,theirreuseiscomplicated
+becauseofalackofcontextthatisgeneralizableorthe
+
+contextembeddedinthereusablecomponentisnot
+explicitenoughtoappreciateitspotentialreuse.Ines-
+sence,assoftwaredevelopmentmoveduptheapplication
+
+chain,agreaterdegreeofcontextisbeingintroducedto
+enableitswiderapplicability,butthecontextembedded
+hasadesignfocus(bottom-up),asopposedtoaprocess
+
+focus(top-down).
+Inthe2000™s,theInternetbecamepervasivesoorga-
+nizationsstartedtomaketheirapplicationstransparentfor
+
+externalusebytheirbusinesspartners.Asaresult,agile
+methodshavebecomemoreimportantforthedevelopment
+of˜exibleapplications.Theunderlyingassumptionisthat
+
+moreandmoreapplicationcomponents(procurement,
+V.Sugumaran(
+&)DepartmentofDecisionandInformationSciences,
+SchoolofBusinessAdministration,OaklandUniversity,
+Rochester,MI48309,USA
+
+e-mail:sugumara@oakland.edu
+M.Tanniru
+SchoolofBusinessAdministration,OaklandUniversity,
+Rochester,MI48309,USA
+
+e-mail:tanniru@oakland.edu
+V.C.Storey
+J.MackRobinsonSchoolofBusinessAdministration,
+GeorgiaStateUniversity,60BroadSt.,Atlanta,GA30303-4015,
+
+USA
+e-mail:vstorey@gsu.edu
+123InfTechnolManage(2008)9:37Œ53
+DOI10.1007/s10799-007-0025-7
+ ordering,payment,etc.)needtobeeasilyaccessibleby
+externalstakeholdersandbusinesspartnersacrossthe
+organizationalvaluechaintomeetchangingbusiness
+dynamicssotheymustbeweb-enabledandtransparent
+
+[1].Therefore,ifbusinessagilityiscriticalforcompetitive
+survival,thenagilemethodologiesareneededtoenable
+applicationstobemodularizedtosupportsuchcross-
+
+organizationaluse.Abottom-up,value-chaindriven
+approachtocomponentizationcanhelpincorporatea
+processorbusinesscontextintothesecomponents.How-
+
+ever,ifthebusinessdomainknowledgeisdrivenbyan
+organizationalneedtocompetebyexplicatingitsbroader
+objectivesandde˚ningmajorprocessestoservicethese
+
+objectives,thensoftwarecomponentsformedtosupport
+internaldesignorexternalpartnershipscanbemappedto
+thesebusinessprocesses.
+Theobjectiveofthisresearchistodevelopaframework
+thatcanrelateconceptsstoredinadomainknowledge
+repositorytocomponentsstoredinasoftwarecomponent
+
+repositorysothatdeveloperscanusethesetworepositories
+interactivelytosearchandretrieverelevantcomponents
+duringsystemsdevelopment.Thecontributionofdoingso
+
+istomakethisapproachtosoftwaredevelopmentfeasible
+andeffective,thusfacilitatingagilityinsoftwaredevel-
+opment.
+Theremainderofthispaperisorganizedasfollows.
+Section1discussesrelatedresearchintheareasofagile
+developmentmethodologies,domainmodeling,andcom-
+ponent-baseddevelopment.Section2presentsourmeth-
+odologyanddiscussesaknowledge-basedframeworkfor
+
+structuringdomainknowledgeandrelatingittosoftware
+componentrepositories.Section3discussesthearchitec-
+tureoftheprototypeandprovidesimplementationdetails.
+
+Section4discussestheempiricalvalidationofthemeth-
+odologyandSect.5providesadiscussionoftheusefulness
+oftheapproachandthelimitationsofthisresearch.Section
+
+6summarizesandconcludesthepaper.
+1Relatedresearch
+Applicationagilityiscenteredaroundtwobasictenets:(a)
+beingabletorespondtochangesinrequirementsthrough
+traceabilityofcomponents,and(b)identifyingpotential
+reusablecomponentsthatcanbeincorporatedintoanew
+
+systemcreatedthroughrefactoring[
+2].Componentbased
+developmentaddressessimilarproblems.Domainknowl-
+edgeisakeyingredientinsupportingthesetwotenants[
+3].Thisresearchcombinestheadvancesindomainmodeling
+andcomponentretrievalinordertosupportagilesystems
+development.
+Agilesoftwaredevelopmentmethodsarecharacterized
+asincremental,cooperative,straightforwardandadaptive
+[4].Theyareincrementalinthesensethatsmallsoftware
+releasesareinherentinthemethodology,asarerapid
+developmentcycles.Thesemethodspromoteaclose
+interactionbetweendevelopersandcustomers.Theyare
+
+alsoeasytounderstand,modifyandimplementbecause
+theyarewelldocumented.Themostimportantcharacter-
+istic,however,istheadaptiveandresponsivenatureofthe
+
+approachtochangesinrequirements[
+5].Thesuccessofan
+agilemethodologydependsonitsabilityto:(1)identifythe
+impactofchangesintheuser™srequirementsintermsofthe
+componentstobemodi˚ed;and(2)beingabletosupport
+andmanagethechangeprocess[
+3].Onewaytofacilitate
+thisprocessistoclearlyestablishexplicitrelationships
+betweenbusinessobjectivesandprocessesandtheindi-
+vidualcomponentsthatimplementtheseprocesses.This
+
+providesatraceabilitymechanismbetweenrequirements
+andcomponentsthatimplementthem.
+Agilemethodologiesrelyon‚‚Refactoring™™tocreate
+reusableassetsthatcanbeutilizedinsystemsdevelopment.
+Refactoringistheprocessof‚‚cleaningup™™artifactsto
+makethemmorereusable[
+6].Forexample,chunksof
+sourcecodecanbemodi˚edtoimproveinternalconsis-
+tencyandclaritywithoutchangingtheexternalbehavior
+andcreatereusablecomponents.Thus,theresultofrefac-
+
+toringcouldbearepositoryofcomponentsthatcanbeused
+insystemsdevelopment.Oneissueinthisscenarioofrapid
+systemsdevelopmentistheabilitytoidentifyappropriate
+
+componentsfromtherepositoryofartifactscreatedthrough
+refactoring[
+7].Thissameissueisalsoencounteredin
+component-basedsoftwaredevelopment.
+Ifdonecorrectly,‚‚refactoredassets™™canprovidea
+numberofadvantages.Aninformationsystemdeveloped
+fromreusablecomponentsshould:bemorereliable[
+8],increasedeveloperproductivity[
+9Œ11],reduceskills
+requirement[
+12],shortendevelopmentlifecycle[
+13,14],anddecreasedevelopmentcosts[
+15,16].Ideally,devel-
+operssearchforcomponentsfromrepositoriesbyspeci-
+fyingthefunctionalitiesthatmeettherequirementsofthe
+systemunderdevelopment.However,thereisnosystem-
+
+aticsupportfornarrowingthesearchspaceandretrieving
+relevantcomponents.Developersmayspecifysearch
+parameterssuchastheprogramminglanguage,component
+
+typeortechnology,applicationdomain,industrytype,and
+operatingsystem[
+17].Althoughtheseareessential,the
+mostimportantaspectofsearchingisbeingabletospecify
+
+requirementsinanaturalform.
+Aprioriknowledgeoftheapplicationdomain,indepen-
+dentofhowthesoftwarecomponentsrepositorieshave
+
+evolved,mayprovetobemoreusefulacrossawidevarietyof
+applications.Forexample,knowledgeaboutanapplication
+domain,representedbykeyobjectives,processes,actions
+
+andobjects,canhelpadeveloper˚rstidentifyuserrequire-
+ments,voidofanydesignbias.Thedevelopercanthenuse
+38InfTechnolManage(2008)9:37Œ53
+123 appropriatesearchcriteria(componentnames,actionssup-
+ported,etc.)tolimitthesearchspaceandretrievetheneeded
+softwarecomponentsef˚ciently.Existingmethodsrelyon
+suchdomainknowledgetosupportthesearchofsoftware
+
+components.
+1.1Agiledevelopmentmethodologies
+Agilesoftwaredevelopmentinvolvesaniterativeap-
+proachwherenewfunctionalitiesareaddedinan
+incrementalfashion[
+18].Incontrasttotraditionalsystem
+developmentmethodologies,agilemethodsare‚‚light-
+weightmethods™™thatfocusoncustomersatisfaction
+throughrapiddeliveryofusefulsoftwareandaccom-
+
+modatechangesinrequirements[
+19].Theyminimize
+resource-intensiveintermediateartifactsandusesmall
+developmentteams.Someofthewell-knownagile
+
+developmentmethodsare:ExtremeProgramming(XP),
+AdaptiveSoftwareDevelopment(ASD),DynamicSys-
+temsDevelopmentMethod(DSDM),FeatureDriven
+
+Development(FDD),andScrum[
+20].ExtremeProgrammingemphasizesrapidandfrequent
+feedbacktothecustomersandendusers,unittestingand
+
+continuouscodereviews[
+21].Italsoreliesoncontinu-
+ousrefactoring,collectivecodeownership,andpair
+programming[
+22].Onelimitationofthisapproachis
+thatitdoesnotprovideanyformalsupportforrefac-
+toringintermsofcomponentidenti˚cationandcustom-
+ization[
+23].ASDissuitedforthedevelopmentoflarge
+andcomplexsystemsandencouragesincrementaland
+iterativedevelopment[
+24].Itisfeaturebased,iterative,
+riskdriven,andchangetolerant[
+25].However,itdoes
+notprovideadequatesupportforprojectmanagement.
+TheDynamicSystemsDevelopmentMethodattemptsto
+alleviatecommonproblemsassociatedwithsystems
+
+developmentsuchasexceedingbudgets,missingdead-
+lines,lackofuserinvolvementandtopmanagement
+commitment[
+26,27].Althoughitusesrapidapplication
+developmentphilosophy,itdoesnotprovideenough
+supportforcomponentreuse.
+FeatureDrivenDevelopment(FDD)isamodel-driven
+approach,comprisedof˚vedifferentactivities:(a)develop
+overallmodel,(b)buildfeaturelist,(c)planbyfeature,(d)
+designbyfeature,and(e)buildbyfeature[
+28,29].While
+FDDisbuiltaroundacoresetofindustry-recognizedbest
+practices,itdoesnotprovideadequatesupportforcomponent
+traceabilityandreuse.TheScrummethodologyallows
+
+developerstochooseappropriatedevelopmenttechniques
+anddoesnotprescribeasequenceinwhichtheactivitiesmust
+beimplemented[
+30].Developerscanstartwithanyactivity,
+andchangebetweenactivitiesatanytime,thus,increasingthe
+project™s˜exibilityandproductivity[
+31].WhileScrum
+supports˜exibleschedulesanddeliverablesandsmallteams,
+itrequireshand-onmanagementwithahighdegreeof
+coordination.
+1.2Domainmodeling
+Domainanalysisresearchhasexploredmanywaystoiden-
+tifyvariouscomponentsofbusinessdomainknowledgeata
+highlevelofabstraction(e.g.objectives,processesandac-
+tions)andtorelatethemtoorganizationalprocesses[
+32,33].Tracz[
+34]proposestheinclusionofalexicon(meaningof
+terms),ontology(setofelementstodescribeadomain),
+taxonomyofelements,relationships,products,actionsand
+events.Othersfocusonspeci˚cdomainlevelartifactsand
+associatedinformationforreuse,includingprocesses
+
+(speci˚cations,sequenceandstructure),data(attributes,
+relationshipsandstructure),andentities(events,agents,and
+objects)[
+35Œ37].Severalmethodshavebeenproposedtostructurethis
+domainknowledge,onceidenti˚ed[
+38,39].TheRock-
+well-Collinsorganizationusesasynthesisapproachto
+
+movefromaparticulardomaintoapplication,usingcon-
+ceptssuchasterms,assumptions,anddecisionmodels
+[40].TheSoftwareEngineeringInstitute™sfeature-oriented
+domainanalysis(FODA)includescontextanalysis,domain
+modeling,andarchitecturemodeling[
+41,42].InIdeA,
+designschemasmapproblemstosolutions[
+43].Inthe
+Triadicdomainmodel-basedsoftwaredevelopmentmeth-
+od,thedomainproblemmodel(includingsolutionmeth-
+ods,algorithms,datastructures,etc.)islinkedtoadomain
+
+processmodelthatidenti˚estypicalactivitiesand
+constraints[
+44Œ46].1.3Componentbaseddevelopment
+
+Componentbaseddevelopment(CBD)ischangingthe
+wayapplicationsarebeingdevelopedanddeliveredto
+theenduser[
+47Œ50].Itrequiresashiftinsoftware
+developmentapproaches,particularlywiththeemergence
+ofcomponentarchitecturestandardssuchasCORBA,
+COM,andEJB[
+51Œ53].Therolesofsoftwarecompo-
+nentsandcomponentmodelstoimproveproductivity
+havebeenanalyzedpreviously[
+8,54,55].Thefocusof
+softwaredevelopmentisshiftingfromautomaticcode
+
+generationtocombininghigh-levelsoftwarecomponents
+tomeetuserrequirements.Toolsandtechniqueshave
+beenintroducedtoprovidesuchsupport[
+17,56,57].An
+informationsystemdevelopedfromreusablecomponents
+ismorereliable[
+8],increasesdeveloperproductivity
+[9Œ11],reducesskillsrequirement[
+12],shortensdevel-
+opmentlifecycle[
+13,14],anddecreasesdevelopment
+costs[
+15,16].Ideally,developerssearchforcomponentsfromreposi-
+toriesbyspecifyingthefunctionalitiesthatmeetthe
+InfTechnolManage(2008)9:37Œ53
+39123 requirementsofthesystemunderdevelopment.However,
+thereisnosystematicsupportfornarrowingthesearch
+spaceandretrievingrelevantcomponents.Commercial
+componentrepositoriesallowdeveloperstospecifysearch
+
+parameterssuchastheprogramminglanguage,component
+typeortechnology,applicationdomain,industrytype,
+andoperatingsystem[
+17].Asmoreandmoreofthese
+componentsbecomeavailableaspartofavendor™ssoft-
+wareenvironmentforapplicationdevelopment,theissue
+becomesoneofselectingtheappropriatecomponentsto
+buildanapplication[
+58].Priorresearchhasexaminedvariousmethodsforsearch
+andretrievalofsoftwarecomponentsthatrelyoninfor-
+mationalcontent[
+59,60],operationalsemantics[
+61,62],denotationalsemantics[
+63,64],topologies[
+65,66]and
+structures[
+67,68].UML2.0allowsformoreappropriate
+descriptionsofacomponent™sdependenciesanditsinter-
+facespeci˚cationsothatcomponentscanberetrievedfrom
+
+repositoriesbasedonfunctionalorbehavioralcriteria[
+69].Severalformalmethodsbasedapproacheshavebeen
+identi˚edformatchingcomponentstouserneeds[
+70Œ73].Forexample,ChenandCheng[
+74]discussasemantic
+foundationforspeci˚cationmatchingbetweensoftware
+requirementsandcomponents.Theyde˚neacomponent
+
+interfacegeneralityrelationthatprovidesafoundationfor
+componentselection[
+75].Formalspeci˚cationisusedto
+representthegeneralityrelationshipintermsofthe
+
+semanticobligationsofthecomponenttosatisfythe
+requirement.Theypresentspeci˚cationmatchingasa
+methodforclassifying,retrievingandmodifyingcompo-
+
+nents[
+71].Similarly,PenixandAlexander[
+76]useformal
+speci˚cationsofcomponentstorelatetodomainspeci˚c
+feature-sets.Thislinkageisusedtoimprovecomponent
+identi˚cationandretrieval[
+72].However,thisapproach
+dependsonformulatingthefeaturesetsforeachdomain.
+Factorssuchasthesizeoftherepository,queryrepre-
+sentation,assetrepresentation,storagestructure,navigation
+scheme,relevance,andmatchingcriteriaimpactthesearch
+andretrievalprocess[
+77,78].Whiletaggingasoftware
+componentwithknowledgeorstructuremighthelpitsuse
+inagivenapplicationenvironment,itdoesnotprovidea
+generalsolution.Infact,mostoftheretrievalmethods
+discussedintheliteraturearesuitableforaparticular
+domain,butarenottailoredtoprovideaneffectiveoverall
+
+retrievalsolution.Inaddition,existingretrievalmethods
+donotrelatecomponentstobusinessobjectivesandpro-
+cesses,whichchangequitefrequentlyinthisglobal,
+
+Internetage.Thus,linkingcomponentstobusinesspro-
+cessesenableorganizationstobetterrespondtochangesin
+theenvironmentbyquicklyadaptingexistingapplications.
+
+Ourproposedapproachfacilitatesthisinasystematicway.
+2Proposedmethodology
+2.1Aframeworkforstructuringdomainknowledge
+
+Thevariabilityinexistingapproachesre˜ectsthediffer-
+encesinthegoalsofanorganizationforcapturingdomain
+knowledge.Asingleuni˚edapproachmaynotbefeasible
+
+orevendesirable[
+79].Sugumaranetal.[
+80]organize
+domainknowledgefrombusinessobjectivestohigher-level
+dataobjectsviaprocessesandactionsasshowninFig.
+1.Thedomainknowledgeincludesprocesses(speci˚cations,
+Domain Level 
+Process Level Data Level Framework from Literature 
+CurrentImplementationAdaptation 
+Domain Processes ObjectivesActorsActionFlowData FilesFig.1
+Astructureforcapturingdomainknowledge
+40InfTechnolManage(2008)9:37Œ53
+123 sequence,structure),data(attributes,relationshipsand
+structure),andentities(events,agents,objects),allcap-
+turinginformationtraditionallygatheredduringtheanal-
+ysisphase(exceptforcertainmacrolevelbusiness
+objectives).Thisstructureisusedinthispaperasthebasis
+forsoftwarecomponentselection.
+ThestructureinFig.
+1
+isusedforstoringdomain
+knowledgeusedduringtheanalysisphaseofinformation
+Objective 
+Processes 
+Actions
+Objects 
+Define potential 
+market segments 
+Determine product share 
+Analyze competition 
+Analyze economic conditions 
+Create market segment 
+
+
+Determine total demand for product 
+Determine market share 
+Analyze competitor sales discounts 
+Analyze competitor advertising 
+Determine GDP growth 
+Determine inflation rate 
+Design proper packaging for segments 
+Develop advertising strategies 
+
+
+Product
+Competitor 
+Market Indicators 
+
+Analyze Sales 
+Prospects
+Identify potential prospects 
+Sell to prospects 
+Analyze prospect feedback 
+
+
+Obtain mailing lists 
+Gather customer preferences 
+Generate short list of prospects 
+Make and follow-up on appointments 
+Show product lines 
+Follow-up prospects 
+List of successful and failed prospects 
+Generate reasons for failure 
+Generate profile of successful prospects 
+
+
+Prospects
+Products
+Prospect Survey 
+
+
+Bid on large 
+customer requests 
+Obtain RFPs 
+Evaluate bid strategies 
+Prepare and submit bids 
+Analyze bid response 
+
+
+Gather information about RFPs 
+Pricing analysis 
+Timing analysis 
+Evaluate logistics 
+Clarification on bids 
+Prepare bid in proper format 
+Bid submission 
+Analyze reasons for success and failure 
+Generate Lessons learned 
+Identify things to improve 
+
+
+RFP
+Bid
+Customer
+Product
+
+
+Make Sales Process_order information 
+Process_return information 
+
+
+Enter sales order 
+Follow-up orders 
+Cancel sales order 
+Hold sales order 
+Close sales order 
+Analyze reasons for return 
+Analyze product defects 
+
+
+Sales Person 
+Order
+Customer
+Product
+Returns
+Invoice
+
+
+Follow-up on Sales Maintain customer information 
+Analyze customer feedback 
+
+
+Record customer details 
+Obtain customer feedback 
+Analyze product returns 
+Analyze customer service 
+Provide feedback to manufacturing 
+
+
+Customer
+Returns
+Customer survey 
+
+
+Analyze sales 
+performance
+Analyze customers 
+Analyze sales cycle 
+Analyze performance 
+
+
+Develop customer profile and 
+demographics
+Analyze customer buying habits 
+Analyze frequency of purchase 
+Analyze seasonality of products 
+Analyze profits and productivity 
+Analyze cost 
+Analyze use of technology 
+Assess commission to sales force 
+
+
+Customer
+Service object 
+Product
+Invoice
+Sales Person 
+
+
+Fig.2
+Partialsalesdomainmodel
+InfTechnolManage(2008)9:37Œ53
+41
+123
+ systemsdevelopment[
+80,81].Alsoreferredtoasadomain
+model,ithasthreelevels:
+domain,process
+anddata.The
+domainisde˚nedasanareaaffectedbyabusinessstrat-
+egy.Itcanbeasbroadasanentireorganization(e.g.the
+
+salesstrategyistoimprovea˚rm™scompetitiveness),oras
+narrowastheneedsofafunctionalarea(e.g.analyzesales
+performancetoidentifywhichcustomersarebuying
+
+andwhattheyarebuying).Thislevelprovidesrelatively
+context-freeinformationaboutthedomain,byfocusingon
+basicdomainobjectives,majorbusinessprocesses,and
+othernon-process-speci˚cinformation(industrycategori-
+zation,performancemeasures,etc.).
+Theprocesslevelcorrespondstothewaya˚rmopera-
+tionalizesitsbusinessstrategy.Thislevelprovidescontext-
+speci˚cinformationsuchaswhoperformstheseprocesses,
+
+wheretheyareperformed,andwhatsub-processesor
+activitiesareassociatedwiththeseprocesses.Onecan
+capturetherationaleassociatedwiththeseprocessesand
+
+anyrelevantassumptionsorconstraints.Thedatalevel
+examinesthedataobjects,suchas˚lesandevents,to
+supporttheseprocessesthroughvariousactions.This
+
+structureisdepictedusingthreeinter-lockingtriangles,
+withhigher-levelprocesses
+linkingthedomainandbusi-
+nessprocesslevels,and
+lower-levelactions
+linkingprocess
+anddatalevels.Bykeepingthesethreeseparatebutcon-
+nected,thedomainlevelcancontinuetore˜ectchangesin
+businessstrategieswhereasthedatalevelcancontinueto
+
+re˜ectchangesinthetechnologyimplementation.
+Anexampleofasalesdomain,extractedfromvarious
+expertsinvolvedinthesoftwaredevelopmentoforder
+
+processingsystemsofamajorsoftwarevendor,ispre-
+sentedinFig.
+2.Sixsalesdomainobjectivesarerelatedto
+severalbusinessprocessesandactions.Althoughthereis
+
+nooverlapamongtheactions(i.e.thesameactionisused
+bymanyprocesses),thedataobjectsassociatedwitheach
+businessprocesshasanoverlappingimpactonother
+
+businessprocesses.
+2.2Methodologysteps
+Themethodologyconsistsofthreemajorsteps:(1)
+knowledgebasedretrievalofsoftwarecomponents,(2)
+consistencycheckingofselectedcomponents,and(3)
+customizationofcomponents,eachofwhichisdescribed
+
+below.2.2.1Retrievalofsoftwarecomponentsusingthe
+knowledge-basedframework
+Thefocusofthisworkistoassistthedeveloperin
+retrievingtherelevantcomponentsfromtherepository,
+basedontherequirementsde˚nedwithinthecontextofthe
+
+domainknowledge.Forexample,ifthedeveloperselectsa
+processcalled‚‚Process_orderinformation,™™itcanleadto
+theidenti˚cationofdataobjectssuchas‚‚order™™and
+‚‚customer,™™alongwithactionssuchas‚‚entersalesorder,™™
+‚‚follow_uporders,™™and‚‚closesalesorder™™.Thedetailed
+
+objects/methodschosenmustsupporttheimplementation
+of,forexample,theprocess:
+process_orderinformation
+.Reusablerepositoriesalreadyprovidevariousattributes
+
+suchas‚‚orderdate,customername,ordervalue,etc.™™for
+theOrder
+object.Someoftheseattributesandanyasso-
+ciatedmethodsmaybereusedinthedesignofanew
+system(seeFig.
+3).Allattributesconsiderednecessarytosupportvarious
+actionsidenti˚edduringtheanalysisphasearechosen˚rst.
+Theaccessandupdatemethodsforalltheselectedattri-
+butesareautomaticallyincludedinthetargetsystem.Other
+
+methodsuniquetothehigherlevelobjects(whichmaynot
+havebeenidenti˚edintheanalysisphase)arepresented
+tothedeveloperforreviewandpossibleinclusion.These
+
+arereferredtoas‚‚actual™™or‚‚implementable™™objects.
+Figure3illustratestheCustomer,ProductandOrderdata
+objects(ortables),alongwithvariousmethodsassociated
+
+withthem.Thedevelopermayidentifysomeoftheattri-
+butesandmethodsneededtosupporttheactionsidenti˚ed
+inthedomainmodel.Basedontheattributeandmethod
+
+selections,theactualobjectsarecon˚guredbyeliminating
+unnecessaryattributesandmethodsand‚‚re-packaging™™
+theseobjects.
+2.2.2Consistencycheckingofsoftwarecomponents
+chosen
+Asthedevelopersusethedomainknowledgetoselect
+components,consistencychecksmustbeperformedbefore
+thecomponentscanbeintegrated.Inmanyprogramming
+environments,methodscallothermethods.Furthermore,
+
+someattributesstoredintherepositorymayneedtobe
+customizedtore˜ecttheconventionsusedinthespeci˚c
+problemdomain.Intheprototypedevelopedaspartofthis
+
+research(Sect.3),manyoftheconsistencychecksare
+performedautomatically.Thetypesofconsistencycheck-
+ingare:(1)ObjectiveŒProcessConsistency,(2)ObjectŒ
+
+AttributeConsistency,and(3)MethodŒActionConsistency.
+The˚rsttwotypesareintra-repositorychecks.They
+ensurethatthecomponentsextractedfromeitherthe
+
+domainorobjectrepositoriesare
+internallyconsistent
+.For
+example,ausermayselectasetofobjectivesandthenaset
+ofprocessestomeettheseobjectives.Itiscriticalthata
+
+selectiondoesnotviolateinternalprocessdependencies
+(oneprocessneedsanotherprocessand,inturn,meetsan
+objective).Similarly,ifattributesofanobjectareselected,
+
+thesystemmustensurethattheuserisawareofother
+attributesthatareneededsincetheassociatedmethodsthat
+manipulatetheseattributesneedthem.Forexample,
+42InfTechnolManage(2008)9:37Œ53
+123 selectionof<
+order,ordercreditstatus
+>mayrequire
+<
+customer,creditlimit
+>becausethemethodthatevaluates
+<
+ordercreditstatus
+>requires<
+creditlimit
+>.Ofcourse,as
+apartofthecustomization,adevelopermayremovesome
+ofthesedependenciesbyalteringthemethod.
+Thethirdtypeofconsistencyisaninter-repository
+check.Sincetheknowledgeisextractedfromrepositories
+thataredevelopedindependently,itiscriticalthatthe
+developercheckfortheseseparately.Forexample,ifa
+methodischosenfromthecomponentrepository,itshould
+correspondtosomeactionchoseninthedomainrepository
+andviceversa.Whereasthe˚rsttwotypesofconsistency
+areimplementedautomaticallyusingrulesstoredinthe
+knowledgebase,thethirdtypeofconsistencyisleftupto
+thedeveloperandcouldbecomepartofthecustomization
+orrepositoryrevision.
+Customer Object 
+Attributes
+Methods
+JavaBeans Implementation 
+Name
+Billing address 
+Credit limit 
+Credit history 
+Customer type 
+Contact information 
+Average sales volume 
+Last transaction date 
+Discount status
+Access methods 
+Update methods 
+Review customer credit 
+Review discount status 
+.
+.
+//Customer Class - with Bound property 
+import java.beans.*; 
+import java.util.*: 
+public class Customer extends Object { 
+  protected String name;   //instance variables 
+  protected String address; 
+  protected float credit_limit; 
+                 . . .
+                  
+  //additional instance variables 
+//constructor
+Product Object 
+Attributes
+Methods
+JavaBeans Implementation 
+Product Number 
+Product Name 
+Description
+Technical specification 
+Warehouse location 
+Qty in stock 
+Qty on order 
+Qty back ordered 
+Reorder point 
+Reorder quantity 
+List price 
+Bid price 
+Standard cost 
+Product line 
+Access methods 
+Update methods 
+Review bid price 
+Review reorder point 
+Review safety stock 
+Review reorder quantity 
+Analyze back orders 
+.
+.
+//Customer Product - with Bound property 
+import java.beans.*; 
+import java.util.*: 
+public class Product extends Object { 
+//instance variables 
+  protected int product_number; 
+  protected String product_name; 
+  protected String description; 
+                 . . .
+                   
+ //additional instance variables 
+  PropertyChangeSupport changeSupport; 
+//constructor 
+  public Product() { 
+    changeSupport = new PropertyChangeSupport(this);} 
+//Property Change Listener Support Methods 
+  public synchronized void addPropertyChangeListener (Prope 
+Order Object 
+Order No. 
+Order date 
+Qty ordered 
+Qty backordered 
+Expected delivery date 
+Qty not filled 
+Order value 
+Order status 
+Order credit status 
+Customer name 
+Sales person name 
+Shipping address 
+Distribution location 
+Special promotion details 
+Delivery dates 
+Access methods 
+Update methods 
+Analyze lost sales 
+Analyze promotional cost  
+              
+        effectiveness 
+Analyze order cycle time 
+Compute order credit status 
+.
+.
+//Customer Order - with Bound property 
+import java.beans.*; import java.util.*: 
+public class Order extends Object { 
+  protected int order_number;   //instance variables 
+. . .
+                  
+  //additional instance variables 
+  PropertyChangeSupport changeSupport; 
+//constructor 
+  public Order() { 
+    changeSupport = n
+ew PropertyChangeSupport(this);} 
+//   ** Property Change Listener Support Methods ** 
+// bean properties 
+   public void setOrder_number ( int new_ord_num) { 
+         order_number = new_ord-num; } 
+   public int getOrder_number () { 
+         return order_number;  } 
+  public analyze_lost_sales () { 
+         int temp = this.getQtynotfilled(); 
+AttributesMethodsJavaBeans Implementation 
+Fig.3
+Sampleobjectsfromobjectrepository
+InfTechnolManage(2008)9:37Œ53
+43
+123
+ 2.2.3Customizationofcomponents
+Whenappropriate,theselectedcomponentsmaybecus-
+tomizedtomeetspeci˚cuserand/orprocessrequirements.
+Thisisbecausenosystemcanbeexpectedtobefully
+supportedwithoutsometypeofcustomization,unlessthe
+organizationmakesaconsciousdecisiontoredesignits
+processesto˚tthe‚‚bestpractices™™embeddedinthe
+domainmodel.Thecustomizationmightinvolvechanging
+theobjectschosentore˜ecttheterminology,needs,stan-
+dards,andbusinessconstraintsofa˚rm.Forexample,a
+˚rmmaywanttorefertotheattribute‚‚productnumber™™as
+‚‚item#™™or‚‚productname™™to‚‚productlabel™™.The
+developermaymodifythepre-andpost-conditionsof
+differentmethods,aswellascustomizeoneormore
+methodstore˜ectthestandardoperatingproceduresofa
+˚rm.Forexample,the‚‚
+analyzelostsales
+™™methodofthe
+ORDERobjectcouldbetriggeredatdifferenttimesby
+modifyingthepre-conditions.Thismethodmayalsobe
+re-implementedtore˜ectthetechniques/heuristicsthatthe
+˚rmusestoanalyzelostsales,dependinguponsafetystock
+levels.Thedevelopermayaddnewmethodstotheobject,
+butisresponsibleforensuringthatthenewmethodsare
+consistentwiththeremainingattributesandmethods.Thus,
+thedevelopermayperformoneormoreofthefollowing
+sub-steps:(1)modifyattributeandmethodnames,(2)
+modifypreandpostconditionsofmethods,(3)modifythe
+implementationofmethods,and(4)addnewmethods.
+Figure
+4
+summarizesthesteps.
+3Prototypeimplementation
+TheSystemsAnalysisandDesignAssistant(SADA)pro-
+videssuggestionstothedeveloperbyreusinghigher-level
+domainknowledgeandlower-leveldataobjectartifacts.A
+developercaninteractwithSADAtoselectanappropriate
+setofconceptsfromthesystem™sdomainmodelandto
+provideadditionalinformationforresolvingcon˜icts.The
+architectureofSADAsystemisshowninFig.
+5
+.The
+systemcomprisesof:(a)UserInterfaceModule,(b)
+Knowledge-BaseModule,(c)LocalDataModule,and(d)
+ExternalRepositories.SADAhasbeenimplementedusing
+Jess,anexpertsystemshellwritteninJava[
+82
+].Jesswas
+chosenforseveralreasons.First,themethodologycouldbe
+expressedasasetofrules,whichcaneasilybetranslated
+intoJess.Second,sinceJessiswritteninJava,aweb-based
+versionofthesystemcaneasilybecreated.Third,the
+architectureofJessis˜exibleandextendable,souser-
+de˚nedfunctionsareeasilyintegrated.Finally,theobject
+repositoryusestheJavaBeanscomponentarchitecture.
+Jesshasthecapabilitytointerfacewiththisrepository
+toretrieveandcustomizeobjectsbaseduponuser
+requirements.
+Object Customization
+Mth
+Attribute and Method
+Selection
+Objectives 
+Actions 
+Objects 
+Objects 
+Attributes 
+Methods 
+System 
+Requirements 
+Feedback
+Object Repository 
+Domain Model Knowledge Base 
+Feedback
+Processes
+System 
+Requirements 
+Business Rules 
+Fig.4
+Methodologyforreuseinanalysisanddesignstages
+44
+InfTechnolManage(2008)9:37Œ53
+123
+ 3.1Userinterfacemodule
+TheuserinteractswithSADAwhenspecifyingthe
+requirementsforanewsystemusingastandardinter-
+face.Theuserinterfacemoduleprovidesmechanismsfor
+
+thedevelopertobrowsedomainmodelsandlearnabouta
+particularapplicationdomainaswellastoexplorethe
+objectrepositoryandtemplatesofpreviouslyassembled
+
+systems.Thedevelopercanspecifytherequirementsfora
+newsystemintermsofdesiredfunctionalities,whichare
+mappedtothedomainmodelandanappropriatesetof
+
+objectives,processes,actionsandobjectsareidenti˚ed.
+Whenspecifyingrequirementsforanewsystem,theuser
+is˚rstshownasetofhighlevelobjectivesfromwhicha
+
+fewareselectedasshowninFig.
+6(ObjectivesElicitation
+Panel).Oncetheuserselectstheobjectives,thesystem
+providesthehighlevelprocessesassociatedwiththe
+chosenobjectives.Theusercandeletesomeofthepro-
+cessesthatmaynotbeneeded.Whileselectingartifacts,
+
+thesystemperformsseveraltypesofconsistencychecking
+andelicitsadditionalinputfromtheusertoresolvecon-
+˜icts.Forexample,iftheuserattemptstodeletethe‚‚Sell
+
+toProspects™™processfromthenewsystem,SADApre-
+ventsthisbecausethe‚‚AnalyzeProspectFeedback™™pro-
+cessrequiresit,andanalertmessageisdisplayed,asshown
+
+inFig.
+7.3.2Knowledge-basemodule
+Theknowledge-basemodulecontainsproceduraland
+controlknowledgerequiredtoretrieveartifactsfromthe
+repositoriesandtoassembleandcon˚guretheuser-
+selectedcomponents.Fourcategoriesofrulesprovidethe
+
+basisfortheintelligenceofthesystem.
+Domain ModelRepositoryDomain Level
+ProcessLevel
+DataLevel
+ObjectRepositoryAssembled System
+RepositoryJava Beans Hierarchy
+Packages
+Client/Server RelationshipsSystem ﬁAﬂSystem ﬁBﬂSystem ﬁZﬂ
+External RepositoriesUser Interface Module
+RetrievalRulesConfigurationRulesCustomization
+RulesConsistency Checking RulesFact BaseObject BaseKnowledge-Base Module
+Local Data ModuleNew System
+Requirements
+New System
+Components
+Fig.5
+Architectureofsystems
+analysisanddesignassistant
+
+(SADA)Fig.6
+SADAinitialand
+objectivespanel
+InfTechnolManage(2008)9:37Œ53
+45123 3.2.1Retrievalrules
+RetrievalrulesenableSADAtolocateandretrievedomain
+modelartifactsfromthedomainmodelrepositoryand
+transformthemintoaformatthatisusablebythesystem.
+Whentheuserselectsasetofactionstobeincludedinthe
+
+newsystem,theretrievalrulesidentifythenecessarycom-
+ponentsandretrievethemfromthecomponentrepository.
+3.2.2ConÞgurationrules
+Thegenericcomponentsretrievedfromthecomponent
+repositorymaycontainattributesandmethodsnotneeded
+inthenewsystem.Thecon˚gurationrulesallowtheuserto
+
+‚‚con˚gure™™thecomponentsbydeletingtheunwanted
+attributesandmethods.Inthesalesdomain,iftheorgani-
+zationdoesnotallowbackorders,the‚‚order™™objectdoes
+
+notneedthe‚‚quantitybackordered™™attributeandits
+relatedmethods.Theusercancon˚gurethesystemthathas
+beenassembledinthecurrentsessionorchoseanother
+
+systemassembledinaprevioussession.Beforestartingthe
+con˚gurationprocess,SADApresentstheobjectsthathave
+beenincludedinthatsystem,sotheusercancon˚gureone
+
+ormoreofthem.
+Whentheuserwishestocustomizeanobjectthroughits
+attributes,SADApresentsalltheattributessotheusercan
+
+removethosenotneeded.Theusercanalsoreceiveabrief
+explanationaboutthepurposeanduseofanattribute.After
+deletingthesuper˜uousattributes,theusercancon˚gure
+
+themethods.
+3.2.3Customizationrules
+Customizationrulesallowtheusertoaddand/orrede˚ne
+attributesandmethodstomeettherequirementsofthe
+newsystem.Forexample,theusermayaddadditional
+attributessuchas‚‚ordertype™™and‚‚customerstanding™™
+
+orre-specifyhowbackordersareprocessed.Although
+SADAprovidesbasicconsistencychecking,theuser
+mustensurethechangesareconsistent.Theusercus-
+tomizesanobjectbystartingwithitsattributesand
+thenitsmethods.Whentheuserwishestocustomizean
+objectthroughitsattributes,SADApresentsallthe
+attributessotheusercanidentifythecandidateattributes
+
+toberede˚nedoraddadditionalattributes.Similarly,the
+methodsarepresentedtotheuserfromwhichtheuser
+canmodifyoneormoremethodstosuitetheneedsof
+
+theapplication.
+3.2.4Consistencycheckingrules
+Consistencycheckingrulesaremostimportantbecause
+theyensurethecorrectnessofthedesign.Thesewere
+developedtostrengthentheintelligenceofthesystem,
+whileminimizingtheeffortrequiredonthepartoftheuser
+
+whengeneratingapreliminarydesign.Theydosoby
+checkingforinconsistenciesanddependencieswithin
+attributes,withinmethods,andacrossattributesand
+
+methods.Forexample,ifmethod‚‚X™™requiresmethod
+‚‚Y,™™whileselectingmethod‚‚X™™forthenewsystem,
+SADAwillautomaticallyselectmethod‚‚Y™™ifitisnot
+
+alreadyselectedtosatisfythedependencyrelationship.A
+sampleconsistencycheckingrule,writteninJess,isshown
+inFig.
+8.SADAperformsbothintra-objectandinter-object
+consistencychecking.Intra-objectconsistencychecking
+involvesenforcingtheattribute-to-attribute,method-
+
+to-method,method-to-attributeandattribute-to-method
+dependencieswithinanobject.Inotherwords,SADA
+ensuresthatallthedependentattributesandmethods
+
+withinthatobjectareincludedinthenewsystem.The
+inter-objectconsistencycheckingenforcesthedependen-
+ciesbetweenobjects.Forexample,amethodinoneobject
+
+mayrequireamethodinanother,andmustbeincludedin
+thenewsystemifcurrentlynotselected.Duringconsis-
+tencychecking,SADAinformstheuserofthestartand
+Fig.7
+Dependencychecking
+duringprocessselection/
+
+deletion46InfTechnolManage(2008)9:37Œ53
+123 completionofeachtypeofconsistencycheckingand
+generatesareport.
+3.3Localdatamodule
+Thelocaldatamoduletracksthestatusofthedevelopment
+ofthesystemandstorestheartifactsselectedbytheuser.
+Itconsistsofa‚‚factbase™™andan‚‚objectbase.™™Thefact
+basecontainstheinternalrepresentationsofdomainmodel
+artifactssuchasobjectives,processes,actions,objects,and
+dependencies,expressedasfacts.Agenericsetoftem-
+platesforfactscorrespondtothevariousdomainartifacts.
+Forexample,themethoddependenciesareexpressedas
+factsinthefollowingformat:
+Format:(
+Method-Dependency
+:method-name1Method
+m-id1
+requires
+method-name2Methodm-id2)
+Example:(
+Method-Dependency
+:AnalyzeBidResponse
+Method11
+requires
+SubmitBidsMethod10)
+Similarly,thepre-conditionsandpost-conditionsof
+methodsareexpressedasfactsusingthefollowingformat.
+Pre-andpostconditionsareusedtoexpressconstraintson
+themethodexecutionandbehavior.Theycanbechecked
+inconjunctionwithexecutionofcomponentstodetect
+hazardousstatesandchecktherangeofinputandoutput,
+usedinthespeci˚cationofthecomponents.
+Format:(
+Method
+:method-name1Methodm-id1
+pre-condition
+condition-expressionConstraintc-id1)
+Example:(
+Method
+:AnalyzelostSalesMethod15
+pre-
+condition
+‚‚end-of-periodistrue™™Constraint7)
+Format:(
+Method
+:method-name2Methodm-id2
+post-
+condition
+condition-expressionConstraintc-id2)
+Example:(
+Method
+:ReviewReorderPointMethod19
+post-condition
+‚‚reorderpoint>0™™Constraint8)
+Theobjectbasestoresdetailsaboutcomponentsstored
+inthecomponentrepository.Foreachcomponent,itcon-
+tainsinformationaboutthepackageofwhichitisapart,its
+levelinthehierarchy,andrelatedcomponents.Sample
+orderobjectinformationisshowninFig.
+9
+.
+3.4Externalrepositories
+The
+domainmodelrepository
+containsreusableartifacts
+suchasobjectives,processes,actionsanddataobjectsfor
+speci˚capplicationdomainsthatarestructuredusingthe
+frameworkshowninFig.
+1
+.Thedomainanalystcanwork
+independentlytodevelopthedomainmodel.The
+object
+repository
+containsaspeci˚cimplementationofobjects
+foundinthedomainmodel.InSADA,objectshavebeen
+implementedusingtheJavaBeansarchitecture.Partsofthe
+customer,product,andorderobjectsfromthesalesdomain
+areshowninFig.
+4
+.The
+assembledsystemrepository
+storesthedesignsgeneratedduringeachsessionbyname
+anddomain,thusbuildingupovertime.Theabove-men-
+tionedrepositoriesareexternaltoSADAandcanbe
+Format:
+    (
+Component
+: component-name component-id) 
+    (
+Component-Dependency
+: comp-name1  
+               
+           comp-id1 
+requires
+ comp-name2 comp-id2) 
+     (
+Component-Part-Of
+: comp-name1 comp-id1  
+                 
+             
+             
+            
+  comp-name2 comp-id2) 
+    (
+Component-Hierarchy
+: comp-name1 comp-id1 
+super-type
+:
+       com
+p-name2 comp-id2 
+sub-type
+: comp-name3 comp-id3)
+Example:
+   (
+Component
+: Order Component 7) 
+   (
+Component-Dependency
+: Order Component
+              
+              
+            7 
+requires
+ Customer Component 4) 
+   (
+Component-Part-Of
+: Order Component 7  
+contained-in
+ Order Processing Component 1) 
+   (
+Component-Hierarchy
+: Order Component 7 
+super-type
+:
+           Transaction Component 3 
+sub- type
+: Partial Order 11) 
+Fig.9
+Sampletemplatesfordomainartifacts
+(
+defrule
+ single-dependency-present "" 
+     ?rem1 <- (to-be-selected 
+$?X
+ Method) 
+     ?rem2 <- (not-selected 
+$?X
+ Method ?p-id1) 
+     (
+Method-Dependency:
+$?X
+ Method ?p-id1 
+requires
+$?Y
+ Method ?p-id2) 
+     ?rem3 <- (not-selected 
+$?Y
+ Method ?p-id2)   
+ => 
+      (bind ?str1 (str-
+cat "Since the \"" (implode$ 
+$?X
+) "\" Method requires " "\"" (implode$ 
+$?Y
+) "\" Method, ")) 
+      (bind ?str2 (str-cat "it will be autom
+atically included in the Target System.")) 
+      (bind ?str3 "Click on 'OK' to
+ include, or 'Cancel' to abort.") 
+      (bind ?str (st
+r-cat ?str1 ?str2 ?str3)) 
+      (bind ?*d* (new YNDialog ?*current-pnl* "Method De
+letion" ?str "      OK   
+   " "    Cancel    "))) 
+Fig.8
+ConsistencycheckingruleinJess
+InfTechnolManage(2008)9:37Œ53
+47
+123
+ developedindependentlyandinterfacedwithsystemsother
+thanSADA.
+Afterassemblingthenewsystem,SADAgeneratesa
+˚nalassemblyreport.Thisreportcontainstheobjectives,
+
+processes,actionsandobjectsincludedinthenewsystem.
+Ithighlightsthoseprocesses,actions,objects,attributesand
+methodsthatwereautomaticallyincludedtomakethenew
+
+systemconsistentaswellasthenewattributesandmethods
+thatwereaddedduringcustomization.Theusercanstore
+thissystemcon˚gurationintheassembledsystemreposi-
+toryforfutureuse.
+4Empiricalvalidation
+TheeffectivenessoftheframeworkdiscussedinSect.2,
+canbemeasuredatdifferentlevelsofgranularitysuchas
+componentidenti˚cation(step1),internalconsistencyof
+
+thesecomponents(step2),customizedsolution™sappro-
+priateness(step3),andbeyond(suchasthetimetakento
+generatetheinitialdesignandmaintainabilityofthe
+
+resultingsystemarchitecture).Giventhenarrowscopeof
+theprototype(SADA)designedhere,thevalidation
+focusesoncomponentidenti˚cationandsomedegreeof
+
+consistencybetweenthesecomponents.
+4.1Performancevariables
+Thequalityoftheoutcome,generatedbythetwogroups:
+controlandexperimental(thosethatdonothaveaccessto
+theframeworkandthosethatdo),is
+notasinglemeasure
+buta
+composite
+measureofvariousitemsthatareoften
+extractedbythedeveloperduringtheanalysisanddesign
+phases.Thisoutcomemeasureincludesatotalofseven
+scores.Fiveofthesescores(H1a-H1e)correspondto
+
+objectives,processes,actions,higher-levelobjects,and
+softwarecomponentssuchasdetailedobjects(with
+appropriateattributesandmethods).Thesixthscore(H1f)
+
+re˜ectstheoverallconsistencyamongthe˚vedomainand
+softwareobjectcomponentschosen.Alastscore(H1)is
+generatedbyaddingthevaluesofallthesixscores.The
+
+usefulnessofthesystemwasassessedbymeasuring
+thequalitydifferencesamongthesesevenscoresbetween
+thecontrolandexperimentalgroups.Thefollowingseven
+
+hypothesesweretested.
+H1:DevelopersusingSADAwillproducebetteroverall
+designscomparedtothedesignsgeneratedbydevelopers
+withouttheuseofthesystem.
+
+H1a:DevelopersusingSADAwillperformbetterin
+identifyingappropriateObjectivesforthenewsystem
+designthanthedeveloperswithoutaccesstoSADA.
+H1b:DevelopersusingSADAwillperformbetterin
+identifyingappropriateProcessesforthenewsystem
+
+designthanthedeveloperswithoutaccesstoSADA.
+H1c:DevelopersusingSADAwillperformbetterin
+identifyingappropriateActionsforthenewsystem
+
+designthanthedeveloperswithoutaccesstoSADA.
+H1d:DevelopersusingSADAwillperformbetterin
+identifyingappropriate(higherlevel)Objectsforthe
+
+newsystemdesignthanthedeveloperswithoutaccessto
+SADA.
+H1e:DevelopersusingSADAwillperformbetterin
+
+identifyingappropriateDetailedObjectsforthenew
+systemdesignthanthedeveloperswithoutaccessto
+SADA.
+
+H1f:DevelopersusingSADAwillprovidesolutionthat
+isconsistenttothosethatdonothaveaccesstoSADA.
+4.2Experiment
+Thesubjectsforthisstudywerebusinessstudents(MIS
+majorstakingdatabaseandsystemsanalysiscourses)who
+hadnopriorknowledgeofthestudyand/oritsobjectives.
+
+Theyparticipatedinthestudytotestthesystem™susefulness
+andweregivenoptionalpointsfortheirparticipation,but
+thepointstheyreceivedwerecontingentonthequalityof
+
+theireffort(i.e.mereattendancedidnotguaranteefull
+credit).Thirty-twosubjectsparticipatedintheexperiment.The
+subjectsweregivenathree-hourtrainingonthedomain
+andobjectrepositoryreuseforsystemsdevelopment.The
+˚rsthalfofthetrainingintroducedthemtotheframework
+
+anditspotentialforreuse.Thesubjectswereallowedtouse
+thesystemtosolveabankingproblemduringthesecond
+half.Althoughthesubjectswereallbusinessstudents,they
+hadvariedexperienceinthesystemsarea.Theywereasked
+tocompleteaquestionnairelistingtheirpriorbackground
+
+(coursework,part-timework,etc.).Thesubjectswerethen
+classi˚edintoarelativelynovicepoolandsomewhat
+experiencedpool,withmembersfromthesetwopools
+
+randomlyassignedtotwogroups,AandB(controland
+experimental),tolimitanyexperientialbias.
+Twocases(SalesandHumanResource-HR)wereused
+inthestudy.Thesalesdomainknowledgewasextracted
+fromsystemsdevelopers,whohaveworkedinthisdomain
+forseveralyears.Thehumanresourceknowledgebasewas
+
+developedusingtheexperienceofoneoftheresearchers
+andtwohumanresourcemanagers.Thereliabilityofthe
+knowledgebaseoritscomprehensivenesswasnotanissue
+
+inthisvalidation,eventhougheveryeffortwasmadeto
+makethesituationasrealisticaspossible.Neitherofthe
+twoevaluatorswhoscoredtheoutcomewasfamiliar
+48InfTechnolManage(2008)9:37Œ53
+123 withtheseknowledgebases.TheBanking,SalesandHR
+domainmodels,aswellasthetwotestcasesareavailable
+fromtheresearchers.
+GroupAwasgiventheSalescasefor‚‚analysiswiththe
+system™™,andtheHRcasefor‚‚analysiswithoutthesys-
+tem™™.Similarly,groupBwasgiventheHRcasefor
+‚‚analysiswiththesystem™™andtheSalescasefor‚‚analysis
+
+withoutthesystem.™™Bothgroupswereaskedtoanalyze
+theirrespectivecasewiththesysteminitially,sotheywere
+allequallyfamiliarwiththesolutionstructuretheyneeded
+tousetodocumenttheoutcome.Aftertheyturnedintheir
+answersforthe˚rstcase,theyweregivenasecondcase
+
+tosolvewithoutthesystem.Thedatawascodedina
+commonform,numberedforreference,randomized,and
+senttotwoevaluators,whowerenotinvolvedinthe
+
+experiment.A‚‚correct™™solutionwasdevelopedfor
+boththeSalesandHRcasesbytheresearchers.Multiple
+correctsolutionswereallowedprovidedtheyweredeemed
+
+relevant.Theanswerkeysweredevelopedingeneralterms
+toensurethattheevaluatorswerenotpre-disposedto
+gradingtheanswersthatcamefromSADAmorefavorably
+
+thantheanswersthatcamefromsubjectswhohadnotused
+SADA.
+Theproblemofachievingconsensusandobjectivityin
+qualitativescoringisalwaysanissue[
+83].Sincevariability
+inscoringcouldcomefromthecaseused,thegraderofthe
+case,andthesystem,atwo-tailedANOVAwasperformed
+
+toisolatethesigni˚canceofeachfactorthatcontributedto
+thedifferenceinthescoring,aswellastheroleofthe
+interactionamongthesethreefactors.AsseeninTable
+1,theonlyfactorthatcontributedtosigni˚cantvariancein
+scoringwasthe‚system™,asexpected.Theroleofthecase
+usedbysubjectswastestedtoassessifithadanysigni˚-
+cantin˜uenceontheoveralloutcomemeasureaswellas
+
+variousconstituentelementsthatmakeupthisscore.As
+seeninTable
+2,onlythepresenceofthesystemisshown
+tohaveasigni˚cantimpactontheindividualcomponent
+
+andthetotalscores.
+4.3Resultsfromtheexperiment
+Table3providestheaveragescoresundereachscenario
+(withandwithoutthesystem)foreachindividualfactor
+thatmakesupthetotalscore,andthetotalscoreitself.
+
+Theseweretestedfortheirsigni˚canceatthe0.01level
+andtheresultsshowninTable
+3.Thedatasupports
+hypothesesH1andH1aŒH1dandH1f.H1eisnotsup-
+
+ported.Thus,allfacetsofthescore,exceptthedetailed
+objectde˚nitions,weresupported,implyingthatthepres-
+enceofthesystemforcomponentselectionimpactedthe
+
+overalloutcomequalityaswellasindividualidenti˚cation
+ofobjectives,processes,actions,higherlevelobjectsand
+overallconsistency.Thedetailedobjectde˚nitionwasnot
+
+testedstatisticallyassuf˚cientdatawasnotavailablefrom
+bothgroups.Eitherinsuf˚cienttimegiventoanalyzethe
+caseorinsuf˚cienttrainingprovidedtohelpthestudents
+
+understandthisdesignprocessmayhavecontributedto
+thislackofsuf˚cientdata.Eitherway,thisneedstobe
+addressedinfutureresearch.
+Table1
+ResultsofANOVAforoveralltotalscore
+Generallinearmodel:totalscoreversuscase,system,grader
+FactorTypeLevelsValues
+CaseFixed2HRSales
+SystemFixed2WithWithout
+
+GraderFixed2AB
+Analysisofvariancefortotalscore,usingadjustedSSfortests
+SourceDFSeqSSAdjSSAdjMS
+FpCase10.50.50.50.020.899
+System17230.07230.07230.0236.240.000
+
+Grader136.136.136.11.180.279
+
+Case*System166.166.166.12.160.144
+
+Case*Grader152.552.552.51.720.193
+
+System*Grader18.08.08.00.260.610
+
+Case*System*Grader116.516.516.50.540.464
+
+Error1203672.63672.630.6
+
+Total12711082.5
+InfTechnolManage(2008)9:37Œ53
+49123 4.4Implications
+Althoughthesubjectswerestudentswithminimalsystems
+experience,theexperimentisintendedtosimplytestthe
+viabilityoftheframeworkforselectingcomponentsusing
+domainknowledgeandgenerateaqualitysolution.From
+
+thatperspective,theexperimentdemonstratestheoverall
+valueofsuchasystem,withoneexception(detailedobject
+de˚nition).Infact,ifsuchaknowledgebaseisusedand
+
+newdevelopersareabletoproducea‚‚qualitysolution™™
+fromtheserepositories,thenanorganizationmight
+improveitssoftwaredevelopmentproductivity.Future
+researchmayalsoexploretheeffectivenessofthesystem
+whenthesubjectsarebothexperienceddevelopers,aswell
+aswhenthedevelopersincludeamixofinexperiencedand
+experienceddevelopers,tohelpbetterassessthevalueof
+
+theknowledgebaseanditsimpactonproductivity.
+Onthetechnicalside,inthecurrentimplementationof
+SADA,theobjectrepositorycontainscommonobjects
+
+foundineachofthedomainstested.Theseobjectswere
+createdusingtheJavaBeanscomponentmodel,andexhibit
+predictablebehaviorwithawell-de˚nedobjectinterface.
+WhileSADAassumesthatsuchanobjectrepositoryexists,
+itisnotlimitedtohandlingonlytheJavaBeansbased
+Table2
+Resultsoftwo-wayANOVAforthedifferentscores
+SourceDFSSMS
+Fpa.Analysisofvariancefortotalscore
+Case10.50.50.020.898
+
+System17230.07230.0236.810.000
+
+Interaction166.166.12.170.144
+
+Error1243785.830.5
+
+Total12711082.5
+
+b.Analysisofvarianceforobjectivesscore
+
+Case10.070.070.010.909
+
+System1775.20775.20144.280.000
+
+Interaction113.1313.132.440.120
+
+Error124666.225.37
+
+Total1271454.62
+
+c.Analysisofvarianceforprocessesscore
+
+Case10.130.130.070.793
+
+System1215.28215.28119.140.000
+Interaction12.002.001.110.295
+Error124224.061.81
+
+Total127441.47
+
+d.Analysisofvarianceforactionsscore
+
+Case10.780.780.750.388
+
+System1116.28116.28111.880.000
+
+Interaction10.030.030.030.863
+
+Error124128.881.04
+
+Total127245.97
+
+e.Analysisofvarianceforobjectsscore
+
+Case11.131.130.940.335
+
+System1166.53166.53138.880.000
+
+Interaction11.131.130.940.335
+
+Error124148.691.20
+
+Total127317.47
+f.Analysisofvarianceforconsistencyscore
+Case10.280.280.150.701
+
+System1357.78357.78188.490.000
+
+Interaction13.783.781.990.161
+
+Error124235.381.90
+
+Total127597.22
+50InfTechnolManage(2008)9:37Œ53
+123 repository.TheonlyrequirementofSADAisthatthe
+objectrepositorybepopulatedwithcomponentswitha
+well-de˚nedinterfaceandpredictablebehavior.Inthe
+extremecase,theobjectrepositorymaycontainlegacy
+
+codewithappropriate‚‚wrapper™™objectsthatprovidethe
+necessaryinterface.WhileSADAassumesthattheobjects
+intherepositorymeetcertainstandards,certifyingthese
+
+objectsforqualityisbeyondthescopeofthisresearch.
+Byallowingdeveloperstoaccessdomainknowledgeto
+extractprocessrequirements˚rstandusethisknowledgeto
+selectcomponentsfromdesignrepositories,thesystem
+reducesdesign-inducedbias(i.e.apre-dispositiontothe
+
+useofcertainsystemartifacts).Otherresearchershave
+usedsimilarapproachestoaddressbiasbothintheanalysis
+anddesignphases[
+84,85].However,thisapproachdoes
+notpreventexperiencedsystemsdesignerstoselectcom-
+ponentsindependentofthedomainknowledgerepositories.
+5Discussion
+Theproposedframeworkusesknowledgeaboutabusiness
+domaintohelpthedeveloperretrieveappropriatesoftware
+componentsforsystemsdevelopment.Thisapproachhas
+
+severalbene˚ts.First,explicitrepresentationofthedomain
+knowledge,basedonabusinessdomain(e.g.sales,human
+resources,purchasing,etc.)orindustry(e.g.banking,
+
+insurance,˚nance,etc.)[
+86],isrelativelystable.Thus,it
+yieldsmorerobustrequirementsforaninformationsystem
+thanrequirementsde˚nedbyauseratagivenpointintime
+basedonaperceivedneed.Infact,thesoftwareproduc-
+tivityconsortium(www.software.org)callsfortheuseof
+
+domainconcepts,whenappropriate,beforeonebeginsany
+systemdevelopmentactivity,ratherthanfocustooquickly
+ornarrowlyonsystemdesign[
+42].Second,bystartingthedevelopmentprocesswithan
+understandingofthebusinessobjectivesandprocessesa
+newsystemmustsupport,a˚rmcandevelopperformance
+metricsforthenewsystemandevenbenchmarkitscurrent
+processesagainstthoseembeddedintheknowledgebase
+
+forpossibleredesign.Third,suchananalysis,independent
+ofdesignmotives,isvaluablewhenmoreandmore˚rms
+areintentonde˚ningtheirprocessrequirements,andwant
+
+anexternalvendortoprovidethesoftwareorservicesto
+meettheserequirements.Inotherwords,theframework
+withdomainknowledgecanbehelpfulfortheprocessand
+
+systemsanalysisphases,evenifthe˚rmchoosesnotto
+movetothesystemdesignphase.
+Finally,asorganizationskeepdemandingfaster
+developmentofapplicationsystemswithlimitedISre-
+sources,theresponsibilityforbuildingtheseapplications
+fallsnotonlyonlimited(andsometimesinexperienced)
+
+developerresources,butal
+soonexperiencedusers,who
+havesomedomainunderstandingandtechnicalknow-
+howtoinitiatethesystemspeci˚cationprocesswith
+
+relevantcomponents.Thefra
+meworkpresentedinthis
+Table3
+Independentsamples
+T-testofdifferentscoresforwithSADAvs.withoutSADA
+GroupNMeanStdDevPooledvarianceestimate
+Fpt
+df1-tail
+pa.T-testfortotalscore
+WithSADA6440.28133.376934.5800.000015.3781260.0000
+
+NoSADA6425.25007.0531
+
+b.T-testforobjectivesscore
+WithSADA6412.51561.603517.9900.00011.9901260.000
+
+NoSADA647.59382.8659
+
+c.T-testforprocessesscore
+WithSADA648.15630.781131.6220.00010.9511260.000
+
+NoSADA645.56251.7263
+
+d.T-testforactionsscore
+WithSADA646.46880.641623.9650.00010.6291260.000
+NoSADA644.56251.2833
+e.T-testforobjectsscore
+WithSADA644.78130.518559.4270.00011.7911260.000
+
+NoSADA642.50001.4584
+
+f.T-testforconsistencyscore
+WithSADA648.37500.955423.3890.00013.7211260.000
+
+NoSADA645.03131.6994
+InfTechnolManage(2008)9:37Œ53
+51123 researchthussupportsthesearchprocessforselecting
+therightcomponents,ifonemustdesignasystemunder
+theseconditions.Thisshouldfacilitatequickerand
+easiersoftwaredeve
+lopmentand,indoingso,contribute
+tothenotionofagilecomputing.
+Theinitialresultsareencouraging.However,thisstudy
+hassomelimitationswiththemostobviousbeingtheuseof
+
+studentsubjectsintheempiricalvalidation.Ideally,the
+experimentshouldusesystemsanalystsandexperienced
+developersfromindustry.However,wedidnothaveaccess
+tosuchpeople.Hence,upperlevelMISstudentswereused
+becauseoftheirknowledgeandtraininginsystems
+
+development.Theresultsindicatethattheproposed
+approachandthesystemhelpnoviceusers,although,fur-
+therempiricalvalidationwithexperiencedanalystsis
+
+needed.Anotherlimitationisthatthestudydidnottake
+intoaccountthedevelopmentprocessesandthetoolsused
+inindustry.Withouthavingaccesstothecomputing
+
+resourcesandthedevelopmenttoolstypicallyavailablein
+anorganization,itisdif˚culttoreplicatethesamesoftware
+developmentenvironmentinauniversitysetting.
+6Conclusion
+Aframeworkforusingdomainknowledgeandsoftware
+componentrepositoriestoselectspeci˚csoftwarecompo-
+
+nentshasbeenproposedandimplementedinaprototype.
+Thesystemusesbothdomainmodelknowledgeandobject
+repositoriestoassistadeveloperinmappingthefunctional
+
+requirementsofthetargetsystemintoasetofdetailed
+objects,attributesandmethodsthatcouldbeintegratedinto
+thetargetsystem.Thisisintendedtosupportarapidand
+
+agiledevelopmentprocess.Anumberofrulesforconsis-
+tencycheckingareincorporatedinthemethodology.
+SADAsupportsrepackagingofobjects,butnotobject
+
+customization.TheknowledgeprovidedbySADAidenti-
+˚espotentialinconsistencies.Futureversionsmayprovide
+guidanceonhowtoresolvethem.Furthermore,eachcus-
+
+tomizedobjectmaybecomepartoftherepositorywith
+appropriatevalidationandindexingforcontext,sothe
+repositorieswillevolveovertime.
+References
+1.Y.Y.Yusuf,M.Sarhadi,A.Gunasekaran,Int.J.Product.Econ.
+62,33Œ43(1999)
+2.M.Lippert,LargeRefactoringsinAgileSoftwareDevelopment,
+WorkshoponBeyondGreen-FieldSoftwareDevelopment:
+StrategiesforReengineeringandEvolution,OOPSLA(2003)
+3.S.Nerur,R.Mahapatra,G.Mangalraj,Commun.ACM
+48,72Œ78
+(2005)4.H.Sharp,etal.,
+AgileDevelopment:OpportunityorFad
+?(ConferenceonHumanFactorsinComputingSystems,Montre
+´al,Que´bec,Canada,2006)pp.32Œ35
+5.R.L.Nord,J.E.Tomayko,IEEESoftware
+23,47Œ53(2006)
+6.T.Mens,T.Tourwe,IEEET.SoftwareEng.
+30,126Œ139(2004)
+7.C.J.Neill,B.Gill,ITProfessional
+5,33Œ38(2003)
+8.P.Vitharana,H.Jain,Inform.Manage.
+37,297Œ309(2000)
+9.C.Pearson,HealthManage.Technol.
+20,34Œ35(1999)
+10.N.SGill,P.S.Grover,ACMSIGSOFTSoftwareEng.Notes
+28,30Œ34(2003)
+11.M.Goulao,
+Component-BasedSoftwareEngineering:AQuanti-
+tativeApproachOOPSLAÕ05
+(SanDiego,CA,2005),pp.238Œ239
+12.D.Kiely,Informationweek
+677,1AŒ6A(1998)
+13.Z.Gu,K.G.Shin,26thIEEEInt.Real-TimeSyst.Symposium
+167Œ168(2005)
+14.R.Due,Inform.Syst.Manage.
+1,92Œ95(2000)
+15.I.Crnkovic,
+Component-basedSoftwareEngineeringfor
+EmbeddedSystemsInternationalConferenceonSoftwareEngi-
+
+neering(St.Louis,MO,2005),pp.712Œ713
+16.A.Patrizio,Informationweek
+799,81Œ86(2000)
+17.P.Vitharana,F.M.Zahedi,H.Jain,Commun.ACM
+46,97Œ102
+(2003)18.M.Lindvalletal.IEEEComputer
+37,26Œ34(2004)
+19.D.J.Reifer,IEEESoftware19,16Œ18(2002)
+
+20.P.Abrahamssonetal.,ICSE244Œ254(2003)
+
+21.K.Beck,IEEEComputer
+32,70Œ77(1999)
+22.K.Beck,C.Andres,
+ExtremeProgrammingExplained:Embrace
+Change(Addison-Wesley,2004)
+23.A.DeHondt,G.Brandyberry,e-Informatica
+1,45Œ60(2007)
+24.J.A.Highsmith,
+AdaptiveSoftwareDevelopment:ACollabora-
+tiveApproachtoManagingComplexSystems
+(DorsetHouse
+Publishing,NewYork,2000)
+25.S.Bayer,J.Highsmith,Am.Programmer
+7,35Œ42(1994)
+26.J.Stapleton,
+DynamicSystemsDevelopmentMethodÐThe
+MethodinPractice
+(AddisonWesley,1997)
+27.S.R.Palmer,J.M.Felsing,
+APracticalGuidetoFeature-Driven
+Development(2002)28.P.Coad,E.LeFebvre,J.DeLuca,
+JavaModelingInColorWith
+UML:EnterpriseComponentsandProcess
+(PrenticeHall,2000)
+29.DSDMConsortium,
+DynamicSystemsDevelopmentMethod,
+version3
+(Ashford,1997)
+30.K.Schwaber,SerumDevelopmentProcess,WorkshoponBusi-
+nessObjectDesignandImplementation,OOPSLA™95(1995)
+31.K.Schwaber,M.Beedle,
+AgileSoftwareDevelopmentwith
+Scrum(UpperSaddleRiver.Prentice-Hall,NJ,2002)
+32.K.S.Barber,J.Holt,G.Baker,14thinternationalconferenceon
+SoftwareengineeringandknowledgeengineeringSEKE™02,
+
+Ischia,Italy,2002,pp.225Œ232
+33.J.Meekeletal.SoftwareEng.Notes
+22,75Œ80(1997)
+34.W.Tracz,SoftwareEng.Notes
+19,52Œ56(1994)
+35.S.Chan,T.Lammers,
+ReusingDistributedObjectDomain
+Framework.5thIntl.Conf.onSoftwareReuse(Victoria,BC,
+1998),pp.216Œ223
+36.V.Sugumaran,R.Bose,J.IntelligentTechnol.
+8,82Œ94(1995)
+37.V.Peristeras,K.Tarabanis,
+Proceedingsofthe6thInternational
+ConferenceonElectronicCommerce
+ICEC‚04471Œ479(2004)
+38.S.Jarzabek,ACMSIGSOFTSoftwareEng.Notes
+22,65Œ74(1997)
+39.R.B.France,T.B.Horton,
+ApplyingDomainAnalysisand
+Modeling:AnIndustrialExperience.
+Proceedingsofthe1995
+SymposiumonSoftwarereusabilitySSR™95,Seattle,WA,1995,
+pp.206Œ214
+40.Y.Choi,M.Heimdahl,
+18thIEEEInternationalConferenceon
+AutomatedSoftwareEngineering
+314(2003)
+41.K.C.Kang,
+ProceedingsofFifthInternationalConferenceon
+SoftwareReuse
+354Œ355(1998)
+42.W.B.Frakes,K.Kang,IEEET.SoftwareEng.
+7,529Œ536(2005)
+43.M.T.Lubars,M.T.Harandi,
+AddressingSoftwareReuseThrough
+knowledge-BasedDesign
+,byTedJ.Biggerstaff,AlanJ.Perlis,
+SoftwareReusability
+I,II(1989)345-377
+52InfTechnolManage(2008)9:37Œ53
+123 44.M.A.Simos,
+OrganizationDomainModeling(ODM):Formal-
+izingtheCoreDomainModelingLifeCycle
+.Proceedingsofthe
+1995SymposiumonSoftwarereusabilitySSR™95,Seattle,WA,
+
+1995,pp.196Œ205
+45.H.Gomaa,L.Kerschberg,G.A.Farrukh,6thIEEEInt.Confer-
+enceEng.ComplexComput.Syst.
+11Œ14,50Œ60(2000)
+46.S.Jarzabek,H.Zhang,
+ProceedingsofFifthIEEEInternational
+SymposiumonRequirementsEngineering
+27Œ31,166Œ173(2001)
+47.T.Ravichandran,IEEET.Eng.Manage.
+52,249Œ268(2005)
+48.A.I.Morchetal.Commun.ACM
+47,59Œ62(2004)
+49.A.W.Brown,
+Large-scaleComponent-basedDevelopment
+(UpperSaddleRiver,PrenticeHall,NJ,2000)
+50.P.Herzum,O.Sims,
+BusinessComponentFactory:ACompre-
+hensiveOverviewofComponent-BasedDevelopmentforthe
+
+Enterprise.(JohnWiley,NewYork,2000)
+51.I.Crnkovicetal.ACMSIGSOFTSoftwareEng.Notes
+30,1Œ9
+(2005)52.P.Vitharana,H.Jain,F.Zahedi,IEEETSyst.ManCybernetics
+34,460Œ474(2004)
+53.L.F.Capretz,M.A.M.Capretz,D.Li,27thAnnualConferenceof
+theIEEEIndustrialElectronicsSociety
+3,1834Œ1837(2001)
+54.A.Andrews,S.Ghosh,E.M.Choi,
+InternationalConferenceon
+SoftwareMaintenance
+359Œ368(2002)
+55.P.T.Cox,B.Song,
+IEEESymposiaonHuman-CentricComput-
+ingLanguagesandEnvironments
+304Œ311(2001)
+56.I.Crnkovicetal.ACMSIGSOFTSoftwareEng.Notes
+29,1Œ7
+(2004)57.N.S.Gill,ACMSIGSOFTSoftwareEng.Notes
+31,1Œ3(2006)
+58.H.Jain,P.Vitharana,F.Zahedi,TheDATABASEAdvances
+Inform.Syst.
+34,48Œ63(2003)
+59.H.Yao,L.Etzkorn,
+ACMSEÕ04.(Huntsville,Alabama,2004)
+110Œ11560.A.Mili,R.Mili,R.T.Mittermeir,Annu.SoftwareEng.
+5,349Œ
+414(1998)
+61.D.Hemer,
+SpeciÞcation-BasedRetrievalStrategiesforCompo-
+nentArchitectures
+.AustralianSoftwareEngineeringConference
+233Œ242(2005)
+62.Y.Park,P.Bai,GeneratingSamplesforComponentRetrievalby
+Execution,TechnicalReport,UniversityofWindsor(Windsor,
+Ontario,Canada,1997)
+63.M.A.Barbosa,
+AReÞnementCalculusforSoftwareComponents
+andArchitectures,ESEC-FSEÕ05
+(Lisbon,Portugal,2005),
+pp.377Œ380
+64.L.Jilanietal.,
+RetrievingSoftwareComponentsThatMinimize
+AdaptationEffort
+,InProc.ofthe12thIEEEIntl.Automated
+SoftwareEngineeringConference,IEEEComputerSocietyPress
+(1997),pp.255Œ262
+65.O.P.Rotaru,M.Dolore,IEEEInternationalConferenceon
+ComputerSystemsandApplications(2005)
+66.S.Faustle,M.G.Fugini,E.Damiani,SoftwarePract.Exp.
+26,491Œ530(1996)
+67.N.S.Gill,ACMSIGSOFTSoftwareEng.Notes
+28,4Œ7(2003)
+68.M.L.Nelson,T.Poulis,ACMOOPSMessenger
+6,28Œ36
+(1995)69.J.Cheesman,J.Daniels,
+UMLComponents:ASimpleProcess
+forSpecifyingComponent-BasedSoftware
+(Addison-Wesley,2001)70.D.Hemer,
+ProceedingsoftheTwenty-eighthAustralasiancon-
+ferenceonComputerScience
+38(2005)
+71.B.H.C.Cheng,J.J.Jeng,IEEET.KnowledgeDataEng.
+9,341Œ
+349(1997)
+72.J.Penix,
+CompositionalSpeciÞcationofSoftwareArchitecture
+.ProceedingsoftheThirdInternationalWorkshoponSoftware
+architecture,Orlando,FL,1998,pp.113Œ116
+73.A.M.Zaremski,J.M.Wing,ACMT.SoftwareEng.Methodol.
+6,333Œ369(1997)
+74.Y.Chen,B.H.C.Cheng,
+ASemanticFoundationforSpeciÞca-
+tionMatching,inFoundationsofComponent-BasedSystems
+,ed.
+byM.Sitaraman,G.Leavens(CambridgeUniversityPress,
+
+2000)75.Y.Chen,B.H.C.Cheng,
+FormalizingandAutomatingComponent
+Reuse.IEEEProc.ofInternationalConferenceonToolswith
+Arti˚cialIntelligence(1997)
+76.J.Penix,P.Alexander,Chapter10,Component-BasedSoftware
+Engineering:CaseStudies,inREBOUND:AFrameworkfor
+AutomatedComponentAdaptation(WorldScienti˚c,2004)
+77.Y.Ding,N.Napier,
+MeasurementFrameworkforAssessingRisks
+inComponent-BasedSoftwareDevelopment
+.Proceedingsofthe
+39thAnnualHawaiiInternationalConferenceonSystemSci-
+ences9(2006)
+78.V.Sugumaran,V.Storey,DATABASEAdvancesInform.Syst.
+34,8Œ24(2003)
+79.X.Wang,C.W.Chan,H.J.Hamilton,
+DesignofKnowledge-
+basedSystemswiththeOntology-domain-systemApproach
+.14th
+internationalconferenceonSoftwareengineeringandknowledge
+engineeringSEKE‚02(Ischia,Italy,2002),pp.233Œ236
+80.V.Sugumaran,M.Tanniru,V.Storey,Commun.ACM
+43,312Œ
+322(2000)
+81.P.Khambekaretal.,
+6thWorkshoponInformationTechnologies
+andSystems
+(Cleveland,1996),pp.299Œ303
+82.E.Friedman-Hill,
+Jess,theExpertSystemShell
+(SandiaNational
+Laboratories,Livermore,CA,2007).URL:http://herz-
+
+berg.ca.sandia.gov/jess83.D.Batra,J.A.Hoffer,R.Bostrom,Commun.ACM
+33,126Œ139
+(1990)84.R.Agarwal,M.Tanniru,KnowledgeAcquisition
+3,421Œ441
+(1991)85.R.Agarwal,L.Roberge,M.Tanniru,Inform.Manage.
+27,261Œ
+274(1994)
+86.J.M.Neighbors,
+ProceedingsoftheThirdInternationalConfer-
+enceonSoftwareReuse
+6Œ13(1994)
+InfTechnolManage(2008)9:37Œ53
+53123

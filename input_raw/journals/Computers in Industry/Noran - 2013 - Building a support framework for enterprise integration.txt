@@ -1,0 +1,535 @@
+ Building a support framework for enterprise
+ integrationOvidiu Noran*Grifﬁth University Australia, School of ICT, Australia1. IntroductionTypically, the enterprise engineering (EE) tasks involved inreaching and maintaining enterprise integration (EI) are on-going,complex, and often involve partially and/or ill-deﬁned constraints.This is also because EI is indeed a multi-faceted concept involvingconsistency of data, dynamic allocation of resources and consis-tency in decision-making so as to address a coherent set of localand/or distributed objectives [1].Thus, EE project managers are expected to constantly evaluateand understand the current situation, clarify and choose anoptimal future state, grasp the scope and content of the changeprocess required, gather knowledge of useful artefacts, and thenselect, model and communicate the ‘way forward’ to theorganisation(s) involved.Enterprise architecture (EA) holds the promise to helpstakeholders manage the on-going EE effort in a consistent andcoherent fashion, both within and between organisations, so as toachieve and maintain EI. However, EA itself is currently a rathernew ﬁeld and as such lacking agreed-upon consistent deﬁnitions.As a result, stakeholders and EE project managers are still ratherconfused as to (a) ‘what needs to be done next’ to achieve/maintainintegration and (b) what artefacts (e.g. models, methods,frameworks, or combinations thereof) to use to model, evaluate,choose and communicate (a).Current systems such as Executive Dashboards, based onExecutive Information Systems principles as described by Voloninoand Watson [2], focus more on presenting existing data rather thanon actively assisting the decisional effort. This paper describesinterim results of the on-going research efforts aiming deﬁne aframework to support decision-making in EE projects by using theanalysis of the interactions between project participants in thecontext of their lifecycles. The framework assists in the EE effort byeliciting the domain know-how of the project stakeholders andusing it to discover and describe the relevant aspects of the EEproject at hand – such as processes and their associated data,relations between participating entities, decisional aspects.Mainstream Architecture Framework (AF) elements and support-ing tools are employed by the system in order to model the newknowledge thus created and help the participant organisation(s)understand and internalise it.Note that due to scope and space limitations, the main aim ofthis paper is to explain the concepts and high-level structure of theproposed framework, rather than providing a full description. Theinterested reader can ﬁnd such details in [3].2. Requirements for the proposed frameworkThere are notable challenges in achieving EI (and implicitly,interoperability and compatibility as described in [4]). Panetto andMolina [5] summarize a substantial set of current issues in EI andinteroperability featuring among others the need for design andengineering methodologies, reference model repositories (encap-sulating reusable enterprise engineering (EE) models) and toolsrequired to integrate business and manufacturing models.Currently, a considerable number of AFs offer artefacts aimingto satisfy the above-mentioned requirements; however, theirterminology and coverage typically displays gaps and overlaps thatComputers in Industry 64 (2013) 29–40A R T I C L E I N F OArticle history:Received 26 February 2012Accepted 18 September 2012Available online 9 October 2012Keywords:
+Enterprise architectureEnterprise integrationMeta-methodologyA B S T R A C TKnowing
+ ‘what
+ to do next’ and what artefacts
+ to use so as to achieve
+ the
+ desired future
+ state of anenterprise
+ is a recurring
+ management
+ conundrum.
+ This paper describes a framework
+ (and
+ a possible
+application)
+ aimed to support the efforts
+ to achieve
+ and maintain
+ enterprises
+ (or networks
+ thereof)
+ in astate where the ﬂows of material
+ and information
+ are
+ seamlessly
+ integrated
+ so as to not only achieve
+ theinternal and external synergy
+ and agility required
+ to survive but also to thrive in today’s
+ fast-evolving
+business
+ environment.
+ The framework
+ is based
+ on the integration
+ of a structured
+ repository
+ containing
+architecture
+ framework
+ elements
+ and a set of steps
+ guiding
+ the creation
+ of speciﬁc enterprise
+engineering
+ tasks.
+ An outline of the
+ theoretical
+ foundation
+ is followed
+ by a high-level
+ description
+ of therequirements,
+ architectural
+ and detailed
+ design descriptions
+ of the
+ proposed
+ support framework
+ and itspotential
+ application
+ as a decision
+ support
+ system. 2012 Elsevier
+ B.V.
+ All rights
+ reserved.
+* Tel.: +61 7 3735 5382.E-mail address: O.Noran@grifﬁth.edu.au.Contents lists available at SciVerse ScienceDirect
+Computers in Industryjo ur n al ho m epag e: ww w.els evier
+ .c om /lo cat e/co mp in d0166-3615/$ – see front matter  2012 Elsevier B.V. All rights reserved.http://dx.doi.org/10.1016/j.compind.2012.09.006 make them confusing to intended users [6].1Most AFs also offerproprietary approaches and supporting tools – thus triggering the‘vendor lock-in’ risk.In addition, according to Molina et al. [7], new ‘killer’-type ICT-based applications and systems likely to become ubiquitous mustsupport and satisfy several fundamental requirements, notablyincluding EI and interoperability, human–software/hardware
+integration, cooperation and agility.Past and current research of the author has tried to deﬁne theguidelines for an approach tackling the above-mentioned needs inan integrated manner by providing a framework integrating arepository of AF artefacts supporting EI/EE/EA and a method tocreate speciﬁc EE tasks based on a set steps and the selection ofartefacts from the above-mentioned
+ repository. It is hoped thatthis approach will help address the methodology, modelling andreusability aspects of the above-mentioned
+ challenges identiﬁed inthe EI domain.3. Theoretical base and components of the support frameworkThe foundation of the proposed support system originates inresearch attempting to assess the feasibility and deﬁne theprinciples of a method to create methods (‘meta-methodology’)
+guiding speciﬁc projects in the Collaborative Network (CN) andVirtual Organisation (VO) area [8,9]. As the name implies, the mainresult of the meta-methodology application to a speciﬁc project is amethod typically expressed in one of more activity modelsdepicting tasks necessary to accomplish that project. The researchhas deﬁned several steps required to achieve the above-mentioned
+outcome: thus, the project stakeholders must ﬁrst understand theproblems of the current state, then reason about possible ways tosolve them and subsequently select the optimal solution for theproject at hand. This involves modelling various viewpoints usingappropriate views, formalisms, reference models (RMs) possiblygrouped in modelling frameworks (MFs). The meta-methodologyassists stakeholders in using their (often tacit) domain knowledge(Fig. 1 left) to infer new facts by following a guided process ofbusiness modelling. The newly created knowledge is explicit(expressed in the models created) and used primarily toaccomplish the project. However, it will typically be alsointernalised by other stakeholders and reﬂected in futuredecision-making [10], thus enriching and completing the corporateknowledge lifecycle. The meta-methodology has been tested inseveral case studies, e.g. [9,11].3.1. A step-by-step method to construct methodsAs can be seen from Fig. 1, currently the meta-methodologycomprises three major stages and a set of sub-steps. In the ﬁrststage, the user is prompted to create a list containing entities ofinterest to the project in question, making sure to include projectparticipants, target entities (organisations, other projects beingbuilt/managed by the project at hand) and importantly, the EEproject itself. The second stage comprises the creation of businessmodels showing the relations between the previously listedentities in the context of their lifecycles, i.e. illustrating how entitiesinﬂuence each other within each life cycle phase. The third stageassists the user in inferring the set of project activities by readingand interpreting the previously represented relations for each lifecycle phase of the target entities. The activities must be detailed toa level deemed as comprehensible
+ (and thus usable) by theintended audience. This task is assisted by other models andartefacts built and adopted during the second stage.The ﬁrst meta-methodology sub-step calls for the selection ofsuitable aspects, or viewpoints reﬂecting stakeholder concernsFig. 1. Simpliﬁed meta-methodology concept (using an IDEF0-based [44] formalism).1Previous research [7,8] has attempted to address the lack of a commonlyagreed-upon terminology leading to reduced AF acceptance.O. Noran / Computers in Industry 64 (2013) 29–4030 (ISO/IEC 2005; [12]) to be modelled in each stage (note that the lifecycle viewpoint representation is mandatory and essential to themeta-methodology). The selection of a MF is also recommended, asMFs typically feature structured collections of views that can beused as checklists of candidate aspects and their intended coverage.This sub-step also requires the identiﬁcation and resolution of anyaspect dependencies. The second sub-step asks the user todetermine if the present (AS-IS) state of the previously adoptedviews needs to be shown and whether the AS-IS and TO-BE (future)states should be represented in separate, or in combined models.The third sub-step requires the selection of suitable modellingformalisms and modelling tools for the chosen aspects.More details on the meta-methodology
+ stages and sub-stepsare presented in Section 4.3. It is to be noted that all the above-described stages and sub-steps have underlying logic guiding theuser in the decision-making process. A simpliﬁed sample subset ofthis logic (reﬁned and implemented in the form of rules and facts inthe practical application of the support framework) is presented inSection 4.2.Importantly, research and testing have determined thatalthough originating in the CN/VO area, the meta-methodology
+is in fact applicable to any EE project type, due to its open characterand neutral approach towards all major AFs and enterprisemodelling approaches [3].3.2. A structured repository of AF elementsThe meta-methodology concept relies on creating and inter-preting models depicting various aspects of the EE projectparticipants. This modelling effort requires the selection ofmethods, languages, tools, MFs and RMs according to speciﬁcproject requirements and best practice. Since such artefacts aretypically structured in AFs, the question is how to ﬁnd suitable setsof AF components for speciﬁc projects. A possible answer is toconstruct ranked lists of suitable AF elements and ask thestakeholders to pick the most appropriate ones in view of theirdomain knowledge (which is a required input to the meta-methodology – see Fig. 1 left).For this to be possible, AFs must ﬁrst be decomposed inelements assessed on their scope, integration, dependencies, etc.and organised in a coherent collection using a set of consistentcriteria. Thus, mainstream AFs have been (and still are) assessedand decomposed in respect to ISO15704 Annex A (GERAM,2see[13] for details). The reason behind the choice of reference AF istwofold: ﬁrstly, GERAM attempts to be neutral in respect to allassessed AFs and secondly, it contains most of the components andviewpoints necessary for AF element classiﬁcation.PERA3[14], GRAI-GIM4[15,16], CIM-OSA5[17], ARIS6[18],Zachman7[19] and DoDAF8[20] have been decomposed usingGERAM [21,22] (see Fig. 2, top). Other AFs, such as TOGAF9[23],TEAF10[24] and FEAF11[25] are currently being added to therepository. The collection of AF elements obtained in this way (seeFig. 2, bottom) has been structured using criteria such as type,family. The result of this arrangement is referred to hereafter inthis paper as the ‘structured repository’ (SR).4. Design of the support framework4.1. Knowledge and decision making in enterprise engineering andintegrationKnowledge is not only present in all organisations in variousforms (explicit, tacit, descriptive, procedural, reasoning) but alsocontinuously produced (or converted [26]) as a consequence ofknowledge-intensive
+ decision-making processes [27]. Knowledgeis an enabler of organisational agility, ensuring survival andcompetitiveness;
+ thus, its capturing, representation, processingand the selection of supporting technology and infrastructure [28]is a major concern of management.EI tasks present as part of the EE effort often display a semi-structured character due to insufﬁcient information and theinherent complexity of organisational change processes. This mayrequire EE project managers to make ‘semi-programmed’ decisions[29] that are difﬁcult to encode in a program, but can be facilitatedby a decision support system (DSS) [30].This obvious need for decision-making guidance and support inEE has led to the idea of materialising the knowledge acquisition,structuring and transformation capabilities of the meta-method-ology presented in Section 3.1 in the form of a support frameworkfor EE (and a possible DSS practical application) that would helpstakeholders such as enterprise architects, project managers andChief Information Ofﬁcers identify problems, ﬁnd suitable solu-tions and deﬁne change processes to implement them.EE decision-making involves problem solving in addition tousing well-deﬁned procedures. This mandates a cooperative andinteractive support framework, allowing the users to address thepart of the problem that cannot be structured and to use their owninsights to modify and/or reﬁne the solutions proposed by thesystem [31]. In this speciﬁc case, the users must be able to reviewand accept/override the ordering in the ranked lists of elementssuitable for the EE problem. Interactivity and cooperation promoteacceptance of the approach proposed by the framework; equallyimportant, they put to use natural knowledge management skillsand talents that cannot be programmed into a machine [27].Finlay [32] has deﬁned some basic requirements for DSS, whichare reﬂected in the proposed framework’s functionality: helpdetect existing problems, model a problem situation to clarify it,provide the means to consider various options (e.g. via simulation)and help with implementation of change (by assisting in themodelling of the TO-BE states). The framework attempts to provideassistance in all essential decision-making phases [29]: intelli-gence gathering (via AS-IS modelling), design (via TO-BE modellingof several scenarios), choice (via simulation) and review (via theanalysis of scenario results).Other typical DSS
+ requirements
+ such
+ as robustness
+ and ease
+ of use
+and control
+ [33]
+ can
+ be satisﬁed
+ here by using
+ tested off-the shelf
+(but highly
+ conﬁgurable)
+ components
+ providing
+ most
+ necessary
+services,
+ such
+ as web-based
+ shells.
+ This
+ allows
+ focusing the efforttowards
+ the knowledge repository
+ development and user interface
+improvement,
+ rather
+ than
+ on the intricacies
+ of implementation.
+ The
+knowledge captured
+ by the system
+ should
+ be easily
+ accessible
+ fordebugging and upgrading–
+ thus preferably
+ stored
+ in plain text format.The framework must also allow the user to bookmarkimportant decision points so as to be able to backtrack if thedecisions made have led to unsatisfactory outcomes. This wouldallow the analysis of various scenarios and cycling until anacceptable solution is obtained [34].4.2. The architectural design of the proposed frameworkThe
+ close
+ connection
+ between
+ EE decision-making
+ and
+ knowl-
+edge
+ management
+ has
+ suggested
+ a rule-oriented
+ knowledge-based
+2The generalised enterprise reference architecture and methodology.3The Purdue enterprise architecture framework.4Graphs with results and activities interrelated.5Open system architecture for computer integrated manufacturing.6Architecture for information systems.7The Zachman architecture framework.8Department of defence architecture framework.9The open group enterprise architecture framework.10Treasury enterprise architecture framework.11Federal enterprise architecture framework.O. Noran / Computers in Industry 64 (2013) 29–40 31 paradigm
+ [27]
+ for
+ the
+ proposed
+ framework
+ and
+ its practical
+application
+ as a DSS.
+ The
+ adopted
+ structure
+ of the
+ system
+ builds
+on previous
+ mainstream
+ research
+ in this
+ area.
+ Thus,
+ essential
+elements
+ of knowledge-based
+ DSS
+ described
+ by Sprague
+ [35]
+,Sprague
+ and Carlson
+ [36]
+ and
+ Marakas
+ [37]
+ are
+ present
+ in this
+ design
+– such
+ as a rule-based
+ knowledge
+ base
+ where
+ database
+ elements
+ are
+represented
+ as facts
+ and
+ rules,
+ a model
+ base
+ (populated
+ by RMs
+ ofthe
+ AFs
+ or abstracted
+ from
+ previous
+ projects)
+ and a dialog
+ generation
+mechanism
+ (possibly
+ provided
+ by an inference
+ engine
+ and
+ its
+associated
+ user
+ interface).
+ Hence,
+ the
+ DSS
+ based
+ on the
+ proposed
+framework
+ will
+ seek
+ to apply
+ best
+ practice
+ using
+ rules/ranking
+ facts
+and
+ to consider
+ user
+ insights
+ using
+ run-time
+ asserted
+ facts.
+ This
+ will
+construct
+ a set
+ of solutions
+ ordered
+ by suitability
+ and
+ presented
+ in aform
+ that
+ will
+ assist
+ the
+ decision-making
+ effort
+ [38]
+.Fig. 3 presents the knowledge base approach adopted for the SRdescribed in Section 3.2, containing rules for element selection (e.g.via pattern matching) and ordering (for ranked lists), ﬁxed facts(e.g. AF element representations) and other rules containing thelogic necessary for system operation. Typically, rules take the formof IF/THEN statements (their implementation depending on theFig. 2. Assessment of mainstream AFs using GERAM.O. Noran / Computers in Industry 64 (2013) 29–4032 speciﬁc inference engine used). For example, the rule to decidewhether to model the present state (AS-IS) in an EE project couldtake the following form:IFððTO-BE obtained from AS-ISÞ OR ðAS-IS not understoodÞÞTHENðmodel AS-ISÞ(1)Thus, the ‘model the present state’ (model_AS-IS) rule will ﬁre ifthe user asserts the fact that the AS-IS is not understood or the factthat the TO-BE will be obtained from the AS-IS. Another example:IFðundecided TO-BEÞ THEN ðseveral TO-BEÞ (2)and, as a likely consequence:IFðseveral TO-BEÞ THENðseparate AS-IS TO-BEÞ; (3)Thus, if the stakeholders do not have a clear and common viewof the future state of the enterprise and assert this at run-time(AS-IS_not_understood
+ in (1)), then several TO-BE states will berequired (see (2)) and it is likely that they will need to be shownseparately from the AS-IS state (see (3)). Note that although (3) is asomewhat typical consequence of (2), the user is allowed tooverride (3) if there is a compelling reason to do so. Generally,various levels of interactivity can be provided so as to match theﬂexibility needs and skill level of the user.The
+ stages
+ and
+ sub-steps
+ of the
+ underlying
+ meta-methodology
+(see
+ Fig.
+ 1) have
+ been
+ incorporated
+ as rules
+ in the
+ knowledge
+ base,
+as shown
+ in Fig.
+ 4 bottom-left.
+ Thus,
+ in the
+ current
+ form,
+ the
+ meta-
+methodology
+ stages,
+ sub-steps
+ and
+ logic
+ required
+ for their
+ proper
+operation
+ are modelled
+ by rules,
+ the
+ AF elements
+ are
+ represented
+by ﬁxed
+ facts
+ while
+ the
+ user
+ motivations/decisions
+ (accept/override
+system
+ recommendations)
+ and
+ other
+ inputs
+ are
+ modelled
+ via
+ run-
+time
+ asserted
+ facts.
+ As expected,
+ the
+ solutions
+ are to be built
+ by (a)rules
+ implementing
+ stage
+ and
+ sub-step
+ logic,
+ ﬁring
+ according
+ torun-time
+ asserted
+ facts
+ and
+ (b)
+ pattern-matching
+ routines,
+ ensur-
+ing
+ that
+ all
+ dependencies
+ of the
+ ﬁxed
+ facts
+ representing
+ recom-
+mended
+ and/or
+ selected
+ AF elements
+ are satisﬁed.
+4.3. Detailed design: main steps of the proposed support systemDue to space constraints, detailed design descriptions havebeen limited to the components reﬂecting the original meta-methodology stages and sub-steps described in Section 3.1 andFig. 1. The level of detail has been kept low and plain text has beenused to describe rule components so as to reduce complexity andhelp understanding. Once again, the interested reader is directed to[3,9] for details.4.3.1. Stage One: create a list of entities relevant to the EE projectSystem explanation/recommendation
+ (E/R): At this early stage,type and granularity consistency of the entities relevant to theproject is not important. Thus, the set may contain documents,entire organisations, individuals, policies, etc. The target organisa-tion(s) (i.e. that are being created or evolved) and the EE projectitself must be included in the list.4.3.2. Stage Two: business models of entity relations in a life cyclecontextE/R: Represent the interactions between the entities listed, inthe context of their life cycles (i.e. for each life cycle phase of theFig. 4. Decision support framework architecture and possible outcomes.Fig. 3. Structured repository in knowledge base format.O. Noran / Computers in Industry 64 (2013) 29–40 33 target entities). Focus on the target organisation(s) and on the EEproject. Restrict the representation
+ of each entity to the extent oflife cycle phases that is relevant to the project in question (to keepmodel complexity low). In view of the knowledge gained whilebuilding the models, re-assess the relevance of each entity to theEE project and the need for its presence in the models.4.3.3. Stage Three: the set of activities describing the EE projectaccomplishmentE/R: Create a set of activities for each life cycle phase of the EEproject and of the entities to be created/evolved by it. Describe theinputs, outputs, controls, resources, etc. needed for each activityusing the interactions detailed in the business models created inStage Two. Decompose the set of activities using views chosen inprevious Stages, contained in the selected MF and in the knowledgebase (in that order).4.3.3.1. Sub-step A: (select relevant aspects and an MF). E/R: Unlessexplicitly mandated, this sub-step need not apply to Stage One. Re-use of aspects selected in previous Stages is recommended (systemto build and display list, user to conﬁrm/override).Rules: Life cycle aspect mandatory. Functional aspect manda-tory in Stage Three. Select an MF (a) as mandated by user, (b)according to existing skills, or (c) containing most of the aspectsrequired by the project scope. Some typical aspects: management(or control)/service (or production, depending on enterprise’sproﬁle), human extent, decisional, organisational, functional,resources, informational, stakeholder, concern, hardware/soft-ware. Attempt to recommend an MF according to project scope;if none found suitable use the MF of GERA12(as currently havingthe most usable artefacts); recommend complementary views ifthe selected MF lacks them.Stakeholder input (SI): Accept/override recommendations.Rules: Check dependency and overlap of selected aspects, warnand conﬁrm with user if overlaps detected and/or additionalaspects required. Record decision, set bookmarks to enablebacktracking to decision junctions.4.3.3.2. Sub-step B: (AS-IS required? Type of AS-IS and TO-BErepresentation). E/R: Uniﬁed AS-IS/TO-BE representation is recom-mended in Stage One. In Stage Three, use the same representationtype as in Stage Two unless otherwise mandated.Rules: Apply this sub-step for all aspects selected in Sub-step A.TO-BE representation is mandatory. AS-IS must be represented ifthere is no clear common understanding of the present state bystakeholders, or if the TO-BE state must be evolved from the AS-IS.Represent AS-IS and TO-BE separately if there are obvious beneﬁts(allow better critical analysis and more clarity for elaboratescenarios, etc.).SI: Accept/override recommendations, make decision.Rules: Record decision, set bookmarks.4.3.3.3. Sub-step C: (modelling formalisms, tools). E/R: Chooseformalisms (modelling languages) that best support the aspectsselected in Sub-step A and choose tools supporting theseformalisms (ranked lists provided by the system). In Stage Onekeep things simple (e.g. use plain text editor).Rules: Create ranked lists of suitable formalisms and tools foraspects selected in Sub-step A, using best practice criteria – e.g.used in previous Stages (priority criterion), potential reuse, aspectcoverage factor,13whether part of an integrated set (ranked onwhether formally – e.g. via underlying metamodels – or not), etc.Ranking uses the properties displayed by all AFs present in the SR(see Fig. 3).SI: Accept/override
+ recommendations (e.g. particular lan-guage(s)/tool(s) preferred).Rules: Perform dependency check for chosen elements, recorddecision, set bookmarks.4.4. ImplementationCurrently, the main research work is directed towardsextending the SR and developing and testing the support systemrules in real case studies until reaching a maturity level suitable forfull-scale implementation. Nevertheless, prototypes of the systemhave been implemented using various expert system shells, suchas JESS [39,40].5. Case study: operation of the support frameworkThe behaviour of the proposed system can be tested beforereaching the full implementation
+ phase since most of the essentialrules and facts are known at this stage. In this particular case, aFig. 5. AS-IS and TO-BE states of the enterprise engineering project.12Generalised enterprise reference architecture, a component of GERAM.13i.e. showing how well an AF element can represent a particular aspect for agiven life cycle phase.O. Noran / Computers in Industry 64 (2013) 29–4034 facilitator familiar with the rules and facts present in the KB hasperformed the functions of the user interface and the inferenceengine, applying rules, asserting facts to reﬂect stakeholders input,building ranked lists and assisting in the creation, presentation,and interpretation of the results.5.1. The speciﬁc enterprise engineering taskFaculty F of university U contains several schools, S1–S4.Schools S1 and S2 have the same specialisation
+ but differentorganisational cultures and staff proﬁles. Geographically, school S1Fig. 6. GRAI-Grid modelling formalism for decisional aspects (mapped ‘Roles’ show a possible use of this formalism for organisational modelling).Fig. 7. Modelling formalism used for the management/service (or product) views of the business model. Note the strong life cycle context. Rectangles are placeholders formodels.O. Noran / Computers in Industry 64 (2013) 29–40 35 Fig. 8. Business model expressing entity roles in accomplishing the EE project.Fig. 9. Simpliﬁed AS-IS decisional/organisational model (DC text omitted for clarity).O. Noran / Computers in Industry 64 (2013) 29–4036 is based at two campuses located at L1 and L2, while school S2 isbased on a single campus located at L3 (see the AS-IS in Fig. 5).Although within the same faculty, and providing education in thesame area, S1 and S2 are confronted with discrepancies in theirproducts and resources – such as program content, allocatedbudget, scholarship conditions, academic staff proﬁles. Thissituation results in increased student administration and teachingmaintenance costs, competition for resources, staff perceptions ofinequity and it also projects a complex and confusing school imageoutside the faculty and university.Previous experiences suggested that a cross-campus manage-ment layer steering a common approach to teaching and researchwould facilitate the coordination and consistency of the productsdelivered and of the resource allocation for the two schools. Theproposed change process would make schools S1 and S2 appear asone indivisible entity to the outside environment, while preservingmost of their current internal structure – thus, in effect forming along-term VO (shown as ‘uniﬁed school’ (US) in the TO-BE area ofFig. 5).Some typical hurdles in VO creation, such as trust building andagreement on the ICT infrastructure were to be alleviated by F andU in the role of Breeding Environments (BE) [41] The mainstakeholders of the project are the management of U, F, S1 andS2 (Heads of School, School Committees, Faculty Dean, Pro-Vice-Chancellor, etc.).The stakeholders did not have a shared, agreed upon initialunderstanding of the present state of the schools, especially of thedecisional and organisational aspects. Moreover, while the needfor action and general direction had been identiﬁed and mandatedby higher echelons, speciﬁc alternatives had not been speciﬁed.Thus, there was a need to understand the present situation,identify the options available and devise a roadmap to achieve theselected solution.5.2. Application of the decision support framework5.2.1. Stage One: identify the entities relevant to the EE project5.2.1.1. Sub-step A: (select relevant aspects and an MF if applica-ble). Stakeholder Decision (StD): No aspects selected (systemrecommendation accepted). Stakeholder Motivation (StM): Simplic-ity of the representation is paramount in obtaining a commonunderstanding of the EE project scope.5.2.1.2. Sub-step B: (AS-IS required? Separate or uniﬁed AS-IS and TO-BE?). (StD): Represent AS-IS. Use combined AS-IS/TO-BE represen-tation.(StM): No common understanding/agreed
+ view on the presentstate of S1 and S2. No advantage in having separate but almostidentical entity sets for AS-IS/TO-BE.5.2.1.3. Sub-step
+ C (modelling
+ formalisms,
+ tools).
+ (StD
+): Choose
+ plain
+text.
+ Choose
+ a text
+ editor
+ as ‘tool’
+ (accept
+ system
+ recommendation).
+(StM): Formalism and tool must preserve simplicity.The entity list was built according to the selections made(entities legend in Fig. 8).5.2.2. Stage Two: business models of entity relations in a life cyclecontext5.2.2.1. Sub-step A (aspects, MF). (StD): No user preference for aparticular MF; accept system default – GERA’s MF. Using the MFcontents (see Fig. 7 left) as an aspect checklist, establish theFig. 10. Preferred TO-BE decisional/organisational model (DC text omitted for clarity).O. Noran / Computers in Industry 64 (2013) 29–40 37 necessity for management/service, decision and organisationalmodels. All aspects to be shown in the context of life cycle ifapplicable (see Stage Two deﬁnition).(StM): Aspects selected as matching the scope of the project.Organisational aspect used to discern between the AS-IS and TO-BEstates (see Sub-step B).5.2.2.2. Sub-step B (AS-IS? Separate or combined AS-IS/TO-BE?). (StD): Represent the AS-IS state. For management/serviceand life cycle, represent AS-IS and TO-BE combined. Representdecisional and organisational views in separate models. (StM): Nocommon understanding of the present S1 and S2 states. SeparateAS-IS/TO-BE business models not necessary for the management/service aspect, but essential for organisational structures in orderto distinguish between proposed TO-BE scenarios.5.2.2.3. Sub-step C (modelling formalisms, tools). (E/R): Ranked listsof formalisms and tools with justiﬁcations are presented. Forexample in the decisional formalism area, GRAI-Grid [15] (Fig. 6)ranks highest for its specialisation and due to potential multipleuse (decisional and organisational).
+ Highest ranking tool: IMAGIMGraiSoft [42] for having native support for GRAI-Grid.(StD): For management/service,
+ accept system recommenda-tion: a formalism based on GERA (Fig. 7 right). For decisional/organisational use GRAI-Grid. Tool: simple graphical editor.(StM): No speciﬁc modelling language skills are available in theorganisations participating in the EE project; hence, accept systemrecommendations. However, tool recommendation overridden dueto lack of speciﬁc skills and time constraints.(E/R): Warning: due to override, models’ syntax and consistencymust be manually checked.The models showing the selected aspects were constructed inview of the Stage Two system recommendations.
+ The businessmodel constructed for the management/service aspects (Fig. 8)shows several entities affecting various life cycle phases of theuniﬁed school US directly or via other entities. The main inﬂuenceon US comes from the EE project (USP), which is decommissionedby the faculty F once US starts operating.The AS-IS decisional model (see Fig. 9) has emphasizedmanagement problems such as interventionism of the PlanningDecision Centre (DC) and a lack of effective strategy within theorganisation. This is shown in Fig. 9 by Decisional Frameworks(DFs) ﬂowing horizontally from Planning at several horizons. A lackof sufﬁcient ﬁnancial and decisional independence
+ of S1 and S2 isalso shown in the model by a lack of Planning DCs at strategic leveland by DFs originating outside the schools.The TO-BE decisional model attempted to address theseproblems by conﬁning the authoritarian role of Planning to thestrategic level and increasing the ﬁnancial and decisionalindependence of US. This is reﬂected in a lesser number ofhorizontal DFs originating from Planning and in negotiated andrelocated external DFs (see Fig. 10).In this project, the TO-BE scenarios could only be distinguishedby differences in organisational models. They were obtained byFig. 11. Initial model of uniﬁed school creation and operation method: one activity per life cycle phase (Note: identiﬁcation phase performed by higher echelons).O. Noran / Computers in Industry 64 (2013) 29–4038 allocating S1 and S2 human resources to DCs in the decisionalmodel (see areas marked as various Committees and HOS in Figs. 9and 10). Thus, having separate AS-IS and TO-BE decisional modelshere was essential.5.2.3. Stage Three: the set of activities describing the EE projectaccomplishment5.2.3.1. Sub-step A (aspects, MF). (E/R): Functional aspect ismandatory. Display previously used aspects, recommend use todetail the main functional model (and not to build separatemodels).(StD): Select functional and life cycle aspects. Select manage-ment/service, decisional and organisational aspects. Add hard-ware/software from the views offered by the selected MF.(StM): Functional and life cycle aspects are mandated in order tobuild the main deliverable (the activity model). Management/service, decisional and organisational aspects are directlyaddressed by the EE project and have also been previously used.Hardware/software
+ aspect selected due to stakeholder domainknowledge (ICT infrastructure changes expected).5.2.3.2. Sub-step B: (AS-IS required? Separate or uniﬁed AS-IS and TO-BE?). (E/R): Display and recommend Stage Two representationtype (i.e. show AS-IS, and use combined AS-IS/TO-BE models).(StD): Choose to represent AS-IS, and use a combined AS-IS/TO-BE representation.(StM): System recommendation accepted. Stakeholders foundno tangible gain in having separate views to justify the overhead ofmaintaining the consistency of several models.5.2.3.3. Sub-step C (modelling formalisms, tools). (E/R): Presentranked lists
+ of formalisms and tools with
+ justiﬁcations. Example
+for functional
+ top ranking formalisms:
+ Uniﬁed
+ Modelling
+Language
+ (UML)
+ Activity
+ Diagrams
+ (AD)
+ belong to a set
+integrated
+ by underlying metamodels [43] and have wide
+ tool
+support. IDEF0
+ [44] is also
+ suitable although
+ no publishedmetamodel is available
+ for
+ its set (IDEF).
+ Thus IDEF0 ranks lowerthan
+ UML ADs.
+ Proposed tools: Rational
+ Rose
+ [45] for UML
+ AD,AI0Win
+ [46] for IDEF0.
+(StD): Select the IDEF014language and the AI0Win modellingtool.(StM): System recommendation
+ overridden based on domainknowledge: IDEF0 modelling skills and the AI0Win modelling toolare available within the participant organisations.The activity model has been created next. Fig. 11 shows theinitial phase, where one activity is created for each life cycle phaseof the target entity. Note that often, the chosen modellingformalism helps reason about the aspects needing to be modelled.For example, if using IDEF0, the system can ask the user to giveconsideration to what is used in each activity (inputs), whatcontrols it (controls), what is produced by the activity (outputs)and who and/or what executes it (resources). This information isobtained from the interactions shown in the business model(Fig. 8), other models (e.g. decisional) and stakeholder domainknowledge.In this project, each activity has been decomposed down to alevel where it was understood (and thus usable) by the envisagedaudience, using aspects previously selected. For example, in Fig. 12,the management vs. product/service and human role aspects havebeen used for an initial decomposition of the detailed designactivity shown in Fig. 11.Not all aspects are always relevant or required. Early life cyclephases (e.g. identiﬁcation, concept) require few or no aspects,while the human aspect may only be visible/relevant in thepreliminary/detailed
+ design phases, such as illustrated in Fig. 7,left.Further detailed descriptions of the activity model creation andstructure are beyond the space allocated and the scope of thispaper; they are however available in [3,47].Fig. 12. A ﬁrst decomposition of the detailed design activity (A4) using the management/product and human aspects.14A very brief summary of the main elements of IDEF0 is shown in Fig. 1, lowerright.O. Noran / Computers in Industry 64 (2013) 29–40 39 6. Conclusions and further workThe EE effort aiming to achieve and maintain EI is a complex,on-going, and often ill-deﬁned undertaking. The stakeholders needall the help they can get in order to understand the present state ofaffairs and turn the rather generic ‘need for integration andcontinuous improvement’ into concrete change steps towardsachieving and upholding these aims. In addition, the multitude ofAF artefacts on offer is confusing to the potential user andcompounds rather than solve the problem.The proposed
+ support
+ framework
+ and its
+ practical
+ DSS
+ applica-
+tion
+ attempt
+ to address
+ these
+ issues
+ by offering
+ guidance
+ towards
+the
+ creation
+ of an enterprise
+ modelling
+ method
+ speciﬁc
+ to the
+ EEproject
+ at hand.
+ They
+ also
+ provide
+ for model
+ reuse
+ and
+ identiﬁcation
+of gaps
+ and
+ overlaps
+ between
+ the
+ various
+ mainstream
+ AFs
+ currently
+available.
+ In particular,
+ the
+ DSS
+ application
+ aims
+ to provide
+ a hands-
+on, interactive
+ environment
+ where
+ the
+ stakeholders
+ can
+ analyse
+various
+ scenarios
+ and
+ their
+ outcomes
+ so as to make
+ an informed
+choice
+ of the
+ optimal
+ path
+ to achieve
+ the
+ desired
+ TO-BE
+ state.
+Current research will be continued in several directions:incorporate elements of other AFs into the SR, reﬁne/streamlinethe logic of the meta-methodology steps contained in theknowledge base facts and rules, evolve and mature the structureof the proposed decision framework built on the SR and the meta-methodology and test the support framework and DSS in furthercase studies.References[1] F. Vernadat, Enterprise modeling and integration (EMI): current status andresearch perspectives, Annual Reviews in Control 26 (1) (2002) 15–25.[2] L. Volonino, H.J. Watson, The strategic business objectives method for guidingexecutive information systems development, Journal of Management InformationSystems 7 (3) (1990–1991)
+ 27–39.[3] O. Noran, Discovering and modelling enterprise engineering project processes,
+ in:P. Saha (Ed.), Enterprise Systems Architecture
+ in Practice, IDEA Group, Hershey,USA, 2007, pp. 39–61.[4] H. Panetto, Towards a classiﬁcation framework for interoperability of enterpriseapplications, International Journal
+ of CIM 20 (8) (2007) 727–740.[5] H. Panetto, A. Molina, Enterprise integration and interoperability
+ in manufactur-ing systems: trends and issues. Special issue on enterprise integration andinteroperability in manufacturing systems, Computers
+ in Industry 59 (7)(2008) 641–646.[6] D. Chen, G. Doumeingts, et al., Architectures for enterprise integration andinteroperability: past, present and future. Special issue on Enterprise
+ Integrationand Interoperability in Manufacturing
+ Systems, Computers in Industry 59 (7)(2008) 647–659.[7] A. Molina, H. Panetto, et al., Enterprise integration and networking: challengesand trends, Studies in Informatics and Control 16 (4) (2007) 353–368.[8] O. Noran, A Meta-methodology for Collaborative
+ Networked Organisations: Cre-ating Directly Applicable Methods for Enterprise Engineering projects, VDMVerlag Dr. Mu¨ller, Saarbru¨cken, 2008.[9] O. Noran, A decision support framework for collaborative
+ networks, InternationalJournal of Production Research 47 (17) (2009) 4813–4832.
+[10] B. Kalpic, P. Bernus, Business process modeling through the knowledge manage-ment perspective, Journal
+ of Knowledge Management
+ 10 (3) (2006) 40–56.[11] O. Noran, A meta-methodology for collaborative
+ networked organisations: a casestudy and reﬂections, in: P. Bernus, M. Fox, J.B.M. Goossenaerts (Eds.), KnowledgeSharing in the Integrated Enterprise: Interoperability Strategies for the EnterpriseArchitect, Kluwer Academic Publishers, Toronto/Canada, 2004, pp. 117–130.[12] ISO/IEC, ISO/IEC 42010:2007: Recommended Practice for Architecture Descrip-tion of Software-Intensive
+ Systems, 2007.[13] ISO/IEC, Annex A: GERAM, in: ISO/IS 15704:2000/Amd1:2005: Industrial Auto-mation Systems – Requirements for Enterprise-reference
+ Architectures
+ andMethodologies, 2005.[14] T.J. Williams, The Purdue enterprise reference architecture,
+ Computers in Indus-try 24 (2–3)
+ (1994) 141–158.[15] G. Doumeingts,
+ La Methode GRAI, University
+ of Bordeaux,
+ Bordeaux, France, 1984.[16] G. Doumeingts, GIM, Grai Integrated Methodology, in: A. Molina, A. Kusiaka, J.Sanchez (Eds.), Handbook of Life Cycle Engineering – Concepts, Models andMethodologies, Kluwer Academic Publishers, Dordrecht, 1998, pp. 227–288.[17] CIMOSA Association, CIMOSA
+ – Open System Architecture for CIM. TechnicalBaseline, Ver 3.2., Private Publication, 1996.[18] A.-W. Scheer, Architecture for Integrated Information Systems, Springer-Verlag,Berlin, 1992.[19] J.A. Zachman, A framework
+ for information systems architecture, IBM SystemsJournal 26 (3) (1987)
+ 276–292.[20] DoD Architecture Framework Working Group, DoD Architecture
+ FrameworkVersion 1.0, 2004 http://www.dod.mil/cio-nii/docs/DoDAF_v1_Volume_I.pdf
+ ,http://www.dod.mil/cio-nii/docs/DoDAF_v1_Volume_II.pdf
+ (retrieved
+ February
+2007).[21] O. Noran, A mapping of individual architecture
+ frameworks (GRAI, PERA, C4ISR,CIMOSA, Zachman,
+ ARIS) onto GERAM, in: P. Bernus, L. Nemes, G. Schmidt (Eds.),Handbook of Enterprise Architecture, Springer Verlag, Heidelberg, 2003,
+ pp. 65–210.[22] O. Noran, An analytical mapping of the C4ISR architecture framework ontoISO15704 Annex A (GERAM), Computers
+ in Industry 56 (5) (2005) 407–427.[23] The Open Group, The Open Group Architecture
+ Framework (TOGAF 8.1.1 ‘TheBook’) v8.1.1, 2006.[24] Treasury CIO Council,
+ Treasury Enterprise Architecture Framework v.1, 2000http://www.eaframeworks.com/TEAF/teaf.doc
+ (retrieved February 2007).[25] The CIO Council, Federal Enterprise Architecture Framework (v1.1), 1999 https://secure.cio.noaa.gov/hpcc/docita/ﬁles/federal_enterprise_arch_framework.pdf
+(retrieved February 2007).[26] I. Nonaka, H. Takeuchi, The Knowledge-Creating
+ Company. How Japanese
+ Com-panies Create the Dynamics of Innovation, Oxford University Press, Oxford, 1995.
+[27] C.W. Holsapple, A.B. Whinston, Decision Support Systems: A Knowledge-Based
+Approach, West Publishing, Minneapolis/St. Paul, 1996.[28] T. Davenport, L. Prusak, Working Knowledge,
+ Harvard Business School Press,Boston, 1998.[29] H. Simon, The New Science of Management Decision, Prentice-Hall, EnglewoodCliffs, NJ, 1977.[30] P.G.W. Keen, M.S.
+ Scott_Morton, Decision Support Systems: An Organizational
+Perspective, Addison-Wesley,
+ Inc., Reading, MA, 1978.[31] E. Turban, Decision Support and Expert Systems: Management Support Systems,Prentice Hall, Englewood Cliffs, NJ, 1995.[32] P.N. Finlay, Introducing Decision Support Systems, Blackwell Publishing, Man-chester, 1994.[33] J.D.C. Little, Models and managers:
+ the concept of a decision calculus, Manage-ment Science
+ 16 (8) (1970) B466–B485.[34] P. Ha¨ttenschwiler, Neues anwenderfreundliches
+ Konzept der Entscheidungsun-
+terstu¨tzung. Gutes Entscheiden
+ in Wirtschaft, Politik und Gesellschaft, vdfHochschulverlag AG, Zurich, 1999.[35] R.H. Sprague, A framework
+ for the development of decision support systems,Management Information Systems Quarterly 4 (4) (1980) 1–26.[36] R.H. Sprague, E.D. Carlson, Building Effective Decision Support Systems, Prentice-Hall, Inc., Englewood Cliffs, NJ, 1982.[37] G.M. Marakas,
+ Decision Support Systems in the Twenty-ﬁrst Century, PrenticeHall, Upper Saddle River, NJ, 1999.[38] E.G. Mallach, Understanding
+ Decision
+ Support and Expert Systems, Richard D.Irwin, Inc., Illinois, 1994.[39] E. Friedman-Hill, Jess in Action: Java Rule-based Systems, Manning PublicationsCo., Cherokee Station, New York, NY, 2003.[40] E. Friedman-Hill, JESS – The Rule Engine for the Java Platform, 2007 http://herzberg.ca.sandia.gov/jess/ (retrieved February 2007).[41] L. Camarinha-Matos,
+ Foreword, in: L. Camarinha-Matos, H. Afsarmanesh, A. Ortiz(Eds.), Collaborative
+ Networks and their Breeding Environments (Proceedings ofthe 6th IFIP Working Conference on Virtual Enterprises
+ – PROVE 05), SpringerVerlag, Toulouse/France, 2005, pp. 339–346.[42] GRAISoft, IMAGIM Software Product, 2002 http://www.graisoft.com (retrievedAugust 2002).[43] J. Rumbaugh, I. Jacobson, et al., The Uniﬁed Modelling Language ReferenceManual, Addison-Wesley, Reading, MA, 1999.[44] NIST, Integration Deﬁnition for Function Modelling (IDEF0), Computer SystemsLaboratory, National Institute of Standards and Technology, 1993.[45] IBM, Rational Rose Family, 2007 http://www.kbsi.com/Software/KBSI/
+AI0WIN.htm (retrieved August
+ 2007).[46] KBSI, AI0Win Software Product,
+ 2007 http://www.kbsi.com/Software/KBSI/
+AI0WIN.htm (retrieved August
+ 2002).[47] O. Noran, Using reference models in enterprise architecture: an example, in: P.Fettke, P. Loos (Eds.), Reference Modeling for Business Systems Analysis, IdeaGroup, Hershey, USA, 2006, pp. 141–165.Ovidiu Noran has received his PhD in EnterpriseArchitecture from Grifﬁth University, studying ameta-methodology for the creation and operation ofcollaborative networked organisations. He holds anEngineering degree in Building Services and Automa-tion and also a Master degree in Information andCommunication Technology. Dr. Noran has been activeas an engineer and business architecture/managementconsultant in companies based in Europe and Australiaand is currently lecturing Enterprise Architecture, E-commerce and Software Engineering at Grifﬁth Uni-versity. He is a member of several professional bodiessuch as Engineers Australia, Association of Enterprise Architects and standardiza-tion committees such as ISO/IEC SC7/WG42 (Software Engineering/Architecture)and ISO TC184 SC5/WG1 (Industrial Automation). His seminars, publications andregular involvement in conferences and journals highlight his main researchinterests in artiﬁcial intelligence, serious games, software engineering andenterprise architecture and a preference for the action research strategy.O. Noran / Computers in Industry 64 (2013) 29–4040

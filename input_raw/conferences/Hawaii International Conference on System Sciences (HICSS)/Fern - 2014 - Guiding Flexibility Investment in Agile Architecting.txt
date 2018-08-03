@@ -1,0 +1,1078 @@
+ Guiding Flexibilit
+y Investment in Agile Architecting
+Carlos Fernández-Sánchez, Jessica Díaz, Jennifer Pérez, Juan Garbajosa
+Technical University ofMadrid (UPM), CITSEM, E.U. Informática, Madrid, Spain
+{carlos.fernandez, yesica.diaz}@upm.es, {jenifer-perez, jgs}@eui.upm.es
+Abstract
+Agile software development 
+pursues to deal with 
+continuous change. But software product architectures 
+without enough flexi
+bility can restri
+ct how products 
+cope with change.However, 
+designing for flexibility 
+often entails high costs and risk that comes with the 
+assumption that change will happen. Actually, in soft-
+ware architecture the flexibility investment decision 
+making problem has become challenging. This paper 
+presents a process to assist architects in MAKing dEci-
+sions about Flexibility inves
+tment in Software Archi-
+tecture (MAKEFlexi). MAKE
+Flexi is based on tech-
+nical debt and real options approaches. Technical debt 
+allows for estimating the additional cost derived from 
+the lack of flexibility in software architectures, where-
+as the real options valuation allows for estimating the 
+value of the flexibility that a design option could pro-
+vide. MAKEFlexi has been applied to an industry pro-
+ject for smart grids to assist architects in making deci-
+sions about designing for flexi
+bility to vary data stor-
+age technologies.
+1. Introduction  
+Turbulence in the current business climate makes 
+change inevitable if a company is to remain competi-
+tive. Change adoption is part of the business environ-
+ment, and the capacity to res
+pond to this situation by 
+harnessing change, rather than avoiding it, is especially 
+critical in the software industry[11]. Therefore, a key 
+issue for software companies 
+is that their people and 
+the software products they produce must be open to 
+change.Agile values aim ﬁto respond to change over 
+following a planﬂ[4]. However, such kind of flexibility 
+in the process could be insufficientif our software 
+products are not open to change.Software architecture 
+is one of the main drivers in software product devel-
+opment and evolution since it is considered to be the 
+bridge between requirements and implementation [26].
+The software architecture of products open to change 
+must be ready for change, so that architecting can be 
+aligned with the welcome to changeagile principle. 
+That has motivated a growing recognition of the im-
+portance of having a good architecture design in agile 
+software development [1]. 
+Software architecture can be considered as a set of 
+architectural design decisi
+ons[5]. These decisions are 
+based on information that is current at the time the 
+decisions are made, howeverdecisions makers can also 
+consider possible futurechanges. Increasing flexibility 
+is one of the decision drivers for coping with change in 
+software architecture [6]. Flexibility is defined as the 
+ability to deal with changes that can be anticipated or 
+expected [7]i.e., changes that can come or not come 
+with some probability over some period of time.
+De-
+signing for flexibility
+involves the design of an archi-
+tecture that facilitates change [6], usually by defining 
+variation points [7]. Therefore, flexibility is an im-
+portant factor for success because it may reducethe 
+product development time and the cost of incorporating 
+expected changes into the bus
+iness over the lifetime of 
+the software.
+However, making the software architecture flexible 
+often entails high costs in terms of time and effort[30];
+it also entails a risk associated with the assumption that 
+change will happen. This means that designing for 
+flexibilityis an investment in a trade-offbetween 
+short-term costs versus longer-term benefits. In this 
+regard, it is necessary to evaluate when the Return on 
+Investment (ROI) of designing for flexibility would be 
+positive. Toward that end, it would be desirable tohave 
+models that allow one to decide whether or not it is 
+profitable to invest in designing forflexibility at any 
+given time. In this paper, we refer to ﬁinvest in flexibil-
+ityﬂ as the design/refactoring ofarchitecture in order to 
+addvariation points tosupport expected changes.
+This paper presents a process to obtain a decision
+tree model that assists architects in MAKing dEcisions 
+about investments in design for Flexibility (which we 
+refer to as MAKEFlexi); i.e., MAKEFlexi assists archi-
+tects in deciding when to invest (or not) in flexibility to 
+support expected changes. MAKEFlexi is based on 
+technical debt [33]and real options [16] approaches. 
+Technical debt makes the cost of quality weaknesses in 
+software visible. Specifically, MAKEFlexi uses tech-
+nical debt to make visible the additionalcost derived 
+from the lack of flexibility to accommodate expected 
+changes over some period of time. In addition to debt, 
+2014 47th Hawaii International Conference on System Science978-1-4799-2504-9/14 $31.00 © 2014 IEEEDOI 10.1109/HICSS.2014.5904807 it is necessary to consider the value thatflexibility 
+could provide toarchitecture design solutions to ac-
+commodate expected changes. In this regard, MAKE-
+Flexi usesthe real options valuation [16]to estimate 
+this value as a function of 
+the (i) uncertainty or proba-
+bility that changes could happen, and (ii) the period of 
+time in which the need to introduce changes could 
+happen. This value is used to decide ifto invest in 
+flexibility, and when to do so. This means that, de-
+pending on the expected changes, it could be more 
+profitable to delay the investment in flexibilityŠi.e., 
+take technical debtŠor invest in flexibility in order to 
+pay offthe debt.
+We have appliedthe MAKEFlexi process in a joint 
+project with industry in the area of power networks 
+grids. The resulting decision tree model has effectively 
+guided architects in the tasks of making decisions 
+about flexibility.
+The structure of the paper is as follows: Section 2 
+describes the background upon which the MAKEFlexi 
+process is based. Section 3 describes MAKEFlexi. 
+Section 4 presents the case study in which the process 
+has been validated. Section 5 discusses related work. 
+Finally, conclusions and further work are presented in 
+Section 6.
+2. Background  
+This section describes the two approaches upon which 
+MAKEFlexi is based: technical debt and real options.
+2.1. Technical debt 
+Technical debt is a metaphor that refers to the con-
+sequences of weak software development. It was first 
+introduced by Cunningham [9]. This metaphor has 
+been used during the past several years as a means of 
+making the intrinsic cost of internal quality weaknesses 
+visible in software. Quality weaknesses in softwarecan 
+be reworked to reduce this debt. A review of the litera-
+ture about technical debt shows that it has several di-
+mensions [33]: 
+† Code debt: technical debt that manifests in the form 
+of poorly written code.
+† Design and architectural debt: technical debt caused 
+by shortcuts and shortcomings in design and architec-
+ture.
+† Environmental debt: technical debt that manifests in 
+the environment of an application; i.e., development 
+processes, hardware, infrastructure, and supporting 
+applications.
+† Knowledge distribution and documentation debt: 
+technical debt caused by lack of knowledge transmis-
+sion or the absence of well written documentation.
+† Testing debt: technical debt in the form of insuffi-
+cient automated tests resulting in a waste of time due 
+to the use of manual tests. Insufficient test coverage 
+is another way to incur testing debt.
+All these dimensions are managed by analyzing 
+technical debt items, also known as instances [14].We 
+will use the term item in this paper. A technical debt 
+item represents an ﬁincomplete taskﬂ or a task that is 
+not perfectly performedand one that might cause prob-
+lems in the future. These are considered to be quality 
+weaknesses. Two main concepts are widely used to 
+make technical debt itemsvisible: 
+principal
+and 
+inter-
+est
+[10]. Principal is thecost of eliminatingŠor reduc-
+ingŠthe impact of a technical debt item at a given 
+time in a software system, whereas interest is the recur-
+ring cost of not eliminating a technical debt item over 
+some period of time.
+This paper focuses on architectural debt, i.e., tech-
+nical debt caused by the result of sub-optimal upfront 
+architecture design solutions, or solutions that become 
+sub-optimal as technologies andpatterns become su-
+perseded [33]. An example of architectural debt item is 
+an immature design architecture solution that could 
+cause future additional cost when the system has to 
+grow or be changed. The principal of this technical 
+debt item can be estimated as the cost of improving the 
+design by increasing software architecture flexibility 
+(e.g., the cost of refactoring the software architecture to 
+enable change), whereas the 
+interest is the additional 
+cost derived from the lack of flexibility (e.g., the addi-
+tional cost of implementing changes if the software 
+architecture has not been previously designed to be 
+open to changes).
+2.2 Real options
+Real options valuation is a technique that arises 
+from financial options valu
+ation. ﬁA financial option 
+gives the holder of the option the right to do some-
+thing, but the holder does not have to exercise that 
+rightﬂ [16]. Financial options valuation assesses the 
+value of those options. Real options valuation is an 
+extension of financial options
+ that uses financial valua-
+tion methods to assess capital investment opportunities 
+in real assets under uncertain
+ty [16];that is, to estimate 
+the value of options to determine whether or not to 
+make the investment. Real options valuation has been 
+successfully applied to solvesoftware engineering 
+problems [2][12][15][23]and has beenpreviously 
+proposed to manage technical debt[6]. This paper uses 
+a similar approach to make decisions but about flexi-
+bilityin software architecture. 
+Real options valuation is based on the estimation of 
+t
+he investment value evolution over some period of 
+time by using probabilistic mathematical methods. 
+4808 Therefore, the real options approach makes use of es-
+timated values, such as the investment cost, the value 
+added by the investment, and probabilities of invest-
+ment evolution, as inputs. In
+ this regard, the real op-
+tions approach considers the uncertainty of that evolu-
+tion as well as the period of time in order to exercise 
+the investment option. Estimated values and uncertain-
+ty are mainly obtained fromthe experts™ opinion and 
+fromhistorical data.
+There are different kinds of real options [16]. The 
+MAKEFlexi process focuses on the expansion option, 
+i.e., an option to make further investments and increase 
+the output if conditions are favorable, specifically, 
+investments to improve the architecture of a software 
+system. In addition, it is im
+portant to mention that the 
+MAKEFlexi process uses 
+the decision tree method
+[32]
+to assess the value of real options. As anexample, 
+Figure 1graphically shows the estimation of the value 
+of an option by using a decision tree. The option is the 
+investment in improving the flexibility of a software 
+architecture to deal with a 
+set of expected changes. 
+Specifically, the software product has to undergo two 
+expected changes over some period of time, and its 
+software architecture should
+ be ready to deal with 
+those changes. 
+The decision tree method consists of two main 
+steps.The first step involves the construction of a tree 
+that represents (i) the evolution of the software product 
+due to expected changesover some period of time, and 
+(ii) the decisions as to whether or not to invest in pre-
+paring the architecture to accommodate the expected 
+changes. Figure 1shows the decision tree over a two-
+month period. This tree is 
+characterized by three kinds 
+on nodes: decision nodes, change nodes, and end 
+nodes. 
+Decision nodes
+,which arerepresented by rec-
+tanglesin Figure 1, are points where a decision on 
+architecture has to be made. 
+Change nodes
+,which are
+represented by circlesinFigure 1, are points where 
+expected changes of the software product could come. 
+Finally, 
+end nodes
+,which arerepresented by triangles
+inFigure 1, show the final state of the software product 
+after analyzing all possible scenarios resulting from the 
+expected changes that may or may not occur and deci-
+sions that may or may not be made. These nodes make 
+up the branches of decision trees that have an associat-
+ed probability (e.g., the proba
+bility used in this exam-
+ple is 0.33 for all branches, 
+which in this example is 
+assumed that is given by the opinions of experts; see
+Figure 1).
+The second step in this process consists of the as-
+sessment of the value of th
+e option (i.e., the value of 
+the option of investing in flexibility). The value of the 
+option is the 
+investment™s exp
+ected net value
+. This 
+investment™s expected net value is computed by fold-
+ing back the decision tree, starting with the end nodes 
+and moving toward the root. This step is composed of 
+two activities. The first activity consists of estimating 
+the net value of end nodes (triangles)Ši.e., the value 
+of the software product after implementing the ex-
+pected changes of the branch under analysis minus the 
+cost of implementing those changes. For example, in
+Figure 1considering that experts have estimated that 
+the value added by an expected change is •10K, the 
+cost of investing in flexibility is 2K, the cost of change 
+with a previous investment in flexibility is 3K, and the 
+cost of a change without a previous investment in flex-
+ibility is 6K (see the Figure
+ 1caption, the end node 
+marked with A has a net value of •12K [= (•20K = 
+10K * 2 changes) Œ 2K  Œ (6K = 3K * 2 changes)],
+while the end node marked with B has a net value of 
+•8K [= (•20K = 10K * 2 changes) Œ (12K = 6K*2 
+changes)]. The second activity consists of estimating 
+the expected net value of the decision nodes and the 
+change nodes. The estimation of the decision nodes 
+(rectangles) consists of selecting the branch with the 
+highest net value, while the estimation of the change 
+nodes (circles) is the sum 
+of the net value of the 
+branches weighted by its probability. For example, in
+Figure 1the decision node marked with C has a net 
+value of 5K = max (5K; 4K) while the change node 
+marked with D has an expected netvalue of •4290 = 
+(8K*0.33) + (5K*0.33) + (0*0.33). This activity ends 
+by estimating the value of the root of the tree (a deci-
+sion node). This value is used to decide whether or not 
+to invest in flexibility, and 
+when to do so. 
+In this par-
+ticular example, the value of the root is •4950 = max 
+(•4950; •4290). This means that the best decision is to 
+invest in flexibility from month 1and not to delay the 
+decision. 
+Figure 1. Decision tree used to analy
+ze the option of 
+investing in flexibility 
+in software architecture
+4809 3. The MAKEFlexi Process  
+This section presents the MAKEFlexi process used 
+to obtain a decision tree m
+odel to make decisions re-
+garding flexibility investment insoftware architecture. 
+MAKEFlexi is performed as a part of the Backlog 
+grooming sessions[18]. Backlog grooming sessions
+giveagile teams the opportunity to look further into the 
+future of the product, and can alertthem to technical 
+challenges.The process consists of a set of steps to
+create a model, based on decision trees to estimate 
+when to design for flexibility.Each step is described as 
+follows.
+† 
+Step 1:
+Analysis of expected changes. In this step, 
+the architect identifies the 
+expected changes that are 
+to be supported through flex
+ibility. In addition to the 
+expected changes, it is necessary to determine: (i) the 
+time frame in which the expected changes could hap-
+pen, (ii) the probability th
+at the expected changes 
+could happen, and (iii) the value added by imple-
+menting the expected changes.This information has 
+to be provided by experts.Depending on the ex-
+pected changes different actors can be implied in the 
+estimation of the probability of change. If the chang-
+es will depend on new contracts, then the responsible 
+of such contracts will be who has the information. If 
+the changes will depend on the adoption of a new 
+technology, then the responsible of such technical 
+decision will be who knows the needed information. 
+Therefore, this probability of change will be subjec-
+tive. Also, it is possible to use historical data about 
+similar expected changes to estimate how often 
+changes are made in the software. 
+† 
+Step 2:
+Design of alternative ar
+chitecture solutions to 
+support the expected changes. In this step, architects 
+propose alternatives with different degrees of flexi-
+bility (i.e., different amounts of investment) that are 
+to be analyzed.
+† 
+Step 3:
+Estimation of technical debt for each one of 
+the alternatives. The goal of estimating technical debt 
+is to calculate the cost of implementing or not im-
+plementing the flexibility. To estimate the technical 
+debt we use the concepts of principal and interest. In 
+this case the principal of a technical debt item de-
+rived from the lack of flexibility is the cost of im-
+proving flexibility, usually through the definition of 
+variation points. To estimate the principal it is neces-
+sary to detect the weaknesses in the system. Static 
+code analysis has been successfully used for that 
+task. For example, tools such as Sonar
+(http://www.sonarsource.org/) and PMD
+(http://pmd.sourceforge.net/)
+can detect architecture 
+anti-patterns in software projects. Knowing the 
+weaknesses, experts can estimate the cost of solving 
+them by applying commonly usedcost estimation 
+techniques such as COCOMO or Function Point.The 
+interest of a technical debt item derived from lack of 
+flexibility is the additional cost of implementing the 
+expected changesŠadditional Cost of Change 
+(CoC)Šif the item is not previously eliminated; i.e., 
+if the software architecture 
+is not flexible enough to 
+introduce the change. However, estimating this inter-
+est is not easy because there is no reference for an 
+ideal CoC; i.e., a solution with zero interest (see ideal 
+solution line inFigure 2). Th
+e interest of an architec-
+ture design solution is the difference between the 
+CoC of the ideal solution and the CoC of the alterna-
+tives (see ﬁaﬂ and ﬁa + bﬂ inFigure 2). Since the CoC
+of the ideal solution cannot be easily estimated, it is 
+possible to use the comparison between the CoC of 
+the different software architecture alternatives(see 
+ﬁbﬂ inFigure 2). Therefore, the MAKEFlexi process 
+uses the CoC for estimating the interest of the differ-
+ent alternatives of change for architectural support. 
+Knowing the current architecture anti-patterns in the 
+project, historical data can beused to compare the 
+effort needed to change components implementing 
+anti-patterns, withthe effo
+rt needed to changecom-
+ponents without such weaknesses. If historical data 
+are available, it is possible 
+to estimate the difference 
+between the needed effort to perform changes in 
+component with anti-patterns and component without 
+them. As a result, the different alternatives can be 
+compared when choosing which option is the most 
+profitable.Finally, Step 2 and Step 3 canbe per-
+formediteratively in order to architects can propose 
+architectures that solve the weaknesses detected in 
+Step 3.
+† 
+Step 4:
+Construction of the decision tree. Inthis step
+the architect performsthe construction of a tree that 
+represents the evolution of the software system due to 
+expected changes, such as the tree shown inFigure 1.
+To do that,the following inputs are used: 
+Figure 2. Technical debt interest
+4810 he expected changes, th
+eir probability, the time 
+frame, and the value that these changes add to the 
+software product under analysis (Step 1).
+lternative design architecture solutions(Step 2).
+The constraints imposed 
+by deadlines, resources, 
+and development time need
+ed to implement the ex-
+pected changes and prepar
+e the architecture to sup-
+port the expected changes (i.e., designing for flexi-
+bility). This means that alternatives that cannot be 
+performed in the time frame, given suchcon-
+straints, are notconsidered in the decision tree. For 
+example, inFigure 1an end node marked with B 
+has been modeled to represent a scenario in which 
+sufficient time is not allotted to both invest in flexi-
+bility and implement the expected changes. 
+The construction of the decision tree requires one to 
+determine the decision nodes, change nodes, and end 
+nodes.
+† 
+Step 5:
+Assessment of the expected net value of the 
+flexibility investment option. To make this assess-
+ment,the followinginputs are used: 
+he estimations of the prin
+cipal and the interest of 
+each of the alternative architecture design solutions 
+(see Step 3). 
+he decision tree (see Step 4).
+In this step the model computes the investment™s ex-
+pected net value by foldin
+g back the decision tree, 
+starting with the end nodes and moving toward the 
+root (see Section 2.2). This computation consists of: 
+(i) estimating the net value 
+of the end nodes, and (ii) 
+estimating the expected net value of the decision 
+nodes and the change nodes, until arriving at the root 
+node.
+† 
+Step 6:
+Make the decision. Finally, the final decision 
+is the investment option with the higher than ex-
+pected net value from the root node. The value of the 
+root node is used to decide whether or not to invest in 
+flexibility, and whento do so.In this regard, it is 
+possible that the model suggests delaying the deci-
+sion until more information is available.
+4. Case Study 
+A case study was conducted to provide empirical 
+evidence that validates that it is feasible to use the 
+MAKEFlexi process to guide flexibility investment in 
+software architecture in an industry project.Case study 
+research is a technique that consists of the investigation 
+of contemporary phenomena in their natural context to 
+search for evidence, gain understanding, or test theo-
+ries by primarilyusing qu
+alitative analysis [27]. In 
+addition, we provide in this sectionguidance for how 
+to use the MAKEFlexi process so it can be reproduced 
+in other projects. 
+The case study was conducted in an experimental i-
+smart software factory (iSSF) [20]. The iSSF is a soft-
+ware engineering research and education setting uti-
+lized by the top industrial an
+d research collaborators in 
+Europe [20]. Indra Software La
+bs leads this initiative at 
+the corporate level in Spain in conjunction with the 
+Technical University of Madrid. The case study was 
+performed within a project to develop a family of me-
+tering data management systems in electric power net-
+works for smart grids [21], called Optimeter. This pro-
+ject was developed using Scrummethodology[28].
+This project is part of two EuropeanITEA2 projects: 
+IMPONET
+1
+and NEMO & CODED
+2
+. 
+The following section presents the case study based 
+on the guidelines for reporting case study research in 
+software engineering by Runeson et al.
+3
+[27]. 
+4.1. Case study description 
+Smart grids require the abil
+ity to manage different
+resources, from renewal or traditional energy producers 
+to energy consumers. The case study performed on the 
+Optimeter project consisted of the development of a 
+family of software systems that manage meter data 
+from a huge number of these resources. A metering 
+management system captures meter data from teleme-
+tering systems or batch processes, loads these data into 
+a database, supports data querying and processing, and 
+provides these data to other systems for billing, fore-
+casting, or purchasing. The customer stated that the 
+high performance of data access and storage was es-
+sential to the success of the product. In order to man-
+age meter data with high performance, it was necessary 
+to evaluate several of the 
+large data storagetechnolo-
+gies available in the market (seeTable 1).
+The Optimeter project started with a proof-of-
+concept to evaluate Oracle Big Data (see data storage
+technology 1 inTable 1). Over a one-month period
+(twosprints, each sprint implied two weeks), the team 
+developed a product that implemented a solution based 
+on the data storagetechnology Oracle Big Data. Figure 
+3.a. shows the architecture that had arisen over that 
+productdevelopment. At that time, the architects need-
+ed to decide whether or not to invest in flexibility in 
+order to support the variation of the data storagetech-
+nology, i.e., to support a family of products that sup-
+port the different variants regarding the data storage
+technology. This is due to there was a level of uncer-
+tainty regarding a future ch
+ange of the data storage
+technology to satisfy the restrictions ofdata accessing 
+1
+http://innovationenergy.org/imponet/
+2
+http://innovationenergy.org/nemocoded/
+3
+Not all the information of the report is described in this paper due 
+to space limitations.
+4811 performance (see data storagetechnologies 2-4 inTa-
+ble 1). In this regard, the architects considered the fol-
+lowing expected-change scenarios: the possibility of 
+varying one, two, or the three additional data storage
+technologies, as shown inTable 1. At that moment, the 
+customer did not know how many of these candidate 
+data storagetechnologies had to be evaluated in terms 
+of theperformance of massive data loading and query-
+ing; nor did the customer know what other business 
+and commercial matters needed
+ to be considered. Due 
+to this uncertainty, it was necessary to obtain infor-
+mation about the ROI for preparing the architecture in 
+order to vary the data storagetechnology (i.e., the val-
+ue-generating power of flexibility).
+4.2. Case study execution
+During Optimeter execu
+tion, the MAKEFlexi pro-
+cess was applied as follows:
+Step 1:
+Analysis of the expected changes. The ex-
+pected change in the family of metering management 
+systems under analysis is the variation of the data stor-
+agetechnology (Table 1). Hence, the family of meter-
+ing management systems will implement three, two, 
+one, or none of the data storagetechnologies variants. 
+The time frame in which the expected change can hap-
+pen is three months (the Optimeter project lastedfour 
+months, but one month had already been spent on im-
+plementing a solution based on the data storagetech-
+nology 1, seeTable 1). The probability of the ex-
+pected-change scenarios was estimated on the basis of 
+thecustomer™s knowledge. This knowledge was based 
+on technical, business, and strategic factors, and be-
+cause they have the last word about which technologies 
+have to been supported.Th
+e probabilities can
+ be seen 
+in Figure 4. Finally, the value added by implementing 
+each data storagetechnology variant was assessed by 
+the customers. Therefore, customers estimated the 
+value of each data storagetechnology that the family
+was able to support as •60,000. This value correspond-
+ed with the customer™s utility of having a family that 
+allows them to vary the data storagetechnology for 
+different data access performance requirements.
+Step 2:
+Design of alternative architecture solutions 
+to support the expected changes. To provide the soft-
+ware architecture of Figure 3.a. with the flexibility that 
+facilitates the variation of the data storagetechnology, 
+the architects proposed an alternative design architec-
+ture solution (see Figure 3.b). This architecture makes 
+ready the software product to
+ be flexible through two 
+points of variation to support the four data storage
+technologies shown inTable 1. Because a data storage
+technology is composed of a data manager and a clus-
+tering framework, these variation points are defined 
+through (i) three optional components that implement 
+the data managers, and (ii) 
+a Plastic Partial Component 
+[24], i.e., a special type of component that can define 
+variability points inside components, that implements 
+the clustering frameworks.These components have 
+been successfully applied in previous agile projects.
+Step 3:
+Estimation of technical debt for each one of 
+the alternatives. The principal, as defined in Section 3, 
+is the cost of providing the architecture of Figure 3.a 
+with the flexibility that facilitates the variation of the 
+data storagetechnology (i.e., the cost of implementing 
+the variation points shown in Figure 3.b). Additionally, 
+PMD was used to detect current weaknesses (searching 
+anti-patterns that have negative impact on flexibility) 
+giving a total of one GodClass and 10 different cou-
+pling problems. The teamestimated theeffortof im-
+plement the new architecturethat finally was valued at
+•22,000. However, if no investment in flexibility is 
+made, then this cost is •0. 
+The interest, as defined in 
+Section 3, is the additional CoC of supporting a data 
+storagetechnology variation derived from the lack of 
+flexibility. The CoC was estimated in terms the de-
+pendencies and the coupling among the components
+that are affected by the expected variation. Dependen-
+cies were obtained from Sonarand theproblems that 
+were detected using PMDand, in terms of effort, they 
+were estimated by the development teamthat already 
+known the architecture and they have been working in 
+the project the previous month. The CoC of the archi-
+tecture of Figure 3
+.a was •29,500 for each data stora
+ge
+technology that was to be supported by the Optimeter 
+family, while the CoC of the architecture of Figure 3.b 
+is •15,000 for each data storagetechnology. Therefore, 
+the difference in CoC between the two alternatives was 
+•14,500 (i.e., the difference between •29,500 and 
+•15,000).
+Figure 3. Flexibility investme
+nt option in the Opti-
+meter project
+4812 Table 1. Evaluation of large storagetechnologies for 
+metering management systems
+Data storage 
+technology 1
+Data storage
+technology 2
+Data stor-
+agetechnol-
+ogy 3
+Data storage
+technology 4
+Oracle 
+NoSQL
+Hadoop
+Hibernate
+EHCache
+Oracle 11g
+Oracle RAC
+Hibernate
+Oracle 
+Coherence
+Oracle RAC
+EHCache
+HBase, Pig, 
+Hive
+Hadoop
+HDFS
+Step 4:
+Construction of the decision tree. The deci-
+sion tree shown in Figure 4represents the evolution of 
+the Optimeter family due to the expected variation of 
+the data storagetechnology. While we have shortened 
+the decision tree, it still shows all the relevant infor-
+mation. Concretely, branches that start in node E have 
+been simplified to reduce the size ofFigure 4.It is 
+necessary to highlightthat the three analyzed months 
+are labeled as month 2, month 3, and month 4, because 
+the project started one month before this analysis was 
+performed (see Section 4.1). As this tree represents, the 
+decision of investing in flexibility could be made at
+different moments through the decision nodes. Specifi-
+cally, it was possible to invest in flexibility in month 2 
+and month 3 (see nodes A-D in Figure 4). The tree 
+shows the expected-change scenarios in which the 
+three data storagetechnology variants may be or may 
+be not required (see nodes E-J in Figure 4); it also 
+shows the probability that these expected-change sce-
+narios may or may not occur (see the arrowheads of 
+outputlines from nodes E-J). Finally, the tree repre-
+sents the final possible situations as a consequence of 
+the combinations of decisions and changes (see trian-
+gles in Figure 4). For example, the end node K repre-
+sents the implementation of the three variations of data 
+storagetechnology with a probability of 0.1, given the 
+change node E, and as a consequence of deciding on 
+ﬁinvesting in flexibilityﬂ in the decision node A. 
+Step 5:
+Assessment of the expected net value of the 
+flexibility investment option. In this step, net value is 
+calculated as described in 
+Section 3.As a result, the 
+decision tree construction has beencompleted and 
+reflects all of the possibilities that could unfold over 
+time and shows the choices that should be made at 
+each decision node.Table 2details some results of 
+nodes of Figure 4. 
+Step 6:
+Make the decision. The final decision was 
+made on the basis of the expectednet value obtained 
+for the analyzed scenarios (see decision node A in 
+Figure 4). The decision tree in
+dicates that it is better to 
+not invest in flexibility in month 2 because the value of 
+node marked with F is higher thanthe value of node E; 
+and therefore is more profitable to delay the investment 
+because the uncertainty could decrease in month 3 (see 
+Figure 4). This result is du
+e to the value gainedfrom 
+waiting for more information about the project. That is, 
+waiting to resolve uncertainties before deciding wheth-
+er or not to invest.
+4.3. Analysis, interpretation, and conclusions 
+During the development of
+ Optimeter, the MAKE-
+Flexi process guided architects in deciding about when 
+it is more profitable to inve
+st in flexibility to support 
+the variation of the three data storagetechnologies 
+shown inTable 1. Therefore, after the execution of the 
+case study, we can conclude that, in anindustrial pro-
+ject, the MAKEFlexi process is a feasible way to make 
+decisions about flexibility investments.
+Several points about the feasibility of the study are 
+detailed as follows: First, we have pursued a simplifi-
+cation of the analysis to gain an understanding of the 
+MAKEFlexi process. This simplification has been 
+achieved by estimating the value added by each new 
+technology with the same value. Second, the estimation 
+of the value added by the data storagetechnologies was 
+facilitated by the experts™ know-how. Finally, we have 
+selected a case study wherethe expected change was 
+well-defined. As a result, the CoC could be easily es-
+timated in terms of coupling and dependencies.
+MAKEFlexi successfully assists architects inrea-
+soningand explainingthe motivation of decisions, as it 
+provides a qualitative baseline for reasoning. Obvious-
+ly, this baseline is based in estimations; the more pre-
+cise are estimations, the more precise will be the con-
+clusions from reasoning. The estimations used in the 
+case study are mainly subjective. But it should be high-
+lighted that they are inte
+nded to support qualitative 
+reasoning, not quantitative; thereforethey should be 
+simply shown the right trend.
+Table 2. Examples of decision tree nodes
+NodesNet valueValue description
+K 
+(end node)
+•113K
+113K = 180K Œ22K Œ45K
+Where: 
+
+180K is the value added by three 
+variants= •60K*3
+
+22K is the cost of investment in flexi-
+bility
+
+45K is the cost of change with a 
+previous investment in flexibil-
+ity=•15K*3
+B
+(decision node)
+•68K68K = max(68K;61K)
+G
+(change node)
+•53,15053,150 =  (68K*0.67)+(23K*0.33)
+A
+(root node)
+•47,14547,145=max(54,500;47,145)
+4813 Figure 4. Possible scenarios analyzed
+4.4. Evaluation of validity 
+To improve the internal validity of the results pre-
+sented, the independent variables that could influence 
+this case study have been identified as follows: the 
+architects™ experience, the influence of the project™s 
+size, the architecture™s complexity, and finally the 
+complexity of the possible expected-change scenari-
+os, which cannot be reduced due to the inherent na-
+ture of case studies, which normally focus on one 
+project. In particular, we have reduced the complexi-
+ty of scenarios to guarantee the understandability of 
+the case study by using the same value to estimate the 
+value added by each data storagetechnology. How-
+ever, if we had estimated the value added by each 
+data storagetechnology with different values, the 
+expected-change scenarios would have been more 
+complex, and consequently the scenario would be 
+more difficult to be understood.Finally, it is im-
+portant to emphasize that if the expected changes are 
+not well-scoped, then it would be difficult to estimate 
+the CoC.
+However, the major limitation in the case study 
+research concerns external validity because only one 
+case has beenstudied. In return, case studies allow 
+one to evaluate a phenomenon, a model, or a process 
+in a real setting. This is important in software engi-
+neering in which a multitude of external factors may 
+affect the validation results, and where other tech-
+niques, such as formal experiments, are not consid-
+ered to be conducted under controlled settings, even 
+though formal experiments permit replication and 
+generalization.
+5.Related Work
+In the literature, several works about technical debt
+and the application of real options valuation to soft-
+ware engineering can be found.
+Baldwin and Clark use the real options approach 
+to assess the value of design options created by mod-
+4814 ularity[3]. These options have value because they 
+allow designers to indepe
+ndently investigate and 
+replace designs. This work has been used in valuing 
+modularity in object-oriented and aspect-oriented 
+designs by Sullivan et al. [31]and Lopes and Bajra-
+charya [19]. However, they do not use real options 
+valuation to analyze the profitability of investments 
+in flexibility. 
+It is important to emphasize that the literature 
+notes that decision trees have been proposed as a 
+suitable method to assess the value of real options in 
+software [13]. However, the works of Ozkaya et al. 
+[23], Bahsoon and Emmerich[2], and Gustavsson 
+and Axelsson [15]do not use this method. Ozkaya et 
+al. assess the value of different architectural patterns 
+and consider the ma
+intainability and availability of 
+the system. The implementations of some specific 
+patterns are the real options. They use maintenance 
+cost similarly we use cost of change. Additionally, 
+they use the binomial valuation method as a way to 
+assess the value of the options. However, binomial 
+valuation restrict how the asset valueŠin this paper 
+the asset is the investmentŠ can evolve by using a 
+lognormal distribution [8]. This restricts the change 
+scenarios, existing in a software project, whichcan 
+be represented. In contrast, decision trees can be 
+easily adapted to represent more change scenarios. 
+Bahsoon and Emmerich propose the real options 
+approach to evaluate architecturesin terms of their 
+stability [2]. This approach makes the assumption of 
+a fixed expiration date; the decision as to whether or 
+not to execute the option can only be made at the end 
+of the evaluation time. Based on this assumption, 
+they use Black-Scholes valuation method, which is 
+not suitable for assessing the possibility of executing 
+an option at any moment of the analysis time period 
+Finally, Gustavsson and Axelssonuse real options 
+valuation to take into account the value of flexibility 
+in automotive system design [15]. Gustavsson and 
+Axelsson use the binomial valuation method because 
+it has an estimated volatility (volatility is a percent-
+age that represents how the value of the investment 
+can increase or decrease over the analyzed period of 
+time). Decision trees can be used instead of volatility, 
+which allows one to represent the possible situations 
+that can happen (e.g., using the knowledge and expe-
+rience of stakeholder and developers) during the ana-
+lyzed period of time.
+On the other hand, Erdogmus [12]uses decision 
+trees to assess the value of the option of being able to 
+continue a project or abandon it with iterative pro-
+cesses in opposition to a sequential process. Heuses 
+decision trees to show the differences related to flex-
+ibility between the iterative development process and 
+the sequential development process (i.e., Erdogmus™ 
+work is based on development process flexibility, but 
+not on software product flexibility).
+With regard to technical debt, several studies pro-
+pose means to estimate the interest and/or principal 
+of technical debt [10][14][22].The use of real op-
+tions valuation with technical debt has been suggest-
+ed previously [17][29]. Specifically, MAKEFlexi 
+presents a solution that uses real options based on 
+decision trees and technical debt to deal with the 
+flexibility investment decision making problem. The 
+MAKEFlexi solution is a process that uses real op-
+tions valuation to estimate the value of flexibility 
+investment options andit usestechnical debtto esti-
+mate the cost of the different degrees of flexibility 
+provided by alternative architecture design solutions.
+6. Conclusion  
+This paper has presentedthe MAKEFlexi process. 
+Itprovides a solution for the flexibility investment 
+decision making problem in agile architecting.The 
+process help architects to 
+create models to decide 
+whether to invest or not in flexibility, and when to do 
+it, i.e., when is more profitable to delay the flexibility 
+investmentŠi.e. take technical debtŠor to invest in 
+flexibility to manage the debt.Therefore, architects 
+can make design decisions about flexibility based on 
+economic considerations.
+MAKEFlexi helps select the architecture design 
+solution with the highest ROI of design for flexibility 
+over the time frame under analysis. This decision 
+takes into account the potential long-term benefit of 
+flexibility, the short-term cost of each alternative 
+architecture design solutionas well as the uncertainty 
+that the changes finally will not happen.Our experi-
+ence in applying MAKEFlexi in the industrial project 
+OPTIMETER was really satisfactory. MAKEFlexi 
+allowed us to delay the decision of investing in flexi-
+bility at the second month of the project, so that we 
+obtained a higher ROI. Additionally, we plan to eval-
+uate the MAKEFlexi process in more case studies to 
+reinforce that the process is feasible in other projects, 
+and to determine in which situation is more profitable 
+its application.
+As future work, we plan
+ to automate the MAKE-
+Flexi process by developing a tool or extending one 
+of the existing tools that support Real Options valua-
+tion. Also it would be interesting to enrich the 
+MAKEFlexi process with the storage and mining of 
+architectural knowledge in order to be used as histor-
+ical data. In long-term, we plan to integrate this tool 
+with an architecture modeling framework with deci-
+sion and architectural knowledge support in order to 
+improve the design decision-making process.
+4815 Acknowledgements  
+The work reported in here has been partially spon-
+sored by the Spanish fund: IMPONET (ITEA 2 
+09030, TSI-02400-2010-10
+3), iSSF (IP
+T-430000-
+2010-038), NEMO&CODED (ITEA2 08022, IDI-
+20110864) and ENERGOS (CEN-20091048) and 
+UPM (Researcher Training program).
+References 
+[1]Babar, M. A. & Abrahamsson, P.:Architecture-centric 
+methods and agile approaches. In Agile Processes in Soft-
+ware Engineering and Extreme Programming,(2008) 
+[2]Bahsoon, R., Emmerich, W.: Evaluating Architectural 
+Stability with Real Options Theory. In: 20th IEEE ICSM,
+pp. 443-447 (2004)
+[3] Baldwin, C. Y., Clark, K. B.: Design Rules: The Power 
+of Modularity, MIT Press, (2000)
+[4]Beck, K., et all, Manifesto for Agile Software Devel-
+opment Manifestofor Agile Software Development, (2001)
+[5]Bosch, J.: Software architecture: The next step. In: 
+Software Architecture Lecture Notes in ComputerScience 
+Volume 3047, pp. 194-199 (2004)
+[6] Brown, N. et al,Managing technical debt in software-
+reliant systems. In Proceedings of the FSE/SDP workshop 
+on Future of software engineering research, (2010
+[7]Clements et al.: Documenting Software Architectures: 
+Views and Beyond, Addison-Wesley Professional (2010) 
+[8]Cox, J.C., Ross, S.A., Rubinstein, M.: Option pricing: A 
+simplified approach, Journal of Financial Economics, Vol-
+ume 7, Issue 3, Pages 229-263 (1979)
+[9]Cunningham, W.: The WyCash Portfolio Management 
+System. In: OOPSLA ™92 Addendum to the Pro
+ceeding on 
+Object-Oriented Programming Systems, Languages, and 
+Applications, pp. 29-30 (1992)
+[10]Curtis, B., Sappidi, J., 
+Szynkarski, A.: Estimating the 
+Principal of an Application™s Technical Debt. IEEE Soft-
+ware. Volume 29, issue 6, pp. 34-42 (2012)
+[11]Dutta, S., Bibao-Osorio, B.: The Global Information 
+Technology Report: Living in a Hyperconnected World. 
+Technical report, INSEAD, World Economic Forum (2012)
+[12]Erdogmus, H.: The Economic Impact of Learning and 
+Flexibility on Process Decisions. IEEE Softw., volume 22, 
+no. 6, pp. 76-83 (2005)
+[13]Erdogmus, H., Favaro, J., Halling, M.: Valuation of 
+Software Initiatives Under Unce
+rtainty: Concepts, Issues, 
+and Techniques. In: Value-Based Software Engineering. 
+Eds. Springer Berlin Heidelberg, pp. 39Œ66 (2006)
+[14]Guo, Y., Seaman, C.: A Portfolio Approach to Tech-
+nical Debt Management. In: Second International Work-
+shop on Managing Technical Debt, pp. 31-34 (2011)
+[15]Gustavsson, H., Axelsson, J.: Evaluating Flexibility in 
+Embedded Automotive Product Lines Using Real Options. 
+In: 12th SPLC, pp. 235-242 ( 2008)
+[16]Hull, J.C.: Options, Futures, and other Derivatives, 7th 
+ed. Pearson Prentice Hall (2008)
+[17]Kruchten, P., Nord R. L., Ozkaya, I.: Technical Debt: 
+From Metaphor to Theory and Practice. IEEE Software. 
+Volume 29, issue 6, pp. 18-21 (2012)
+[18]Lengwell, D.: Agile Software Requirements: Lean 
+Requirements Practices forTeams, Programs, and the En-
+terprise, Adisson-Wesley, 2010
+[19]Lopes, C. V., Bajracharya, S. K., An analysis of modu-
+larity in aspect oriented design. In: 4th international confer-
+ence on Aspect-oriented software development. (2005)
+[20]Martin, J.L., Yagüe, A., Gonzalez, E., Garbajosa, J.: 
+Making Software Factory Truly Global: The Smart Soft-
+ware Factory Project. Software Factory Magazine, 2010
+[21]Massoud Amin, S.; Wollenberg, B.F.: Toward a Smart 
+Grid: Power Delivery for the 21st Century. Power and 
+Energy Magazine, IEEE, volume 3, no. 5, pp. 34-41 (2005)
+[22]Nubroho, A., Visser, J., Kuipers, T.: An empirical 
+model of technical debt and interest. In: Second Interna-
+tional Workshop on Managing Technical Debt (2011)
+[23]Ozkaya, I., Kazman, R., Klein, M.: Quality-Attribute-
+Based Economic Valuation of Architectural Patterns. 
+Technical report, SEI(2007)
+[24]Perez, J., Diaz, J., Costa-Soria, C., Garbajosa, J.: Plas-
+tic Partial Components: A Solution to Support Variability 
+in Architectural Components. In: Joint WICSA/ECSA, 
+IEEE Computer Society Press, pp. 221Œ230 (2009)
+[25]J. Perez, J. Diaz, J. Garbajosa, P. P. Alarcon, Flexible 
+Working Architectures: Agile Architecting using PPCs, in: 
+4th European Conference on Software Architecture  (2010)
+[26]Perry, D., Wolf A., Foundations for the Study of Soft-
+ware Architecture. ACM Software Engineering Notes, Vol. 
+17, No. 4, pp. 40-52, (1992)  
+[27]Runeson, P., Host, M., Rainer, A., Regnell, B.: Case 
+Study Research in Software Engineering: Guidelines and 
+Examples. John Wiley & Sons (2012)
+[28]Schwaber, K., Beedle, M.: Agile Software Develop-
+mentwith Scrum. Prentice-Hall (2002)
+[29]Seaman, C., et al.: Using Technical Debt Data in Deci-
+sionMaking; Potential Decision Approaches. In: Interna-
+tional Workshop on Managing Technical Debt, (2012)
+[30]Smith, P. G.: Flexible Product Development: Building 
+Agility for Changing Market
+s, ed. Jossey-Bass, (2007) 
+[31]Sullivan, K. J., Griswold, W. G., Cai, Y., Hallen, B.: 
+The structure and value of modularity in software design,
+ICSE, pp. 99-108, (2001)
+[32]Tockey, S.: Return on Software: Maximizing the Re-
+turn on Your Software Investment, Addison-Wesley Pro-
+fessional (2004)
+[33]Tom, E., Aurum, A., Vidgen, R.: An Exploration of 
+Technical Debt. Journal of Systems and Software. Availa-
+ble online (2013)
+4816

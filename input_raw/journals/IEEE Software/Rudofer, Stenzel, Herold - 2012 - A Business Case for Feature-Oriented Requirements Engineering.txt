@@ -1,0 +1,729 @@
+ 54
+ IEEE SOFTWAR
+E | PUBL
+IS
+HED BY TH
+E IEEE COMPUT
+ER SOC
+IE
+TY
+ 0740-7459/12/$31.00 © 2012 IEEE
+FOCUS:
+ LEAN SOFTWARE DEVELOPMENT
+SYNGO, A SIEMEN
+S business unit, is 
+an imaging software and medical de
+-vice provider with several hundred de
+-velopers across multiple continents. Its 
+projects are geographically distributed 
+
+to leverage engineering talent, speed, 
+and cost.
+syngo.via 
+software is the central 
+hub in many healthcare work˜ows 
+
+(see Figure 1). With it
+, developers can 
+build
+ clinical applications for com
+-puted tomography, x-ray, magnetic 
+resonance, proton emission tomogra
+-phy, single-photon emission computed 
+tomography, oncology, and ultrasound 
+
+imaging. It enables more patient exams 
+
+in less time and accommodates ef˚
+-cient image creation, usage, archiving, 
+
+and sharing for sound diagnoses. The 
+
+syngo.via
+ product has several thousand 
+requirements translating into millions 
+of C++ and C# LOC.
+Like the rest of the medical device 
+industry, Syngo faces business chal
+-lenges stemming from industry regu
+-lations, which require full compliance 
+
+in product development (such as trace
+-ability and auditability of requirements 
+changes) to ensure patient safety. In ad
+-dition, new market entrants, competi
+-tors from the BRIC countries (Brazil, 
+
+Russia, India, and China), and IT com
+-panies moving into Siemens™ traditional 
+market space are putting pressure on 
+
+cost and cycle time. Moreover, medi
+-cal device functionality is increasingly 
+
+being realized in software, as has hap
+-pened in other industries such as the 
+
+automotive sector.
+1To remain competitive amid these 
+challenges, Syngo must continually in
+-crease productivity. Regarding soft
+-ware development, we hope to lever
+-age and adapt the principles of Toyota™s 
+
+lean engineering approach
+3 tocreate customer value,
+reduce waste, and
+optimize value streams, empow
+-erment of teams, and continuous 
+improvement.
+Toward that end, Syngo developed 
+Feature-Oriented Requirements En
+-gineering (FORE), a systematic ap
+-proach for organizing requirements 
+according to marketable, customer-
+oriented features. FORE ensures a 
+business perspective throughout the 
+
+product life cycle and is one of the 
+
+enablers for product line engineer
+-ing. Table 1 illustrates some ways that 
+A Business 
+ Case for Feature-
+
+Oriented 
+
+Requirements 
+
+Engineering
+Arnold Rudorfer, 
+Siemens Healthcare Diagnostics
+Tobias Stenzel and Gerold Herold, 
+Siemens Healthcare
+// 
+Owing to the growing software content in medical 
+devices, an adequate requirements engineering approach 
+is necessary to help meet the challenges of engineering 
+ef˜ciency and cost effectiveness. Feature-Oriented 
+Requirements Engineering offers such a solution. 
+//  SEPT
+EMB
+ER/OCTOB
+ER 2012
+ | IEEE SOFTWAR
+E 55FORE is helping Syngo meet require
+-ments engineering challenges. Here, 
+we describe FORE and the business 
+case we developed for it.
+The F
+ORE Approach
+A feature model
+ is a hierarchical tree 
+describing the structure, dependen
+-cies, commonalities, and variability of 
+
+features in a product or product line 
+
+(such as platforms for a medical de
+-vice).
+4,5
+ A feature
+, in our nomencla
+-ture, is a marketable unit as an aggre
+-gation of requirements characterizing 
+
+a system™s capability or performance 
+
+(such as a reporting feature, movie fea
+-ture, or volume-rendering-technique 
+feature). A feature is a mere container 
+for one or more requirements. In other 
+
+words, requirements specify features. 
+
+The project phase dictates require
+-ments™ levels of detail (for example, 
+
+considering market requirements ver
+-sus software requirements).
+Feature Model Bene˜ts
+Using feature models, we can struc
+-ture product requirements along the 
+customer™s domain, achieving a higher 
+abstraction level (instead of dangling 
+requirements) and graphical overview 
+
+of the products™ functionality. They 
+also serve as a basis for proper product 
+FIGURE 1. 
+Integrated clinical work˜ows. Syngo.via software enables more patient exams in 
+less time and accommodates ef˚cient image creation, usage, archiving, and sharing for sound 
+diagnoses.
+TABLE 1
+Requirements engineering challenges.
+Challenge
+Solutions introduced 
+ by Feature-Oriented Requirements Engineering
+Linkage of product 
+
+requirements to 
+
+business drivers
+Tedious scoping sessions with customers, owing 
+to many speci˜cations
+Many technology-driven requirements that have 
+
+no business rationale
+Requirements creep or different entry points for 
+
+requirements
+Setting up a business-driven feature model from the customer™s 
+
+viewpoint
+Supporting agile methodologies by integrating the requirements 
+
+database and a backlog or a project management tool
+Central collection and evaluation of stakeholder requests
+Early transformation of stakeholder requests into requirements
+Relationship of 
+problem to solution 
+
+space
+Nontransparent relations between the problem 
+and solution spaces
+Complex product architecture, implementation, 
+
+and testing
+No possibility to reuse requirements and 
+
+speci˜cations for different product lines
+Modeling relations between features and components to enable 
+
+impact analysis
+Modeling product variability and product lines by clustering 
+
+requirements to features
+Very large product 
+scope to test
+Testing without customer perspective (focusing 
+on components)
+Inef˜cient testing owing to a heterogeneous 
+
+requirements structure
+Testing self-contained features and use cases
+Continuous synchronization of up-to-date requirements with 
+
+test cases
+Reduce engineering 
+overhead
+A complex tracing methodology with 
+n:m relations (too many traces)
+New techniques to model cross-cutting concerns that impact 
+various features
+Simplifying tracing methods (structure-based tracing and 1:
+m relations)
+ 56 IEEE SOFTWAR
+E | WWW.COMPUT
+ER.ORG/
+SOFTWAR
+EFOCUS:
+ LEAN SOFTWARE DEVELOPMENT
+line engineering and help manage vari
+-ability and commonality (for example, 
+de˚ning rules about whether a feature 
+is mandatory or optional). Further
+-more, developers can perfectly com
+-bine feature models with lean or agile 
+project management methods (such 
+as Scrum) by ˚lling a product backlog 
+
+with user stories.
+Integrating Feature 
+ Models into Development
+Feature models™ seamless integration 
+
+and application into product develop
+-ment processes will be key to achiev
+-ing higher engineering ef˚ciency. At 
+
+Siemens Healthcare, we™ve integrated 
+
+FORE with the engineering disciplines 
+of architecture and design, project 
+management, and test management.
+We also introduced a tool chain 
+supporting FORE. It consists of a 
+tool for requirements engineering, 
+architecture, and design (Sparx Enter
+-prise Architect) and a tool for back
+-log and test management (Microsoft 
+
+Team Foundation Server).
+The following development use case 
+and steps summarize our approach 
+(see Figure 2):
+ 1.
+ Product managers collect, analyze, 
+and decide on stakeholder requests 
+
+from various sources, such as end 
+customers or internal stakeholders.
+ 2.
+ If a requirements engineer ac
+-cepts the stakeholder requests, he 
+
+or she transforms the requests into 
+completely new software (SW) fea
+-tures or enhancements to existing 
+
+features.
+ 3.
+ Together with architects, the re
+-quirements engineer
+ maps the SW 
+features to architectural building 
+
+blocks to determine complexity 
+and effort.
+ 4. Then, the product manager
+ syn
+-chronizes the enhancements per 
+feature in parallel as items in the 
+product backlog for prioritization 
+and release planning.
+ 5.
+ As the assigned software develop
+-ment Scrum teams further decom
+-pose and groom the backlog items, 
+
+they incorporate changes on the 
+
+SW requirement and design levels.
+ 6.
+ Both market and SW require
+-ments sync to the test management 
+
+suite to enable tracing to test cases.
+Introducing FORE and integrat
+-ing it in a Scrum-based development 
+
+setup has provided multiple bene˚ts. 
+
+The strict distinction of stakeholder 
+requests and SW features and their en
+-hancements avoids redundancies and 
+inconsistencies in product require
+-ments (such as a stakeholder request 
+that might address an existing feature 
+Requirements engineeringTransformedinfoSW featureEnhancementStakeholderrequestArchitecturalbuilding blockSW req.Market req.SW req.SW req.13Mapped to52Project and test managementSW featureBacklog itemSyncSyncSyncGrooming and incorporationinto requirementsSyncMarket req.SW req.SW req.Test caseTest caseTest caseTested by4Architecture and design6FIGURE 2. 
+Integrating Feature-Oriented Requirements Engineering (FORE) into development. For an explanation of the steps, 
+ see the main article.
+  SEPT
+EMB
+ER/OCTOB
+ER 2012
+ | IEEE SOFTWAR
+E 57or enhancement). Besides representing 
+the formal design input of the medi
+-cal device, the feature model serves as 
+
+the primary input source for the prod
+-uct backlog and enables Scrum-based 
+
+project management. Mapping archi
+-tectural building blocks to SW features 
+
+provides early information about com
+-plexity and input for subsequent effort 
+
+estimations. Moreover, testers always 
+get up-to-date requirements that are 
+ready to be traced to test cases. In this 
+
+regard, the feature model is the central 
+information hub and provides a col
+-laboration basis for various processes 
+and disciplines.
+The Business Case
+Although we already had experience 
+
+doing business cases for software 
+process improvement, FORE™s business 
+case was one of the most dif˚cult to 
+
+develop. This dif˚culty was due to the 
+
+nature of requirements engineering and 
+the many relations the discipline has 
+with adjoining engineering work˜ows. 
+
+Figure 3 shows the business case 
+
+approach™s four major steps: assessing 
+the type of investment, costs, bene˚ts, 
+and risk.
+Assessing the Type of Investment
+To investigate the investment™s char
+-acteristics, we ˚rst determined ˚ve 
+questions:
+What™s the savings potential with 
+FORE?
+What™s FORE™s return on invest
+-ment (ROI)?
+By when will we recover the 
+
+investment?
+Which engineering areas contribute 
+
+most to the business case?
+Finally, what happens if important 
+levers fail? (Levers are critical suc
+-cess factors that will help us realize 
+FORE™s bene˚ts.)
+We investigated the answers later, when 
+
+assessing bene˚ts and risk.
+Assessing Costs
+Next, we determined an ﬁas isﬂ re
+-quirements engineering process (the 
+current state) and de˚ned the ﬁto beﬂ 
+process (the future stateŠthat is, 
+
+FORE). This way, we could accurately 
+
+record the as-is state™s operating costs. 
+Moreover, we could subsequently es
+-timate preparation and rollout costs. 
+This included the costs for needed pro
+-cess changes (methodology and tool
+-ing), including staff training and orga
+-nizational change management.
+Assessing Bene˜ts
+To determine the key bene˚ts and levers, 
+
+we ran a series of workshops with key 
+stakeholders from development (prod
+-uct managers, architects, test managers, 
+and project managers). We identi˚ed 
+
+four key bene˚ts. The ˚rst was more 
+effective testing and easier bug ˚xing. 
+The second was transparency and easy 
+
+overview of product functionality. The 
+
+third was reduced product complexity 
+through variability modeling, and the 
+
+˚nal bene˚t was easier tracing owing to 
+
+fewer trace relationships.
+Effective testing and easier bug ˜xing. 
+One of FORE™s levers is a simpli˚ed 
+
+manner for creating test cases. This 
+is possible owing to a better overview 
+for test cases. We spend less time on 
+
+understanding the requirements and 
+
+their associated use cases. Addition
+-ally, there™s a much earlier consider
+-ation of nonfunctional requirements 
+
+such as scalability and performance. 
+
+An explicit modeling attached with 
+an integrated view lets us detect non
+-functional requirements issues early in 
+the process. We can quickly detect any 
+omission.
+Transparency. 
+This area relates to 
+the requirements content. A feature 
+
+model, owing to its graphical nature, 
+provides a quick overview from a cus
+-tomer™s perspective on how product 
+CostsDiscounted cash ˜ow:net present value NPV)ﬁAs isﬂ process vs. ﬁto beﬂ processBene˚tsDiscounted cash ˜ow: NPVKey bene˚ts areas and leversDetermine error limitfor critical factorsType of investmentCharacteristicsRiskDetermine critical factors:sensitivity analysisFIGURE 3. 
+Our business case approach involved four major steps: assessing the type of 
+investment, costs, bene˚ts, and risk.
+ 58 IEEE SOFTWAR
+E | WWW.COMPUT
+ER.ORG/
+SOFTWAR
+EFOCUS:
+ LEAN SOFTWARE DEVELOPMENT
+requirements are structured. Further
+-more, we can trace each feature from 
+the business need to the customer re
+-quirement. A business-driven feature 
+model has the bene˚ts of allowing us 
+
+to more easily de˚ne a product release 
+and to more quickly understand the re
+-quirements content. 
+First, it™s easier to prepare and 
+conduct scoping sessions to de˚ne a 
+
+product release. Given the logical de
+-composition, early on, we can de˚ne 
+the boundaries for a product devel
+-opment release as we select the num
+-ber of features that ˚t our resource 
+
+and time constraints. Second, we can 
+
+quickly bring product managers up 
+to speed when looking at a graphical 
+model (rather than having them parse 
+
+through many text-only product re
+-quirements descriptions). In the con
+-text of our product, we needed to deal 
+with more than 5,000 requirements. 
+
+The resulting feature model had more 
+than 800 features. Industry practitio
+-ners report that using graphical mod
+-els in requirements engineering helps 
+reduce the time to understand and re
+-view product requirements by 40 per
+-cent.
+6 In this case, the product struc
+-ture™s transparency helps us determine 
+where to zoom inŠfor example, when 
+reviewing a clinical work˜ow. 
+Reduced complexity. 
+We can reduce 
+product complexity through product 
+variability modeling. Applying this in 
+our project helped reduce redundancy 
+
+in the product architecture.
+Simpli˜ed tracing. 
+The feature mod
+-el™s tree structure mirrors the vertical 
+traces from a business need to product 
+requirements, design, and code. This 
+implicit tracing mechanism is built 
+
+when we construct the feature model. 
+
+So, we have fewer traces to man
+-age and fewer opportunities to inject 
+
+tracing errors when we must retrace. 
+
+Therefore, rework also decreases.
+Bene˜ts analysis. 
+Equipped with the 
+bene˚ts data, we can calculate the net 
+present value (NPV) and the time of 
+payback (see Figure 4 for an example). 
+
+We used the time-savings-times-sal
+-ary method to calculate bene˚ts.
+7 The 
+NPV in our case was approximately 15 
+to 20 percent of an annual R&D bud
+-get. The time of payback was approxi
+-mately two years, resulting in an ROI 
+of approximately 1:3.
+Another interesting result was the 
+distribution of the resulting bene˚ts 
+
+across the product development dis
+-ciplines: product de˚nition, project 
+management, design, and testing (see 
+Figure 5). We could conclude that test
+-ing would be the biggest bene˚ciary of 
+applying FORE. Furthermore, to un
+-derstand the total set of bene˚ts, we 
+had to look holistically at all product 
+
+development disciplines. It was also 
+best to continue reviewing and con
+-˚rming bene˚ts with stakeholders 
+˜˚˛˚˝˙ˆˇ˘ˆ˙ˆFIGURE 4. 
+FORE bene˚ts calculation. The net present value was approximately 15 to 20 
+percent of an annual R&D budget. The time of payback was approximately two years, resulting 
+in an ROI of approximately 1:3.
+˜˚˛FIGURE 5. 
+The distribution of bene˚ts 
+across engineering disciplines. Testing is the 
+
+biggest bene˚ciary of applying FORE.
+  SEPT
+EMB
+ER/OCTOB
+ER 2012
+ | IEEE SOFTWAR
+E 59from all those disciplines. We™d need 
+those stakeholders as champions to 
+roll out FORE and to continue reiter
+-ating investment bene˚ts to develop
+-ment staff.
+Assessing Risk
+Finally, we determined how levers 
+behave. Running a sensitivity analy
+-sis on the key levers with large ben
+-e˚ts showed that the NPV was still 
+
+positive. So, implementing FORE still 
+
+made sense.
+FORE ensures that product 
+
+requirements only get into 
+product releases that create 
+customer value. This avoids unneces
+-sary up-front specifications of prod
+-uct requirements that won™t be im
+-plemented. Thus, engineering effort 
+isn™t wasted.
+The feature model as a central de
+-velopment artifact helped our devel
+-opment organization optimize value 
+
+streams in architecture and testing. A 
+
+key lesson we learned from doing the 
+business case is that FORE helps sus
+-tain focus in actual implementation. 
+Furthermore, we can develop a busi
+-ness case only if we have completely 
+speci˚ed FORE. Changing a key pro
+-cess development step requires endur
+-ing support from all levels of the or
+-ganization and the involvement of key 
+
+stakeholders.
+We can take further steps to in
+-crease FORE™s utility through auto
+-mation. For example, requirements 
+
+quality checking via rules in a fea
+-ture model would help ensure consis
+-tency and data quality. This would 
+
+also help product managers and re
+-quirements engineers catch require
+-ments defects early. Furthermore, in 
+product risk management, product 
+risks could be linked to requirements 
+in a feature node. This would help 
+
+save time in finding product risk and 
+
+the corresponding mitigation.
+Acknowledgments
+We thank Siemens colleagues Christa Schwan
+-ninger, Peter Hofman, Klaus Moritzen, Thom
+-as Baer, and particularly our master™s student, 
+Felix Popp, for input, discussion, and reviews. 
+
+We also extend our appreciation to the Syngo 
+
+global head of R&D, Michael Heinold, for 
+
+providing senior management support to make 
+
+software development improvement happen.
+References
+ 1.
+ G. Reichart and M. Haneberg, 
+Key Drivers 
+for a Future System Architecture in Vehicles
+, tech. report 2004-21-0025, SAE Int™l, 2004.
+ 2.
+ C. Smoak, ﬁMedical Device & Diagnostic In
+-dustry 101,ﬂ 
+Proc. PharmaSUG
+, Pharmaceuti
+-cal Industry SAS Users Group, paper 1B01, 
+
+2010; www.lexjansen.com/pharmasug/2010/
+ib/ib01.pdf.
+ 3.
+ T. Ohno and N. Bodek, 
+Toyota Production 
+System: Beyond Large-Scale Production
+, Productivity Press, 1988.
+ 4.
+ C. Kang and S. Cohen, 
+Feature-Oriented 
+Domain Analysis (FODA) Feasibility Study
+, tech. report CMU/SEI-90-TR-021, Software 
+
+Eng. Inst., Carnegie Mellon Univ., 1990.
+ 5.
+ B. Berenbach et al., 
+Software Systems Re
+-quirements Engineering
+, McGraw Hill, 2009.
+ 6.
+ B.A. Berenbach, ﬁComparison of UML and 
+
+Text Based Requirements Engineering,ﬂ 
+Proc. 
+19th Ann. ACM SIGPLAN Conf. Object-
+Oriented Programming
+, Systems, Languages 
+and Applications Conf. (OOPSLA 04), ACM, 
+
+2004, pp. 247Œ252.
+ 7.
+ B. Mutschler, N. Zarvic, and M. Reichert, 
+A Survey on Economic-Driven Evaluations of 
+
+Information Technology
+, tech. report, Centre 
+for Telematics and Information Technology, 
+
+Univ. Twente, 2007.
+AR
+NOLD RUDO
+RF
+ER is the program manager for system platform 
+development at Siemens Healthcare Diagnostics. His research interests 
+include requirements engineering, organizational change management, 
+
+software technologies, and business strategy. Rudorfer has an MS in 
+
+software engineering and business administration from the University 
+
+of Technology Graz, Austria. Contact him at arnold.rudorfer@siemens.
+
+com.
+TO
+BIA
+S STENZEL 
+is a process manager for requirements engineering 
+and product management at Siemens Healthcare. His research interests 
+
+requirements engineering- and product management-related topics. 
+
+Stenzel has an MS in computer science from the University of Technol
+-ogy Munich, Germany. Contact him at tobias.stenzel@siemens.com.
+GEROLD HE
+ROLD 
+is a program manager for change management 
+projects and a process manager for project management at Siemens 
+
+Healthcare. His research interests include globally distributed, large 
+
+software development projects from technical and business perspec
+-tives. Herold has an MS in computer science and an MS in electrical 
+
+engineering, both from the University of Erlangen-Nürnberg, Germany. 
+
+Contact him at gerold.herold@siemens.com.
+ABOUT THE 
+AUTHORS
+Selected CS articles and columns 
+ 
+are also available for free at 
+ 
+http://ComputingNow.computer.org.

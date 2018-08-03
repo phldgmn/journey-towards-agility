@@ -1,0 +1,2474 @@
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Journal of Management Information Systems / 
+Spring 2012, Vol. 28, No. 4, pp. 39Œ67.
+ © 2012 M.E. Sharpe, Inc. 0742Œ1222 / 2012 $9.50 + 0.00. DOI 10.2753/MIS0742-1222280403Supporting Agile Organizations with a 
+Decision Guidance Query LanguageALEXANDER BRODSKY, N
+ATHAN E. EGGE, AND  X. SEAN W
+ANGALEX
+ANDER
+ BRODSKY
+ is director of the Center for Smart Power 
+Grids and an associate 
+professor of Computer Science at 
+George Mason University. 
+He earned his Ph.D. and 
+prior degrees in computer science and mathematics from the 
+Hebrew University of 
+Jerusalem. 
+His research interests and publications are in the areas of decision-guidance 
+and support systems, constraint databases and programming, secure information 
+sharing, and smart power grids. For his research work on constraint databases and 
+
+programming, Dr. Brodsky received a National Science Foundation (NSF) CA
+REER 
+Award, NSF 
+Research Initiation Award, and grants from the Of˜ce of Naval 
+Research and NASA. Dr. Brodsky served as conference chairman of the Fifth International 
+
+Conference on Principles and Practice of Constraint Programming and serves as a 
+
+program committee co
+-chair of the IEEE International Conference on Data Engineer
+-ing workshop on Decision 
+Guidance and Support Systems. Prior to joining 
+George 
+Mason University, Dr. Brodsky worked at IBM™s 
+T.J.
+ Watson 
+Research Center, at Israel 
+Aircraft Industries, and was an of˜cer in the Computer Division of Communications, 
+
+Electronics and Computer Corps, Israel Defense Forces. 
+NATH
+AN E. EGGE
+ is a Ph.D. candidate at 
+George Mason University working on a dis
+-sertation on the decision-guidance query language. 
+He holds dual master™s degrees in 
+mathematics and computer science from Virginia 
+Tech. His research interests include 
+decision-guidance and support systems, database management systems, constraint 
+and mathematical programming, distributed computing, and enterprise software ar
+-chitecture. He has over 10 years™ experience in the industry, designing and building 
+enterprise applications for Fortune 500/
+Global 1000 companies. X. SEAN WANG
+ is dean of the School of Computer Science at Fudan University, Shang
+-hai, China. Prior to joining Fudan University, Dr. Wang was a program of˜cer at the 
+U.S. National Science Foundation, and endowed Dorothean Chair and professor of 
+
+computer science in the College of Engineering and Mathematics at the University of 
+
+Vermont. 
+He started his academic career at the Information and Software Engineer
+-ing Department of 
+George Mason University, after earning his Ph.D. in computer 
+science from the University of Southern California, and B.S. and M.S. in computer 
+
+science from Fudan University. Dr. Wang™s research areas include database manage
+-
+ment systems, information security and privacy, wireless sensor networks, streaming 
+
+data processing, time series queries, data mining and data warehousing, and database 
+
+theory. 
+He is the principal investigator or co
+-investigator of close to a dozen federally 
+sponsored research projects and is a recipient of the National Science Foundation™s 
+
+Career and 
+Research Initiation Awards. 
+He has published over 100 scienti˜c papers 
+in the general ˜eld of database systems. 40     BRODSKY, EGG
+E, AND W
+ANGABSTR
+ACT
+: Decision optimization is widely used in many decision guidance and sup
+-port systems (D
+GSS) to support business decisions such as procurement, scheduling, 
+and planning. In spite of rapid changes in users™ requirements, the implementation of 
+
+DGSS is typically rigid, expensive, and not easily extensible, which is in stark contrast 
+to the agile implementation of management information systems (MIS) based on the 
+
+database management systems (DBMS) and SQ
+L technologies. 
+This paper focuses on 
+the Decision 
+Guidance Query 
+Language (D
+GQL) designed to (re
+-)use SQ
+L programs for 
+decision optimization with the goals of making D
+GSS implementation agile and intuitive 
+and leveraging existing investment in SQ
+L-implemented MIS. 
+The paper addresses two 
+related technical issues with D
+GQL: (1)
+ how to annotate existing queries to precisely 
+express the optimization semantics, and (2) how to translate the annotated queries into 
+
+equivalent mathematical programming formulations that can be solved ef˜ciently.
+KEY
+ WORDS
+ AND
+ PHR
+ASES
+: agile organizations, decision guidance, decision support, 
+optimization.BUSINESS
+ MANAGERS
+ FACED
+ WITH
+ GLO
+BA
+L COMPETITION
+ and rapidly changing market con
+-ditions are increasingly turning to decision guidance and support systems (D
+GSS) to 
+provide actionable recommendations on a variety of business decisions. Examples 
+
+include manufacturing processes, sourcing, planning and scheduling, transportation 
+
+and delivery, and inventory control. While rapid change in users™ requirements is typical 
+
+for D
+GSS, the development of D
+GSS today is a rigid, time-consuming, and expensive 
+
+process. Furthermore, existing D
+GSS typically are dif˜cult to modify or extend. 
+This paper makes a step toward ﬁagileﬂ development and extensibility of D
+GSS using the 
+
+Decision Guidance Query Language (DGQL).DGSS can be viewed as a class of information systems (IS) that provide users not 
+only business data to support decision making but also actionable business recommen
+-
+dations. As observed in 
+Hong et al.
+ [19], to address the gap between rapid changes in 
+users™ requirements and the high cost of development software [3, 22], so-called ﬁagileﬂ 
+
+software development methods, such as Extreme Programming, have evolved. Agile 
+
+methods, as described in 
+Hong et al., are a ﬁcollection of principles and techniques 
+that emphasize early and continuous delivery of softwareﬂ [19, p.
+ 236] in response to 
+rapid changes in users™ requirements [9, 28]. 
+However, agile development of D
+GSS has not been addressed due to unique characteristics and challenges of DGSS.The challenge in building agile D
+GSS has to do with the fact that its state-of-the-art 
+implementation today involves mathematical programming (MP) and constraint pro
+-
+gramming (CP). MP and CP are used for decision optimization, that is, ˜nding values 
+
+for control variables that maximize or minimize an objective within given constraints. 
+
+More speci˜cally, the development of D
+GSS usually involves (1)
+ analysis and formal 
+modeling of an optimization problem by an operations research expert, (2)
+ imple-mentation of a model using a modeling language such as AMP
+L (A Mathematical 
+
+Programming 
+Language) and MP/CP solvers, and further re˜nement of algorithms by 
+MP/CP experts, and (3)
+ development of the application IS and its integration with the 
+ SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     41optimization module by software developers. Software and IS application developers 
+normally do not possess the expertise for the D
+GSS development cycle. Furthermore, 
+
+a small change in application requirements often leads to a complete redesign of the 
+
+formal optimization model and its implementation. Clearly, these challenges hinder 
+
+agile development of D
+GSS.In contrast, management information systems (MIS) software developers usually are 
+familiar with database management systems (DBMS) and the SQ
+L query language. 
+
+Using DBMS and SQ
+L allows a signi˜cantly more agile development because the 
+
+developers can focus on declarative query and business logic while leaving the system 
+
+details (such as ef˜cient query evaluation and transaction management, as well as fail
+-
+ure and recovery mechanisms) to DBMS. While nearly all IS software developers are 
+
+familiar with DBMS and SQ
+L, they typically do not have the mathematical expertise 
+
+necessary for MP and CP. Furthermore, D
+GSS are usually domain speci˜c; require 
+
+signi˜cant expertise to develop, deploy, and maintain; and often lack the return on 
+
+investment (
+ROI) necessary to justify investment
+ [17]. In addition, much investment 
+has already been spent on database application development and infrastructure. Clearly, 
+
+it is desirable to leverage this investment when building D
+GSS.In this paper, we describe a D
+GQL framework. With D
+GQL, we provide a step 
+toward making decision optimization easier and more agile, especially in applica
+-
+tions where database technology has been heavily used. Brie˚y, D
+GQL provides a 
+
+query-like abstraction for expressing decision optimization problems so that database 
+
+programmers can use it without prior experience in MP/CP, and more importantly, so 
+
+that they can reuse SQ
+L programs already built into existing MIS.
+A key observation that motivates the D
+GQL development is that database languages 
+such as SQ
+L are intuitive to use for MIS, and that decision optimization in principle 
+
+is an ﬁinverseﬂ of much of the SQ
+L functionality in place. In addition, code used in 
+
+SQL programs often contains business logic that is needed in the decision optimiza
+-
+tion tasks. Based on this observation, a decision optimization problem in D
+GQL is 
+
+written as a ﬁregularﬂ SQ
+L program, that is, a sequence of relational views and ac
+-
+companying integrity constraints, together with some annotation of which database 
+
+table column needs to be decided by the system (i.e., variables) and toward what goal 
+
+(i.e., optimization objective). 
+Here, existing SQ
+L programs in MIS can be directly 
+used. Essentially, D
+GQL allows users to write an optimization problem as if writing 
+
+an SQL program in a forward manner.
+The technical challenge in the D
+GQL approach, however, is how to execute the ﬁin
+-verseﬂ decision optimization based on a ﬁforwardlyﬂ expressed code. 
+This is done by 
+encoding the D
+GQL queries as an MP formulation, solving the MP problem, and then 
+deriving the solution to the D
+GQL optimization problem. A technical question with 
+two interrelated parts arises: Is it possible to (1)
+ encode a D
+GQL program as an MP 
+formulation such that (2)
+ the solution can be found ef˜ciently? In this paper, we answer 
+this question af˜rmatively. As such, we believe that D
+GQL has the potential to achieve 
+both the agility of D
+GSS development and the ef˜ciency of optimization solutions. 
+In terms of ef˜ciency, the overall performance of intuitive D
+GQL queries compares 
+squarely with expert-generated MP problems, as we show in the seventh section.
+ 42     BRODSKY, EGG
+E, AND W
+ANGA common problem faced with the proposal of any new framework is acceptance 
+and usage by the greater research community. By design, D
+GQL extends the most 
+broadly used database query language, SQ
+L, and adds only a minimal annotation that 
+
+allows translation of SQ
+L queries into optimization problems. We believe that this 
+
+approach has a good chance of being broadly used exactly because it does not require 
+
+database programmers to learn a new language. 
+The D
+GQL research prototype has 
+been implemented and integrated with the PostgreSQ
+L database server so that it may 
+
+be invoked directly from any application or interface that allows ordinary SQ
+L state
+-
+ment execution, including the Postgres development environment pgAdmin.
+In summary, the contributions of the paper are as follows:
+
+its formal syntax and semantics,
+
+formal MP models and prove its correctness, and
+
+
+
+
+
+
+
+
+
+
+
+expert-generated models.
+The rest of this paper is organized as follows. In the next section we give a motivat
+-ing, running example. In the third section we brie˚y survey state-of-the-art decision 
+
+optimization methods and point out a few related works. In the fourth section we 
+
+use the running example to present D
+GQL informally in an SQ
+L-like syntax before 
+
+we present the formal syntax and semantics of D
+GQL in the ˜fth section. An imple
+-
+mentation of D
+GQL via translation to MP is given in the sixth section. We present 
+
+our experimental results in the seventh section, and conclude with the eighth section. 
+
+Finally, Appendix
+ A adds more detail on the reduction procedure and Appendix
+ B provides a formal proof of correctness.
+A Running ExampleTO MAKE
+ OUR
+ DISCUSSION
+ CONCRETE
+, consider ˜rst a simple example of a reporting MIS 
+to support a procurement of˜cer who manages the purchase and delivery of various 
+
+items to delivery locations. 
+Let us assume that a database is set up with the following 
+tables:demand(loc, item, requested):a tuple indicates that for a delivery location (
+loc), the quantity 
+requested of 
+item is needed.supply(vendor, item, price_per_unit, available):a tuple indicates that a 
+vendor can provide at most 
+available
+ quantity of 
+item at the price_per_unit.orders(vendor, item, loc, quantity):a tuple indicates the order of 
+item in 
+quantity from 
+vendor for location 
+loc. SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     43With the above tables, the MIS may use the following query to provide (total) cost 
+information:CREATE VIEW total_cost ASSELECT SUM(s.price_per_unit * o.quantity) AS totalFROM orders o INNER JOIN supplier sON o.vendor = s.vendor AND o.item = s.item;The above assumes that the item orders are decided elsewhere, and that the database 
+is simply to record these orders. Now consider the situation that the procurement of˜cer needs to decide these orders, 
+with the objective of minimizing the cost. Note that we now add a D
+GSS functional
+-
+ity that goes beyond reporting. 
+This is a typical ﬁinverseﬂ problem of the above SQ
+L function. More speci˜cally, we need to assume that the 
+orders table needs to be 
+˜lled such that all the demands are satis˜ed while the total cost is minimized. 
+This is 
+a nontrivial problem, especially when there are constraints such as limiting the number 
+
+of vendors to supply a particular location.
+State-of-the-art solutions will need to model the situation in a separate decision 
+optimization system to make the order decisions. Our approach is to reuse the above 
+
+SQL program, plus some auxiliary SQ
+L statements and SQ
+L-like annotations (e.g., 
+
+for adding the constraints), to automatically generate MP models that will generate 
+
+the optimal orders. 
+The resulting annotated SQ
+L query is called a D
+GQL query. We 
+deliberately make the above query rather simple for easy presentation. One may imag
+-
+ine that more tables may be involved and some investment has already been made to 
+
+debug and test the queries to make the business logic correctly re˚ected. 
+This ability 
+to leverage existing investment in database design through annotation is a distinct ad
+-
+vantage over modeling languages such as AMP
+L, 
+GAMS (
+General Algebraic Modeling 
+System), and OP
+L (Optimization Programming 
+Language). This is because D
+GQL allows a clear separation between modeling the business objects and processes, and 
+
+indicating which parameters are to be used for decision making. One can imagine a 
+
+multistage decision optimization system where the output of one decision problem 
+
+is used as the input to another. By allowing for heavy query reuse, new optimization 
+
+problems can be created by a few annotations with little advanced planning.
+Furthermore, additional information may be added to the system at different times, 
+such as shipping options, packaging options, and so forth. Consider shipping options. 
+
+As multiple shipping companies may be available with different pricing structures, it is 
+
+useful to optimize the total shipping cost with the best shipping option. We may have 
+
+two additional tables: 
+shipping_options
+ and 
+shipping_orders
+. An additional 
+query can be added to provide total shipping cost. (Care needs to be taken to make the 
+
+item 
+orders and 
+shipping_orders consistent, perhaps by using integrity constraints 
+in the database.) An interesting point here is that relational database systems allow 
+
+modularized development, which increases the productivity of the programmers and 
+
+makes the system development more intuitive.
+With the additional needed information, the procurement of˜cer may need to also 
+make shipping (and other) decisions so that the total cost of items and shipping is 
+ 44     BRODSKY, EGG
+E, AND W
+ANGminimized. Other requirements may come in as well, such as the time of delivery 
+requirements. Again we can ﬁinvertﬂ the SQ
+L function to make decision optimizations 
+by reusing the SQ
+L code already developed. If shipping option is added to the item 
+
+orders, two tables, namely, 
+item_orders and 
+shipping_orders, need to be ˜lled 
+to make the total cost optimal. 
+The D
+GQL query will be modular in exactly the same 
+way that SQ
+L queries are modular.
+Related Work
+AS INDIC
+ATED
+ IN
+ HONG
+ ET
+ AL. [19], the existing research on agile IS focused on agile 
+methods for both software developers (e.g., [1, 7, 26]) and project managers (e.g.,
+ [15, 
+18, 23, 29]). Agile IS were also studied from the perspective of user acceptance
+ [19]. A book by Desouza
+ [11] deals with different aspects of agile IS, including concep
+-tualization, construction, and management. 
+However, the problem of making D
+GSS agile has not been addressed. Note that the work on agile IS is not suf˜cient to make 
+
+DGSS development agile because of unique challenges in developing D
+GSS. The reason for the uniqueness is that the development of D
+GSS, even the simple 
+example in the previous section, requires both database management and operations 
+
+research (O
+R) techniques and tools. Using O
+R tools such as MP and CP poses sig
+-
+ni˜cant challenges. Among them is the requirement of full knowledge of the search 
+
+space and the objective for the task at hand for ef˜cient system operation. 
+The O
+R modeling abstraction (e.g., AMP
+L [13] and 
+GAMS [5]) typically requires O
+R ex
+-pertise, which makes the development by information technology (I
+T) professionals 
+
+challenging. In contrast, DBMS tools are more intuitive and have been adopted by 
+
+many application domains. 
+However, DBMS query languages are not designed for 
+decision optimization as they cannot express decision optimization problems, notably 
+
+over continuous variables. Indeed, in the continuous variable case, there are potentially 
+
+in˜nite possibilities to choose from that cannot be expressed as a regular database 
+
+query program. For the discrete case, when potential choices are from a large space, 
+
+populating tables with all possible choices and then performing a rank query can be 
+
+quite inef˜cient. Although database query languages, such as SQ
+L, can handle some 
+
+limited discrete optimization computations (e.g., ˜nd a tuple that has a minimal value 
+
+over a ˜nite set of discrete choices [20] even in the cases of expressible rank queries), 
+
+evaluation algorithms have not typically taken advantage of MP and CP search strate
+-
+gies to achieve potential ef˜ciency and ˚exible optimization goals. More important, 
+
+the optimization program will look very different from the database program query, 
+
+increasing the complexity of system management.
+Specialized optimization tools (e.g., for optimizing price-revenue, transportation, 
+sourcing, production planning) have been developed to be ready for end users, or for 
+
+integration with other systems (e.g., enterprise resource planning or enterprise resource 
+
+management), so that operations research expertise would not be necessary. 
+However, 
+this approach is not extensible, and does not support general D
+GSS development.
+There has been extensive work on integrating data manipulation and mathematical 
+programming modeling languages (e.g., [2, 4, 8, 12, 24]). 
+The work of Dolk
+ [12] strongly advocates the need to unify models such as optimization, econometric, simu
+- SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     45lation, and data models. Dolk™s article gives an excellent introduction and overview 
+to model integration and integrated modeling environments, including the integra
+-
+tion of schema, process, models and data, models and solvers, modeling paradigms, 
+
+environments, and ˜nally, modeling system interfaces. Bhargava et al.
+ [4] present a 
+methodology and provide systematic means for integrating data and mathematical 
+
+modeling languages. In their work, Mitra et al.
+ [24] extend the syntax of Mathematical 
+Programming 
+Language (MP
+L) so that the index sets used in the constraint formulation 
+are extracted from a relational database in a ˚exible fashion. Choobineh
+ [8] makes a 
+tight integration of SQ
+L and a mathematical programming language by creating an 
+
+SQL-like syntax to de˜ne constraints and extract data from the database. Atamtürk et 
+
+al.
+ [2] take a similar approach and propose using SQ
+L to specify ﬁblocksﬂ that represent 
+matrices for linear programming models. 
+The above work on integration is signi˜cant 
+because it makes implementation of systems easier due to tighter integration of MP 
+
+modeling with data extraction and manipulation.
+However, in all these works, whether data manipulation and MP functionalities are 
+integrated in a looser or tighter fashion, users must still work with two conceptually 
+
+different paradigms: (1)
+ data manipulation and (2)
+ de˜nition of MP problems. 
+Thus, the 
+user of those systems must still possess the expertise of mathematical programming, 
+
+which most database developers do not have. In contrast, in D
+GQL there is no con
+-
+ceptual separation between data manipulation and optimization. As explained in detail 
+
+in the fourth and ˜fth sections, the user needs to only understand the computational 
+
+process of SQ
+L, plus the concept of ﬁinverseﬂ computation, which is the instantiation 
+
+of table columns in such a way that all of the database integrity constraints are satis˜ed, 
+
+and a particular value computed by SQ
+L is minimized or maximized.The languages most closely related to D
+GQL are those that translate procedural al
+-gorithms into declarative constraints. 
+These languages unify procedural and constraint 
+semantics, such that the same program statements determine both interpretations. 
+The language Modelica
+ [14] supports uni˜ed models that can de˜ne both simulation and 
+optimization problems. Modelica models are translated into equations, which may 
+
+in turn be solved by an optimizer or sorted and compiled into an ef˜cient sequential 
+
+procedure. Within pure functions (functions without side effects), Modelica can also 
+
+translate procedural algorithms into constraint equations. Within these functions, 
+
+Modelica gains the advantage of specifying constraints using familiar procedural 
+
+operations and ˚ow of control. 
+However, Modelica is fundamentally an equational 
+language, and it supports procedural algorithms only in this limited context.
+The language CoJava [6] has a thoroughly procedural object-oriented syntax and 
+semantics of Java, and adds the optimization semantics of an optimal nondeterministic 
+
+execution path. 
+Thus, CoJava presents the developer with no visible boundary between 
+procedures and constraints. Familiar procedural operations and ˚ow of control can 
+
+be used uniformly throughout an entire model, or even throughout an entire software 
+
+system.DGQL is in the spirit of Modelica and especially CoJava to minimize the learning 
+curve for database application developers and to take advantage of existing database 
+
+queries by conforming to a well-understood syntax and semantics. While we chose 
+
+SQL as the base language to be annotated, the same idea of annotating a database 
+ 46     BRODSKY, EGG
+E, AND W
+ANGprogram and translating it to a formal optimization problem can be applied to other 
+database languages, including Query-by-Example (QBE) and object relational query 
+
+languages such as 
+Hibernate Query 
+Language (
+HQL). Using this approach, D
+GQL gives database application developers the ˚exibility to move model components freely 
+
+back and forth between query evaluation and declarative optimization models.
+Despite the challenges mentioned earlier, D
+GSS are being built and deployed today. 
+However, their development to date amounts to a large modeling and software devel
+-
+opment effort. Furthermore, as business requirements evolve, additional development 
+
+will periodically be needed to incorporate these requirements into the optimization 
+
+model. D
+GQL, however, continues the tested database tradition in building a level 
+
+of abstraction that is closer to the user intuition. By doing so, many applications can 
+
+take advantage of decision optimization without large up-front investment and heavy 
+
+long-term maintenance expenses.
+DGQL by ExampleIN THIS
+ SECTION
+, WE USE
+ THE
+ EXISTING
+ QUERIES
+ in our logistics example shown in the 
+second section to illustrate the D
+GQL framework. We discuss the D
+GQL formal syntax 
+and semantics in the next section. Note that in this paper all database examples are 
+
+purely SQ
+L with the exception of D
+GQL annotation that we indicate by 
+BOLDFACE ITALICS in the code listings.Continuing with the example in the second section, we assume that the 
+orders table is the one we need to ˜ll, with the objective of minimizing the total cost as 
+
+described by the 
+total_cost query (view). Instead of the given database 
+orders table, we replace it with a view created by the following SQ
+L statement plus an 
+aug-ment annotation:CREATE VIEW orders AS AUGMENT   (SELECT d.loc, s.vendor, s.item   
+FROM demand d   
+LEFT OUTER JOIN supplier s   
+ON d.item = s.item)WITH quantity INTEGER >=0;Note here that the nested query is a standard query, giving all possible pairings of 
+vendor with item for each location, while the view creation here is a D
+GQL annotation 
+that indicates the resulting table of the nested query to be 
+augmented with an extra 
+column called 
+quantity with the condition that the quantity has to be a nonnegative 
+integer. 
+The augmented column is the one to be ˜lled by D
+GQL execution automati
+-cally with optimal objective (to be annotated below).
+Intuitively, with any assignment of nonnegative values to the augmented 
+quan-tity column to the generated 
+orders table, there is a total cost value given by the 
+total_cost view. 
+The task now is to automatically generate an assignment that 
+gives the minimum total cost for our logistics example. 
+However, if we examine the 
+total_cost view, we note that table 
+demand is not used. When the reporting query 
+is written, we have assumed that the 
+orders table is given externally and that all the 
+ SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     47demands are satis˜ed by the orders. 
+This latter assumption can be checked by the 
+database with the following constraint:
+CREATE VIEW requested_vs_delivered AS   
+SELECT o.loc, o.item, SUM(o.quantity) AS delivered, 
+      
+d.requested   
+FROM orders o   
+INNER JOIN demand d   ON
+ o.loc = d.loc AND o.item = d.item   
+GROUP BY o.loc, o.item, d.requested   
+CHECK delivered >= requested;This constraint checks if an item request is satis˜ed at a location with enough 
+orders by comparing the total quantities of an item ordered for the location with the 
+demand quantity at that location. 
+This constraint needs to be explicitly given in order 
+to generate the 
+orders table correctly, and D
+GQL supports the above constraint 
+speci˜cation (while implementation of such a constraint in standard DBMS is not 
+
+uniformly present).Finally, we need to specify the objective explicitly. In D
+GQL, we use the following 
+statement:MINIMIZE total_cost;Note that 
+total_cost is the view de˜ned in the second section. 
+The semantics 
+of the 
+MINIMIZE is to create a table for 
+orders (in general, all augmented tables are 
+instantiated) in which the last column is ˜lled with integer values, in the way such that 
+
+the total cost is minimum among all possible orders to satisfy all the item demands.The above optimization problem of minimizing the cost can be solved rather eas
+-ily since the optimal strategy is always to use the least costly supplier for each item. 
+
+This strategy can be coded directly in SQ
+L and provide optimal solution without 
+
+using D
+GQL or MP (although the code will look different from the reporting query, 
+
+increasing the management complexity). 
+However, in general, the capability of SQ
+L in providing decision optimization is limited. For example, consider the situation that 
+
+(1) each vendor has a limited supply of each item, and (2)
+ in practice, we want to 
+limit the number of (say up to three) vendors to supply all the items for a particular 
+
+location in order to facilitate easier tracking and management. In this case, it is not 
+
+clear how to use SQ
+L to directly code an optimal solution. In D
+GQL framework, this 
+
+can be done with the following two additional constraints:
+CREATE VIEW purchased_vs_available AS   
+SELECT o.vendor, o.item, SUM(o.quantity) AS purchased, 
+      
+s.available   
+FROM orders o   
+INNER JOIN supplier s   ON
+ o.vendor=s.vendor AND o.item=s.item   
+GROUP BY o.vendor, o.item, s.available   
+CHECK purchased <= available; 48     BRODSKY, EGG
+E, AND W
+ANGCREATE VIEW vendor_restriction AS   
+SELECT loc, COUNT(*) AS vendors   
+FROM (SELECT DISTINCT loc, vendor      FROM
+ orders o      WHERE
+ quantity>0)   
+GROUP BY loc   
+CHECK vendors<=3;The ˜rst constraint above states that the ordered item quantity from a vendor does not 
+exceed its available quantity, and the second enforces that the total number of distinct 
+vendors for each location does not exceed three. With the above 
+CHECK statements, 
+DGQL will ˜nd the optimal solution satisfying these constraints.Note that a constraint is quite different from a selection (
+WHERE) condition. Indeed, 
+in our example, constraints will limit the possible 
+orders table instantiations to be 
+considered in obtaining the optimal solution by rejecting those that do not satisfy the 
+
+constraints.In addition, D
+GQL allows modular development. If shipping and other options are 
+to be considered, we only need to annotate the relevant queries and add appropriate 
+
+constraints in order to extend the decision optimization problem. D
+GQL also takes 
+
+the relevant existing SQ
+L queries without any change in participating in decision 
+
+optimization, reusing existing investment.
+Formal Syntax and Semantics
+WE NO
+W GIVE
+ A PRECISE
+ EXPOSITION
+ OF
+ THE
+ DGQL SYNT
+AX AND
+ SEM
+ANTICS
+. 
+The philosophy 
+of D
+GQL is to add annotation, in the form of operators, to the standard SQ
+L in order 
+
+to express decision optimization problems. 
+Like the standard SQ
+L, the precise syntax 
+and semantics is best explained in the relational algebra. 
+Hence, in this section we use 
+the approach of adding a number of operators to the standard relational algebra. 
+The informal, SQL-like expressions directly correspond to these operators.
+Like the standard relational algebra, we assume a given set of base relations in a 
+database, each having a unique name and schema. We also assume there is a supply 
+
+of globally unique relation names to be used for assignments, each with a schema. We 
+
+assume the conventional notions and notation (e.g., [16]), including those of schemas, 
+
+domains, tuples, relations, databases, and all the traditional algebraic operations, as 
+
+well as the assignment statement (or view de˜nition). We also use a simple form of 
+
+aggregation (as the ﬁaggregation formulationﬂ in [25]).
+The annotation of D
+GQL consists of three operations: augmentation, constraint, 
+and optimization. All three operators are used in the example in the previous section. 
+
+Honoring the tradition, except for the optimization operator, which is the last statement 
+in any D
+GQL program, we de˜ne augmentation and constraint as relational operators 
+
+that can appear at any step of a relational expression.
+For the sake of completeness, we list all the operators that can be used in D
+GQL. More precisely, we de˜ne D
+GQL query expressions recursively as follows:
+ SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     49 1. (Base Case) Each relation name (base relation or not) is a D
+GQL query expres
+-sion. The schema of the expression is exactly the relation schema of the base 
+relation. 2. (Traditional Operators) 
+Given D
+GQL query expressions 
+e1 and 
+e2, then 
+L(e1), C(e1), e1  e2, e1  e2, e1  e2, and 
+e1 Œ
+ e
+2 are all D
+GQL query expressions. 
+The operations are all the traditional relational operators, and we assume the 
+schema requirement of the operators are satis˜ed by 
+e1 and 
+e2. The schemas of 
+the expressions are as de˜ned traditionally.
+ 3. (Arithmetic) Given D
+GQL query expression 
+e, then 
+[B=arith(L)](e), where 
+L is a subset of numeric attributes in 
+e, B is a new attribute, and 
+arith(L) is an 
+arithmetic expression using attributes in 
+L. 4. (Aggregation) 
+Given D
+GQL query expression 
+e and assuming 
+A1, ..., An and 
+B are attributes of the schema of 
+e, then 
+[A1, ..., An, f (B)](e) is a D
+GQL query 
+expression, where 
+f is an aggregation function (mapping bags to values). 
+The schema of the expression is 
+A1, ..., An, f (B). A special case is when n
+ = 0, in 
+which only f (B) attribute exists for the schema of the expression.
+ 5. (Augmentation from 
+Relation) Given D
+GQL query expressions 
+e1 and 
+e2 and 
+assuming A1, ..., An are attributes in 
+e1 and not attributes in 
+e2, [A1, ..., An  e1](e2) is also a D
+GQL query expression. 
+The schema of the expression is the schema 
+of e2 extended with 
+A1, ..., An. 6. (Augmentation from Domain) 
+Given D
+GQL query expression 
+e, [Adomain](e) is also a D
+GQL expression, where 
+domain is a set of values of a speci˜c type, 
+such as 
+real
+[0,) for nonnegative reals. 
+This form of augmentation is equivalent 
+to the above one if 
+domain is taken as a (possibly in˜nite) relation with one 
+attribute 
+A and each value is taken as a tuple.
+ 7. (Constraint) Given D
+GQL query expression 
+e, then 
+[C](e) is a D
+GQL query 
+expression, where 
+C a condition as found in selection. 
+The schema of the ex
+-pression is that of e. 8. (Optimization) Given a D
+GQL query expression 
+e that computes a 1
+-tuple relation over a schema with a single attribute, 
+[min/max](e) is also a D
+GQL query expression. 
+The schema of the expression is that of 
+e.De˜nition 1: A D
+GQL query is an assignment sequence of the formR1 = e1; –; Rn = en; ,where each 
+ei is a D
+GQL expression and 
+ is either 
+min(Rk) or 
+max(Rk), where 
+1  k  n and 
+ek must compute a single numeric value, or 
+sat. That is, a D
+GQL query is a sequence of assignments followed by an optimization operator or a 
+
+satis˜ability operator.
+A valid D
+GQL query is one that always uses a relation name that is either a base 
+relation name or one that has been de˜ned (i.e., on the left-hand side of an assignment) 
+
+earlier in the sequence. We henceforth consider only valid D
+GQL expressions.
+The example in the fourth section can be easily rewritten in the D
+GQL algebraic query 
+form, with each view being an assignment followed by 
+= min(total_cost). 50     BRODSKY, EGG
+E, AND W
+ANGWe now de˜ne the semantics of D
+GQL queries. For simplicity, we can assume that 
+in a D
+GQL query, each 
+ei is either a single relation name (base relation name or one of 
+R1, ...,
+ R
+iŒ1
+) or a single operator applied to operands in the form of single relation names. 
+In other words, each assignment is a ﬁsimple stepﬂ of copying a relation or applying 
+one operation over the previously de˜ned relations. We also assume the optimization 
+
+operator only applies to single relation name, such as (Rk) where 1  k  n.De˜nition 2: 
+A D
+GQL query is a 
+basic assignment sequence
+ if each assignment 
+is a simple step as described above.
+Since a D
+GQL query can be rewritten into a basic assignment sequence by introduc
+-ing more assignments, without loss of generality, we henceforth assume all D
+GQL 
+queries are basic assignment sequences if not mentioned otherwise.Intuitively, (1)
+ the assignment of a D
+GQL query is to give all ﬁfeasibleﬂ instantiations 
+of all the relations for the left-hand side of each assignment such that the ﬁinputﬂ and 
+
+ﬁoutputﬂ of each assignment is ﬁcorrect,ﬂ that is, given the input relations, the left-hand 
+
+side relation is actually the result of the operator applied to the given operands; (2)
+ the operator  as the last step of a D
+GQL query is to ˜nd one such feasible instantiation, 
+when  is 
+sat, with the additional restriction that the 
+ek value is the minimum or 
+maximum among all the feasible instantiations, when 
+ is either 
+min(Rk) or 
+max(Rk), respectively. For example, the D
+GQL query in the fourth section obtains an assignment 
+to all the views, including the view 
+orders such that the total cost is minimized. In 
+this way, the optimization done by D
+GQL automatically ˜lls the 
+orders table for the 
+logistics optimization application.Different from the standard SQ
+L, where the operands and the operator determine the 
+output relation, the D
+GQL operator augmentation introduces nondeterminism; that is, 
+for the augmentation operator, in˜nitely many ﬁoutputﬂ relations may correspond to 
+
+an ﬁinputﬂ relation. 
+Therefore, a D
+GQL query can have many feasible instantiations 
+for the assignment sequence. And the optimization operator in the end is to choose 
+
+one feasible instantiation.Formally, consider a D
+GQL query 
+R1 = e1; . . . ; Rn = en; . A (nondeterministic) 
+execution path
+ is a sequence of relations (r
+1, ..., rn) over the schemas of 
+e1, ..., en, respec
+-tively. A 
+partial execution path
+ is a pre˜x of an execution path, that is, a sequence of 
+relations (r
+1, ..., ri), 1
+  i  n, over the schemas of 
+e1, ..., ei, respectively, or the empty 
+pre˜x .De˜nition 3:
+ The feasibility of a partial execution path is de˜ned recursively as 
+follows. 
+The empty execution path 
+ is feasible. 
+Recursively, (r
+1, ..., ri), 1
+  i  n, is feasible if (1) (r1, ..., riŒ1) is feasible and (2) the following are satis˜ed:
+if ei is a 
+traditional
+ or 
+aggregation
+ operation, then r
+i is the result of 
+ei com
+-putation when operands from 
+R1, ..., R
+iŒ1 are replaced with relations r
+1, ..., riŒ1, respectively;
+if ei is an augmentation operation 
+[A1, ..., Am  Rj](Rk), where 1
+  k, j
+ < i, ri has the schema of 
+Rk extended with 
+A1, ..., Am, and is constructed by join
+-ing a tuple from r
+k with a single tuple (nondeterministically chosen) from 
+A1,–,Am(rj). Similarly, if 
+ei is 
+[Adomain](Rk), where 1
+  j < i, r
+i has the 
+ SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     51schemas of 
+Rk extended with 
+A, and is constructed by joining a tuple from 
+rk with a single value (nondeterministically chosen) from the 
+domain of A;if ei is a constraint operation 
+[C](Rj), 1 
+ j < i, the constraint 
+C is satis˜ed 
+by rj and ri = rj.We say (r
+1, ..., rn) is a 
+feasible execution path
+ if it is a 
+feasible partial execution path 
+and denote by 
+F(d ) the set of all feasible execution paths for 
+R1 = e1; . . . ; Rn = en and input database d.De˜nition 4: The semantics of a DGQL queryR1 = e1; –; Rn = en; is de˜ned as the function : D1  2D2,where D1 is the set of all relational databases over the base database schemas, and 
+D2 is the set of all databases over the schema 
+S1, ..., Sn of the expressions 
+e1, ..., en, respectively, as follows. For a given database 
+d, (d) is the set of all databases 
+d  = (r1, ..., rn) that satisfy the  operator, that is,
+Case 1
+: When 
+=sat, (d) is the set of all feasible execution paths, i.e., 
+(d) def=   F(d).Case 2
+: When 
+=min(Rk), (d) is the set of all feasible execution paths that 
+give the minimum value computed by r
+k among all feasible execution paths, 
+i.e., (d) def=   {(r1, ..., rn)  F(d) |  (r 1, ..., r n)  F(d), rk  r k}.Case 3
+: When 
+=max(Rk), (d) is the set of all feasible execution paths that 
+give the maximum value computed by r
+k among all feasible execution paths, 
+i.e., (d) def=   {(r1, ..., rn)  F(d) |  (r 1, ..., r n)  F(d), rk  r k}.Note that the optimal value may not lead to a unique feasible execution path, that 
+is, more than one assignment to relations r
+1, ..., rn may lead to the same optimal value 
+for r
+k. We say that a database 
+d  = (r1, ..., rn)  (d ) is a nondeterministic answer to 
+the D
+GQL query. If 
+(d ) = , we say that 
+ (to denote infeasibility) is returned and 
+assigned to R1, –, R
+n.DGQL Reduction to MPIN THIS
+ SECTION
+, WE PRESENT
+ A REDUCTION
+ PROCEDURE
+ to translate D
+GQL queries to MP 
+formulations. We ˜rst introduce MP with some discussion, and then give a 
+sound and 
+complete reduction procedure.MP and Its Computational Complexity
+An MP problem has the form 
+min f (x[) subject to 
+C(x[), where 
+x[ is a vector of vari
+-ables that range over domain 
+D{, f is an 
+objective function from 
+D{ to the set of reals 
+ 52     BRODSKY, EGG
+E, AND W
+ANG, and 
+C(x[) is a constraint. 
+The constraint 
+C(x[) is associated with a Boolean function 
+that, given an instantiation of vector 
+a[  D{ to 
+x[, evaluates to true or false. A solution 
+to the optimization problem is a vector 
+a[  D{ that satis˜es the constraint 
+C so that 
+f (a[)  f (b{) for all vectors 
+b{ that satisfy 
+C. Note that 
+min can be replaced with 
+max in 
+this formulation without dif˜culties.Formal optimization models are solved using MP algorithms. MP algorithms heav
+-ily depend on the type of the problem, determined by the domains of the variables 
+(e.g., reals, integers, binary, ˜nite domain), the structure of constraints 
+C (e.g., linear, 
+quadratic, polynomial), and the form of the objective function 
+f. As an example, lin
+-ear programming (
+LP) is a class of MP where variables range over reals, constraints 
+
+are inequalities between linear arithmetic expressions, and the objective function is 
+
+linear.
+The LP problem was proven to be in 
+P in 
+Kachiyan [21]. However, the class of 
+simplex algorithms [10] is still the most widely used in practice, although its worst-
+
+case complexity is exponential in the dimension (i.e., the number of variables). But 
+
+even the {0,
+ 1} integer linear programming (I
+LP) is known to be NP
+-complete [27]. 
+The Branch and Bound algorithm is a popular algorithm for I
+LP and MI
+LP (mixed-
+
+integer 
+LP). While exponential in the worst case, it has the nice property of reaching 
+intermediate (not necessarily optimal) solutions. In this paper, we use MI
+LP to encode 
+DGQL queries and derive solutions.
+Reduction ProcedureThe key idea of the reduction procedure is to use a symbolic table formulation to 
+
+represent each step of the D
+GQL query. Without loss of generality, we assume that 
+
+every tuple in a relation has a globally unique tuple identi˜er 
+tid and that when new 
+tuples are introduced (e.g., by materializing a view de˜nition), new 
+tids will be gener
+-ated accordingly.
+De˜nition 5:
+ A symbolic table
+ is a standard relational table with the following 
+additions: (1)
+ an attribute can be of a constraint variable name type (or CVN 
+type), and the domain of a CVN attribute is variable names, and (2)
+ there must 
+be a special attribute of CVN type named 
+TAF
+, for tuple-active-˚ag, with domain 
+of binary variable names.
+As an example, below is a symbolic orders table:
+TAFsupitemlocqtytaf[1]S1I1L1qty[1]taf[2]S2I2L2qty[2]where TAF and 
+qty are CVN-type attributes. 
+The purpose of the 
+TAF attribute is to 
+indicate that a particular tuple exists in the table in a feasible execution path, and the 
+CVN attributes allow possible instantiations.
+Symbolic tables can be instantiated as regular relational tables by instantiating 
+all the variables with CVN attributes. More speci˜cally, given an instantiation of 
+ SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     53variables appearing in a symbolic table, the symbolic table becomes a regular table, 
+minus the 
+TAF column, as follows: For each tuple 
+t in the symbolic table, if 
+taf[id] is instantiated to 
+True, then the resulting regular table contains the tuple 
+t with other 
+CVN attributes instantiated and the 
+TAF attribute dropped. For example, in the above 
+table, if 
+taf[1] = T
+rue, taf[2] = False, 
+qty[1] = 20, and 
+qty[2] = 4, then the 
+resulting table issupitemlocqtyS1I1L120Note that the TAF attribute is dropped.
+The reduction to MI
+LP is as follows. 
+Given a D
+GQL query 
+R1 = e1; ...; Rn = en; , we generate a symbolic table for each 
+Ri. In order to represent all the feasible execu
+-tion paths, constraints are to be added so all and only feasible execution paths are 
+represented. More speci˜cally, the 
+reduction result
+ will be a triple:({s1, ..., sn}, V, C),where {
+s1, ..., sn} are symbolic relational tables, 
+V is the set of all constraint variables, 
+including those that appear in {
+s1, ..., sn}, and 
+C is a set of constraints over 
+V. 
+The schema 
+of each si, 1  i  n, will be the schema of ei extended with the 
+TAF attribute.
+De˜nition 6:
+ Given the reduction result ({
+s1, ..., sn}, V, C) and an instantiation 
+of variables in 
+V to values in their corresponding domains, we say that (r
+1, ..., rn) is a 
+reduction instantiation
+ of ({
+s1, ..., sn}, V, C) if 
+ i such that 1
+  i  n, r
+i is 
+constructed by (1)
+ replacing variables in 
+si with their corresponding instanti
+-ated values, (2)
+ eliminating all tuples in 
+si where the 
+TAF attribute is False, and 
+(3) removing the 
+TAF attribute.
+Before we discuss the procedure to obtain a reduction from a D
+GQL query, we 
+formalize the correctness of the reduction result. As discussed above, the symbolic 
+
+tables together with the constraints should represent all and only feasible execution 
+
+paths. To formalize this idea, we have:
+Definition 7:
+ The reduction result ({
+s1, ..., sn}, V, C) of a D
+GQL query 
+R1 = e1; ...; Rn = en;  is said to be correct
+ if:Soundness: Every reduction instantiation (r
+1, ..., rn) of (
+s1, ..., sn) that satis˜es 
+constraint C is indeed a feasible execution path of the D
+GQL query; andCompleteness: Every feasible execution path is a reduction instantiation of 
+
+(s1, ..., sn) that satis˜es C.The reduction steps follow the traditional relational algebra approach in the sense 
+that at each step we simply generate a new symbolic table and add appropriate con
+-
+straints. These steps are summarized in Algorithm
+ 1.Algorithm 1 produces symbolic tables 
+si recursively using the symbolic tables gener
+-ated earlier. 
+The base case (steps 2Œ5) is to make the base database tables symbolic by 
+adding a 
+TAF attribute and the corresponding variables and constraints, indicating that 
+ 54     BRODSKY, EGG
+E, AND W
+ANGall the tuples are ﬁactiveﬂ in the base tables. At each step of the reduction (steps
+ 7Œ10), a new symbolic table for 
+ei is generated and constraints and variables added to 
+C and 
+V, respectively. We now describe the key idea behind these steps. In Appendix
+ A, we 
+give a complete description of these steps for each operator.
+Step 7 of Algorithm 1 is to generate a symbolic table for 
+si given one or two symbolic 
+tables as the input. 
+The schema of the output table is easily found by using the formal 
+de˜nition of the D
+GQL and traditional relational algebra operators. Setting up all 
+the tuples in 
+si is easy for most operators, but a bit challenging for others. Intuitively, 
+we want to set up all the possible output tuples in 
+si and use constraints involving 
+taf[tid] to indicate if the tuple should actually exist in a feasible execution path. 
+For example, if the operator is the selection operation, then the output table can be 
+
+simply a copy of the input table, but in the constraint we code that an output tuple 
+
+exists only if the selection condition is true. 
+The reason we need to use constraint 
+instead of simply dropping the tuple is that the selection condition may be applied to 
+
+a CVN entry whose value is unknown at the reduction time.
+The number of all possible tuples in 
+si can be exponential in some cases. For ex
+-ample, when ﬁgroup byﬂ is done on a CVN attribute, we need to set up 
+si to prepare for 
+all possible groupings since we do not yet know the values of these CVN attributes. 
+
+In practice, we may want to restrict ﬁgroup byﬂ only on non-CVN attributes so that 
+
+the grouping will be known at the reduction time and each group will correspond to 
+
+one possible tuple in 
+si (although the actual values in the tuple may remain CVN and 
+unknown at the reduction time). Details can be found in Appendix
+ A.Algorithm 1. Constraint ReductionInput: A D
+GQL query R1 = e1; –; Rn = en; Output: A correct reduction ({
+s1, –, sn}, V, C)Method:1: L
+et V =  and C = True2: for
+ each base table B do3:  
+generate a symbolic table by adding a TAF attribute
+4:  
+for each tuple in B with tuple id tid, use CVN taf[tid] as the value under 
+   T
+AF, and let 
+C = C  taf[tid]. Add 
+taf[tid] to V.5: end for
+6: for
+ i = 1 to n Œ 1 do7:   G
+enerate symbolic table si from the operator of ei and the input symbolic    
+tables used in ei (these input symbolic tables must be from s1, ..., siŒ1 and    
+those corresponding to the base tables).8:   G
+enerate the corresponding Ci9:   
+Add the new variables used in 
+si and Ci to V10:  L
+et C = C  Ci11: end for
+
+12: return 
+({s1, –, sn}, V, C) SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     55Once the symbolic output table is set up, the remaining task is to generate the 
+constraint (Step
+ 8). This step is basically to encode the correspondence between the 
+input tuples and the possible output tuples. Since we know which symbolic tuple in the 
+output is generated by which input tuples, this task is relatively easy as this is in reality 
+
+a tuple-level task. Again, we refer the reader to Appendix
+ A for further details.We are now ready to address the correctness of the reduction.
+Theorem 1: The reduction produced by Algorithm 1 is correct, that is, both sound 
+
+and complete.
+Using the correct reduction, the result of a D
+GQL query can be derived as indicated 
+in Algorithm
+ 2. Basically, we solve the corresponding MP problem given by the cor
+-rect reduction result (Step 1). If the constraint is infeasible, then we return
+  (Steps 
+2Œ3). Otherwise, we use the instantiation of the variables found in the constraint 
+
+satisfaction problem (CSP) solution (Step
+ 6) or MP solution (Step
+ 8) to instantiate all 
+the symbolic tables (Step 10).Theorem 2: Algorithm 2 correctly, by De˜nition 4, computes the DGQL query 
+
+result.
+Initial Experimental Evaluation
+THE
+ RUNNING
+ TIMES
+ OF
+ MATHEM
+ATIC
+AL PROGR
+AMS
+ IS
+ OFTEN
+ SENSITIVE
+ to the way the problem 
+is represented. For many classes of problems, a poor choice of mathematical representa
+-
+tion will cause the solver to take signi˜cantly longer to ˜nd an optimal solution. One 
+
+concern with D
+GQL (and the reduction process as described in the previous section) 
+Algorithm 2. DGQL ComputationInput: A D
+GQL query R1 = e1; –; Rn = en;  and a database dOutput: Query resultMethod:
+1. Perform Constraint Reduction (Algorithm 1) to produce ({s1, –, sn}, V, C)2. if constraint C is infeasible then3.  
+return 
+4. else5.   
+if  = sat then6.   
+Solve the CSP for 
+C and V7.   
+else8.    
+Solve the MP problem 
+min/max VRk such that C is satis˜ed9.   
+end if10.  G
+iven the variable instantiation produced in Step 6 or Step 8, return the 
+ 
+  R
+eduction Instantiation (r1, –, rn) as described in De˜nition 6.11. end if 56     BRODSKY, EGG
+E, AND W
+ANGis that the extra views and tables used in modeling add substantial overhead by intro
+-ducing redundant or unnecessary variables and constraints. It is possible a simpler or 
+
+more concise modeling may lead to a signi˜cantly faster solution.
+Our hypothesis is that problems described using D
+GQL are solved as ef˜ciently as 
+when described using algebraic modeling languages such as AMP
+L or 
+GAMS. As an 
+initial step to test this hypothesis, we took the logistics optimization problem from the 
+
+second section and manually created a concise AMP
+L formulation of the same problem. 
+We then generated several database instances varying problem size and compared the 
+
+running time when solved using this AMP
+L model and through D
+GQL reduction. We 
+
+now present the complete AMP
+L implementation of our running example:
+set Vendors;set Items;set Locations;param PricePerUnit{Vendors,Items}>=0;param Available{Vendors,Items}>=0;param Requested{Locations,Items}>=0;var Orders{Vendors,Items,Locations}>=0;var OrderPlaced{Vendors,Items,Locations} binary;var ItemsPurchased{Vendors,Locations}>=0;var VendorShipped{Vendors,Locations} binary;minimize total_cost:  sum{v in Vendors} sum{i in Items} sum{l in Locations}    
+PricePerUnit[v,i] * Orders[v,i,l];subject toavailable_vs_purchased {v in Vendors, i in Items}:
+  
+Available[v,i] >= sum{l in Locations} Orders[v,i,l];requested_vs_delivered {l in Locations, i in Items}:  
+Requested[l,i] <= sum{v in Vendors} Orders[v,i,l];order_placed {v in Vendors, i in Items, l in Locations}:
+  
+OrderPlaced[v,i,l] = 0 ==>    
+Orders[v,i,l] = 0 else Orders[v,i,l] >= 1;items_purchased {v in Vendors, l in Locations}:  
+ItemsPurchased[v,l] = sum{i in Items} OrderPlaced[v,i,l];vendor_shipped {v in Vendors, l in Locations}:
+  
+VendorShipped[v,l] = 0 ==>    
+ItemsPurchased[v,l] = 0 else ItemsPurchased[v,l] >= 1;vendor_restriction {l in Locations}:
+  sum{v in Vendors} VendorShipped[v,l] <= 3;The D
+GQL query and the AMP
+L program were run using I
+LOG CP
+LEX 12.1 as 
+the solver. 
+The test was on Windows
+ X
+P running on a 2.0
+GHz Core
+ 2 Duo with 4
+GB of RAM. In both cases, the tuning parameters passed to I
+LOG CP
+LEX were the same 
+and were typical for solving MILP problems. SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     57The size of the logistics optimization problem here is parameterized by the number 
+of vendors, items, and locations. 
+Given these parameters, a problem is generated by 
+randomly instantiating the database tables 
+supply and 
+demand. Note that problem 
+size corresponds to the number of decision variables in 
+orders as well as the indicator 
+variables (tuple-active-˚ags) implicit in 
+vendor_restrictions. 
+Thus, we compute 
+this directly from the problem parameters, that is, 
+decision variables
+ = vendors
+ * items * locs and indicator variables = vendors
+ * items * locs + vendors
+ * locs.Each random problem generated was solved using both the D
+GQL reduction and 
+the AMP
+L program, and the solution time was measured. 
+This is the CPU time spent 
+searching for an optimal solution and does not include the time to load the program off 
+disk, or in the case of D
+GQL from the database. Only random databases that contained 
+a feasible solution were included in the results. 
+The solution time for both the D
+GQL and AMP
+L implementations was less than 0.01
+ seconds for every randomly generated 
+infeasible problem. The results of this experiment can be seen in Figure
+ 1.Note in the graph, a linear regression through the origin has slope 1.0245. 
+This implies the AMP
+L model is on average 
+ 2.45 percent faster than D
+GQL. This dif
+-ference is small and not signi˜cant when considering the large variation in solution 
+
+time between the two systems for the same problem.
+On closer inspection, it appears the advantage AMP
+L has is limited only to those 
+problem instances where a tight solution is found by CP
+LEX quickly. Our D
+GQL 
+implementation uses Java and Java Native Interface
+ to communicate with CP
+LEX, and this may add overhead to small problems. Moreover, AMP
+L performs limited 
+
+presolving when converting problems into a special format that CP
+LEX understands, 
+
+which may reduce CPLEX solution time.In addition, D
+GQL appears to do better on problem instances where a larger param
+-eter space must be searched. 
+This is due in part to the fact that the AMP
+L formulation 
+Figure 1.
+ Scatter Plot of Solution Time (DGQL Versus AMP
+L) 58     BRODSKY, EGG
+E, AND W
+ANGhas an extra 
+vendors
+ * locs number of variables in its solution space (see Figure
+ 2). As the logistics optimization problems become larger, this extra number of variables 
+will have a measurable impact on solution time. It will be interesting to investigate 
+
+further if these extra variables are a limitation of the AMP
+L modeling language or 
+
+just our formulation of this problem.ConclusionIN THIS
+ PAPER
+, WE PROPOSED
+ DGQL, a language designed to (re-)use SQ
+L programs for 
+decision optimization to make D
+GSS implementation agile and intuitive and lever
+-age existing investment in SQ
+L-implemented MIS. We de˜ned its formal syntax and 
+
+semantics and provided a canonical implementation of D
+GQL programs by reduction 
+
+to mathematical programming. We used examples to show that the overhead of using a 
+
+high-level language is small when compared with manually crafted MP formulations. 
+
+With added bene˜t of agile and intuitive high-level language, we believe that D
+GQL 
+provides a practical solution for decision optimization in D
+GSS, especially when an 
+
+underlying database is involved and database applications already exist.
+As a database language, D
+GQL opens up many research questions. For example, what 
+is the expressiveness of D
+GQL: how to characterize it, and is there a completeness as 
+
+in relational algebra. Optimization opportunities are abundant and we only touched on 
+
+a few during our canonical reduction process. Standard database techniques may help, 
+
+but more interesting is how to use the high-level nature of the language to help ˜nd 
+
+optimal solutions, as it is well known in the database community that more semantic 
+
+information usually translates to better query optimization. Additional experimental 
+
+study will be important both in terms of D
+GQL ef˜ciency for a wide variety of MP 
+
+models. Finally, it will be important to conduct usability studies on complete business 
+Figure 2.
+ Scatter Plot of Total Number of Variables (D
+GQL Versus AMP
+L) SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     59cases to measure productivity gained by using D
+GQL as opposed to algebraic modeling 
+languages integrated with a relational database management system directly.
+Acknowledgment:
+ Part of the work by Wang was supported by National Science Foundation 
+grant no. 0716575.REFERENCES
+1. Agerfalk, P.J.; Fitzgerald, B.; and Slaughter, S.A. Introduction to the special issueŠ
+Flexible and distributed information systems development: State of the art and research chal
+-
+lenges. Information Systems Research, 20,
+ 3 (2009), 317Œ328.2. Atamtürk, A.; Johnson, E.
+L.; 
+Linderoth, J.
+T.; and Savelsbergh, M.W.P. A relational 
+modeling system for linear and integer programming. 
+Operations Research, 48,
+ 6 (NovemberŒ
+December 2000), 846Œ857.3. Beck, 
+K. Embracing change with extreme programming. 
+Computer, 32,
+ 10 (1999), 
+70Œ77.4. Bhargava, 
+H.K.; Krishnan, R.; and Mukherjee, S. On the integration of data and math
+-ematical modeling languages. 
+Annals of Operations Research, 38,
+ 1 (NovemberŒDecember 
+1992), 69Œ95.5. Boisvert, 
+R.F.; 
+Howe, S.E.; and 
+Kahaner, D.
+K. GAMS: A framework for the management 
+of scienti˜c software. 
+ACM Transactions on Mathematical Software, 11,
+ 4 (1985), 313Œ355.6. Brodsky, A., and Nash, 
+H. CoJava: Optimization modeling by nondeterministic simula
+-tion. In F. Benhamou (ed.), 
+Proceedings of Principles and Practice of Constraint Programming 
+(CP 2006), vol.
+ 4204. Nantes, France: Springer, 2006, pp. 91Œ106.
+7. Capiluppi, A.; Fernandez-
+Ramil, J.; 
+Higman, J.; Sharp, 
+H.C.; and Smith, N. An empirical 
+study of the evolution of an agile-developed software system. In 
+Proceedings of the 29th Inter
+-national Conference on Software Engineering (ICSE ™07).
+ Los Alamitos, CA: IEEE Computer 
+Society, 2007, pp. 511Œ518.
+8. Choobineh, J. SQ
+LMP: A data sublanguage for representation and formulation of linear 
+mathematical models. INFORMS Journal on Computing, 3,
+ 4 (Fall 1991), 358Œ375.
+9. Cohen, D.; 
+Lindvall, M.; and Costa, P. An introduction to agile methods. In M.
+ Z
+elkowitz 
+(ed.), Advances in Computers,
+ vol.
+ 62. Oxford: Elsevier, 2004, pp. 1Œ66.
+10. Dantzig, 
+G. Linear Programming and Extensions.
+ Princeton: Princeton University Press, 
+1963.11. Desouza, 
+K.C. Agile Information Systems: Conceptualization, Construction, and Man
+-agement.
+ Oxford: Elsevier, 2006.
+12. Dolk, D.
+R. An introduction to model integration and integrated modeling environments. 
+Decision Support Systems, 10, 3 (1993), 249Œ254.13. Fourer, 
+R.; Gay, D.M.; and 
+Kernighan, B.W. A modeling language for mathematical 
+programming. Management Science, 36,
+ 5 (1990), 519Œ554.14. Fritzson, P., and Engelson, V. ModelicaŠA uni˜ed object-oriented language for system 
+modeling and simulation. In E. Jul (ed.), 
+Proceedings of the 12th European Conference on 
+Object Oriented Programming (ECOOP 98).
+ London: Springer, 1998, pp. 67Œ90.
+15. Fruhling, A., and Vreede, 
+G.-J. de. Field experiences with e
+Xtreme programming: De
+-veloping an emergency response system. 
+Journal of Management Information Systems, 22,
+ 4 
+(Spring 2006), 39Œ68.16. Garcia-Molina, H.; Ullman, J.D.; and Widom, J. 
+Database Systems: The Complete Book, 
+2d ed. Englewood Cliffs, NJ: Prentice 
+Hall, 2008.17. 
+Gremillion, 
+L.L., and Pyburn, P.J. Justifying decision support and of˜ce automation 
+systems. Journal of Management Information Systems, 2,
+ 1 (Summer 1985), 5Œ17.18. Harris, M.
+L.; Collins, 
+R.B.; and 
+Hevner, A.
+R. Control of ˚exible software development 
+under uncertainty. 
+Information Systems Research, 20,
+ 3 (2009), 400Œ419.19. Hong, W.; 
+Thong, J.
+Y.L.; Chasalow, 
+L.C.; and Dhillon, 
+G. User acceptance of agile in
+-formation systems: A model and empirical test. 
+Journal of Management Information Systems, 
+28, 1 (Summer 2011), 235Œ272. 60     BRODSKY, EGG
+E, AND W
+ANG20. Ilyas, I.F.; Beskales, 
+G.; and Soliman, M.A. A survey of top-k query processing techniques 
+in relational database systems. ACM Computing Surveys, 40,
+ 4 (2008), 1Œ58.21. Kachiyan, L.G. A polynomial algorithm in linear programming. 
+Soviet Mathematics 
+Doklady, 20,
+ 1 (1979), 191Œ194.22. Lindstrom, L., and Jeffries, 
+R. Extreme programming and agile software development 
+methodologies. Information Systems Management, 21,
+ 3 (2004), 41Œ52.23. Maruping, 
+L.M.; Venkatesh, V.; and Agarwal, 
+R. A control theory perspective on agile 
+methodology use and changing user requirements. 
+Information Systems Research, 20,
+ 3 (2009), 
+377Œ399.24. Mitra, 
+G.; Lucas, C.; Moody, S.; and 
+Kristjansson, B. Sets and indices in linear program
+-ming modelling and their integration with relational data models
+. Computational Optimization 
+and Applications, 3,
+ 4 (1995), 263Œ283.25. Özsoyog
+¬lu, G.; Özsoyog
+¬lu, Z.M.; and Matos, V. Extending relational algebra and relational 
+calculus with set-valued attributes and aggregate functions. 
+ACM Transactions on Database 
+Systems, 12, 4 (1987), 566Œ592.26. Rumpe, B., and Schröder, A. Quantitative survey on extreme programming projects. In 
+M. Marchesi and 
+G. Succi (eds.), 
+Proceedings of the 3rd International Conference on Extreme 
+Programming and Agile Processes in Software Engineering (XP 2002).
+ Alghero, Italy: Springer, 
+
+2002, pp. 95Œ100.27. Schrijver, A. 
+Theory of Linear and Integer Programming.
+ New 
+York: John Wiley & Sons, 
+1998.28. Thomas, D. Agile programming: Design to accommodate change. 
+IEEE Software, 22,
+ 3 
+(MayŒJune 2005), 14Œ16.29. Vidgen, 
+R., and Wang, 
+X. Coevolving systems and the organization of agile software 
+development. 
+Information Systems Research, 20,
+ 3 (2009), 355Œ376. Appendix A: 
+Reduction ProcedureTHE
+ KEY
+ IDE
+A BEHIND
+ CONSTR
+AINT
+ ENCODING
+ of the step 
+Ri = ei of a D
+GQL sequence 
+R1 = e1; ...; R
+n = en;  depends on the algebraic operator in 
+ei. For an 
+augment operator, 
+the idea is to replace an augmented attribute in every tuple with a CVN attribute that will 
+hold a constraint variable name (unique per tuple id). For the 
+constraint
+ operator, the 
+idea is to extend the constraints 
+C being built in the reduction with the corresponding 
+constraints over variables or constants in every tuple. For all the 
+deterministic operators, 
+the idea is to build a symbolic representation of the result and add the constraint that 
+
+connects the variables in the output to the variables in the input. For the 
+optimization operator, the idea is to represent an optimization problem that minimizes or maximizes 
+
+the variable value computed by the operand of the optimization operator. 
+We now present our reduction formally. We will build the reduction iteratively, by 
+constructing a triple 
+Qi = (
+Si = {
+s1, ..., si}, Vi, Ci), for every i, 1 
+ i < n, which will be 
+a reduction from the partial assignment sequence expression (
+R1 = e1; ...; Ri = 
+ei), as 
+follows. Initially, S
+0 = , V0 = , and 
+C0 = T
+rue. Iteratively, given 
+QiŒ1, 1
+  i < n Œ 1, Qi is constructed based on the query expression 
+ei as follows:
+If ei is a base relational name 
+R, and r is the corresponding base relation, 
+si will 
+be constructed from r by adding the attribute 
+TAF (whose value for a tuple will 
+be the variable 
+TAF[tid], where 
+tid is that tuple™s id). 
+Vi will be the union of 
+ViŒ1 and the set of new 
+TAF[tid]
+ variables. 
+Ci will be the conjunction of C
+iŒ1 and the equality constraint TAF[tid] = True for every tuple in r.
+ SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     61If ei is a previously assigned relational name 
+Rj (1 
+ j < i), then 
+Qi is constructed 
+by taking Vi = ViŒ1, Ci = CiŒ1, and si = sj.If ei is an augmentation-from-domain 
+[A  D](
+Rj), where 1 
+ j < i, then 
+Qi is 
+constructed as follows. 
+The relation 
+si is constructed from 
+sj by adding a CVN(D) 
+attribute, and using as its value the variable name A[
+tid] for every tuple in 
+sj. Vi is the union of V
+iŒ1 with the set of all new variables in the CVN(D) attribute. 
+Finally, 
+Ci = CiŒ1.If ei is an augmentation-from-relation 
+[A1, –, Am  Rj](Rk), where 1
+  j,k  n, then Qi is constructed as follows. 
+The relation 
+si is constructed from 
+sk, by add
+-ing attributes A
+1, ..., An of type CVN (over the corresponding domains in s
+j). Vi is the union of 
+ViŒ1 and the set of all new variables. Finally, 
+Ci is the conjunction 
+of CiŒ1 and the constrainttidTidmjTAFtidTrueAtidAtids1,...,, where Tid
+ is the set of all tuple ids in sk.If ei is a projection operation 
+L(Rj), where 1 
+ j < i, then 
+Qi is constructed as 
+follows. 
+Vi = ViŒ1, Ci = CiŒ1, and si = L(sj), where L = L  {TAF}.If ei is a (bag) union operation 
+Rj  Rk, where 1 
+ k, j < i, then 
+Qi is constructed 
+by taking si = sj  sk, Vi = ViŒ1, and Ci = CiŒ1.If ei is an intersection operation 
+Rj  Rk, where 1 
+ j, k < i, then 
+Qi is constructed 
+as follows. Assume 
+A1, ..., Al, B1, ..., Bm is the schema of both 
+Rj and 
+Rk, where 
+A1, ..., Al are all attributes that are non-CVN in both 
+sj and 
+sk. For every pair of 
+tuples tid1  sj and 
+tid2  sk that agree on 
+A1, ..., Al, construct a tuple 
+tid (new id), 
+with values for 
+A1, ..., Al taken from 
+tid1 (which are the same as in 
+tid2), and the 
+values for CVN attributes 
+B1, ..., Bm being variable names 
+B1[tid], ..., Bm[tid], as 
+well as CVN({0,
+ 1}) attribute 
+TAF. si is constructed as the bag of all such tuples. 
+Vi will be the union of 
+ViŒ1, the set of all new (globally unique) variables above, 
+and the set of an auxiliary CVN({0,
+ 1}) variables 
+E[tid] for every 
+tid in 
+si. To construct Ci, create the following new constraint for every tuple 
+tid in si:EtidtidBtidBtidBtidBtidTruemm112112–TAFTAAFTAFtidtidEtid12, where tid1, tid2 are two tuples that gave rise to tuple 
+tid in 
+si. Note that values of 
+the B attributes (e.g., 
+tid1 · B1) may either be drawn from the original domain of 
+B (e.g., if 
+B1 is a non-CVN attribute in 
+sj), or a variable name (e.g., 
+B1[tid1], if 
+B1 is a CVN attribute in 
+sj). Finally, 
+Ci is constructed as the union of 
+CiŒ1 and the 
+set of all new constraints above.
+If ei is a set difference operation 
+Rj Œ R
+k, where 1 
+ j, k < n, then 
+Qi is constructed 
+by taking 
+si = sj Œ sk, Vi = ViŒ1, and 
+Ci = CiŒ1. Note we assume that the set differ
+-ence cannot involve augmented attributes.
+If ei is a Cartesian product 
+Rj  Rk, where 1 
+ j, k < i, then 
+Qi is constructed as 
+follows. 
+si is constructed by (1)
+ computing sj  sk, and (2)
+ replacing two attributes 
+Rj · TAF and 
+Rk · TAF with a single attribute 
+TAF of type CVN({0,1}). 
+Recall  62     BRODSKY, EGG
+E, AND W
+ANGthat each tuple in the Cartesian product will have a new global 
+tid, and then the 
+value of 
+TAF for that tuple will be the variable 
+TAF[tid]. Vi is the union of 
+ViŒ1 and 
+the set of all new 
+TAF variables. 
+Ci is the conjunction of 
+CiŒ1 and the constraints 
+ TAF[tid] = TAF[tid1]  TAF[tid2], for all 
+tid in the Cartesian product, where 
+tid1 and 
+tid2 are the ids of tuples from sj and sk, respectively, that formed the tuple 
+tid.If ei is selection operation 
+P(Rj), where 1 
+ j < i and 
+P is the selection predicate, 
+then Qi is constructed as follows. 
+Let P = 
+Preg
+  Pcvn, where 
+Preg
+ is the selection 
+predicate that does not involve CVN attributes, and 
+Pcvn is the selection predicate 
+that may involve CVN attributes. 
+si is constructed as 
+Preg
+(sj). Note that 
+si has 
+globally new tuple ids, and thus the variables 
+TAF[tid] in tuples of 
+si are new 
+unique variables. For every new variable 
+TAF[tid], we also create an auxiliary 
+binary variable 
+PB[tid]. Vi is constructed as the union of 
+ViŒ1 and the set of all 
+new variables 
+TAF[tid] and 
+PB[tid] for every 
+tid in 
+sj. Finally, 
+Ci is the conjunc
+-tion of CiŒ1 andtidTidcvnPBtidTruePPtidTAFtidPBtidTAFtid
+, where Tid
+ is the set of all tuple ids in 
+si, tid  is the id of the tuple in 
+sj from which 
+the tuple 
+tid in 
+si originated in selection, and 
+PPcvn[tid] is the constraint constructed 
+from Pcvn by replacing every attribute name 
+A with CVN variable 
+A[tid].If ei is an aggregation 
+[A1, ..., An, f (B)](Rj), 1 
+ j < i, then 
+Qi is constructed as 
+follows. 
+si is constructed from 
+[A1, ..., An](sj) (with all new tuple ids), by ˜rst 
+eliminating duplicates, and then adding the CVN(
+D) attribute 
+f (B), where 
+D is 
+the domain of values returned by aggregation 
+f, and CVN({0,
+ 1}) attribute 
+TAF. Vi is the union of 
+ViŒ1 and all new variables 
+f(B)[tid], TAF[tid], for each 
+tid in 
+si, and also auxiliary variables 
+B [tid] for every 
+tid in 
+sj. Ci will be the conjunction 
+of Ci-1 withtidTidtidTrueBtidBtidtidFalseBtidTAFTAF
+0, where Tid
+ is the set of all tuple ids in sj, andtidTidiTidtidfBtidBi, where Tid
+(tid) is the set of tuple ids in 
+sj that have the same values for 
+A1, ..., An as the tuple tid in si.
+ei is a constraint operation 
+[C](Rj), where 1 
+ j < i, then 
+Qi is constructed by 
+taking si = sj, Vi = ViŒ1, and Ci is the conjunction of CiŒ1 andtidTidCtid, where Tid
+ is the set of all tuple ids in 
+sj, and 
+C [tid] is the constraint constructed 
+from C by replacing every attribute 
+A with the CVN variable 
+A[tid].Finally, consider an optimization operator 
+[min](Rj), where 1 
+ j < n and 
+ej is an 
+expression that returns a table with a single value, that is, the value over the single 
+ SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     63attribute of the single tuple (recall this must be the last operator in the sequence). It 
+is encoded as the following MP optimization problem: 
+Let v be a CVN variable (or 
+a constant) corresponding to the single value in 
+sj. Then, the following minimization 
+problem is being constructed as follows:
+min v subject to CnŒ1.For the case of 
+[max](Rj), the reduction is the same, except that 
+min is replaced 
+with max. Finally, if the operator is 
+[sat](Rj), where 
+sat is a key word that indicates 
+that we are only interested in satis˜ability (not optimization), the problem constructed 
+
+is one that ˜nds a feasible instantiation to variables in 
+VnŒ1. Note this can always be 
+done by minimizing, or maximizing, a constant value.
+Appendix B: Proof of CorrectnessIN THIS
+ SECTION
+, WE PRESENT
+ A FORM
+AL PROOF
+ of correctness for both 
+Theorem 1 and 
+Theorem 2.Proof 1 First, we extend the de˜nition of 
+correct reduction
+ to 
+partial reduction
+ as follows. A 
+partial reduction ({
+s1, ..., si}, Vi, Ci) for 1
+  i  n of a D
+GQL query 
+R1 = e1; ...; R
+n = en;  is correct ifSoundness: Every reduction instantiation (r
+1, ..., ri) of (
+s1, ..., si) that satis˜es con
+-straint Ci is indeed a partial feasible execution path of the D
+GQL query; and Completeness: Every partial feasible execution path (r
+1, ..., ri) is a reduction 
+instantiation of (s1, ..., si) that satis˜es Ci.Note that when i
+ = 0, the partial reduction is ({}, 
+V0 = , C0 = T
+rue) and is de˜ned to 
+be correct. Also note that the correct partial reduction for i
+ = n is exactly the correct 
+reduction.We prove the correctness of partial constraint reduction for every 1
+  i  n by in
+-duction on i. For i
+ = 0, the reduction is correct by de˜nition. Inductively, assuming 
+correctness of reduction ({
+s1, ..., siŒ1}, ViŒ1, CiŒ1), we need to prove correctness for 
+reduction ({s1, ..., si}, Vi, Ci).To prove soundness, let (r
+1, ..., ri) be a reduction instantiation of ({
+s1, ..., si}, Vi, Ci}). We need to show that (r
+1, ..., ri) is a partial feasible execution path. Clearly, (r
+1, ..., riŒ1) constitutes a reduction instantiation of ({
+s1, ..., siŒ1}, ViŒ1, CiŒ1). Therefore, by induction 
+hypothesis, (r
+1, ..., riŒ1) is a partial feasible execution path.
+To prove that (r
+1, ..., ri) is a partial feasible execution path, we consider cases below 
+corresponding to the cases of the formal reduction of Ri = ei:Case 1:
+ ei is a base relational table r. Since the constraints added by 
+si are of the 
+form TAF[tid] = T
+rue, they are all satis˜ed and r
+i = r. 
+Therefore, (r
+1, ..., ri) is a 
+partial feasible execution path.
+ 64     BRODSKY, EGG
+E, AND W
+ANGCase 2: e
+i is a previously assigned relational name 
+Rj, 1
+  j < i. Since 
+Ci = CiŒ1, ri = rj, and therefore (r1, ..., ri) is a partial feasible execution path.
+Case 3: e
+i is an 
+augmentation-from-domain
+ [A  D](Rj), 1
+  j < i. Since 
+Ci = CiŒ1, r
+i is an augmentation of r
+j, and therefore (r
+1, ..., ri) is a partial feasible 
+execution path.
+Case 4:
+ ei is an 
+augmentation-from-relation 
+[A1, ..., Am  Rj](Rk), where 1
+  j, k < i. Since the constraints added to 
+CiŒ1 to form 
+Ci must be satis˜ed, the table r
+i constructed as the reduction instantiation is also an augmentation of r
+k. 
+Therefore, 
+(r1, ..., ri) is a partial feasible execution path.
+Case 5: e
+i is a projection operation 
+L(Rj), where 1
+  j < i. Since 
+Ci = CiŒ1, clearly 
+reduction instantiation r
+i is a projection of r
+j, and therefore (r
+1, ..., ri) is a partial 
+feasible execution path.
+
+Case 6: e
+i is an intersection operation 
+Rj  Rk, where 1
+  j, k < i. The constraints 
+added to 
+CiŒ1 to form 
+Ci make sure that the pairs of tuples that make 
+TAF variable 
+True are exactly those that are equal to each other and, therefore, must be in the 
+intersection. Therefore, the reduction instantiation r
+i is indeed the intersection 
+of rj and rk, and thus (r1, ..., ri) is a partial feasible execution path.
+Case 7:
+ ei is a set difference operation 
+Rj Œ 
+Rk, where 1
+  j,
+ k < i. 
+The constraints 
+added to C
+iŒ1 to form C
+i guarantee that in the instantiation of s
+i, the tuples with 
+TAF = True are exactly the tuples in r
+j but not in r
+k. Therefore, the reduction instan
+-tiation ri is exactly r
+j Œ rk, and thus (r1, ..., ri) is a partial feasible execution path.
+Case 8: e
+i is a Cartesian product 
+Rj  R
+k, where 1
+  j, k < i. The constraints 
+added to 
+CiŒ1 to form 
+Ci guarantee that in the instantiation of 
+si, the tuples with 
+TAF = T
+rue are exactly those tuples composed from a pair of tuples with the cor
+-responding TAF being 
+True. Therefore, the reduction instantiation r
+i is exactly the 
+Cartesian product rj  rk, and thus (r1, ..., ri) is a partial feasible execution path.
+Case 9: e
+i is selection operation 
+P(Rj), where 1
+  j < i and P is the selection 
+predicate. The constraints added to C
+iŒ1 to form C
+i guarantee that the tuples in 
+the instantiation of 
+si with 
+TAF = T
+rue are exactly those that satisfy the selection 
+condition. Therefore, the reduction instantiation r
+i = P(rj), and thus (r
+1, ..., ri) is 
+a partial feasible execution path.
+
+Case 10: e
+i is an aggregation 
+[A1, ..., An, f (B)](Rj), 1
+  j < i. The constraints 
+added to 
+CiŒ1 to form 
+Ci guarantee that the reduction instantiation r
+i is exactly 
+the aggregation of 
+[A1, ..., An, f (B)](rj). Therefore, (r
+1, ..., ri) is a partial feasible 
+execution path.
+
+Case 11: e
+i is a constraint operation 
+[C](Rj), where 1
+  j < i. The constraints 
+added to 
+CiŒ1 to form 
+Ci are exactly those that express 
+C. Therefore, since 
+Ci is 
+satis˜ed, the reduction instantiation r
+i satis˜es 
+C, and thus (r
+1, ..., ri) is a partial 
+feasible execution path.
+ SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     65We have shown that in all cases of the formal reduction (r
+1, ..., ri) is a partial feasible 
+execution path. 
+Therefore, Theorem 1 is sound.To prove completeness, let (r
+1, ..., ri) be a partial feasible execution path. We need 
+to show that (r
+1, ..., ri) is also a reduction instantiation of ({s
+1, ..., si}, Vi, Ci). Clearly, 
+(r1, ..., riŒ1) is a partial feasible execution path. 
+Therefore, by the induction hypothesis, 
+(r1, ..., riŒ1) is also a reduction instantiation of ({s1, ..., siŒ1}, ViŒ1, CiŒ1).To prove that (r
+1, ..., ri) is a reduction instantiation of ({s
+1, ..., si}, Vi, Ci), we consider 
+cases below corresponding to the cases of the formal reduction 
+Ri = ei.Case 1:
+ ei is a base relational table r. Since r
+i = r, r
+i is a reduction instantiation of 
+si when all 
+TAF variables are 
+True, and thus (r
+1, ..., ri) is a reduction instantiation 
+of ({s1, ..., si}, Vi, Ci).Case 2: e
+i is a previously assigned relational name 
+Rj, 1
+  j < i. Since 
+Ci = CiŒ1, ri = r
+j, and r
+j is a reduction instantiation of s
+j, r
+i is a reduction instantiation of s
+j. Thus, (r1, ..., ri) is a reduction instantiation of ({s1, ..., si}, Vi, Ci).Case 3:
+ ei is an 
+augmentation-from-domain
+ [A  D](Rj), 1
+  j < i. Since C
+i = CiŒ1
+, and r
+i is an augmentation from domain of r
+j, r
+i is a reduction instantiation in 
+which new variables in 
+Vi are instantiated the with values from the augmentation. 
+Thus, (r1, ..., ri) is a reduction instantiation of ({s1, ..., si}, Vi, Ci).Case 4:
+ ei is an 
+augmentation-from-relation
+ [A1, ..., Am  Rj](Rk), where 
+1  j,k < i. Since r
+i is an augmentation from relation of r
+k, the corresponding 
+instantiation of values into new variables in 
+Vi must satisfy the constraints added 
+to CiŒ1 to form 
+Ci. Therefore, r
+i is a reduction instantiation of 
+si. Thus, (r
+1, ..., ri) is a reduction instantiation of ({s1, ..., si}, Vi, Ci).Case 5: e
+i is a projection operation 
+L(Rj), where 1
+  j < i. Since 
+Ci = CiŒ1, the instantiation of values that corresponds to r
+j satis˜es 
+Ci. Therefore, r
+i is 
+a reduction instantiation of 
+si, and (r
+1, ..., ri) is a reduction instantiation of 
+({s1, ..., si}, Vi, Ci).Case 6:
+ ei is an intersection operation 
+Rj  Rk, where 1
+  j,k < i. The constraints 
+added to 
+CiŒ1 to form 
+Ci make sure that the pairs of tuples that make 
+TAF variable 
+True are exactly those that are equal to each other and, therefore, must be in the 
+intersection. Since r
+i = L(rj), the variable instantiation corresponding to r
+i must 
+satisfy the constraints added to 
+CiŒ1 to form 
+Ci, and so r
+i is reduction instantiation 
+of si. Thus, (r1, ..., ri) is a reduction instantiation of ({s1, ..., si}, Vi, Ci).Case 7:
+ ei is a set difference operation 
+Rj Œ R
+k, where 1
+  j,k < i. The constraints 
+added to 
+CiŒ1 to form 
+Ci guarantee that in the instantiation of 
+si, the tuples with 
+TAF = T
+rue are exactly the tuples in r
+j but not in r
+k. Since r
+i = rj Œ rk, variable 
+instantiation corresponding to r
+i must satisfy the constraints added to C
+iŒ1 to 
+form C
+i, and so r
+i is a reduction instantiation of 
+si. Thus, (r
+1, ..., ri) is a reduction 
+instantiation of ({s1, ..., si}, Vi, Ci). 66     BRODSKY, EGG
+E, AND W
+ANGCase 8: e
+i is a Cartesian product 
+Rj  Rk, where 1
+  j,k < i. The constraints 
+added to 
+CiŒ1 to form 
+Ci guarantee that in the instantiation of 
+si, the tuples with 
+TAF = T
+rue are exactly those tuples composed from a pair of tuples with the 
+corresponding TAF™s being 
+True. Since r
+i = rj  rk, the variable instantiation 
+corresponding to r
+i must satisfy the constraints added to 
+CiŒ1 to form 
+Ci, and so 
+ri is a reduction instantiation of 
+si. Thus, (r
+1, ..., ri) is a reduction instantiation of 
+({s1, ..., si}, Vi, Ci).Case 9: e
+i is selection operation 
+P(Rj), where 1
+  j < i and P is the selection 
+predicate. The constraints added to 
+CiŒ1 to form 
+Ci guarantee that the tuples in the 
+instantiation of 
+si with 
+TAF = T
+rue are exactly those that satisfy the selection 
+condition. Since r
+i = P(Rj), the variable instantiation corresponding to r
+i must 
+satisfy the constraints added to 
+CiŒ1 to form 
+Ci, and so r
+i is a reduction instantia
+-tion of si. Thus, (r1, ..., ri) is a reduction instantiation of ({s1, ..., si}, Vi, Ci).Case 10: e
+i is an aggregation 
+[A1, ..., An, f (B)](Rj), 1
+  j < i. The constraints 
+added to 
+CiŒ1 to form 
+Ci guarantee that the reduction instantiation r
+i is exactly 
+the aggregation of 
+[A1, ..., An, f (B)](rj). Since r
+i = [A1, ..., An, f (B)](rj), the vari
+-able instantiation corresponding to r
+i must satisfy the constraints added to 
+CiŒ1 to 
+form Ci, and so r
+i is a reduction instantiation of 
+si. Thus, (r
+1, ..., ri) is a reduction 
+instantiation of ({s1, ..., si}, Vi, Ci).Case 11: e
+i is a constraint operation 
+[C](Rj), where 1
+  j < i. The constraints 
+added to 
+CiŒ1 to form 
+Ci are exactly those that express 
+C. Since r
+i must satisfy 
+C to form a partial feasible execution path, the variable instantiation corresponding 
+to r
+i must satisfy 
+Ci, and so r
+i is a reduction instantiation of s
+i. Thus, (r
+1, ..., ri) is 
+a reduction instantiation of ({s1, ..., si}, Vi, Ci).We have shown that in all cases of the formal reduction, (r
+1, ..., ri) is a reduction 
+instantiation of ({s1, ..., si}, Vi, Ci). Therefore, Theorem 1 is sound.Proof 2 Let ({s
+1, ..., sn}, V, C) be the reduction produced by applying Algorithm
+ 1 to the D
+GQL query R1 = e1; ...; Rn = en; . Assume that the constraints 
+C are feasible (otherwise 
+Algorithm 2 returns , which is correct). We now consider three cases:
+Case 1:
+ = sat. The constraints 
+C and variables 
+V make up a constraint satis
+-faction problem. Because 
+C is feasible, applying a CSP solver will produce an 
+assignment of variables in 
+V that satis˜es 
+C. We then apply the steps in De˜ni
+-tion 6 to get the reduction instantiation (r
+1, ..., rn). By 
+Theorem 1 every reduction 
+instantiation is a feasible execution path; thus (r
+1, ..., rn) is correct.Case 2: 
+= min(Rk). The expression 
+Rk returns a single numeric value that is 
+held in the variable 
+VRk. This is the objective in the mathematical programming 
+problem: min VRk subject to 
+C. Because 
+C is feasible, applying an MP solver 
+ SUPPORT
+ING AG
+ILE ORGANIZATIONS WITH A DECISION GUIDANCE
+ QUERY 
+LANGUA
+GE     67will produce an assignment of variables in 
+V that satis˜es 
+C such that 
+VRk is 
+minimum. We then apply the steps in De˜nition
+ 6 to get the reduction instantia
+-tion (r
+1, ..., rn). By 
+Theorem
+ 1 every reduction instantiation is a feasible execution 
+path. Assume that r
+j is not the minimal value over all feasible execution paths. 
+Then the reduction instantiation is not minimal, which contradicts the fact that 
+the MP solver found the minimal. 
+Thus (r1, ..., rn) is correct.Case 3:
+ = max(Rk). This follows from the proof of Case
+ 2 and the observation 
+that max VRk subject to C is equivalent to 
+min Œ VRk subject to C. 

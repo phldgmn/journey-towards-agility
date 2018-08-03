@@ -1,0 +1,1732 @@
+ Modeling Supply-Chain Networks by a Multi-Agent System
+Fu-Ren Lin
+Department of Information
+ManagementNational Sun Yat-sen
+University
+Kaohsiung, Taiwan 804R.O.C.frlin@mis.nsysu.edu.twGek Woo Tan
+Department of BusinessAdministrationUniversity of Illinois atUrbana-ChampaignChampaign, IL 61820U.S.A.g-tan@uiuc.eduMichael J. ShawDepartment of BusinessAdministrationUniversity of Illinois atUrbana-ChampaignChampaign, IL 61820U.S.A.m-shaw2@uiuc.eduAbstract
+This article proposes a multi-agent information
+system (MAIS) approach to model the order fulfillment
+
+process (OFP) in supply chain networks (SCNs).  An
+
+order fulfillment process starts with receiving orders
+
+from customers and ends with delivery of the finished
+
+goods.  As manufacturing practice is shifting toward
+
+the out-sourcing paradigm, the OFP is more likely to be
+
+executed throughout SCNs.  It becomes imperative to
+
+integrate the OFP into SCNs to improve the OFP.  The
+
+proposed multi-agent information system (MAIS)
+
+approach is used for modeling  the OFP in SCNs, and
+
+evaluating OFP performance by applying the proposed
+
+strategies.  The objective of reengineering the OFP is to
+
+achieve agility of the process in terms of efficiency,
+
+flexibility, robustness and adaptability.  A multi-agent
+
+simulation platform, called Swarm, is enhanced and
+
+applied for modeling the MAIS, and experiments are
+
+conducted to simulate the OFP in SCNs in a multi-agent
+
+environment.  Based on the Swarm simulation platform,
+
+we model the OFP in SCNs, simulate the OFP, and then
+
+evaluate the potential OFP improvement strategies to
+
+identify useful strategies for improving the OFP.  The
+
+results shed lights on identifying the main effects of
+
+various strategies on OFP performance.  The insights
+
+of utilizing various strategies in different SCNs help
+
+redesign the OFP in SCNs.
+1. IntroductionAn enterprise is a composition of business entities,
+and its main purpose is to deliver value-added goods or
+services to its customers.  Products delivered by a
+manufacturing enterprise are physical goods while
+
+products delivered by a service enterprise are services.
+
+Despite this distinction,  an enterprise is composed of
+
+several core business processes.  Each business process
+
+calls for the cooperation and coordination of different
+
+functional entities within the enterprise or outside the
+
+enterprise to achieve the goals of the process.  A
+
+business process is a structured, measured set of
+
+activities designed to produce a specified output for a
+
+particular customer or market ([7], pp. 5).  The number
+
+of major processes is between 10 and 20 in some leading
+
+companies, such as IBM, Xerox and British Telecom ([7],
+
+p.28-29).  In general, an enterprise supported by the
+
+three core business processes: (1) the product
+
+development process, (2) the order fulfillment process,
+
+and (3) the customer service process.
+In order to remain agile, business processes of an
+enterprise should be monitored and modified efficiently
+
+and effectively.  So that an enterprise can stay
+
+competitive under a constantly changing business
+
+environment.  The efforts denoted as 
+business process
+reengineering (BPR) are aimed at fundamentally
+rethinking and radically redesign business processes in
+
+order to achieve dramatic improvements in critical,
+
+contemporary measures of performance, such as cost,
+
+quality, service, and speed ([9], pp. 32).  The BPR
+
+success lies in the CEO support, and effective methods
+
+for process redesign.  Information technology (IT) plays
+
+a critical role in the BPR efforts.  IT enables the process
+
+reengineering by allowing process owners to envision the
+
+resulting processes prior to the process implementation.
+
+IT itself also erects the infrastructure for business process
+
+implementation.  Therefore, methods for modeling and
+1060-3425/98 $10.00 (c) 1998 IEEE1060-3425/98 $10.00 (c) 1998 IEEE 3evaluating business processes are necessary for
+envisioning the resulting process and crucial for deriving
+
+useful strategies to improve processes.
+This research focuses on reengineering 
+the order
+fulfillment process,
+ one of the core business processes,
+by using a multi-agent information system (MAIS)
+
+approach.  The MAIS serves two purposes: (1) to model
+
+the OFP in SCNs, and (2) to evaluate OFP performance
+
+by applying the proposed strategies.  The objective of
+
+reengineering the OFP is to achieve 
+agility
+ of the process
+in terms of efficiency, flexibility, robustness and
+
+adaptability.  A multi-agent simulation platform, called
+
+Swarm
+, is enhanced and applied for modeling the MAIS,
+experiments are conducted to simulate the OFP in SCNs,
+
+and various OFP improvement strategies are evaluated in
+
+a multi-agent business environment.  The following
+
+sections are used for illustrating these efforts and results.
+2. The Order Fulfillment Process (OFP)
+An order fulfillment process
+ (OFP) starts with
+receiving orders from the customers and ends with
+
+having the finished goods delivered.  The 
+order
+fulfillment cycle time
+ is defined as the period from order
+receiving to products delivery.  The OFP is complex
+
+because it is composed of several activities, executed by
+
+different functional entities, and is heavily interdependent
+
+between tasks, resources and agents involved in the
+
+process.  This process involves the coordination of
+
+diverse activities such as sales commitment, credit
+
+checking, manufacturing, logistics, accounts receivable,
+
+and relationships with external suppliers for purchasing
+
+or shipping, which normally take place in several
+
+different business units ([7], 1993).  The main activities
+
+of the OFP can be summarized as follows:
+
+1. order management which receives orders from
+customers and commits order requests,
+2. manufacturing, which includes production scheduling,
+material planning, capacity planning and shop floor
+
+control, and
+3. distribution, which considers the logistics such as
+inventory, transportation, etc.
+The main objectives of the OFP can be generalized
+into two dimensions [6][8][14]:
+
+1. delivering qualified products to fulfill customer orders
+at the right time and right place, and
+2. achieving 
+agility
+ to handle uncertainties from internal
+or external environments.
+Agility can be defined as the ability to thrive in a
+
+competitive environment of continually and
+unpredictably changing market opportunities ([8], p.8).
+Agility can be expressed as having four underlying
+
+principles: delivering value to the customer, cooperating
+
+to enhance competitiveness, organizing to master change
+
+and uncertainty, and leveraging the impact of people and
+
+information ([8], p.73-75; [4]).  In business process
+
+redesign, the ﬁagilityﬂ can be measured in the following
+
+dimensions:
+
+1. efficiency
+, defined as the cycle time reduction of
+business processes.
+2. flexibility
+, defined as the minimization of costs
+involved in dealing with changes in the process.
+3. robustness
+, defined as the strength of the
+information system to handle uncertainty in the
+
+process.
+4. adaptability, defined as the self-learning ability of
+the information system such that the performance of
+
+the business process can be improved
+
+incrementally.
+3. Integrating the Supply Chain Network
+with the OFP
+The efforts of reengineering the OFP should be spent
+on improving the process throughout the whole supply
+
+chain network because (1) manufacturing practice is
+
+shifting to the out-sourcing paradigm, (2) activities of the
+
+OFP are executed inside a SCN, and (3) the variation of
+
+the OFP determines the SCN structure.  A supply chain
+
+network (SCN) is a network of autonomous or semi-
+
+autonomous business entities that are involved, through
+
+upstream and downstream linkages, in the different
+
+processes and activities that produce physical goods or
+
+services to customers [1][11][12][18].  A SCN can be
+
+viewed from different perspectives:
+1. From the material flow perspective
+:  A SCN is a
+network
+ which links business entities together
+through various activities.  A business entity can
+
+be a factory transforming materials into products (or
+
+semi-products), a distributor delivering products to
+
+the downstream demanders with or without
+
+assembly capacity, a retailer selling products to end
+
+users, or a warehouse storing materials.  The
+
+activities within the network, including procurement,
+
+manufacturing, and distribution, aim to facilitate the
+
+flow of products to customers.
+2. From the roles of entities perspective
+:  The tasks
+of each entity are to facilitate the movement of
+
+materials from upstream to downstream and, in turn,
+
+deliver products to customers.  This refers to the
+1060-3425/98 $10.00 (c) 1998 IEEE1060-3425/98 $10.00 (c) 1998 IEEE 4relative roles
+ of entities.  A manufacturer is a
+supplier to its downstream manufacturers and
+
+distributors, and at the same time, this manufacturer
+
+is also a demander of materials from its upstream
+
+suppliers.
+3. From the organizational boundary perspective
+:A business entity is a participant of the network, and
+
+it can be represented in different degrees of
+
+abstraction according to the 
+organizational
+boundary
+.  This contributes the 
+multiple layer
+abstraction
+ of a SCN as shown in Figure 1.  This
+multiple layer abstraction is substantiated by the
+
+organizational boundary.  Business processes are
+
+executed through the 
+interactions
+ among the
+business entities of a SCN.  Business processes, in
+
+essence, cross organizational boundaries, cooperate
+
+different functional units, and exhibit the
+
+interdependencies among entities.
+4. From the network visibility perspective
+:Business entities in a SCN are linked by
+
+information
+ and 
+material linkages, or either of them,
+where the relationship between entities can be
+
+identified.  The information, e.g., data or control,
+
+is used to facilitate the flow of materials.  Through
+
+the information transfer between entities, an entity
+
+can have better understanding about the
+
+environment, and in turn, make more feasible
+
+decisions.  The information transfer between
+
+entities also enlarges the 
+visibility
+ of the SCN.
+Due to the various degrees of visibility of a SCN,
+
+there exists different degree of network
+
+transparency of the network structure.
+Manufacturer
+Supplier
+Supplier
+Supplier
+Supplier
+Supplier
+Assembler
+Distributor
+Distributor
+Retailer
+Retailer
+Retailer
+Supplier
+Supplier
+Assembler
+Distributor
+Business Entity
+Inventory Stockpile
+Material Flow
+Legend:
+Circle A
+Circle B
+Figure 1. The multiple layer abstraction of a SCN
+As described in Section 2, the OFP consists of order
+management, manufacturing, and distribution activities
+
+which are executed within a SCN.  Figure 2 displays the
+
+order fulfillment process within a supply chain network.
+
+The information components, including order
+
+management, production scheduling, capacity planning,
+
+material planning, and production control, take charge of
+the fulfillment of orders.  The order information is
+passed to the order management unit from various
+
+downstream business entities (e.g., end users, retailers, or
+
+distributors,) depending on the information infrastructure.
+
+The information about materials and capacity of
+
+upstream business entities is fed in from the first tier
+
+supplier or the beyond the first tier suppliers.  The
+
+functional units in the circle of Figure 2 can be embedded
+
+in one business entity (e.g., a factory) for the local
+
+manufacturing processes, or they can be implemented to
+
+control several entities.  The former structure is more
+
+distributed planning and control, as the latter one is more
+
+centralized planning and control.
+Manufacturer
+Supplier
+Supplier
+Supplier
+Supplier
+Supplier
+Assembler
+Distributor
+Distributor
+Retailer
+Retailer
+Retailer
+Production
+Control
+Capacity
+Planning
+Production
+Scheduling
+Order
+Management
+Material
+Planning
+Legend: 
+Business
+Entity
+Functional
+Unit
+Inventory
+Stockpile
+Material
+Flow
+Information
+Flow
+Figure 2. The order fulfillment process within a
+supply chain network
+Issues in improving the OFP within SCNs include
+(1) how to manage the order information propagation in
+
+order to improve the OFP, (2)
+ how to reduce the
+variability of the OFP within the SCN environment, (3)
+
+how to synchronize the availability of materials for
+
+manufacturing, (4)
+ how to identify the critical resources
+and layout the critical path of the network, and put the
+
+efforts on the reduction of workload of critical resources,
+
+and (5) how to and then change the structure of the
+
+network.
+4. Multi-Agent Information System
+Approach (MAIS)
+  Based on various designs for a multi-agent
+system in the literature [2][3][5][15][20], and
+
+considering the application domain and implementation
+
+possibility, we design a multi-agent information system
+
+(MAIS) composed of four components: 
+agents, tasks,
+organizations
+, and 
+information infrastructure
+.  The
+1060-3425/98 $10.00 (c) 1998 IEEE1060-3425/98 $10.00 (c) 1998 IEEE 5components of the MAIS are described as follows:
+1.  An agent is an active object which possesses certain
+capabilities to perform tasks, and communicates
+
+with other agents based on the organizational
+
+structure to cooperate the accomplishment of tasks.
+2.  Tasks
+ are things which agents are assigned to work
+on.  Depending on the structure of the agents in an
+
+organization, tasks can be 
+decomposed by an agent
+and distributed to other agents, or tasks
+
+accomplished by agents are 
+composed as the global
+accomplishment.
+3.  Organizations
+ within a MAIS is formed according
+to the relations between agents.  An organization is
+
+formed by the connection through control and
+
+information linkages between agents.  There are
+
+two types of control mechanisms, c
+entralized 
+and
+decentralized controls
+.  The control linkage
+between agent belongs to one of the two types or
+
+the hybrid of both mechanisms.
+4.  Information infrastructure
+ lays out a foundation for
+communications between agents.  In MAIS, the
+
+digital information storage, operations, and
+
+communications technology are used for facilitating
+
+the communications and interactions among agents.
+
+Information is shared either by common accessible
+
+databases or through message passing.
+Table 1. The mapping of properties between the MAIS
+and Swarm
+Multi-Agent
+Information System
+Swarm Simulation System
+AgentObject-oriented representation
+Self-organizationNested inherent hierarchy
+Autonomous agent
+
+behavior
+Individual-based modeling
+Distributed and loosely
+coupled control
+Parallel and concurrent
+processing
+ Agents in the MAIS are distributed
+geographically, are autonomous but interdependent in
+
+their task environments, are embedded with self-
+
+organization capability, and are adaptive to changes in
+
+their environment.  A simulation system should be able
+
+to model these features in an efficient and effective way,
+
+so that the interaction between agents can be represented,
+
+and the system dynamics can be identified. Swarm is a
+
+multi-agent simulation software platform for the study of
+
+complex adaptive systems.  A prototype of the Swarm
+
+simulation system was developed at the Santa Fe Institute
+
+and aimed to provide a general purpose simulation tool
+
+for building simulation models [10][19].  Table 1
+
+describes the mapping of properties between the MAIS
+
+and Swarm.  The mutli-agent information system
+utilizing the Swarm simulation platform has been used
+for enterprise integration modeling [13], and illustrating
+
+electronic virtual organization management [16][17].
+5. Modeling the OFP in SCNs
+In this research, a MAIS behaves dual roles in the
+context of reengineering the OFP in SCNs.  The MAIS
+
+acts as a 
+modeling tool
+ to represent the business entities
+as agents and the involved information and material
+
+flows for the OFP in SCNs.  The MAIS also acts as a
+
+testbed
+ for evaluating proposed strategies in improving
+the OFP in SCNs.  The OFP consists of two types of
+
+movements: 
+material flow
+ and 
+information flow
+.  We
+design two kinds of agents in this environment:
+ physical
+agents
+ and 
+logical agents
+. A physical agent represents a
+physical existing objects, such as a corporate, factory,
+
+production line, machine, etc.  A logical agent
+
+represents a logical existing object with certain function,
+
+such as MRP system, order entry system, production
+
+control system, etc.  The main distinction between
+
+physical and logical agents lies in that a logical agent is
+
+more active than a physical agent.  The MAIS model for
+
+the OFP in a SCN utilizes physical and logical agents,
+
+and the corresponding material and information flows are
+
+shown in Figure 3.
+Order Entry 
+System 
+Production 
+Scheduling
+System 
+Material
+
+Requirement
+
+Planning 
+Supply
+
+Chain
+
+Management 
+Inventory
+Management  
+Shop
+
+Floor
+control  
+Suppliers 
+Warehouses 
+Distribution Canters 
+Customers  
+Manufacturing Systems 
+Capacity
+Requirement 
+
+Planning  
+Physical 
+Agent 
+Functional 
+Agent 
+Physical 
+
+Flow 
+Information 
+
+Flow  
+Legend:
+Figure 3. The MAIS utilizing physical and logical agent
+representation for the OFP
+The Swarm simulation platform is suitable for
+modeling supply chain networks based on the following
+
+analysis on their properties (summarized in Table 2).  A
+
+supply chain network is composed of several autonomous
+
+or semi-autonomous business entities which can be
+
+viewed as a swarm of agents.  Each business entity has
+
+its capability and capacity and can be assigned to, or take
+
+certain types of tasks, according to its organizational
+1060-3425/98 $10.00 (c) 1998 IEEE1060-3425/98 $10.00 (c) 1998 IEEE 6roles in the SCN.  These capability, capacity, and
+organizational roles can be modeled by individual-based
+
+models.  The SCN can be decomposed according to the
+
+multiple layer abstraction, which can be modeled by
+
+Swarm's nested inherent hierarchy property.  The
+
+material flow is controlled by business entities within the
+
+SCN.  These business entities can be represented as
+
+physical agents, while logical agents are used for
+
+controlling actions for material movement.  These
+
+operational and control actions can be simulated by
+
+Swarm's hybrid scheduling capability (i.e., discrete event
+
+and time-stepped scheduling).  SCN visibility depends
+
+on the boundary of information sharing which is an
+
+analogy to the boundaries of message passing in Swarm.
+
+In a SCN, the processes of each individual entity
+
+contribute to the global performance of the SCN, while in
+
+Swarm, the combination of individual behaviors
+
+determine the collective performance of the whole group.
+
+We enhanced the Swarm functions and customized it to
+
+model the OFP in SCNs.
+Table 2. The mapping of properties between SCNs and
+Swarm
+Supply Chain Networks
+Swarm Simulation System
+Composition of
+
+autonomous and semi-
+
+autonomous business
+
+entitiesA swarm of agents with
+individual based modeling
+Business entities act
+
+different organizational
+
+roles.
+Agents are constructed with
+internal state variables and
+
+action functions.
+Multiple layer abstractionNested inherent hierarchy
+Information flow between
+
+business entities
+Message passing between
+agents
+Material flow during
+
+procurement,
+
+manufacturing, and
+
+distribution activities
+Discrete event simulation
+and time-stepped scheduling
+
+to trigger agent actions
+In a SCN, the processes of
+
+individual entities
+
+contribute to the global
+
+SCN performance.
+In Swarm, the combination
+of individual behaviors
+
+determines the collective
+
+group behavior.
+The visibility of a SCN is
+
+determined by the
+
+information boundary.
+The boundaries of message
+passing determine the
+
+visibility.
+Figure 4 shows the resulting system developed to
+model the OFP in SCNs based on the Swarm. The
+
+topmost Swarm, 
+OFP Batch Swarm
+, is designed to
+control the whole simulation.  It creates two swarms, the
+
+OFP Model Swarm
+ and the 
+Statistics Swarm
+, createsactions, and then activates the simulation process.  The
+
+OFP Model Swarm is composed of an array of 
+SCN
+Entities
+ created while building objects.  The SCN
+configuration with each entity's properties and product
+information are fed in during the entities creation.  The
+
+OFP model actions are composed of each SCN entity's
+
+action, and then activate them when the OFP Model
+
+Swarm is activated.  A SCN entity is composed of
+
+several agents, such as an order management agent, an
+
+inventory management agent, a SCN management agent,
+
+and so forth.  In addition to having an order
+
+management agent, an inventory management agent, and
+
+a SCN management agent, an entity with manufacturing
+
+capability includes a production planning agent, a
+
+capacity planning agent, a material planning agent, a
+
+shopfloor control agent, and manufacturing systems.  A
+
+SCN Entity Swarm holds entity level information such as
+
+suppliers, customers, order transfer delay time, and
+
+product delivery time, which are accessible by internal
+
+agents and other entities.  The encapsulated agents
+
+perform certain functions in enabling the movement of
+
+information and material within the entity and between
+
+entities.  
+The OFP Statistic Swarm
+ is used to compute
+the statistics data gathered through the simulation for
+
+analysis purposes.
+The functions of agents are described as follows:
+Order management agent
+ -- It processes orders
+coming from outside entities or other agents inside
+
+the entity.  Tasks include estimating due dates,
+
+checking inventory availability, and forwarding
+
+orders to upstream suppliers if needed.  It obtains
+
+orders from the SCN Swarm, and queries inventory
+
+availability through the inventory management
+
+agent.  If the entity has manufacturing capability,
+
+the estimation of due dates also queries product
+
+availability through the production planning agent
+
+and the shop floor control agent.
+Inventory management agent
+ -- It handles the
+inventory related tasks, such as keeping track of
+
+inventory records, determining the reordering point,
+
+and responding to the inventory availability queries
+
+from other agents, such as order management,
+
+material planning, and shop floor control agents.
+Production planning agent
+ -- It takes the orders
+from the order management agent, and then,
+
+according to the product due dates, capacity and
+
+material availability, generates build plans under
+
+different planning horizons.  The build plan will be
+
+used by the material planning and the shop floor
+
+control agents to execute the production process.
+Capacity planning agent
+ -- It keeps track of the
+capacity consumption of manufacturing systems,
+
+and provides capacity availability information for
+
+the production planning agent in production
+1060-3425/98 $10.00 (c) 1998 IEEE1060-3425/98 $10.00 (c) 1998 IEEE 7planning.
+Material planning agent
+ -- It has two main roles:
+one to plan the required materials for the
+
+manufacturing process, including the allocation of
+
+parts from inventory, or the purchase of materials
+
+from suppliers; the other is to provide material
+
+availability information for the production planning
+
+agent to generate build plans.
+Shopfloor control agent
+ -- It dispatches parts from
+inventory to the manufacturing systems according to
+
+the work order derived from build plans.  It also
+
+provides capacity utilization information for other
+
+agents.
+Manufacturing agent
+ -- It executes the
+manufacturing processes by inputing the
+
+components and utilizing capacity.
+SCN management agent
+ -- It chooses suppliers for
+the entities in acquiring components for
+
+manufacturing or end products for distribution.
+OFP Batch Swarm
+(a Swarm)
+OFP Model Swarm
+(a Swarm)
+OFP Statistics Swarm
+(a Swarm)
+Production Planning Agent
+SCN Management Agent
+Manufacturing Agent
+Material Planning Agent
+Order Management Agent
+Shopfloor Control Agent
+Inventory Management Agent
+Capacity Planning Agent
+Figure 4. The implementation of Swarm in modeling
+supply chain networks
+The following scenario describes the interactions
+among these agents, and Figure 5 summarizes them.
+
+For  example, an entity 
+ScnESwarm A
+ receives an order
+from its customer 
+ScnESwarm C
+.  The order flows to
+the order management agent (
+OrdM).  According to the
+customer lead times, the inventory availability
+
+information (from 
+InvM), the production plan (from
+PrdP
+), and the manufacturing capacity (from 
+CapP
+), the
+order management agent assigns a due date to the order.
+
+If the products are in stock, the order is fulfilled by
+
+shipping the products from inventory.  If the products
+
+are in receiving, the due date is set according to the
+
+delivery delay of the products.  For an entity with
+
+manufacturing capability, the order is forwarded to the
+production planning agent (
+PrdP
+) where the schedule for
+making the products is planned.  The capacity planning
+
+agent (
+CapP
+) and the material planning agent (
+MatP
+) arepartner agents in generating achievable build plans.
+
+The material planning agent obtains build plans from the
+
+production planning agent to allocate materials for
+
+manufacturing.  It also contributes information about
+
+material availability to production planning for
+
+scheduling.  The capacity planning agent (
+capP) plans
+the capacity by taking the build plan from 
+PrdP
+ and
+sends capacity usage information to 
+PrdP
+ for scheduling
+the build plan.  The SCN management agent (
+ScnM)takes the order information to choose suppliers in
+
+allocating material sources.  The outgoing orders are
+
+transferred through its SCN Entity (
+ScnESwarm A
+) to be
+transferred to other entities (i.e. 
+ScnESwarm B
+). The
+above describes the 
+information flow
+ within an entity.
+If the entity is a distribution center or a retailer
+without manufacturing capability the ordered products
+
+are delivered from suppliers as end products to ship to its
+
+customers.   For an entity with manufacturing
+
+capability, the ordered end products are supplied from
+
+the shop floor (
+ManuS
+) to its customers.  The input
+materials are components for the end products.  This
+
+represents the 
+material flow
+ within an entity.  The
+interaction of these agents enables the flows of materials
+
+and information within an entity, and through SCN Entity
+
+Swarm (
+ScnESwarm
+), the information and material flow
+across the supply chain network.
+ScnESwarm B
+ScnESwarm A
+ScnESwarm C
+outgoing orders
+outgoing 
+orders
+incoming orders
+material
+allocation
+material
+allocation
+inventory
+availability
+work
+orders
+capacity
+availability
+inventory
+availability
+mfgorders
+inventory
+availability
+dispatched
+orders
+capacity
+utilization
+outgoing products
+incoming materials
+Scn MOrdM
+MatP
+PrdP
+InvM
+ShopCManuS
+CapP
+Figure 5. The scenario of OFP within an entity
+6. Evaluating OFP Improvement Strategies
+ In order to achieve OFP agility, the efforts should be
+spent on problems involved with the issues in improving
+
+the OFP in SCNs.  The proposed strategies for
+
+improving the OFP in SCNs are based on the dimensions
+
+of managing supply chain networks, such as the
+
+operations, structures, information infrastructure of the
+
+supply chain network, and the other supporting business
+
+processes.  Experiments are performed by modeling the
+1060-3425/98 $10.00 (c) 1998 IEEE1060-3425/98 $10.00 (c) 1998 IEEE 8OFP in SCNs based on the Swarm simulation system.
+The strategies we evaluated include
+(1)  Coordinating demand management policies
+ -- The
+strategy of coordinating demand management
+
+policies among entities across the network is
+
+aimed at satisfying customer demand with low
+
+inventory costs.  Because inconsistent demand
+
+management policies will cause material shortages
+
+or overflow, coordination of demand management
+
+policies is key in resolving this problem.  In the
+
+design of the simulation platform, four demand
+
+management policies are embedded within each
+
+entity, that is, 
+Make-To-Order (MTO), 
+Assembly-
+To-Order
+ (ATO), 
+Make-To-Stock (MTS), and
+Build-To-Forecast 
+(BTF).  For entities with
+manufacturing capability, these policies trigger
+
+their manufacturing processes.  For entities
+
+without manufacturing capability, these policies
+
+describe different events for re-ordering products.
+
+Depending on the number of tiers in the SCN
+
+being modeled, various demand management
+
+policies are applied to different tiers, and OFP
+
+performance is evaluated using the performance
+
+measures from above.  The effects of
+
+coordinating demand management policies can be
+
+simulated through various combinations of
+
+different policies across the network.
+(2)  Information sharing strategies
+ -- The strategy of
+sharing information between business entities
+
+considers three issues: 
+the information contents,
+the depth of information penetration
+ (the number
+of tiers for which information is accessible), and
+
+the information acquisition direction
+ (upward or
+downward sharing).  In the design of the
+
+simulation platform, the information acquired by
+
+downstream entities are mainly material and
+
+capacity availability information from their
+
+suppliers.  The information acquired by an
+
+upstream entity is information about customer
+
+demand and orders.  The depth of information
+
+penetration can be specified in various degrees,
+
+e.g., isolated, upward one tier, upward two tiers,
+
+downward one tier, downward two tiers, and so
+
+forth.  The obtained capacity and material
+
+information from suppliers is used to estimate the
+
+due dates of incoming orders, which are the basis
+
+for generating  build plans or re-ordering
+
+schedules.  The obtained customer demand
+
+information is used to estimate the demand for the
+
+next period, so that the production or re-ordering
+
+schedules can adapt to external demand.
+(3)  Synchronizing material and capacity availability
+ -This strategy is aimed at enabling the production
+planner to generate more achievable build plans
+
+by considering both material and capacity
+
+availability.  A build plan cannot be executed if
+
+either capacity or material is unavailable.  The
+
+material and capacity information shared by the
+
+production planner can improve the accuracy of
+
+build plans.  The effects of the synchronization
+
+can be evaluated by the Swarm simulation
+
+platform.
+(4)  Dynamic material allocation 
+-- This strategy is
+aimed at maintaining a SCN's robustness while
+
+facing uncertainties, such as demand and supply
+
+fluctuations, and production process interruption.
+
+The application of this strategy can be evaluated
+
+using the Swarm simulation platform.
+(5)  The combination of various strategies
+ Œ This
+approach is to combine the usage of the above
+
+strategies.  The evaluation aims at finding the
+
+joint effects of different strategies.
+ These strategies were evaluated under a generic and
+three specific supply chain networks with various
+
+demand management policy combinations, different lead
+
+times, and uncertainties.  The performance of the order
+
+fulfillment process is measured by
+ the order cycle time,
+the order fulfillment rate, the inventory cost, and
+
+tardiness on committed due dates and customer expected
+
+lead times
+.  The efforts are spent to understand
+interactions between various demand management policy
+
+combinations, to understand the main improvements from
+
+various OFP improvement strategies, and to obtain the
+
+trends of OFP improvement using different strategies
+
+under different circumstances.  We describe the
+
+evaluation results as follows.
+ The OFP performance using different combinations of
+demand management policies can be generalized as the
+
+following patterns for applying combinations of policies
+
+to SCNs:
+The cycle time is a tradeoff with inventory cost
+.Entities applying MTS or ATO result in shorter order
+
+fulfillment cycle times, however, their inventory costs
+
+are higher than other policies.  Due to the shorter
+
+cycle time, they create less order fulfillment tardiness
+
+problem both measured in committed due dates and
+
+customer expected lead time.
+The better policy combinations are those that use a
+MTO policy at downstream tiers, and use MTS or
+
+ATO policies at upstream tiers.  The distinct results
+
+are shown in the extremely opposite combinations,
+
+BTF-MTS-ATO-MTO vs. MTO-ATO-MTS-BTF.
+1060-3425/98 $10.00 (c) 1998 IEEE1060-3425/98 $10.00 (c) 1998 IEEE 9The variation of lead times among very short, short,
+and long does not change the relative performance of
+
+different policy combinations.  Therefore, the
+
+coordination of different policies is applicable to
+
+various lead times.
+The variation of demand patterns between even and
+uneven does not change the relative performance of
+
+different policy combinations.
+One unexpected result is that the BTF policy does not
+contribute significant improvement.  The reason may
+
+be twofold: one reason could be that the forecasting
+
+method does not accurately forecast demand from
+
+previous demand patterns; the other could be the
+
+period of forecasting is too short for entities to prepare,
+
+so that it works more like a MTO policy.
+The trends of information sharing strategies on
+improving OFP performance are described as follows:
+
+The main effects of upward information acquisition
+
+include: (1) increasing the order fulfillment rate for those
+
+policy combinations having low throughput at
+
+downstream tiers, (2) significantly reducing inventory
+
+cost at an assembly tier for those entities using make-to-
+
+stock or assembly-to-order policies, and (3) significantly
+
+reducing tardiness at upstream tiers and downstream tiers.
+
+So that the main effects of upward information sharing
+
+are on reducing the inventory cost and tardiness, and
+
+increasing the order fulfillment rate.  The main effects
+
+of downward information acquisition include: (1) trading
+
+the cycle time with the inventory cost at those policy
+
+combinations having the short order cycle time, and (2)
+
+significantly reducing the inventory cost at an assembly
+
+tier whose entities use an assembly-to-order demand
+
+management policy.  These results support that
+
+downward information sharing substitutes information
+
+for inventory.  The results of bi-directional information
+
+sharing show that the order cycle time is mainly affected
+
+by the downward information sharing strategy.  This
+
+support that the degree of OFP improvement is more
+
+heavily affected by the accuracy of demand information
+
+from customers than that of the material availability
+
+information from suppliers.  However, for the other
+
+performance measures, both upward and downward
+
+information sharing strategies equally contribute to the
+
+performance improvement, which results in the greater
+
+improvement than when only either one is applied.  This
+
+enhancement supports that the degree of OFP
+
+improvement by a bi-directional information sharing is
+
+more significantly than that by a single direction.  The
+
+marginal improvements of multiple tiers of information
+
+sharing against single tier information sharing are mainly
+
+on inventory cost reduction and due date commitment.
+
+For other measures, there are no significant
+improvements.  Therefore, the marginal improvement of
+using multiple tier information sharing is evaluated by
+
+how critical the inventory and tardiness reduction
+
+compared with the information cost increased by the
+
+multiple tier information sharing.
+Based on the results we found that by synchronizing
+the material and capacity availability, the improvement is
+
+not only on one single entity, but also improve the OFP
+
+across a SCN.  The main effects of this strategy are
+
+shown on the inventory reduction for those
+
+manufacturing entities, and on the tardiness reduction for
+
+the downstream customers.  In general, the strategy for
+
+synchronizing capacity and material availability is an
+
+effective strategy in meeting customer demand with less
+
+inventory and tardiness.
+Generally, from experiments on the dynamic material
+allocation strategy, we can conclude the following
+
+common trends of its effects: (1) the dynamic material
+
+allocation strategy is an effective approach to reduce
+
+OFP vulnerability under supply uncertainties, and to
+
+improve OFP robustness under demand uncertainties,
+
+and (2) the effectiveness of dynamic material allocation
+
+strategy is highly influenced by the information transfer
+
+efficiency.  With efficient information exchange, the
+
+order cycle time and order fulfillment rate are improved
+
+with less tardiness compared with material allocation
+
+from stable suppliers.  However, with inefficient
+
+information exchange, the OFP cycle time and tardiness
+
+may increase although the fulfillment rate can increase on
+
+those good policy combinations.
+The results of OFP improvement by combining the
+synchronization with information sharing strategies show
+
+the synergy of the two strategies.  By combining the
+
+demand or supply information from external entities in
+
+production planning, the order fulfillment rate at
+
+downstream entities, such as distribution centers and
+
+retailers, increases because the manufacturing entities can
+
+deliver goods in a timely manner.  Because of the
+
+limitation of manufacturing capacity, the fulfillment rate
+
+is reduced while the demand exceed the capacity, which
+
+lengthens the order fulfillment cycle time.  Inventory
+
+costs are reduced across tiers except at the assembly tier,
+
+the increase of the fulfillment rate increases the inventory,
+
+but not significantly.  Under demand uncertainties, the
+
+joint strategy also shows its strengths to improve the OFP,
+
+where OFP robustness is shown using this strategy.  The
+
+analysis of the joint effects of dynamic material
+
+allocation and synchronization of capacity and material
+
+availability shows that such strategy significantly reduces
+
+cycle times, inventory costs, and tardiness.
+The findings from experiments are summarized as
+follows:
+1060-3425/98 $10.00 (c) 1998 IEEE1060-3425/98 $10.00 (c) 1998 IEEE :1. Information can substitute for inventory
+.  The
+information sharing strategies by querying supply
+
+information from suppliers and demand information
+
+from customers greatly improves the OFP in terms
+
+of reducing inventory costs, order cycle time and
+
+tardiness, and increasing the order fulfillment rate.
+
+Demand information is more critical than supply
+
+information because an accurate demand estimation
+
+facilitates the usage of supply information.  The
+
+bi-directional information sharing by sharing supply
+
+and demand information can further improve the
+
+OFP than uni-directional information sharing by
+
+sharing either supply or demand information.  The
+
+deeper the information is penetrated the better the
+
+OFP is improved, especially at inventory and
+
+tardiness reductions.  The information sharing
+
+strategies can improve the OFP under various lead
+
+times and uncertainties.  In general, information
+
+substitutes for inventory in eliminating the
+
+variability of a SCN and improving the OFP's
+
+robustness.
+2. Information infrastructure is critical for OFP
+improvement
+.  The coordination among agents
+within an entity or among entities in a SCN relies on
+
+efficient information transfer.  For example, the
+
+OFP is not improved by using the dynamic material
+
+allocation strategy without efficient information
+
+transmission.  Because this strategy requires
+
+several iterations of information exchange between
+
+entities, it actually delays the OFP when the
+
+information transmission speed is below or equal to
+
+the speed of order or material transportation.
+3. Different strategies have their marginal
+improvement in different SCNs with different
+policies
+.  From the experiments on evaluating
+various strategies in a generic supply chain network,
+
+we found that OFP improvement varies under
+
+different demand management policy combinations
+
+using various strategies.  However, there are some
+
+trends can be generalized to understand the effects
+
+of OFP improvement strategies on different SCNs:
+
+A. Supply information is important for an entity
+in a SCN when end products are assembled by
+
+many components from different suppliers.
+
+Therefore, an upward information sharing
+
+strategy is applicable.
+B. Demand information is critical for an entity in
+SCN when it faces a constantly changing
+
+markets and high customization pressure.
+
+Therefore, a downward information sharing
+
+strategy is applicable.
+C. The synchronization strategy to coordinate
+material arrival and capacity allocation is
+beneficial when products are made by many
+constituent components.
+D. Demand management can use the assembly-to-
+order policy when information sharing or
+
+synchronization strategies are utilized.
+Through the modeling and evaluation efforts, an
+enterprise can envision its OFP performance under
+
+different strategies within various business environments.
+
+The MAIS approach is a viable method to model the
+
+OFP in SCNs, and the Swarm simulation platform is a
+
+useful implementation tool.  Therefore, the proposed
+
+strategies can be accurately evaluated before the OFP is
+
+redesigned, and moreover, better strategies can be
+
+derived by generalizing the evaluation results.  Such
+
+strengths make the MAIS approach applicable to other
+
+business process reengineering because various business
+
+processes possess several common properties with the
+
+OFP, such as cross organizational boundaries, task
+
+interdependence, and various degrees of autonomy for
+
+business entities.
+7. ConclusionsIn this article, we propose the multi-agent
+information system (MAIS) approach to model the order
+
+fulfillment process (OFP) in supply chain networks
+
+(SCNs), and evaluate strategies for improving OFP
+
+performance.  Through the modeling and
+
+implementation of the MAIS using Swarm, we
+
+demonstrate that the MAIS approach is a viable method
+
+to model the OFP in SCNs, and identify and evaluate
+
+some strategies for improving OFP performance.  The
+
+improvement of the OFP by various strategies with
+
+various measures provides insights to manage the supply
+
+chains for fulfilling orders.  Moreover, the MAIS
+
+approach is also suitable for reengineering other business
+
+processes because business processes share several
+
+common characteristics.
+Reference
+[1]  B. C. Arntzen, G.G. Brown, T.P. Harrison, and L. L.
+Trafton,. ﬁGlobal Supply Chain Management at Digital
+
+Equipment Corporationﬂ,
+ Interfaces
+, 25(1), January-
+February, 1995, pp. 69-93.
+[2]  M. Barbuceanu, and M. S. Fox, ﬁThe Architecture of an
+Agent Based Infrastructure for Agile Manufacturingﬂ,  In
+The IJCAI-95 Workshop on Intelligent Manufacturing.
+Montreal, Canada, 1995.
+[3]  Bond, A. H. and L. Gasser (Eds.), 
+Readings in Distributed
+Artificial Intelligence
+. Morgan Kaufmann Publishers, Inc.,
+1060-3425/98 $10.00 (c) 1998 IEEE1060-3425/98 $10.00 (c) 1998 IEEE 21San Mateo, CA, 1988.
+[4]  S. Brostek, ﬁElimination of Materials Requirement
+Uncertainty Through a Manufacturing Systems Networkﬂ,
+
+Manufacturing Management Symposium 1995: DSS for
+
+Manufacturing Logistics
+, Northwestern University, 1995.
+[5]  Carley, K. and M. J. Prietula (Eds.), 
+Computational
+Organization Theory,
+ Lawrence Erlbaum Associates,
+Publishers, Inc., Hillsdale, New Jersey, 1994.
+[6]  Christopher, M., 
+Logistics and Supply Chain Management
+,Pitman Publishing, London, UK, 1992.
+[7]  Davenport, T. H., 
+Process Innovation: Reengineering Work
+Through Information Technology
+, Harvard Business School
+Press, Boston, Massachusetts, 1993
+[8]  Goldman, S. L., R. N. Nagel, and K. Preiss, 
+AgileCompetitors and Virtual Organizations: Strategies for
+
+Enriching the Customer
+, Van Nostrad Reinhold, New York,
+NY, 1995
+[9]  Hammer, M., and J. Champy, 
+Reengineering the
+Corporation: A Manifesto for Business Revolution
+, Harper
+Business, New York, 1993.
+[10]  D. Hiebeler, ﬁThe Swarm Simulation System and
+Individual-Based Modelingﬂ, In 
+Proceedings of Decision
+Support 2001: Advanced Technology for Natural Resource
+
+Management
+, Toronto, 1994.
+[11]  H. L. Lee, and C. Billington, ﬁMaterial Management in
+Decentralized S
+upply Chainsﬂ, 
+Operations Research
+, 41(5),
+1993, pp. 835-847.
+[12]  H. L. Lee, and C. Billington, ﬁThe Evolution of Supply-
+Chain-Management Models and Practice at Hewlett-
+
+Packardﬂ, 
+Interfaces
+, 25(5), 1995, September-October, pp.
+42-63.
+[13]  F. Lin, G. Tan, and M. J. Shaw, ﬁMulti-agent enterprise
+modelingﬂ, submitted to
+ Journal of Organizational
+Computing and Electronic Commerce
+, 1996.[14]  D. M. McCutcheon, A. S. Raturi, and J. R. Meredith, ﬁThe
+Customization-Responsiveness Squ
+eezeﬂ, 
+SloanManagement Review
+, 1994 Winter, pp.89-98.
+[15]  M. J. Shaw, B. Harrow, and S. Herman, ﬁDistributed
+Artificial Intelligence for Multi-agent Problem Solving and
+
+Group Learningﬂ,  
+Proceedings of the 
+24h Annual Hawaii
+International Conference on System Sciences
+, 4, IEEE,1991, pp. 3-26.
+[16]  T. J. Strader, F. Lin, and M. J. Shaw, ﬁInformation
+Infrastructure for Electronic Virtual Organization
+
+Managementﬂ, accepted by 
+Decision Support Systems
+ --
+Special Issue on Intranets
+, 1997.[17]  T. J. Strader, F. Lin, and M. J. Shaw, ﬁInformation
+Infrastructure for Supply Chain Managementﬂ, submitted to
+
+Journal of Organizational Computing and Electronic
+
+Commerce
+, 1996.[18]  J. M. Swaminathan, S. F. Smith, and N. M. Sadeh,
+ﬁModeling the Dynamics of Supply Chainsﬂ, 
+Technical
+Report of The Robertics Institute
+, Carnegie Mellon
+Unversity, 1994
+[19]  Santa Fe Institute, 
+Swarm Web Page
+.http://www.santafe.edi/project/swarm/, 
+1996.[20]  Wooldridge, M. J. and N. R. Jennings (Eds.), 
+Intelligent
+Agents: ECAI-94 Workshop on Agent Theories,
+
+Architectures, and Languages
+. Springler-Verlag, Berlin
+Heidelberg, Germany, 1995.
+1060-3425/98 $10.00 (c) 1998 IEEE1060-3425/98 $10.00 (c) 1998 IEEE

@@ -1,0 +1,798 @@
+ focus0740-7459/01/$10.00 © 2001 IEEENovember/December 2001IEEE SOFTWARE
+27Through a systems engineering effort, DPSdivided the system into subsystems, each of
+
+which was later designed by a development
+team. I was brought in to help one of the
+
+teams start its part of the project using iter-
+
+ative development, use cases, and object-
+oriented design techniques.Shortly after starting this project, I spenta week in XP Immersion I, a one-week in-
+
+tensive training class in the techniques and
+philosophy of Extreme Programming.1En-thused by XP, I talked to the DPS team
+
+about applying some XP practices to our
+work. The company had already decided to
+try iterative development and OO tech-
+niques, departing from the divisionÕs stan-
+
+dard process. They were game for some-
+
+thing different, but how different? We
+
+decided to take the idea of incorporating
+XP practices to the director of engineering.
+What we were facingThe standard practice in the division wascreated in response to past and current
+
+problems. Most of the developers had one
+to three yearsÕ experience. The more senior
+
+developers had the role of reviewing and
+approving the work of the less experienced
+developers. To their credit, the review team
+
+took the formal review process very seri-
+
+ously. They were good at it: they captured
+
+issues and defects on the Web, prepared re-
+
+viewers, and held crisp review meetings.
+In the world of Big Design Up Front and
+phase containment, these guys were good. I
+could end this article right now except for
+
+one problem: all this process added over-
+head to the development of software. To de-
+
+sign something, they needed to figure out
+the design, document it in Rose, schedule a
+review meeting, and distribute materials to
+Launching ExtremeProgramming at a Process-
+Intensive Company James Grenning, Object MentorA company thathas traditional
+formal
+processes
+launched a
+project using
+many Extreme
+Programming
+practices. The
+author covers
+how XP was
+proposed to
+management,
+how the project
+seed began and
+grew, and some
+
+of the issues 
+the team faced
+during its first
+six months.This is a story about starting a project using an adaptation of XP ina company with a large formal software development process. De-
+
+fined Process Systems is a big company (the name is fictitious). The
+
+division I worked with was developing safety-critical systems andwas building a new system to replace an existing legacy product. The project
+was an embedded-systems application running on Windows NT and was part
+
+of a network of machines that had to collaborate to provide services. 
+reports from the field
+ review. Then reviewers had to review the
+materials and enter issues on the Web, have
+
+a review meeting, document the meeting
+
+outcome, repair the defects and then close
+
+them on the Web, fix documents, and have
+
+the changes reviewed again.However, all this process work was not
+keeping bugs out of the product. Unrealistic
+deadlines and surprises late in the project
+were taking their toll. Products were deliv-
+
+ered late. Engineers were just getting their
+
+skills to a decent technical depth, but they
+
+were also burning out and heading for sys-
+tems engineering or management.The team struggled with how to begin thenew project. Its requirements were in prose
+format and fully understood only by the per-
+son who wrote them. To summarize: the existing process had a
+lot of overhead, deadlines were tight, engi-
+
+neers were running away, requirements were
+
+partially defined, and they had to get a project
+started. With all these issues, something had to
+
+change. Did they need something extreme like
+XP? I believed and hoped XP would help.Choosing your battlesThe DPS culture values up-front require-ments documents, up-front designs, reviews,
+and approvals. Writing the product features
+
+on note cards, not doing any up-front de-
+sign, and jumping into coding were not go-
+ing to be popular ideas. To people unfamil-
+
+iar with XP, this sounded a lot like hacking.
+
+How did we get by these objections?Having been introduced to XP, the group
+understood what the main objections would
+be as we tried to sell XP to the management
+team. Like good lawyers, we prepared an-
+ticipated questions along with their answers
+for our presentation. We expected that the
+
+decision makers would consider some of the
+practices dangerous and unworkable at
+
+DPS. The need for documentation was in-
+grained in the culture, so we expected con-
+
+cern over XPÕs lack of formal documenta-
+
+tion. Can the code bethe design? Can wereally build a product without up-front de-
+
+sign? What if there is thrashing while refac-
+toring? What about design reviews? To paraphrase Kent Beck, one of XPÕs
+originators, Òdo all of XP before trying to
+customize it.Ó I think that is great advice,
+
+but for this environment we would never
+
+have gotten the okay to mark up the first in-dex card. We decided to choose our battles.
+We needed to get some of the beneficial
+
+practices into the project and not get hurt
+by leaving other practices behind. We did
+
+not omit practices that we didnÕt feel like
+
+doing; we tried to do as many as we could.
+
+We used the practices and their interactions
+
+as ways to sell around the objections.We started by identifying the projectÕs
+goalsÑto build a working product with re-
+liable operation and timely delivery, with
+
+enough documentation to enable effective
+maintenance (no more, no less), and with
+understandable source code. This was as
+objectionable as motherhood and apple pie.
+The standard process would identify the
+same objectives.We all agreed that a reliable working
+product was a critical output of the project.
+This was particularly important, as this was
+a safety-critical system. A tougher question
+was, what was enough documentation? This
+was where it got interesting. This applica-
+tion was not your typical XP target applica-
+tionÑit was part of a larger system that mul-
+tiple groups were developing at multiple
+sites. These other groups were using the
+standard, waterfall-style DPS process, not
+XP or short-iteration development. We had
+
+a potential impedance mismatch between
+the XP team and the rest of the project. How much documentation?Proposing no documentation would endthe conversation. We decided to keep the
+
+conversation going and answer a question
+with a question. What did we want from
+
+our documentation? We needed
+enough documentation to define the
+product requirements, sustain technical
+
+reviews, and support the systemÕs main-
+
+tainers;clean and understandable source code;
+andsome form of interface documentation,
+
+due to the impedance mismatch be-
+
+tween groups. 
+These answers did not all align with XP out ofthe book, but they kept the conversation go-
+ing. XP is not antidocumentation; it recog-
+nizes that documentation has a cost and that
+not creating it might be more cost-effective.
+This, of course, violates conventional wisdom.28IEEE SOFTWARE
+November/December 2001The need fordocumentationwas ingrainedin the culture,so we expectedconcern overXPÕs lack of formaldocumentation. After acknowledging and addressing theprojectÕs objectives, I led the team through
+
+the cost-of-change pitch from BeckÕs 
+Ex-treme Programming Explained.1The direc-tor, the manager, and some senior technol-
+
+ogists agreed that XP addressed many of
+their current development problems. They
+also thought XP right out of the book
+would not work for them. What did we
+want to do differently?Documentation and reviews were going
+to be the big roadblocks. We heard, ÒRe-
+
+quirements on note cards!?!Ó ÒI canÕt give a
+
+stack of note cards to the test team.Ó ÒBob
+
+in firmware needs the cards too.Ó ÒSomeone
+
+will lose the cards.Ó I noticed that the com-
+
+panyÕs ÒstandardÓ process allowed use cases
+
+in the form described by Alistair Cock-
+burn.2This is a text-based method, similarto user stories but with more details. Other
+
+DPS groups needed to look at the use cases,
+so we decided not to fight that battleÑwe
+
+had enough lined up already. We decided to
+
+use use cases.Another objection was ÒWe need docu-
+mentation for the future generations of en-
+
+gineers that will maintain the product we
+are building. We need our senior people to
+
+look at the design to make sure your design
+will work.Ó Our answer was that a good
+way to protect future software maintainers
+is to provide them with clean and simple
+
+source code, not binders full of out-of-date
+
+paper. Maintainers always go to the source
+
+code; it cannot lie, as documents can. XP re-
+
+lies on the source code being simple and ex-
+pressive and uses refactoring to keep it that
+
+way.
+3The source code is the most importantpart of the design. At some point, the main-
+
+tainers will need a high-level document to
+navigate the system.A follow-on objection was that what oneperson thinks is readable source code is not
+
+to another. XP addresses this through pair
+
+programming. If a pair works hard at mak-
+ing the source readable, there is a really
+good chance that a third programmer who
+sees the code will find it readable, too. Plus,
+
+with collective code ownership, anyone can
+change the source code if need be.Another expected objection was that codewas not enoughÑwe needed a documenta-
+tion or transition strategy for whenever a
+project is put on the shelf or transferred to
+another team. Ideally, the documentation
+given to the maintainers describes the stateof the software at the time it was shelved or
+transferred. This document can and should
+be written in a way that avoids needing fre-
+quent modification. As maintenance pro-
+ceeds, the document will likely be neglected.
+Make the document high-level enough so
+that the usual maintenance changes and bug
+fixes do not affect it. Let the documentation
+guide the future developers to the right part
+of the codeÑthen they can use the high-
+quality, readable, simple source code to
+
+work out the details. Following this strategy will not result in ahuge document. Remember, you have some
+
+of the best detailed documentation available
+in the form of automated unit testsÑwork-
+ing code examples of exactly how to use
+each object in the system. XP does not pro-
+hibit documentation; just realize it has a cost
+and make sure it is worth it. You can plan
+
+documentation tasks into any iteration. The
+advice here is to document what you have
+built, not what you anticipate building.The next follow-on objection was that
+weÕd never do the document at the end of
+
+the project. My reply: So, you would rather
+
+do a little bit at a time, and have to keep
+
+changing and rewriting it? DoesnÕt that
+
+sound like it would take a lot of time? It
+
+does! So the management team must stick to
+
+its guns and do the high-level documenta-
+tion task at the end of the project. Pay for it
+with less time wasted during development. ReviewsThe director did not completely buy into
+documenting only at the end of the project
+
+and hence made a final objection: ÒI still
+
+have my concerns. What if the design is no
+good? Do I have to wait until the end of the
+
+project to find out?Ó Pair programming was
+
+not reason enough for the management team
+to give up its review process. The big prob-
+
+lem with DPSÕs development process was that
+
+it guaranteed that development would go
+slowly. The process went something like this:
+
+create a design, document it in Rose, sched-
+ule a review meeting, distribute the materials,
+
+have everyone review the materials, have the
+
+review meeting, collect the issues, fix the is-
+sues, maybe do another review, then finally
+
+write some code to see if the design works.
+
+This made sure the cost of change was high.
+Because of the safety-critical nature of the 
+November/December 2001IEEE SOFTWARE
+29Documentationand reviewswere going tobe the bigroadblocks. application, the management team was not
+willing to give up on reviews.I proposed a more efficient way to do the
+reviews: the ask-for-forgiveness (rather than
+
+ask-for-permission) design process. We let
+
+the development team work for a month at
+
+a time on the system. At the end of the
+
+month, they assembled and reviewed a de-
+sign-as-built review package. This took the
+
+review off the critical path, so the review
+
+process did not slow down the team. We
+
+agreed to document the significant designs
+within the iteration and review them with
+the review team. We gave the remaining is-
+
+sues that the reviewers found to the next it-
+
+eration as stories. The idea here was to
+
+spend a small amount of time in the itera-
+
+tion documenting the design decisions that
+month. As it turned out, we really did not
+
+have to ask for forgiveness at all.ItÕs not about XPItÕs about building better software pre-
+dictably and faster. We compromised on a
+
+number of issues, but we did have agreement
+to use most of the XP practices: test-first pro-
+
+gramming, pair programming, short itera-
+tions, continuous integration, refactoring,
+planning, and team membership for the cus-
+tomer. Table 1 describes the XP practices we
+
+used and how we modified them to suit our
+needs. We added some process and formality:
+
+use cases, monthly design reviews, and some
+documentation. This adaptation of XP was a
+significant change in how DPS developed
+software, and we hoped to prove it was an
+improvement. The director thought XP of-
+fered a lot of promise for a better way to
+work that could lead to improved quality,
+
+faster development, better predictability, and
+
+more on-the-job satisfaction (Òsmiles per
+hourÓ). He said we were Òmaking footprints
+in the sand.Ó If we could improve one devel-
+opment factorÑquality, job satisfaction, pro-
+
+ductivity, or predictabilityÑthe director
+
+thought it might be worth doing XP. If we
+
+could improve any two of those factors, he
+thought there would be a big payoff.The problems of poor quality, delivery de-
+lays, long delivery cycles, and burned-out en-
+
+gineers plague the software industry. XP
+
+struck a cord with our team leaders.The tech-
+
+niques appeared to address some of the prob-
+
+lems the team was facing, and the focus on
+testing and pair programming could help itbuild a high-quality product. XPÕs iterative na-
+ture could help the team determine how fast it
+could go and give management the feedback it
+needed. So, itÕs about getting the job done. XP
+
+is a set of techniques that seemed promising.Projects can get stalled in the fuzzy front
+end.4This is a problem, especially in water-fall projects, where you must define all the
+requirements prior to starting the design
+process. In XP, as soon as you have defined
+
+a couple weeksÕ worth of user stories, devel-
+opment can start. Think of how hard it is to
+
+shave a month off the end of a project. Now
+
+think of how easy it would be to save that
+
+month just by starting development as soon
+as you have identified a monthÕs worth of
+
+stories. Throughout the rest of the project,
+story development occurs concurrently with
+story implementation. The first iterationThe team had three peopleÑa customerand two developers, including me. We started
+
+by getting the unit test tool CppUnit set up
+
+and integrated with our development envi-
+ronment, VC++. This did not take longÑthe
+tools are relatively easy to use.The projectÕs customer (our systems engi-
+neer) gave us a requirements document. As
+we identified a functional requirement, we
+
+wrote it on a card. Each card named a use
+case. We did not bother to elaborate the use
+
+cases, just name them; in a few days, we had
+identified 125 use cases. Picking the most im-
+portant ones was relatively easy using this list.In XP, the customer chooses the most
+valuable user stories and discusses them
+with the programmers. We were using use
+
+cases, a similar idea; our customer chose the
+most valuable use cases and elaborated
+them. For the early iterations, we decided to
+
+ignore use case extensions (which hold the
+special cases or variations) and keep the
+product definition simple.
+2We just assumed
+there were no special cases or error cases;
+because we were using XP, we believed we
+
+could ignore the details and not be penal-
+ized later. We also did not bother using use
+
+case diagrams, because they did not add any
+value to the development team. Our main
+goal in the first iteration was to build a lit-
+
+tle bit of the product, get some experience,
+and build some skill and confidence.At the beginning of a project, you need tobelieve that the design can and will evolve.30IEEE SOFTWARE
+November/December 2001At the beginning
+of a project, you need tobelieve that thedesign can andwill evolve. Otherwise, the desire to do up-front specifica-tion work will put the team into analysis
+paralysis. Knowing that the design can evolve
+sets the team free to start building the system
+
+as soon as some functionality is identified.
+Simplifying assumptions keep complexity out
+of the code, at least temporarily. John Gall
+
+wrote, ÒA complex system that works is in-
+variably found to have evolved from a simple
+
+systems that works.Ó5Thus, it really helps tomake these simplifying and scope-limiting de-
+cisions in eachiteration. This lets the core fea-tures drive the design.We had a planning meeting and discussed
+the features that were to be included in the
+first iteration. My partner and I had OOD
+experience but no real XP experience (except
+for the week I spent in class). We wanted a
+
+guide to our first iteration, so we spentabout half a day with a whiteboard lookingat design ideas. Because we were unsure of
+XP, we were not sure if we could really start
+
+coding without doing some design. We did a
+
+little bit of design, or as we called it a Little
+Design Up Front (LDUF). Ron Jeffries calls
+this a Quick design session.6In our LDUF session, we found a groupof collaborating objects we thought would
+meet the needs of our first stories. We
+
+worked from hand-drawn copies, not both-
+
+ering with a diagramming or CASE tool. We
+
+knew things would change, and we did not
+want to spend our time making it look
+pretty. It gave us confidence and a vision of
+
+where we were going.
+During the iteration planning meetingand our LDUF session, we identified some of
+the interfaces we needed to support the iter-November/December 2001IEEE SOFTWARE
+31Table 1Summary of XP practices used
+XP practiceAdoption statusOur experience
+Planning game Partially adoptedThe team practiced scope limiting, task breakdown, and task sign-up techniques. We 
+used use cases rather than user stories. We wrote the use cases from an existing 
+requirements document and stored them in a database. Small releases AdoptedIterations were one month long each.
+
+Metaphor Not adoptedA metaphor had not yet evolved, and we didnÕt develop one. Instead, a high-level 
+design evolved and was recorded in a small set of UML diagrams and explanatory 
+text. It played the role of our metaphor.
+Simple design AdoptedThe design did not have anticipatory elements. A monthly design-as-built review
+let the senior people monitoring the project see the teamÕs design decisions.
+Functional testingAdoptedWe developed functional tests in a custom scripting language. The tests demonstrated 
+that the application logic met the customerÕs need. However, the team got behind on 
+automated acceptance tests. This is not recommended.Test-first design AdoptedWe wrote the first line of production code using test-first design. We wrote the program in 
+C++ and used CppUnit 1.5 as our unit test tool.Refactoring AdoptedWe refactored regularly, and the design evolved smoothly.
+
+Pair programming AdoptedWe could develop tests, interfaces, and simulations on our own but used pair programming 
+to create production code.Collective ownership AdoptedWe collectively owned the code. On one occasion, new code that required special 
+knowledge resulted in a module owned by one programmer. Development slowed on 
+that part of the system.Continuous integration AdoptedDuring our first iteration, continuous integration was no problem. As soon as we added a 
+second pair to the project, the team had integration problems. We quickly learned how 
+to avoid collisions and do merges.40-hour week (also known asAdoptedThe team worked at a sustainable pace. A couple times, we put in overtime to meet the 
+sustainable pace)iteration goals.
+
+On-site customer Partially adoptedA systems engineer acted as the on-site customer. We derived our acceptance tests from the
+use cases. The customer was not directly responsible for these tests. The team scared the
+customer a couple times by delivering his use cases in less time than it took him to definethem.Coding standards AdoptedThe main coding standard was Òmake the code look like the code that is already there.Ó 
+The team used header and C++ file source templates to provide the company-required 
+comment blocks. The comment blocks were mainly noise that hid the code.Open workspaceNot adoptedThere was no open workspace. Workstations were in the corners, making pair 
+programming awkward. The roadblocks to building a team workspace were political. ation 1 features. These acted as placeholdersfor the real hardware. We then added a sim-
+
+ulation of the interface by creating a Mock
+Object (see Figure 1).7This facilitated devel-opment and also kept volatile entities such
+as the database schema, GUI, hardware de-
+pendencies, and protocol from creeping into
+
+the application logic. We witnessed an ex-
+
+ample of designing for testability leading to
+reduced coupling in the application.So we sat down to write our first line of
+code. We picked a candidate class from our
+
+hand-drawn LDUF diagram and followed
+the test-first design process. Figure 2 repre-
+
+sents the test-first design process, XPÕs in-
+
+nermost feedback loop. Our first line of
+
+code was a test. The test did not compile.
+
+We fixed the compile. We ran the test. It
+
+failed. We fixed the test. We were finally in
+
+maintenance!We also established pair-programming
+guidelines. We could develop test cases, sim-
+
+ulators, and interface classes on our own
+but had to do all other production code in
+pairs. The first iteration had significant
+downtime, considering only one pair wasworking on the project. Meetings were a
+real productivity killer. Pair programming
+
+was fun and intense; we were able to stay on
+
+task. If one partner lost track of where we
+
+were going, the other partner quickly re-
+synched their efforts. We taught each other
+
+about the tools and learned new skills.The coding standard is a team agreementto make the code look the sameÑit is the
+teamÕs code, so it should all look the same. It
+
+turned out that my partner and I had a com-
+patible coding style. As more people joined
+the team, we established a self-documenting
+coding standard: ÒMake the new or modified
+code look like the code that is already there.Ó
+Cool, a one-line coding standard! However,
+
+there was pressure to use the divisionÕs coding
+
+standard. From a Òchoosing your battlesÓ
+point of view, we gave into using the standard
+
+comment blocks in front of each function. Later iterationsWe planted a seed of functionality at the
+center of this subsystem application and
+
+simulated its interactions with its environ-
+
+ment. We brought in new stories that made
+
+the seed grow, incrementally adding new
+
+functionality and complexity. From its sim-
+
+ple beginning of a half dozen classes and a
+few simulations, the clean, loosely coupled
+
+design evolved to about 100 classes.Unit test volume grew. The unit tests saved
+us numerous times from unexpected side-ef-
+fect defects. We could fix the defects immedi-
+
+ately because we just added the code that
+
+broke the tests. We created our own acceptance test script-
+ing language to drive transactions into the sys-
+
+tem and used text file comparisons of simula-
+tion output to confirm system operation. We
+
+were able to design simulations that stressed
+the system beyond the limits expected in the
+field. Unfortunately, the team got behind in ac-
+
+ceptance testing. I do not recommend this.Evolutionary design
+Evolutionary design relieved a lot ofpressure from the team. We didnÕt have to
+
+create the best design of all time for things
+
+we were not quite sure aboutÑonly the best
+
+design for what we knew about at that mo-
+
+ment. We made good design decisions one
+
+at a time. Our automated tests and refactor-
+ing gave us the confidence that we could
+continue to evolve the system. 32IEEE SOFTWARE
+November/December 2001ApplicationlogicService Interface
+classService
+implementationSimulated (mock)service
+implementationHardwareAPI<<extends>>Figure 1. Simulatingthe interface by 
+
+creating a Mock 
+Object, shown in 
+Unified Modeling 
+Language.Write atest for newfeatureCompileFixcompileerrorsWritethecodeRun thetest andsee it failRun thetest andsee it passRefactoras neededFigure 2. The 
+test-first design
+process.  Object-oriented design is an importantsupporting practice of XP. OO program-
+
+ming languages let you build software in
+small independent pieces, a practice that
+test-first programming promotes.8Project manager surprisesNot only were the programmers happywith their creation, but the project manager
+
+was as well. After the fourth iteration, he said,
+ÒIÕd only have three documents by now! In-
+
+stead I have a piece of the system that works!ÓThe manager discovered another benefit.Usually a project manager coordinating a
+teamÕs work with other teams spends a lot of
+
+time juggling priorities and figuring out task
+dependencies. On the XP team, dependencies
+
+between features were almost nonexistent.
+
+We built features in the order of customer
+
+priority, not internal software framework or-
+
+der dictated by a BDUF (Big Design Up Front).
+The team was agile and able to adapt to the
+
+other subsystemsÕ changing needs.Building the teamWe built the team slowly, while we were
+developing skills. We felt we could absorb one
+
+or two people per iteration. We did not let
+
+newcomers take tasks right away, but used
+
+them mainly as pair partners during their first
+iteration. Then, as they got to know the sys-
+tem and our practices, they started to take on
+tasks at the iteration planning meetings. We
+
+didnÕt assume that team velocity would in-
+
+crease when we added a new person to the
+teamÑwe measure velocity, not predict it.
+The DPS way of developing softwaremade up for programmer inexperienceby
+
+having senior engineers review the less ex-
+
+perienced engineersÕ work. In XP projects,
+
+you must still address the spread of exper-
+
+tise; for instance, it is critical to have at least
+
+one senior engineer on the team. We donÕt
+
+give senior people a big title or special role,
+but we need them. They help spread the
+
+wealth of knowledge, and both they and
+their pair partners learn.The end of the story
+Unfortunately, I cannot present the story
+of how the project completed, because it was
+mothballed due to changing market needs.
+This is in the spirit of one of XPÕs mantras:
+
+Work on the most important thing first. Nev-
+
+ertheless, the team and the managers were
+impressed with our results in terms of pro-
+ductivity and quality. Because of this project,
+
+two other pilot projects were started.In my experience, when the engineers
+
+want XP, the management doesnÕt, and
+
+if management wants XP, the engineers
+donÕt. Where is the trust between manage-
+
+ment and engineering?To managers: Try XP on a team with
+open-minded leaders. Make it okay to try
+new things. Encourage the XP practices. Pro-
+
+vide good coaching. Challenge your team to
+go against the status quo. Recruit a team that
+wants to try XP rather than force a team to
+
+use XP. Make sure the organization sees that
+
+no one will be punished for trying something
+different. When hand-picking XP practices,
+
+you might compromise the self-supporting
+nature of XP. Try as much of XP as you can.
+
+Iterations are short. Feedback comes often.
+To engineers: Develop a sales pitch. Iden-
+tify problems that you might solve. Identify
+the benefits, identify the risks. Do a pilot
+
+project. Iterations are short. Feedback
+comes often.AcknowledgmentsI thank the real client that provided the experienceto write this article (who wished to remain anony-
+mous). I also want to thank Chris Biegay and Jennifer
+Kohnke for a job well done in helping me prepare this
+article. I presented a earlier version of this article at XP
+Universe in July 2001.References1.K. Beck, 
+Extreme Programming Explained, Addison-Wesley, Reading, Mass., 1999.
+2.A. Cockburn, 
+Writing Effective Use Cases
+, the CrystalCollection for Software Professionals, Addison-Wesley,
+
+Reading, Mass., 2000.3.M. Fowler et al., 
+Refactoring: Improving the Design of Existing Code, Addison-Wesley, Reading, Mass.,
+1999.4.S. McConnell, 
+Rapid Development, Microsoft Press, Red-mond, Wash., 1996.
+5.J. Gall, 
+Systemantics: How Systems Really Work and
+How They Fail, 2nd ed., General Systemantics Press,Ann Arbor, Mich., 1986.
+6.R.E. Jeffries, 
+Extreme Programming Installed, Addison-Wesley, Reading, Mass., 2001.
+7.T. Mackinnon, S. Freeman, and P. Craig, 
+Endo-Testing:
+Unit Testing with Mock Objects, XP Examined
+, Addi-son-Wesley, Reading, Mass., 2001.
+8.R. Martin, ÒDesign Principles and Design Patterns,Ó
+www.objectmentor.com/publications/
+
+Principles%20and%20Patterns.PDF (current 12 Oct.
+2001).For more information on this or any other computing topic, please visit ourDigital Library at http://computer.org/publications/dlib.
+November/December 2001IEEE SOFTWARE
+33About the AuthorJamesGrenningis the directorof consulting
+at Object 
+Mentor and 
+is currently 
+practicing 
+and coaching Extreme Programming.  Areas of interest
+
+are organizational change, software proc-
+ess improvement, and the business impact
+of agile software development. He helped
+create the Manifesto for Agile SoftwareDevelopment(http://AgileAlliance.org)and is a signatory. He is also a member of
+
+the ACM. He earned a BS in electrical en-
+gineering and computer science from the
+University of Illinois, Chicago. Contact 
+him at Object Mentor, 565 Lakeview Park-
+
+way, Ste. 135, Vernon Hills, IL 60061; 
+
+grenning@objectmentor.com.

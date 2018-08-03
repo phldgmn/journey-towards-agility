@@ -1,0 +1,664 @@
+ 104 IEEE SOFTWARE 
+ |  PUBLISHED BY THE IEEE COMPUTER SOCIETY 0740-7459/18/$33.00 © 2018 IEEEModular Architectures 
+Make You Agile in the 
+
+Long Run
+Dan Sturtevant
+THE 
+2017 STATE
+ of DevOps Re
+-port
+ noted that loosely coupled ar
+-chitectures spur team performance 
+by making it ﬁeasy to modify or 
+
+replace any individual component 
+
+or service without making corre
+-sponding changes to [those] that 
+
+depend on it.ﬂ
+1 Put another way, 
+systems with degraded modular
+-ity are incredibly dif˜cult to change 
+
+because pulling one thread always 
+
+seems to lead to another headache. 
+
+Engineers give up after months of 
+fruitless investigation and failed 
+changes. When architectural com
+-plexity proliferates, systems are no 
+longer understandable. Teams can™t 
+
+communicate about them, learning 
+curves grow, morale plummets, and 
+staff turnover increases.
+Over the past 15 years, our re
+-search team, led by Carliss Baldwin 
+ and Alan MacCormack at the Har
+-vard Business School, have devised 
+
+methods for measuring modular
+-ity and its erosion. We scanned 
+
+thousands of code bases and found 
+
+architectural ˚aws in many. We in
+-vestigated how architecture degra
+-dation impacts business outcomes. 
+
+This included studies of defects and 
+
+safety,
+2 developer productivity and 
+development staff turnover,
+3 vulner
+-ability,
+4 the ability to drive new rev
+-enue,
+5 and de facto vendor lock-in.
+6 Our team also recently founded Sil
+-verthread Inc. Over the past three 
+
+years, Silverthread has helped more 
+
+than 75 commercial and US federal 
+
+government customers gain visibil
+-ity, quantify the cost of ownership 
+
+and risk, and regain control of their 
+
+development projects.
+These experiences have convinced 
+us that that long-term agility is pos
+-sible only if you™re employing an 
+
+agile product architecture. Not ev
+-eryone shares this view. In the past 
+From the Editor
+Gene Kim once told me that organizations that require a developer to take 10 people 
+ out to lunch to get an API change done appear to have lower IT performance. He 
+
+and I hypothesized that an overly high ﬁlunch factorﬂ would impede DevOps trans
+-formations, and added some questions on this to the 
+2017 State of DevOps Report
+ to learn more about the role of architecture in DevOps. The conclusion in the report 
+reads, ﬁLoosely coupled architectures and teams are the strongest predictor of 
+continuous delivery.ﬂ My colleagues Alan MacCormack, Carliss Baldwin, and 
+ Dan Sturtevant at the Harvard Business School have devised a way to measure and 
+
+visualize architecture quality and its ﬁcost of ownershipﬂ consequences that goes 
+far beyond the ﬁlunch factor.ﬂ Š
+Mik Kersten
+  JANUARY/FEBRUARY 2018 
+ |  IEEE SOFTWARE
+ 105
+decade, agile practitioners have fo
+-cused intensely on improving soft
+-ware development processes and not 
+so much on technical health. We™ve 
+
+worked with several large organiza
+-tions in which the application of lean 
+principles produced underwhelming 
+results. This is because velocity mea
+-surement, planning poker, attacking 
+
+defect backlogs, Kanban cards, pair 
+programming, or sprint-based plan
+-ning does little to attack the root 
+cause of problems that are inherently 
+structural. If humans can™t easily 
+ understand or modify their code, 
+teams might be using the best agile 
+
+practices, but their ability to respond 
+to market demands will be far from 
+ agile. Technical debt will weigh down 
+the value stream™s performance.
+Here, I introduce sophisticated 
+ways to visualize and quantify 
+
+software modularity and its ero
+-sion. These techniques can help 
+ you identify architectural-complexity 
+ hotspots. I highlight research that 
+
+has measured economic impact 
+
+and helped organizations improve 
+architectural outcomes. And I discuss 
+
+how to use quantitative software de
+-sign analysis to help teams decide if 
+
+and when to refactor or rewrite soft
+-ware, using objective ˜nancial mod
+-els of the likely return on investment 
+(ROI).
+Principles of Architectural 
+Health
+Today™s enterprise software systems 
+are so large that no one person can 
+understand how everything works. 
+There are no laws of physics to con
+-strain solutions. Software systems 
+
+are complex networks of unbounded 
+abstractions with huge numbers of 
+interconnections.
+So, designers use well-accepted 
+architectural principles to gain con
+-trol of this complexity. These prin
+-ciples allow decomposition of a 
+
+complex system into more under
+-standable chunks so that teams of 
+
+cognitively bounded humans can 
+
+work on different parts as indepen
+-dently as is practical. They also en
+-sure that changes don™t propagate in 
+unintended ways, creating defects 
+and rework and slowing down fu
+-ture adaptation.
+We™ve learned to ask three key 
+questions when assessing architec
+-tural health. Is the system modu
+-lar or loosely coupled in terms of 
+the connections between compo
+-nents? Are the components orga
+-nized hierarchicallyŠwith a clear 
+
+sense of those at the top, middle, 
+
+and bottom? Are the components 
+well designed and not unnecessarily 
+complex?
+Imagine a system so complex that 
+a human would need an IQ of 400 
+to understand it completely. To cope 
+with this complexity, we adopt a 
+
+healthy architecture
+ (see Figure 1a), 
+which is structured into modules, 
+each managed by a small team of 
+people with IQs of 100. Each module 
+
+has a simple API that hides its inter
+-nal complexity, letting other teams 
+
+use a simpli˜ed mental model. The 
+
+code base is laid out hierarchically 
+
+so that interteam relationships are 
+clear and evolution is manageable.
+Reuse andportabilityeliminatedAPIcircumvented CyclicalityAPIModularityHierarchicaldependence Internalcomplexitygrowth(a)(b)FIGURE 1. 
+Architectural health. (a) This healthy architecture is structured into modules, each of which is manageable by a small 
+team of people with IQs of 100. (b) In this unhealthy architecture, it™s hard to understand what™s going on and reliably anticipate side 
+
+effects of changes.
+ 106
+ IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+In the 
+unhealthy architecture
+ in 
+Figure 1b, one module has grown 
+too big, requiring an IQ of 200 to 
+understand what™s going on and 
+
+reliably anticipate side-effects of 
+
+changes. In addition, APIs have 
+been circumvented, exposing exter
+-nal teams to this growing internal 
+complexity. Finally, cyclicality has 
+
+been introduced, destroying the or
+-derly hierarchy and creating complex 
+
+communication and coordination 
+
+requirements.
+In software systems, entropy 
+naturally turns healthy designs into 
+
+unhealthy designs, unless proac
+-tive measures are in place to stop 
+this evolution. Even the most well-
+designed systems erode over time. 
+
+This slowly and imperceptibly in
+-creases the cognitive demands on 
+developers, requiring everyone to in
+-creasingly rely on incomplete mental 
+models. These breakdowns increase 
+
+the potential for changes to propa
+-gate across the system, compounding 
+
+errors, generating unpredictable be
+-haviors, and creating tension across 
+the organization. Because it™s unreal
+-istic to staff teams with people with 
+IQs of 400 to anticipate such issues, 
+
+the problems perpetuate, and the ar
+-chitecture continues degrading.
+Figure 1a is similar to the white
+-board drawings engineers use every 
+
+day. Unfortunately, over 80 percent 
+ of the code bases we scan look more 
+
+like Figure 1b. Idealized pictures 
+
+re˚ect ˚awed mental models. De
+-velopers don™t see the hidden struc
+-ture responsible for unanticipated 
+
+side effects, frozen code, dead
+-locked organizations, and premature 
+obsolescence.
+Detecting Architectural-Health 
+Problems
+Unmapped, unpredictable linkages 
+between software components are 
+the root cause of macro-level com
+-plexity. To attack this complexity, 
+
+we must understand these hidden 
+
+relationships. At a structural level, 
+
+code is made up of entities and 
+ directional relationships between 
+
+themŠﬁB uses A.ﬂ Entities include 
+
+functions, classes, datatypes, source 
+
+˜les, and so on. Relationships arise 
+through calls, inheritance, instantia
+-tion, and other programmatic tech
+-niques. If B uses A, then B depends 
+
+on A to get its job done. If A doesn™t 
+perform as expected, then B™s func
+-tionality might suffer. In turn, en
+-tities that depend on B might also 
+suffer. In essence, linkages between 
+entities increase the potential for 
+
+changes to propagate through a sys
+-tem, creating unintended behaviors.
+Modern code bases contain mil
+-lions of entities and billions of paths 
+
+between them. The most problem
+-atic of these paths are cyclical. The 
+
+components along such paths both 
+
+depend on, and are depended on by, 
+
+many other components. As a code 
+base grows, these cyclical groupsŠ
+which we call 
+cores
+Šcan proliferate 
+as modularity and hierarchy erode, 
+
+causing hundreds or thousands of 
+source ˜les to become mutually inter
+-dependent. In these cores, changes 
+have strong, reinforcing ripple effects. 
+
+A single change to a ˜le can impact 
+thousands of others, in distant parts 
+of the system. Critically, this com
+-plexity can™t be detected through in
+-spection or code reviews. It™s made 
+
+visible only by tracing relationships 
+
+between ˜les across the system and 
+
+its associated organizational groups.
+Baldwin, MacCormack, and John 
+ Rusnak pioneered a visualization 
+
+and analysis method that reveals a 
+
+code base™s hidden structure.
+7 This 
+method makes it clear which com
+-ponents are upstream in the sys
+-tem (depended on by others), which 
+components are downstream (depen
+-dent on others), the system cores™ lo
+-cation and size, and the degree to 
+which the system as a whole is loosely 
+coupled, versus being integral or 
+
+monolithic. The method leverages 
+
+a network-analysis technique called 
+Design Structure Matrices
+ (DSMs). 
+DSMs capture directed relationships 
+between system components. They 
+provide both visual information about 
+ a system and quantitative metrics that 
+ capture its structure.
+Figure 2 shows DSMs for two 
+releases of an Olympus software 
+productŠbefore and after highly 
+
+successful refactoring effort. Each 
+
+DSM displays all the ˜les in this 
+ systemŠmore than 4,500 of themŠ
+
+in a square matrix. The dots represent 
+
+a direct dependency between two ˜les 
+(for example, if ˜le A uses ˜le B, a dot 
+appears in row A and column B). We 
+
+sort ˜les using algorithms that take 
+
+into account their level of coupling 
+and position in the system hierarchy. 
+This results in a view in which as 
+
+many dots as possible are below the 
+
+diagonal. The dots above the diagonal 
+indicate cyclical dependencies. Files 
+that are part of the same cyclic group 
+
+can be clustered together to show 
+
+the system cores. In Figure 2, the red 
+squares indicate the large cores.
+In Figure 2a, the core is more 
+than 800 ˜les, or 15 percent of the 
+
+system. Figure 2b shows that Olym
+-pus™s successful refactoring effort 
+split this core into two smaller ones 
+
+with 250 and 150 ˜les. In essence, 
+our methods let us demonstrate that 
+this refactoring signi˜cantly reduced 
+
+cognitive complexity and the poten
+-tial for changes to propagate. Our 
+methods also let organizations make 
+˜nancial projections of the value re
+-leased in such efforts; such projec
+-tions are critical for projecting the 
+
+ROI of refactoring projects.
+  JANUARY/FEBRUARY 2018 
+ |  IEEE SOFTWARE
+ 107
+The Cost of Complexity
+Architecture erosion has serious 
+cost-of-ownership and risk conse
+-quences. Consider IronBridge,
+3 a successful ˜rm that developed and 
+maintained a large product platform 
+with 20,000 ˜les. In this organiza
+-tion, one team faced signi˜cant per
+-formance challenges. Compared to 
+other teams, it was more likely to 
+miss schedules and ship buggy code. 
+
+It had also experienced multiple un
+-successful modernization efforts. 
+This team was responsible for sub
+-systems containing approximately 
+2,600 ˜les.
+Our analysis found that 2,000 
+of those ˜les were part of a large 
+
+core. Historical scans revealed that 
+
+this issue originated more than a de
+-cade prior and had grown over time. 
+
+More than 100 developers were 
+
+contributing new features and bug 
+
+˜xes to this core, creating a large ex
+-tended team with combinatorically 
+
+dif˜cult communication require
+-ments. Interviews revealed that even 
+the most experienced developers had 
+
+mental models that differed signi˜
+-cantly from the actual relationships 
+
+in the code base and from the mental 
+
+models held by others.
+To study this complexity™s cost, 
+we mined information from the 
+
+˜rm™s management systems. After 
+
+controlling for traditional code-
+quality metrics, we found that the 
+core ˜les had substantial perfor
+-mance challenges regarding quality, 
+
+productivity, and cost:
+Ł The ˜les had three times as 
+
+many defects.
+Ł Developers experienced a 60 per
+-cent decline in productivity and 
+
+spent 70 percent of their time 
+
+˜xing defects (versus 20 percent 
+in the periphery).
+Ł More than 80 percent of the 
+commits failed integration tests.
+Not surprisingly, this complex
+-ity and the performance challenges 
+
+it generated ultimately had a very 
+human cost. Turnover among the de
+-velopers who worked mostly in the 
+core was 10 times greater than that 
+for developers who worked elsewhere.
+The combination of decreased 
+productivity and increased effort 
+
+on non-value-added activities cre
+-ates a recipe for a severe competi
+-tive disadvantage. Confronted with 
+competitors that possess healthy ar
+-chitectures and thus are more agile, 
+˜rms that resist tackling complexity 
+
+are likely to sow the seeds of their 
+own destruction.
+Architectural Agility 
+ for DevOps
+Agile processes have deservedly re
+-ceived much attention because they™re 
+
+a better way to run development. 
+However, 15 years of research and 
+
+commercial projects have taught us 
+
+that agile processes aren™t always 
+enough to make a project agile. The 
+analysis of thousands of commercial, 
+
+government, and open-source systems 
+
+has led us to the following conclusions.
+(a)(b)82952141265FIGURE 2. 
+Design Structure Matrices for a commercial code base (a) before refactoring and (b) after refactoring. The dots above the 
+diagonal indicate cyclical dependencies; the red square indicates the signi˜cant cores.
+ 108
+ IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+First, maintaining a healthy or
+-ganization requires managing archi
+-tectural health as a code base grows. 
+We™ve never encountered a proj
+-ect or system that performed well 
+
+when architecture degradation was 
+signi˜cant.
+Second, architectural agility can 
+provide a competitive advantage. We 
+often see competitive products with 
+similar functionalities but very dif
+-ferent architectural-health pro˜les.
+8 Differences in nonessential complex
+-ity typically correlate with differences 
+in innovation and market success.
+Third, architecture degradation 
+can lead to technical bankruptcy. 
+We recently scanned a 50-year-old 
+US federal government code base 
+
+with a core of 11,000 ˜les. Predic
+-tive analytics suggested that a typi
+-cal change would take more than 80 
+
+days (versus 15 required for a three-
+
+week sprint) and that 80 percent of 
+resources were being wasted ˜ghting 
+˜res. Follow-up conversations vali
+-dated these projections and revealed 
+
+that the organization had been ham
+-strung for ˜ve years.
+Finally, as Olympus demonstrated 
+in Figure 2, refactoring can make a 
+
+big difference.
+If you simply use agile pro
+-cesses in a nonagile product ar
+-chitecture, you™ll get faster at 
+delivering nonvalue. Architecture will 
+
+become the biggest bottleneck to your 
+ DevOps transformation. You need 
+a balanced focus on agile process 
+and agile architecture. With this ap
+-proach, your organization can sustain 
+
+excellence and succeed at the pace of 
+delivery enabled by DevOps. 
+Acknowledgments
+I™m grateful to Mik Kersten for sharing 
+his unique insights on coordination and 
+
+collaboration across large enterprises. I 
+
+also thank the members of the Agile Al
+-liance Technical Debt Initiative for shar
+-ing their thoughts on agile and technical 
+
+health over the past three years.
+References
+ 1.
+ N. Fosgren et al.,
+ 2017 State of 
+ 
+DevOps Report
+, Puppet, 2017; 
+ puppet.com/resources/whitepaper
+ /state-of-devops-report.
+ 2.
+ A. MacCormack and D.J. Sturte
+-vant, ﬁTechnical Debt and System 
+
+Architecture: The Impact of Coupling 
+
+on Defect-Related Activity,ﬂ 
+J. Sys
+-tems and Software
+, Oct. 2016, pp. 
+170Œ182.
+ 3.
+ D.J. Sturtevant, ﬁSystem Design and 
+
+the Cost of Architectural Complex
+-ity,ﬂ PhD dissertation, MIT, 2013.
+ 4.
+ A. Akaikine, ﬁThe Impact of Soft
+-ware Design Structure on Product 
+
+Maintenance Costs and Measurement 
+
+of Economic Bene˜ts of Product Re
+-design,ﬂ master™s thesis, MIT, 2010.
+ 5.
+ S.M. Gilliland, ﬁEmpirical Analysis 
+
+of Software Refactoring Motivation 
+
+and Effects,ﬂ master™s thesis, MIT, 
+
+2015.
+ 6.
+ C.W. Berardi, ﬁIntellectual Property 
+
+and Architecture: How Architecture 
+
+In˚uences Intellectual Property Lock-
+
+In,ﬂ PhD dissertation, MIT, 2017.
+ 7.
+ C. Baldwin, A. MacCormack, and 
+ 
+J. Rusnak, ﬁHidden Structure: Using 
+
+Network Methods to Map System 
+
+Architecture,ﬂ 
+Research Policy
+, vol. 
+43, no. 8, 2014, pp. 1381Œ1397.
+ 8.
+ A. MacCormack, C. Baldwin, and 
+
+J. Rusnak, ﬁExploring the Duality 
+
+between Product and Organizational 
+
+Architectures: A Test of the ‚Mirror
+-ing™ Hypothesis,ﬂ 
+Research Policy
+, vol. 41, no. 8, 2012, pp. 1309Œ1324.
+ABOUT THE AUTHOR
+DAN STURTEVANT 
+is the cofounder and CEO of Silverthread. Contact 
+him at dan@silverthreadinc.com.
+Read your subscriptions 
+through the myCS 
+publications portal at
+ http://mycs.computer.org

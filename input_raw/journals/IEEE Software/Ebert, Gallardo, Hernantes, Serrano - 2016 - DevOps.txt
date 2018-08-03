@@ -1,0 +1,1008 @@
+ 94 IEEE SOFTWARE 
+ |  PUBLISHED BY THE IEEE COMPUTER SOCIETY 0740-7459/16/$33.00 © 2016 IEEEEditor: 
+Christof Ebert
+Vector Consulting Services
+christof.ebert@vector.com
+SOFTWARE 
+TECHNOLOGY
+DevOps
+Christof Ebert, Gorka Gallardo, Josune Hernantes, and Nicolas Serrano
+DevOps is about fast, ˜ exible development and provisioning 
+business processes. It ef˚ ciently integrates development, delivery, 
+
+and operations, thus facilitating a lean, ˜ uid connection of these 
+traditionally separated silos. In this instalment of Software 
+Technology, Gorka Gallardo, Josune Hernantes, Nicolas Serrano, 
+
+and I present a brief overview of most recent DevOps technologies 
+
+such as delivery tools and microservices and discuss what they 
+mean for industry projects. I look forward to hearing from both 
+readers and prospective column authors. Š
+Christof Ebert
+DEVOPS INTEGRATES 
+the two 
+worlds of development and opera-
+tions, using automated development, 
+deployment, and infrastructure mon-
+
+itoring. It™s an organizational shift in 
+
+which, instead of distributed siloed 
+groups performing functions sepa-
+rately, cross-functional teams work 
+
+on continuous operational feature 
+
+deliveries. This approach helps de-
+liver value faster and continuously, 
+reducing problems due to miscom-
+
+munication between team members 
+and accelerating problem resolution.
+1DevOps means a culture shift 
+toward collaboration between de-
+
+velopment, quality assurance, and 
+operations. Figure 1 shows the ge-
+
+neric process, which aims to better 
+
+integrate the development, produc-
+tion, and operations business pro-
+cesses with adequate technology. 
+
+Instead of staying with highly arti˜ -
+
+cial process concepts that will never 
+˚ y, organizations set up continuous 
+delivery with small upgrades. Com-
+
+panies such as Amazon and Google 
+have led this approach, achieving cy-
+cle times of minutes. Obviously, the 
+
+achievable cycle time depends on the 
+environmental constraints and de-
+
+ployment model; a single cloud ser-
+
+vice is easier to facilitate than actual 
+software deliveries of real products.
+DevOps can be applied to very 
+different delivery models but must 
+be tailored to the environment and 
+product architecture. Not all prod-
+ucts facilitate continuous deliv-
+eryŠfor instance, in safety-critical 
+systems. Nevertheless, even in such 
+constrained environments, upgrades 
+
+can be planned and delivered quickly 
+
+and reliably, as the recent evolution 
+of automotive software over-the-air 
+shows. Besides highly secured cloud-
+
+based delivery, such delivery mod-
+
+els need dedicated architecture and 
+hardware changes. One example is 
+a hot-swap controller in which one 
+
+half is operational and the other 
+half builds the next updates, which 
+Quality deliveries with short cycle time 
+need a high degree of automation.
+ SOFTWARE TECHNOLOGY
+MAY/JUNE 2016 
+ |  IEEE SOFTWARE
+95
+are swapped to active mode after in-
+depth security and veri˜ cation pro-
+cedures. DevOps for embedded sys-
+tems is more challenging than cloud 
+
+and IT services because it attempts 
+
+to combine legacy code and architec-
+ture with continuous delivery.
+DevOps Tools
+Tools are mandatory in automat-
+ing DevOps. Quality deliveries with 
+short cycle time need a high degree 
+of automation. So, choosing the 
+
+right tools for your environment or 
+
+project is important when you move 
+to DevOps. Table 1 lists the automa-
+tion tools we discuss in this article.
+Build
+In this DevOps phase, the tools must 
+
+support fast work˚ ows. Here we dis-
+cuss two types of tools. Build tools 
+help achieve fast iteration, reduc-
+
+ing manual time-consuming tasks. 
+
+Continuous- integration (CI) tools 
+merge code from all the developers 
+and check for broken code, improv-
+
+ing software quality.
+Build tools. 
+Build automation is cru-
+cial for DevOps environmentŠin 
+the small and in the big. With agile 
+and ˚ uid development, build tools 
+
+have also become tools for managing 
+
+the software development and ser-
+vice life cycle, which involves com-
+piling code, managing dependencies, 
+
+generating documentation, running 
+
+tests, or deploying an application to 
+different environments.
+Apache Ant has become the stan-
+dard tool for building applications, 
+
+especially in open source when you 
+need to build from the sources. 
+
+The simple syntax used to de˜ ne 
+
+the tasks to execute re˚ ects Ant™s 
+main advantage and disadvantage. 
+It™s easy to understand but verbose 
+
+even for simple tasks because it uses 
+XML, which isn™t a procedural pro-
+gramming language.
+Maven aims to solve some of 
+Ant™s problems. It also uses XML 
+
+to de˜ ne the build process. In this 
+case, the statements de˜ ne the na-
+
+ture of the project instead of the 
+
+tasks that build it. Maven uses the 
+Project Object Model, which de-
+˜ nes a uniform way to build sys-
+
+tems. This has the advantage of de-
+˜ ning a standard at the beginning 
+of a project but sometimes causes 
+in˚ exibility when custom opera-
+
+tions must be de˜ ned. Managing 
+the dependencies also helps auto-
+mate the build process but some-
+
+times creates problems due to the 
+
+external automatic dependencies.
+Rake and Gradle try to solve 
+the problems of Ant and Maven by 
+
+offering a programming-language-
+Development with feature teams and 
+continuous deliveriesRequirements engineering with feature mapping and dependency management
+Build management with automatic veri˜cation and validation
+Deployment 
+management with secure provisioning 
+platform
+Continuous-delivery pipeline
+CloudFIGURE 1. 
+The generic DevOps production and delivery process. It aims to better 
+integrate the development, production, and operations business processes with 
+
+adequate technology.
+ 96
+ IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+based tool to build applications. 
+With Rake, code lines are written 
+in Ruby; with Gradle, con˜guration 
+employs a Groovy-based domain-
+
+speci˜c language (DSL).
+Continuous-integration tools. 
+CI 
+is a key agile concept. CI tools inte
+-grate developers™ work as early and 
+
+as often as possible. In this way, the 
+
+system is constantly tested. Embrac
+-ing CI isn™t always easy and straight
+-forward. For example, in embed
+-ded-system development, testing is 
+
+challenging because building and 
+
+testing on the target hardware aren™t 
+
+always possible and thus must be 
+simulated. Moreover, hardware limi
+-tations affect test speed and there
+-fore cycle time.
+Jenkins is an open source, Java-
+based system and one of the most 
+implemented tools, so the plug-in 
+
+options are many. Because of its 
+popularity, ˜nding support from its 
+large user base is easy. However, its 
+UI is outdated and less attractive 
+
+than the other tools™ UIs.
+TeamCity, developed by ITBrains, 
+is based on Java and thus has good 
+
+Java support, like Jenkins. Unlike 
+
+Jenkins, it also offers good .NET 
+support. Although it™s licensed, it has 
+a free edition for small projects.
+Bamboo is from Attlasian and 
+integrates well with other 
+ Attlasian 
+TABLE 1
+Automation tools for DevOps.
+Tool
+DevOps phase
+Tool type
+Con˜guration 
+format
+Language
+License
+Ant
+Build
+Build
+XML
+Java
+Apache
+Maven
+Build
+Build
+XML
+Java
+Apache
+Rake
+Build
+Build
+Ruby
+Ruby
+MIT
+Gradle
+Build
+Build
+Based on Groovy
+Java and a Groovy-
+based domain-speci˜c 
+language (DSL)
+Apache
+Jenkins
+Build
+Continuous 
+integration
+UIJava
+MIT
+TeamCity
+Build
+Continuous 
+integration
+UIJava
+Commercial
+Bamboo
+Build
+Continuous 
+integration
+UIJava
+Commercial
+Puppet
+Deployment
+Con˜guration 
+management
+DSL similar to 
+JSON (JavaScript 
+Object Notation)
+Ruby
+Apache
+Chef
+Deployment
+Con˜guration 
+management
+Ruby-based DSL
+Ruby
+Apache
+Ansible
+Deployment
+Con˜guration 
+management
+YAML (YAML Ain™t 
+Markup Language)
+Python
+GPL (GNU General 
+Public License)
+Loggly
+Operations
+Logging
+ŠCloud based
+Commercial
+Graylog
+Operations
+Logging
+ŠJava
+Open source
+Nagios
+Operations
+Monitoring
+ŠCOpen source and 
+GPL
+New Relic
+Operations
+Monitoring
+ŠŠCommercial
+Cacti
+Operations
+Monitoring
+ŠPHP
+GPL
+ SOFTWARE TECHNOLOGY
+MAY/JUNE 2016 
+ |  IEEE SOFTWARE
+97
+tools. So, it offers advantages if 
+you™re already using Attlasian tools.
+Deployment
+During this phase, the most impor-
+
+tant shift is to treat infrastructure 
+as code. With this approach, infra-
+structure can be shared, tested, and 
+
+version controlled. Development 
+
+and production share a homogenous 
+infrastructure, reducing problems 
+and bugs due to different infrastruc-
+
+ture con˜ gurations.
+DevOps pushes automation from 
+the application to the infrastructure. 
+
+Compared with manual infrastruc-
+
+ture provisioning, con˜ guration man-
+agement tools can reduce production 
+provisioning and con˜ guration main-
+
+tenance complexity while enabling 
+
+recreation of the production system 
+on the development machines. Such 
+tools are a major DevOps enabler, es-
+
+pecially as architecture moves from 
+
+a monolithic block of software to a 
+microservices approach.
+2 (We discuss 
+microservices in more detail later.)
+To achieve continuous delivery for 
+embedded systems, devices must be 
+connected, so machine-to-machine 
+
+communication and an Internet of 
+Things architecture are necessary. 
+Continuous delivery will improve 
+
+time to market and allows agile prac-
+
+tices with rapid consumer feedback. 
+However, for critical applications in 
+which failure isn™t an optionŠfor ex-
+
+ample, medical or aerospace applica-
+tionsŠa more conservative approach 
+is preferable. The following tools will 
+
+improve the application life cycle.
+Puppet™s approach to infrastruc-
+ture provisioning is about describ-
+
+ing the system™s desired end state. A 
+
+Puppet-based infrastructure gener-
+
+ally consists of a master server with 
+agents on each client. Puppet is based 
+on Ruby but uses a DSL similar to 
+
+JSON (JavaScript Object Notation) 
+to represent machine con˜ gurations.
+Chef™s approach is more about 
+writing a recipe on a purely Ruby-
+
+based DSL that details the required 
+
+steps to provision the system. You 
+
+can use Chef as a client-server tool 
+or an isolated installation in ﬁchef-
+soloﬂ mode.
+Ansible is the easiest to imple-
+ment because it doesn™t require in-
+
+stalling agents on the client ma-
+
+chines, because it uses SSH (Secure 
+
+Shell) to push con˜ gurations. It™s an 
+open source tool based on Python, 
+but con˜ guration is coded in YAML 
+
+(YAML Ain™t Markup Language) 
+
+˜ les, reducing the learning curve.
+Finally, when selecting your or-
+chestration technology, you need to 
+
+take into account whether your pro-
+duction infrastructure is based on 
+virtualization or you want to move 
+
+to containerization technologies such 
+
+as Docker. (For more on this, see 
+the ﬁContainerization or Virtualiza-
+tion?ﬂ sidebar.)
+Operations
+Although researchers have focused 
+
+considerably on build and deploy-
+ment, DevOps also impacts infra-
+structure operations. So, you need 
+
+tools to maintain your infrastruc-
+ture™s stability and performance.
+Logging tools. 
+Logging is some-
+times considered a replacement for 
+debugging, and programmers have 
+been advised to debug instead of 
+
+log so that they don™t leave traces in 
+
+an application. But from a DevOps 
+viewpoint, traces are necessary for 
+managing applications. The rule is 
+
+to log everything and determine the 
+
+log™s level (for example, fatal, error, 
+warn, info, trace, or debug). For ap-
+plications that aren™t very complex, 
+
+you can use the standard tools (in 
+Java, that™s the java.util.logging 
+package). For more complex proj-
+
+ects, you can use frameworks such 
+
+as Log4j or the Log4j tools™ family 
+for different languages, although the 
+best-known tools for these tasks are 
+
+log management systems.
+The Loggly tool offers a cloud-
+based service to collect log data from 
+
+applications, platforms, and serv-
+
+ers in real time using open standards 
+
+such as HTTP or syslog. Installation 
+is simple, and creating custom per-
+formance and DevOps dashboards 
+CONTAINERIZATION
+OR VIRTUALIZATION?
+Because of differences between development and production machines, to 
+achieve consistency, developers use virtualization technologies to recreate pro-
+duction environments on development machines. But virtualization technologies 
+focus on security and multitenancy, whereas in application development, envi-
+
+ronmental consistency is the main goal.
+In this scenario, containerization can be a lightweight alternative to virtual-
+ization. Moreover, virtualization lacks compatibility between different provid-
+
+ers, whereas containerization enhances migration between cloud providers. 
+So, traditional hypervisor vendors, such as VMware with Project Bonneville and 
+Microsoft with Windows Server 2016, are integrating containerization support 
+
+on their platforms.
+ 98 IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+is also easy. Loggly also provides a 
+powerful search feature. Loggly can 
+be integrated with New Relic, mak
+-ing it effective for identifying and iso
+-lating problems and ˜nding solutions.
+Graylog2 is an open source log 
+analyzer that allows storing and 
+searching through log errors. In 
+
+its easy-to-use Web interface, you 
+
+can build ad hoc dashboards and 
+strong alerting features. It handles a 
+large range of data formats and can 
+
+be customized with a considerable 
+number of plug-ins.
+Monitoring tools. 
+Monitoring tools 
+let organizations identify and re
+-solve IT infrastructure problems be
+-fore they affect critical business pro
+-cesses. These tools monitor system 
+aspects such as the CPU load, RAM 
+allocation, network traf˜c statistics, 
+memory consumption, and availabil
+-ity of free disk space. They continu
+-ously track the system™s health and 
+alert administrators when they de
+-tect problems so that the administra
+-tors can take corrective actions.
+3Nagios is a well-known open 
+source tool for monitoring IT infra
+-structures such as end-user stations, 
+IT services, and active network com
+-ponents. It provides an easy-to-navi
+-gate Web interface with an interactive 
+dashboard that includes a high-level 
+overview of hosts, services, and net
+-work devices. It provides trending 
+
+and capacity-planning graphs that let 
+organizations plan infrastructure up
+-grades. The plug-ins solve some of the 
+tool™s limitations, such as the lack of 
+automatic device discovery and the 
+dif˜culty of con˜guring the tool.
+New Relic, based on software as 
+a service, provides a powerful inter
+-face for Web apps and monitors na
+-tive mobile applications for iOS and 
+
+Android. You can monitor apps run
+-ning in hybrid, cloud, or on-premises 
+environments. Customizable dash
+-boards let you integrate additional 
+
+monitoring features. You can gener
+-ate custom reports and set threshold 
+alarms to trigger noti˜cations of spe
+-ci˜c events.
+Cacti is a Web-based system with 
+an intuitive, easy-to-use interface. 
+
+Its template-based con˜guration en
+-ables a high level of customization. 
+You can build graphs, which can be 
+
+displayed in tree view mode in ad
+-dition to the standard list view and 
+
+preview modes.
+DevOps in the Real World
+The software and IT industries are 
+
+about speed and ef˜ciency. DevOps 
+has emerged as a paradigm to bring 
+innovative products and features 
+
+faster to the market. Many tech
+-nologies have recently popped up to 
+smooth the transition between devel
+-opment and operations. They have in 
+common ˚uid delivery practices, thus 
+
+managing complexity. Technologies 
+for fast application delivery, such as 
+for a search or selling platform, don™t 
+
+apply to embedded software. But we 
+can certainly learn from those ap
+-proaches and map them to other do
+-mains. As we mentioned before, the 
+emergence of over-the-air technolo
+-gies for fast automotive software up
+-dates shows that the principles are 
+
+transferable, while taking into ac
+-count the stringent needs of continu
+-ous functional safety and security.
+Cloud and Web development have 
+been early adopters of DevOps prac
+-tices and can serve as guide for other 
+domains. For example, Amazon Web 
+Services (AWS) offers several tools 
+
+for implementing continuous deliv
+-ery. One such tool is AWS Elastic 
+
+Beanstalk, which supports continuous 
+
+deployment with an easy approach 
+
+and therefore a shallower learning 
+curve, but with less con˜gurability.
+AWS OpsWorks offers a middle 
+way, in which you can code infra
+-structure; it offers integration with 
+Chef. You can also create an AWS 
+CloudFormation template, written 
+in a JSON format, to provision in
+-frastructure in a repeatable way and 
+to control all the cloud infrastruc
+-ture components. You can use the 
+AWS CodeDeploy service to deploy 
+
+applications across multiple virtual 
+machines (Elastic Compute Cloud 
+instances) with minimal downtime.
+Alternatively, you can use AWS 
+CodePipeline. This service, launched 
+in 2015, integrates build, testing, 
+and implementation.
+Complementarily, you can use 
+other AWS components to support 
+
+continuous delivery. AWS Code
+-Commit is a managed source control 
+
+service that hosts private reposito
+-ries. AWS CloudWatch offers a mon
+-itoring and alerting infrastructure 
+
+that can help the whole team work 
+
+on the deployed application™s reli
+-ability and performance.
+Figure 2 shows a DevOps archi
+-tecture that uses AWS tools.
+Beyond DevOps: 
+Microservices
+Researchers have been discussing 
+microservices to better manage com
+-plex legacy architectures. Microser
+-vices software breaks systems and 
+
+applications down to a more granu
+-lar, modular level. Such software 
+emerged approximately 10 years ago 
+as a follow-up to service-oriented ar
+-chitecture. This approach is about 
+
+fragmenting complex applications 
+and delivering services on demand, 
+thus improving performance.
+DevOps provides the framework 
+for developing, deploying, and man
+-aging the microservices container 
+
+ecosystem. DevOps bene˜ts from a 
+
+refactored architecture but doesn™t 
+  MAY/JUNE 2016 
+ |  IEEE SOFTWARE
+ 99need it. Its major advantage is fast 
+delivery cycles by integrating devel
+-opment and operations.
+DevOps and microservices should 
+be cloud-based as much as possible, 
+
+especially if the focus is on ef˜cient 
+service delivery. Unlike a centrally 
+governed cloud solution, microser
+-vices are inherently distributed. Each 
+
+delivery has dependency impacts 
+that must be analyzed, validated, 
+and considered for packaging. When 
+
+microservices are operated across 
+networks, the deliveries will incur 
+signi˜cant performance penalties that 
+
+must be accommodated with addi
+-tional architectural tweaks, such as 
+caching layers. More complex and 
+critical applications with availability 
+
+and security constraints shouldn™t be 
+
+addressed entirely by a volatile cloud 
+delivery model.
+Because microservices need Dev
+-Ops, we recommend starting with 
+a tailored DevOps strategy. It will 
+have immediate value owing to bet
+-ter integration across the life cy
+-cle and can gradually evolve to a 
+ microservices delivery model, if that™s 
+appropriate.
+The DevOps Culture Shift
+Vector Consulting Services has 
+
+helped several companies improve 
+ef˜ciency with DevOps and con
+-tinuous delivery. (For an example, 
+see the sidebar ﬁA DevOps Case 
+
+Study.ﬂ) A key lesson for all these 
+companies has been not to under
+-estimate the culture shift. All Dev
+-Ops projects face four major re
+-lated challenges:
+Ł breaking complex architec
+-tures and feature sets into small 
+
+chunks that can be produced 
+and deployed independently;
+Ł maintaining a con˜guration and 
+
+build environment that provides 
+constant visibility of what™s de
+-ployed, with which versions and 
+
+dependencies;
+Ł introducing a purpose-built 
+development and production 
+environment derived from legacy 
+
+application life-cycle manage
+-ment or product life-cycle man
+-agement environments; and
+Ł bridging the traditionally siloed 
+
+cultures of development (which 
+
+operations folk perceive as cum
+-bersome and expensive because 
+
+of its thoroughness) and opera
+-tions (which developers perceive 
+as quick and dirty).
+Transitioning toward DevOps is 
+obviously more challenging with 
+
+legacy software, both in the IT and 
+embedded domains. Most case stud
+-ies have involved application devel
+-opment and Web environments that 
+migrated rather easily to DevOps be
+-cause there was a single source and 
+thus orchestrated rollback was fea
+-sible. Real-world deployed software 
+
+isn™t like that.
+When embracing a DevOps cul
+-ture, developers must take a full-
+stack developer approach, in which 
+they take responsibility for the testing 
+and release environment. They must 
+
+master an extended skill set beyond 
+code knowledge, including database 
+administration and testing. Further
+-more, as the functional silos™ bound
+-aries blur, more intense collaboration 
+with other team members is required.
+When developers embrace Dev
+-Ops, testing is a critical part of 
+ development, and the development 
+
+team performs test-driven develop
+-ment and CI. In this scenario, testers 
+can be paired with developers, and 
+both can gain technical knowledge. 
+The quality assurance team must en
+-sure automation of all test cases and 
+
+full code coverage.
+From an operations perspective, 
+DevOps greatly affects culture and 
+
+discipline. Operations teams must 
+
+continuously connect to other func
+-tions without losing control. So, 
+
+the IT operations and development 
+
+teams must closely collaborate to 
+achieve the continuous process pro
+-moted by the DevOps team. More
+-over, infrastructure monitoring and 
+application performance manage
+-ChefAmazon OpsWorks
+AWS
+NagiosCookbook andapp repository
+JenkinsRake
+DevelopmentteamCommitNotify regarding build success or failure
+Monitor cloudFIGURE 2. 
+A DevOps architecture that uses Amazon Web Services (AWS) tools to 
+implement continuous delivery.
+ SOFTWARE TECHNOLOGY
+100
+ IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+ment are more important, and com-
+munication among team members 
+must be ˜ uid.
+DevOps is impacting the 
+entire software and IT in-
+dustry. Building on lean 
+and agile practices, DevOps means 
+end-to-end automation in software 
+
+development and delivery. Hardly 
+
+anybody will be able to approach 
+it with a cookbook-style approach, 
+but most developers will bene˚ t 
+
+from better connecting development 
+and operations. Typically, mutual 
+understanding from requirements 
+onward to maintenance, service, 
+
+and product evolution will improve 
+
+cycle time by 10 to 30 percent and 
+reduce costs up to 20 percent. The 
+major drivers are fewer require-
+
+ments changes, focused testing and 
+
+quality assurance, and a much faster 
+delivery cycle with feature- driven 
+teams. However, because products 
+
+and life-cycle processes vary, each 
+company needs its own approach to 
+achieve DevOps, from architecture 
+
+to tools to culture.
+References
+ 1. M. Virmani, ﬁUnderstanding DevOps 
+& Bridging the Gap from Continuous 
+Integration to Continuous Delivery,ﬂ 
+
+Proc. 5th Int™l Conf. Innovative 
+
+Computing Technology
+ (INTECH 
+15), 2015, pp. 78Œ82.
+ 2. D. Spinellis, ﬁDon™t Install Software 
+by Hand,ﬂ 
+IEEE Software
+, vol. 29, 
+no. 4, 2012, pp. 86Œ87.
+ 3. J. Hernantes, G. Gallardo, and 
+N. Serrano, ﬁIT Infrastructure- 
+
+Monitoring Tools,ﬂ 
+IEEE Software
+, vol. 32, no. 4, 2015, pp. 88Œ93.
+CHRISTOF EBERT 
+is the managing director 
+of Vector Consulting Services. He is on the 
+IEEE 
+
+Software
+ editorial board and teaches at the 
+University of Stuttgart and the Sorbonne in Paris. 
+
+Contact him at christof.ebert@vector.com.
+GORKA GALLARDO 
+is a professor of infor-
+mation systems at the University of Navarra. 
+
+Contact him at ggallardo@tecnun.es.
+JOSUNE HERNANTES 
+is a professor of com-
+puter science and software engineering 
+
+at the University of Navarra. Contact her at 
+
+jhernantes@ tecnun.es.
+NICOLAS SERRANO 
+is a professor of com-
+puter science and software engineering at the 
+
+University of Navarra. Contact him at nserrano@
+
+tecnun.es.
+A DEVOPS CASE STUDY
+A global supplier of criti-
+cal infrastructure solutions 
+faced an overly long cycle 
+time and high rework of 
+
+delivered upgrades. The 
+overall delivery process, 
+from development to 
+
+deployment in the ˜ eld, 
+took 18 months for new 
+products and up to three 
+
+months for upgrades. This 
+was far too long, even in 
+this domain.
+Vector Consulting Ser-
+vices introduced a Dev-
+
+Ops model tailored to these 
+
+ environmental constraints. 
+Figure A shows the eight 
+focus areas mapped to the 
+
+V-shaped life-cycle abstrac-
+tion. The key change was 
+the enhanced requirements-
+
+engineering and delivery 
+model (numbers 1 and 2 in 
+the ˜ gure).
+By running the automat-
+ed tests and static and runtime analysis with every check of automatic build 
+
+management, our client could discover defects early during development. Few-
+
+er changes during feature development and less rework due to quality issues 
+directly improved the return on investment. Software releases became more 
+consistent and less painful because tests were run early and often. Owing to 
+
+better quality and fewer changes, the overall end-to-end cycle time decreased 
+by almost 12 months for products and a few days for small upgrades.
+1. Requirements engineering with 
+    feature mapping and a delivery model
+
+2. Architecture and delivery management
+
+3. Modeling and tool support
+4. Feature teams with ownership and Scrum
+
+5. Incremental development and
+
+    continuous delivery
+
+6. Automatic build and release processes
+
+7. Code quality with static analysis
+8. Ef˜cient feedback from the ˜eld
+DevOps12384, 5, 6
+7FIGURE A. 
+A DevOps model tailored to the 
+environmental constraints of a global supplier 
+
+of critical infrastructure solutions. The eight 
+
+focus areas are mapped to the V-shaped life-
+
+cycle abstraction.

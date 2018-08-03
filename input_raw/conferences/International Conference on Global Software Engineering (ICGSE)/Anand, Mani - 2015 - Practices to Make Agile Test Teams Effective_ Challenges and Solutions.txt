@@ -1,0 +1,864 @@
+ Practices to make agile test teams effective: 
+ challenges and solutions
+Tulasi Anand, V. S. Mani 
+Siemens Technology and Services Pvt. Ltd. 
+Bengaluru, India 
+tulasi.anand@siemens.com, vs.mani@siemens.com
+ 
+Abstract
+— 
+this industrial practice paper presents the experience 
+of a globally distributed test team of a software engineering 
+organization spread across three countries (two in Europe and 
+India) while moving to agile methodology. The team had to test 
+mission-critical software that needed to conform to regulatory 
+requirements. The paper describes the challenges faced by the team 
+such as creating the test infrastructure in time, test automation, 
+documentation and reporting mandated by regulatory agencies. 
+The practices defined by the team to overcome these challenges are 
+also described. These practices also helped to improve test 
+effectiveness and velocity.
+ 
+Keywords—test manageme
+nt, test infrastructure, test 
+refactoring, test automation, agile, global software engineering, 
+regulatory requirements. 
+I.
+ 
+I
+NTRODUCTION
+ 
+The distributed teams worked on products, which enable 
+users to manage confidential customer information along with 
+acquisition, storage and management of images. The scope of 
+test team is integration and system testing. The system under 
+test also included several legacy applications that have 
+inadequate testability. This made it unviable to achieve the 
+objective of test sufficiency using test automation. This in turn 
+increased manual testing effort.  
+The test teams accounted for about 20 per cent of overall 
+project team.  Each site has a team of test engineers who have 
+about 4 to 12 years experience in the domain. The test 
+engineers collaborate to achieve site specific test goals, derived 
+from the overall test objectives. For the test activities that can 
+be done at any location, the activity is assigned based on 
+availability of test environment and competences. In some 
+cases, the testing is done at a specific location, such as changes 
+in software resulting from changes in firmware. In addition the 
+changes in specific features are primarily tested at the location 
+where the feature is developed.  
+The move to agile methodology was triggered by a need to 
+improve both time-to-market and quality, while intensifying 
+customer-centered development. There are already many 
+experience reports of implementing Agile practices into global 
+software development as given in [1],[2],[3]. The agile 
+methodology followed a scrumming within the V-model 
+paradigm [6]. 
+II.
+ 
+C
+HALLENGES
+ 
+Testing in agile is different from traditional software 
+development due to the iterative nature of testing, shorter work 
+cycles, and increased dependence on collaboration [4], [5]. In 
+our experience, these differences introduce new challenges 
+which are listed below. 
+Infrastructure
+: It is difficult to quickly create a test 
+execution environment in time, which ensures that the required 
+customer-centric configurations are available to run the 
+workflows under test. Customer-centric configurations are 
+clones of the customer systems and consist of identical 
+hardware in the customer site, operating system, third-party 
+software, patches, and appropriate database. Another challenge 
+is to install the versions of software under test on the customer-
+centric configurations. 
+Test Management:
+ Executing the required test cases in the 
+time provided in the sprints was a challenge and required 
+identifying ways to more efficiently achieve the test objectives. 
+Regulatory agencies expect that all requirements in a 
+product are traceable across all releases. This is especially 
+challenging when the software product includes many legacy 
+features and the development and testing of different 
+components is done in multiple locations over time.  
+The rigor in following the planned site-specific test 
+activities in the globally distributed agile team, made it difficult 
+to execute exploratory test cases focused on parts of the 
+software developed in other locations 
+Test automation
+: The software under test included of 
+legacy code, with low testability. This made it difficult to 
+automate even the bring-up test cases (see III-B-5 of this 
+paper). 
+Test documentation
+: By test documentation we refer to the 
+test concept, test specifications, test cases, test data, and test 
+reports. The test documentation needs to be in synch with the 
+features under development, which is especially challenging in 
+globally distributed agile teams. 
+Knowledge Management:
+ Knowledge transfer topic 
+required close attention, as it was essential for the team to be 
+up-skilled on legacy applications. These applications use older 
+technology and methods and require longer time to learn and 
+typically have a lower spread of knowledge. 
+III.
+ 
+P
+RACTICES
+ 
+We have defined and implemented practices to address the 
+challenges mentioned above.  
+2015 IEEE 10th International Conference on Global Software Engineering Workshops978-1-4799-9874-6/15 $31.00 © 2015 IEEEDOI 10.1109/ICGSEW.2015.207 A.
+ 
+Test infrastucture 
+1)
+ 
+ Customer-centric configuration information  
+A practice of preparing an entirely virtualized test 
+environment with backup ‘snapshots’ (a file-based 
+representation of the state of a virtual machine at a given time) 
+of different customer centric-configurations with anonymized 
+data ensured the tests cases could be run, by testers at different 
+locations at the same time. Despite this, some test cases had to 
+be run at the customer site. For these test cases, service 
+personnel were stationed near the customer.  
+In some instances, test cases had to be executed with actual 
+equipment using different versions of firmware. In addition, 
+legacy versions installed at different customer locations were 
+not equally compatible with newer versions. These variations 
+made getting the relevant information about the actual 
+customer situation even more time consuming. We created a 
+table containing details of the different customer-centric 
+configurations and required equipment configurations. The 
+table helped in creating and simulating end user workflows that 
+effectively detected several defects that not uncommon but 
+difficult to detect. Being able to detect them in the testing cycle 
+significantly reduced the number of defects in the deployed 
+applications.  
+2)
+ 
+Variety of test data 
+Usage of the application, over several releases of the 
+product at a customer site, creates a large amount of data which 
+is rich in variety and contains unforeseen and unexpected 
+combinations with the possibility of incomplete data. In 
+addition, the information needed by newer versions of the 
+software may be missing. So a large number of pre-defined 
+datasets were created to simulate both the missing information 
+and data.  
+Use of anonymized datasets from various customer 
+installations made it possible to visualize, manipulate and test 
+the relevant workflow steps. This uncovered several defects, 
+which would not have been detected otherwise. The volume 
+and variety of data from actual customer installations has 
+increased the confidence in testing significantly. 
+3)
+ 
+Software version upgrades and legacy versions 
+The software deployed at customer sites need to be 
+upgraded to newer versions, without uninstalling the existing 
+version or modifying the database. Multiple versions and 
+patches deployed in the field make it difficult to determine the 
+upgrade path for any version. The installation scripts specific to 
+the different upgrade paths are created. Usage of customer 
+centric data and configuration facilitated the upgrade tests as 
+well. The different paths to reach the existing version were 
+tested successfully in the test lab before the actual upgrade at 
+the customer location. For the possible upgrade paths, usability 
+of the application was tested before and after the upgrade. 
+4)
+ 
+Virtualization 
+Without virtualizing the entire test environment, it was not 
+possible to effectively maintain the wide variety of versions, 
+operating systems under test. Several customer-specific test 
+environments were created in advance and kept ready for use 
+when required. This made it easier to reproduce issues reported 
+from customer sites. It also helped in defining and validating 
+fixes to address the issues. The same snapshot of the software 
+was shared and was used for testing at different locations. The 
+availability of correct configurations greatly improved the test 
+results from different locations.   
+B.
+ 
+Test management and execution 
+1)
+ 
+Global Test planning 
+The global test plan is derived from the test concept. The 
+test concept specifies the test approach, the major test assets 
+required and their availability, and the strategy for confirming 
+to regulatory requirements and acceptance with customers. 
+Defining the test concept requires a deep understanding of 
+the domain, technology know-how, and awareness of the 
+regulatory requirements. 
+2)
+ 
+ Sprint/iteration level planning  
+The plan involving entire global team was prepared, results 
+in test team coordination and stand up meetings covering 
+different locations. 
+Some user stories were large and spanned multiple sprints. 
+Scrum teams broke these down to smaller user stories and also 
+defined the done criteria for these smaller user stories.  This 
+enabled assessing the degree of completion of planned tasks for 
+the sprint and in coordinating activities. 
+3)
+ 
+Test only sprints and system testing cycles 
+To conform to the regulatory requirements, it was 
+necessary to schedule a few 'test-only' sprints. 
+During the regular sprints, the test effort is about 15-18 
+percent of the total effort. However, this is not sufficient to 
+ensure conformance to the regulatory requirements. Hence, 
+after the regular sprints are completed, a few test-only sprints 
+are scheduled. For the 'test-only' sprints, the test case selection 
+is based on availability of fixes, impacted features, and new 
+test cases created since the last testing cycle, new environment, 
+and test data. In these sprints, complete regression testing at 
+system level is done, as derived from the guidance from the 
+regulatory agencies. In this phase all members of team are 
+involved in testing. The approach is described in [6], 
+recommended in reference [7]. 
+4)
+ 
+Testing early 
+Before moving to agile, the number of integration tests was 
+lower than the number of system tests. With the aim or 
+executing more test cases early in the lifecycle, we tried to 
+identify tests that could equivalently test the feature at an 
+earlier phase. If it was possible for the objective of a system 
+test case to be realized at the integration level, the system test 
+case was moved to the integration test phase. The content of 
+the test case was modified to reflect the change of 
+methodology as well as the requirement tracing to the 
+appropriate level. With this approach we were able to we were 
+able to invert the distribution to test cases (see table 1). 
+These test cases were distributed and executed at different 
+locations, by taking advantage of availability of appropriate 
+test environment (equipment) and tester competences. Where 
+ever possible, precise verification methods were relied upon to 
+make the test result independent of the test engineer. 
+8 TABLE I. 
+ 
+M
+OVEMENT OF TEST CASES TO EAR
+L
+Phase 
+Proportion of test case
+ 
+% of total test cases 
+before moving to agile 
+% 
+af
+t
+Integration testing 
+35 
+System testing 
+65 
+5)
+ 
+Bring-up tests 
+Once the nightly 
+b
+uild is ready, it is take
+testing, only after it is assessed as test-worthy
+.
+is done by running ‘bring-up tests’. Bring-up t
+e
+that verify the most basic functionality of the 
+a
+when the bring-up tests are successfully run t
+h
+In addition, an automated test suite is run, w
+h
+the manual tests. 
+6)
+ 
+Regression suite 
+The application has various regression tes
+t
+functional and non-functional tests. Some re
+g
+automated. However several regression te
+s
+manually, such as simulating customer-cent
+r
+and testing for interoperability, using the ap
+p
+Body Testing’. This involves 12-15 test 
+simultaneously stress the system, to uncover 
+w
+issues. To ensure the efficiency, the ‘warm 
+b
+scheduled only when the application was suffi
+c
+7)
+ 
+Focus on high impact errors  
+To make testing effective, every test engi
+n
+create the highest impact, by testing   o
+n
+necessary. The code changes which had hi
+g
+entire functionality were prioritized, as they 
+of entire test suite, which was time and eff
+o
+example, if the change resulted in a failure to 
+a certain condition.   The exact scenario 
+w
+occurs was identified. One single test pro
+c
+containing all changes was created; rath
+e
+reviewing, releasing all related documents 
+changes. This not only minimized the impac
+t
+effort.  The change was successfully tested 
+a
+p
+roportion of defects detected as the sprints p
+r
+in Fig. 2, showing a peak much before the la
+s
+only sprints. 
+Fig. 1.
+ 
+Indicative defect detection during sprints
+ 
+8)
+ 
+Exploratory testing 
+In the context of testing rapidly ch
+a
+requirements, exploratory testing techniques 
+L
+IER TEST PHASE
+ 
+e
+s per phase 
+of total test cases 
+t
+er moving to agile 
+55 
+45 
+ 
+e
+n up for detailed 
+.
+ This assessment 
+ests are test cases 
+a
+pplication. Only 
+h
+e build is tested. 
+h
+ich supplements 
+t
+ s
+u
+ites, including 
+g
+ression tests are 
+s
+ts are executed 
+r
+ic configurations 
+p
+roach of ‘Warm 
+engineers, who 
+w
+orkflow related 
+b
+ody testing’ was 
+c
+iently stable.  
+n
+eer attempted to 
+n
+ly as m
+u
+ch as 
+g
+h impact on the 
+required running 
+o
+rt intensive. For 
+save an object in 
+w
+here the failure 
+c
+edure document 
+e
+r than editing, 
+containing small 
+t
+ but also the test 
+a
+nd released. The 
+r
+ogressed is given 
+s
+t sprint and tes
+t
+-
+ 
+a
+nging parts of 
+were used. The 
+development team provided releva
+n
+on a separate branch of code. 
+T
+specially created test environments
+,
+of the requirement change. The res
+the requirement specification itself
+.
+once the requirement was frozen. 
+were formalized as a regular test c
+a
+document.  
+9)
+ 
+Collaboration with stakehol
+d
+The stake holders are [9]: 
+•
+ 
+Product managers
+: The c
+o
+only in evaluating the c
+p
+roduct requirements, bu
+t
+p
+erspectives of product us
+a
+•
+ 
+Senior management
+: Re
+g
+have given an insight i
+n
+future directions.  
+•
+ 
+User manual authors
+: D
+i
+given an end-user view 
+designing test cases, whi
+c
+same lines. 
+•
+ 
+Application specialists
+: T
+e
+actually train the end us
+e
+identified any wrong use 
+c
+entire team. This has res
+u
+rejected during acceptance 
+•
+ 
+Participation in trade sh
+o
+given an opportunity t
+o
+directly and with other ve
+n
+10)
+ 
+Involvement of customers 
+There are more options of pro
+d
+than ever. Customers are getting 
+seeing value in increased use of 
+development and testing.  When 
+d
+p
+ossible for the team in Europe 
+customers due to their proximity, 
+feedback through product demo a
+n
+fixes at customer sites.  As me
+n
+customer involvement is importan
+t
+attention must be paid to all stake h
+o
+C.
+ 
+Test automation  
+Automation was also used 
+f
+requirements such as performan
+c
+automated performance tests 
+configurations and end-user profil
+e
+exceed or match the performance 
+o
+addition automated load tests ens
+u
+was able support the required numb
+e
+The automation framework i
+s
+interface level, rather than only at 
+U
+automation test cases are run for e
+v
+b
+ring up tests that are executed man
+u
+Automated performance tests a
+r
+p
+roved that the application can wit
+h
+n
+t testable binaries created 
+T
+he testers deployed on a 
+,
+ tested them in the context 
+ults of testing strengthened 
+.
+ Exploratory testing ended 
+The related test scenarios 
+a
+se in the test specification 
+d
+ers 
+o
+llaboration has helped not 
+onformance to high level 
+t
+ also in gaining valuable 
+a
+bility.  
+g
+ular meetings with them 
+n
+ to product roadmap and 
+i
+scussions with them have 
+and this has helped in 
+c
+h are modeled along the 
+e
+sting done b
+y
+ them, who 
+e
+r at a customer site, has 
+c
+ase or understanding of the 
+u
+lted in no workflow being 
+testing.  
+o
+ws
+  by test engineers has 
+o
+ interact with end-users 
+n
+dors 
+d
+ucts and competitors now 
+technically savvy and are 
+specialized tools, both for 
+d
+one in moderation, it was 
+t
+o interact and align with 
+on a regular basis seeking 
+n
+d informal verification of 
+n
+tioned in [11], controlled 
+t
+ an agile contribution, but 
+o
+lders
+.
+ 
+f
+or testing no
+n
+-functional 
+c
+e, reliability, stress The 
+using custome
+r
+-centric 
+s. The performance was to 
+o
+f the previous version. In 
+u
+red the system under test 
+e
+r concurrent users. 
+s
+ designed at component 
+U
+ser interface level. The test 
+v
+ery build before additional 
+u
+ally. 
+r
+e run over several days has 
+h
+stand the defined end-user 
+9 environments without defined ‘failure’ condition for a defined 
+period of time. This suite was run on different customer centric 
+test environments. This happens only in the test-only sprints, 
+with the environment requirements being at a system level.  
+The allocation of test cases (including the performance test 
+cases) to different location was done based on availability of 
+test environment, expertise and proximity to equipment facility 
+or to the customer. 
+D.
+ 
+Test document 
+In view of the large number of test cases, it is essential to 
+concisely document test cases to be executed, which included: 
+removing redundant test cases, merging similar test cases, 
+removing repeated test steps or test cases, sequencing of test 
+cases to remove redundancy of test execution, encapsulating 
+the various test data input and state management as a table, 
+where same test steps create different test scenarios by using 
+different input conditions. This has reduced the effort to edit, 
+review and maintain the test case.  
+1)
+ 
+Unambiguous defect reports 
+A wrong defect report can potentially lead to unproductive 
+effort. Defect reports are discussed with development team, 
+and senior testers before they are written, resulting in fewer 
+defect reports being rejected. The test team participation in 
+defect review meetings helped testers gain better perspective of 
+impact of defects.  
+E.
+ 
+Knowledge management 
+1)
+ 
+Exposure to testers 
+Test engineers need to have application domain training/ 
+exposure to end user workflows, should be aware of 
+competitor’s solutions, and establish/improve communication 
+with Product Management. Testers were made aware of the 
+safety related aspects [10], and the extraordinarily high cost of 
+failure. A single defect could be fatal, like in application 
+domain like ours.  
+Training provided in application workflows, customer site 
+visits, weekly meeting with customer care personnel have 
+helped our test case design.  
+2)
+ 
+Applying learning 
+Due to complexities of technology, design, legacy, errors 
+can get introduced in multiple ways. Therefore, testers should 
+try to force all possible failures, by prioritizing the test cases to 
+execute in the limited time frames. Testers added business 
+value, by verifying the functionality, with a focus on reducing 
+waste and rework. Testers attended courses that focus on 
+research based topics like orthogonal array testing. Applying 
+leanings from conferences, trade shows in to day-to-day 
+enhanced value testers provided. 
+3)
+ 
+Increasing quality focus 
+According to Gartner Research [11], “The lack of testing 
+and QA standards, as well as a lack of consistency, often lead 
+to business disruption, which can be costly.” Gartner also 
+reports that “testing consumes 25% to 50% of the average 
+application life cycle and often is viewed as adding no business 
+value”. Adherence to quality, regulatory and organization 
+quality standards is essential to reduce unproductive effort 
+spent on testing. Recognizing the need, testers are provided the 
+same access to team activities, portals and documentation as 
+other team members. 
+4)
+ 
+Knowledge acquisition 
+It typically takes a long time to learn the complex domain 
+of our application. The complexity is in the terminology, 
+conceptual understanding and a wide range of interfacing 
+systems. A training plan involving all the basics was imparted 
+through instructor-led trainings, supplemented with online 
+training material.  
+5)
+ 
+Training related regulatory requirements 
+The regulatory environment required not only a test result 
+in terms of ‘passed/failed’ status that is traced to a requirement, 
+but a verifiable demonstration of functionality (test outcome), 
+explicit in the recorded evidence of the test execution. A 
+training provided on collection of appropriate test evidence has 
+satisfied the regulatory requirement
+.
+  
+A rigorous enforcement of requirement tracing and 
+collecting evidence of testing through screen shots of results 
+and logs during test execution, clear document versioning, 
+keeping a record of document reviews helped in complying 
+with regulatory requirements. 
+6)
+ 
+Competency development 
+Agile requires that test engineers ‘become generalizing 
+specialists’ [4]. To achieve this, competency development 
+plans were defined that listed the training needs and people 
+who had the know-how to provide the training. Several audio 
+and video recordings of the past trainings were made available 
+to the test engineers, who could get detailed information on the 
+topics without requiring any instructor support. This was 
+followed by an instructor led training, and then by ‘shadowing’ 
+and ‘reverse-shadowing’. Once the test engineer acquired the 
+additional knowledge, he/she was assigned independent charge 
+of a specific area. To ensure that a skilled engineer was always 
+available, typically two test engineers were trained on each 
+topic. 
+7)
+ 
+Training for testers on test case design 
+We defined a training program [12] that contained topics on 
+test case design, test management and technical test analyst. 
+Identified test engineers were trained on this program, by 
+senior test team members. Briefly test case design techniques 
+are listed below: 
+•
+ 
+Use of flow charts and tables was encouraged during 
+test case design.  
+•
+ 
+A set of “do’s-don’ts” have helped in a uniform 
+understanding of the test case design methodology.  
+•
+ 
+Test objective was stated precisely matching the 
+requirements being tested and not as generic 
+statements, which don’t imply anything specific. 
+•
+ 
+Risk mitigation test cases were treated as a separate 
+set of test cases to give better focus. 
+•
+ 
+The dataflow test cases identified and recorded all 
+application attributes and their combinations that 
+would be passed through, during test execution 
+10 •
+ 
+The control flow test cases covered the test cases that 
+have a result dependent on the path traversed than 
+the dataset conditions. Both linear and non-linear 
+control paths are executed to give complete test 
+execution coverage.  
+•
+ 
+The other set of test cases covered the dependency 
+on the sequencing of individual test steps.  
+•
+ 
+The test on the User Interface elements dependent on 
+all the above test scenarios were recorded and tested 
+in conjunction.  
+•
+ 
+Test cases for boundary conditions, equivalence 
+partitioning, error guessing were included as a 
+standard group in the test suite. 
+IV.
+ 
+S
+UMMARY AND 
+C
+ONCLUSION
+ 
+Summary of the challenges and measure is given below. 
+The testing practices for enabling the global team moving to 
+agile have been successful. The team has earned the confidence 
+of the business unit in the effectiveness of testing in globally 
+distributed organization. The velocity has consistently been 
+improving over the years and at the same time has improved 
+defect detection. The rigor in these practices helped manage 
+the expectations. 
+ 
+ 
+ 
+R
+EFERENCES
+ 
+[1]
+ 
+Mario Ivek, Tihana Galinac, “Adapting Agile practices in globally 
+distributed large scale software development” MIPRO 2009 - 32nd 
+International Convention Proceedings: Telecommunications and 
+Information  Conference Paper  
+[2]
+ 
+Jasper Goos, Alfo Melisse. “An Ericsson Example of Enterprise Class 
+Agility” Agile 2008 Conference. 
+[3]
+ 
+Paasivaara, M., Lassenius, C., Heikkila, V.T., Dikert, K., Engblom, C., 
+“Integrating Global Sites into the Lean and Agile Transformation at 
+Ericsson” 2013 IEEE 8th International Conference on Global Software 
+Engineering 
+[4]
+ 
+Agile Testing and Quality Strategies: Discipline Over Rhetoric, 
+Ambysoft, http://www.ambysoft.com/essays/agileTesting.html  
+[5]
+ 
+Scott Ambler, Mark Lines, “Disciplined Agile Delivery, A Practitioner’s 
+Guide to Agile Software Delivery in the Enterprise ” IBM Press, 2012 
+[6]
+ 
+Managing Requirements Volatility while ‘Scrumming’ within the V 
+Model by Anita PC, Deepti Savio, VS Mani 
+[7]
+ 
+Adopting Agile in an FDA, Regulated Environment' [Abbott 2009], 
+Abbot Labs 
+[8]
+ 
+Software Design at Any Price, Interview with Thomas Price for the 2013 
+Software Design for Medical Devices Conference 
+[9]
+ 
+Stakeholders in Testing – Tulasi Anand, Siemens SWI – Exchange of 
+Experience- Testing, 2008 
+[10]
+ 
+Agile! The Good, the Hype and the Ugly, Published by Springer, ISBN 
+978-3-319-05155-0 (eBook), by Bertrand Meyer 
+[11]
+ 
+Partha Iyengar, Frances Karamouzis. “Offshore Application Testing 
+Drives Greater Business Value.” Gartner Research, August 17, 2007, ID 
+Number G00150394 
+[12]
+ 
+Samarthyam, G., Suryanarayana, G. Gupta, A.K..  Nambiar, R., 
+"FOCUS: An adaptation of a SWEBOK-based curriculum for industry 
+requirements." 34th International Conference on Software Engineering 
+(ICSE), 2012 
+ 
+11

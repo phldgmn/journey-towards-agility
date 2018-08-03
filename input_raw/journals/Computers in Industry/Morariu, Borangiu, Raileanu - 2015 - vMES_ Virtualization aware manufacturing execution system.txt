@@ -1,0 +1,1481 @@
+ vMES: Virtualization
+ aware manufacturing
+ execution systemOctavian Morariu*, Theodor Borangiu, Silviu RaileanuCentre for Research & Training in Computer Integrated Manufacturing and Robotics, University ‘‘Politehnica’’ of Bucharest, Bucharest, Romania1. IntroductionThe trend towards virtualization of software systems gainsmore and more traction in modern enterprises in this decade.There are a series of immediate beneﬁts offered by virtualizationfor almost any kind of software system; better resource utilization,improved ﬂexibility and higher availability, which translatedirectly in reduced operational costs for the enterprise. Virtualiza-tion also represents the main enabling technology for cloudcomputing, regardless of the delivery method considered. Todayenterprises can take advantage of public cloud offerings toprovision virtual workloads (IaaS), applications on speciﬁc plat-forms (PaaS) or access in multi-tenant applications (SaaS) in a pay-per-use model, with no initial investment required. At the sametime, complex software solutions can be based on variouscombinations of cloud domains and delivery methods. Theseadvances in how technology can be provisioned and consumedacross the Internet in real time open the door to the developmentof new business models and give a new degree of agility to the ITdepartments supporting core business functions of any enterprise.From a location domain perspective we can consider fourestablished cloud delivery models: public clouds, communityclouds, private clouds and hybrid clouds. Public clouds are designedto be used by a variety of different customers (users or enterprises)and are usually built around open standards. From a costperspective the services can be either free or in a pay per usagemodel. Community clouds are shared by several organizations andsupport a speciﬁc community that has shared concerns (e.g.,mission, security requirements, policy, and compliance consider-ations). It may be managed by the organizations or a third partyand may exist on premise or off premise. Private clouds are builtinside enterprise boundaries and are designed to offer services tobusiness units of that enterprise only. Private clouds are costeffective only for large enterprises that can assure an optimal usageof cloud resources. For small enterprises a private cloud would bean overhead from a cost perspective, as they will still have to ownand maintain the hardware and software infrastructure.
+ Hybridclouds are a combination of the above mentioned two models,where both public and private services are composed in order toprovide enhanced functionality. Hybrid clouds involve facilitatingthe data sharing between private and public domains.Computers in Industry 67 (2015) 27–37A R T I C L E I N F OArticle history:Received 9 February 2014Received in revised form 26 July 2014Accepted 18 November 2014Available online 25 December 2014Keywords:MES
+VirtualizationPrivate cloudShop ﬂoorResource allocationISA-95A B S T R A C TThe large scale emergence
+ in the last decade of various
+ cloud solutions,
+ ranging
+ from software-as-a-
+service (SaaS)
+ based solutions
+ for business
+ process
+ management
+ and implementation
+ to very
+sophisticated
+ private
+ cloud solutions
+ capable
+ of high performance
+ computing
+ (HPC) and efﬁcient
+virtualization,
+ constitute
+ the building
+ blocks for
+ engineering
+ the next generation
+ of ﬂexible enterprise
+systems that can respond with great
+ agility
+ to changes
+ in their environment.
+ These
+ new technologies
+ areadopted at a certain
+ level by manufacturing
+ enterprises
+ in order to advance
+ in a new era
+ of masscustomization
+ where
+ ﬂexibility,
+ scalability
+ and agility are the
+ differentiating
+ factors. In this context, thispaper introduces
+ the virtualized
+ manufacturing
+ execution
+ system
+ (vMES), an intermediate
+ layer in themanufacturing
+ stack, and discusses
+ the advantages
+ and limitations
+ offered by this approach
+ formanufacturing
+ enterprises.
+ A classiﬁcation
+ of MES workloads
+ based on the ISA-95 function
+ model
+ ispresented,
+ focusing on the virtualization
+ techniques
+ suitable
+ for each workload,
+ considering
+ thealgorithms
+ and technologies
+ used
+ and the virtualization
+ overhead.
+ A pilot
+ vMES implementation
+ using aparallel process for smart resource
+ provisioning
+ and automatic
+ scaling is also presented.
+ The pilot
+implementation
+ using six Adept robots and one IBM CloudBurst
+ 2.1 private cloud and an ISA-95 based
+MES is described;
+ the virtualization
+ sequence
+ is analyzed
+ in several
+ scenarios
+ of resource
+ workload
+collocation
+ on physical
+ cloud
+ blades with and without
+ perturbations.
+ 2014 Elsevier
+ B.V.
+ All rights
+ reserved.
+*Corresponding author. Tel.: +40 741330003.E-mail addresses: octavian.morariu@cimr.pub.ro (O. Morariu),theodor.borangiu@cimr.pub.ro (T. Borangiu), silviu.raileanu@cimr.pub.ro(S. Raileanu).Contents lists available at ScienceDirect
+Computers in Industryjo ur n al ho m epag e: ww w.els evier
+ .c om /lo cat e/co mp in dhttp://dx.doi.org/10.1016/j.compind.2014.11.003
+0166-3615/ 2014 Elsevier B.V. All rights reserved. Manufacturing enterprises have started to adopt cloud com-puting, especially in the upper side of the software stack;enterprise resource planning (ERP), supply chain management(SCM) and customer resource management (CRM) areas. One of theestablished examples in these regards is Salesforce.com [1] whichoffers a complete range of business supporting applications in aSaaS delivery model. However, cloud adoption in industry is drivenmainly by cost reduction and so it is opportunistic in nature. Thereis no systematic approach to cloud adoption that can align themanufacturing industry organizational standards like ISA-95 tothe above mentioned cloud delivery models, in a consistentfashion. ISA-95 [2] deﬁnes 5 levels for the hierarchical organizationof manufacturing enterprises, as follows: Levels 0, 1 and 2 represent the process control levels and theirobjective is to control the physical shop ﬂoor equipment in orderto execute the actual production operations that result in one ormore ﬁnished products; Level 3 is the MES (Manufacturing Execution System) level andconsists of several activities that have to be executed in order toprepare, monitor and complete the production process executedat level 0, 1 and 2. These activities are scheduling, qualitymanagement, maintenance, production tracking, and othersdepending on the speciﬁcs of each enterprise. Several formalspeciﬁcations for MES have been attempted [3]. Private clouds, inIaaS delivery method are suited for this ISA level. Level 4 is the ERP (Enterprise Resource Planning) level, whereﬁnancial and logistic activities are executed. These activities arenot integrated in real time to the production and include: longterm planning, marketing and sales, procurement, and so on.Public clouds, in SaaS delivery method are suited for this ISA level.The term cloud computing is widely used to describe anyinformation system that is delivering computing services over theInternet [4]. From this perspective, cloud computing represents afairly new model for delivering IT services to consumers (end users,enterprises, organizations, etc.) by providing computation power,software, data access, networking and storage in an on demandfashion. The main novelty in this delivery model is that cloudproviders are offering computing services in the form of a utility,similar to the concept used to deliver electricity to provide energyto end users in the past. The concept of cloud computing was ﬁrstintroduced back in 1960s by John McCarthy [5]; however, due totechnological limitations of that time, his vision never got enoughtraction in the industry to materialize. Since then, there wereseveral technological breakthroughs in the virtualization area thatallowed the emergence of cloud computing.A common used deﬁnition of cloud computing is the oneprovided by National Institute of Standards and Technology [6],which deﬁnes the main cloud characteristics, as follows: On-demand self-service. A consumer can unilaterally provisioncomputing capabilities, such as server time and network storage,as needed automatically without requiring human interactionwith each service’s provider. Broad network access. Capabilities are available over the network,being accessed through standard mechanisms that promoteusage by heterogeneous thin or thick client platforms (e.g.,mobile phones, laptops, and PDAs). Resource pooling. The provider’s computing resources are pooledto serve multiple consumers using a multi-tenant model, withdifferent physical and virtual resources dynamically assignedand reassigned according to consumer demand. There is a senseof location independence
+ in that the customer generally has nocontrol or knowledge over the exact location of the providedresources but may be able to specify a location at a higher level ofabstraction (e.g., country, state, or datacentre). Examples ofresources include storage, processing, memory, network band-width, and virtual machines. Rapid elasticity. Capabilities can be rapidly and elasticallyprovisioned, in some cases automatically, to quickly scale outand rapidly released to quickly scale in. To the consumer, thecapabilities available for provisioning often appear to beunlimited and can be purchased in any quantity at any time. Measured
+ Service
+. Cloud
+ systems
+ automatically
+ control
+ and
+optimize
+ resource
+ use
+ by leveraging
+ a metering
+ capability
+ at some
+level
+ of abstraction
+ appropriate
+ to the
+ type
+ of service
+ (e.g.,
+ storage,
+processing,
+ bandwidth,
+ and
+ active
+ user
+ accounts).
+ Resource
+ usage
+can
+ be monitored,
+ controlled,
+ and
+ reported
+ providing
+ transparency
+for
+ both
+ the
+ provider
+ and
+ consumer
+ of the
+ utilized
+ service.
+Additionally, other cloud characteristics can be considered, asfollows: Multi-tenancy refers to the fact that the same resource instance isbeing used concurrently by multiple cloud customers (end usersor organizations). This can be seen at multiple layers, because ineach model there is some resource being shared: the actualhardware box, the hypervisor, the platform or the actualsoftware application. This approach brings a huge advantagein terms of resource usage optimization, but raises a number ofchallenges, specially related to customer data security. Pay-per-use model refers to the charge back model adopted bycloud providers. This allows a low start-up investment fromcustomers and at the same time allowing them to use high endtechnologies.The most important adoption driver for cloud computing is theconversion of traditional computing systems to virtualizedenvironments. The virtualization of a computing system in generalmeans that hardware and software resources are organized andmanaged in a pool model, allowing multiple beneﬁciaries to usethese resources as needed. This approach leads directly to a higherresource utilization, which represents the primary goal and beneﬁtfor any form of cloud computing. Historically, computer systemslike databases, Business Intelligence (BI) servers and so on, weredeployed on dedicated physical infrastructures,
+ or in other words,dedicated servers and storage usually interconnected
+ withdedicated network as well. Some of the most common reasonsfor this practice were the poor standard adherence of legacyimplementation, very narrow certiﬁcation margins imposed bysoftware vendors, no real option to impose hard resourceutilization quotas at operating system level, and many others.The result of this practice was that the overall resource utilizationwas below 20% on average [7]. The pressure to reduce costs byoptimization of resource utilization has set the scene for afundamental conceptual change towards virtualization as longterm strategy inside large enterprises.Virtualization technologies available today allow creatingvirtual instances of various physical devices of a computingenvironment like CPUs, memory, storage, networking, USB portsand various other devices and ports as required. The virtualizationof these components is achieved by introducing an intermediatesoftware layer between the physical resources and the operatingsystem layer called hypervisor [8–10]. A hypervisor is transparentfor the guest operating system and manages the virtual resourcesand their mapping to the physical resource layer. In the last decade,hypervisors have evolved and provide a rich set of featuresallowing not only ﬁne grained management of physical resourcesbut also many real time optimizations. The scenario where privateclouds are used in the industry is where the enterprise strategicdirection is to manage the information storage and processingO. Morariu et al. / Computers in Industry 67 (2015) 27–3728 inside the enterprise premises, but at the same time to takeadvantage of virtualization and thus improve resource utilization.Some of the direct advantages of moving from legacy computersystems to private cloud architectures are: reduction of powerconsumption, data centre ﬂoor space, cooling requirements andothers. Technically, private clouds can be built from existingcomputing resources by using a cloud management software stackor can be purchased, as turn-key solutions, from established cloudvendors like IBM, Oracle, Microsoft, RedHat and others. Thesecommercial solutions typically come as a set of blade servers,specialized storage devices, network devices and a cloud manage-ment software stack that implements the workload discoveryfunctionality, service catalogue, provisioning workﬂows and basicadministration of virtual resources. At the same time, privateclouds respond implicitly to security challenges associated withother delivery methods [11–13].For manufacturing enterprises these cloud offerings, rangingfrom software-as-a-service (SaaS) based solutions for businessmanagement functions, to very sophisticate private cloud solu-tions offer the building blocks required for constructing ﬂexibleenterprise systems that can respond to variable customer demandand environmental changes with great agility [14]. Manufacturingenterprises have to adopt these new technologies in order toadvance to a new level of mass customization where ﬂexibility,scalability and agility are the differentiating factors for real-timecontrol manufacturing
+ systems. The end goal would be to enable acustomer-driven resource allocation at MES level through real timeanalysis of the computing capacity required to manufacture theproducts associated with a given product batch.This paper aims at providing a structured approach to cloudadoption and MES virtualization for manufacturing companies thatare organized using the ISA-95 models, focusing especially on level3, where private clouds can offer support for a virtualized MES. Thepaper presents the main workloads involved in the virtualizationprocess, the triggers used to assure scalability, efﬁciency andﬂexibility to the solution and a virtualized layer for MES (vMES)system designed to take full advantage of the virtualized platformwhere it is hosted. The research challenge here consists in thedesign of a system capable to drive the vMES solution, adapted tothe ISA-95 workload model. The solution provided in this paper isbased on a SOA workﬂow implementation
+ with both synchronousand asynchronous execution, capable of controlling themanufacturing process and optimal resource allocation for cloudworkloads.2. Related workResearch done by Wang and Xun [15] introduces InteroperableCloud-based Manufacturing System (ICMS). ICMS provides aCloud-based environment integration of existing and futuremanufacturing resources by packaging them with a VirtualFunction Block mechanism. This mechanism promotes and utilizesstandardized descriptions of resources and processes. At the sametime, resource sharing in a cloud computing environment wasexplored by Lei [16] focusing on enabling cooperative workbetween enterprises to achieve global manufacturing
+ capabilities.A comprehensive study on the utility model and utility equilibriumof resource service transaction in cloud manufacturing is providedby Cheng et al. [17].Cloud manufacturing (CMfg) was introduced [18] as anetworked and service-oriented
+ manufacturing
+ model, focusingon the new opportunities in networked manufacturing (NM) area,as enabled by the emergence of cloud computing platforms. Thecloud based service delivery model for the manufacturing industry,like product design, batch planning, product scheduling, real timemanufacturing control, testing, management, and all other stagesof a product life cycle are described by Xu [19]. Similar conceptswere discussed by Zhang et al. [20], with some advanced focus ontypical characteristics
+ of CMfg in regards to the key technologies inimplementing a CMfg service platform.Another important research area is represented by the study ofresource virtualization techniques and resource sharing inmanufacturing environments. Shi et al. [21] proposed an innova-tive model for resource sharing in grid manufacturing. Thisframework is composed of several layers: a network infrastructurelayer, a manufacturing resource aggregation layer, a manufactur-ing resource management layer, a manufacturing service applica-tion layer and a portal layer. The manufacturing resource hierarchymodel (MRHM), which consists of a manufacturing resource layer,a resource expressing layer and a resource interface layer, isproposed and discussed. In the same research area [22] and [23]argue that resources and resource capabilities virtualization andmodelling are representing the starting point for manufacturingservices encapsulation in the cloud. This research group provides avirtual description model of manufacturing resources that includesboth functional and non-functional features of manufacturingresources. Additional research done by Luo et al. [24] expands thisconcept and provides a modelling and description method ofinformation for multifunctional
+ manufacturing capability in aCMfg system.The
+ CMfg
+ and
+ resource
+ virtualization
+ concepts
+ presented
+ in the
+above
+ discussed
+ articles
+ are
+ focusing
+ on resolving
+ the
+ inter-
+enterprise
+ cooperation
+ problem
+ in order
+ to achieve
+ optimized
+manufacturing
+ using
+ the
+ emerging
+ cloud
+ technologies
+ as enabler
+technology.
+ While
+ there
+ is a solid
+ understanding
+ in the
+ research
+community
+ on the
+ fact
+ that
+ the
+ CMfg
+ concepts
+ are
+ correct
+ and
+represent
+ the
+ future
+ of manufacturing,
+ we argue
+ that
+ MES
+virtualization
+ concepts
+ described
+ in this
+ paper
+ are
+ prerequisites
+for
+ effective
+ adoption
+ of cloud
+ technologies
+ and
+ especially
+virtualization
+ at MES
+ layer.
+ The
+ concepts
+ introduced
+ in this
+ paper
+are
+ meant
+ to ﬁll the
+ gap
+ between
+ the
+ theoretical
+ concepts
+ behind
+CMfg
+ and
+ the
+ current
+ MES
+ related
+ challenges
+ in the
+ context
+ ofvirtualization
+ adoption
+ for manufacturing
+ enterprises.
+3. MES virtualization conceptsA cross section through the IT landscape of an ISA-95 compliantmanufacturing enterprise would show typically a three layeredarchitecture as illustrated in Fig. 1. The cloud adoption strategymust result in an architecture that is robust enough to assure theinformation ﬂow is in sync with the material ﬂow at all times [25],and at the same time, ﬂexible enough to allow dynamicreconﬁguration and SOA governance. Some examples in thesearea are holonic based MES systems as described in literature[26,27]. Standards alignment is also an important factor toconsider (ebXML, 2013; STEP, 2013; OAG BOD, 2013). Onecommercial example in this direction is the IBM ManufacturingIntegration Framework [28], implemented successfully in auto-motive and electronics industries by several large organizations.Similar SOA-based solutions, targeted for manufacturing enter-prises, are available from other software vendors and integrators.The lower layer consists in the so-called shop ﬂoor or physicallayer and maps to ISA-95 levels 2, 1 and 0. This layer contains theresources, transportation devices and ‘‘intelligent products’’involved in the manufacturing process. The physical softwareworkloads at shop-ﬂoor layer are most of the times proprietary(custom hardware and custom software) or in some cases semi-proprietary (standard hardware and operating system and customsoftware) and are responsible with direct real time control of thephysical resources and of the material ﬂow on the shop ﬂoor[29]. Tightly coupled with the physical layer is the ManufacturingExecution System (MES), which maps with level 3 of ISA-95O. Morariu et al. / Computers in Industry 67 (2015) 27–37 29 speciﬁcation.
+ The
+ communication
+ pattern
+ between
+ MES
+ and
+ the
+physical
+ workloads
+ in shop
+ ﬂoor
+ is,
+ from
+ a SOA
+ perspective,
+ service
+choreography
+ with
+ point
+ to point
+ message
+ exchange
+ in real
+ time.
+When
+ considering
+ migration
+ to cloud
+ environments,
+ these
+ char-
+acteristics
+ of MES
+ speciﬁc
+ workloads
+ can
+ be assured
+ by private
+ cloud
+implementation
+ with
+ workload
+ virtualization
+. In contrast,
+ public
+clouds,
+ even
+ in a IaaS
+ delivery
+ model
+ are
+ not
+ able
+ to provide
+ acomparable
+ response
+ time,
+ mainly
+ due
+ to network
+ latency.
+ Private
+clouds
+ have
+ the
+ advantage
+ that
+ are
+ located
+ within
+ the
+ enterprise
+premises
+ and
+ so network
+ latency
+ can
+ be kept
+ very
+ low.
+In this
+ context,
+ MES
+ virtualization
+ involves
+ migration
+ of all
+ MES
+workloads
+ that
+ were
+ traditionally
+ executed
+ on physical
+ machines
+ tothe
+ data
+ centre,
+ speciﬁcally
+ to the
+ private
+ cloud
+ infrastructure
+ asvirtual
+ workloads.
+ The
+ idea
+ is to run
+ all
+ the
+ control
+ software
+ in avirtualized
+ environment
+ and
+ keep
+ only
+ the
+ physical
+ resources
+ with
+their
+ dedicated
+ real
+ time
+ controllers
+ on the
+ shop
+ ﬂoor.
+ This
+separation
+ between
+ hardware
+ resources
+ and software
+ that
+ controls
+them
+ provides
+ a new
+ level
+ of ﬂexibility
+ and
+ agility
+ to the
+manufacturing
+ solution.
+ Depending
+ on the
+ manufacturing
+ system
+design
+ and
+ implementation,
+ there
+ can
+ be several
+ types
+ of workloads
+that
+ can
+ be identiﬁed.
+ The
+ following
+ section
+ contains
+ a classiﬁcation
+of these
+ workloads
+ done
+ from
+ a virtualization
+ perspective.
+3.1. ISA-95 Level 3 functions and workloadsThe most important functions deﬁned by ISA-95.03 at MES level(Level 3) are presented in Table 1, together with their correspond-ing descriptions:The relationship between these functions is illustrated in Fig. 2,where the red arrows show the explicit communication pathsbetween the modules using the Manufacturing Service Busconcept. A more detailed view of the MSB integration in thecontext of cloud adoption is presented in section 3.2 of this paper.In most implementations the above deﬁned functions aremapped in separate workloads at MES layer. These workloads havea set of special characteristics, as required by the MES function theyimplement. The remainder of this section presents an analysis ofthese workloads from a virtualization perspective, focusing on theworkload proﬁle and on scalability requirements in regards tosystem load.The
+ detailed
+ production
+ scheduling
+ is the
+ process
+ that
+ determines
+the
+ operation
+ sequencing
+ and
+ the
+ resource
+ allocation
+ for the
+ entire
+product
+ batch.
+ The
+ scheduling
+ problem
+ is often
+ a NP-complete
+problem
+ and
+ ﬁnding
+ a near
+ optimal
+ solution
+ can
+ take
+ a signiﬁcant
+amount
+ of computation
+ time.
+ The
+ workload
+ is active
+ before
+ the
+actual
+ fabrication
+ begins
+ and
+ once
+ the
+ schedule
+ is computed,
+ the
+workload
+ becomes
+ idle.
+ The
+ workload
+ proﬁle
+ tends
+ to be a CPU-
+intensive
+ proﬁle
+ and
+ is used
+ only
+ in the
+ initial
+ phase.
+ The
+ scalability
+of the
+ workload
+ depends
+ highly
+ on the
+ algorithm
+ used
+ for
+ schedule
+computation.
+ An algorithm
+ that
+ can
+ be executed
+ in parallel
+ would
+allow
+ for horizontal
+ scaling
+ of the
+ workload
+ (i.e.,
+ provisioning
+ ofmultiple
+ parallel
+ virtual
+ machines
+ for parallel
+ computation
+ depend-
+ing
+ on the
+ problem/batch
+ size).
+ On the
+ other
+ hand,
+ a monolithic
+algorithm
+ would
+ require
+ scaling
+ by resource
+ allocation
+ to a single
+virtual
+ machine
+ (i.e.,
+ by allocating
+ more
+ CPU
+ cores
+ or physical
+memory
+ to a given
+ virtual
+ machine
+ executing
+ the
+ algorithm).
+Fig. 1. From service oriented manufacturing systems to cloud.Table 1ISA-95 Level 3 functions.ISA-95 Level 3 function DescriptionDetailed productionschedulingDeals with the algorithms and computation required to calculate the operation sequence for eachproduct in the batch and the shop ﬂoor resource allocation for each operation.Production dispatching Refers to the process of dispatching the detailed production schedule after it is computed to the shop ﬂoorresources, intelligent products, conveyors and human workers.Production execution Drives the actual execution of the detailed production schedule on lower level systems.Production tracking Tracks each product during the execution phases from the initial entry in the manufacturing process until completion.Resource management Deals with the management of the shop ﬂoor resources in terms of availability, utilization, raw materials stocks, and so on.Historical data management Assures traceability of all operations performed on every product. The complexity involved with this functiondepends largely on the nature of the products being manufactured and on the legal requirements that apply.Quality assurance Assures the product meets the acceptable quality criteria. This can be done by video inspection, X-ray scanningor by other speciﬁc means.Manual operations Assures the capability of the MES system to interact with human operators in various scenarios.Automated control Provides capabilities for automatic re-conﬁguration of the system, allowing the system to respond to unexpectedevents, like resource breakdown or rush orders.O. Morariu et al. / Computers in Industry 67 (2015) 27–3730 The production dispatching workload has similar temporalcharacteristics as detailed production scheduling workload, inthe sense that it is active for a short duration after the schedule iscomputed and before execution starts. For this reason, in mostimplementations this workload is collocated with the schedulerworkload. The schedule dispatching operation itself is not resourceintensive, especially in a MSB integrated environment, as it is justresponsible for sending a set of messages across the MSB.The
+ production
+ execution
+ workload
+ deals
+ with
+ the
+ actual
+hierarchical
+ execution
+ of the
+ schedule
+ by generating
+ real
+ time
+commands
+ to the
+ lower
+ levels
+ of the
+ stack,
+ speciﬁcally
+ to the
+ shop
+ﬂoor
+ devices
+ and
+ controllers.
+ The
+ production
+ execution
+ workload
+becomes
+ active
+ after
+ the
+ detailed
+ schedule
+ is dispatched
+ and
+remains
+ active
+ throughout
+ the
+ entire
+ manufacturing
+ process.
+ Asillustrated
+ in Fig.
+ 2, the
+ process
+ execution
+ workload
+ interacts
+ in real
+time
+ with
+ many
+ other
+ workloads
+ and
+ with
+ the
+ shop
+ ﬂoor
+components,
+ in an event
+ driven
+ architecture.
+ The
+ workload
+ has
+ ahigh
+ I/O
+ proﬁle,
+ as data
+ ﬂows
+ from
+ various
+ directions
+ via
+ events
+ from
+other
+ MES
+ components
+ or from
+ shop
+ ﬂoor
+ devices.
+ The
+ production
+execution
+ workload
+ can
+ be scaled
+ horizontally
+ using
+ a load
+ balancer
+mechanism.
+ Closely
+ related
+ to the
+ production
+ execution
+ workload
+ isthe
+ automated
+ control
+ workload.
+ The
+ automated
+ control
+ workload
+handles
+ the
+ unexpected
+ scenarios
+ that
+ affect
+ the
+ initial
+ computed
+schedule
+ (i.e.,
+ unexpected
+ resource
+ breakdown,
+ stock
+ depletion,
+rush
+ orders).
+ The
+ implementation
+ of this
+ function
+ involves
+ a meta-
+heuristic
+ class
+ algorithm
+ that
+ can
+ ﬁnd
+ the
+ best
+ possible
+ solution
+ in anun-expected
+ scenario,
+ making
+ this
+ workload
+ a resource
+ intensive
+one.
+ However,
+ the
+ workload
+ is not
+ active
+ in normal
+ operation
+ of the
+system,
+ where
+ the
+ detailed
+ production
+ schedule
+ can
+ be followed
+ bythe
+ system.
+ Essentially,
+ this
+ workload
+ would
+ be provisioned
+ only
+ ifcertain
+ events
+ are
+ occurring.
+The manual operations workload consists usually in a Webbased application where human operators can handle manufactur-ing events (i.e., some implementations
+ use the concept of servicetickets, or service requests that can be assigned to certain engineersand used as tracking items for the work done). Typically, thisworkload is active throughout the entire manufacturing
+ process,as events that need human intervention can occur at any time.From a virtualization perspective, the workload is not resourceintensive and can be collocated with other workloads.The resource management function is implemented as a simpleresource monitor that periodically checks the status of themanufacturing resources, consolidates this information, and basedon it computes the available capacity of the system. This capacityis considered by the upper layer (level 4) when deciding themanufacturing schedule. The workload is not resource intensiveand can be collocated with the manual operations workload.The historical data management function consists usually in arelational database management system (RDBMS) that stores themanufacturing data in a structured and accessible format.Depending on the granularity of the data stored and the size,the workload would need to access a large disc space and is wouldhave an I/O intensive proﬁle.The
+ implementation
+ of the
+ quality
+ assurance
+ workload
+ depends
+largely
+ on the
+ QA process
+ implemented
+ for
+ the
+ product
+ being
+manufactured.
+ It may
+ consist
+ in a simple
+ implementation
+ that
+compares
+ some
+ of the
+ acquired
+ product
+ features
+ (dimensions,
+ shape)
+against
+ some
+ predeﬁned
+ thresholds,
+ or can
+ become
+ quite
+ complex
+when
+ using
+ video
+ defect
+ detection
+ techniques
+ or other
+ advanced
+scanning
+ mechanisms
+ and
+ image
+ processing
+ algorithms.
+ In avirtualized
+ environment,
+ the
+ resources
+ allocated
+ to this
+ workload
+would
+ vary
+ based
+ on the
+ product
+ type
+ and
+ the
+ QA process
+ deﬁned
+ for
+it.
+ The
+ production
+ tracking
+ workload
+ keeps
+ track
+ of the
+ manufacturing
+execution
+ process
+ and
+ on the
+ QA data,
+ and
+ reports
+ the
+ progress
+ across
+the
+ MSB to the
+ upper
+ level.
+ The
+ workload
+ essentially
+ deals
+ with
+simple
+ data
+ aggregation,
+ with
+ no complex
+ computation
+ being
+involved,
+ so it is not
+ a resource
+ intensive
+ workload.
+ The
+ workload
+remains
+ active
+ throughout
+ the
+ entire
+ manufacturing
+ process.
+The above MES workloads are interconnected
+ using themanufacturing service bus (MSB), which is discussed in detail inthe following section.3.2. Manufacturing service bus characteristicsThe MSB characteristics for MES in a physical (non-cloud)implementation
+ are presented in some of our previous workFig. 2. Level 3 modules and interconnections.O. Morariu et al. / Computers in Industry 67 (2015) 27–37 31 [30]. In this section we present the adaptation of MSB concept inthe context of a private cloud implementation. At the heart ofthe service oriented manufacturing system is the enterpriseservice bus/manufacturing service bus coupling. The EnterpriseService Bus (ESB) was ﬁrst proposed by [31] as a softwarearchitecture having a set of key characteristics:
+ Message routing and control across enterprise components;
+ Decoupling of various modules by asynchronous messaging,replacing point to point communication with the common busarchitecture; Promote reusability of utility services, reducing the number ofredundant services across the enterprise; Provide transformation and translation of messages to allow easyintegration of legacy applications; Provide an engine for workﬂow execution.As present, all major software companies provide solidcommercial implementation of ESB on top of their SOA offerings:IBM WebSphere ESB, Microsoft BizTalk Server or Oracle EnterpriseService Bus. Along with commercial implementation
+ there are alsoopen source solutions: JBoss ESB, Open ESB, Apache ServiceMixand others.The Manufacturing Service Bus (MSB) integration model is anadaptation of ESB for manufacturing enterprises. The MSB hasmore speciﬁc characteristics in addition to the ones inherited fromthe ESB: Event driven communication: at shop
+ ﬂoor
+ level,
+ during
+ the
+manufacturing
+ process
+ there
+ is a high
+ number
+ of events
+ generated
+that
+ need
+ to be handled
+ by speciﬁc
+ components.
+ For
+ example,
+when
+ a pallet
+ arrives
+ in a given
+ position
+ on the
+ conveyor
+ belt,
+ asensor
+ detects
+ the
+ associated
+ RFID
+ tag and
+ generates
+ an event.
+This
+ event
+ needs
+ to be dispatched
+ to the
+ relevant
+ resources
+ inorder
+ to be processed
+ by the
+ scheduling
+ module
+ or by the
+ actual
+robot
+ that
+ performs
+ an operation.
+ The
+ main
+ role
+ of the
+ MSB
+implementation
+ is to perform
+ the
+ event
+ dispatch
+ operation
+allowing
+ shop
+ ﬂoor
+ components
+ to exchange
+ information
+ in anevent
+ driven
+ fashion.
+ Workﬂows: along with event dispatching, the MSB has the abilityto launch and execute predeﬁned workﬂows associated withspeciﬁc events. Workﬂows consist in a set of successiveoperations, either automated or manual (human interventions).Workﬂows are typically required for exceptional events thatrequire complex logic to handle them, like unexpected resourcebreakdowns or rush orders. Another advantage of groupingcomplex logic in workﬂows is that the workﬂows are ‘‘external’’in reference to the MSB, from the implementation point of view. Message transformation: the shop ﬂoor level integrates a widerange of modules, from software schedulers to various hardwaredevices (robots, sensors, etc.). From a communication perspec-tive, the protocols and the message formats used can be a simple+5 V DC signal, proprietary line protocols or even high level TCPbased protocols. The MSB role is to transform these messages toand from these proprietary protocols in a common standardizedformat. This is done by allowing the development of messageconvertors at any entry point and exit point of the bus. Synchronous and asynchronous communication: the
+ MSB
+ imple-
+mentation
+ offers
+ both
+ synchronous
+ and
+ asynchronous
+ communi-
+cation
+ modes.
+ The
+ synchronous
+ mode
+ causes
+ the
+ sender
+ of the
+message
+ to block
+ until
+ the
+ response
+ is received
+ and
+ so is implicitly
+bidirectional.
+ The
+ asynchronous
+ mode
+ is using
+ a queue
+ based
+mechanism,
+ where
+ the
+ sender
+ submits
+ the
+ message
+ and
+ from
+where
+ the
+ receiver
+ picks
+ it up at a later
+ time.
+ This
+ allows
+ decoupling
+the
+ execution
+ of the
+ sender
+ from
+ the
+ one
+ of the
+ receiver.
+ At the
+ shop
+ﬂoor
+ level
+ both
+ communication
+ modes
+ are
+ useful.
+ Message persistence: when
+ asynchronous
+ mode
+ is used,
+ the
+messages
+ reside
+ in logical
+ queues
+ from
+ where
+ they
+ are consumed.
+The
+ MSB
+ implementation
+ stores
+ the
+ queues
+ in a persistent
+ highly
+available
+ storage
+ that
+ allows
+ production
+ state
+ recovery
+ in case
+ of asystem
+ crash.
+ The
+ MSB
+ can
+ use a network
+ ﬁle
+ system
+ or adistributed
+ database
+ as a repository
+ for the
+ message
+ queues.
+In a cloud-based implementation, the MSB layer with the abovementioned characteristics
+ becomes a distinct component calledCloud Integration Mediator, bridging the gap between the localprivate cloud implementation and the public cloud services used ina SaaS fashion, represented by level 3 in ISA-95 speciﬁcation. Themediator is conceptually built on top of SOA and must have ESBand B2B (business to business) capabilities to integrate withapplications provided via Internet. Implementing the mediatormodule is fundamentally an integration effort that spans across alllevels in the enterprise. This MSB mediator bridges the workloadsand functionality used from public clouds (in SaaS model) with thelower layers of ISA-95 implementation.
+The information ﬂow in a manufacturing
+ enterprise is governedby business applications handling customer orders, supply chainoperations, business intelligence and so on. These applications aretraditionally operated and maintained by the company’s own ITdepartment using dedicated hardware stacks. This approachrequires huge up front investments to setup the systems, highoperational costs and most of times deliver below the intrinsiccapabilities of the software products [32]. The large scaleavailability of applications delivered on a software-as-a-service(SaaS) model raises an important opportunity for manufacturingenterprises to migrate from in-house implementations of complexbusiness applications to public cloud solutions available either inmulti-tenant mode or dedicated hosted solutions.4. vMES virtualization detailsThe virtualized MES architecture proposed in this paper isdriven by a central BPEL process that orchestrates the workloadprovisioning processes and the dynamic scaling of the solutionaccording to dynamic events generated during the manufacturingprocess.The vMES process described here is designed to integrate withvirtually any MES implementation that follows the functions andstructures deﬁned by ISA-95 level 3. The vMES process ﬁlls the gapbetween the virtualized workloads and the underlying privatecloud architecture, allowing intelligent and efﬁcient usage of cloudresources for MES execution. The BPEL process proposed isillustrated in Fig. 3.The BPEL process is invoked by the Customer Order Manage-ment module (situated at Level 4 in the enterprise hierarchy) [33],when a customer order needs to be executed. The customer orderencapsulates the production schedule of the entire product batchordered by the customer, together with the time constraintsassociated. The BPEL process itself is exposed as a web service endpoint (vMES_EndPoint) and can be invoked through the upper levelESB implementation in a standard fashion. The process is designedin two sections (Workloads_Management
+ and Event_Manage-ment) that execute in parallel.Section I: Workloads_Management
+ starts with a Java embeddingactivity that provides an algorithm that computes the initialprovisioning plan, based on the product batch. Speciﬁcally theproduct types and the batch size are the two components thatwould decide what workloads would be provisioned at MESlevel and what kind of resources would be allocated to theseworkloads. This computation is based on predeﬁned rules forvariable workloads (if product is of type X, then QA is done withO. Morariu et al. / Computers in Industry 67 (2015) 27–3732 workload W) and predeﬁned thresholds for ﬁxed workloads (ifproduct batch size >10, then allocate 1 additional core to thescheduler workload). The next activity provisions the detailedproduction scheduling workload. This high specs workloadcomputes the operation sequencing and resource allocationfor the whole product batch horizon. As this computation cantake a long time for large product batches with many operationsper product, the BPEL process waits asynchronously until theentire schedule is computed and dispatched via the MSB. At thispoint the detailed production scheduling workload is de-provisioned, as it is not required anymore for the productbatch execution. The resources associated to this workload arereleased to the pool. The next step is represented by theprovisioning of the production execution and quality assuranceworkloads. The process then waits for the execution tocomplete, and de-provisions the remaining workloads, releas-ing the resources to the private cloud resource pool.Section II: Event_Management consists of a while loop that waitsfor generated
+ events.
+ Each
+ event
+ is handled
+ by the
+ Compute_S-
+calability_Plan
+ activity.
+ This
+ activity
+ determines
+ the
+ scalability
+action
+ that
+ would
+ best
+ respond
+ to a real
+ time
+ monitoring
+ event,
+according
+ to the
+ workload
+ scalability
+ proﬁles.
+ For
+ example,
+ ifthe
+ scheduler
+ workload
+ generates
+ a High_CPU
+ event
+ (i.e.,
+indicating
+ that
+ the
+ CPU consumption
+ is above
+ a pre-conﬁgured
+threshold)
+ a second
+ node
+ with
+ the
+ workload
+ is provisioned
+ as aresponse.
+ The
+ other
+ alternative
+ is to allocate
+ more
+ resources
+ for agiven
+ instance.
+ For
+ example,
+ if the
+ historical
+ data
+ management
+workload
+ triggers
+ a Low_Disk_Space
+ event,
+ a new
+ volume
+ would
+be allocated
+ to the
+ workload
+ as a result.
+ Both
+ types
+ of scaling
+ are
+supported
+ by the
+ implementation
+ of the
+ process,
+ and
+ by most
+private
+ cloud
+ implementations
+ through
+ the
+ hypervisor
+ features
+available.
+ The
+ events
+ are handled
+ throughout
+ the
+ entire
+manufacturing
+ process.
+When the execution is ﬁnished, the vMES BPEL processperforms a callback operation on the level 4 Customer OrderManagement module, announcing the execution ﬁnalization.5. Pilot implementation and experimental
+ resultsThe virtual MES process introduced in this paper was evaluatedin the context of a pilot manufacturing system of the CIMR Centrewithin University Politehnica of Bucharest, presented in Fig. 4. Thegoal of this pilot implementation is to virtualize the existing MESFig. 3. vMES BPEL process design.O. Morariu et al. / Computers in Industry 67 (2015) 27–37 33 implementation and analyze the impact caused on the resourceutilization and scalability capabilities, considering that the MESfunctionality itself does not change in the virtualized environment.The vMES triggers relay on a monitoring solution that monitors theworkload operating parameters (i.e., CPU usage, memory usage,disc usage, I/O operations per second, network trafﬁc, and manyothers).The private cloud infrastructure is provided by an IBMCloudBurst 2.1 medium size instance (Fig. 5). The IBM CloudBurst system is an offering based on IBM Blade Center that addsvirtualization capabilities using the VMware ESX 4.1 hypervisor,VMware VCenter 4.1 and enhanced administration capability byleveraging the Tivoli Service Management Stack. The virtualizationplatform is powered by 14 blade servers with two Intel processorswith 6 cores each at 2.8 GHz and 12 Mb L3 cache. The installedmemory is 72 GB for each blade. The estimated capacity is in thearea of 400 concurrent virtual machines, considering an optimumscheduling with mixed CPU/IO proﬁles. For this pilot implementa-tion, only 4 blades were used for MES virtualization, isolated fromthe rest of the load. This was required in order to assure accuratemeasurement of message propagation between shop ﬂoor devicesand MES workloads.The virtualization process was performed in several steps. Theﬁrst step consisted in the virtualization of the MSB component thatrepresents the communication platform for all MES workloads. Thestrategy is to use two virtual network adapters, one dedicated formanagement operations, speciﬁcally the integration with the ISA-95 level 4 systems, and the other for direct Ethernet connectionwith the other MES workloads. The virtual machine was allocatedwith two virtual cores and 2 GB RAM.The second step involved the virtualization of the detailedproduction scheduler and the automatic control module, residingon a physical xSeries 3500 Server. Due to the system design thedecision was taken to split the workload in two virtual machines,one dealing with the detailed production scheduling in hierarchi-cal mode and one with the heterarchical operating module(automatic control) implemented with multi agent system insidethe MSB architecture. This approach decouples the two systemsthat used to share the same physical server and so improves theoverall reliability of the system. The third step involved thevirtualization of the static workloads: production tracking, humanintervention and quality assurance workloads for several producttypes. The virtualization process resulted in 11 individual virtualmachine templates, published in the service catalogue of the IBMCloudBurst private cloud; one for each ISA-95 function and oneadditional for the MSB implementation.A typical workload provisioning across four individual bladesusing the vMES process is illustrated in Fig. 6. The workloads arerepresented in different colours and the provisioning and de-provisioning times are also shown. In the pilot implementation,due to the simplicity of the solution, the workloads have a similarprovisioning and de-provisioning time of about 2 min. However, inreal life implementations
+ it is expected that the MES workloadswould have a higher and variable provisioning time.The scenario where a perturbation affects the system,preventing the initial schedule to be executed, is illustrated inFig. 7. The vMES process responds by dynamically provisioning theAutomatic Control workload, which will take control of theremainder of the batch execution, according to the speciﬁc MESimplementation. This is also referred to in literature as heter-archical operational mode for MES execution.The initial tests performed in the lab environment indicate thatthe virtualization at MES layer is a viable solution, as the responsetimes for the provisioning, de-provisioning and scaling functionsare much lower than the lifetime of the workloads. For example,the 2 min provisioning time is acceptable when considering thatthe production of the batch, while the workload is active, takeshours. So, even if an overhead is introduced by these operationscompared to the physical systems, this overhead is acceptable forMES implementations. Is important to note that some workloadswhich are directly integrated (or control) physical systems requirea very low network latency during execution, but the provisioning/deprovisioning times are not that tight. While others, like QArelated workloads can tolerate a high network latency but requirelow provisioning/deprovisioning
+ times.6. Beneﬁts and limitations of vMES approachIn the last decade, server virtualization beneﬁts have beenoutlined and discussed by both research and industry to a greatextent. While all server virtualization beneﬁts apply implicitly toFig. 4. Manufacturing system (CIMR Centre): layout and partial view of equipment.O. Morariu et al. / Computers in Industry 67 (2015) 27–3734 MES virtualization, there are some additional beneﬁts that arespeciﬁc for this industry in the context of MES virtualization.6.1. Virtualization advantagesThe principal advantages of MES virtualization are:Decoupling: MES workload
+ virtualization
+ allows
+ a separation
+between
+ the
+ physical
+ resources
+ and
+ the
+ software
+ information
+system.
+ The most
+ important
+ advantage
+ introduced
+ by decoupling
+is the
+ possibility
+ to have
+ multiple
+ versions
+ of the
+ software
+workload
+ with
+ different
+ conﬁgurations
+ and switch
+ between
+them
+ as needed.
+ This
+ capability
+ particularly
+ useful
+ when
+the
+ initial
+ conﬁguration
+ or changes
+ need
+ to be tested
+ and
+implemented
+ on the
+ production
+ line
+ (e.g.,
+ resource
+ team
+reconﬁguring).
+ At the
+ same
+ time,
+ based
+ on this,
+ a rollback
+ option
+is implicitly
+ available.
+Redundancy: with
+ virtualized
+ MES a redundancy
+ mechanismwith active/active
+ or active/passive
+ workloads
+ can
+ be imple-mented.
+ In traditional implementations
+ of manufacturingcells,
+ implementing
+ a MES redundancy requested
+ the utiliza-
+tion of a separate
+ physical
+ server
+ component,
+ and
+ so it had ahigh
+ operational
+ overhead.
+ However, without
+ redundancy
+ it isimpossible
+ to assure high availability
+ for MES components.
+ Inother
+ words,
+ if a speciﬁc
+ server component
+ at MES level
+ faced aproblem at runtime, the whole
+ MES
+ control
+ would become
+unavailable.
+ A private cloud
+ implementation
+ would be ableto detect
+ a workload
+ failure
+ and switch
+ to the redundant
+Fig. 5. IBM CloudBurst 2.1 private cloud solution.Fig. 6. Workload allocation in normal operation (no perturbations).Fig. 7. Workload allocation in perturbed operation (resource breakdown scenario).O. Morariu et al. / Computers in Industry 67 (2015) 27–37 35 workload
+ in a very short time,
+ assuring
+ a high uptime for theMES workloads.
+Energy Efﬁciency: server virtualization is improving dramatical-ly the energy footprint of the workloads. In most cases, theenergy consumption
+ is reduced to 15–20% of the physicalimplementation. In the pilot implementation described above,by virtualizing the physical MES servers, the estimated energycost savings per year are $27,000, according to the VMwareGreen Calculator (VMware, 2013). These estimates include alsothe cooling required for the physical workloads.High Performance: some MES functions would require highperformance computers for speciﬁc tasks. For example, realtime image analysis for error detection (QA) or for materialselection (recognition and locating) would require high CPUresources. With virtualization and private clouds, suchresources can be allocated virtually according to the needs ofthe speciﬁc manufacturing line. A practical example isrepresented by the scenario where the manufacturing line isexecuting at 100 products per hour, with a requirement toprocess 1000 images per product. For this, 8 virtual processorscan be allocated to the image analysis workload. If themanufacturing line will later execute at 50 products per hour,the processing power required will be half, so the workload canbe conﬁgured with 4 virtual processors. This ﬁne adjustment ofthe processing power to the actual product manufacturingrequirements is not possible without virtualization.Physical Security: the data centre environment provides super-ior physical security for the workloads compared to the shopﬂoor environment that traditionally hosted the MES servers.Some of the common approaches are restricting the physicalaccess to the data centre to selected personnel, biometric accesscontrol and permanent surveillance.6.2. Virtualization limitationsAlongside with the beneﬁts above described, there is a set oflimitations of the virtualization approach presented for MES:Real time operations: the
+ main
+ limitation
+ is assuring
+ a virtualized
+environment
+ can
+ keep
+ up with
+ the
+ real
+ time
+ manufacturing
+system.
+ Although,
+ initial
+ event
+ propagation
+ tests
+ performed
+ inthe
+ pilot
+ implementation
+ show
+ promising
+ results
+ for most
+applications,
+ this
+ still
+ remains
+ the
+ major
+ limitation.
+ The
+ legacy
+systems
+ were
+ able
+ to provide
+ guaranteed
+ just-in-time
+ handling
+to shop
+ ﬂoor
+ events,
+ which
+ cannot
+ be completely
+ assured
+ byvirtualized
+ environments
+ due
+ to their
+ core
+ nature
+ of shared
+hardware
+ environments.
+ For some
+ real
+ time
+ manufacturing
+systems,
+ this
+ still
+ remains
+ the
+ main
+ limitation
+ of adopting
+virtualization
+ at MES
+ layer.
+ For
+ example,
+ the
+ control
+ of a robot
+with
+ real
+ time
+ corrections,
+ that
+ needs
+ to be computed
+ on the
+ ﬂy,
+the
+ network
+ latency
+ does
+ have
+ a severe
+ performance
+ impact
+ onthe
+ system,
+ almost
+ doubling
+ the
+ execution
+ time
+ for the
+ speciﬁc
+operation.
+ For this
+ reason,
+ the
+ implementation
+ should
+ consider
+these
+ scenarios
+ and
+ use physical
+ systems
+ when
+ required
+ toassure
+ acceptable
+ performance.
+Development costs: moving
+ from
+ the
+ legacy
+ system
+ to a near
+ real-
+time
+ virtualized
+ implementation
+ adds
+ a series
+ of development
+costs
+ to the
+ enterprises.
+ Currently,
+ shop
+ ﬂoor
+ device
+ manufac-
+turers
+ provide
+ limited
+ or no support
+ for virtualizing
+ their
+hardware,
+ so the
+ costs
+ of implementing
+ integrations
+ for bridging
+the
+ physical
+ devices
+ to private
+ cloud
+ workloads
+ and
+ other
+required
+ adapters
+ fall
+ within
+ the
+ implementing
+ company
+ area.
+These
+ costs
+ can
+ become
+ signiﬁcant
+ for large
+ implementations.
+Initial investment: the initial investment in the private cloudarchitecture for MES virtualization considering both thehardware purchase and the associated software can representan obstacle, especially if the private cloud is dedicated to theMES virtualization project. The effectiveness of the privatecloud in this context depends on the sharing of the resourcesamong business units in order to achieve optimal resourceutilization and to reduce the operational costs.Training and know how: like with any cutting age technologyadoption, virtualization has an associated limitation in ﬁndingthe knowledgeable resources that can implement it and exploitit to the full potential. Training of the engineers designing andimplementing such a solution is an important pre-requisite fora successful implementation.7. Conclusions and future workThis paper introduces the vMES virtualization as a solution toreduce operational costs and improve the ﬂexibility, agility,reconﬁgurability and maintainability of the manufacturing
+ sys-tem. The MES functions are mapped to speciﬁc workloads that aredeﬁned in terms of resource requirements and scaling proﬁles.Virtualization brings many advantages on the manufacturingsystem reliability too by allowing full system snapshots andbackups and quick recovery in case of failures, as well as providingbuilt-in redundancy. Most private cloud implementations offerthese features by default and can be directly adopted. MESworkload virtualization allows a separation or decoupling betweenthe physical resources and the controlling information system. Themost important advantage introduced by decoupling is thepossibility to have multiple versions of the MES workload withdifferent conﬁgurations and switch between them as required.This reconﬁguring capability is very useful when initial conﬁgura-tion or changes need to be tested and implemented on theproduction line. With virtualized MES workloads a redundancymechanism with active/active or active/passive workloads can beimplemented. In traditional implementations of manufacturingcells, implementing a MES component redundancy involvesthe use of a separate physical server, and so it induces a highoperational overhead. However, without controller redundancy itis impossible to assure high availability for MES components. Aprivate cloud implementation would be able to detect a workloadfailure and switch to the redundant workload in a very short time,assuring a high uptime for the entire MES environment.Adoption of virtualization and cloud related functionality,
+ likeautomatic provision and de-provision of workloads and predictiveresource allocation represent the ﬁrst steps for implementinghighly ﬂexible manufacturing
+ systems designed on SOA conceptsand patterns. In the recent years a great deal of effort has beeninvested in these cloud platforms by both academia and cloudvendors. Manufacturing enterprises have a new opportunity totake advantage of this and move from legacy systems to highlyscalable and ﬂexible solutions based on cloud platforms.Future work is focused on developing an integrated frameworkfor vMES virtualization based on the concepts presented in thispaper.References[1] C.D. Weissman, S. Bobrowski, The design of the force.com multitenant internetapplication
+ development platform, in: Proceedings of the 35th SIGMOD Int. Conf.on Management of Data, 2009, pp. 889–896.[2] B. Scholten, The road to integration: a guide to applying the ISA-95 standard inmanufacturing,
+ ISA, 2007.[3] M. Witsch, B. Vogel-Heuser,
+ Towards a formal speciﬁcation framework formanufacturing
+ execution systems, IEEE Transactions on Industrial Informatics8 (2) (2012) 311–320.O. Morariu et al. / Computers in Industry 67 (2015) 27–3736 [4] S. Leimeister, M. Bo¨hm, C. Riedl, H. Krcmar, The business perspective of cloudcomputing: actors, roles and value networks, in: 18th European Conference onInformation Systems, ECIS 2010, 2010.[5] J. McCarthy, Comments on time sharing, Communications of the ACM 10 (9)(1967) (ACM, New York, NY, USA).[6] P. Mell, G. Timothy, The NIST deﬁnition of cloud computing (draft), in: NISTSpecial Publication 800, no. 145, 2011, p. 7.[7] Y.C. Lee, A.Y. Zomaya, Energy efﬁcient utilization of resources in cloud computingsystems, Journal of Supercomputing
+ 60 (2) (2012) 268–280.[8] A. Gavrilovska, S. Kumar, H. Raj, K. Schwan, V. Gupta, R. Nathuji, P. Saraiya, High-performance hypervisor architectures: virtualization in HPC systems, in: Work-shop on System-level Virtualization for HPC, 2007.[9] M.F. Mergen, V. Uhlig, O. Krieger, J. Xenidis, Virtualization for high-performancecomputing, ACM SIGOPS – Operating Systems Review 40 (2) (2006) 8–11.[10] H. Raj, K. Schwan, High performance and scalable I/O virtualization via self-virtualized devices, in: Proceedings of the 16th Int. Symposium on High Perfor-mance Distributed Computing ACM, 2007, pp. 179–188.[11] D. Jamil, H. Zaki, Security issues in cloud computing and countermeasures,
+International Journal of Engineering Science and Technology 3 (4) (2011)2672–2676.[12] L.M. Kaufman, Data security in the world of cloud computing, IEEE Security &Privacy 7 (4) (2009) 61–64.[13] D. Svantesson, R. Clarke, Privacy and consumer risks in cloud computing, Com-puter Law & Security Review 26 (4) (2010) 391–397.[14] S. Wang, L. Zhipiao, S. Qibo, Z. Hua, Y. Fangchun,
+ Towards an accurate evaluationof quality of cloud service in service-oriented
+ cloud computing, Journal ofIntelligent Manufacturing (2012) 1–9.[15] X. Wang, W.X. Xun, ICMS: a cloud-based manufacturing system, in: CloudManufacturing, Springer, London, 2013, pp. 1–22.[16] W. Lei, Resource
+ virtualization model in cloud manufacturing, Advanced Materi-als Research 143 (2011) (2011) 1250–1253.[17] Y. Cheng, F. Tao, L.Z.X. Zhang, G.H. Xi, D. Zhao, Study on the utility model andutility equilibrium of resource service transaction in cloud manufacturing, in:IEEE International Conference on Industrial Engineering and Engineering Man-agement (IEEM), 2010, 2298–2302.[18] B.H. Li, L. Zhang, S.L. Wang, F. Tao, J.W. Cao, X.D. Jiang, X. Song, X.D. Chai, Cloudmanufacturing: a new service-oriented networked manufacturing model, Com-puter Integrated Manufacturing Systems 16 (1) (2010) 1–7.[19] X. Xu, From cloud computing to cloud manufacturing, Robotics and Computer-Integrated Manufacturing 28 (1) (2012) 75–86.[20] L. Zhang, L. Yongliang, T. Fei, H.L. Bo, R. Lei, Z. Xuesong, G. Hua, C. Ying,
+ H. Anrui, L.Yongkui, Cloud manufacturing: a new manufacturing paradigm, Enterprise In-formation Systems (2012) 1–21 (ahead-of-print).[21] S. Shi, R. Mo, H. Yang, Z. Chang, Z. Chen, An implementation of modellingresources in a manufacturing grid for resource sharing, International
+ Journal ofComputer Integrated Manufacturing
+ 20 (2007) 169–177.[22] N. Liu, X. Li, A resource virtualization mechanism for cloud manufacturingsystems, in: M. Sinderen, P. Johnson, X. Xu, G. Doumeingts (Eds.), EnterpriseInteroperability, Lecture Notes in Business Information Processing, vol. 122,Springer, Berlin, Heidelberg, 2012, pp. 46–59.[23] L. Wu, C. Yang, A solution of manufacturing resources sharing in cloud computingenvironment, in: Cooperative Design Visualization and Engineering, Springer,Berlin, Heidelberg, 2010, pp. 247–252.[24] Y. Luo, L. Zhang, F. Tao, L. Ren, Y. Liu, Z. Zhang, A modeling and description methodof multidimensional information for manufacturing capability in cloudmanufacturing system, International Journal on Advanced Manufacturing Tech-nologies (2013) 1–15.[25] P. Leita˜o, J. Marco, A. Bepperling, D. Cachapa, A.W. Colombo, F. Restivo, Integrationof virtual and real environments for engineering service-oriented manufacturingsystems, Journal
+ of Intelligent Manufacturing 23 (6) (2012) 2551–2563.[26] R. Babiceanu,
+ F. Chen, Development
+ and applications of holonic manufacturingsystems: a survey, Journal of Intelligent Manufacturing 17 (2006) 111–131(Springer).[27] Th. Borangiu, A service-oriented
+ architecture for holonic manufacturing control,Springer Series Studies in Computational Intelligence, vol. 243, Springer, 2009,pp. 489–504.[28] C. Morariu,
+ O. Morariu, Th. Borangiu, Manufacturing service bus integrationmodel for implementing highly ﬂexible and scalable manufacturing
+ systems,in: Proceedings of the 14th IFAC INCOM’12 Symposium,
+ Papers On Line, Vol. 14,Part 1, (2012), pp. 1850–1855.[29] G. Meyer, K. Fra¨mling, J. Holmstro¨m, Intelligent products: a survey, Computers inIndustry 60 (3) (2009) 137–148.[30] C. Morariu, Th. Borangiu, Manufacturing
+ integration framework: a SOA perspec-tive on manufacturing, Information Control Problems in Manufacturing
+ 14 (1)(2012) 31–38.[31] D.A. Chappell, Enterprise Service Bus, O’Reilly Media Inc., 2009.[32] D. Abhijit, D. Wagle, Delivering software as a service, The McKinsey Quarterly,issue 6/2007 (2007).[33] C. Morariu, O. Morariu, Th. Borangiu, Customer order management in serviceoriented holonic manufacturing,
+ Computers in Industry 64 (8) (2013) 1061–1072.Web referencesebXML Standard, 2013, available online www.ebxml.org. STEP Standard,2013, available online www.steptools.com. OAG BOD Standard, OpenApplications Group Integration Speciﬁcation (OAGIS), 2013, available onlinewww.oagi.org. VMware ROI TCO Calculator for Server and DesktopVirtualization, 2013, available online http://roitco.vmware.com/vmw/.Octavian Morariu has obtained his M.Sc. degree inComputer Science in 2006 at Technical University ofCluj-Napoca and his Ph.D. degree in Systems Engineer-ing in 2014 at University Politehnica of Bucharest,Faculty of Automatic Control and Computers. Hisresearch work is focused on Private Cloud Computingsystems and their optimization for the use inmanufacturing systems integration. Octavian wasawarded for his research the IBM Ph.D. Fellowshipaward for 2012–2013.Theodor Borangiu obtained the M.Sc. degree inAutomatic Control in 1971 and the Ph.D. degree in‘Control Systems’ in 1979 of the University Politehnicaof Bucharest. He is professor since 1991 in the Dept. ofAutomatics and Applied Informatics, Head of theRobotics & AI Laboratory of the University Politehnicaof Bucharest. Director of Ph.D. thesis since 1992 in‘Control Systems’. Member of the Senate of UniversityPolitehnica of Bucharest (2004–present). Visiting pro-fessor at the universities of Vienna (1992–1994), Krems(1994), Cartagena (1996–1998), Toluca (1996), Darm-stadt (1990), Konstanz (1992, 2002–2003), Valenci-ennes (1996–2009). He has published 38 monographs,238 scientiﬁc papers and is author of 5 patents, all in theﬁeld of advanced robot control, machine vision, multiprocessor control, CIM, FMS,PLC systems, and AI applied in holonic, multi-agent manufacturing control androbotics.Silviu Raileanu is currently a Ph.D. student andteaching assistant at the University Politehnica Buchar-est, Faculty of Automatic Control and Computers. Hereceived both his engineering degree (2005) and hismasters degree (2009) in automatics from the Facultyof Automatic Control and Computers. He holds labora-tories and seminars for Robot Control Systems andDesign of Digital Devices. His interests include distrib-uted and heterarchical control of discrete eventsystems, scheduling and planning of ﬂexible fabricationsystems, the application of multi-agent and holonictheories for the control of ﬂexible manufacturingsystems, domains in which he published and contrib-uted to several publications.O. Morariu et al. / Computers in Industry 67 (2015) 27–37 37
