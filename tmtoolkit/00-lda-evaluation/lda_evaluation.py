@@ -10,7 +10,7 @@ import logging
 import sys
 import lda  # for the Reuters dataset
 
-import sys
+import os
 sys.path.insert(0, "..")
 sys.path.insert(0, "../tmtoolkit")
 
@@ -71,7 +71,7 @@ if __name__ == '__main__':   # this is necessary for multiprocessing on Windows!
     # load the Reuters News dataset provided by lda
     print('loading data')
 
-    if initialize_data:
+    if initialize_data or not os.path.isfile('./data.pickle'):
         from jsonlines import jsonlines
         from tmtoolkit.preprocess import TMPreproc
         corpus = {}
@@ -99,7 +99,7 @@ if __name__ == '__main__':   # this is necessary for multiprocessing on Windows!
 
     # evaluate topic models with different parameters
     const_params = dict(n_iter=150, random_state=1, refresh=10, eta=0.1)    # beta is called eta in the 'lda' package
-    ks = list(range(10, 70, 2)) + list(range(73, 100, 3))
+    ks = list(range(20, 30, 1))#list(range(10, 70, 2)) + list(range(72, 100, 2))
     varying_params = [dict(n_topics=k, alpha=1.0/k) for k in ks]
 
     # this will evaluate all models in parallel using the metrics in tm_lda.DEFAULT_METRICS
