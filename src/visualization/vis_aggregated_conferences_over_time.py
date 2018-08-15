@@ -8,7 +8,7 @@ import itertools
 import os
 import graph_line_styles
 
-def vis_aggregated_conferences_over_time(outlets, outlet_groups, documents, years, output_folder, normalize=False, skip_last_year=False):
+def vis_aggregated_conferences_over_time(outlets, outlet_groups, documents, years, output_folder, suffix="", normalize=False, skip_last_year=False):
     outlet_year = {}
 
     if skip_last_year:
@@ -19,7 +19,7 @@ def vis_aggregated_conferences_over_time(outlets, outlet_groups, documents, year
 
     for group in outlet_groups:
         outlet_year[group['name']] = [0 for i in range(0, len(years))]
-        
+
         for document in documents:
             if document['year'] < years[0] or document['year'] >= last_year:
                 continue
@@ -43,7 +43,7 @@ def vis_aggregated_conferences_over_time(outlets, outlet_groups, documents, year
         min_value = 0
         max_value = 1
 
-    output_file(os.path.join(output_folder, 'aggregated_outlets_over_time.html'))
+    output_file(os.path.join(output_folder, 'aggregated_outlets_over_time' + suffix + '.html'))
     p = figure(
        tools="pan,box_zoom,reset,save",
        y_range=[min_value, max_value * 1.05], x_range=[(years[0] - 1), (years[-1] + 1)], title="Toggle outlets by clicking on them in the legend.",

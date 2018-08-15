@@ -9,7 +9,7 @@ import os
 import graph_line_styles
 from tqdm import tqdm
 
-def create_topics_over_time(documents, topics, years, output_folder, normalize=False, absolute=False, num_topics=-1, topic_groups=None, skip_last_year=False, file_appendix=""):
+def create_topics_over_time(documents, topics, years, output_folder, normalize=False, absolute=False, num_topics=-1, topic_groups=None, skip_last_year=False, plot_width=1000, file_appendix=""):
     topic_year = {}
 
     if num_topics > 0:
@@ -122,5 +122,6 @@ def create_topics_over_time(documents, topics, years, output_folder, normalize=F
     p.add_layout(legend, 'below')
 
     p.plot_height = 750 + 25 + (len(legend_it) * 21)
+    p.plot_width = plot_width
 
     return p

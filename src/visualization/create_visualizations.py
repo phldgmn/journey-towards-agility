@@ -44,9 +44,10 @@ def main(input_output_sub_folder='', enable_logging=True):
     selected_topics = [topics[0], topics[1], topics[16], topics[18]]
     years_subset = []
     for year in years:
-        if year >= 2000:
+        if year >= 1998:
             years_subset.append(year)
     save(vis_topics_over_time.create_topics_over_time(papers, selected_topics, years_subset, output_folder, normalize=True, absolute=True, file_appendix="selected"))
+    save(vis_topics_over_time.create_topics_over_time(papers, topics, years_subset, output_folder, normalize=True, absolute=True, file_appendix="selected-2", plot_width=650))
 
     save(vis_topics_over_time.create_topics_over_time(papers, topics, years, output_folder, normalize=True))
     save(vis_topics_over_time.create_topics_over_time(papers, topics, years, output_folder, normalize=True, num_topics=25))
@@ -64,6 +65,7 @@ def main(input_output_sub_folder='', enable_logging=True):
                 }
         save(vis_topics_over_time.create_topics_over_time(papers, topics, years, output_folder, normalize=True, topic_groups=topic_groups))
         save(vis_topics_over_time.create_topics_over_time(papers, topics, years, output_folder, normalize=True, absolute=True, topic_groups=topic_groups))
+        save(vis_topics_over_time.create_topics_over_time(papers, topics, years_subset, output_folder, normalize=True, absolute=True, topic_groups=topic_groups, file_appendix="selected-years", plot_width=650))
 
     save(vis_journals_over_time.create_journals_over_time(journals, papers, years, output_folder, False))
 
@@ -86,8 +88,9 @@ def main(input_output_sub_folder='', enable_logging=True):
         for year in years:
             if year >= 2000:
                 years_subset.append(year)
-        save(vis_aggregated_conferences_over_time.vis_aggregated_conferences_over_time(journals, outlet_aggregation, papers, years_subset, output_folder, normalize=True, skip_last_year=True))
-        save(vis_aggregated_conferences_over_time.vis_aggregated_conferences_over_time(journals, outlet_aggregation, papers, years_subset, output_folder, normalize=False, skip_last_year=True))
+        #save(vis_aggregated_conferences_over_time.vis_aggregated_conferences_over_time(journals, outlet_aggregation, papers, years_subset, output_folder, normalize=True, skip_last_year=True))
+        save(vis_aggregated_conferences_over_time.vis_aggregated_conferences_over_time(journals, outlet_aggregation, papers, years, output_folder, normalize=False, skip_last_year=True))
+        save(vis_aggregated_conferences_over_time.vis_aggregated_conferences_over_time(journals, outlet_aggregation, papers, years_subset, output_folder, normalize=False, suffix="since_2000", skip_last_year=True))
 
     save(vis_count_topics.create_count_topics_over_time(papers, topics, years, output_folder))
     save(vis_count_paper.create_count_paper_over_time(papers, years, output_folder))
