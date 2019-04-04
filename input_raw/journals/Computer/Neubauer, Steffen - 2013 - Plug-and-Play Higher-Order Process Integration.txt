@@ -1,0 +1,864 @@
+  56 COMPUTER
+ Published by the IEEE Computer Society
+ 0018-9162/13/$31.00 © 2013 IEEECOVER FEATURE
+Johannes Neubauer and Bernhard Steffen, 
+Technische Universität Dortmund, Germany
+Unexpected hurdles in dealing with inte-
+gration, variability, and interoperability in 
+ software development can be overcome 
+
+using higher-order process integration. 
+
+Even in its simplicity-oriented, tamed 
+
+version, this approach fosters a powerful 
+
+plug-and-play discipline, where processes 
+
+and services are moved around like data.
+Computer applications are deeply integrated into 
+our daily activities in a wide range of areasŠfrom 
+personal activities such as shopping, travel, bank
+-ing, and paying bills, to business functions such 
+as payroll, taxes, and inventory tracking. These activities 
+
+are handled by different applications of widely varying 
+quality and flexibility. Indeed, there are often different 
+
+solutions for a single problem or task, even from the same 
+provider, depending on the user profile or context. Vari
+-ance occurs in the look and feel and the required user 
+process, not to mention the API interactions between 
+systems. As an unintended consequence, users struggle 
+with wide technical diversity in the applications, tech
+-nical developers struggle with increasingly challenging 
+implementations, and businesses grapple with exploding 
+maintenance costs.
+In 2011, with the launch of the Business Process Model 
+and Notation 2.0 (BPMN 2.0)
+1Ša standard for business pro
+-cess modeling that uses graphical representation to specify 
+business processesŠthe area of BPM heated up with the 
+promise that application-level business processes would 
+
+now be directly executable. This advance was due to BPMN 
+2.0™s potential to close the semantic gapŠa key source of 
+misunderstanding between business (dealing with the pur
+-pose of the application) and IT (focused on the technical 
+implementation)Šand so BPM was seen as an almost-uni
+-versal cure to diversity and variability problems. However, 
+BPM™s promise only bears out in specific scenarios and 
+does not support variability because it lacks the means to 
+
+manage process variation and variant-rich systems.
+2Current BPM standards, such as the Business Process 
+Execution Language (BPEL),
+3 BPMN,
+4 and even BPMN 2.0, 
+are constrained to fixed bindings between business activi
+-ties in a model and the services or substructures they refer 
+
+to. Thus, each variant must be modeled explicitly via deci
+-sion points that are modeling pendantsŠthat is, activities 
+that branch to different execution paths (successor activi
+-ties)Što if- and switch-clauses in comprehensive but very 
+large models; otherwise they are maintained individually 
+as a collection of separate entities. Both alternatives are 
+problematic: comprehensive modeling leads to unman
+-ageably large models, and the maintenance and support 
+of many structurally similar individual variant models is 
+a nightmare. 
+This is a long way from the simplicity BPM promised. 
+Enhancing BPM with a tamed version of higher-order pro
+-cess passing breaks the spell by supporting a flexible form 
+
+of type-based process integration, which also enables vari
+-ability modeling and captures variants with functionality 
+
+that was unknown at the process™s start.
+5 In practice, de
+-ployed and even running processes can be seamlessly 
+enhanced with new functionality without touching their 
+code base. In fact, based on the higher-order concepts, 
+
+new services and component processes can be selected, 
+modified, constructed, and then safely passed as if they 
+were data.
+Tamed
+ refers to both strict enforcement of type correct
+-ness and the explicit exclusion of recursion. Controlling 
+Plug-and-Play 
+ Higher-Order 
+Process 
+
+Integration
+  NOVEMBER 2013 57variability means controlling the huge 
+wealth of combinations, as described 
+by Anna-Lena Lamprecht, Stefan 
+Naujokat, and Ina Schaefer, else
+-where in this issue.
+6 Thus, at the 
+(business) process modeling level in 
+particular, variability concerns and 
+computational aspects should be 
+
+separated in favor of simplicity and 
+understandability.
+We illustrate the impact of our dy
+-namic, type-safe, application-level 
+
+service and process integration via 
+the FlexToll system, a small case 
+
+study in which services and pro
+-cesses are exchanged at runtime in 
+
+a plug-and-play fashion. 
+THE FLEXTOLL SCENARIO
+Toll road systems, particularly as 
+they are set up in Europe, can be an
+-noying because they not only require drivers to pay toll 
+
+fees, but also (force drivers) to wait in line behind others 
+
+to physically do so. Some automated toll-paying solu
+-tions eliminate this delay, but many are too specific and 
+
+require dedicated setups that typically only work for a 
+
+single toll service provider and very few payment and on
+-board systems.
+As the variety of payment services and local toll pro
+-viders is difficult to change, an ideal generic onboard 
+system should automatically adapt to these services™ spe
+-cific setups and infrastructures without requiring manual 
+payment interaction, let alone queuing. In fact, the com
+-plete toll process should work in three simple steps: 
+ Toll stations and approaching cars automatically con
+-nect and search for a matching configuration between 
+
+toll service and payment system. The automatic con
+-nector synthesis technology from the Connect Project
+7 or a new standard developed for this purpose and en
+-forced could be used to support this communication.
+ The toll station stores the matching configuration 
+
+together with the car™s entry point, time, and other 
+relevant data as the car proceeds. Automatic payment 
+processing is guaranteed. Only in the case of outage 
+
+or system failure would the car need to queue for an 
+entry ticket. 
+ When the car leaves the toll area, the toll is billed to 
+the chosen payment system according to the rules of 
+the applied toll service. 
+Why is this solution beyond the scope of current (busi
+-ness) process modeling? Because no existing solution  
+deals with the 
+combinatorial explosion
+: for 
+t toll services, 
+p payment services, and 
+c onboard systems, the fixed 
+binding between business activities and services or the 
+
+substructures they refer to implies that every combina
+-tion must be specified, leading to an explosion in either 
+quantity or size in the order of 
+O(t × p × c). Furthermore, 
+current BPM solutions can only deal with entities known 
+at design time. Adding a new entity requires a new release.
+Relying on state-of-the-art product lines
+2 and variation 
+management
+8 might help simplify the required mainte
+-nance effort, but they do not reduce the combinatorial 
+explosion or the need for new releases. Overcoming 
+these limitations requires a mechanism and discipline 
+
+that allow late discovery and binding of 
+entire processes
+, and can construct ad hoc solutions in a simple way while 
+
+still ensuring correctness. Taken together, higher-order 
+
+thinking and the type safety concept from programming 
+languages do the job.
+HIGHER˜
+ORDER EX
+TREME 
+ MODEL˜DRIVEN DEVELOPMEN
+TWe combine higher-order capabilities with the eXtreme 
+Model-Driven Development paradigm.
+9 XMDD brings to
+-gether ideas from service-oriented, model-driven design 
+
+and the user-centeredness advocated in extreme program
+-ming. XMDD puts application experts in control of process 
+design and evolution according to their level of technical 
+competence and business responsibility. As an example, 
+the Java Application Building Center (jABC)
+10 is an XMDD 
+graphical framework for service-oriented design and de
+-velopment explicitly designed for nontechnical people. 
+Figure 1 shows the user interface for a subprocess in 
+the FlexToll system. The 
+browser area
+ (Figure 1, top left) 
+shows in tree form the projects, a collection of process 
+Figure 1. 
+The eXtreme Model-Driven Development (XMDD) paradigm in action. The 
+screenshot shows a collection of toll-related processes including 
+LookupTollService
+ and GermanToll
+.  58 COMPUTER
+COVER FEATURE
+models (called service logic graphs, or SLGs) for the 
+active project, and the library of available services or 
+components. In the screenshot, no service browser tab 
+is available at all, sinceŠin the spirit of separation of 
+
+concernsŠthey are only visible to specific (more tech
+-nical) users. The collections of SLGs and services form 
+
+the available domain of reusable, configurable processes 
+
+and components. 
+In the 
+inspector area
+ (Figure 1, bottom left), several in
+-spectors (SIBGraph, Draw, Reference, and LocalChecker) 
+
+show internal information for the selected activity or SLG. 
+
+In the snapshot, the SIBGraph inspector shows that 
+Ger
+-manToll
+ is a service and that it complies with the interface 
+TollService
+. Also included in this window are its icon, vari
+-ables, and variable types. The small blue 
+G icon indicates 
+that 
+paymentService
+ is a higher-order variable. This in
+-formation can be edited. In the SIBGraph inspector, for 
+
+example, the user can change the name of the graph; add, 
+delete, or rename context variables (as well as set their 
+type); and drag and drop variables to activities to wire data 
+
+dependencies. 
+The 
+graph canvas
+ (Figure 1, right) is the modeling area, 
+currently displaying the process model for the 
+GermanToll
+ service. Users build their process models by browsing the 
+
+SLG and service libraries and dragging the icons of selected 
+
+elements to the canvas, where they are instantiated as ac
+-tivities (SIBs, or service-independent building blocks). The 
+
+user then connects them as appropriate, and, finally, they 
+
+are configured via the inspectors. 
+The SLGs and their constituent activities (service-
+ independent building blocks, or SIBs) are the only models 
+
+used in application development. In fact, the one-thing 
+approach (OTA)
+11 provides the conceptual modeling in
+-frastructure that enables all stakeholders (application 
+
+experts, designers, component experts, implementers, 
+quality assurers, and so on) to cooperate in an XMDD 
+
+fashion.
+11 In particular, OTA allows immediate user ex
+-perience and seamless acceptance: all stakeholders 
+know, refine, and modify the same ﬁthingﬂ without 
+duplications or the need to juggle different modeling 
+languages or paradigms. Stakeholders can observe the 
+
+progress of the development and the implications of 
+ decisions at their own level of expertise, which is a cen
+-tral trait of OTA.
+Technically, SLGs are formal models with well-defined 
+semantics in terms of Kripke transition systems (KTSs) 
+
+that come with a wealth of corresponding analysis and 
+
+synthesis tools. KTSs are generalizations of Kripke struc
+-tures and labeled transition systems that allow labels on 
+
+both nodes (the SIBs) and edges (the outgoing branches).
+12 Operationally, the process models are similar to control-
+flow graphs: the SIBs represent activities and the branches 
+describe how to continue the execution depending on the 
+
+result of the previous activity.
+SIBs can represent a single functionality or an entire 
+subgraph (that is, another SLG),
+13 thus serving as a macro 
+that hides more detailed process models. SIBs are parame
+-terizable and communicate resources via shared 
+execution 
+
+contexts
+, a hierarchical concept comprising executable 
+process instances. Because this approach is higher order, 
+it allows high reusability of components (see, for example, 
+the article by Cristina Seceleanu and Ivica Crnkovic
+14 in 
+this issue) as well as of entire (sub-)models and processes 
+within larger applications: (sub-)models and processes can 
+be passed around just like data.
+15TYPE 
+CON
+SIST
+ENCY 
+IN THE 
+ HIGHER˜
+ORDER 
+CON
+TEX
+TOur approach combines strict type matching at the 
+process level with the higher-order process integration 
+described previously, so the application level and corre
+-sponding interface descriptions of business activities use 
+compatible data types. Type transformations at the process 
+level remove type mismatches. The benefits of this ap
+-proach include agility, because integrating new processes 
+or changing existing processes does not imply changes to 
+any other services as long as interface compatibility is war
+-ranted, and interoperability, because strict type matching 
+at the process level can hide differences between systems 
+behind interface descriptions. 
+This way, services can be introduced or exchanged with 
+different internal interfaces at any time in a plug-and-play 
+
+fashion. However, the simplicity and ease of change man
+-agement require a well-thought-out handoff between the 
+technical level, which deals with implementation issues 
+and the various programming language types and con
+-cepts, and the business (user) level, which deals with the 
+process logic and virtual concepts that must be appro
+-priately coupled or decoupled to guarantee a smooth 
+
+plug-and-play experience. 
+Figure 2 shows our solution, which extends business- 
+and application-oriented modeling beyond the scope of 
+Java APIProcessmodels
+(SLG)Services:Java, CMD, RMI, WSDL, REST, CORBA, JNI, ......Dynamic SIBTechnicalApplicationCode (Java)*Figure 2. 
+Dynamic pattern for business process modeling 
+using Java as the base language. SIB, service-independent 
+
+building block; SLG, service logic graph.
+  NOVEMBER 2013 59current practice in BPM. We base our implementation on 
+an established programming platform (in this case Java) 
+that defines the coding environment for the code-level in
+-tegration of external services, and thus the implementation 
+language of the SIBs and SLGs, but we explicitly support 
+permeability of concepts and techniques of the two worlds 
+that cooperate in the middle layers to deliver the code-level 
+
+interoperability for agile process models.
+An SLG that supports higher-order process integration 
+and guarantees type compatibility consists of possibly 
+
+hierarchical business activities within jABC™s graphical 
+ development environment. Coarse-grained SLGs, classi
+-fied as application-level graphs, are successively refined 
+
+by more specialized and technical SLGs, which in turn are 
+based on dynamic SIBs. Dynamic SIBs are based on Java 
+method calls and domain-specific data structures also 
+
+defined in Java.
+Our system
+ uses the available type information to 
+check whether the use of services and subgraphs passed 
+
+this way is correct with regard to the underlying API ex
+-pected by the higher-order SIB (caller) and provided by 
+
+the SLG passed as parameter (callee). This type-checking 
+
+mechanism, which overlaps the technical and business 
+worlds, cultures, and practices, narrows the semantic gap 
+and moves the hard technological break behind a Java API, 
+
+where only technical experts are involved. In this sense 
+it supports the principle, ﬁsimple for the many, difficult 
+for the few.ﬂ
+ 16The fact that prominent business process management 
+frameworks, such as Java BPM (jBPM) versions 4 and 5, 
+ Activiti, AristaFlow, and jABC, are all based on Java in
+-dicates that it is a good choice for implementing such a 
+
+framework. However, Java is only used at the tool/system 
+levelŠfor example, to support consistent typing and ob
+-ject-oriented features such as subtyping and parametric 
+polymorphism. Individual processes might use a different 
+implementation language. Moreover, these concepts are 
+quite general and can be implemented in and for other 
+
+typed languages, such as C++ or C#.
+The services level in Figure 2 includes the wealth of service 
+and component paradigms that can serve as execution-
+ time implementations for SIBs. JavaŠas a largely plat
+-form-independent languageŠis a good choice here as well, 
+
+providing adapters to a wealth of other languages. For ex
+-ample, Web Services Description Language (WSDL) and 
+Representational State Transfer (REST) stubs can be gen
+-erated from the corresponding service descriptions. Java 
+also allows the integration of arbitrary code, assuming it 
+is accessible through a standard Java API. Almost every 
+technology or method can be wrapped into a Java method: 
+
+the Java Runtime Environment (JRE) provides interpret
+-ers for scripting languages such as Groovy, Jython, and 
+
+JRuby, and the Java Native Interface (JNI) eases access to 
+
+platform-dependent functionsŠfor example, via C or C++ 
+code. In fact, even command-line tools are accessible via 
+
+standard Java libraries.
+MODELING FLEXTOLL A
+S A  PLUG˜AND˜
+PLAY 
+APPLICA
+TION
+The sketch at the top of Figure 3 shows how FlexToll 
+should function from the user™s perspective: the bar should 
+automatically go up as the vehicle approaches the en
+-trance and exit toll gates at speed. The handwritten notes 
+below this sketch reflect the toll stations™ viewpoint: at 
+the entry barrier, check the compatibility of all the soft
+-ware processes for the approaching vehicle and store the 
+checkpoint data; later, at the exit barrier, recognize the car, 
+calculate the price due for this journey, and issue the ap
+-propriate bill to the appropriate billing agency.
+The process model shows how the onboard system 
+handles this scenario. At the top level, the main process 
+
+is launched when the toll station at the start checkpoint 
+sends an event to the approaching car (activity 
+start
+). Upon 
+launch, FlexToll looks for the ﬁrightﬂ 
+payment service
+ and 
+toll services
+. If these lookup activities execute success
+-fully, the onboard FlexToll system is prepared for payment 
+
+at the exit point and the car passes the gate. Otherwise 
+(for example, the car™s onboard system attempts to use an 
+unsupported payment method), the system switches to 
+
+manual operation, and the driver must pay at the toll sta
+-tion. When the car reaches the exit station, the station™s 
+
+toll system recognizes the car, retrieves the corresponding 
+
+data, and bills FlexToll in the local currency. Upon receiv
+-ing the bill, FlexToll invokes the business activity 
+pay toll
+, which references the previously stored toll process with 
+
+the previously stored payment process instance (from the 
+context variable 
+payService
+) as a parameter. If the payment 
+operation fails, it exits to 
+assistance needed
+.This process looks simple, but it requires not only de
+-termining the driver™s preferred payment service but also 
+a toll process that is compatible with the payment and 
+
+toll systems. To exploit the full flexibility, such a system 
+requires higher-order processes. Most current toll collec
+-tion systems in Europe use fixed payment services as well 
+as toll systems, and require user registration and an on
+-board unit (OBU). Consequently, a truck driver who drives 
+
+from Hamburg to Greece might have quite a collection 
+
+of identities with different national and local toll collec
+-tion organizations, and an impressive collection of OBU 
+devices.
+Services can be introduced or exchanged 
+with different internal interfaces at any 
+
+time in a plug-and-play fashion.
+  60 COMPUTER
+COVER FEATURE
+Both activities, 
+get payment service
+ and 
+get toll 
+services
+, look in the respective process lists for 
+type-compatible processes that deliver the re
+-quired functionality. Both are higher-order SIBs, 
+symbolized by the magnifying glass icon. The SLG 
+library includes a selection of toll processes, as 
+shown in Figure 1. Matching process instances are 
+
+stored to the corresponding variable  (that is, the 
+instantiated SLGs) in the execution context of the car™s Flex-
+ Toll system, represented by the 
+tollService
+ or 
+payService
+ objects. The activities 
+pass gate
+ and 
+approach exit
+ are 
+typically toll-system specific, too. However, for ease of 
+bill(SwedishBill)value(SEK) converted(EUR)...ContexttollService(TollService)payService(PaymentService)...ContextpayService(PaymentService)...inputsSuccessSuccessSuccessSuccessSuccessSuccessApproach exitPay tollEndAssistance neededFailedpayService(PaymentService)Manual operationStartPass gateGet payment serviceGet toll servicesNot foundNot foundunsupported paymentStartSuccessSuccessSuccessSuccessErrorexceptionSuccessSuccessSuccessSuccessSuccessSuccessSuccessSuccessCancelConvert currencyConvert currencyConvert sender infoRetrieve receiver infoConvert receiver infoConvert receiver infoDo paymentDo paymentExtract valueRetrieve billSuccessSuccessCancelFailedStartConcrete servicefor payment withcredit cardFigure 3. 
+The higher-order business process model of the in-car FlexToll system.
+  NOVEMBER 2013 61exposition, we focus on 
+pay toll
+, as the other activities 
+would be treated similarly.
+Whereas 
+payService
+ is a first-order service, 
+tollService
+ is second order because it needs the selected 
+payService
+ as an input parameter. Thus, 
+payService
+ is a procedural 
+parameter, and its flow is depicted by the thick gray arcs 
+in Figure 3. At exit, the 
+pay toll
+ activity must also be aware 
+
+of these bindings. To illustrate the flexibility of this tamed 
+form of higher-order process modeling, assume that a US 
+individual drives to Uppsala, Sweden, with OBU software 
+
+made by a German company. The middle level of Figure 3 
+shows a concrete process model for a Swedish toll service, 
+executed by activity 
+pay toll
+ in the main process. Its SLG re
+-trieves a bill from the toll station with receiver information 
+(for payment) and the calculated fee, converts this amount 
+from the local currency (Swedish krona, or SEK) to euro 
+
+(EUR) as FlexToll system-wide valuta. The execution con
+-text at this hierarchy level contains the context variables 
+
+bill
+, value
+, and 
+converted
+ and their respective data objects, 
+as well as a payment process instance in the context vari
+-able 
+payService
+. Finally, the business activity
+ do payment
+ triggers the execution of the payment service previously 
+
+identified and passed.
+All the service processes must match an interface 
+definition that determines the input/output parametriza
+-tion. This definition includes strict data types for sender, 
+ receiver, value, and so on that correspond to the public, 
+
+application-level concepts used by the processes at their 
+
+service interface to communicate with the outside world. 
+Internally, however, a concrete payment process converts 
+these data types to the concrete types used by the target 
+
+payment service, calls the service, and translates the result 
+back to the model-level data types. In our case, the sup
+-ported value in euro is translated into US dollars (USD), 
+since the driver pays with a US credit card.
+This therefore demonstrates the ability to plug in entire 
+process models for a given business activity, as illustrated 
+
+with 
+pay toll
+ for the first hierarchy level and 
+do payment
+ for 
+the second, to seamlessly deliver ease of modeling, adapt
+-ability, and ultimately flexibility to the entire process. The 
+
+system does this without needing explicit modeling of all 
+alternatives at design time or explicit management of a 
+large base of variants, and without requiring redeployment 
+
+of code and restart of ongoing processes for integrating 
+new or varying existing component functionality.
+Note the green arrow between the activities 
+convert 
+currency
+ and 
+convert sender info
+ at the bottom of Figure 3. 
+ This snapshot was taken during process execution with 
+the jABC tracer, the built-in SLG interpreter. The green col
+-oring of edges, business activities, and context variables 
+of process instances graphically highlights the concrete 
+execution trace in the process model. The tracer can also 
+
+serve as a systematic and step-by-step debugging facility in 
+the modeling framework, showing the hierarchy, contexts, 
+and concrete data values. In this snapshot, the execution is 
+paused in the business activity 
+convert sender info
+ within 
+the second hierarchy level (the actual payment process).
+BENE
+FITS
+ AND 
+IMPAC
+THigher-order modeling™s winning attribute is best dem
+-onstrated by noting that the FlexToll process model is 
+totally unaware of which toll service it will execute, and 
+the selected toll service is unaware of which payment 
+
+services it might execute. All that is necessary is that the 
+chosen services adhere to the required interface, which 
+in our approach is achieved by a strict higher-order type 
+
+discipline that guarantees executability. This means, for 
+example, that 
+ any toll or payment service can be added to the Flex
+-Toll scenario simply by providing a corresponding 
+type-correct interface, with no changes to the Flex
+-Toll OBU; and 
+ executability is maintained independent of the se
+-lected combination of type-correct toll process or 
+
+payment process instances. 
+Thus, there is no explosion in model size or number of 
+variants, and the full FlexToll scenario can be maintained 
+elegantly in a ﬁwrite once, run everywhereﬂ fashion.
+The price to pay is the complexity of a higher-order 
+modeling and execution environment. The looked-up pay
+-ment process is passed as a parameter to the looked-up 
+
+toll service, so this example is already third order. More 
+concretely, FlexToll has a process parameter (
+tollService
+) that has another process parameter (
+payService
+) as a para-
+ meter. We organize these dependencies in a strictly hier
+-archical fashion: the two relations 
+is parameter of
+ and 
+can 
+
+be called by
+ form strict partial orders. Whereas the first 
+preorder restriction is pretty standard, the latter excludes 
+recursion, a fact essential for our notion of 
+tamed
+ higher 
+ orderedness, which is tailored for achieving transparent 
+and intuitive variability modeling at the process-model 
+level. In our experience, prohibiting recursion enforces 
+
+a clear separation between algorithmic aspects, which 
+are typically technical in nature and local to specific 
+processes, and variability modeling, which concerns the 
+
+global interplay between processes, services, and data 
+at the business level. This modeling level benefits most 
+from the ability to treat all these entities alikeŠas objects, 
+Prohibiting recursion enforces a clear 
+separation between algorithmic aspects 
+
+and variability modeling.
+  62 COMPUTER
+COVER FEATURE
+as parameters, and across multiple hierarchy levels. In 
+fact, most process models do not seem to require recur
+-sion, and where the need arose (in algorithmic parts), we 
+
+safely resolved it at an intraprocess level. Using jABC, such 
+
+higher-order process models are directly executable, and 
+in fact, their execution can be intuitively visualized, as 
+described earlier.
+To maintain the intended transparency and simple 
+
+plug-and-play intuition, we did not allow recursion 
+at the interprocess level. Our experience with this 
+decision is rather positive. Most process models do not 
+seem to require recursion, and where the need arose (in 
+algorithmic parts) we safely resolved it at an intraprocess 
+level. The future will show whether and then how to loosen 
+
+this restriction if necessary. Currently, we are considering 
+how to best extend jABC™s verification technology to also 
+capture these tamed higher-order process models, in order 
+
+to produce a comprehensive framework for dealing with 
+product-line management, variability modeling, and self-
+adaptation technology in a constraint-based fashion.
+5  References
+ 1.
+ T.˜Allweyer, 
+BPMN 2.0:˜Introduction to the Standard for Busi
+-ness Process Modeling
+, Books on Demand (BoD), 2009.
+ 2.
+ F.J.v.d. Linden, K.˜Schmid, and E.˜Rommes, 
+Software Prod
+-uct Lines in Action: The Best Industrial Practice in Product 
+Line Engineering
+, Springer, 2007.
+ 3.
+ J.˜Pasley, ﬁHow BPEL and SOA Are Changing Web Services 
+Development,ﬂ 
+IEEE Internet Computing
+, vol.˜9, no.˜3, 2005, 
+pp. 60-67.
+ 4.
+ J.˜Recker and J.˜Mendling, ﬁOn the Translation between 
+BPMN and BPEL: Conceptual Mismatch between Pro
+-cess Modeling Languages,ﬂ 
+18th Int™l Conf. Advanced 
+ Information Systems Eng. 
+(CAiSE), Proc. Workshops 
+and Doctoral Consortium, Namur Univ. Press, 2006, 
+ pp. 521-532.
+ 5.
+ S.˜Jörges et al., ﬁA Constraint-Based Variability Modeling 
+
+Framework,ﬂ 
+Int™l J. Software Tools for Technology Transfer
+, vol. 14, no. 5, 2012, pp. 511-530.
+ 6.
+ A.-L. Lamprecht, S.˜Naujokat, and I.˜Schaefer, ﬁVariability 
+Management beyond Feature Models,ﬂ 
+Computer
+, vol.˜46, 
+no.˜11, 2013, pp. 48-54.
+ 7.
+ A.˜Bennaceur et al., ﬁTowards an Architecture for Runtime 
+Interoperability,ﬂ 
+Proc. Int™l Conf. Leveraging Applications 
+of Formal Methods, Verification, and Validation 
+(ISoLA), vol. 
+2, LNCS 6416, Springer, 2010, pp. 206-220.
+ 8.
+ I.˜Schaefer et al., ﬁSoftware Diversity: State of the Art and 
+
+Perspectives,ﬂ 
+Int™l J. Software Tools for Technology Transfer
+, vol.˜14, no.˜5, 2012, pp. 477-495.
+ 9.
+ T.˜Margaria and B.˜Steffen, ﬁService-Orientation: Con
+-quering Complexity with XMDD,ﬂ 
+Conquering Complexity
+, M.˜Hinchey and L.˜Koyle, eds., Springer, 2012.
+ 10.
+ B.˜Steffen et al., ﬁModel-Driven Development with the 
+jABC,ﬂ 
+Proc. Int™l Haifa Verification Conf. Hardware and 
+Software, Verification, and Testing 
+(HVC 06), LNCS 4383, 
+Springer, 2006, pp. 92-108.
+ 11.
+ B.S.T.˜Margaria, ﬁBusiness Process Modeling in the jABC: 
+
+The One-Thing Approach,ﬂ 
+Handbook of Research on Busi
+-ness Process Modeling
+, Jo Cardoso and W. van der Aalst, 
+eds., IGI Global, 2009, pp. 1-26.
+ 12.
+ M.˜Müller-Olm, D.˜Schmidt, and B.˜Steffen, ﬁModel-
+
+Checking: A Tutorial Introduction,ﬂ 
+Proc. Int™l Symp. Static 
+
+Analysis
+ (SAS 99), Springer, 1999, pp. 330-354.
+ 13.
+ B.˜Steffen and T.˜Margaria, ﬁMetaframe in Practice: Design 
+of Intelligent Network Services,ﬂ 
+Correct System Design: 
+Recent Insight and Advances
+, LNCS 1710, Springer, 1999, 
+pp. 390-415.
+ 14.
+ C.˜Seceleanu and I.˜Crnkovic, ﬁComponent Models Made 
+
+for Reasoning,ﬂ 
+Computer
+, vol.˜46, no.˜11, 2013, pp. 40-47.
+ 15.
+ J.˜Neubauer, B.˜Steffen, and T.˜Margaria, ﬁHigher-Order 
+
+Process Modeling: Product-Lining, Variability Modeling 
+
+and Beyond,ﬂ 
+Electronic Proc. in Theoretical Computer 
+ Science
+, vol.˜129, 2013, pp. 259-283.
+ 16.
+ T.˜Margaria and B.˜Steffen, ﬁSecond-Order Semantic Web,ﬂ 
+Proc. Ann. IEEE/NASA Software Eng. Workshop
+ (SEW 05), 
+IEEE CS Press, 2005, pp. 219-227.
+Johannes Neubauer 
+is a PhD student in the Department 
+of Computer Science at Technische Universität Dortmund, 
+
+Germany. His research interests include model-driven 
+ development, variability modeling, programming in the 
+
+large, service-oriented computing, and automata learning. 
+
+Contact him at johannes.neubauer@cs.tu-dortmund.de.
+Bernhard Steffen 
+is the chair of programming systems 
+in the Department of Computer Science at Technische 
+
+Universität Dortmund, Germany. His research interests 
+
+include program analysis and optimization, model-based 
+
+analysis of distributed systems, automata learning, and 
+
+service-oriented computing. Steffen received a PhD in 
+
+computer science from Christian-Albrechts-Universität 
+
+zu Kiel, Germany. He is a member of IEEE, ACM, Interna
+-tional Federation for information Processing, the German 
+
+Informatics Society, and European Association of Soft
+-ware Science and Technology. Contact him at steffen@cs.
+ tu-dortmund.de.
+ Selected 
+CS articles and columns are available 
+  for free at http://
+Computing
+Now.computer.org.
+IEEE Internet Computing 
+reports emerging tools, 
+technologies, and applications implemented through the 
+
+Internet to support a worldwide computing environment.
+For submission information and author guidelines, 
+please visit www.computer.org/internet/author.htm
+Engineering and Applying the Internetwww.computer.org/internet

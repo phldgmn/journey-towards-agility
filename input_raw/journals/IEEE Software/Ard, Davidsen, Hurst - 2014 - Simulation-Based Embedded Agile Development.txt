@@ -1,0 +1,721 @@
+ 0740-7459/14/$31.00 © 2014 IEEE
+ MARCH/APRIL 2014
+  |  IEEE SOFTWARE
+97
+FEATURE:
+ SECTION TITLE
+FEATURE:
+ SATURN
+Simulation-
+Based 
+
+Embedded Agile 
+
+Development
+Jason Ard, Kristine Davidsen, and Terril Hurst
+Raytheon Missile Systems
+// 
+When tailored to work in conjunction 
+with agile principles, simulation-centric 
+development can dramatically improve 
+product quality, reduce cost, and rapidly 
+deliver reliable working code. 
+//AEROSPACE SOFTWARE DEVEL-
+OPERS 
+are constantly driven to de-
+liver higher-quality products faster 
+and cheaper. One recent assignment 
+mandated going from a notional 
+
+paper design to initial ˜ ight tests in 
+
+only 10 months. Previous timelines 
+for similar products had ranged 
+from two to three years. Although 
+
+we commonly leverage simulation 
+
+and embedded software frameworks 
+for high-level reuse, there is often 
+no similar preexisting product that 
+
+can be adapted to meet customer re-
+quirements due to the wide diversity 
+of customer needs. At the beginning 
+of a project, there is typically no ex-
+
+isting hardware, ˚ rmware, nor test 
+equipment. When those resources 
+do become available, they are often 
+
+insuf˚ cient to support the simultane-
+
+ous needs of all system developers.
+In addition to typical software 
+constraints such as available mem-
+
+ory, throughput, and performance, 
+
+the real-time embedded nature of 
+our products routinely imposes re-
+quirements such as tight execution 
+
+timing, concurrency, and confor-
+mance to hardware interfaces. There 
+are many ways for a missile test to 
+go awry, so safety and reliability are 
+
+always high priority. With any new 
+design, our requirements are not 
+fully understood at the outset and 
+
+are subject to change. Nevertheless, 
+
+starting very early in our product life 
+cycle, we must demonstrate func-
+tional software in parallel with de-
+
+veloping the hardware.
+To deal with these challenges, 
+we combine a software-in-simula-
+
+tion (SiS) architecture (see Figure 
+
+1), with the set of practices collec-
+tively known as agile software de-
+velopment. We use simulation not 
+
+just for periodic performance assess-
+
+ment, but daily, to provide continu-
+ous feedback for collaborative design 
+and development. 
+Software-in-Simulation 
+Our embedded software consists 
+
+of many different modules, such as 
+guidance and control algorithms, 
+seeker and signal processing algo-
+
+rithms, messaging and control logic, 
+
+and hardware device interfaces. In 
+the past, many of our projects devel-
+oped the ˜ ight simulation software 
+
+and the embedded software sepa-
+
+rately. This approach frequently re-
+sulted in integration problems, and 
+implementation issues were not be-
+
+ing discovered until late in the de-
+velopment cycle. We transitioned to 
+agile software development to ad-
+
+dress such dif˚ culties and identi˚ ed 
+
+a need to demonstrate and test the 
+˜ ight software much earlier. 
+As shown in Figure 1, in SiS, the 
+hardware device drivers and embed-
+ded software algorithms in our sim-
+ulated test and evaluation environ-
+ment are the same ones that we ˜ y. 
+
+Figure 2 illustrates how SiS allows 
+
+us to use simulated hardware com-
+ponents and environments so that 
+s2ard.indd   972/6/14   4:42 PM 98 IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+FEATURE:
+ SATURN
+software development and hardware 
+development can be conducted in 
+parallel. The ˜ ight software under-
+goes no modi˚ cations before being 
+
+cross-compiled for execution on the 
+
+embedded processor. 
+Agile Supports SiS 
+Agile software development is a set 
+
+of methodologies emphasizing 
+frequent delivery of the most 
+
+valuable working software, 
+close collaboration and frequent 
+communication,
+self-organizing teams that learn 
+as they collaborate, and
+mechanisms to handle changing 
+requirements without crisis.
+While simulations containing 
+embedded software need not be de-
+veloped in an agile manner, Scrum™s 
+
+agile framework helps realize 
+
+greater bene˚ ts from a SiS approach. 
+One Scrum event is the sprint re-
+view, in which the development 
+
+team demonstrates what was ac-
+
+complished during the sprint. It can 
+be challenging to have something 
+
+visual to demonstrate with embed-
+
+ded software development as there 
+is often little to ﬁsee.ﬂ We might get 
+only a blinking light or a wiggling 
+
+˚ n. Developing software in simula-
+
+tion helps everyone see the missile 
+˜ ying and track trends in perfor-
+mance. When such feedback is used 
+
+in the sprint review as well as daily 
+collaboration, these collective learn-
+ing opportunities allow more nimble 
+
+responses to necessary changes in 
+
+requirements and design.
+Historically, keeping track of the 
+myriad stakeholder concerns dur-
+
+ing a rapid development cycle has 
+
+been a signi˚ cant challenge. We have 
+learned the hard way that integrat-
+ing large volumes of work developed 
+
+by independent groups can be time-
+consuming and painful. 
+ Changes 
+to a single component often impact 
+multiple technical concerns, and fre-
+
+quently multiple developers might 
+edit the same components concur-
+rently for different reasons. When 
+
+such changes are made by isolated 
+
+subgroups and then merged into the 
+whole in batch form as large integra-
+tion events, separation of concerns 
+and traceability of change effects can 
+
+become insurmountable challenges. 
+Practicing continuous integration 
+within each two-week sprint and 
+
+following the agile principle of close 
+
+and frequent collaboration between 
+stakeholders helps us develop soft-
+ware without getting stuck on such 
+
+integration issues. All of the contrib-
+
+utors to the embedded software use 
+a common simulation as the tool to 
+develop and test their changes. This 
+
+helps us avoid the drawbacks of big-
+bang integration, where large change 
+sets are brought into the software 
+baseline as discrete events. SiS allows 
+
+all system contributors (simulation 
+and embedded software developers, 
+algorithm developers, performance 
+
+analysts, hardware developers, and 
+
+systems testers) to operate in the 
+same, continuous-integration en-
+vironment. It can get hectic in this 
+
+shared environmentŠ where there 
+
+are lots of moving partsŠbut it is 
+worth it because we are able to in-
+tegrate smaller pieces more rapidly 
+
+and thereby have more frequent and 
+focused learning opportunities re-
+garding our system. 
+For example, we recently inte-
+grated the device communication 
+layer into one of our simulations. 
+When we ˜ ew this software in the 
+
+simulation, we immediately saw the 
+
+missile spin out of control and crash 
+into the ocean. In a short time, the 
+issue was traced to a misprinted ac-
+
+celeration sensor scale factor in the 
+hardware documentation. This re-
+sulted in the navigation software be-
+
+ing unable to calculate how fast the 
+
+missile was spinning or which way 
+was up. Fortunately, we caught a 
+potentially catastrophic ˜ ight fail-
+
+ure early in the development timeline 
+
+at near-zero cost. After con˚ rming 
+Hardware emulationSoftware emulationFlight software(algorithms and device drivers)SimulationReal hardwareFIGURE 1. 
+Software-in-simulation (SiS) architecture. The hardware device drivers and 
+embedded software algorithms in our simulated test and evaluation environment are 
+
+the same ones that we ˜ y. SiS allows us to use simulated hardware components and 
+
+environments so that software and hardware development can be conducted in parallel.
+s2ard.indd   982/6/14   4:42 PM MARCH/APRIL 2014 
+ |  IEEE SOFTWARE
+99with the hardware supplier that the 
+device documentation was indeed 
+wrong, we modi˚ ed our embedded 
+software. In less than a day, we were 
+
+back ˜ ying smooth. 
+SiS Supports Agile
+Prototyping can be dif˚ cult to imple-
+
+ment in early development, when the 
+physical assets needed to construct 
+a prototype system do not yet exist. 
+
+SiS facilitates earlier development of 
+
+functioning embedded software by 
+providing digitally modeled compo-
+nents. This allows us to write the 
+
+device drivers and algorithms and to 
+
+observe their impact on the system 
+before having the actual devices. 
+Simulation provides virtual hard-
+ware for developing and testing our 
+
+software. As hardware becomes 
+available, the corresponding hard-
+
+ware models are validated by com-
+
+paring measured system and subsys-
+tem responses to simulated responses 
+to assure that the simulation models 
+
+accurately represent the hardware. 
+
+Furthermore, the virtual hardware 
+provided by the simulation extends 
+the testing environment throughout 
+
+the project™s lifespan. In some cases, 
+
+this simulated virtual hardware is 
+absolutely necessary due to cost and 
+safety issues. It would be problem-
+atic if we had to ˚ re a real rocket 
+
+booster during each launch sequence 
+in integration and test.
+A central tenet of agile develop-
+ment is to learn as we go and to in-
+corporate that learning in the next it-
+eration. Using SiS, small increments 
+of software are developed and the re-
+
+sults of the changes are observed and 
+analyzed, helping us manage com-
+plexity and write better software. 
+
+Areas of the system that have not 
+
+yet been developed can be stubbed 
+out with simplistic simulation com-
+ponents and then replaced and up-
+
+dated iteratively. We can shorten our 
+
+integration cycles to as little as a few 
+minutes using the simulation. SiS 
+also facilitates concurrent hardware 
+
+development and integration because 
+we can swap hardware components 
+such as a ˚ eld-programmable gate 
+
+array (FPGA) or embedded proces-
+
+sor onto a known working software 
+con˚ guration and test the full end-
+to-end effects on the system. SiS al-
+
+lows us to integrate continuously, 
+
+constantly exercising the embedded 
+˜ ight software, giving us higher con-
+˚ dence and more accurate system 
+
+performance predictions.
+Simulation performance predic-
+tions aid in achieving the agile goal 
+
+of responding to changes in require-
+ments quickly. In one case, while de-
+
+veloping a system with a motor that 
+utilized a new type of fuel, our sup-
+plier discoveredŠone year into the 
+
+projectŠthat it was unable to create 
+
+a usable form of the new fuel. With-
+out a usable fuel, there could be no 
+product, and the whole project was in 
+
+jeopardy. The design had to change. 
+We considered several alternate 
+forms of fuel from multiple suppli-
+
+ers. Using the simulation, we showed 
+
+the impact that each new fuel would 
+have on system performance. These 
+timely results provided our technical 
+
+leadership with the data needed to 
+
+rapidly adapt the design and continue 
+working toward production.
+Regardless of the procedure used 
+to develop a new software-intensive 
+
+system, the process can be decom-
+posed into the phases of require-
+
+ments development, design, code, 
+
+and test (see Figure 3). Simulation 
+feedback is used throughout the pro-
+cess, adding new and earlier paths 
+
+between design, development, and 
+
+test. This helps close the loop be-
+tween the iterative phases, which is 
+particularly important in agile devel-
+
+opment because all phases must oc-
+
+curŠto some degreeŠduring each 
+two-week sprint. 
+SiS also provides a great way to 
+Simulation environmentmodels˜˚˛˝˙˛˚ˆˇSimulationhardwaremodelsˇˇ˘Simulationhardwareinterfacesˇ˚Drivers/ softwareinterfacesˇ˘Flight softwarealgorithmsˆˇFIGURE 2. 
+Layered view of SiS architecture. Environmental models stimulate hardware models, which send data through interface 
+objects to the embedded software. 
+The algorithms in turn issue commands which travel back through the hardware interfaces to 
+
+control the simulated hardware.
+s2ard.indd   992/6/14   4:42 PM 100
+ IEEE SOFTWARE 
+ |  WWW.COMPUTER.ORG/SOFTWARE
+  |  @IEEESOFTWARE
+FEATURE:
+ SATURN
+achieve the agile objective of fre-
+quently demonstrating product up-
+dates to users and other stakeholders. 
+Details regarding hardware- driver 
+
+code maturity, internal message-pass-
+
+ing operations, or processor-loading 
+optimization are often too low-level 
+to be demonstrated independently. 
+
+However, exercising these embedded 
+
+capabilities in a system-level simula-
+tion provides a more tangible feel to 
+the product. Through simulation, us-
+
+ers can see how the embedded soft-
+ware and algorithms are ˜ ying the 
+missile toward its target.
+Letting Simulation
+out of the Box
+When initially exploring system de-
+signs that advance current technology, 
+understanding of requirements can be 
+notional at best. As we begin imple-
+
+menting these requirements, we dis-
+
+cover unforeseen design constraints. 
+Agile development frameworks such 
+as Scrum expect and plan for change 
+
+to accommodate the inherently itera-
+
+tive nature of requirements develop-
+ment. Our use of Scrum facilitates the 
+maturation of our requirements with 
+
+minimal to no crisis because it occurs 
+during sprint planning.
+Through continuous prototyping, 
+developing, and testing, the agile SiS 
+methodology allows us to update 
+our requirements iteratively, feed-
+ing our Scrum product backlog be-
+tween successive sprints. Simulation 
+
+provides a means for exercising the 
+
+skeletal system to monitor and assess 
+system properties and performance 
+as the system matures. Model ˚ del-
+
+ity is enhanced iteratively as needed, 
+providing increasing levels of detail 
+and accuracy over time. 
+Simulation development is a 
+micro cosm of the overall system de-
+velopment process shown in Figure 
+3. Strict discipline is required to es-
+
+tablish and maintain the simula-
+
+tion™s credibility to suit the evolving 
+needs of system developers. System 
+and subsystem requirements must be 
+
+stated in a way that enables verifying 
+that they are correctly implemented 
+in the simulation. The more stringent 
+
+the simulation requirements, the 
+
+more effort and expense are required 
+to develop suf˚ cient ˚ delity within 
+the simulation. Reference data from 
+
+real-world tests must be obtained in 
+
+order to evaluate whether the simu-
+lation is suf˚ ciently accurate for its 
+intended use, which continuously 
+
+evolves. Simulation accreditation ef-
+forts can incur additional time and 
+expense. In SiS, simulation changes 
+
+should be accompanied by ongo-
+ing regression testing to assess the 
+
+health of the simulation and to de-
+tect any change in the predicted sys-
+tem performance. 
+While considerable cost savings 
+can be obtained through simulation, 
+creating and maintaining a reliable 
+simulation environment is not free. 
+
+Before building a simulation, the 
+savings in development cost and risk 
+must be weighed against the costs 
+
+of simulation development. In cases 
+
+where hardware is readily available 
+and well suited for the required test-
+ing, the costs of simulation develop-
+
+ment might not be warranted. This 
+
+might occur when developing soft-
+ware for an existing, easily accessible 
+hardware asset, such as a cell phone. 
+The special constraints of the 
+avionics domain have led us to use 
+
+simulations in nontraditional ways. 
+
+Unlike ˚ eld-testing cell phone or au-
+
+tomobile software, when we ˚ eld-
+test the embedded processor on a 
+missile, we don™t get it back. By us-
+
+ing SiS to perform virtual ˜ ight 
+
+tests, we avoid the prohibitive cost 
+of ˜ ights and preserve our hardware 
+assets. Scrum theory is founded on 
+
+making decisions based on known 
+experiences. We justify procuring 
+expensive and long-lead-time hard-
+
+ware components using knowledge 
+DesignWrite codeImplement designSimulate/testTest resultsDeveloprequirementsDrives designrequirementsStakeholder inputUpdate designPerform design studiesUser/stakeholderreviewFix bugsExecutecodeFIGURE 3. 
+Requirements and design are updated from simulation prototyping. Simulation feedback is used throughout the 
+process, adding new and earlier paths between design, development, and test, which helps close the loop between the iterative 
+
+phases.
+s2ard.indd   1002/6/14   4:42 PM MARCH/APRIL 2014 
+ |  IEEE SOFTWARE
+101
+acquired from simulation to deter-
+mine whether one system design per-
+forms better than another. As hard-
+ware components become available, 
+
+we use them in tests to validateŠ
+
+not replaceŠvirtual simulated com-
+ponents. We update the simulation 
+with measured data from hardware, 
+
+and we continue to use virtual hard-
+
+ware everywhere we can, freeing up 
+hardware assets to be used by oth-
+ers. By the time the hardware com-
+
+ponents of the system start to re-
+semble a missile, the simulation has 
+matured to the point of being instru-
+
+mental in preparing for ˜ ight tests.
+In your business, you will inevi-
+
+tably be asked to deliver a soft-
+ware-intensive product in less 
+time, with higher quality, and with 
+greater reliability. Here is how you 
+
+can get there:
+Build your reusable resources 
+
+using architectural patterns that 
+
+will help create a system that is 
+easy to modify, scale, and loosely 
+couple the embedded and simula-
+
+tion software. This will allow you 
+to build up the system iteratively.
+Use agile practices, such as the 
+Scrum framework, which will 
+
+allow you to adapt to changing 
+requirements that result from the 
+inevitable learning that occurs 
+
+when designers observe working 
+
+software.
+For the engineers who are de-
+
+veloping the simulation, soft-
+
+ware, tests, and even hardware, 
+
+establish a shared development 
+environment featuring a com-
+mon repository, simulation, and 
+
+test suite.
+Think of simulation not as a 
+
+destination or side activity but as 
+
+an integral part of your devel-
+opment process, to be utilized 
+continuously throughout the 
+product development life cycle.
+Using these techniques, we have 
+been able to meet aggressive dead-
+lines, demonstrate value to our cus-
+tomers, and satisfy our ˜ ight test ob-
+jectives. With simulation-based agile 
+
+software development, you too can 
+
+achieve success developing your em-
+bedded software.
+JASON ARD 
+is a simulation lead and software architect in 
+the Performance Simulations Department at Raytheon Missile 
+Systems. He is a certi˜ ed ScrumMaster and SEI Software 
+
+Architecture Professional. Since joining Raytheon in 2007, Ard 
+
+has developed integrated ˚ ight simulations, computer-in-the-
+
+loop simulations, image-processing algorithms, and software 
+
+architectures on numerous programs. He received BS degrees 
+
+in applied physics and in computer science from Brigham Young 
+
+University. Contact him at Jason_M_Ard@raytheon.com.
+KRISTINE DAVIDSEN 
+is a senior principal software engineer 
+at Raytheon Missile Systems. In her 14-year career, she has 
+
+worked in test, distributed systems, and embedded software 
+
+development. Davidsen received a BS in mathematics from the 
+
+University of Arizona. She is a certi˜ ed ScrumMaster, a member 
+
+of the Society of Women Engineers, and a member of IEEE. 
+
+Contact her at kldavidsen@raytheon.com. 
+TERRIL N. HURST
+ is an Engineering Fellow in Raytheon 
+Missile System™s Modeling, Simulation, and Analysis Center in 
+
+Tucson. His specialties include design and analysis of simula-
+
+tion experiments and simulation veri˜ cation and validation. 
+
+Prior to joining Raytheon in 2005, Hurst worked for 27 years at 
+
+Hewlett-Packard Laboratories on data storage technologies and 
+
+systems. He received a PhD in mechanical engineering from 
+
+Brigham Young University. Contact him at terril.hurst@raytheon.
+
+com.
+ABOUT THE AUTHORS
+Take the CS Library 
+wherever you go!
+IEEE Computer Society magazines and Transactions are now 
+available to subscribers in the portable ePub format.
+Just download the articles from the IEEE Computer Society 
+Digital Library, and you can read them on any device that supports 
+ePub. For more information, including a list of compatible devices, visit
+www.computer.org/epub
+s2ard.indd   1012/6/14   4:42 PM

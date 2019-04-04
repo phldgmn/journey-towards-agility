@@ -1,0 +1,676 @@
+ I 0 This model lets you develop multiple finctions concun-en& fiom requirements speczfication to system test. It has been used to develop a large- scale communication gstem. n Loncurrent, Development Process Model MIKIO AOYAMA, Fujitsu ment cycle has 
+become a major goal h software development, yet few conven- tional process models address 
+this issue. In an effort to shorten 
+the cycle, devel- opers are looking 
+at ways to alter the de- 
+velopment process from sequential to concurrent. As th~s trend continues, the 
+need for a concurrent process model is growing. In the mid 1980s, we at Fujitsu created a model that lets 
+you develop 
+multiple functions concurrently 
+over the entire 
+development process - from re uire- the last five years, we have applied the concurrent-development model 
+to the development of a large-scale communi- cation system and 
+have produced more than one 
+million hes of source code. A sdar system developed with 
+a conven- tional, sequential 
+process model had 
+a development cycle of one year. Our de- velopment cycle was three months. The complexity of concurrent devel- mens specification to system test. 9 For opment forced us to add new process- management techtuques and 
+to reengi- neer conventional ones. 
+We drew much of the model's underlying philosophy from the principles of continuous pro- 
+cess improvement found in Japanese 
+production systems for hardware 
+assem- bly. Shortening the development 
+cycle was an important goal of 
+the project, be- 
+cause communication systems are rapid- 
+ly evolving to provide hundreds of new features such 
+as Integrated Services of Digital Networks and computer-com- 
+munication-integrated services. However, our initial goal expanded 
+to a reengineering 
+of the entire 
+develop- ment process. Part of the reason is that a short development cycle makes 
+the pro- ject riskier 
+but helps expose potedal problems in the development process it- self. We found, for example, that we were forced to manage the process more carefd- ly. To control the process, as well as the - ~~ ~____~~ 46 07407459/93/07M)/w46/$03 00 0 IEEE JULY 1993  managing large-scale projects. 
+In this article, I describe some of the lessons learned in managing 
+the concur- rent model, focusing on 
+the management of the concurrent process itself and touch- ing briefly on organizational issues. 11 EVOLUTIONARY CHANGE Figure 1 shows the two-dimensional nature of the changes in software develop- 
+ment. Along one axis, the process is mov- ing from sequential 
+to concurrent; along 
+the other, &om centralized to distributed. Within these axes are four 
+types of process model: + Centralized, sequential. This model reflects the conventional development 
+process. Development teams are located within a single organization or at a single site, and development proceeds sequen- tially from requirements 
+specification to system test. This model can be widely 
+ap- plied to developing large-scale systems, 
+from business-data-processing to real- time, mission-critical systems. 
+Its draw- backs are a long development cycle and difficulty in allocating large 
+numbers of developers in a single site. + Centralized, concurrent. Deveiop- ment teams are still within the same orga- nization or at the same site, but teams are developing multiple features concur- 
+rently. While this model can shorten the 
+development cycle, it creates a new, com- plex problem: how to coordmate multiple concurrent activities. + D&lmted, sequential. Development is split among teams that are not located within the 
+same organization. Typically, this occurs when some 
+part of the process, like coding, is conaacted to 
+multiple soft- ware houses. Although process manage- ment is not as complex as that in concur- 
+rent development, resource distribution 
+causes many problems. 
+It is costly to collect and disseminate information 
+among distributed development 
+teams. Divihg the process into multiple teams may block the smooth flow of information and development 
+knowledge. + Dfibuted, concurrent. Multiple de- 
+velopment organizations 
+are concurrently 
+develop- ing multiple features of a system. This is the ulti- mate model for downsiz- ing the development pro- cess and 
+organization. The complexity is almost double that of any other model because you 
+are combining distribution 
+and concurrency issues, but the benefits are well worth the trouble. 
+The shorter development model first to a centralized, concurrent 
+model, and Snally to a dismbuted concur- 
+rent model. The evolutionary path de- 
+pends largely on where the development effort is to begin with. 
+For example, our first transition was to concurrency, since our initial goal was to shorten the 
+development cycle. However, the con- WHAT current process is much 
+EVOLUTIONARY more complex than a tra- ditional process, 
+so we PATH YOU also learned much about TAKE DEPENDS process management. 
+.. Our work in developing LARGELY ON and verifymg 
+new man- WHERE YOU agement techniques 
+helped us be better pre- pared for the second tran- sition, to a distributed concurrent model. For ARE TO BEGIN WITH. cycle helps exposepoten- tial problems in the 
+development process, which can lead 
+to more reliable, 
+cost-ef- fective products. Ths evolution, which 
+affects every- thing from individual developers 
+to entire 
+projects, caused 
+us to rethink the develop- ment process. We evolved from a centralized, sequential 
+example, we were able 
+to use our process-definition and redesign techniques in maintaining 
+a common pro- cess baseline among geographcally dis- tributed development 
+teams. Everyone spoke the same development 
+language, and maintained a consistent 
+level of qual- ity in both the development work and the resulting products. 
+IEEE SOFTWARE 47  ! I 4 Base svstem: Release 1 1 Lr 4 Enhancement Release 1 Figure 2. Serial deuekpnent uemis concurrent deuelopment. 
+In serial development, an enhancement can be onCV a jinciion; in concuirent rta™elopment it uzn be a unit that c0mpﬂSes niiiltipk $maions or modules. Both .y?msshmn are iwhing, hit at diffwent speeds. 171 conciiwent dezdopment, we can delivw ??iziltip~e~ii2.s in less time becansr enhanremeiits are being done with pipelinedproce.sse.i nnd cyclic tmctimz, not wth n serial process. Cm2seyrwnt,$, integration aid qrtem test can be ihne endie?; and there i.r less time hemeen re1ea.ses. CONCURRENT DEVELOPMENT iMoreover, because 
+conventional niodels 
+include some concurrent entities, devel- opers face n~any of the same problems in 
+concurrently executing processes that they face in concurrent development. + Conaiweniy is coarse-pined. In se- quential models, some program modules are 
+Figure 2 shows the concurrent 
+devel- opment model, which 
+differs from con- 
+ventional process models in three 
+wavy: + Concmwncy is in the entiir process. Even conventional se- quential process models 
+have some process enti- 
+ties that can be executed c o ncu rr en t 1 y i 
+m pl e- 
+mented at lower develop I WE BORROWED concurrently. In our model, however, the en- tire develo~ment Drocess ment levels, where the concvrrency unit is at the module. or fine-prained. v can be executed concur- PHllOSOPHlES level. In concurrent de- rently. velopment, 
+the concurr- 
++ It allows ‚process in ency unit can be a feature the lurge. ﬂVarious process 
+ENT that comprises multiple models - from the wa- functions or modules. terfall and spiral models The developer must to the new pmdignls™ and 
+other varieties™ - have been proposed. However, these tradi- 
+tional models focus on a single sequence 
+of software-development processes; concur- rent development focuses on the 
+concur- rent execmion of 
+multiple processes, just 
+as programming in the large focuses on the execution of 
+multiple programs. 
+therefore deai with how 
+processes and 
+products interact at higher levels, which most 
+mdi- dona1 inodels ignore. 
+CHALLENGES The structure and dynamic behavior 
+of a concurrent development process are much more complex than in conventional 
+models. We found some 
+issues to be sim- 
+ilar to those encountered in 
+the produc- tion process of Japanese hardware 
+sys- tems, which emphasize 
+continuous process improvement?,™ 
+The heart of these production 
+systems is 
+the careful or- chestration of various management tech- niques for 
+the production process. Al- though we certainly see differences between them and software development, 
+we have borrowed some 
+of their underly- 
+ing philosophes. 
+In process management, 
+we identified several challenges sternming directly from 
+the nature 
+of concurrent development. The most significant 
+is the complicated interaction among concurrent 
+processes and products 
+that may be updated concur- 
+rently. Figure 
+3 shows th~s complex inter- 
+action. An enhancement is a unit that 
+com- prises multiple functions 
+or modules. Ll/lultiple enhancements can be developed concurrently and integrated 
+as a system, then delivered to customers as a release. Process interactions. The developer must 
+consider two 
+types of process interactions 
+in concurrent development: multiple-en- 
+hancement and multiple-release. 
+The de- velopment of a release involves 
+multiple enhancements that may interact each other. The delay of an 
+enhancement may affect other enhancements and 
+may delay 
+the entire release. In multiple-release interactions, the 
+delay of a release may 
+require reschedul- 
+ing the development ofsuccessive releases. 
+If the delay exceeds some threshold ab- 
+sorbed by successive releases, the cumula- tive delay can 
+jeopardize the project. Product interactions. Multiple teams working on related enhancements 
+may disrupt the system™s continuity. In re- quirements specifications, for example, this can cause 
+inconsistent or incomplete spec- 
+ifications. In design and implementation, 
+simultaneous updates to 
+a single module inay date that module™s consistency. 
+These problems are 
+familiar in the 
+de- sign of concurrent systems, but interac- 
+tions among requirements specifications 
+are at a higher level than those encoun- 
+48 JULY 1993  tered later 
+during design and implementa- 
+tion. In higher level development pro- cesses, interactions are intangible 
+and are created as specifications are elaborated. 
+Furthermore, in integration and system 
+test, we must ensure 
+that multiple releases developed concurrently have not violated the consistency of the entire 
+system. IMPLEMENTATION MANAGEMENT To manage concurrent development, we created the system shown in Figure 
+4, which consists 
+of five main elements, inte- 
+grating a range of management tech- 
+niques together with a support environ- 
+ment. Elements in 
+this system are not new in and 
+of themselves, but their 
+implemen- tation is novel because 
+we are applpg them to a concurrent-development scheme. We had to invent new manage- ment techniques and reengineer old ones. The focus of 
+thls article is on process man- agement, although 
+I briefly present the 
+other four elements 
+to give a picture of the complexity we faced: + Procesr management. Process man- agement deals with defining 
+and instanti- ating development 
+processes, assigning 
+development teams, and controhg the execution. The developer must 
+visualize the process and its interactions and decou- 
+ple them, which means 
+restructuring the 
+process model's 
+underlying concurrent- development process. To accommodate dynamic behavior, process 
+control must reach every level 
+of the process structure, from entire project 
+to release and 
+en- hancement as well as from team 
+to indi- Figure 3. Diagram of the interactions 
+in the conczirrent-development process model, which shows the complexiq of interacting enhancements and 
+releases. lntwactim are either indirect 
+01' direct. Examples 
+of indirect interaction 
+are conjicting enhancement requirements and implementation 
+consistency (upper centw). Direr, 
+interactions imliide the intwference of'individzral regnirements and implementation 
+issues along the conrnrrent-development 
+path of enhancement 1 ... enhancement i For example, a delq (delays are denoted mith thick, black arrows) in enhancement i's 
+unit test (upper 
+right corner) may delay the unit test of 
+other enhancements 
+in tht same releuse. Thus, the integration test 
+must be rescheduled, mhich, 
+in nux, may affect the entire development 
+schedule of rekase 2 and delay the start 
+of developmenn, on r-eka.c.e 3. ,2lor-eove7; ifan enhancement in a subsequent release issufficiently major, it may be nnder development conrnrrently 
+with the p-reuious release. 
+In the figure the dekqed 
+unit test ofrelease 2 has delayed enhancement j in release 3. The main 
+task in managing conczirrent development is 
+to deconpk these 
+interactions to avoid coi?flicts rrnd inconsi.stencq. In the bottom third of the figure, interactions have 
+been szicces&lb decoupled, 
+so intwference is at a minimnm. IEEE SOFTWARE 49  1 Produci manaaement I er of develooerr for worklood ___ ... . .___. . . 
+... . vidual developer. For the 
+large-scale con- munications project, therefore, 
+we de- scribed the entire development process 
+up to the details ofthe individual developer's task, and analyzed them. 14% then resmc- tured a conventional process model 
+to support concurrent 
+development and 
+de- veloped a process-rnanagenieiit system. 
+I describe our work in more sider how produczs differ according to the processes that produced them. 
+We sepa- rated products 
+into two categories: tangi- 
+ble and intangible. 
+In requirements speci- 
+fication and design, products are intangble and concurrently elaborated 
+by multiple teams. 
+The interaction in this 
+process is difficult to manage automati- 
+cally, so we have taken the detail in the 
+next section. 
++ Pqiea nm?uagement. Project management must efficiently assign 
+and control development re- 
+sources to ensure produc- 
+tivity and qualiq over multiple releases. From an economical point 
+of view, the number 
+of developers MOST MODELS IGNORE HOW TO DEAL WITH PROCESS AND PRODUCT INTER ACT1 ON I AT THE 1' involved in the projects should be fixed because ~1 rapidly changng debelop- LEVELS. 11 ment project. I cyclic process-enaction model 
+that can it- ers and 
+re$eaI ers costs almost every as- pect of development. To cope with these problems, 
+we developed a ~ review-and-inspection approach together with process control and or- coordinate with research 
+labs and other software-engineering groups in 
+the intro- 
+duction of 
+new technologies. The PSET also works as a management-support cen- 
+ter by collecting and distributing various 
+statistics and consulting 
+each develop- 
+ment group. 
+The main advantage to having the PSET was that they, 
+as project insiders, 
+could understand real needs 
+in managing concurrent development and 
+bring the latest practical technology 
+to the develop- ment teams. + Sofru.ai-e-enginee1-i?ig eiiviroizrnerzt. We developed an integrated software-en- 
+gineering environment that is indispens- able to implementing and 
+operating the concurrent-development system in large- 
+scale projects. The environment provides a balanced view to process, project, and 
+product management and 
+support man- agement techniques 
+as a system. PROCESS MANAGEMENT Concurrent-development processes have two distinct process dynamics. First, 
+because you must manage 
+the processes along with the process definition, you must be able to decouple the interaction in 
+the development activities of multiple teams. Second, 
+you must manage 
+a variety of events that happen arbitrarily and 
+en- able Inany people 
+to share information 
+.. . eanizational SLIDDOIT. In ~ about these events. 
+11 lower level processes, an integrated configuration- 
+management system plays the central role 
+in manag- Because none of the traditional process models accommodate these 
+dynamics, we decided to adapt one 
+to concurrent develop- ment We chose the waterfall model be- ll ~~ c, , ing tangible products. 
+cause, although it has been 
+the subject of + O~gmizrrtion vmi- much debate, 
+it is sd widely used, 
+and it agemalt. To implement seemed a well-definedstartingpointforevo- concurrent development, lution 
+to concurrent development 
+We re- we established a Project 
+, engineered it to 
+fit concurrent development Software Engineering ~ through the iteration 
+ofthree processes: Team within the develop- 1. Define the process. Cooperating with develop- 
+2. Redesign &e process structure. 
+" -ch laboratories, the PSET's I 3. Rede5ign process 
+enaction. eratively assign a fixed number ofdevelop- major roles were 
+to define the develop- ers from one development process 
+to an- ment process; manage the products; coor- 
+other. dinate the software-integration process; + A-odurt managemelit. To manage develop and 
+implement management 
+products along with 
+concurrent develop- techniques; plan, 
+specify, and develop 
+ment processes, the developer must 
+con- software-engineering environments; and 
+Defining the process. We used a process 
+I' model to define the highly complex 
+smc- me and dynamic 
+tiehavior ofthe concur- rent development process. 
+As part of our model, we developed a visual process de- I 50 JULY 1993  scription language, YPL 
+(YAC II-oriented Process-Description Language), which 
+is an extension 
+of the YAC tree-structured chart.‚,™ Figure 5 gives a sample of YPL notation. YPL 
+let us use the same lan- 
+guage for 
+the development process that was used to describe objects 
+in the 
+com- munications system. We have defined our entire development process 
+- from proj- 
+ect planning, to requirements specifica- tion to delivery in YPL. As we continually reengineered 
+the de- fined process, 
+the PSET coordinated input from the development teams 
+to help elaborate the process definition. 
+We used the definition in many 
+ways, including to analyze development 
+cost. Redesqn process structure. Our goal in re- 
+designing the structure was to fit the pro- cess to concurrent 
+execution as well as cut redundancy. A key part of hs was to con- trol the synchronization of concurrency, especially in the middle of the cycle. To satisfy our goal, we 
+incorporated several mechanisms: + P7acess-dependent management vim. The software-integration process sepa- 
+rates the entire development process 
+into two subprocess categories, upper and 
+lower. The upper subprocess category 
+covers requirements specification to pre- integration test. The lower subprocesses 
+cover integration test 
+to product 
+delivery. The two categories have different man- agement requirements. 
+The management of upper subprocesses 
+focuses on decou- pling interactions 
+among multiple teams; 
+the management of lower subprocesses 
+fo- cuses on the quality assurance 
+of the single integrated system. 
++ Decoupling of interactions. One of the major drawbacks of the waterfall model is that identifymg problems in require- 
+ments specifications is often postponed until the very end of the development process. In concurrent development, this drawback 
+is more serious because 
+the coupling of multiple functions 
+or en- hancements is more complex. Futhermore, this coupling causes inter- ference among development teams. To avoid these problems, 
+we have 
+added a series of 
+reviews, wluch take place 
+in the 
+System-integration document 
+form Enhancement-history report Module list f Inteoration/svstem-test olon 8ﬂ 1 Project manager - 8.2 - Name: System-integration 
+Chair: Project 
+manager Participants: enhancement 
+Decisions: review meeting 
+List of enhancement modules 
+to manager involved in the 
+release I) Accept/reject integration 1 Integration/system-test plan i en hancement K21ntegration schedule 8,3 Conflictingmodule check 8.3 , List of conflicting enhancements 
+and modules 
+DN- System-integrotion- 32 review operation 
+manual TOL- Conflict-check 54 operation manual 
+Participants: enhancement 
+8.6 9 Repeat for a11 modules - Module type? Detailed Integration plan 
+Figure 5. (A) Graphical notation of YPL, the language used to describe the entire development process. Datelopers ran 
+use YPL to define both the development process and objects in the communication system being developed. (B) YPL description ofpart of a process. illustrating some of the YPL notations in (A). The lefipart of the box defines the procedure, the center defines the 
+dataflow (procedure inputs and outputs), and the right side defines the 
+firther reference to the procedure. .. IEEE SOFTWARE 51  -1 .. ' ~~~~~~~~:eintegrotion test System integrotion Integrotion/syrtem 
+tesQ Figure 6. A model showing 
+the cyclic enaction $'the concurrent-development pcess. Teams A, B, and C (whose members are denoted ty a circle atop 
+a triangle) are working on enhancements 1,2, and 3, respectively. When preintegratiun tests have been completed, these enhancementsare integrated 
+into rekase nand passed to the test team. The development teams move 
+on to the development of the next release, which consists of enhancements k,j, andm. Becaweenhancement k 
+isa major enhancement in the rekase ofa 
+large-scale feature, its hehpment period is hubk that of the minw enhancements (j and m). Therefwe, team D initiates the 
+development of enhancement k 
+the same time thq, initiate release n. The number of developers is theoretically unchanged over multiple releases, ji-om n through n+l, and so on, but in this case, Team D joins team A. upper subprocesses. After each 
+teaminter- nally reviews the specifications and design, multiple teams must conduct 
+intensive internam reviews to iden* the expected influence ofthe funaion 
+or enhancement on later p of the development process. 52 + Software integration. 
+This is a key point in the synchronization of develop- ment processes and products 
+with multi- ple enhancements. During this step, mul- tiple enhancements, concurrently 
+developed by multiple teams, are inae- mentally integrated into 
+a single 
+system. After intensively reviewing the previous development processes and quality levels, the products, modules, and documents 
+go into a project repository 
+under the control 
+of PSET The process is also used to re- solve conflicting updates. + Preintegratirm testing. 
+This step en- sures the conformance of the interface be- 
+tween the baseline system and 
+the changed or newly created modules. 
+It oc- curs before 
+software integration. + Concllwent testing. During integra- 
+tion test and system 
+test, multiple replicas of integrated software are concurrently 
+tested by multiple test teams 
+that are 
+geo- graphically distributed. Although 
+each en- hancement must 
+pass a preintegration test, we focusd on conformance among multiple functions. We also added 
+a mechanism to support the 
+management of th~s testing. Redesign process ermction. Managing pro- 
+cess execution, or enaction, has two main goals. The first is to assign the workload to multiple teams 
+who are concurrently 
+de- veloping multiple enhancements. 
+The second is to control the 
+workload over multiple releases. To meet these goals, we developed a cyclic-enaction model, shown in Figure 6, and supporting management techniques. 
+The model's core idea is that the 
+develop- ment of each enhancement must be com- pleted within a fixed time and iterated 
+over multiple releases. The enaction model lets us develop multiple features 
+with a fixed workload because 
+a fixed number of devel- 
+opers moves &om one enhancement to 
+another. However, it raises another chal- lenge - how to precisely control process, project, and products over multiple 
+re- leases when each process 
+instance must 
+meet an exact development schedule (just- 
+in-time management). 
+The cyclic-enaction model used a pe- 
+riod of six months as the development time, with a 
+release being delivered at the 
+end of three months 
+and at the end of the six months. In the first three months, the teams completed 
+the upper 
+subprocesses; in the next three months, the 
+products went through the 
+lower subprocesses.  We needed supporting project-man- agement tecluuques 
+because although we could fix the total workload theoretically, for large-scale development, such 
+a con- straint is not realistic for managing pro- jects safely. 
+We had to allow for some workload fluctuations, and hence some 
+productivity loss, which the techniques are 
+designed to overcome. Also theoretically, we could shorten de- livery time by shortening the development cycle. In our model, however, the develop- ment cycle can be no shorter than the test period (hee monb); a shorter cycle could sadice both productivity 
+and quality. EXPERIENCE From applymg the model to a large- scale communications system over 
+the last five years, we have learned much about how to improve the development 
+process. What we have learned can be viewed in many contexts. Conppn'son to sequentid devsbpn#nt. In another project, we used a conventional process model to develop a communica- tions system with 
+an architecture 
+similar to that of the large-scale system to which we applied the concurrent-development 
+model. In the following description, S1 represents the system developed with 
+a se- quential process; S2 is the system devel- 
+oped with the concurrent 
+process. There are several significant points of comparison: + hgth of deuehpment cy.. The re- lease cycle 
+of S1 was one year; the release cycle of S2 was three months - a 75-per- cent reduction. + Ease ofcomtnution. Unlike the 
+se- quential-development model, the concur- rent-development model let 
+us divide the large-scale software 
+into small subsystems and incrementally consmct the whole system. Also unlike a sequential approach, 
+concurrent development provides practi- cal management techniques to incremen- 
+tally deliver 
+the large-scale software 
+sys- tem in a short and fixed interval. Ths let us get quick feedback 
+fi-om customers on the releases delivered. + Smoothness of project management. Standard deviation 
+Number in sample Figure 7. Development workhadfir two communication systems with similar architectures. SI was deuelopea with aseqiientialprwess; Sz was developed with a conciirrentprwess. The development of SI isalmort compktt 
+aftw 30 months; the 
+deuelopmat ofS, islager andstill evolving. Although the 
+peak mwkload of S, kachuzllj fmr times that of S,, fw comparison, the figure shows the workloadr nwmalized with 
+peak values. Flwtuution. 
+in workload are due to both 
+size and 
+number of developers. Thejlmlations are much knfir S,, primrib became the connivent model lets ymi fix the nnmbw .fdevelopenfiom enhancement to 
+ahancment an6 prmides the qclic-enaction model, which 
+hebs recover productivity lossfPom wwkloadjluctuatim. IEEE SOFTWARE 53  Concurrent development made project 
+management smoother. Figure 
+7 shows the development workload - which in- cludes changes in 
+the number of develop- ers - for both 
+SI and s,. Uhle the work- load for developing SI follows the conventional Railey curve 
+proposed by Lawrence Pumum and colleagues,' that of S, is almost fixed. We evaluated the fluc- niques into a system. At the heart of the 1 mtem are the 
+five maior conceots: 
++ Flexible manufmring yam. This DroDertv is somewhat wecific 
+to hardware i II, assembly, and is bound by the phpical + smooth production 
+by narrowing the fluctuation of production size and 
+pre- cisely managing the 
+flow of products, + standardization of work, + flexible manufacturing to enable + continuous process 
+quick changes on the production 
+line, imorovement, and + intelligent automa- 
+in terms of the standard 
+COMPRISES In the development and implementation 
+of ALL THE the concurrent-develop- fluctuations in nine major 
+ELEMENTS ment process, we found a treasure of management ESSENTIAL TO techniques in 
+these prin- the fluctuations are 
+rela- A SOFTWARE ciples. Although the tech- 
+niques are slanted toward 
+hardware assembly, which is rather different 
+from software develop- 
+ous process improvement Thg the same tuation of development size and 
+workload for 
+SI deviation from 
+the aver- age. Table 1 gives the size and nine minor enhance- 
+ments. As the table 
+shows, tively small and 
+well con- trolled. The workload fluctua- tion in Table 
+1. 1 1.7 per- cent, is also very low compared with the ment, 
+we believe many ideas are 
+directly size fluctuation. We believe &us is due to applicable because the focus is on continu- 
+the cyclic-enaction model. Changes in workload 
+(number of de- he concepts, we can identify much rele- 
+velopers) causes 
+productivity loss as 
+well as vance to concurrent development: stress to corporate management. 
+This is a + Smoothpodwtzon. This idea works as strong argument for using concurrent de- a central principle 
+of project management 
+velopment (whch lets you fix the number because a consistent development 
+size is of developers), especially 
+for large-scale key 
+to cyclic process exe- OUR MODEL tion, FACTORY. I systems. In addition to size and workload, the 
+PSET was an important factor in the smoothness of project management. 
+The development of the management tech- 
+niques and support environment 
+was nei- ther quick nor pdess. The PSET had to elaborate the 
+techques as the project de- 
+veloped, and 
+this continous improvement 
+made a significant 
+difference long term. 
+system of management techniques for 
+concurrent development shares some 
+of the concepts 
+of the "lean" development system developed and implemented 
+bv TA-ichi Ohno and colleagues ofTovota.';' cution withm a 
+fixed pe- riod. Software develop- 
+ment has one major ad- 
+vantage over hardware 
+assembly: the control 
+of products flow. In just-in- time hardware produc- 
+tion, managers must 
+have a way to eliminate inven- 
+tory. In software develop- ment, any products 
+can be transmitted though 
+a _. constraints of tools and products. 
+We may need &IS principle in the future, 
+but so far, we have not been emphasizing 
+it in soft- ware development. + Continmuc procea impmvement. This is extremely important in software devel- 
+opment., as already described 
++ Intelligent automation. 
+The produc- tion system puts more emphasis on pro- cess than automation, but if it is auto- mated, the system must 
+be intelligent so that it 
+can stop automatically when prob- 
+lems occur. n7e can 
+implement this princi- ple somewhat in the management tech- 
+niques and development environment, 
+but it is still difficult to automate the 
+higher level development processes. Al- though many computer-aided software- 
+engineering environments 
+have been de- 
+veloped, little attention has been paid to th~s issue. Comparison to the software factory. We be- lieve concurrent development 
+is an ad- 
+vanced form of the software-factory ap- proach. For example, our model comprises all nine of the elements Michael 
+Cusumano identified in a software 
+fac- tory: which can catego- 
+IT ALSO SHARES I THE WS GOAL OF CONTINUOUS PROCESS IMPROVEMENT. rized in four groups: 
+- + Work and skill standardization + Continous process improvement by com- mitment to process im- provement, a product- process focus 
+and segmentation, process- quaky analysis and con- 
+trol, tailored and central- 
+ized process R&D, communication network dynamic standardization, 
+and incremental product 
+work. This is a basic principle in producing any standardized product. 
+The produc- + Computer-aided tools 
+and integra- tion system Drovides mechanisms not onlv ' tion + Standardization of improvement The lean production 
+syscm -which gets its name from continuous-improvement 
+techniques that eliminate redundancy 
+(fat) from the production process - integrates a variety of 
+production management tech- 
+to standard;= the work 
+process but also io predict performance, 
+which may 
+be diffi- 1 cult in current development practices. Ad- 
+ditional study 
+of development processes and menics will help this problem. + Systematic reusability 
+The first three groups are common 
+to lean production and concurrent develop- 
+ment. Although 
+not directly related, 
+soft- ~ ware reuse is also practiced in 
+concurrent '~ ~ -, 54 JULY 1993  I™ development. Concurrent 
+development adds another requirement to software fac- tories. The conventional WE ENDED UP ENGINEERING I NEW PROCESS. and the total cost over 
+factory approach focuses on productivity 
+and qual- ity with little attention to 
+the development cycle multiple cycles. Concur- rent develop-ment™s sys- AN ENTIRELY tematic way of developing software systems with a fixed number of developers enhances 
+pro- ductivity and quality. The need for a shorter development cycle is also receiving 
+attention in the 
+software factory. 
+Comparison to CMMs. The Capability Maturity Model, developed by the Soft- ware Engineering Institute,ﬂ and our de- 
+velopment process share 
+the same goal: continuous improvement 
+of the software process. The CMM defines five maturity levels. To implement the concurrent 
+develop- ment system, we had to have a well-de- fined and mature underlying 
+software process - at least level 
+2, the repeatable level in 
+the CMM. It is widely recognized in hardware production that just-in-time production helps uncover potential pro- 
+cess problems that might not 
+be exposed 
+in conventional production 
+systems. We experienced the same effect in implement- 
+ing concurrent 
+development. We were able to discover many weak points in 
+the development process, management, and development environments 
+through a concurrent-development model. Solving 
+each problem required 
+patience, but 
+the result was a much-improved development process and 
+environment. lthough our 
+initial goal in imple- 
+& enting the 
+concurrent-develop- ment model was to shorten the 
+develop- ment cycle, we ended up reengineering the entire 
+development process. 
+The problems we identified open up a chal- lenge to managing the flexible and eco- 
+nomical development of large-scale 
+soft- ware systems. 
+Several areas 
+warrant future study 
+to refine the model and management tech- niques both theoretically 
+and practically. From a process-engineer- ing point of view, 
+we should further study modeling techniques for 
+concurrent development. YPL can model the pro- 
+cedural view of the pro- cess and define 
+the start 
+and end of concurrency, but it is sdl weak in mod- 
+:ling multip,, 
+views of 
+processes - func- ional, structural, 
+and behavioral. We be- 
+ieve object-oriented modeling 
+is more ippropriate for 
+concurrent development ind warrants more investigation.7 
+In practice, the model evolved to ac- :ommodate distributed 
+concurrent devel- )pment, in which multiple development 
+sites are geographcally distributed. (I his was necessary primarily 
+because of Tokyo™s high density, 
+which forced teams 
+to locate in distant areas.) There are many complex management issues associated 
+with the distributed 
+model, so it is worth investigating technology for collaborating 
+distributed development 
+teams in concur- 
+rent development. Our special interest is which tech- niques developed 
+for concurrent develop- ment can be commonly used in other de- velopment projects. 
+We hope 
+various management tech- 
+niques developed in the 
+concurrent devel- opment system can 
+be applied to other 
+development projects. Future stud) 
+is necessary from both theory 
+and practice 
+since our management system 
+is still evolving. + REFERENCES 1. M. Aoyama, ﬁConcurrent Development 
+of Software Systems: 
+A New Development Paradigm,ﬂ 
+ACM 2. W. Agresti, New Paradigmsf&rSojiware Development, IEEE CS Press, Los Alamitos, Calif., 
+1986. 3. L. Ostenveil, ﬁSoftware Processes are Software 
+Too,ﬂ hc. Int™l Conz Sojiware Eng., IEEE CS Press, 4. T Ohno, Tqota Production System, Diamond Publications, Tokyo, 1978 (in Japanese; English @ansla- 
+5. D. Roos et al., The Machine That Changed the World The Story ofLean Prodimion, Harper Perennial, 
+6. M. Aoyama et al., ﬁDesign Specification in Japan: Tree-Smctured Charts,ﬂ 
+IEEE Sofiare, Mar. 1989, 7. M. Aoyama, ﬁDismbuted Concurrent Development ofsoftware 
+Systems: An Object-Oriented Pro- 
+8. L. Pumum, Sojiware Cost Enrmatiun and Life-Cycle Conhol, IEEE CS Press, Los Alamitos, Calif., 
+1980. 9. M. Cusumano,~upan™xS~are Fmmes, Oxford University Press, New 
+York, 1991. S0fN)re Eng. Notes, Juty 1987, pp. 20-24. Los Alamitos, Calif., 
+1987, pp. 2-13. tion is available from 
+Productivity Press, Cambridge, Mass., 1988). NewYork 1990. pp. 31-37. cessModel,ﬂ Prw. Cmpruc, IEEE CS 
+Press, Los Alamitos, Calif., 
+1990, pp. 330-337. 10. M. Paulk et al., ﬁCapability Maturity Model for Software,ﬂ Tech. Report CUU/SEI-91-TR-24, 
+ADA240603, SoftwareEng. Inst., Pittsburgh, 
+1991. Mikio Aoyama is a supemsor at Fujitsu Ltd. His research mterests include real-nme I hs- mbuted software systems, software-development 
+enmronments, and software-process 
+management Aoyama received a BS and an MS m elecuomcs from Okayama University. 
+He is L member of the IEEE Computer 
+Smety, ACM, Information Processmg 
+Soaety ofJapan, and hhtute of Elecuomcs, 
+hformahon, and &mmulvcahon Engmeers, Japan 
+Address queshons about thls amcle to 
+Aoyama at Fujitsu Ltd., Busmess Swtchmg Software Div., 2-12-5 Shuno-odnaka, Nakahm-!a, Kawasah 
+2 11 Japan, Internet 
+Iloo@mla.nakahara.fujim CO jp IEEE SOFTWARE 55 

@@ -1,0 +1,1024 @@
+ 56 IEEE SOFTWAR
+E | PUBL
+IS
+HED BY TH
+E IEEE COMPUT
+ER SOC
+IE
+TY
+ 0740-7459/12/$31.00 © 2012 IEEE
+SOFTWARE IN
+SPECTION I
+S a form 
+of formal peer review that has long 
+been recognized as a software engi
+-neering ﬁbest practice.ﬂ However, the 
+prospect of reviewing a large, unfa
+-miliar software artifact over a period 
+of weeks is almost universally dreaded 
+by both its authors and reviewers. So, 
+even though developers acknowledge 
+
+the value of formal peer review, many 
+also avoid it, and the adoption rates 
+for traditional inspection practices are 
+
+relatively low.
+1,2
+On the other hand, peer review 
+is a prevalent practice on successful 
+open source software (OSS) projects. 
+We examined more than 100,000 
+
+peer reviews in OSS case studies of 
+the Apache httpd server, Subversion, 
+
+Linux, FreeBSD, KDE, and Gnome 
+
+and found an ef˜cient ˜t between 
+OSS developers™ needs and the mini
+-malist structures of their peer review 
+processes.
+3 Speci˜cally, the projects 
+broadcast changes asynchronously to 
+the development teamŠusually on a 
+mailing listŠand reviewers self-select 
+
+changes they™re interested in and com
+-petent to review. Changes failing to 
+capture a reviewer™s interest remain 
+unreviewed. Developers manage what 
+
+can be an overwhelming broadcast 
+
+of information by relying on simple 
+email ˜lters, descriptive email sub
+-jects, and detailed change logs. The 
+change logs represent the OSS proj
+-ect™s heart beat, through which de
+-velopers maintain a conceptual un
+-derstanding of the whole system and 
+
+participate in the threaded email dis
+-cussions and reviews for which they 
+
+have the required expertise.
+The OSS process evolved naturally 
+to ˜t the development team and con
+-trasts with enforced inspections based 
+
+on best practices that are easily mis
+-applied and end in false quality assur
+-ances, frustrated developers, and lon
+-ger development cycles. As Michael 
+
+Fagan, the father of formal inspection, 
+
+lamented about the process he devel
+-oped, ﬁEven 30 years after its creation, 
+
+it is often not well understood and 
+
+more often, poorly executed.ﬂ
+1In this article, we contrast OSS peer 
+review with a traditional inspection 
+process that™s widely acknowledged 
+in the literatureŠnamely, inspections 
+
+performed on large, completed soft
+-ware artifacts at speci˜c checkpoints. 
+The inspectors are often unfamiliar 
+with the artifact under inspection, 
+
+so they must prepare individually be
+-fore the formal review by thoroughly 
+studying the portion of code to be re
+-viewed. Defects are recorded subse
+-Contemporary 
+Peer Review 
+ 
+in Action: 
+ Lessons from Open Source 
+Development
+Peter C. Rigby, 
+Concordia University, Montreal, Canada
+Brendan Cleary, 
+University of Victoria, Canada 
+Frederic Painchaud,
+ Department of National Defence, Canada 
+Margaret-Anne Storey and Daniel M. German, 
+University of Victoria, 
+Canada
+// 
+Open source development uses a rigorous but 
+agile review process that software companies 
+can adapt and supplement as needed by 
+popular tools for lightweight collaboration and 
+nonintrusive quality assurance metrics.  
+//FEATURE:
+ SOFTWARE 
+REVIEW
+S  NOV
+EMB
+ER/
+DE
+CEMB
+ER 2012
+ | IEEE SOFTWAR
+E 57quently at the formal review meeting, 
+but the task of ˜xing a recorded defect 
+falls to the author
+ after the meeting. 
+Some intrinsic differences between 
+open source and proprietary develop
+-ment projects, such as self-selected 
+
+versus assigned participation, suggest 
+inspection processes at opposite ends 
+
+of a continuum (see Figure 1). How
+-ever, neither formality nor aversion is 
+fundamental to peer review. The core 
+idea is simply to get an expert to ex
+-amine your work to ˜nd problems you 
+can™t see. Success in identifying defects 
+depends less on the process than on 
+
+the expertise of the people involved.
+4We present ˜ve lessons from OSS 
+projects that we think are transferable 
+to proprietary projects. We also pres
+-ent three recommendations for adapt
+-ing these practices to make them more 
+traceable and appropriate for propri
+-etary organizations, while still keep
+-ing them lightweight and nonintrusive 
+
+for developers. 
+Lesson 1: 
+ Asynchronous 
+Reviews
+Asynchronous reviews support team 
+discussions of defect solutions and ˜nd 
+the same number of defects as colo
+-cated meetings in less time. They also 
+enable developers and passive listeners 
+
+to learn from the discussion.
+Managers tend to believe that de
+-fect detection and other project bene˜ts 
+
+will arise from colocated, synchronous 
+
+meetings. However, in 1993, Lawrence 
+Votta found that reviewers
+ could dis
+-cover almost all defects during their in
+-dividual preparations for an inspection 
+
+meetings, when they study the portion 
+of code to be reviewed.
+5 Not only did 
+the meetings generate few additional 
+defects, but the scheduling for them ac
+-counted for 20 percent of the inspec
+-tion interval, lengthening the develop
+-ment cycle. 
+Subsequent studies have replicated 
+this ˜nding in both industrial and re
+-search settings. This led to tools and 
+practices that let developers interact in 
+an asynchronous, distributed manner. 
+Furthermore, the hard time constraints 
+
+imposed by colocated meetings, the 
+rigid goal of ˜nding defects, and the 
+sole metric of defects found per line 
+
+of source code encouraged a mentality 
+
+of ﬁRaise issues, don™t resolve them.ﬂ
+2 This mentality limits a group™s ability 
+to collectively solve problems and men
+-tor developers.
+By conducting asynchronous re
+-views and eliminating rigid inspection 
+
+constraints, OSS encourages synergy 
+between code authors, reviewers, and 
+
+other stakeholders as they discuss the 
+
+best solution, not the existence of de
+-fects. The distinction between author 
+
+and reviewer can blur such that a re
+-viewer rewrites the code and an author 
+learns from and becomes a reviewer of 
+the new code.
+Lesson 2: 
+ Frequent 
+Reviews
+The earlier a defect is found, the bet
+-ter. OSS developers conduct all-but-
+continuous, asynchronous reviews that 
+function as a form of asynchronous 
+
+pair programming.
+The longer a defect remains in an ar
+-tifact, the more embedded it becomes 
+
+and the more it will cost to ˜x. This 
+
+rationale is at the core of the 35-year-
+
+old Fagan inspection technique.
+1 How
+-ever, the term ﬁfrequentﬂ in traditional 
+inspection processes means that large, 
+
+completed artifacts are inspected at 
+
+speci˜c checkpoints that might occur 
+
+many months apart. The calendar time 
+to inspect these completed artifacts is 
+on the order of weeks.
+In contrast, most OSS peer re
+-views begin within hours of complet
+-ing a change, and the full review dis
+-cussionŠwhich involves multiple 
+
+exchangesŠusually takes one to two 
+days. Indeed, the feedback cycle is so 
+fast, we consider it a form of continu
+-ous review, which often has more simi
+-larities with pair programming than 
+with inspection.
+6To illustrate, we quote Rob Har
+-till, a former core developer of the 
+
+Apache project and a founding devel
+-oper of the Internet Movie Database: 
+ﬁI think the people doing the bulk of 
+
+the committing appear very aware of 
+what the others are committing. I™ve 
+seen enough cases of hard-to-spot ty
+-pos being pointed out within hours of 
+
+a commit.ﬂ
+Lesson 3: 
+ Incremental 
+Review
+Reviews should be of changes that are 
+small, independent, and complete. 
+The development of large software 
+artifacts by individuals or relatively iso
+-lated developer groups means that the 
+
+artifacts are unfamiliar to the review
+-ers tasked with inspecting them. Da
+-vid Parnas and David
+ Weiss ˜rst noted 
+Inspection softwarereviewsAsynchronous,tool-supported reviewsOpen sourcesoftware reviewsFormal butcumbersomeMeasureablebut lightweightMinimalist butlacks traceabilityFIGURE 1. 
+The spectrum of peer review techniques, from formal inspection to minimal-
+process OSS review. Tool-supported, lightweight review provides a ˜exible but traceable 
+middle ground.
+ 58 IEEE SOFTWAR
+E | WWW.COMPUT
+ER.ORG/
+SOFTWAR
+EFEATURE:
+ SOFTWARE 
+REVIEW
+Sthat the resulting inspections are done 
+poorly by unhappy, unfocused, over
+-whelmed inspectors.
+7To facilitate early and frequent 
+feedback, OSS projects tend to review 
+smaller changes than proprietary proj
+-ects,
+8 ranging from 11 to 32 lines in 
+the median case.
+3 The small size lets 
+reviewers focus on the entire change, 
+
+and the incrementality reduces review
+-ers™ preparation time and lets them 
+maintain an overall picture of how the 
+
+change ˜ts into the system.
+Equally important is the OSS di
+-vide-and-conquer review style that 
+
+keeps each change logically and func
+-tionally independent. For example, 
+a change that combines refactoring 
+a method with ˜xing a bug in the 
+
+refactored method won™t be reviewed 
+until it™s divided into two changes. 
+Developers can either submit these 
+
+independent changes as a sequence of 
+
+conceptually related changes or com
+-bine them on a single topic or fea
+-ture branch. Although one developer 
+
+might have all the required expertise 
+
+to perform the review, it™s also pos
+-sible that one person will have the 
+
+required systemwide expertise to un
+-derstand the refactoring and another 
+
+will have detailed knowledge of a par
+-ticular algorithm that contains the 
+
+bug ˜x. Intelligently splitting changes 
+
+lets stakeholders with different exper
+-tise independently review aspects of a 
+
+larger change, which reduces commu
+-nication and other bottlenecks.
+Finally, changes must be complete. 
+Discussing each solution step in a small 
+
+group can be very effective, but it can 
+
+be also be tiring. Furthermore, certain 
+
+problems can be more effectively solved 
+by a single focused developer. Pair pro
+-gramming involves two people in each 
+solution step, but with frequent asyn
+-chronous reviews, reviewers only see 
+
+incremental changes that the author 
+
+feels are small, independent, and com
+-plete solutions.
+Lesson 4: 
+Invested, 
+Experienced 
+Reviewers
+Invested experts and codevelopers 
+
+should conduct reviews because they 
+already understand the context in 
+which a change is being made.
+Without detailed knowledge of the 
+module or subsystem, reviewers can™t 
+reasonably be expected to understand 
+a large, complex artifact they™ve never 
+
+seen before. Checklists and reading 
+
+techniques might force inspectors to 
+focus during an inspection,
+7 but they 
+won™t turn a novice or incompetent in
+-spector into an expert.
+The developers involved in OSS re
+-view tend to have at least one to two 
+years™ experience with the project; many 
+reviewers have more than four years, 
+and a few have been with the project 
+
+since its inception.
+3 In the OSS projects 
+we studied, we also found that main
+-tainers of a particular code section pro
+-vided detailed reviews when another de
+-veloper made a change. The maintainer 
+
+often had to interact with, maintain, or 
+evolve the changed code. Because code
+-velopers depend on each other, they 
+have a vested interest in ensuring that 
+
+the quality of changes is high. Further
+-more, because codevelopers are already 
+
+experts in part of the system under re
+-view, they take less time to understand 
+how a small change affects the system. 
+Although codevelopers have the 
+highest level of investment, many or
+-ganizations can™t afford to keep more 
+
+than one developer working on the 
+same part of a software system. A sim
+-ple alternative is to assign regular re
+-viewers to particular subsystems. The 
+reviewers aren™t responsible for mak
+-ing changes, but they follow and review 
+changes incrementally. This technique 
+
+also spreads the knowledge across the 
+development team, mitigating the risk 
+of ﬁgetting hit by a bus.ﬂ
+In a small start-up organization, any 
+review costs can be prohibitive. One 
+
+of the authors of this article, Brendan 
+Cleary, solved this problem in his com
+-pany with what he called a ﬁreviewer 
+
+as bug ˜xerﬂ strategy, in which he pe
+-riodically assigned one developer to 
+˜x a bug in another developer™s code. 
+As a bug ˜xer, the developer becomes 
+
+a codeveloper as he or she reads, ques
+-tions, understands, and reviews the 
+bug-related code. This technique com
+-bines peer review with the primary task 
+of ˜xing bugs. It also helps manage 
+turnover risk by giving all developers 
+a broader understanding of the system. 
+In Table 1, we use the literature and 
+our research ˜ndings to compare ˜ve 
+reviewer types. 
+Lesson 5: 
+Empower 
+ Expert 
+Reviewers
+Let expert developers self-select 
+changes they™re interested in and com
+-petent to review. Assign reviews that 
+
+nobody selects. 
+Poorly implemented, prescriptive, 
+heavyweight processes can give the il
+-lusion of following a best practice while 
+
+realizing none of the advertised ben
+-e˜ts. Just as checklists can™t turn nov
+-ices into experts, a formal process can™t 
+make up for a lack of expertise. Adam 
+Porter and his colleagues reported that 
+
+the most important predictor of the 
+number of defects detected during re
+-view is reviewer expertise; the process 
+has minimal impact.
+4In a development environment 
+where the artifact author or manager 
+assigns reviews, it can be dif˜cult to 
+know who should perform a review 
+
+and how many reviewers to involve. 
+
+The candidates™ expertise must be bal
+-anced with their workloads and other 
+
+factors. A rule-of-thumb in the inspec
+-tion literature is that two reviewers 
+
+˜nd an optimal number of defectsŠ
+the cost of adding more reviewers isn™t 
+justi˜ed by the number of additional 
+
+defects detected.
+9 In OSS, the median 
+is two reviewers per review. These 
+reviewers aren™t assigned; instead, 
+  NOV
+EMB
+ER/
+DE
+CEMB
+ER 2012
+ | IEEE SOFTWAR
+E 59broadcasting and self-selection lead to 
+natural load balancing across the de
+-velopment team. 
+Dictating a constant number of re
+-viewers for each change ignores the dif
+-ference between a simple change that 
+one reviewer can rubber stamp and a 
+complex one that might require a dis
+-cussion with the whole development 
+
+team. The advantage of self-selection is 
+that it™s up to the developers, who have 
+the most detailed knowledge of the sys
+-tem, to decide on the level of review 
+given to each change.
+On the other hand, self-selection 
+can end in some changes being ignored. 
+Managers can use tools to automati
+-cally assign unreviewed changes to re
+-viewers. However, unselected changes 
+
+might indicate areas of the code base 
+
+that pose a problem, such as areas that 
+only a single developer understands. 
+Recommendation 1: 
+Lightweight 
+Review 
+Tools
+Tools can increase traceability for man
+-agers and help integrate reviews with 
+
+the existing development environment. 
+OSS developers rely on information 
+broadcast and use minimalistic tool 
+support. For example, the Linux Ker
+-nel Mailing List has a median of 343 
+
+messages per day, and the OSS devel
+-opers we interviewed received thou
+-sands of messages per day.
+10 There 
+are techniques to manage this email 
+
+barrage, but it™s dif˜cult to track the 
+
+review process for reporting and qual
+-ity assurance, and it™s easy to inadver
+-tently ignore reviews. Furthermore, 
+
+the frequency of small changes can 
+
+lead to fragmentation, which makes it 
+dif˜cult to ˜nd and review a feature 
+that consists of multiple changes. 
+Tools can help structure reviews and 
+integrate them with other development 
+
+systems. Typically, they provide 
+side-by-side highlighted changes to 
+˜les (diffs); 
+inline discussion threads that are 
+linked to a line or ˜le; 
+capability to hide or show addi
+-tional lines of context and to view a 
+
+diff in the context of the whole ˜le; 
+capability to update the code under 
+
+review with the latest revision in 
+the version control system; 
+a central place to collect all arti
+-facts and discussions relating to a 
+
+review; 
+a dashboard to show pending re
+-views and alert code authors and 
+reviewers who haven™t responded to 
+assignments; 
+integration with email and develop
+-ment tools; 
+noti˜cation and assignment of re
+-views to individuals and groups of 
+developers; and 
+metrics to gauge review ef˜ciency 
+
+and effectiveness. 
+Table 2 compares some popular peer 
+review tools.
+Recommendation 2: 
+Nonintrusive Metrics 
+Mine the information trail left by 
+
+asynchronous reviews to extract light
+-weight metrics that don™t disrupt devel
+-oper work˚ow. 
+Metric collection is an integral part 
+of controlling, understanding, and di
+-recting a software project. However, 
+
+metric collection can disrupt develop
+-ers™ work˚ows and get in the way of 
+
+their primary task to produce software. 
+For example, formally recording a 
+defect is a cognitively expensive task, 
+
+sidetracking developers who are dis
+-cussing a change and forcing them to 
+
+formally agree on and record a defect. 
+
+Tool support doesn™t ˜x this problem. 
+
+At AMD, Julian Ratcliffe found that 
+defects were underreported despite 
+the simple CodeCollabotor reporting 
+
+mechanism: ﬁA closer look at the re
+-view archive shows that reviewers were 
+mostly engaged in discussion, using the 
+comment threads to ˜x issues instead 
+
+of logging defects.ﬂ
+11 Is the defect or the discussion more 
+important? In the Linux commu
+-nity, the amount of discussion on a 
+ TABLE 1
+Reviewer types and their costs, investment level in the code, review quality, and amount 
+of knowledge transfer and community development that occurs during the review.
+Reviewer type
+Cost
+Investment
+Quality
+Team building
+Independent reviewer
+Very high
+Low
+Medium
+Low
+Pair programming
+Very high
+Very high
+High
+High
+Codeveloper reviewer
+High
+High
+High
+High
+Regular incremental reviewer
+Medium
+Medium
+Medium
+Medium
+Reviewer as bug ˜xer
+Low
+Medium
+Low
+Medium
+ 60 IEEE SOFTWAR
+E | WWW.COMPUT
+ER.ORG/
+SOFTWAR
+EFEATURE:
+ SOFTWARE 
+REVIEW
+Sparticular change is an indicator of 
+code quality. Indeed, Linus Torvalds, 
+who maintains the current release on 
+the Linux operating system, has re
+-jected code, not because it™s incorrect, 
+
+but because not enough people have 
+tried it and discussed it on the mailing 
+list. To Torvalds, the potential system 
+
+bene˜t of accepting code that hasn™t 
+
+been discussed by a group of experts 
+doesn™t outweigh the risks. 
+Turning the amount of discussion 
+during a review into a metric is trivial 
+
+if a tool records discussions and asso
+-ciates them with ˜le changes. On this 
+basis, a manager might ask developers 
+
+whether they think the group has ade
+-quately discussed a part of the system 
+
+before its release. In our work, we™ve 
+
+demonstrated the extraction of many 
+
+nonintrusive, proxy metrics from re
+-view archives.
+12 Recommendation 3: 
+Implementing 
+ a 
+Review 
+Process
+Large, formal organizations might 
+
+bene˜t from more frequent reviews 
+and more overlap in developers™ work 
+to produce invested reviewers. How
+-ever, this style of review will likely be 
+
+more amenable to agile organizations 
+that are looking for a way to run large, 
+
+distributed software projects.
+OSS has much in common with 
+agile development and the Agile 
+
+Manifesto:
+13,14
+ a preference for working software 
+
+over documentation and for em
+-powering individuals over imposing 
+
+a rigid process;
+handling changes by working in 
+
+small increments rather than fol
+-lowing a rigid plan; and 
+working closely with the customer 
+rather than negotiating contracts.
+The most striking difference be
+-tween the development methodolo
+-gies is that agile supports small, co
+-located developer teams, while OSS 
+projects can scale to large, distributed 
+teams that rarely, if ever, meet in a co
+-located setting. OSS projects broad
+-cast all communicationŠdiscussions, 
+code changes, and reviewsŠto the en
+-tire community. The need for the entire 
+
+community to see all communication 
+
+is so strong that when a company pays 
+
+colocated developers to work on an 
+OSS project, it often requires them to 
+summarize and broadcast all in-person 
+
+discussion to the community.
+Software developers in most de
+-velopment companies are accustomed 
+
+to communicating in person, so they 
+might not welcome this practice. How
+-ever, peer review has proved more ef
+-fective in an asynchronous environment 
+
+than in a synchronous, colocated one. 
+Companies with large, distributed de
+-velopment teams might consider using 
+
+frequent, asynchronous reviews involv
+-ing codeveloper discussions of small, 
+
+functionally independent changes as a 
+
+substitute for pair programming.
+Practitioners from both the OSS 
+
+community and software com
+-panies have driven the devel
+-opment of lightweight peer review and 
+
+supporting tools. OSS practices have 
+
+evolved to maintain code quality ef
+-˜ciently within a distributed develop
+-ment group, and many companies are 
+
+already adopting a lightweight, tool-
+
+supported review approach, including 
+AMD
+11 and Cisco.
+15 We™re currently 
+working with the Canadian defense 
+
+department to develop an agile review 
+style that ˜ts its development teams. 
+
+We™re also actively seeking collabora
+-tions with developers and companies 
+who use a lightweight peer review. Our 
+TABLE 2
+Comparison of some popular peer review tools.
+Tool
+Main advantages
+Main disadvantages
+CodeCollaborator
+Supports instant messaging-style discussion of LOC, metric 
+reporting, and tight integration with multiple development 
+
+environments, such as Eclipse and Visual Studio
+Commercial license fee
+Crucible
+Integrates with the Jira bug tracker and other Atlassian 
+
+products
+Commercial license fee
+ReviewBoard
+Has a free, full-featured Web interface for review
+Requires setup and maintenance on an in-house server
+Rietveld
+Runs on top of Google App Engine, so it™s quick and easy to 
+
+start reviewing; supports Subversion development (Gerrit is 
+
+a git-speci˜c implementation of Rietveld)
+Requires public hosting on Google Code or setting up the 
+
+review system on an in-house server
+CodeStriker
+Has a Web interface that supports traditional inspection
+An older tool that lacks good support for lightweight review 
+
+techniques
+  NOV
+EMB
+ER/
+DE
+CEMB
+ER 2012
+ | IEEE SOFTWAR
+E 61goal is provide a systematic and prac
+-tical understanding of contemporary 
+peer review.
+References
+ 1.
+ M. Fagan, ﬁA History of Software Inspec
+-tions,ﬂ 
+Software Pioneers: Contributions to 
+Software Engineering
+, Springer, 2002, pp. 
+562Œ573. 
+ 2.
+ P.M. Johnson, ﬁReengineering Inspection,ﬂ 
+Comm. ACM
+, vol. 41, no. 2, 1998, pp. 49Œ52. 
+ 3.
+ P.C. Rigby, ﬁUnderstanding Open Source 
+
+Software Peer Review: Review Processes, 
+Parameters and Statistical Models, and Un
+-derlying Behaviours and Mechanisms,ﬂ 2011; 
+
+http://thechiselgroup.org/rigby-dissertation.
+pdf. 
+ 4.
+ A. Porter et al., ﬁUnderstanding the Sources 
+
+of Variation in Software Inspections,ﬂ 
+ACM 
+
+Trans. Software Eng. Methodology
+, vol. 7, no. 1, 
+1988, pp. 41Œ79. 
+ 5.
+ L.G. Votta, ﬁDoes Every Inspection Need a 
+Meeting?ﬂ 
+SIGSOFT Software Eng. Notes
+, vol. 
+18, no. 5, 1993, pp. 107Œ114. 
+ 6.
+ L. Williams, ﬁIntegrating Pair Programming 
+into a Software Development Process,ﬂ 
+Proc. 
+14th Conf. Software Eng. Education and Training
+, IEEE, 2001, pp. 27Œ36.
+ 7.
+ D.L. Parnas and D.M. Weiss, ﬁActive Design 
+Reviews: Principles and Practices,ﬂ 
+Proc. 8th 
+Int™l Conf. Software Eng.
+ (ICSE 85), IEEE CS, 
+1985, pp. 132Œ136. 
+ 8.
+ A. Mockus, R.T. Fielding, and J. Herbsleb, 
+
+ﬁTwo Case Studies of Open Source Software 
+
+Development: Apache and Mozilla,ﬂ 
+ACM 
+Trans. Software Eng. and Methodology
+, vol. 11, 
+no. 3, 2002, pp. 1Œ38. 
+ 9.
+ C. Sauer et al., ﬁThe Effectiveness of Software 
+Development Technical Reviews: A Behavior
+-ally Motivated Program of Research,ﬂ 
+IEEE 
+
+Trans. Software Eng
+., vol. 26, no. 1, 2000, pp. 
+1Œ14. 
+ 10.
+ P.C. Rigby and M.-A. Storey, ﬁUnderstand
+-ing Broadcast Based Peer Review on Open 
+
+Source Software Projects,ﬂ 
+Proc. 33rd Int™l 
+
+Conf. Software Eng
+. (ICSE 11), ACM, 2011, pp. 
+541Œ550. 
+ 11.
+ J. Ratcliffe, ﬁMoving Software Quality 
+Upstream: The Positive Impact of Lightweight 
+Peer Code Review,ﬂ 
+
+Quality Conf
+. (PNSQC 09),
+ 2009, pp. 171Œ180; 
+www.pnsqc.org/past-conferences/2009-con
+-ference.
+ 12.
+ P.C. Rigby, D.M. German, and M.-A. Storey, 
+
+ﬁOpen Source Software Peer Review Practices: 
+A Case Study of the Apache Server,ﬂ 
+Proc. 30th 
+
+Int™l Conf. Software Eng.
+ (ICSE08), IEEE CS, 
+2008, pp. 541Œ550. 
+ 13.
+ K. Beck et al., 
+The Agile Manifesto
+, 2001; 
+http://agilemanifesto.org.
+ 14.
+ S. Koch, ﬁAgile Principles and Open Source 
+
+Software Development: A Theoretical and Em
+-pirical Discussion,ﬂ 
+Extreme Programming and 
+
+Agile Processes in Software Eng
+., LNCS 3092, 
+J. Eckstein and H. Baumeister, eds., Springer 
+2004, pp. 85Œ93.
+ 15.
+ J. Cohen, 
+Best Kept Secrets of Peer Code Review
+, white paper, Smart Bear, 2006; http://
+ 
+smartbear.com/solutions/white-papers/
+ best-kept-secrets-of-peer-code-review
+PETER 
+C. RIGBY
+ is an assistant professor of software engineering at 
+Concordia University in Montreal, Canada. His research interests focus 
+on understanding how developers collaborate to produce successful 
+software systems. Rigby received his PhD in computer science at the 
+University of Victoria, and the lessons and recommendations reported 
+
+in this article are largely based on his dissertation. Contact him at 
+
+peter.rigby@concordia.ca.
+BRENDAN 
+CL
+EARY 
+is a research fellow at the University of Victoria. 
+His research interests focus on managing commercial and research 
+
+projects, and he™s the founder of a university spin-out company. Cleary 
+
+has a PhD in computer science from the University of Limerick, Ireland. 
+
+Contact him at bcleary@ uvic.ca.
+FREDERIC 
+PAINCHAUD 
+is a defence scientist at Defence Research 
+and Development Canada and a part-time PhD student in computer 
+
+science at Université Laval. His research interests include software 
+
+architectural risk analysis, static and dynamic code analysis, and 
+
+lightweight peer review. Painchaud has a master™s degree in computer 
+
+science from Université Laval. Contact him at frederic.painchaud@
+
+drdc-rddc.gc.ca.
+MARGARET-
+ANNE STOREY 
+is a professor of computer science and 
+a Canada research chair in human-computer interaction for soft
+-ware engineering at the University of Victoria, Canada. Her research 
+
+interests center on technology to help people explore, understand, 
+
+and share complex information and knowledge. Storey received her 
+
+PhD in computer science from Simon Fraser University. Contact her at 
+
+mstorey@uvic.ca.
+DANIE
+L M. 
+GER
+MAN is an associate professor of computer science 
+at the University of Victoria, Canada. His research areas are open 
+
+source software engineering and the impact of copyright in software 
+
+development. German received his PhD in computer science from 
+
+the University of Waterloo, Canada. Contact him at dmg@uvic.ca or 
+
+through his website at turingmachine.org.
+ABOUT THE 
+AUTHOR
+SSelected CS articles and columns 
+ 
+are also available for free at 
+ 
+http://ComputingNow.computer.org.

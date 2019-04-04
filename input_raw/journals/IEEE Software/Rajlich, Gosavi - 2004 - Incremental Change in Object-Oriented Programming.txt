@@ -1,0 +1,595 @@
+ 62IEEE SOFTWARE
+Published by the IEEE Computer Society0740-7459/04/$20.00 © 2004 IEEEformulated in terms of program conceptsÑ
+chunks of knowledge about the program and
+application domainÑthe resulting IC activi-
+
+ties also focus on program concepts. More-
+over, most change requests originate from the
+
+end user, so the end userÕs view of the program
+
+is the source of most concepts that govern IC.
+Additional concepts might originate from
+other programmers and deal with the program
+architecture or algorithms.Program dependencies also play a crucialrole in IC; if a program component changes,
+
+other dependent components might also haveto change. This is true even for well-designedobject-oriented programs, as this articleÕs ex-
+
+ample demonstrates.IC at workWe illustrate IC in an example involving
+Drawlets (www.rolemodelsoft.com/drawlets),
+
+an open source framework that adds graphics
+to a host application. (See the ÒPrevious WorkÓ
+
+sidebar for background information and moti-
+
+vation.) Drawlets supports a drawing canvas
+that holds figures and lets users interact with
+
+them. The figures include straight lines, free-
+
+hand lines, rectangles, rounded rectangles, tri-
+angles, pentagons, polygons, ellipses, and text
+boxes. Tools modify the figure attributes, such
+
+as size and location. The host application pro-
+
+vides an instance of the drawing canvas, tool-
+bars, and tool buttons. 
+Incremental Change in Object-Oriented
+ProgrammingIncremental changeadds new functionality and new properties to
+software. ItÕs an essential part of software processes such as mainte-
+
+nance, evolution, iterative development and enhancements, and agile
+development. Because of that, it plays an important role in practicalsoftware engineering. In this article, we concentrate on IC in the context of object-orientedJava programs and study selected IC activities. Because change requests are 
+
+
+
+
+
+V⁄clav Rajlich and Prashant Gosavi, Wayne State University
+ July/August 2004IEEE SOFTWARE
+63Drawlets is well-designed, with more than
+100 classes, 35 interfaces, and 40,000 lines of
+code and documentation. Kent Beck and Ward
+
+Cunningham developed the original frame-
+work, named HotDraw, in Smalltalk, and
+
+RoleModel Software later ported it to Java and
+renamed it Drawlets. In this example, we used a host application
+called SimpleApplet. Class implements this host application and is a part
+of the Drawlets library. SimpleApplet runs in
+
+any browser that supports Java. It displays the
+drawing canvas in a browser window and
+arranges the toolbars and tool buttons around
+it. These tool buttons activate tools that create
+
+or modify figures. Figure 1 shows the Simple-
+Applet canvas with a selection of different
+shapes.For this example, the change request is toimplement an owner for each figure. An owneris the user who put the figure onto the canvas,
+and only the owner should be allowed to mod-
+ify a figure. A user inputs his or her ID and
+password at the beginning of a session. Any at-
+tempt to change a figure must validate that the
+figure owner and the current session owner are
+the same. This change will make SimpleApplet moreversatile and will let several users work col-
+laboratively on a single document. IC design is
+our response to the change request.IC designIC  design responds to the change request by
+performing certain activitiesÑconcept extrac-tion, location, and impact analysisÑbefore theactual change starts. Both programmers and
+project managers participate in the design to
+better understand the planned IC and required
+resources.Concept extractionAs mentioned earlier, we define concepts as
+chunksof 
+knowledge about the program andapplication domain. In the natural language
+used in change requests, they appear as nouns,
+verbs, or short clauses. Concepts let program-
+
+mers and users communicate about the pro-
+
+gram and are also present in the code itself. An
+identifiable code fragment, very often a class,
+
+might implement them. In other situations, they
+appear implicitly as simplifications and as-
+sumptions reflected in certain code segments.
+
+Change requests typically contain several con-A complete version of the Drawlets example appears elsewhere.1The article, ÒThe Staged Model of the Software Lifecycle,Ó summarizes
+the role of evolution in the software life cycle.2Iterative change and refac-toring (change that doesnÕt modify the programÕs behavior but modifies the
+
+program structure and makes it more suitable for future evolution) are soft-
+
+ware evolutionÕs main tasks. Martin Fowler has given a comprehensive list
+
+of refactoring transformations.
+3Evolving interoperation graphs4are a theoretical model of change prop-agation and are the basis for the figures that appear in this article.
+Concept location, impact analysis, and change propagation all requireknowledge of class dependencies. Program analysis is the discipline that de-
+velops algorithms that extract class dependencies from a program. You can
+
+access a summary of research on impact analysis and analysis of program
+
+dependencies elsewhere.5A sizable literature exists on software design that anticipates future changes
+and prepares software for them.6However, frequently, for various reasons, the
+IC isnÕt anticipated and affects many classes. Unanticipated IC, despite being a
+
+very common software process, hasnÕt attracted sufficient study. As a result, itÕs
+
+not part of the textbooks, lacks an established terminology and tool support,
+
+and is largely a self-taught art that successful programmers must discover on
+
+their own.References1.P. Gosavi, 
+Example of Change Propagation, masterÕs thesis, Dept. Computer Science,
+Wayne State Univ., 2003; www.cs.wayne.edu/~gosavip/thesis/thesis_index.html.
+2.V.T. Rajlich and K.H. Bennett, ÒThe Staged Model of the Software Lifecycle,Ó 
+Computer, July2000, pp. 66Ð71.3.M. Fowler, 
+Refactoring: Improving the Design of Existing Code, Addison-Wesley, 1999.
+4.V. Rajlich, ÒModeling Software Evolution by Evolving Interoperation Graphs,Ó 
+Annals ofSoftware Eng., vol. 9, 2000, pp. 235Ð248. 
+5.S.A. Bohner and R.S. Arnold, 
+Software Change Impact Analysis, IEEE CS Press, 1996.6.D.L. Parnas, ÒOn the Criteria to Be Used in Decomposing Systems into Modules,Ó 
+Comm.ACM, vol. 29, 1972, pp. 1053Ð1058. Previous Work
+Text Label
+text
+FillLineText
+Black
+ForeApply
+NoFigure 1. Screen shot ofSimpleApplet. cepts, so a programmer must extract the ones
+that best characterize the change. 
+Coming back to the Drawlets example, thechange request contains the concepts User,
+
+Figure, Canvas, Modify Figure, User ID, User
+Password, Beginning of a Session, Validate
+
+Owner, and so forth. The concepts most rele-
+
+vant to our IC are Figure Owner and Current
+Session Owner. Both of these concepts are im-
+
+plicit in the old code, which assumes that just
+
+one owner owns both sessions and figures.LocationThe next IC activity is to locate the relevant
+concepts in the code. 
+Concept location has been the subject ofprevious studies, and several methodologies are
+available, including string pattern matching
+that finds relevant identifiers or comments,1adynamic testing technique,2and static codesearch.3Each technique has its area of applica-bility (a discussion of these techniquesÕ advan-
+tages and disadvantages appears elsewhere4).In our example, we located the concepts bystatic code search. We used this technique
+
+rather than the others because both of the
+sought concepts are implicit, so no identifiers
+exist to point to their locations and you canÕt
+
+identify them by testing the current code. For
+
+implicit concepts, static code search is the only
+
+suitable technique. The search space is the
+class diagram, and the programmer conducts
+the search depth-first by going top-down
+through control flow dependencies.
+The programmer first visits the top class(containing method or ), whichsummarizes the programÕs functionality. This
+
+top class doesnÕt do everything; it delegates
+
+parts of its functionality to other classes.
+
+Hence, if the top class doesnÕt implement the
+
+sought concept, the classes it calls must imple-
+ment the concept. Because these classes are
+specialized, itÕs usually easy to decide which
+
+ones do and donÕt lead toward the sought con-
+
+cept. Moving down the call graph toward in-
+creasingly specialized classes, the programmer
+eventually finds the classes that participate in
+the concept. If more than one concept is in-
+volved in the change, the programmer repeats
+the search until he or she locates all concepts. Figure 2 gives a UML class diagram5of se-lected top classes of Drawlets that we searched
+
+for the Figure Owner and Current Session
+Owner concepts.  Bold blue arrows indicate the
+
+searchÕs process, which starts in the top class
+.The class is responsible forthe whole program. However, after briefly
+
+reading the classÕs code, we determined that it
+
+doesnÕt contain any session or figure attributes,
+
+and thus contains neither Current Session
+Owner nor Figure Owner. We concluded that
+
+these concepts must be located in the classes
+uses. Class 
+supports a selection of different styles for fig-
+ures, and we concluded that it couldnÕt contain
+
+the concepts. Similarly, the concepts couldnÕt be
+
+located in or ; thus,they must be located in the classes implement-
+ing the interface .is an interface and theclass implements it.There is one and only one instance of for each session ofDrawlets; hence, most of the session attributes
+are concentrated in this class and itÕs the logi-
+
+cal location of the implicit concept of Current
+
+Session Owner.
+We then searched for the Figure Owner con-
+ceptÕs location, repeating the same original steps
+
+until we reached the interface .The interface contains manyfigures but doesnÕt contain properties of in-
+
+dividual figures; so we visited the interface 
+
+. This interface is stillonly a collection of Figure objects and also
+doesnÕt contain individual figure properties.
+
+So, we next visited the interface , im-64IEEE SOFTWARE
+www.computer.org/software
+Sequence of steps of concept locationClasses visited during concept location
+Classes where the concepts were located
+Classes not visitedFigure 2. Summary of
+
+concept location. plemented by class .Class holds most of afigureÕs attributes. ItÕs also the topmost class in
+
+the Figure hierarchy. We concluded that the
+
+implicit concept of Figure Owner resides in
+
+this class. Impact analysisImpact analysis determines a changeÕs ex-
+tent. It determines the set of classes IC affects
+
+(the impact set) and presents an opportunityto select a strategy for the change. It also gives
+the programmer an opportunity to understand
+the relevant code and dependencies that prop-
+agate the change. Ideally, IC is limited to one class only, and
+the information hiding and abstraction that
+the class implements are barriers to propagat-
+ing the IC to other classes. However, even in
+
+well-designed systems, some ICs cross these
+barriers. Our explanation is that itÕs impracti-
+
+cal to encapsulate all imaginable program con-
+cepts because there are simply too many. This
+
+is particularly true about implicit concepts; the
+
+code is based on many assumptions and itÕs
+
+impractical and unlikely that they all will be
+encapsulated. If a change request is based on
+an unencapsulated concept, itÕs likely to affect
+
+several classes that participate in that concept. Impact analysis starts with the classes foundin concept location. These are the first classes
+
+that the programmer adds to the impact set.
+
+For every new class added to the impact set, the
+
+programmer visits all classes interacting with it.
+
+If the IC will change these classes, theyÕre also
+
+added to the impact set. The programmer con-
+tinues this process recursively until he or she
+
+identifies all classes of the impact set.Different kinds of class interactions havedifferent likelihoods of change propagation.
+For example, a change in a derived class is less
+likely to trigger a change in the base class,
+while a change in a base class is more likely to
+require changes in derived classes. However, a
+
+safe view is that all classes that have a nonzero
+probability of change must be visited and ei-
+ther added to the impact set or certified that
+
+they donÕt need change.
+In some cases, information passes fromclass A to class B through an intermediary class
+X. In this case, a change in A might trigger a
+change in B while the intermediary class X re-
+mains unchanged. We call this 
+hidden propa-gation.5The existence of hidden propagationhas the following consequence: If during im-pact analysis we encounter a class that doesnÕt
+
+change, we still must investigate whether
+
+thereÕs a potential for hidden propagation. If
+
+there is, we must visit the neighbors of this
+class even if the class itself didnÕt change. 
+In our example of Drawlets, we knew thatand would change, so we put them intothe impact set. We then iteratively visited the
+
+classes and interfaces that interact with these
+two classes (see Figure 3). 
+The only interface that interacts withis the interface. We determined that it doesnÕt
+need any change, but it could propagate the
+changes to the classes and interfaces that in-
+
+teract with it. Of these, the class 
+and the interface donÕt
+need modifications and donÕt propagate this
+
+change any further. However, the class 
+-needs a change, so we added it tothe impact set. Next, we visited the classes that interact with(, and), but none required a changeand there was no possibility of propagation. Starting from , we visitedthe interface , which interacts with theclass , and added it to theimpact set. We visited the classes 
+-and , added them to the im-pact set, and propagated the change to the
+classes beyond them as far as necessary. Figure
+
+3 illustrates the complete impact set and the
+extent of the change.IC implementationImplementing IC follows the design phase
+and involves actualization, incorporation, andchange propagationactivities.ActualizationDuring actualization, the programmerwrites the code that will implement the new
+concept. For a small change, the new code
+might be part of an existing class. A larger
+change could require implementing a com-
+pletely new class or a new subsystem consist-
+
+ing of several new classes. In our Drawlets example, we implemented the
+concept Owner in the new class .It holds basic owner data, such as owner ID
+and password. A dialog box lets users changeJuly/August 2004IEEE SOFTWARE
+65
+
+
+
+ the current session owner. It also contains a lis-
+tener that notifies the program when the user
+
+clicks on a button in this box. We implemented
+
+this listener in the class . IncorporationIncorporation interconnects the new code
+with the old. If the new code is a class, we can
+achieve incorporation by declaring instances
+of the new class in the old code or vice versa. 
+In our Drawlets example, we incorporatedthe newly created classes and into the old code by cre-ating an instance of in both
+and . That required changes in theseclassesÕ methods.In the class 
+, we added anew argument for figure owner to several ex-
+isting public methods. After the modifications,
+these methods first compared the identities of
+current session owner and figure owner before
+making changes to the figures. We also modi-
+
+fied several other methods in this class that
+called the above methods. In the class 
+, wemodified the function to prevent figures not belonging to the current
+session owner from being cut from the canvas.
+
+We implemented several new methods to al-
+66IEEE SOFTWARE
+www.computer.org/software
+New classesClasses or interfaces modified during all three versions of change propagation
+Classes modified only during original change propagation or during refactoring
+Unchanged classes or interfaces
+Figure 3. Drawletsclasses involved in 
+incremental change
+(IC). low access to the current session owner infor-mation stored in class .Figure 4 shows the situation after incorpora-tion; we added the new classes and and modified the classesand -. Bold blue arrows indicate inconsistenciesin the program and the direction in which they
+
+propagate.Change propagationThis activity parallels impact analysis, butthis time it involves real code changes. An in-
+teresting case study discovered that program-
+
+mers often underestimate the impact set.6So,programmers should be open to the possibility
+that they might have missed some propaga-
+tions during impact analysis. Also, new unan-
+ticipated effects of the actual changes could
+emerge during this phase. In our Drawlets example, incorporationchanged the classes and . So, they are the start-ing points for the change propagation. Be-
+cause change propagation parallels impact
+analysis, we donÕt repeat the individual steps
+
+here. The complete set of classes changed in
+the change propagation is equivalent to the
+impact set (see Figure 3). 
+Shorter propagation
+Change propagation is a long, difficult, anderror-prone IC activity. A change in any class
+
+requires a thorough retesting of the class andin-
+
+creases the risk that the code will unexpectedly
+break. Here, we present two separate and mutu-
+ally independent techniques that shorten change
+propagation. We applied them before the incor-
+
+poration and change propagation took place. RefactoringTo restructure the program architecture
+without changing the programÕs functionality,
+
+we applied refactoring. A comprehensiveoverview of refactoring techniques appears
+
+elsewhere.7Here, we apply several of thesetechniques. During impact analysis, the programmermight find misplaced code that unnecessarily
+extends the impact set. In this case, he or she
+
+can improve the program architecture by mov-
+ing the misplaced code into its proper place by
+refactoring. This results in shortened change
+propagation.In our Drawlets example, we noticed that
+several classes that create new figures have the
+method . This methodhas two main parts:Create a new figure.
+If the figure was not created at its intended
+
+location, move it by calling the method. Drawlets creates the figures Ellipse, Rectangle,and several other figures in this way. When the
+
+method changed, the classes thatcreate these figures also had to change. We could improve the software architecture
+by placing this functionality in a base class, as
+itÕs shared among several derived classes. This
+
+would prevent unnecessary code repetition
+and would also shorten change propagation.
+To accomplish this, we used the following
+
+refactoring steps:7 Extract method. First, we extracted thecall to method 
+from -and put in a new me-
+thod .Pull up method. Next, we pulled upmethod intothe base class ConstructionTool.
+Inline method. Then, we merged methodinto method.July/August 2004IEEE SOFTWARE
+67Future steps of change propagationNew classes
+Classes already modified
+Classes to be visited next
+Other classesFigure 4. The programafter actualization and
+incorporation. This refactoring improved the code by re-moving redundancies and shortening the
+change propagation, as the data in Table 1
+
+and Figure 3 show.
+Splitting the rolesAnother technique that can shorten changepropagation is splitting the roles. We can apply
+this when the code uses the same class or same
+method in two slightly different roles. Because the
+roles are similar, the same code can do both jobs.
+The propagating change, however, can
+highlight the differences in these two roles.
+
+Only one of them might need updating while
+
+the other one remains the same. Splitting the
+
+two roles and updating only one of them
+shortens change propagation.In our example, we observed that themethod is used in Drawlets in twodifferent ways: to move the figure as requested
+by the user or as part of the algorithm for cre-
+ating new figures. The methodÕs dual role par-
+
+tially causes the extended change propagation.ItÕs obvious that a user-initiated move must
+check the user identity, while the creation of
+
+new figures need not. By splitting these two
+
+roles into two functionsÑa new method and the old methodÑwe substantially shortened thechange propagation. The new method first checks the userÕs iden-
+tity and then invokes the old method.Observations
+In the example, we observed that our IC re-quired large change propagation. The data in
+Table 1 show the changeÕs extent and the impact
+of the techniques that limit change propagation.Of the three techniques used, splitting led to
+changes in the smallest number of classes, while
+refactoring improved program architecture and,
+thus, future maintainability. Simple propagation
+
+was the easiest technique to employ.
+In our example, we chose to work on the
+granularity of classes; the typical step was a
+visit to a class. We could have presented IC on
+
+other granularities as well, such as the granu-
+larity of class members (methods and vari-
+ables) or even the finer granularity of state-
+ments. The granularity of classes is the
+granularity at which the program concepts are
+most clearly expressed; many of them are im-
+
+plemented as classes. Classes are also natural
+units for code editors and software tools.
+Compared to that, smaller granularities pro-
+vide information that might be more accurate
+
+but also can be too detailed and voluminous.
+As such, it might be appropriate only for small
+changes. In our example, the granularity of
+classes worked well and was a natural granu-
+larity for IC activities.
+In this article, we didnÕt explicitly discuss test-
+ing, updates of manuals and other documents, or
+
+similar IC activities, but we believe that the ac-
+tivities presented here are a compatible subset.
+You can apply change propagation to other doc-
+
+uments, and the change propagates through the
+
+dependencies among the documents.The Drawlets example illustrated a largeand delocalized change. In changes that are ei-
+ther small or localized, some activities might
+become trivial or unnecessary. For example, in
+
+a small or familiar program, concept location
+is immediate and doesnÕt require any explicit
+
+activity. 
+Localized changes are contained within asingle class and avoid change propagation. For
+small changes, it might be reasonable to merge
+actualization and incorporation and change
+the old code directly without separating these
+two activities. Changes that retract functional-
+ity might still require location and propaga-
+tion, but deleting obsolete code replaces actu-
+alization and incorporation.To address the universality of the ac-
+tivities presented here, we plan to
+study a larger set of ICs in future case
+studies. We also plan to address how the ac-
+68IEEE SOFTWARE
+www.computer.org/software
+Table 1 The number of classes and interfaces modified by
+incremental changeTechnique used in ICClasses modifiedInterfaces modified
+Incorporation and propagation only365
+Refactoring, incorporation, and propagation365
+Refactoring 120
+Incorporation and propagation after refactoring255
+Splitting, incorporation, and propagation245
+Splitting 50
+Incorporation and propagation after splitting205
+ tivities and techniques described in this articleimpact other software artifacts such as tests
+
+and documentation. We believe that it would be beneficial to ex-
+tend the work presented here to other soft-
+
+ware technologies, including databases, net-
+works, and the like, and to other technologies
+in general.WeÕve observed that concept location,
+change impact analysis and change propaga-
+tion are overhead in IC, while actualization
+and incorporation constitute ICÕs core. Small
+
+changes lead to multiple repetitions of the
+overhead, and we speculate that the result is
+decreased programming efficiency and an in-
+creased likelihood of errors. However, changes
+
+that are too big and deal with too many issues
+at once could overload the programmersÕ cog-
+nitive capabilities. Hence, we speculate that
+thereÕs an optimal IC size, which weÕll try to
+
+find. Although programmers receive change re-
+quests from the user community and donÕt
+
+have control over their size, they can often sub-
+divide or aggregate change requests into blocks
+of the optimal size.The activities of concept location, change
+impact analysis, and change propagation em-
+ploy program dependencies that program
+analysis discovers. We plan to implement a tool
+
+that would extract dependencies from the code
+
+and track the progress of IC activities.We expect that research on IC will improve
+the current practice and will contribute to the
+
+accumulation of knowledge in this important
+field.References1.T.J. Biggerstaff, B.G. Mitbander, and D.E. Webster,
+ÒProgram Understanding and the Concept Assignment
+Problem,Ó Comm. ACM, May 1994, pp. 72Ð78.2.N. Wilde and M.C. Scully, ÒSoftware Reconnaissance:
+Mapping Features to Code,Ó J. Software Maintenance,1995, vol. 7,  pp. 49Ð62. 
+3.K. Chen and V. Rajlich, ÒRIPPLES: Tool for Change in
+Legacy Software,Ó Proc. IEEE IntÕl Conf. SoftwareMaintenance, IEEE CS Press, 2001, pp. 230Ð239.4.N. Wilde et al., ÒA Comparison of Methods for Locat-
+ing Features in Legacy Software,Ó J. Systems and Soft-ware, vol. 65, no. 2, 2003, pp. 105Ð114.5.G. Booch, J. Rumbaugh, and I. Jacobson, 
+The Unified
+Modeling Language User Guide,Addison-Wesley, 1998.
+6.Z. Yu and V. Rajlich, ÒHidden Dependencies in Pro-
+gram Comprehension and Change Propagation,Ó Proc.9th IntÕl Workshop Program Comprehension
+, IEEE CSPress, 2001, pp. 293Ð299.7.M. Lindvall and K. Sandahl, ÒHow Well do Experi-
+enced Software Developers Predict Software Change?ÓJ. Systems and Software, vol. 43, no. 1, 1998, pp. 19Ð27.8.M. Fowler, 
+Refactoring: Improving the Design of Exist-ing Code, Addison-Wesley, 1999.
+For more information on this or any other computing topic, please visit ourDigital Library at www.computer.org/publications/dlib.
+July/August 2004IEEE SOFTWARE
+69
+V⁄clav Rajlichis a full professor and former chair in the Department of Computer Sci-ence at Wayne State University. His research interests include the areas of software evolution
+
+and comprehension. He received a PhD in mathematics from Case Western Reserve University.
+
+He is a member of the IEEE Computer Society and ACM. Contact him at vtr@cs.wayne.edu.Prashant Gosaviis a software developer and product manager with Dimensional Con-trol Systems. His research interest is software evolution. He received an MS in computer sci-
+ence from Wayne State University. Contact him at prashant@3dcs.com.
+
+We publish 
+IEEE Software
+as a service to our readers. With
+
+each issue, we strive to present
+
+timely articles and departments
+with information you can use.
+
+How are we doing?
+
+Send us your feedback, and help
+
+us tailor the magazine to you!
+Write us at

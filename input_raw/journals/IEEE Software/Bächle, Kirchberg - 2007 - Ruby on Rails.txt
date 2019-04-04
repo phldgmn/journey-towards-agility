@@ -1,0 +1,465 @@
+ Web 2.0, Ajax (Asynchronous Java-Script and XML), Web services, and
+
+related technologies are complicat-
+
+ing Web application engineering. As
+
+application complexity increases,
+so doesthe wish for a silver bullet. Alot of Web 2.0 frameworks promise to make de-
+
+velopersÕ lives easier. But do they?
+Ruby on Rails is a novel Web 2.0 framework
+that attempts to combine PHPÕs simple immedi-
+
+acy with JavaÕs architecture, purity, and quality.
+
+ItÕs certainly one of the most promising frame-
+
+works that have emerged for agile Web 2.0 ap-
+
+plication development. Here, weÕll first look
+briefly at underlying RoR principles and then
+take a closer look at its components.RoR principlesRoR forms an environment and providesall the tools for developing business-critical,database-supported Web applications. It in-
+
+cludes all the so-called Web 2.0 features, such
+
+as support for Ajax. Its basic objectives, how-
+
+ever, are simplicity, reusability, expandability,
+
+testability, productivity, and maintainability.
+
+Six RoR principles contribute significantly to
+these objectives.MVC architectureRoR implements a model-view-controllerarchitecture. MVC clearly separates code ac-
+cording to its purpose. Three subframeworks
+play a significant part in this separation: Active
+Record, Action View, and Action Controller.
+
+These subframeworks appear across the middle
+of the component diagram in figure 1.Convention over configurationRoR avoids configurations in their broad-est sense. The only configuration file is calleddatabase.yml; it contains the type, user name,and password for an application database. For
+every project, developers can define three dif-
+ferent databases: development, test, andproduction. The RoR framework firmly in-tegrates the RoR components to cooperate
+even without configuration. Developers can
+overwrite conventions to make special func-
+tions and individual adjustments possible. 0740-7459/07/$25.00 © 2007 IEEENovember/December 2007IEEE SOFTWARE
+105software technology
+Editor: Christof Ebert Vector Consulting 
+christof.ebert@vector-consulting.de
+Ruby on Rails
+Michael B−chle and Paul Kirchberg
+Web applications are getting ever more complex, and many of us wonder how to master the
+technology challenges of creating highly dynamic, good-looking pages without too much over-
+head. Ruby on Rails is an open source framework developed to increase programmer produc-
+tivity and reduce entry barriers to programming Web applications. In this issueÕs column,
+
+Michael B−chle and Paul Kirchberg look into RoR and contrast it with other frameworks.I look forward to hearing from both readers and prospective column authors, about this col-umn and the technologies you want to know more about. ÑChristof Ebert DonÕt Repeat Yourself
+The DRY principle requires every
+piece of system knowledge to have a
+unique, definite, and relevant represen-
+tation. This approach means developers
+repeat themselves seldom or never. In
+
+this context, a piece of knowledge can
+be data or metadata, logic, functional-
+ity, or an algorithm. As an environ-
+
+ment, RoR is designed to make singular
+declarations and reuse as easy as possi-
+ble. The DRY principle is striking, for
+example, in Active Record, which de-termines attributes and class values ex-
+clusively in the database and not in the
+program code.ScaffoldingThe database scheme and the scaf-foldconsole command let RoR createa basic skeleton of controllers and view
+templates that have create-retrieve-
+update-delete (CRUD) functionality. In
+
+many programming situations, RoRalso offers generators that save a lot oftime for recurring elements, such as a
+login form. The automatic creation of project
+scaffolding saves time and lets the de-
+veloper immediately start work on the
+applicationÕs core functionality.
+Immediate feedbackDevelopers can get an up-to-date sta-
+tus of their program by reloading it in
+the browser. No additional time is in-
+
+volved in deploying the program. RoR
+doesnÕt require projects to compile and
+
+execute first.RubyRoR is based on the dynamicallytyped, object-oriented Ruby program-
+ming language. Yukihiro Matsumoto in-
+
+troduced this language in 1995. Immedi-
+ately when the browser calls up Ruby
+code, the Web serverÕs Ruby interpreter
+
+processes it. In comparatively little code,
+developers can cover a large amount of
+functionality by combining loops and ar-
+rays in blocks. Ruby code is easy to read
+and based heavily on the languages Perl,
+Python, Smalltalk, and Lisp.RoR framework componentsFigure 1 shows the most important
+RoR framework components. Figure 2
+presents a programming example in
+Ruby, the inevitable ÒHello WorldÓ
+
+program.Active RecordThe Active Record subframework es-tablishes the connection between the do-
+main objects and the database. It trans-
+forms the CRUD functions that come
+from the Action Controller into SQL
+commands, sends the requests to the
+database, and returns the received results
+to the Action Controller. Active Record
+
+also validates whether a user is entitled
+to access or change a specific record. The subframework follows the Ob-ject/Relational Mapping pattern. In
+ORM, classes are directly related to
+database tables. The records represent
+class objects; the table columns represent
+the attributes. Usually, ORM requires a
+
+comprehensive configuration via XML.
+The Active Record conventions enable106IEEE SOFTWARE
+www.computer.org/software
+SOFTWARE TECHNOLOGY
+DeliverView
+Action ViewAction Web Services
+Action MailerRequestDeliverDeliverDelegateSendWeb server
+ActionControllerSendRedirectDispatcherActiveRecordCRUDRequestDataDataLoadDatabaseFigure 1. Ruby on Rails framework components. The Active Record, ActionView, and Action Controller subframeworks establish a fundamental model-
+
+view-controller architecture.Figure 2. The ÒHello WorldÓ program in Ruby. File A is the Ruby code listing;
+
+File B is the HTML template for hello_controller.rb.
+FFi
+il
+le
+e 
+ A
+A:
+: 
+ .
+..
+./
+/a
+ap
+pp
+p/
+/c
+co
+on
+nt
+tr
+ro
+ol
+ll
+le
+er
+rs
+s/
+/h
+he
+el
+ll
+lo
+o_
+_c
+co
+on
+nt
+tr
+ro
+ol
+ll
+le
+er
+r.
+.r
+rb
+bccl
+la
+as
+ss
+sHelloController < ApplicationControllerdde
+ef
+findex@@m
+me
+es
+ss
+sa
+ag
+ge
+e= “Hello World!”een
+nd
+deen
+nd
+dFFi
+il
+le
+e 
+ B
+B:
+: 
+ .
+..
+./
+/v
+vi
+ie
+ew
+ws
+s/
+/h
+he
+el
+ll
+loo/
+/i
+in
+nd
+de
+ex
+x.
+.r
+rh
+ht
+tm
+ml
+l<html><body><%=@mme
+es
+ss
+sa
+ag
+ge
+e%></body></html> November/December 2007IEEE SOFTWARE
+107SOFTWARE TECHNOLOGY
+RoR to avoid this requirement. Via 
+ActiveRecord::Base, RoR activatestables when theyÕre called in the database
+and creates the required class automati-
+
+cally. The Òconvention over configura-
+
+tionÓ principle bypasses the configura-
+tion effort usually required to combine
+
+data and variables. Active Record classes
+
+thus receive their attributes directly from
+the database table definition.To represent inheritance in a rela-
+tional database, RoR uses an additional
+pattern, Single Table Inheritance. RoR
+
+associations are defined by a foreign
+key in the database and a declaration of
+the corresponding table name (in plural
+by convention, but the developer can
+change this) in Active Record. A collec-
+tion of validation methods lets RoR au-
+tomatically check entered data in the
+HTML form regarding its existence or
+specific format. If the validation fails,
+RoR creates an error message and dis-
+plays it in the HTML form (we describe
+this further in ÒAction ViewÓ).
+Action ControllerThe Action Controller is the centralsteering unit. It receives requests and
+
+returns a view to the client. Within this
+
+component, the developer defines ac-tionsthat determine how the controllerwill react to specific HTTP requests.
+
+The controller receives a request from
+a URL, processes it as an action or ob-
+ject and sends the right view back to
+the browser. RoR uses Pretty URLs,
+
+which the Apache Web server, for exam-
+
+ple, makes possible through the mod_
+rewrite function.
+Additionally, the Action Controller
+can run an action through a before-filter
+
+prior to performing itandthrough an
+
+after-filter upon completion. The be-
+
+fore-filter can log specific actions, such
+as forwarding to a login page. The after-
+
+filter is especially useful in handling op-
+
+tions, such as checking whether the user
+wants an encoded transfer method for
+
+the serverÕs response.
+Action Controller also establishesthe connection to Active Record and
+supplies data from the database to Ac-
+tion View, Web Services, and Mailer.
+
+Additional functions include, for ex-
+ample, session handling.Action ViewAction View presents data. Typically,
+RoR represents data in the HTML for-
+
+mat. In any case, RoR defines templates
+
+to separate the presentation layer from
+
+the rest of the application. RoR has var-
+ious template forms. The most impor-
+tant are R
+HTMLand RXML.RHTMLtemplates mix Ruby codewith HTML; during runtime, process-
+ing the Ruby code fills the templates
+
+with content. In this case, the R
+HTMLtemplate encloses the Ruby code in a
+tag of the form 
+<%...%>. To create XML files, RoR uses its
+own builder library. The builder trans-
+
+fers Ruby commands into XML tags.
+RoR makes preimplemented helper
+
+methods available. These methods are
+especially useful for format conver-
+sions, format boxes, error messages,
+and site management. Action Web Services
+Through Action Web Services,
+RoR supports XML-RPC-based and
+SOAP-based Web services, thus facili-
+
+tating the publishing of functionality
+and the inclusion of external services.
+Active Controller supports the lighter-
+
+weight REST (
+Representational StateTransfer)approach.
+RoR also supports Ajax frame-works such as Prototype and script.
+aculo.us, which makes it easier for de-
+velopers to use Ajax to design interac-
+tive, user-friendly RoR applications.
+Alternative Web frameworks 
+There are many alternative Web 2.0
+frameworks. The four we introduce here
+are among the most popular.
+Apache StrutsThis Java-based Web framework is a
+classic representative of the MVC archi-
+tecture. Struts focuses on the interaction
+between the controller and view. The
+
+controller component is a Java servlet
+that defines process control in a config-
+
+urable XML file. JavaBeans provides ac-
+cess to the modelÕs data, and JavaServer
+
+pages represent the view component. For more information, see http://
+struts.apache.org.Tapestry
+In contrast to the action-drivenStruts, Tapestry follows an event-
+
+oriented approach that also lets devel-
+opers implement Web applications ac-
+
+cording to MVC pattern. Because the
+Tapestry approach is event-oriented, it
+
+corresponds more to the implementa-
+tion of user interfaces with Swing or
+
+the Abstract Window ToolkitÑthat is,
+
+it strongly abstracts from the actual
+
+technology of the Web.
+For more information, see http://
+tapestry.apache.org.
+CocoonAs an XML publishing framework,Cocoon follows a completely different
+approach. It focuses on representing
+data that either already exists in XML
+format or will be stored in XML for-
+
+mat. Cocoon sets up a flexible presen-
+tation layer on this XML database to
+support separation between presenta-
+tion and content. It bases document
+publishing on XSLT (Extensible Style
+
+Sheet Language Transformation).
+For more information, see http://
+cocoon.apache.org.ASP.NET
+Comparable to Java 2 EnterpriseEdition, MicrosoftÕs .NET framework
+
+comprises an application platform that
+also supports distributed server-based
+
+applications. ASP.NET is the central
+
+component for Web development. It lets
+
+developers choose their programmingIn Ruby on Rails, Active Record classes receive theirattributes directly from the database 
+table definition. 108IEEE SOFTWARE
+www.computer.org/software
+SOFTWARE TECHNOLOGY
+language from all available .NET lan-
+guages. One advantage of the ASP.NET
+
+approach is the combination of client-
+and server-based programming. So, for
+
+example, developers can use the same
+script languages for both and can deter-
+mine the processing place via an option.For more information, see www.
+asp.net.We used RoR to develop an alumni
+system (http://ali.ba-ravensburg.de
+
+and http://rubyforge.org/projects/alumnionrails) on a Solaris operatingsystem with a MySQL database man-
+agement system and Apache server. RoR
+
+proved a stable, sophisticated, state-of-
+the-art framework for agile Web engi-
+
+neering. Although weÕve briefly dis-
+cussed only its main components here,
+RoR has other features to support effi-
+cient Web engineering, such as test sup-
+
+port. The ÒRuby on Rails ResourcesÓ
+sidebar has more information.RoR embodies the basic principles ofthe Agile Manifesto (http://agilemani-
+festo.org). It abstains from heavy toolsand focuses instead on Òindividuals and
+their interactions.Ó The principles of
+scaffolding and immediate feedback
+provide a first operable version early in
+the development cycle. The system is de-
+
+veloped incrementally in small steps.
+
+The scaffolding gives developers an op-
+erable version of the current system at
+
+all times. This helps developers work ef-
+
+ficiently in cooperation with the cus-
+tomer, discuss all topics directly in rela-
+
+tion to the running system, and
+
+implement changes much faster. How-
+
+ever, as in all Web frameworks, good
+
+software is still the work of good pro-
+
+fessional developers. Like all frame-
+works, RoR is no Òsilver bullet.Ó
+Michael B−chleis a professor of business informationsystems at the University of Cooperative Education, Ravensburg,
+Germany. Contact him at baechle@ba-ravensburg.de.
+Paul Kirchberg
+is a professor of business informationsystems at the University of Cooperative Education, Ravensburg,
+Germany. Contact him at kirchberg@ba-ravensburg.de.
+Ruby on Rails ResourcesProbably the standard book for Ruby on Rails is Agile Web Development
+with Railsby Dave Thomas and David Heinemeier Hansson (2nd ed., Prag-
+matic Bookshelf, 2007).For a brief overview of RoR and what Java can learn from it, see Bruce
+TateÕs ÒCrossing Borders: WhatÕs the Secret Sauce in Ruby on Rails?Ó 2006;
+
+www-128.ibm.com/developerworks/java/library/j-cb05096.html.
+Aaron Rustad compares two frameworks in ÒRuby on Rails and J2EE: IsThere Room for Both?Ó 2006; www-128.ibm.com/developerworks/web/
+
+library/wa-rubyonrails.
+The official RoR site is www.rubyonrails.org. For a list of Ruby projects,
+see http://rubyforge.org.

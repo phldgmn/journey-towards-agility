@@ -1,0 +1,343 @@
+ 0740-7459/08/$25.00 © 2008 IEEE
+ November/December 2008   
+IEEE SOFTWARE
+ 29
+Designing Then and Now
+Rebecca J. Wirfs-Brock
+The changing of a vague dif˜ culty into a speci˜ c, concrete form is a very essential element in thinking. 
+ ŠJohn Pierpont Morgan
+Twenty-˜ ve years ago I was programming 
+in 8086 assembly language for a low-cost 
+graphics terminal. Our team followed 
+structured-design practices. We developed 
+module decomposition diagrams and printed 
+them on an ozalid printer. Our software 
+blueprints really were blue! We wrote functional 
+speci˜ cations and de˜ ned the subroutine call struc-
+ture before implementing any 
+code. We wrote and debugged our 
+coding sitting in a common work 
+area. We held code reviews and 
+shared effective coding practices.
+On the graphics display sub-
+system, where I was team lead, 
+we practiced collective code own-
+ership. Anyone could implement 
+any routine; when you ˜ nished 
+one, you just picked up the next 
+on the list. We held a meeting the week before any 
+milestone to discuss tactics. After each milestone, 
+we met to discuss how to make our next iteration 
+successful. Our product-marketing manager main-
+tained a list of features. Anything above the cut 
+line was essential; anything below, a nice-to-have. 
+There™s a striking similarity between the rhythms of 
+our work then and today™s Scrum practices. Incre-
+mental, steady delivery seems to require close team-
+work, frequent planning, and attention to detail and 
+design quality.
+Changes in Technologies
+Since my assembly programming days, technology 
+changes have been dramatic. When I ˜ rst started 
+programming in Smalltalk in the mid-1980s, I 
+experienced the sheer joy of writing code where I 
+asked objects to do something without having to 
+know how they speci˜ cally performed their tasks. 
+Finally, I didn™t have to keep a myriad of little 
+details in my head while programming. The key 
+for me grasping the power of this new way of de-
+signing was the realization that objects™ responsi-
+bilities (but not their implementations) interacted. 
+Extremely productive Smalltalk designers didn™t 
+decompose problems so much as craft networks of 
+responsible, interacting objects.
+In Smalltalk, we wrote and immediately ex-
+ecuted code, getting nearly instant feedback. The 
+development environment had a wealth of reusable 
+classes and a browser to locate and organize them. 
+The standard fare of today™s development environ-
+ments was a big deal back then. In Smalltalk, the 
+entire code base was accessible. That openness en-
+abled us to learn by reading and emulating work-
+ing examples. New Smalltalk developers spent a 
+lot of time browsing code.
+The distinction between application code and 
+stable class libraries wasn™t clearly demarcated. If 
+you didn™t like the implementation of any Small-
+talk class, you could change it. This was great for 
+rapid programming but sometimes led to applica-
+tion-speci˜ c behaviors being added to the most bi-
+zarre places. I developed a design sense by seeing 
+both good and bad code.
+Since those open Smalltalk days, however, 
+I™ve grumbled at poorly designed code that was 
+unchangeable and ugly. Stable class libraries al-
+low developers to use them with con˜ dence, but 
+Editor: Rebecca J. Wirfs-Brock 
+ Wirfs-Brock Associates 
+ rebecca@wirfs-brock.com
+design
+ 30
+ IEEE SOFTWAR
+E   
+www.computer.org/software
+DESIGN
+stability comes at a price. Widely distributed class 
+libraries are dif˜cult to improve without breaking 
+working code. Even if we design to an interface, 
+not an implementation, we™re still confounded 
+when interfaces change. That™s why today many 
+developers lag behind in adopting the latest ver
+-sions and migrate to a new release only after it has 
+proven stable.
+Although object technology has had a big im
+-pact on software development, it isn™t the only tool 
+in a well-rounded toolkit. Grady Booch™s thoughts 
+on design choice (ﬁWhy We Model,ﬂ 
+Object Mag
+-azine
+, Nov. 1996) bear repeating:
+In software, what models we choose to make 
+greatly affects our world view. If I build a 
+ system through the eyes of a database de
+-veloper, I™ll end up with an entity-oriented 
+schema that pushes behaviors into triggers 
+and stored procedures. If I build a system 
+through the eyes of a structured analyst, then 
+I™ll end up with a system that™s algorithmic-
+ centric, with data ˚owing from process to 
+process. If I build a system through the eyes 
+of an object-oriented developer, then I™ll 
+end up with a system whose architecture 
+is centered around a sea of classes and the 
+patterns of interaction that animate those 
+classes. Any one of these might be right for a 
+given application and a given development 
+culture.
+Our technology choices today are wide and 
+varied. Most complex systems involve a mix of 
+technologies. We have a wealth of competing ar
+-chitectural platforms. Experienced designers must 
+make trade-offs and select from a variety of appro
+-priate technologies for solving the task at hand.
+Larry Constantine, coinventor of Structured 
+Design, observes that
+change (and fads) are going to continue. And 
+although Structured Design might not be on 
+the forefront of many people™s design prac
+-tices these days, the principles and practices 
+that are ﬁbest practicesﬂ in object design 
+these days exemplify the values of Structured 
+DesignŠavoiding unnecessary coupling and 
+forming highly cohesive objects.
+Moving to newer technologies means not that we 
+ignore our past but that we adapt and embrace 
+practices that enable our software to ˚ex, grow, be 
+expressive, and meet users™ needs.
+Bob Martin re˚ects that, although tools and 
+technology have rapidly changed, programming re
+-mains largely the same:
+But in the face of all this massive change, 
+this rampant growth, this almost unlimited 
+wealth of resources, there is something that 
+hasn™t changed much at all: code. Today™s 
+modern programming languages may be rich 
+with features and power, but they are not or
+-ders of magnitude better than their ancestors. 
+We still write programs made out of calcula
+-tions, ﬁifﬂ statements, and ﬁforﬂ loops. We 
+still assign values into variables and pass a
+r-guments into functions. Programmers from 
+twenty-˜ve years ago might be surprised that 
+we use lowercase letters in our programs, but 
+little else would startle them about the code 
+we write. We are like carpenters who started 
+
+out using hammers and saws, and have pr
+o- gressed to using air hammers and power 
+saws. These power tools help a lot; but in 
+the end we are still cutting wood and nailing 
+it together. And we probably will be for the 
+next twenty-˜ve years.
+Changes in the Thinking-
+Designing-Coding Cycle
+Twenty-˜ve years ago, I spent a fair amount of 
+time thinking about and sketching solutions 
+before I coded them. This was essential when 
+programming in assembly language or when I 
+could squeeze only one or two programming 
+cycles into each day owing to lengthy compile-
+link-execute times. That lag timeŠand the dis
+-connect between design ideas and their pro
+-gram representationŠmagni˜ed the need to 
+desk-check my work.
+Today™s power tools enable us to cut code 
+and test our design ideas much more quickly. 
+This is a signi˜cant improvement. Yet the more 
+code we create, the more opportunity we have 
+for it to grow unwieldy, inconsistent, and un
+-maintainable. Unless we want our code base 
+to grow into a Big Ball of Mud (Brian Foote 
+and Joseph Yoder, ﬁBig Ball of Mud,ﬂ 
+Proc. 
+4th Conf. Pattern Languages
+ of Programs
+, 1997), it requires care and attention. With fre
+-quent design-test-code cycles, we can rapidly 
+validate design ideas. These cycles also reduce 
+chances to create large tangles of untested, un
+-testable code. That™s one reason proponents 
+of test-driven development (TDD) are gaining 
+traction. TDD advocates propose it as a design 
+method, not just a testing practice.
+But whether you adopt TDDŠwriting tests 
+before you implement codeŠas a design prac
+-tice, attention to code quality and design main
+-tenance is ever important. Ward Cunningham 
+coined the term ﬁtechnical debtﬂ to explain 
+how we should manage this effort:
+Today™s power 
+tools enable 
+us to cut code 
+and test our 
+design ideas 
+much more 
+quickly. This 
+is a signi˜cant 
+improvement. 
+  November/December 2008   
+IEEE SOFTWAR
+E 31
+DESIGN
+I have always promoted writing excellent 
+code, not cruft [unpleasantly built-up code]. 
+I am happy to see code that solves today™s 
+problems, not imaginary problems that 
+might appear in the future. As time advanc
+-es, once excellent code shows its limitations 
+and requires attention. I argue that the 
+required work can be scheduled as part of 
+a management policy, much like funding a 
+company includes managing ˜nancial debt. 
+In fact, well-managed debt serves as an ac
+-celerator. Part of that management includes 
+paying back principal. A design that grace
+-fully accepts refactoring will prove more 
+valuable than big design up front.
+We can continue to grow and evolve a large 
+code base only when we pay attention to technical 
+debt. The challenge is choosing an opportune time 
+to pay off that debt. We need to know enough 
+about our design™s current limitations and chal
+-lenges but not be inundated with so much debt 
+that any rework appears daunting. Best design ef
+-forts rarely happen when we feel hurried, pinched 
+by project schedules, or overwhelmed by the task™s 
+sheer magnitude.
+Changes in Design 
+Expression
+When I programmed in assembly language, I 
+didn™t put much thought into how I expressed my 
+design in code. I followed naming schemes and 
+established conventions. But I remember being in
+-trigued by Donald Knuth™s literate programming. 
+The central ideas behind literate programming 
+are human readability and code comprehension. 
+This approach combines explanatory documen
+-tation and source code so that they don™t get out 
+of synch.
+We still live with that problem, and we don™t 
+write literate programs. I suspect that™s because 
+we aren™t comfortable writing prose about our 
+code. Instead, we hope it will be comprehended 
+on its own (with judiciously placed code com
+-ments). Yet, the combination of code as prose 
+and prose about the code is what adds value. 
+Those who advocate intention-revealing names 
+and expressive code echo these values, but they 
+don™t go far enough.
+Code alone isn™t abstract enough to convey 
+design ideas to others because it™s too easy to get 
+lost in its nonessential details. So, we™ve always 
+informally drawn and told stories about our soft
+-ware, in spite of any modeling tool or expressive 
+programming language.
+Although the Uni˜ed Modeling Language 
+(UML) consolidated many different design con
+-cepts, most designers I rub shoulders with aren™t 
+˚uent in it. They know rudimentary class and se
+-quence diagrams but don™t see the merit in learn
+-ing any of its sophisticated nuances. They typi
+-cally use UML to describe their software after 
+they have constructed it, not to formulate its de
+-sign. Even with advances in modeling tools, pro
+-gramming languages, and design practices, we™re 
+still exploring how best to express our designs. 
+The ﬁbestﬂ approach depends on design context 
+as well as our collaborators™ interests, inclina
+-tions, and skills.
+Over the past 25 years, we™ve made great ad
+-vances in tooling, technologies, and tech
+-niques that make software design more con
+-crete. But design still requires careful thought. 
+We still must exercise judgment. There isn™t one 
+simple way to think about and describe soft
+-ware. Informal design tools and techniques com
+-plement more formal ones. New techniques and 
+design approaches will come along. And respon
+-sible designers will keep learning and improving 
+their craft.
+Acknowledgments
+The quotes from Larry Constantine, Bob Martin, and 
+Ward Cunningham are from personal conversations 
+and emails. I thank them for pro
+-viding these important insights.
+Rebecca J. Wirfs-Brock
+ is president of 
+Wirfs-Brock Associates. Contact her at rebecca@
+wirfs-brock.com; www.wirfs-brock.com.
+GAME CHARACTER SOFTWARE ENGI-
+NEER,
+MS in Computer or Software
+Engineering, 1 yr exp. Send resume to
+Arcadia Entertainment, Inc., 900 Island
+Drive, Suite 203, Redwood City, CA
+94065.
+
+DISTRIBUTED MMO SERVER DEVEL-
+OPER
+, MS in Computer or Electrical
+Engineering, 1 yr exp. Send resume to
+Arcadia Entertainment, Inc., 900 Island
+Drive, Suite 203, Redwood City, CA
+94065.
+Classified Advertising
+SUBMISSION DETAILS:
+Rates are
+$110.00 per column inch ($125 mini-
+mum). Eight lines per column inch
+and average five typeset words per
+line. Send copy at least one month
+prior to publication date to: Marian
+Anderson, Classified Advertising,
+IEEE Software
+, 10662 Los Vaqueros
+Circle, Los Alamitos, CA 90720-1314;
+(714) 821-8380; fax (714) 821-4010.
+Email: manderson@comput er.org.
+Become a reviewer for
+The key to providing you 
+quality information you can 
+trust is 
+IEEE Software
+™s peer 
+review process. Each article 
+we publish must meet the 
+technical and editorial 
+standards of industry 
+professionals like you. 
+Volunteer as a reviewer and 
+become part of the process.
+Email 
+software
+@computer.org

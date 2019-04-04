@@ -1,0 +1,357 @@
+ 0740-7459/05/$20.00 © 2005 IEEEJuly/August 2005IEEE SOFTWARE
+65designEditor: Martin Fowler ThoughtWorks 
+fowler@acm.orgAgile methodsÑmore specifically, test-
+driven development practices1Ñhavebegun to raise the software industryÕs
+
+awareness of automated acceptance
+testing. We now recognize that armies
+
+of manual testers slogging throughreams of tedious, manually executedtest scripts,
+
+under schedule pressure at the end of a release,
+donÕt ensure quality.
+Many tools can be purchasedto help testers write automatic
+scripts for testingthe system
+
+through its user interface. 
+Such tools act like robots 
+programmed to behave like
+testersÑthey push buttons, se-
+lect menu items, check boxes,
+enter data into fields, and in-
+spect the screens. Unfortunately,
+
+testing through the UI is slow,
+opaque, and dangerous. One of my clients had
+to run over 10,000 acceptance tests, and run-
+ning them through the UI took him several days
+using dozens of machines. Furthermore, the
+tests were written in a code-like language that
+made them difficult to understand. Over time,
+he lost track of what each test was trying to ver-
+ify: all he knew was that all 10,000 tests had to
+pass. Even tiny changes to the UI caused
+dozens, if not hundreds, of tests to fail or be-
+come inoperable. In the end, he found it impos-
+sible to upgrade and improve his outmoded UI.Over a century ago, the telephone companysolved a similar problem by designing tele-
+phone switches with built-in test access. Suchaccess, called atest bus, eventually let the tele-phone company automatically test every phone
+line at night and fix failures and degradations
+long before subscribers learned about them.Software producers have started adopting asimilar strategy, architecting their software
+
+systems with built-in test buses. They also use
+tools such as Fit and FitNesse (www.fitnesse.
+
+org) to specify their tests in a simple-to-under-
+stand specification language that business peo-
+ple can read.2However, setting up automated
+acceptance testing requires at least three major
+architectural separations.Bypassing the UIIn a software system, a test bus is a set ofAPIs that provides convenient access to unit
+and acceptance tests. These tests specify system
+behaviorÑunit tests specify module behavior
+and acceptance tests specify feature behavior.
+A test busÕs existence in a system means that
+the appropriate structures exist in the applica-
+tion to let tests access the modules and subsys-
+tems whose behavior and structure theyÕre speci-
+
+fying. For example, writing tests that bypass the
+UI and exercise the underlying business rules re-
+quires an API that both the UI and tests can use
+to invoke those business rules. Moreover, that
+
+API must be independent of the UI (see figure 1).Figure 1 clearly shows that the tests are analternate form of UI. They access the same API
+that the UI uses, so they can drive the system
+through all of its revenue-bearing operations
+and specify the required behaviors in detail.However, some UIs are very rich, and busi-
+The Test Bus Imperative: Architectures That Support Automated Acceptance Testing
+Robert C. Martin
+ 66IEEE SOFTWARE
+www.computer.org/software
+DESIGNness rules tend to find their way into
+them. For example, some systems vali-
+
+date data or perform significant calcu-
+lations in the UI. This is especially true
+
+in client-server and Web-based systems.
+Some common design strategies make
+such business rules difficult to test.
+However, if the development team has
+
+decided that testability is an architec-
+tural imperative, then they must pro-
+
+vide test access to those business rules.
+A common solution is to create an-
+
+other API in the UI that separates the
+
+presentation, validation, and calcula-
+tion rules from the UIÕs low-level de-
+
+tails (see figure 2).
+Clearly, this kind of API constrains the
+UI design and how designers can use
+
+client-side tools such as JavaScript. De-
+signers must find a way to let tests con-
+veniently access these client-side business
+rules by separating them from the UI so
+
+that a test bus API can invoke them. Sep-
+arating the UI and business rules has long
+
+been a goal of good design: ÒThe Model-
+
+View Separation principle states that
+
+model (domain) objects should not have
+directknowledge of view (presentation)
+objects.Ó3The test bus imperative turnsthat good-design goal into a requirement.
+Isolating the test busThe tests written against each APIshould test only those things governed
+by that API. Tests written against the
+
+presentation API shouldnÕt test busi-
+
+ness rules that the business rule API
+governs. The arguments for this are
+
+precisely the same as those for not test-
+
+ing through the UI. If you test the busi-
+
+ness rules through the presentation
+API, then the presentation layer be-
+
+comes difficult to change, because such
+changes break the tests.Here again we see how the test busimperative enforces good design goals.
+Decoupling subsystems and layers hasalways been a hall-
+mark of good design,
+but when automated
+tests are used to spec-
+ify the system, this
+decoupling becomes
+a requirement, not
+just a goal. (A partic-
+ularly insightful dis-
+cussion of this ap-
+pears elsewhere.4) Some end-to-endtests are certainly nec-
+essary. Such tests de-
+
+scribe how separate
+system modules inter-
+play. However, the
+
+vast majority of the
+tests must be written
+against their respec-
+tive subsystems.Additionally, an
+automated test envi-
+ronment is useful only
+to the extent that itÕs
+convenient to run. If running the auto-
+mated suite takes eight days, develop-
+ers wonÕt run it very often. The less of-
+
+ten it runs, the more defects will
+accumulate between runs. Then the de-
+velopers will need to execute more long
+
+runs to verify that theyÕve fixed those
+defects. However, if running the entire
+
+suite of tests takes less than an hour,
+
+the tests can run several times a day.
+
+Defects donÕt accumulate in the system
+
+because developers quickly find and re-
+pair them. Running these tests through isolatedAPIs (rather than the UI) drastically in-
+creases the test runsÕ speed and makes
+
+it feasible to run the tests at every
+
+build, several times per day.
+Separating the database The database is another cause of slowtests. Operations on large databases can
+be slow, whereas the same operations on
+
+small databases can be much faster. One
+
+simple strategy to speed testing is to run
+the tests on a series of small canned data-
+bases. The test system creates these data-
+bases just before the tests run and deletes
+them just after. 
+Even small databases are marshalingdata on and off rotating magnetic disks.
+These operations are orders of magni-
+tude slower than equivalent operations
+in RAM. So, another strategy to keep the
+tests running quickly is to separate the
+
+database from the application and re-
+place it with a database that exists solely
+in RAM. Figure 3 shows that we can achieve
+this separation by creating another API
+that the business rules can use and that
+
+either a real database or RAM database
+can implement.Speed isnÕt the only benefit of such a
+separation. Running test cases in RAM
+lets the tests completely control the
+
+databaseÕs content. Tests begin with
+
+blank databases and invoke special
+setup functions that put the RAM data-
+
+base into a known state. Moreover, if
+
+tests run on a RAM database, the
+changes they make to that data arenÕt
+
+persisted. This makes the tests both in-
+dependent and repeatable. Test independence and repeatability
+let us quickly isolate and diagnose prob-Business rule APIBusiness rulesUITestsFigure 1. A testable system includesa test bus that can access the API
+independent of the UI.Presentation APIClient-side presentation,validation, calculationBusiness rule APIBusiness rulesUIPresentation testsBusiness rule testsFigure 2. The presentation API separates the presentation, validation, and calculation rules from 
+
+the UIÕs low-level details. This helps ensure developers
+
+can test all the business rulesÑeven those that 
+
+extend into the UI. July/August 2005IEEE SOFTWARE
+67lems.Fur
+thermore, when we can con-
+veniently run any individual test or
+group of tests over and over, in any or-
+
+der, it enhances the diagnoses.  
+When tests depend on each other,
+we must run the entire suite every time
+
+we want to run a particular test. More-
+
+over, if a test fails, the downstream
+
+tests necessarily fail, greatly impeding
+problem isolation and diagnosis.Once again, we see the relationship
+between good design principles and the
+test bus imperative. Separating the ap-
+plication from the database has long
+been a principle of good design: Ac-
+cording to Martin Fowler, ÒIt is wise to
+
+separate SQL access from domain logic
+and place it in separate classes.Ó5Fur-thermore, IvarJacobson says, ÒTo
+
+make the design minimally affected by
+
+the DBMS, as few parts of our system
+
+as possible should know about the
+DBMSÕs interface.Ó
+6Indeed, manyframeworks and layers have been writ-
+ten to assist in this separation. The
+need for test speed, repeatability, and
+
+independence makes this separation an
+essential architectural requirement.
+Separation in the smallIn a truly test-driven environment,
+the need for separation extends below
+the major subsystems to the modules,
+
+classes, and methods. As business ana-
+lysts, quality assurance professionals,
+and testers write acceptance tests, and
+
+developers write unit tests, the need be-
+
+comes acute to separate the software
+into units that those tests can indepen-
+
+dently access and operate. This greatly
+increases the need for good object-
+oriented design skills among the archi-
+tects, designers, and developers. Ob-
+ject-oriented design provides the tools,
+principles, and patterns that enable the
+
+kinds of separation that automated
+testing requires.The software industryÕs increased
+
+awareness of automated testingÕs ben-
+
+efits and potentials is good news foran industry that for decades has been be-
+set by quality and productivity issues. In
+light of the fact that many of our client
+industries such as telephony, electronics,
+and manufacturing have been designingtest access into their products as a stan-
+dard part of their process for over a cen-
+tury, itÕs ironic that weÕve come to this
+
+awareness so late.More ironic still is the fact thatwhen we make testing an architectural
+imperative, it forces us to follow the
+
+principles of good design and decouple
+our systems.References1. K. Beck, 
+Test Driven Development,
+Addison-Wesley, 2003.
+2. R. Mugridge and W. Cunningham, 
+Fit for De-veloping Software, Addison-Wesley, 2005.
+3. C. Larman, 
+Applying UML and Patterns,Prentice Hall, 2002, p. 472.4. M. Feathers, 
+The Humble Dialog Box, 2002,www.objectmentor.com/resources/articles/
+
+TheHumbleDialogBox.pdf.5. M. Fowler, 
+Patterns of Enterprise ApplicationArchitecture, Addison-Wesley, 2003, p. 34.
+6. I. Jacobson, 
+Object Oriented Software Engi-neering, Addison-Wesley, 1992, p. 276. 
+Robert C. Martin
+(Uncle Bob) is the founder, CEO, 
+and president of Object Mentor. Contact him at unclebob@
+
+objectmentor.com.
+DESIGNDatabase APIBusiness rulesRAM databaseDatabaseFigure 3. Creating another API thatthe business rules can use and that
+
+a real database or RAM database can
+implement separates the database
+from the application. We can then 
+
+replace the database with one that
+exists solely in RAM to keep the
+tests running quickly. (The smaller
+
+arrow represents a UML inheritance
+
+relationship.)Writers
+For detailed information on submitting 
+articles, write for our Editorial Guidelines 
+(software@computer.org) or access 
+
+www.computer.org/software/author.htm.
+Letters to the EditorSend letters toEditor, 
+IEEE Software10662 Los Vaqueros Circle
+Los Alamitos, CA 90720
+software@computer.org
+Please provide an email address or daytimephone number with your letter.
+On the Web
+Access www.computer.org/software for
+
+information about IEEE Software.SubscribeVisit www.computer.org/subscribe. 
+Subscription Change of AddressSend change-of-address requests for magazine
+subscriptions to address.change@ieee.org.
+Be sure to specify IEEESoftware
+.Membership Change of AddressSend change-of-address requests for IEEE
+and Computer Society membership to 
+member.services@ieee.org.
+Missing or Damaged CopiesIf you are missing an issue or you received a
+damaged copy, contact help@computer.org.
+Reprints of ArticlesFor price information or to order reprints,
+send email to software@computer.org or
+
+fax +1 714 821 4010.Reprint PermissionTo obtain permission to reprint an article,
+
+contact the Intellectual Property Rights
+Officeat copyrights@ieee.org.
+How to Reach UsHow to 
+Reach Us

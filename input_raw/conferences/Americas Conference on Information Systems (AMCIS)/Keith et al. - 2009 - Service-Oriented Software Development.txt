@@ -1,0 +1,1397 @@
+ Association for Information SystemsAIS Electronic Library (AISeL)Arizona State UniversityArizona State UniversityArizona State UniversityAMCIS 2009 Proceedings. Keith et al. 
+ Service-Oriented Software Development 
+Proceedings of the Fifteenth Americas Conference on
+ Information Systems, San Francisco, California Aug
+ust 6
+th
+-9
+th
+ 2009 1 
+Service-Oriented Software Development 
+ Mark Keith 
+Arizona State University 
+Mark.Keith@asu.edu 
+Haluk Demirkan 
+Arizona State University 
+Haluk.Demirkan@asu.edu 
+ Michael Goul 
+Arizona State University 
+Michael.Goul@asu.edu 
+ ABSTRACT 
+
+This paper describes a methodology for planning and
+ executing software development projects based on t
+he service-oriented 
+paradigm called Service-Oriented Software Developme
+nt (SOSD). This does not refer to a methodology for
+ developing 
+software services or service-oriented architectures
+. Rather, it is a method for managing the 
+process
+ of software development 
+in a service-oriented approach in which the actions
+ performed by individuals and groups are modeled as
+ ﬁservicesﬂ which can 
+be choreographed and orchestrated. SOSD has been ad
+opted informally by many organizations in various f
+orms and it runs 
+somewhat contrary to some of the recent trends towa
+rd agile development methodologies. Interestingly, 
+it performs well in 
+certain situations where agile methods tend to brea
+k down. In addition to describing the basics of SOS
+D and its theoretical 
+underpinnings, we outline its benefits and potentia
+l shortcomings. As evidence, project data is provid
+ed from a Fortune 500 
+company which has gradually adopted SOSD over the l
+ast two years. 
+Keywords (Required) 
+
+Service-oriented, software development, agile, proj
+ect management, SOA. 
+INTRODUCTION 
+
+One of the most dominant themes in the IT project m
+anagement literature is how to reduce project risk 
+and improve project 
+performance (Schmidt, Lyytinen, Keil, & Cule, 2001)
+. Because of the difficulty in planning large-scale
+ software development 
+projects, inadequateness of requirements analyses, 
+and the constant changes in scope, agile software d
+evelopment (ASD) 
+methodologies (e.g. XP, SCRUM, etc.) have gained in
+creased interest among researchers and practitioner
+s (Highsmith & 
+Cockburn, 2001;  Dyba & Dingsøyr, 2008). To combat 
+the high costs of change that traditional methods (
+e.g. waterfall) can 
+have, agile methods implement short iterations of p
+lanning, development, testing, and feedback. In ess
+ence, these project 
+teams are planning on changes taking place througho
+ut the project and minimize the time and cost waste
+d in planning every 
+aspect of the project through to completion. As a r
+esult, ASDs have the potential to minimize the proj
+ect loss resulting from 
+increased risk and uncertainty created by changing 
+project demands. 
+While ASDs have certainly been successful in many o
+rganizations (e.g. Sutherland, Viktorov, Blount, & 
+Puntikov, 2007), 
+they rely on certain assumptions. For example, less
+ planning upfront means that more of the task inter
+dependencies must be 
+managed during project execution in the form of ad-
+hoc communication among team memebers referred to a
+s ﬁmutual 
+adjustmentﬂ (Thompson, 1967). To adequately facilit
+ate this ﬁon the flyﬂ coordination, project teams g
+enerally need strong 
+knowledge sharing networks and high levels of exper
+tise (Turk, France, & Rumpe, 2005). But what if the
+re is a high degree 
+of turnover in project teams or subject matter expe
+rts leave the company? Can agility amidst risk and 
+uncertainty still be 
+achieved if the ground is not fertile for ASD metho
+dologies? 
+In recent years, the concept of service-orientation
+ as a paradigm for technical infrastructures, appli
+cation design, resource 
+allocation, and business processes has gained momen
+tum (Chesbrough & Spohrer, 2006). In large part, th
+is is because of the 
+potential it offers for greater organizational agil
+ity (Erl, 2005). In this paper, we describe a servi
+ce-oriented approach to 
+managing software development projects which, like 
+ASD, can improve software process agility, though i
+n a manner 
+different from ASD methodologies. Both ASD methodol
+ogies and the approach presented here are intended 
+to better manage 
+project risk and uncertainty. But, whereas ASD embr
+aces project uncertainty by planning for change thr
+oughout the project 
+life cycle, the method outlined in this paper is de
+signed to reduce uncertainty upfront and have an in
+frastructure of readily-
+ Keith et al. 
+ Service-Oriented Software Development 
+Proceedings of the Fifteenth Americas Conference on
+ Information Systems, San Francisco, California Aug
+ust 6
+th
+-9
+th
+ 2009 2 
+available and easily-shared knoweldge and experienc
+e available as changes arise. Simply put, it improv
+es project plans 
+upfront to reduced the changing of plans later. 
+
+While this concept of service-oriented software dev
+elopment is being adopted informally in certain cap
+acities in some 
+organizations, there is currently no defined methdo
+logy of this type. Therefore, this research takes a
+ design science approach 
+based on the set of research principles outlined in
+ the seminal work by Hevner, March, Park, and Ram (
+2004). We develop a 
+formal, high-level description and theoretical expl
+anation of the methodology which can easily be gene
+ralized to a large 
+population of software development units followed b
+y an outline of the benefits and potential risks. N
+ext, we present some 
+brief practical evidence of it™s implementation at 
+the software development unit of a Fortune 500 comp
+any. Finally, we 
+discuss some implications for future research and p
+ractice. 
+SERVICE-ORIENTATION 
+
+At its most fundamental level, the service-oriented
+ paradigm is simply an ﬁapproach for separating con
+cernsﬂ (Erl, 2005, pp. 
+32; Foster, 2005). This means the logic required to
+ solve complex problems can be broken down into sma
+ller and more 
+manageable components which each provide a specific
+ service to the larger problem domain. In this gene
+ric sense, service-
+orientation can take place at practically any level
+ of abstraction and for any problem-solving scenari
+o where decomposition is 
+possible. However, until more recently, the literat
+ure has typically used the term ﬁservice-orientedﬂ 
+to refer to breaking down 
+complex software applications into smaller and more
+ manageable components such as Web Services (Newcom
+er, 2003). 
+Service-orientation is based on the concept of modu
+larity which refers to ﬁthe degree to which a syste
+m™s components can be 
+separated and recombined, and– both the tightness of
+ coupling between components and the degree to whic
+h the ‚rules™ or 
+the system architecture enable the mixing and match
+ing of componentsﬂ (Schilling, 2000, p. 312). The t
+erm ﬁmodular 
+systemﬂ can refer to several levels. In the strateg
+ic management and organization literature, the modu
+larity concept is applied 
+to product architectures, business processes, and o
+rganizational structures which face environments of
+ increasing complexity 
+and uncertainty (Hoetker, 2006).   
+
+One of the basic premises of this line of research 
+is that modularity in the product architecture allo
+ws for greater agility when 
+the need for change arises. Modular products allow 
+easier recombination of inputs and outputs. For exa
+mple, modular 
+software is developed in components with standardiz
+ed interfaces (Parnas, 1985). The division of softw
+are into modularized 
+components takes place along natural ﬁbreak pointsﬂ
+ in the application where there is little interdepe
+ndence between 
+modules. By doing so, parts of the application can 
+be easily changed with minimal interference elsewhe
+re. 
+However, there is an implicit tradeoff regarding th
+e degree of modularity. As products or organization
+s become increasingly 
+modular, they also become increasingly complex beca
+use of the greater coordination required to manage 
+a larger number of 
+elements (Langlois, 2002). As such, Baldwin and Cla
+rk (1997) argue that, to be effective, modular syst
+ems require: 
+1.
+ An architecture, which specifies all modules and th
+eir respective functions. 
+2.
+ Interfaces for module interaction, coordination, an
+d communication. 
+3.
+ Standards for testing the module™s conformity to de
+sign rules. 
+Baldwin and Clark™s (1997) three requirements for e
+ffective modular systems are met by service-oriente
+d architectures 
+(SOA). OASIS defines SOA as a paradigm for organizi
+ng and utilizing distributed capabilities that may 
+be under the control 
+of different ownership domains (MacKenzie, 2007). I
+t provides a uniform means to offer, discover, inte
+ract with and use 
+capabilities to produce desired effects consistent 
+with measurable preconditions and expectations. The
+ ﬁcapabilitiesﬂ referred 
+to are the elements produced by modularization view
+ed in terms of the capabilities, or services, they 
+can provide to the 
+overall process or product. Typically, SOA includes
+ a technical architecture used to store and categor
+ize the services (e.g. 
+Web Services), thus meeting Requirement 1. In compl
+iance with Requirement 2, SOAs also define the inte
+rfaces that allow 
+service interaction, coordination, and communicatio
+n. For example, WSDL files are used to define Web S
+ervice interfaces, 
+while SOAP is the XML-based messaging system used b
+y Web Services to communicate. Finally, a variety o
+f standardized 
+service quality measures are being developed which 
+allows organizations to ensure that the services th
+ey use conform to 
+predefined quality metrics (Sheth, Verma, & Gomadam
+, 2006), thus meeting Requirement 3 for effective m
+odularized 
+systems. 
+
+Traditionally, SOAs help the software development u
+nits of organizations to achieve software product m
+odularity. But their 
+use is beginning to extend beyond the management of
+ software or technical services only. Just as Web S
+ervices are resources 
+which perform services for an application, individu
+als and groups can also be viewed as resources whic
+h perform services in 
+a business process (Bieberstein, Bose, Walker, & Ly
+nch, 2005). And these human resources can be descri
+bed, coordinated, 
+and invoked as services from an SOA using standards
+ for interfacing, description, and discovery (Sheth
+ et al., 2006). 
+ Keith et al. 
+ Service-Oriented Software Development 
+Proceedings of the Fifteenth Americas Conference on
+ Information Systems, San Francisco, California Aug
+ust 6
+th
+-9
+th
+ 2009 3 
+Therefore, the OASIS definition describes SOA as a 
+ﬁparadigmﬂ for managing ﬁcapabilitiesﬂ because it c
+an be used to 
+manage any type of distributed capability Œ whether
+ it be technical (e.g. Web Service), human, or orga
+nizational (MacKenzie, 
+Laskey, McCabe, Brown, & Metz, 2006). The defining 
+characteristics of SOA are that it facilitates the 
+organization and 
+utilization of services and that those services may
+ be distributed across different ownership domains.
+ For example, just as the 
+Web Services used by a single application may resid
+e on distributed web servers both within and withou
+t an organization, the 
+human services provided to develop software may com
+e from internal personnel and external contractors 
+and consultants. 
+Using this larger context of SOA for human services
+, the next section conceptualizes how the process o
+f software 
+development (and not just the resulting software) c
+an become service-oriented and managed through the 
+use of SOAs. 
+Service-Oriented Software Development 
+
+Business process agility (BPA) refers to the speed 
+and flexibility with which firms can dynamically mo
+dify or reconfigure 
+their business processes to accommodate the demands
+ of their environment (Raschke & David, 2005). As d
+iscussed, 
+organizations are adopting SOAs in order to improve
+ agility. By composing their software architecture 
+of reusable and 
+loosely-coupled Web Services, organizations can rea
+djust their software architecture with greater spee
+d and flexibility as the 
+business processes change (Erl, 2005). Now, as tech
+niques for managing human services under an SOA par
+adigm in addition 
+to Web Services are emerging, a greater degree of r
+euse and agility may be achieved (Bieberstein et al
+., 2005). By managing 
+both technical and human services through an SOA, b
+oth the software architecture and the business proc
+esses it supports can 
+become service-oriented.  
+
+Software projects can be managed as a set of tasks 
+or ﬁservicesﬂ performed by individuals and groups. 
+We refer to this as 
+service-oriented software development (SOSD). In it
+s most basic form, the SOSD methodology entails: 1)
+ that the software 
+development process is modularized into the natural
+ services (or human-performed activities) it consis
+ts of, and 2) the use of 
+an SOA. The modularization task is basically a form
+ of business process modeling except that besides c
+reating the ﬁAS-ISﬂ 
+and ﬁTO-BEﬂ models of the business process being af
+fected by the software, the software development pr
+ocess itself is also 
+modeled. This is one reason why business process ma
+nagement and SOA are viewed as very synergistic (Or
+acle, 2008). The 
+SOA, at a minimum, accomplishes two basic tasks. Fi
+rst, it consists of a few repositories Œ one for st
+oring service 
+descriptions (both human and technical), one for st
+oring the service patterns which comprise business 
+processes, one for 
+storing the resources used to perform services (e.g
+. a list of employees, contractors, and consultants
+ and the services they can 
+each provide), and one for storing historical patte
+rns of resources allocated to services. Second, the
+ SOA offers a mapping 
+engine which is used to help managers quickly and d
+ynamically assigned resources to services. These re
+quirements are more 
+fully understood in the following hypothetical exam
+ple. 
+Consider a typical project-based software developme
+nt environment where customers (either external or 
+ﬁbusiness sideﬂ) 
+make requests for new applications or components to
+ add to an existing software. Each project is assig
+ned to a particular 
+project manager (PM) who spends the next several mo
+nths working entirely on that project. As part of t
+he planning phase, a 
+PM will first search the SOA service pattern reposi
+tory for an appropriate, or ﬁbest-fittingﬂ human se
+rvice pattern (See Figure 
+1). A service pattern is simply a template which ou
+tlines the conceptual services needed to complete a
+ particular type of task
+1. 
+Figure 1 represents a hypothetical service pattern 
+which the PM might select as the closest match to t
+he needs to the newly 
+assigned project. The boxes labeled ﬁService A,ﬂ ﬁS
+ervice B,ﬂ ﬁService C,ﬂ and ﬁService Dﬂ represent l
+ess-granular or high-
+level services. Each of these services is composed 
+of its own pattern of sub-services (A
+a, A
+b, A
+c, B
+a, B
+b1
+, B
+b2
+, B
+b3
+, B
+c, C
+a, C
+b, 
+Cc, D
+a, D
+b). Some sub-services are composed of their own patt
+ern of sub-sub-services (B
+bb
+, B
+bc
+). Each level (service, sub-
+service, or sub-sub-service) possesses the same gen
+eric service properties and differs only in terms o
+f granularity. 
+The sub-service pattern that comprises the ﬁdevelop
+mentﬂ service (Service B) demonstrates how each act
+ivity may have 
+multiple potential service patterns. In the example
+ in Figure 1, three components are produced in the 
+development process 
+(characterized by sub-services B
+b1
+, B
+b2
+, and B
+b3
+) each with a unique pattern of sub-sub-services. S
+ub-service B
+b1
+ is performed 
+by developing the component code first followed by 
+the component database. Sub-service B
+b2
+ does not need a database 
+component. Sub-service B
+b3
+ can be performed by developing both the code and d
+atabase simultaneously. In practice, actual 
+service patterns will likely be much more granular 
+and define services at a more detailed level. Howev
+er, the example 
+demonstrates how each service may have multiple pot
+ential sub-service patterns just as each software d
+evelopment project 
+may have multiple potential service patterns. Once 
+an adequately-fitting service pattern is found, the
+ PM can then go through 
+the process of selecting and allocating the resourc
+es needed to complete the service pattern. This is 
+accomplished by 
+                                                   
+       
+ 1 It is important to note that each process may have
+ multiple legitimate service patterns. The ﬁbestﬂ p
+attern in this scenario 
+may be determined by factors such as the availabili
+ty of resources, need for low cost versus quick del
+ivery, etc. 
+ Keith et al. 
+ Service-Oriented Software Development 
+Proceedings of the Fifteenth Americas Conference on
+ Information Systems, San Francisco, California Aug
+ust 6
+th
+-9
+th
+ 2009 4 
+searching the SOA repository for resource allocatio
+n patterns linked to that service pattern. Resource
+ allocation patterns are a 
+historical record of the actual patterns of softwar
+e, hardware, and human services assembled to accomp
+lish prior projects.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Figure 1: Service Choreography Example 
+Figure 2 visualizes a hypothetical resource allocat
+ion pattern for the development service only (Servi
+ce B) from Figure 1. The 
+numbers on each resource represent unique identifie
+rs. The example in Figure 2 demonstrates how some p
+eople may be 
+assigned to multiple services (e.g. Person 6 works 
+on both sub-sub-service B
+bc
+ and sub-service B
+c). Each service, sub-service, 
+or sub-sub-services has its own set of patterns for
+ how it might be accomplished depending on which re
+sources are available. 
+  Figure 2. Service Orchestration Example 
+ 
+
+
+
+
+˘
+ˇ
+˘
+ˇˇˆ
+ˇ˙
+ˇ
+
+˝˛˚
+
+˝˛˘ 
+
+˝!˛ ˘
+
+˝˘˛˚
+
+˝˘"#˘˘˙
+
+˝˘"#˘˘ˆ
+
+˝˘"#˘˘$
+
+˝˘˘ 
+
+˝˘˘ 
+
+˝"#˘
+ˇ$
+ˇ
+ˇ
+ˇ
+ˇ
+
+˝%"˘
+
+˝˘
+
+˝&
+
+˝˚˚ 
+
+˝
+ˇ Keith et al. 
+ Service-Oriented Software Development 
+Proceedings of the Fifteenth Americas Conference on
+ Information Systems, San Francisco, California Aug
+ust 6
+th
+-9
+th
+ 2009 5 
+Besides providing a repository for service patterns
+ and resource allocation patterns, the SOA uses a m
+apping engine to 
+dynamically assign resources to services. In this w
+ay, the SOA can speed the task of resource allocati
+on and reduce errors 
+and uncertainty. For example, the PM may begin by s
+electing a particular resource allocation pattern o
+nly to discover that 
+some individuals have scheduling conflicts with oth
+er project assignments. The SOA mapping engine can 
+search the 
+repository of service providers and suggest alterna
+tives. In addition, some of the service providers s
+uggested by the SOA may 
+external contractors or consultants if internal per
+sonnel are not be available (See Figure 3). Thus, S
+OA can facilitate more 
+targeted outsourcing (Erl, 2005). In addition, outs
+ourcing may be further facilitated if the SOSD orga
+nization provides its 
+contractors and consultants access to its SOA repos
+itory of service definitions.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Figure 3. Service Outsourcing Example 
+In Figure 3, sub-service Bb3 is colored dark blue t
+o represent an outsourced service. Notice that ther
+e are no resources 
+(human or technical) attached to that service becau
+se the SOSD organization does need to know how the 
+outsourced provider 
+is performing the service. When service provider av
+ailability is established, the SOA can schedule the
+ time needed from each 
+employee in its own ﬁmasterﬂ schedule. The new reso
+urce allocation pattern is recorded in the SOA repo
+sitory and project 
+work begins. These human services are ﬁinvokedﬂ by 
+reserving their project time through the SOA. 
+In summary, the SOSD methodology is can reduce proj
+ect uncertainty upfront because it enables the reus
+e of prior project 
+knowledge and experience. This is made possible by 
+implementing a repository for storing standardized 
+process service 
+patterns and the actual historical executions of th
+ose patterns. As mentioned above, it extends previo
+us conceptions of the 
+agility and reuse capabilities offered by tradition
+al SOA by broadening its usage to the software deve
+lopment process itself. 
+This means that PMs can spend less time upfront in 
+planning, analysis, and resource allocation.  
+It might be argued that SOSD does not solve one of 
+the fundamental reasons that organizations adopt AS
+Ds Œ that is, because 
+changes to scope and requirements take place after 
+the initial project kick-off. What SOSD does enable
+ in this case is the 
+ability to ﬁplug-n-playﬂ human services just as you
+ could substitute software services in an applicati
+on. In other words, 
+because the services have already been modeled in g
+reat detail, it will be easier to identify the exac
+t activities that need to be 
+added, dropped, modified, or outsourced to meet the
+ new requirements. In addition, the service pattern
+ repository can be 
+search at varying levels of granularity Œ meaning t
+hat a PM could return to the repository to select a
+ new sub-pattern or sub-
+sub-pattern only. They would not need to select a n
+ew overall project service pattern. 
+'ˆ(
+)ˇ
+˘
+ˇˇˆ
+ˇ˙
+ˇ
+ˇ$
+ˇ
+ˇ
+ˇ''˙ˆ(
+ˆ(
+$ˆ˙ˆ
+*+'˙'
+˙$
+,)-ˆ(
+)˙ˆ
+''˙˙
+*+,)ˆ˙˙$
+-$ Keith et al. 
+ Service-Oriented Software Development 
+Proceedings of the Fifteenth Americas Conference on
+ Information Systems, San Francisco, California Aug
+ust 6
+th
+-9
+th
+ 2009 6 
+Compared to Current Methodologies 
+
+Nurer et al. (2005) accurately contrast the differe
+nces between waterfall and ASD methodologies. They 
+describe the waterfall 
+method as fundamentally assuming that ﬁSystems are 
+fully specifiable, predictable, and can be built th
+rough meticulous and 
+extensive planning.ﬂ On the other hand, ASDs assume
+ ﬁHigh-quality, adaptive software can be developed 
+by small teams 
+using principles of continuous design improvement a
+nd testing based on rapid feedback and changeﬂ whic
+h allows the initial 
+planning to be performed fast and less costly. Usin
+g this basis for comparison, SOSD is best described
+ as a methodology that 
+draws on the strengths of both waterfall and agile 
+methods. Like the waterfall method, a complete proj
+ect plan and 
+requirements specification is generated upfront in 
+an SOSD project. Like ASDs, these initial steps in 
+the SOSD method 
+require far less time and money than the waterfall 
+method. However, unlike ASDs, these savings are not
+ because only the 
+first 2-4 weeks of the entire project are planned. 
+The efficiency is the result of an increased abilit
+y to reuse prior project plans 
+and knowledge. This ability of SOSD is enabled by e
+stablishing standardized service descriptions and p
+atterns which are 
+shared and used by all of the PMs in an IS unit. 
+
+Practical Issues 
+
+While SOSD appears to have significant benefits, it
+ can also create new complexities and interdependen
+cies that must be 
+properly managed so that new problems aren™t create
+d. As discussed earlier, as systems become more mod
+ular, they also 
+become more complex because of the greater number o
+f elements that must be managed (Baldwin & Clark, 1
+997). In other 
+words, software development is performed not by a s
+ingle integrated project team, but a set of loosely
+-coupled 
+interdependent service providers. As a result, some
+ unexpected problems can occur. For example, if a p
+articular service or 
+service provider is reused too excessively, bottlen
+ecks may be created which can slow down all project
+s (Lara et al., 2007). 
+PMs must schedule the workflow properly and help to
+ manage the dependencies of the service providers w
+ho become 
+bottlenecks. In addition, new interdependencies are
+ created between groups which are not used to worki
+ng together (e.g. 
+ﬁbusiness sideﬂ and ﬁIT sideﬂ). They must find ways
+ to collaborate effectively despite cultural differ
+ences (Gruman, 2007). 
+Another issue which becomes exacerbated by SOSD is 
+that many of the process interdependencies are betw
+een service 
+providers that cross unit and organizational bounda
+ries. If SOSD enables outsourcing to a greater degr
+ee, then PMs lose a 
+certain level of control over how the project is pe
+rformed (Kumaran et al., 2007). They become more vu
+lnerable if the 
+companies they outsource to fail to meet service re
+quirements. Also, SOSD is not mutually exclusive wi
+th other currently 
+used software development methodologies (e.g. Water
+fall, Spiral, Agile, etc.) (Elssamadisy, 2008). Whi
+le SOSD changes the 
+way projects are planned, analyzed, and coordinated
+, traditional methodologies may still be used in th
+e design, development, 
+and implementation phases. For example, SOSD divide
+s the tasks into services and manages the relations
+hips between those 
+services. However, each service provider may use th
+eir own unique development methodology to execute t
+he service. One 
+group may use the Waterfall method while another us
+es SCRUM. All that matters is that the group provid
+es working code. 
+These are just a few of the issues that may arise f
+rom SOSD adoption. Each of these problems causes in
+creasing overhead 
+costs to SOFTWARE development projects. While it is
+ difficult to place specific numbers on the sources
+ of these costs, they 
+still add to the overall project cost and completio
+n date. 
+As described above, each of the mentioned issues wi
+th SOSD adoption have the effect of increasing eith
+er the complexity or 
+the interdependence of the task environment that th
+e software development unit works within. It should
+ come as no surprise 
+that when SOSD is adopted, organizations may need t
+o make changes to their organization structure, gov
+ernance structure, 
+and formal and informal coordination practices (How
+ard, 2008). As with ASD, new methodologies such as 
+SOSD may 
+require cultural changes. If power changes hands wh
+en the structure is realigned there may be pushback
+ and resistance.  
+However, these issues are common with the adoption 
+of many new technologies and methodologies. The pri
+mary drawback, 
+or barrier to adoption, with SOSD is that it requir
+es a significant amount of time and effort upfront 
+to build the repository of 
+service patterns and resource allocation patterns f
+rom which to search through. Business analysts must
+ take the time to: 1) 
+identify the relevant services (and sub-services, s
+ub-sub-services, etc.) which are needed during typi
+cal software projects, 2) 
+define a standardized definition for each service i
+ncluding the required inputs and produced outputs, 
+and 3) create and store 
+an initial set of service patterns, sub-patterns, e
+tc. as well as resource allocation patterns. In add
+ition, standards need to be 
+developed so that the process of creating and stori
+ng new patterns as more projects are completed can 
+be accomplished in a 
+way that will allow a shared understanding of the p
+atterns by all PMs. Doing so may also require a gre
+ater degree of 
+collaboration between the ﬁIT sideﬂ and ﬁbusiness s
+ideﬂ than they are used to. The result is that it w
+ill take some time after 
+adopting SOSD before the full benefits are realized
+. Essentially, the repository of ﬁknowledgeﬂ must b
+e built up before it is 
+useful. Once this happens though, the results can b
+e impressive. The next section briefly summarizes t
+he implementation 
+results from one software development unit. 
+ Keith et al. 
+ Service-Oriented Software Development 
+Proceedings of the Fifteenth Americas Conference on
+ Information Systems, San Francisco, California Aug
+ust 6
+th
+-9
+th
+ 2009 7 
+SOSD ADOPTION BY ELECTRICAL POWER COMPANY 
+
+Over the last 4 years, the authors have helped to i
+mplement and/or monitor the results of implementing
+ SOSD in the software 
+development units of a Fortune 100 financial servic
+es company as well as a Fortune 500 electrical powe
+r company (referred 
+to as ﬁFSCﬂ and ﬁEPCﬂ for non-disclosure purposes).
+ In both cases, SOSD adoption affected similar chan
+ges to governance, 
+organization structure, and coordination practices.
+ Also, both organizations were characterized as hav
+ing a high number of 
+younger professionals still in the early stages of 
+their careers. In addition, both organizations had 
+also undergone structural 
+changes so the employees in each department were fa
+irly new to the others they were working with Œ not
+ an environment 
+conducive to ASD. 
+
+At FSC, we took an action research approach to help
+ implement the new SOSD methodology as requested by
+ the unit 
+director. However, our role at EPC was simply to ob
+serve the informal SOSD adoption efforts which were
+ already taking 
+place
+2. They purchased a unique modeling tool which had t
+he ability to create and store process model ﬁobjec
+tsﬂ which were 
+kept on a centralized server and accessed by each a
+nalyst. Over time, they decomposed the high-level m
+odels into sub models 
+and categorized them on the server in a manner that
+ allowed each analyst to access each other™s object
+s, sub-models, and 
+overall models.  
+
+Table 1 summarizes EPC™s SOSD adoption over 11 proj
+ects which best capture the range of adoption
+3 represented as the both 
+the percent of project patterns which were modeled 
+and the percent of those patterns which were reused
+ from prior projects. 
+Projects one through five had no project patterns m
+odeled at all. However, the new methodology which i
+ncluded modeling 
+the software development process itself and the pre
+paration of reusable models began during project 5.
+ Projects 1-4 represent 
+the characteristics of projects before any SOSD ado
+ption took place while Projects 5 and 6 represent t
+he very early stages of 
+their SOSD adoption. During projects 7, 8 and 9, th
+e new BA group felt they had clearly become more ex
+pert in their new 
+methodology and projects 10 and 11 represent when t
+hey were able to begin reusing project models (i.e.
+ service patterns) 
+which had been generate during projects 5-9.  
+
+  
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ Table 1: SOSD Adoption at EPC 
+ 
+The result was that, over time, project cost, sched
+ule, and scope measures became more realistic and t
+he number of scope 
+changes decreased (See Table 2). PMs and the unit d
+irector felt that the more detailed modeling that w
+as performed upfront 
+                                                   
+       
+ 2 EPC wasn™t adopting a formal SOSD methodology, but
+ rather, their forward-thinking business analysis (
+BA) unit had the 
+idea of generating reusable process models for both
+ the business process being impacted by each projec
+t 
+and
+ the project 
+process itself. 
+
+3 Notice that the final project (#11) only reuses 50
+ percent of its service patterns from prior project
+s. It is important to note 
+that it would be unlikely that new projects would e
+ver use 100 percent of its service patterns from pr
+ior projects because each 
+project will be unique. 
+
+4 The 50 percent of modeled project patterns is the 
+result of the gradual adoption over time. At first,
+ only high level patterns 
+were modeled. With each project, the analysts disco
+vered that they could gain additional benefits from
+ modeling increasingly 
+granular patterns. Hence, the difference in modelin
+g percentages among projects. 
+Adoption Category Project % of patterns reused 
+% of project patterns 
+modeled
+4 1 
+0 
+0 
+2 
+0 
+0 
+3 
+0 
+0 
+Before Adoption 
+4 
+0 
+0 
+5 
+0 
+0 
+Early Stage 
+6 
+0 
+50 
+7 
+0 
+90 
+8 
+0 
+70 
+Learning Stage 
+9 
+0 
+80 
+10 
+20 
+100 
+Maturing Stage 
+11 
+50 
+100 
+ Keith et al. 
+ Service-Oriented Software Development 
+Proceedings of the Fifteenth Americas Conference on
+ Information Systems, San Francisco, California Aug
+ust 6
+th
+-9
+th
+ 2009 8 
+(with the collaboration of both the IT and business
+ sides), including the greater depth of detail, hel
+ped to reduce the 
+uncertainties that cause scope changes down the roa
+d. In addition, because the software development pr
+ocess itself had been 
+modeled, the design flaws, technical incompatibilit
+ies, etc. which used to show up during the developm
+ent phase (which 
+caused additional scope changes) were also reduced.
+ As expected, this resulted in a greater amount of 
+cost upfront during the 
+planning and analysis phases. However, the impacts 
+to the overall project cost and schedule were quite
+ impressive as seen in 
+Table 2. 
+Table 2: Project Performance Metrics over Time
+9 DISCUSSION AND CONCLUSION 
+
+Although EPC™s ability to meet and exceed project c
+ost and schedule estimates greatly improved as SOSD
+ was adopted, there 
+are likely many other factors which contribute to s
+oftware project success as well. Therefore, the mor
+e telling indicator of the 
+impact of SOSD at EPC may be its ability to reduce 
+uncertainty as indicated by the reduction in scope 
+change. In addition, 
+PMs developed greater confidence in their ability t
+o meet the schedules and budgets as SOSD was increa
+singly adopted. In 
+summary, EPC was able to significantly reduce proje
+ct uncertainty, length, and cost by adopting a meth
+odology based on 
+optimizing project planning and analysis upfront ra
+ther than ﬁplanning for changeﬂ or optimizing their
+ ability to handle 
+change throughout the project life cycle. The impli
+cation of this finding is not that SOSD is superior
+ to ASD, but rather that it 
+                                                   
+       
+ 5 This measure is derived from interviews performed 
+with the PM of each project, the unit director, and
+ executive sponsor. 
+The interview question is derived from a previously
+ defined Likert-type scale (Kearns & Sabherwal, 200
+6-7) with 1 = 
+extremely unrealistic and 7 = extremely realistic. 
+The resulting score is the average of the three res
+ponses. 
+6 Project 7 appears less realistic than those around
+ it chronologically primarily because of some polit
+ical battles that took 
+place in the early stages. This is because this pro
+ject required the software development unit being e
+xamined here to work 
+with another development unit from a different segm
+ent of the organization. 
+7 Project 10 is still in progress. Performance data 
+is not yet available. 
+8 Project 11 is still in progress. Performance data 
+is not yet available. 
+9 Each project involved the development of a new sof
+tware feature to be added to ECP™s customer relatio
+nship management 
+system. These projects were selected in particular 
+because they represented the ﬁtypicalﬂ projects per
+formed by the unit as 
+perceived by the director. In particular, 4 additio
+nal projects during the same time period were elimi
+nated from the analysis 
+because they involved tasks other than software dev
+elopment or spanned across atypical project boundar
+ies. The initial 
+budgets for each project ranged from approximately 
+1 to 3 million and the initial project lengths were
+ estimated to be 
+between 1 and 2 years. 
+Project 
+Realistic cost, 
+schedule, and 
+scope estimates?
+5 # of Formal 
+Scope 
+Changes 
+Changes Normalized 
+by Initial Project 
+Budget 
+% of budget 
+spent pre-
+project 
+% over/ under 
+cost 
+overall 
+% over/under 
+schedule 
+overall 
+1 
+2.1 
+40 
+.0000
+21
+ 19.3% 
+332.9% 
+95.2% 
+2 
+2.6 
+52 
+.0000
+19
+ 18.0% 
+153.0% 
+99.6% 
+3 
+4.1 
+44 
+.0000
+54
+ 4.3% 
+622.7% 
+205.8% 
+4 
+4.7 
+16 
+.0000
+10
+ 16.2% 
+17.1% 
+424.8% 
+5 
+5.1 
+3 
+.00000
+2 25.2% 
+16.2% 
+34.2% 
+6 
+5.8 
+8 
+.00000
+7 27.0% 
+55.1% 
+29.4% 
+7 
+4.6
+6 6 
+.00000
+4 28.4% 
+-52.1% 
+13.9% 
+8 
+5.7 
+7 
+.00000
+1 27.1% 
+-14.0% 
+-27.3% 
+9 
+5.8 
+2 
+.00000
+1 21.8% 
+-15.9% 
+3.9% 
+10
+7 n/a 
+n/a 
+n/a 
+n/a 
+n/a 
+n/a 
+11
+8 n/a 
+n/a 
+n/a 
+n/a 
+n/a 
+n/a 
+ Keith et al. 
+ Service-Oriented Software Development 
+Proceedings of the Fifteenth Americas Conference on
+ Information Systems, San Francisco, California Aug
+ust 6
+th
+-9
+th
+ 2009 9 
+can produce some of the same desired changes in env
+ironments where ASD may not succeed. Future researc
+h should 
+examine any synergies between the two. 
+
+Ideally, the impacts of SOSD would be measured acro
+ss a large sample of organizations of various types
+. However, this 
+service-oriented concept is still relatively new in
+ the business process context making it difficult t
+o find research participants. 
+But, because the EPC case demonstrates that some or
+ganizations are adopting service-oriented principle
+s informally, future 
+research could contribute by identifying informal m
+easures of SOSD principles which could be collected
+ from a wide variety 
+of organizations. Still, because SOSD is somewhat n
+ovel, one of the purposes of this research is to pr
+ovide a methodology 
+and direction for organizations which are seeking t
+he ability to reduce uncertainty and improve agilit
+y even if their task 
+environments are not fertile for ASD methodologies.
+ As service-oriented principles continue to be adop
+ted, future research 
+should expand and modify the methodology presented 
+here. In addition, SOSD has its own assumptions and
+ constraints as 
+identified above. Future research should examine th
+ese in detail to understand why adopting SOSD may b
+e a bad idea in 
+certain situations. As mentioned before, changes to
+ structure, governance, and coordination may be req
+uired. Future research 
+should examine what these changes are from theoreti
+cal perspectives such as Organization Theory (Thomp
+son, 1967), 
+Coordination Theory (Malone and Crowston, 1994), Ne
+twork Theory, and others. 
+REFERENCES 
+
+1.
+ Baldwin, C. T., & Clark, K. B. (1997). Managing in 
+an age of modularity. 
+Harvard Business Review
+ , 75
+ (5), 84-93. 
+2.
+ Bieberstein, N., Bose, S., Walker, L., & Lynch, A. 
+(2005). Impact of service-oriented architecture on 
+enterprise systems, 
+organizational structures, and individuals. 
+IBM Systems Journal
+ , 44
+ (4), 691-708. 
+3.
+ Chesbrough, H., & Spohrer, J. (2006). A research ma
+nifesto for services science. 
+Communications of the ACM
+ , 49
+ (7), 
+35-40. 
+4.
+ Dyba, T., & Dingsøyr, T. (2008). Empirical studies 
+of agile software development: A systematic review.
+ 
+Information 
+and Software Technology
+ , 50
+, 833-859. 
+5.
+ Elssamadisy, A. (2007, April 14). 
+SOA and Agile: Friends or Foes?
+ Retrieved February 20, 2009, from InfoQueue: 
+http://www.infoq.com/articles/SOA-Agile-Friends-Or-
+Foes 
+6.
+ Erl, T. (2005). 
+Service-Oriented Architecture: Concepts, Technology
+, and Design.
+ Saddle River, NJ: Prentice Hall. 
+7.
+ Foster, I. (2005). Service-Oriented Science. 
+Science
+ , 308
+, 814-817. 
+8.
+ Gruman, G. (2007, May 14). 
+Breaking SOA Bottlenecks
+. Retrieved February 20, 2009, from InfoWorld: 
+http://www.infoworld.com/article/07/05/14/20FEsoabo
+ttle-intro_1.html 
+9.
+ Hevner, A. R., March, S. T., Park, J., & Ram, S. (2
+004). Design Science in Information Systems Researc
+h. 
+MIS 
+Quarterly
+ , 28
+ (1), 75-105. 
+10.
+ Highsmith, J., & Cockburn, A. (2001). Agile Softwar
+e Development: The Business of Innovation. 
+Computer
+ , 34
+ (9), 
+120-122. 
+11.
+ Hoetker, G. (2006). Do modular products lead to mod
+ular organizations? 
+Strategic Management Journal
+ , 27
+ (6), 501-
+518. 
+12.
+ Howard, C. (2008, March 17). 
+Tips to Avoid SOA Implementation Problems.
+ Retrieved February 20, 2009, from 
+http://www.cio.com: http://www.cio.com/article/1979
+56/Tips_to_Avoid_SOA_Implementation_Problems 
+13.
+ Kumaran, S., Bishop, P., Chao, T., Dhoolia, P., Jai
+n, P., & Jaluka, R. (2007). Using a model-driven tr
+ansformational 
+approach and service-oriented architecture for serv
+ice delivery management. 
+IBM Systems Journal
+ , 46
+ (3), 513-529. 
+14.
+ Langlois, R. N. (2002). Modularity in technology an
+d organization. 
+Journal of Economic Behavior & Organization
+ , 49
+ (1), 19-37. 
+15.
+ Lara, R., Corella, M. A., & Castells, P. A. (2007).
+ Flexible model for locating services on the web. 
+International Journal 
+of Electronic Commerce
+ , 12
+ (2), 11-40. 
+16.
+ MacKenzie, C. M., Laskey, K., McCabe, F., Brown, P.
+ F., & Metz, R. (2006, October 12). 
+OASIS Reference Model for 
+Service Oriented Architecture 1.0.
+ Retrieved February 20, 2009, from www.oasis-open.o
+rg: http://docs.oasis-
+open.org/soa-rm/v1.0/soa-rm.pdf 
+ Keith et al. 
+ Service-Oriented Software Development 
+Proceedings of the Fifteenth Americas Conference on
+ Information Systems, San Francisco, California Aug
+ust 6
+th
+-9
+th
+ 2009 10 
+17.
+ Nerur, S., Mahapatra, R., and Mangalaraj, G. (2005)
+. Challenges of Migrating to Agile Methodologies. 
+Communications 
+of the ACM, 48
+(5), 73-78. 
+18.
+ Newcomer, E. (2003). 
+Understanding web services: XML, WSDL, SOAP, and UD
+DI.
+ Boston, MA: Addison-Wesley. 
+19.
+ Oracle. (2008, August). 
+State of the Business Process Management Market 200
+8.
+ Retrieved February 20, 2009, from 
+www.oracle.com: http://www.oracle.com/technologies/
+bpm/docs/state-of-bpm-market-whitepaper.pdf 
+20.
+ Parnas, D. L. (1972). On the criteria to be used in
+ decomposing systems into modules. 
+Communications of the ACM
+ , 15
+ (12), 1053-1058. 
+21.
+ Raschke, R., & David, J. S. (2005). Business Proces
+s Agility. 
+Proceedings of the 11th Americas Conference on 
+Information Systems
+, (pp. 355-360). Omaha, NE. 
+22.
+ Schmidt, R., Lyytinen, K., Keil, M., & Cule, P. (20
+01). Identifying Software Project Risks: An Interna
+tional Delphi 
+Study. 
+Journal of Management Information Systems
+ , 17
+ (4), 5-36. 
+23.
+ Sheth, A., Verma, K., & Gomadam, K. (2006). Semanti
+cs to energize the full services spectrum. 
+Communications of the 
+ACM
+ , 49
+ (7), 55-61. 
+24.
+ Sutherland, J., Viktorov, A., Blount, J., & Puntiko
+v, N. (2007). Distributed Scrum: Agile Project Mana
+gement with 
+Outsourced Development Teams. 
+Proceedings of the 40th Annual Hawaii International
+ Conference on System Sciences 
+(HICSS'07)
+ (p. 274a). Waikoloa, HI: IEEE. 
+25.
+ Thompson, J. D. (1967). 
+Organizations in Action.
+ New York: McGraw-Hill. 
+26.
+ Turk, D., France, R., & Rumpe, B. (2005). Assumptio
+ns Underlying Agle Software-Development Processes. 
+Journal of 
+Database Management
+ , 16
+ (4), 62-87. 
+ 

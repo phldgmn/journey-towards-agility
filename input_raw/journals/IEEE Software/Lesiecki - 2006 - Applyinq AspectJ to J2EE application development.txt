@@ -1,0 +1,877 @@
+ 24IEEE SOFTWARE
+Published by the IEEE Computer Society0740-7459/06/$20.00 © 2006 IEEEinto one object, but touches several objects, itÕs
+a crosscutting concern. To implement this con-
+
+cern without aspects, a development team
+would need to modify each sensitive operation
+
+so that it first checks the userÕs access rights.
+
+This solution is difficult to modify, understand,
+
+and change. With AOP, a programmer could
+
+write an aspect to define a set of sensitive oper-
+ations and that says in essence: Òbefore each
+such sensitive operation, check the userÕs access
+
+level.Ó This captures the entire security policy
+
+in a reusable module. (For more information on
+
+AOP, see my introductory article, ÒImprove
+
+Modularity with Aspect-Oriented Program-
+ming,Ó1The AspectJ Programming Guide,2orthe sidebar.)
+In January 2004, Video Monitoring Ser-
+vices of America (VMS) began to investigate
+
+the adoption of AOP into the development
+of Adbase, their Java 2 Enterprise Edition-
+
+based application. Adbase supplies a Web-
+
+based search and e-commerce interface on
+VMSÕs library of advertising data. In many
+
+ways, itÕs typical of J2EE application devel-
+opment. It uses a wide range of J2EE tech-nologies, both commercial and open source.
+The Adbase team varied from four to seven
+
+full-time developers during the time frame
+covered by this article. We followed a modi-
+
+fied version of Extreme Programming with a
+focus on emergent design and adherence to
+XP practices such as programmer testing and
+
+pair programming.The Adbase team was interested in AOP
+because we were familiar with its benefits. As
+
+the projectÕs principal engineer and coauthor
+
+of Mastering AspectJ,3I championed the in-
+vestigation and subsequent adoption of the
+technology. Crosscutting concerns exist in a
+
+wide variety of problem domains and, based
+on my experience with aspects, I could iden-
+
+tify a number of areas in Adbase where I
+thought aspects would improve the codeÕs
+
+modularity, flexibility, and clarity. We were
+
+encouraged in our investigation by reports of
+aspects being used successfully to improve sep-
+aration of concern and component reuse in
+large commercial codebases.
+4focusApplying AspectJ to J2EE
+Application DevelopmentAspect-oriented programming (AOP) is a technique that allows
+programmers to modularize crosscutting concerns (behavior that
+cuts across the typical divisions of responsibility, such as concur-
+
+rency or security). For example, a typical application might havea security policy that prevents a user from executing a number of operations
+unless the user has the correct privileges. Often, these sensitive operations
+would live on different objects. Because the security policy doesnÕt fit neatly 
+aspect-oriented programming
+Nicholas Lesiecki, Video Monitoring Services of America 
+Aspect-orientedprogramming and
+the AspectJ
+language can
+reduce code size
+and defects while
+increasing
+understandability.
+ January/February 2006
+IEEE SOFTWARE
+25We selected AspectJ as our aspect implemen-
+tation because itÕs a general-purpose aspect-ori-
+
+ented extension to the Java language. As a lan-
+guage extension, it allowed for incremental
+experimentation with aspects. Most of the proj-
+ect could remain implemented with object-ori-
+ented code, with select crosscutting concerns im-
+plemented in aspects. Several competing aspect
+implementations for Java existed at the time of
+our adoption, but we deemed them too imma-
+ture for our consideration.ApplicationsWe began our adoption process with two
+significant experiments: an error-logging as-
+
+pect and an application-specific aspect. The
+experiments exposed the team to the technol-
+
+ogy in a low-risk way, and thus increased fa-
+
+miliarity and confidence. Having gained sig-
+nificant experience with AspectJ, the team
+
+next felt ready to approach a more ambitious
+problem: relationship-management aspects. Error loggingOur investigation of AspectJ began with atypical first use. Our application had been
+plagued by poor exception handling in a third-
+party library. Our problem was pseudocode of
+
+the formpublic void evaluate(String arg){
+try{useReflectionToCallInto–Application(arg);}catch(Exception e){throw new JspException( e.getMessage() );}}This type of handler block discards thestack trace from the original exception, leav-
+
+ing application developers mystified about the
+underlying cause of the problem.The Adbase team decided to use AspectJÕs
+bytecode-weaving capabilities to advise han-
+dler blocks of this type. Because the offending
+library was open source, we could have
+patched the libraryÕs source code to correct the
+
+offending handlers. However, we would have
+
+then had to either submit the patch and ensure
+that our code was general enough to serve all
+library clients or maintain our modifications
+for new versions of the library.
+To improve the error behavior, we crafted a
+pointcut (see the ÒGlossaryÓ sidebar)to iden-
+
+tify handler blocks in an area of the code that
+
+we knew from experience was troublesome.
+Aspect-oriented programming, like any new programming technique, in-troduces its own set of concepts and terms to refer to them. Here are expla-
+
+nations for some of the terms used in this article. My definitions are in-
+
+formed by my focus on AspectJ; other AOP implementations may have their
+
+own terms or construe some meanings differently.
+AdviceÑdeclaration of code to execute at each join point picked out by apointcut. You can think of a pointcut as the definition of an interesting
+
+set of events in a program and advice as the reaction to those events.
+Advice has access to context exposed by the pointcut. Advice comes in
+three flavors depending on how it executes with respect to the join
+point. Before advice runs before the join point it operates over. 
+Afteradvice runs after a join point completes (the most commonly used type
+of after advice is 
+after returning
+advice, which only executes if the joinpoint completes normally). 
+Aroundadvice replaces the join point it op-erates over. In around advice, the computation of the original join point
+
+can be executed with the special proceed( … )syntax.AspectÑa special type (much like a class in Java) that encapsulates point-cuts, advice, intertype declarations, and other crosscutting features.
+Control flowÑsome pointcuts and aspects are defined in terms of the con-
+trol flow of a join point. For example, the control flow of a method exe-
+
+cution join point consists of all the other join points that occur between
+the start and end of that methodÕs execution. If the method 
+foo()callsbar()and baz(), the executions of 
+bar()and baz()are said to
+be in the control flow of foo().Intertype declarations
+Ñdeclarations in an aspect that affect a programÕs
+static type structure. An example is extending a class with a new mem-
+ber variable or method.
+Join pointÑa well-defined point in a programÕs execution. A method execu-
+tion is a join point, as are field access and modification, among others.Percflow() aspectÑan aspect whose life cycle is bound to a given controlflow. The AspectJ runtime creates the aspect at the beginning of the
+
+control flow and releases it at the end of the control flow. Among other
+
+things, this allows the aspect to maintain state for the duration of the
+control flow.
+PointcutÑa selector for join points. For example, you could write a pointcut 
+that matches all of the method executions on the class Foo with the following
+
+pointcut: execution(* Foo.*(..)). As you can see, pointcuts can
+take advantage of wildcards in their definition. They can also be composed
+with operators such as 
+||, &&, and !. For example, execution(*Foo.*(..)) || execution(* Bar.*(..)) selects all method ex-ecutions on Bar or Baz. AspectJ lets you define your own pointcuts com-
+
+posed of combinations of primitive pointcuts (such as execution())sup-plied by the language. Pointcuts can also expose context (such as argument
+values to a method call) that can be used in advice.Glossary of AOP Terminology
+ Then we added before advice to log the ex-ception argument to the handler block.Our first aspectÕs net effect was positive.
+Once we saw stack trace information in the
+
+application log, it took us only moments to
+solve errors that formerly required a trip to
+
+the debugger or careful source code analysis.
+The exposure to AspectJ in this limited con-
+
+text encouraged further exploration.Application-specific aspectsNext, the Adbase team experimented with
+other auxiliary aspects (such as aspects for
+gathering quick-and-dirty performance statis-
+tics). Finally, educating itself about AOP and
+AspectJ, the team decided to add AspectJ to
+the development process with a pilot project.
+We deliberately limited the proposed aspectÕs
+
+scope so we could reincorporate a traditional
+implementation of the feature should the ex-
+
+periment prove unsuccessful. The aspect man-
+
+aged administrator workflow for new meta-
+data added to the system. Although we encountered some challenges,the pilot was successful and the aspect became
+the first of many limited-scope, application-
+
+specific aspects that we wrote in the subse-
+
+quent months.
+A good example of an application-specificaspect is the one we wrote to handle the dy-
+
+namic repricing of an online shopping basket in
+response to content or delivery-option changes.
+Basket pricing in Adbase is complex. Different
+
+charges apply to items, groups of items, and the
+
+order as a whole. Some charges depend on the
+
+presence of other charges. A change to a setting
+
+in one part of the basket can require the recal-
+
+culation of the price of items in another part.
+
+Because so many operations and objects can
+impact the basketÕs chargeable state, repricing
+
+was a clear crosscutting concern.Our basket-repricing aspect tracks statechanges with a simple Boolean flag. Any oper-
+ation that can affect the basketÕs price sets the
+
+flag to true. Before client code reads pricing
+
+information from the basket, the aspect re-
+
+prices the basket and sets the flag to false.The aspect selects dirtying operations withpointcuts such as that in figure 1a. It then uses
+
+an intertype field and advice to mark the basket
+
+dirty after each state change, as figure 1b
+
+shows. Next, the aspect selects operations rep-
+
+resenting reads of the basketÕs pricing state as
+
+shown in figure 1c. Finally, using before advice,
+the aspect reacts to each read operation by
+
+repricing the basket as illustrated in figure 1d.
+Each cart component that can receive charges
+implements the Chargeable interface. This inter-
+face facilitates picking out reads across three dif-
+ferent classes. The chargeableReads() point-cut uses the cflow()primitve pointcut toexclude reads occurring as a result of any
+method on the Pricer object. This prevents a re-
+cursive call to the advice during repricing. The basket-repricing aspect is one of Ad-baseÕs most successful application-specific as-
+
+pects. Because of this aspect (and another
+
+closely related aspect), 
+ShoppingBasketandits associated items contain almost no pricing-
+26IEEE SOFTWARE
+www.computer.org/software
+Figure 1. Basket-repricing aspect 
+operations: (a) pointcut
+for selecting a dirtying
+
+operation, (b) intertype
+
+field and advice for
+marking a basket dirty,
+
+(c) pointcut that 
+selects reads of the
+basketÕs pricing state,
+and (d) advice for
+repricing the basket.pointcut basketChange(ShoppingBasket basket):(execution(public void addItem(Item, ..))
+
+|| execution(public void remove*(..))
+)
+&& this(basket);(a)private boolean ShoppingBasket.isDirty = false;
+after(ShoppingBasket basket) returning :
+
+basketChange(basket)
+{basket.isDirty = true;}(b)pointcut chargeableReads() :(execution(public * Chargeable+.getCharges(..))
+
+|| execution(public * Chargeable+.getTotal(..))
+||execution(public * Chargeable+.hasCharges(..))
+) 
+&& !cflow(execution(public * Pricer.*(..)));(c)before(ShoppingBasket basket) :
+chargeableReads() && this(basket){if(basket.isDirty){pricer.price(basket);
+basket.isDirty = false;}}(d) related code. This lets them better representtheir primary role (a structured collection of
+items for purchase). It also lets developers rea-
+
+son about and evolve the pricing and repricing
+behavior in isolation, without having to inspect
+or modify the various price-triggering events.By encapsulating the pricing logic, the as-pect solution added extensibility and compos-
+ability to the basket package. (We could em-
+
+ploy alternative pricing strategies with fewer
+changes to the code.) It also increased the code
+baseÕs agility. Because we could easily imple-
+
+ment reprice strategies touching a dozen or
+more operations in a single location, we felt
+
+free to experiment with alternative designs.
+Relationship managementThe Adbase team developed its most ad-vanced set of aspects in response to a new per-
+sistence solution. We were abandoning Enter-
+
+prise JavaBeansÕ (EJB) Container Managed
+
+Persistencein 
+favor of the lighter-weight Hi-
+bernate. Unfortunately, during the changeover,
+
+we discovered that Hibernate lacked the con-
+tainer-managed relationships that we had be-
+
+gun to take for granted with CMP. We termed
+
+the missing feature bidirectional relationshippropagation. Figure 2 shows a model of twopersistent objects in a typical relationship.If we implemented the model in figure 2 in
+pure Java code, calling child.setParent(someParent)on the child wouldnÕt affect
+someParentÕs children collection. However, if
+an EJB container had managed that relation-
+ship, calling child.setParent(somePar-ent)would result in the equivalent of a call tosomeParent.getChildren().add(child).The container would propagate the link to the
+other side of the relationship, making the rela-
+
+tionship navigable in both directions. Al-
+though Hibernate does this as it reads objects
+from or writes them to the database, it doesnÕt
+
+propagate the relationship during the objectÕs
+
+general use by an application.Using aspects to address a weakness in orto extend an existing application or frame-
+work raises questions. For example: Can we
+use the framework another way and get the
+same result? Would it be a better to modify the
+
+framework directly? According to HibernateÕs own documenta-
+tion, the preferred solution to our problem is to
+
+write code in each relationship setter to traverse
+
+and propagate the relationship. This is exactly
+what we hoped to avoid. Also, extending or
+patching Hibernate presented problems. It was
+our persistent objects whose behavior needed
+modification (Hibernate already Òdid the right
+thingÓ when loading the objects). We decided
+
+that if we could test and deploy the aspect so-
+
+lution in less than two weeks, weÕd stick with it.We began our implementation with one-
+half of the desired behavior. To automatically
+
+add a child object to a parentÕs collection after
+
+a call to setParent(), we first had to iden-
+tify the setParentjoin points. To do so, we
+wrote the pointcut in figure 3, which explicitly
+
+assumes that a method call signifies the start
+of a relationship if it meets three criteria: 
+It begins with the letters s-e-t. The method callÕs target implements an in-
+
+terface we created called Persistent.The sole argument is also a Persistent. The pointcut exposes both the target andthe argument object for use within the advice.
+Because the pointcut relies on an identifier
+
+pattern, we accepted the risk that the pointcut
+
+might match join points incorrectly (such asJanuary/February 2006
+IEEE SOFTWARE
+27Figure 3. A pointcut andadvice that implement
+part of the bidirectional 
+
+relationship behavior.
+public aspectRelationshipManagement {
+//...
+pointcut setToOne(Persistent self, Persistent other) :call(void set*(Persistent+)) && target(self) &&args(other);before(Persistent self, Persistent other) : setToOne(self, other) {String methodName = //…obtain using AspectJ reflectionBidirectionalRelationHelper.reciprocateToOne(methodName, self, other);}}*Parent+getChildren():SetChild
++setParent(Parent)+getParent():ParentFigure 2. Model of persistent objects in a relationship. Account.settle(Account)). We judged
+this risk to be acceptably low because of the
+other join point criteriaÕs limiting effect. When
+
+making judgments like this, we relied both on
+our own experience and on design techniques
+emerging from the AOP community. For ex-
+
+ample, Adrian ColyerÕs blog entry, ÒI DonÕt
+
+Want to Know That ... (Writing Robust Point-
+
+cut Expressions),Ó covers just this sort of de-
+
+sign decision (see www.aspectprogrammer.org/
+
+blogs/adrian/2004/08/i_dont_want_to.html).The advice in figure 3 extracts the settermethodÕs name using reflective information
+
+provided by AspectJ. The advice then delegates
+to a helper class to navigate the metadata pro-
+vided by Hibernate. The helper class retrieves
+the children collection and adds the child ob-
+ject (referenced in figure 3 by self) to that col-lection. We localized the logic in a helper class
+
+to keep the definition of the crosscutting struc-
+ture in one module (the aspect) while letting
+
+the details of Hibernate metadata traversal re-
+side in another. This allowed for easier testing
+
+of the corner cases of metadata traversal be-
+cause we could easily feed the appropriate ar-
+guments to the helper class. This decision also
+reduced compilation time. Because changing
+an aspect requires a full build, splitting the im-plementation let us change the traversal logicwithout losing incremental compilation.At this point we had only solved half of our
+problem. We still needed to propagate changes
+
+to a parentÕs children collection to the child side
+
+of the relationship. Here we faced a problem.
+
+The parent object could pass its children collec-
+
+tion to another part of the application, which
+might then modify the collection. We needed a
+
+way of marking the collection so that we could
+
+identify future modifications to it. We did this
+
+by using an aspect to wrap these collections in
+
+a special marker collection that we wrote.
+To accomplish this, we again select rela-
+tionship getters with a pointcut based on a com-
+bination of name and type information. The
+
+aspect then uses around adviceto modify the
+
+affected join pointsÕ return value (we obtain
+
+the return value through a call to proceed())as shown in figure 4a.After we had marked children collections,
+we could affect them using advice. The after-
+
+returning advice shown in figure 4b inspects
+the return value of add()on aRelationship-AwareSet. If the addition was successful, theadviceuses the helper class to propagate the re-
+
+lationship.After implementing these two aspects, we28IEEE SOFTWARE
+www.computer.org/software
+Figure 4. Propagatingchanges to a ParentÕs
+children collection: 
+(a) around advice
+wraps the returned 
+collection in a special
+marker collection 
+(b) after-returning 
+advice propagates
+changes made to the
+marked collection.pointcut persistentSetAccess(Persistent self) :call(java.util.Set Persistent+.get*())
+&& target(self) && managedRelationshipAccess();java.util.Set around(Persistent self) : persistentSetAccess(self) {
+String methodName = //…obtain using AspectJ reflectionreturn new RelationshipAwareSet(methodName, self, proceed(self));}(a)//pointcut relationshipAdd() not shownafter(RelationshipAwareSet set, Object o) returning(boolean added):
+relationshipAdd(set, o) {
+
+//’source’isareferencetotheoriginatingobject(stored by the set)
+
+if(added){BidirectionalRelationshipHelper.reciprocateToMany(set.propertyName,set.source,(Persistent)o, true);
+}}(b) encountered a set of test failures. If the applica-tion deleted a child object, Hibernate expected
+the application to remove the object from the
+parentÕs collection. So we added another di-
+
+mension to our solution. To detect deletion
+
+events, we wrote a pointcut that used a Hiber-
+
+nate marker interface. By writing the pointcut
+
+in terms of the Lifecycle.onDelete()method, we leveraged HibernateÕs definition
+
+of a deletion event. After each such event, our
+aspect used a helper class to iterate over all of
+the doomed objectÕs relationships and re-
+
+moved the dying object from them. This solution hit a snag, however. Hiber-
+nate, like other persistence frameworks, man-
+ages cascade deletions. If our severing aspect
+affected a relationship in the middle of a cas-
+cade deletion, Hibernate would detect the con-
+dition and throw an exception. To exclude
+
+cascade deletions, we used a percflow aspect.
+Percflow aspects only exist during the control
+
+flow of specified join points. This feature al-
+
+lowed the aspect to maintain a set of all the
+
+objects that had already been deleted during a
+given cascade. The aspect passed this set of al-
+ready dead objects to the helper class, which
+could then decline to sever a relationship to a
+deleted object. Figure 5 shows the code for
+
+this aspect. Notice that the percflow pointcut
+
+in the aspect declaration specifies that the as-
+pect should be instantiated once for each call
+to one of HibernateÕs 
+Session.delete()methods. Most object deletions in Hibernate
+originate from such a call.
+In our project, Hibernate persists 63 classescontaining 42 methods of the form child.setParent()and 39 of the form parent.getChildren(). Another 11 relationships aremodified through another mechanism, which
+our solution also addressed (but is not covered
+here). These metrics give a sense of the aspectsÕ
+impact. Implementing the solution by manu-
+ally inserting a call to the relationship helper
+would have involved modifying 92 disparate
+sites. ItÕs not hard to imagine our team missing
+
+five or 10 sites and stumbling across a bug later
+on. Furthermore, without the tangled calls to
+the bidirectional relationship helper, the per-
+
+sistent objects are easier to read, write, and un-
+derstand. A developer can program Hibernate-
+enabled objects that participate in bidirectional
+relationships with no special effort. So, we
+could say that the aspects improve the systemÕs
+
+maintainability and understandability.
+Team reactions to AOPAs a whole, the teamÕs reaction to AOP and
+AspectJ was positive. Even programmers inex-
+perienced with object-oriented programming
+
+grasped the basic concepts easily, and pro-
+
+grammers moved quickly from being passive
+observers to participants in or initiators of
+pairing sessions involving AspectJ. About six
+months elapsed between the VMSÕs initial in-
+
+vestigation of AOP and the development of
+the Hibernate aspects described in this report.
+This was calendar time, not effort time, as the
+team spent (and still spends) only about 5 to
+
+10 percent of its development effort on AOP. 
+As the teamÕs familiarity with the technology
+has grown, team members have become more
+
+excited about the potential for further applica-
+tions. ItÕs not uncommon to hear, Òwe could use
+
+an aspect to do that,Ó floating through the de-
+January/February 2006
+IEEE SOFTWARE
+29Figure 5. Code for severing relationships
+on object deletion.public aspect RelationshipSevering percflow(call(* Session+.delete(..))) {private Set alreadyDeleted = new HashSet();
+pointcut onDelete(Persistent objectBeingDeleted) :
+execution(public boolean Lifecycle+.onDelete(Session+) && 
+this(objectBeingDeleted);after(Persistent objectBeingDeleted) : onDelete(objectBeingDeleted) {BidirectionalRelationHelper.severRelationships(alreadyDeleted, objectBeingDeleted);alreadyDeleted.add(objectBeingDeleted);}} velopment area. Some members have becomechampions of the technology. One programmer
+
+is investigating adding AspectJ to another Java
+project, and our manager acquired a custom li-
+cense plate reading ÒAspectJ.ÓFor programmers less invested in AOP, its
+noninvasive nature has been a blessing. Devel-
+opers can craft components that participate in
+aspect-oriented behavior without making nu-
+merous design concessions. ItÕs possible to work
+
+on the Adbase project without significant As-
+pectJ experience; indeed, some programmers
+have yet to write a single pointcut. Compared to
+invasive frameworks such as EJB or Java Server
+Pages, AspectJ has weighed lightly on the pro-
+jectÕs design and development.
+Despite the generally positive reaction, AOP
+has had some challenges at VMS. Because AOP
+demands a new way of thinking about software
+
+construction and a new language in which to
+
+express that thinking, it meets a fair amount of
+
+resistance. My team has been no exception.
+
+During initial presentations, the audience
+clearly saw the technologyÕs potential, but was
+
+apprehensive about the learning required to
+leverage it. As time passed, some of the appre-
+
+hension dissipated. However, new team mem-
+
+bers approaching the technology for the first
+time experienced similar apprehension.Although our familiarity with AspectJ andAOP has grown, weÕre still in the process of
+
+altering our mental models to accommodate
+aspect orientation. Scott Segal, the Adbase
+team manager, put it like this: 
+The most difficult part of adopting AOP wasmaking the mental shift from thinking of AOP
+as a technique to solve a narrow set of problems
+to embracing AOP as part of our standard ap-
+
+proach to solving all problems. When looking
+at a problem now we try to see how the prob-
+lem naturally separates into concerns and im-
+plement the crosscutting concerns with aspects.Although programmers can remain mostlyoblivious to aspects (especially orthogonal
+ones), to work effectively on an aspect-ori-
+
+ented project, they must know when an aspect
+
+could be advising code theyÕre working on.
+Without this awareness (and general knowl-
+
+edge of how AspectJ works), aspectual effects
+
+might confuse or surprise programmers. The
+less orthogonal the aspect, the more program-
+
+mers must be aware of it.I call one flavor of this problem Òaspects asa red herring.Ó This problem arises when pro-grammers uninvolved with an aspectÕs devel-
+
+opment encounter a problem in that aspectÕs
+
+domain. Suspicious that the aspect might be
+involved, but not knowing its details, they feel
+overwhelmed by having to understand the as-
+pect before solving the problem. The aspect
+
+might not actually be involved, but its possible
+presence can be a confounding factor.
+Adoption processBy limiting the scope of our initial aspects,we were able to learn concepts, best practices,
+places where aspects made sense, and places
+where they didnÕt. For example, weÕve replaced
+
+several aspects with nonaspect solutions after
+reviewing the resulting design. Our early ex-
+periments gave us the confidence and experi-
+ence to approach the relationship management
+aspectsÑthe most challenging and general set
+of aspects developed yet. The incremental ap-
+proach both diffused adoption cost over sev-
+eral months and let concepts and ideas soak
+into the team consciousness.Unit and integration testsThe XP practice of automated testingeasedour adoption of AspectJ. At the time we began
+
+adoption, we had amassed a suite of several
+hundred unit and integration tests. Automated
+testing helped us byletting us verify an aspectÕs implementa-
+
+tion during its development,letting us quickly detect side effects or no-
+
+tice when a refactoring had broken an as-
+pect, and forcing us to learn about robust AOP.
+Pair programmingPair programming proved invaluable fortransferring knowledge about AOP and AspectJ.
+A typical early pair session placed me with a
+
+less-experienced developer as we tried to write
+
+an aspect to address a specific concern. When
+
+we came to new language features or a new as-
+
+pect-oriented concept, I explained the concept
+and we continued with the implementation. As team experience grew, aspect-oriented
+pairing sessions began between other team
+members. We used our shared workspace to ex-
+
+ploit the Òexpert in earshotÓ effect (see Alistair
+CockburnÕs Wiki entry at http://c2.com/cgi/
+
+wiki?ExpertInEarshot). Team members strug-
+30IEEE SOFTWARE
+www.computer.org/software
+The combinationof testing andpairing gave usthe confidenceto use ourapplication as a learningenvironment.  gling with a pointcutÕs nuances could easily get
+my attention for a quick resolution.The combination of testing and pairinggave us the confidence to use our application
+as a learning environment. We were able to try
+
+out different ideas and easily realize them
+within a familiar context. This helped us learn
+AOP more rapidly and confidently than we
+
+otherwise might have.RefactoringIn our XP environment, we refactor often,and aspects are no exception. Just as object-
+
+oriented code can vary in its readability and
+
+expressiveness, aspect-oriented code can be
+clear or confusing. Accordingly, we often re-
+
+visited our aspects (for example, when we
+modify them to add a new feature) and at-
+
+tempted to express their intent more clearly.
+
+Many of the habits, practices, and guidelines
+for refactoring object-oriented code translate
+well to aspect-oriented code. In addition to
+
+refactoring aspects, we also refactor our code
+to add aspects where warranted, and to re-
+move aspects when the programÕs intent is bet-
+
+ter expressed without them. Tool support
+Over the last five years, automated tools have
+become central to development in the main-
+stream programming community. An increasing
+
+number of programmers (the VMS team in-
+
+cluded) use an integrated development environ-
+ment for day-to-day coding. As time passes, it
+
+becomes increasingly difficult to disentangle a
+programming language from its supporting
+toolset. This contention applies especially to
+
+AspectJ. We primarily used the fast-evolving
+
+AspectJ DeveloperÕs Toolkit (AJDT) Eclipse
+
+plug-in available at www.eclipse.org/ajdt. 
+Crosscutting viewsWhen working on a module, a programmermust be somewhat aware of crosscutting as-
+pects (or at least be able to transition quickly
+from oblivious to aware), especially when the
+aspect is tied closely to the moduleÕs core func-
+
+tionality (for example, repricing a basket).
+Similarly, in the Òaspects as a red herringÓ sit-
+
+uation, a programmer must be able to confi-
+dently rule out (or find) potentially trouble-
+
+some aspects.AJDT provides two tools that help make aprogramÕs crosscutting structure understandable:
+The cross-references view lets developersview all of the join points affected by a
+
+given piece of advice (it provides similar fa-
+
+cilities for intertype declarations). This lets
+
+them easily analyze an aspectÕs potential ef-
+
+fect. When writing a new pointcut, for in-
+
+stance, the cross-references view alerts you
+
+if an error prevents a pointcut from match-
+ing any join points. Similarly, a quick scan
+
+tells you if the pointcut matches unintended
+points.When a programmer views a class (or an as-
+pect) in EclipseÕs editor, 
+gutter annotationsindicate if advice applies to the current pro-
+gram element. By providing a clear indica-
+tion of aspect impact and an easy means to
+navigate back to the aspect, AJDTÕs gutter
+
+annotations have helped us diagnose aspect-
+related problems. They also serve as unob-
+trusive reminders that aspects contribute to
+the codeÕs total behavior.
+Debugging supportAlthough the debugging support in AspectJexhibits a few problemsÑsuch as the occa-
+
+sional inability to set breakpoints without a
+rebuild and some confusing stack frames to
+step throughÑthe current implementation op-
+erates largely as desired. In other words, you
+
+can set breakpoints in classes and step into ad-
+vice that applies to them. You can also set
+
+breakpoints in advice. As we developed the re-
+lationship-management aspects, we frequently
+
+used the debugger to help us understand the
+codeÕs dynamic behavior. 
+Compilation speedThe biggest challenge to VMSÕs further
+adoption of AspectJ is the significant increase
+in incremental compilation times when using
+
+it. AspectJ places two important restrictions
+on incremental compiles: 
+Incremental compilations using AJDT (in
+the Adbase project) invariably take a cou-
+ple of seconds longer than the near-instant
+
+times of pure Java builds. Changes to an aspect require a full rebuild
+(performed automatically by AJDT even
+in incremental mode). 
+These two types of slowdown noticeably af-fect development velocity. Our XP-based de-
+
+velopment process relies on unit tests and in-January/February 2006
+IEEE SOFTWARE
+31The biggestchallenge toVMSÕs furtheradoption ofAspectJ is thesignificantincrease inincrementalcompilationtimes. cremental development. Ideally, weÕd modify
+code, compile it, and execute the relevant unit
+tests several times per minute. Adding even a
+few seconds of delay to the cycle slows devel-
+opment on two fronts. First, the compilation
+takes time. Second, human attention can wan-
+der during the wait interval, and it can take
+time to recontextualize after the compilation.
+
+This problem is particularly pronounced for
+the full builds, which tempt the programmer to
+switch to another task entirely (such as email
+or Slashdot headlines). One of VMSÕs most tal-
+
+ented programmers, despite having positive ex-
+periences on the Adbase project and having de-
+signed an aspect-oriented testing framework,
+resists using AspectJ in his other projects be-
+cause of these delays. According to him, ÒThe
+benefits realized by AOP over pure object-ori-
+ented approaches do not outweigh the draw-
+backs of productivity loss and impediments to
+a test-driven development approach, at least in
+a fairly small application.ÓThe good news is that improving perform-ance is a priority for the AspectJ developers.Refactoring and Java editingAlthough AJDT brings most of the func-tionality of a good Java editor to AspectJ
+(code completion and syntax highlighting, for
+example), important areas are missing. These
+feature holes have tripped up developers used
+to EclipseÕs rich functionality. Code comple-
+
+tion works only in certain contexts, for exam-
+ple, and the Òopen typeÓ shortcut doesnÕt ap-
+
+ply to aspects. More importantly, refactorings initiated
+from Java donÕt affect aspects, making wide-
+
+ranging refactoring a more delicate and man-
+ual process. VMS considers its adoption of AOP
+
+successful. The key barriers to further
+
+adoption within the company are inthe area of tool support rather than training orconceptual understanding. In particular, com-
+pilation times incur a productivity penalty that
+offsets aspect-oriented developmentÕs general
+
+benefits. The AJDT environmentÕs capabilities
+
+also lag behind those of EclipseÕs general Java
+
+capabilities. Luckily, AspectJÕs developers are
+
+giving these areas significant attention.Despite these barriers, aspects have notice-ably improved the Adbase applicationÕs Òili-
+
+ties.Ó The application exhibits improved re-
+silience to change and ease of understanding
+in areas where weÕve successfully applied as-
+pects. AOP has also reduced the amount of
+needless duplication and busy work neces-
+sary when adding functionality to key ar-
+easÑfor example, adding a new persistent 
+relationship.The Adbase team learned that its agile de-velopment approach handles aspect-oriented
+developmentÕs challenges well. Our methodol-
+
+ogy limited risk, encouraged beneficial skepti-
+cism, and maximized knowledge transfer.
+AcknowledgmentsMy thanks to Scott Segal, Angus McIntyre, ChadWoolley, and the other members of the Adbase team
+
+for their reviews and advice.References1.N. Lesiecki, ÒImprove Modularity with Aspect-Oriented
+Programming,Ó IBM DeveloperWorks
+2002, www-128.ibm.com/developerworks/java/library/j-aspectj.2.The AspectJ Team, 
+The AspectJ Programming Guide,Xerox Palo Alto Research Center, 2004, http://eclipse.org/
+
+aspectj/doc/released/progguide/index.html.3.J. Gradecki and N. Lesiecki, 
+Mastering AspectJ: Aspect-Oriented Programming in Java, John Wiley & Sons,
+2003.4.A. Colyer et al., ÒUsing AspectJ for Component Inte-
+gration in Middleware,Ó Proc. Object-Oriented Pro-gramming, Systems, Language, and Applications (OOP-SLA 03), ACM Press,2003, pp 339Ð344.
+For more information on this or any other computing topic, please visit ourDigital Library at www.computer.org/publications/dlib.
+32IEEE SOFTWARE
+www.computer.org/software
+About the AuthorNicholas Lesiecki is a programming instructor and software engineer at Google. Hisresearch interests include agile methods, aspect-oriented programming, and test-driven devel-
+opment. In addition to coauthoring Mastering AspectJ (Wiley, 2003), he is a member of As-
+pectMentor. He has a BA in English literature from Amherst College. He is a member of the
+
+ACM. Contact him at 100 N. Whisman Rd. #215, Mountain View, CA 94043; ndlesiecki@
+
+apache.org.

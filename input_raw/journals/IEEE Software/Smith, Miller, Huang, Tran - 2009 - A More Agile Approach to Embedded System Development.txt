@@ -1,0 +1,1057 @@
+ 50 IEEE SOFTWAR
+E   Published by the IEEE Computer Society
+ 0740-7459/09/$25.00 © 2009 IEEE
+focus 1
+those who followed agile™s standard ﬁKISŠ
+ Keep it Simpleﬂ approach and initialized the 
+timer™s hardware registers in the order the 
+parameters were passed into the subroutine 
+
+(TCOUNT
+, then 
+TPERIOD
+; see Figure 1, lines 11, 12); 
+and 
+those who set the registers in a contrary order 
+ (TPERIOD
+, then 
+TCOUNT
+; lines 16, 17). 
+The ˜rst group™s tests failed (lines 29, 30); the sec
+-ond group™s tests passed (lines 23, 24). Before the 
+students informed us of this incongruence, they 
+
+discussed the issue among themselves and iden
+-ti˜ed a previously unrecognized silicon anomaly: 
+
+the 
+TPERIOD
+ register was overwriting the 
+TCOUNT
+ register.
+Why did inexperienced students successfully 
+identify an undocumented feature that industrial 
+
+˜rms, with product lines involving many tens of 
+
+thousands of units of this processor, did not? We 
+believe that the Embedded-Unit TDD environ
+-ment enabled the students to easily apply basic 
+agile concepts. In particular, the framework pro
+-vided a stable, easy-to-learn environment through 
+
+which the students could solve problems gener
+-ated at both the hardware and software levels. 
+Also, TDD reminds many students of other as
+-pects of their training: strong parallels exist be
+-tween the scienti˜c method and TDD, with the 
+establishment of a hypothesis (test) followed by 
+its experimental realization (solution code).
+Given this initial success, we asked ourselves a 
+question related to our own research: Would gen
+-eralizing other agile concepts into a full embedded 
+
+system approach assist during medical embedded 
+instrument development? Christian Denger and his 
+
+colleagues indicate that people in this area often 
+have no formal testing training, leading to many 
+health and safety concerns.
+2 Bill Greene has sug
+-gested that agile™s barely suf˜cient processes should 
+be acceptable to embedded system engineers who 
+recognize the need for reliable products but aren™t 
+Since 2004, we™ve successfully used a prototype test-driven development (TDD) 
+embedded system test framework, called Embedded-Unit, in our undergradu
+-ate classes and research work.
+1 During the original course offering, we gave 
+students a brief introduction to TDD concepts for embedded development. We 
+then asked them to write tests that expressed the design ideas surrounding the initialization 
+
+of the Analog Devices ADSP-BF5XX (Black˜n) processor™s core timer. When developing 
+the code to satisfy the tests, the students split into two groups:
+The authors discuss 
+their successes 
+
+and the remaining 
+challenges in 
+helping customers 
+
+and developers 
+
+apply an Extreme 
+Programming-
+inspired life cycle 
+ 
+and testing 
+
+frameworks to 
+
+embedded system 
+development.
+Michael Smith, 
+University of Calgary
+James Miller, 
+University of Alberta
+
+Lily Huang, 
+NovATel
+
+Albert Tran, 
+DirectVoxx 
+A More Agile 
+ Approach to Embedded 
+System Development
+embedded software
+  May/June 2009   
+IEEE SOFTWAR
+E 51eager to implement process improvement edicts 
+from above.
+3 Indeed, with many embedded prod
+-ucts having a near-zero tolerance for defects, a 
+highly test-oriented process would seem to provide 
+an appropriate design approach.  However, Greene 
+
+and those following in his footsteps point out the 
+
+same basic problems in adopting many agile con
+-cepts: lack of tools to support speci˜c embedded 
+
+requirements, memory limitations when using ex
+-isting tools translated into this new environment, 
+
+stricter timing requirements, and issues speci˜c 
+to the particular processor used in the product™s 
+design.  
+Recently we™ve identi˜ed how to use new de
+-bug hardware in modern embedded processors to 
+
+solve many of the problems detailed by Greene.
+4,5
+ Therefore, the time was appropriate to explain why 
+we felt that one simple embedded teaching success 
+should be expanded into a full-blown Extreme 
+
+Programming-inspired (XPI) embedded life cycle.
+XPI Embedded System Life Cycle
+Biomedical-instrument development typically starts 
+
+with an initial scienti˜c investigation to examine 
+new hypotheses for medical diagnosis and analysis. 
+This is followed by the proposed algorithm mov
+-ing through several life-cycle phases to the ˜nished 
+
+medical embedded product. We believe that the 
+lack of consideration of agile approaches for devel
+-opment within biomedical and other embedded en
+-vironments is caused by two factors:
+Lack of full life-cycle support
+ . Embedded ap
+-plications have a life cycle different from that 
+of desktop applications. So, agile production 
+processes require signi˜cant alteration to meet 
+
+this new domain™s demands.
+
+Lack of tool support
+ . Without full life-cycle 
+tool support, no change to production pro
+-cesses can succeed. Again, desktop tools 
+
+must be adapted to accommodate this new 
+environment.
+While XP is normally considered a ﬁgeneral 
+approach,ﬂ we™ve adapted an XP subset to de˜ne 
+
+the core of a full life-cycle fault prevention ap
+-proach to producing embedded software. Because 
+industrial-based empirical studies have demon
+-strated that TDD is an effective defect reduction 
+strategy in nonembedded situations,
+6 we antici
+-pated that these advantages would transfer into 
+the embedded domain. However, signi˜cant ad
+-aptation is required, so XP™s creators might well 
+
+not view the adapted approach as being faithful 
+
+to their original concept. Our XPI process seeks 
+to transform their preexisting processes into a 
+Figure 1. The 
+Embedded-Unit tests 
+ for initializing the 
+
+Black˜n core timer 
+
+via two seemingly 
+
+equivalent C++ routines 
+
+(lines 11, 12 and 
+ 16, 17). Undocumented 
+
+silicon-level behavior 
+
+resulted in one assert 
+
+unexpectedly failing 
+
+(line 29) and another 
+
+unexpectedly passing 
+
+(line 30). 
+ 52 IEEE SOFTWAR
+E   www.computer.org/software
+structure that recognizes this new domain™s pro
+-duction objectives.
+Stage 1: Envisioning XPI Embedded Products
+In effect, this stage produces requirements. The 
+customers or end users (domain-knowledgeable 
+personnel) should be able to specify their ideas as 
+a set of acceptance tests (in conjunction with stan
+-dard user stories) in a straightforward manner. 
+
+However, our approach to implementing Stage 
+1 deviates from the traditional viewpoint in four 
+respects:
+Coverage
+ . Current acceptance-test-oriented ap
+-proaches provide limited information regard
+-ing test case volume and diversity. However, 
+
+guidance toward the production of a compre
+-hensive set of tests from the customer, in con
+-junction with the domain technical specialists, 
+
+is paramount to successful production.
+
+Nonfunctional tests. 
+ Kent Beck describes XP 
+nonfunctional testing as a process to be un
+-dertaken after system production.
+7 However, 
+we believe that nonfunctional acceptance tests 
+must be speci˜ed as early as possible, so we™re 
+redeveloping acceptance-testing frameworks to 
+
+support these essential components.
+
+Domain-speci˜c support
+ . The current test vec
+-tors supported by acceptance-testing frame
+-works are straightforward, and assume that 
+
+you can encode knowledge using simple data 
+
+types (such as strings and numbers), an ap
+-proach appropriate for the business commu
+-nity. However, the embedded community has 
+
+its own fundamental data typesŠfor example, 
+signals and imagesŠwhich currently aren™t 
+well supported. 
+
+High-level prototyping
+ . Unlike a standard XP 
+process, our acceptance tests now drive a high-
+level prototyping stage (Stage 2) rather than the 
+˜nal production stage (Stage 4).
+The tabular form used in the Fit/FitNesse test 
+frameworks (illustrated later in Figure 2) is one 
+way for the customer to produce executable test 
+
+statements.
+8Stage 2: XPI Prototyping
+Consider a medical instrumentation application. 
+
+At this point in development, domain-knowl
+-edgeable technical personnel produce an initial 
+
+prototype to analyze the proposed embedded so
+-lution. The solution would revolve around numeri
+-cal algorithms implemented in a mathematically 
+oriented scripting language such as Matlab. This 
+stage effectively de˜nes the system™s functionality 
+and the corresponding set of test objectives. This 
+involves two steps:
+Developing additional acceptance test cases
+ . During prototype production, interteam com
+-munication will lead to additional understand
+-ing of the system, captured as additional accep
+-tance test cases.
+Using TDD supported by a testing framework 
+ designed for Matlab development
+.9 Despite the 
+domain technical specialist being highly skilled 
+in writing Matlab code, ﬁformalizedﬂ testing 
+tends to be an overlooked skill in the specialist™s 
+
+repertoire. Adopting TDD is intended to resolve 
+
+this problem.
+In other words, whereas Stage 1™s acceptance tests 
+
+provide the initial skeleton for the prototype, Stage 
+
+2 adds ﬁ˚eshﬂ onto this outline.
+Stage 3: Initial XPI Production System
+We must rewrite the system in a high-level compiled 
+
+language such as C or C++. The biggest issues here 
+surround the refactoring necessary to support mov
+-ing Matlab ˚oating-point calculations onto high-
+speed, low-cost embedded processors 
+that can han
+-dle
+ integer operations. This ﬁtranslationﬂ requires 
+awareness of the issues of determining levels of 
+
+signal scaling to maintain appropriate algorithmic 
+
+accuracy.
+Stage 3 basically repeats the pattern from Stage 
+2, but in a new programming language using a 
+
+new unit-testing framework. However, because of 
+
+the existence of the previous stages, we™ve already 
+constructed numerous tests. So, much of this third 
+stage is better described as a ﬁdesign by contract 
+
+meets TDDﬂ process. This iterative, and gradual, 
+
+form of producing contractual objectives should 
+lower the task™s cognitive overhead, leading to ﬁav
+-erageﬂ practitioners producing more-comprehensive 
+contractual statements.
+Stage 4: 
+Full XPI Production System
+By the fourth stage, we™re fully involved with the 
+
+target embedded environment itself. The system, 
+although repeating earlier patterns, now needs to 
+adapt to its new hardware environment with lim
+-ited memory resources and must support interac
+-tions with device-speci˜c peripherals on the target 
+system. The system undergoes further modi˜cation 
+to tune for the required performance by
+rewriting inef˜cient programming constructs,
+ using signal-processing-speci˜c 
+ #pragma
+ state
+-Unlike 
+ a standard 
+ XP process, 
+our acceptance 
+tests now drive 
+a high-level 
+prototyping 
+stage.
+  May/June 2009   
+IEEE SOFTWAR
+E 53ments to direct architecturally aware compilers, 
+and
+rewriting critical components in low-level, 
+ highly customized machine code.
+The unit test framework becomes a signi˜cant issue 
+
+because the unit tests must now live on the embed
+-ded board. The transmission of any testing scripts 
+from the host machine to the target, or the reverse 
+
+transmission of test-relevant diagnostic informa
+-tion, becomes a major undertaking that possibly 
+
+compromises real-time operations.
+Refactoring
+This central issue in TDD processes must be reex
+-amined in light of this new environment. A recent 
+study of software developers™ work habits by Em
+-erson Murphy-Hill and Andrew P. Black suggests 
+that
+10developers use refactoring tools mainly for re
+- naming functions or methods or for moving or 
+extracting methods from classes; and
+experts perform more-complex refactoring 
+ by hand rather than with tool support, a con
+-cept that hardly seems agile (Murphy-Hill and 
+Black™s comments also imply nonexperts don™t 
+perform complex refactoring).
+Although we need standard capabilities such 
+as renaming in a Matlab refactoring tool, we also 
+
+need features with no equivalence in desktop refac
+-toringŠfor example, the ability to recognize and 
+declare variables to automate the addition of the 
+equivalent of 
+int fooArray[XXX]
+ for each dynamically al
+-located Matlab array. This would be useful in mak
+-ing automatic Matlab-to-embedded-system code 
+
+translation tools more reliable and ef˜cient. The 
+
+advantages of a tool capable of refactoring classes 
+
+are unclear; many developers avoid using Matlab 
+classes, given the inef˜ciency with which transla
+-tion programs convert these classes into code that 
+embedded compilers can handle.
+As for manual refactoring, it will be IT nonspe
+-cialists who will produce the Matlab code during 
+
+Stage 2 prototyping. Would any real payback occur 
+
+if they refactored the code at this earlier life-cycle 
+stage? We believe the answer is no. Refactoring seeks 
+to improve the code™s structure. However, early re
+-organization will likely hide possible embedded-
+ system-speci˜c ef˜ciencies that, at Stage 4, would 
+permit the embedded code to meet key real-time is
+-sues. Indeed, many standard refactoring practices 
+are more appropriately applied only in Stage 4 of this 
+
+embedded life cycleŠand then only to the (many) 
+embedded code sections that aren™t time critical. In 
+
+addition, would the nonprogramming specialists in 
+
+the (medical) embedded industry
+2 have the neces
+-sary capabilities or training for manual refactoring? 
+We again believe the answer is no, despite unit tests 
+offering some protection against the additional de
+-fects that manual processes are likely to introduce.
+Embedded XPI 
+ Testing Frameworks 
+The following case studies investigate the issues 
+
+surrounding development of the wide variety of 
+testing frameworks needed to support our pro
+-posed XPI embedded life cycle.
+Case Study 1: Supporting 
+ Continual Customer Involvement 
+As low-level embedded developers, we initially 
+excluded any customer support component from 
+our embedded life-cycle processes, assuming that 
+only a low-level, embedded-xUnit, developer-
+ oriented viewpoint was necessary. Initial ex
+-perience and industrial feedback quickly dis
+-avowed us of this assumption.
+We implemented a three-level Fit approach 
+(see Figure 2) to fully support customer in
+-volvement. In Stage 1 (product envisioning), a 
+ Matlab-Fit server lets the customer get in
+-volved with the developers to explore the ba
+-sic ideas behind the product. The developers 
+then express these ideas as Matlab code (Stage 
+2) and then demonstrate to the customer, via 
+
+Matlab-Fit, that they™re remaining true to the 
+
+original concept. Using other servers lets the 
+developers use the same customer tests when 
+the product moves out of theory (Stage 2) and 
+
+into simulation (Stage 3, using C++-FitNesse
+7) and actual product testing (Stage 4, Embedded-
+FitNesse
+11).This work with Matlab-Fit was successful; 
+however, several issues remain. Certain embed
+-ded test classes, such as those involving precise 
+mathematical relationships, are easy to express 
+
+through Fit tables. However, although existing 
+Fit ˜xtures make representing images syntacti
+-cally possible, there™s no real semantic support 
+for Fit as a communication framework for dis
+-cussing the image-related issues common in 
+medical applications. Essentially, the support is 
+limited to detailing whether or not correspond
+-ing pixels in two images are identical.
+All the technical logistics are in place for 
+Embedded-FitNesse, but true practicality cur
+-rently eludes us. We could, for example, extend 
+
+Fit tables to handle the timing relationships 
+ 54 IEEE SOFTWAR
+E   www.computer.org/software
+needed to generate the embedded system sig
+-nals that activate devices accepting, rejecting, 
+or packing medical samples on the basis of use-
+by dates. However, the Fit server (running in 
+
+Java and C++ on a PC) must interact with the 
+
+embedded development system API (propriety 
+code) to control the processor over an elongated 
+test execution path (see Figure 2). Given the 
+
+continual reloading of recompiled code occur
+-ring over this channel, the current Embedded-
+FitNesse prototype is too slow to act as a test 
+framework to support practical acceptance-
+
+test-driven de
+ velopment.
+Case Study 2: Generating Stage 2 xUnit 
+Tools
+We initially planned to support the latter three 
+stages of the embedded life cycle using identical 
+xUnit tests. The complex Matlab/C++ interface 
+makes this possible but impractical.
+We™re extending MUnit
+9 to enable us to use a 
+TDD approach to perform fundamental research 
+before tackling true product speci˜cation. For ex
+-ample, we need to modify this automated Matlab 
+testing framework to better visualize whether a 
+
+hypothesis test failed because of a fundamental, 
+theoretical misunderstanding or simply because 
+of a missing scaling factor during algorithm 
+
+implementation. The standard MUnit visualiza
+-tion primitive ﬁPress the PASS button if this pic
+-ture looks correctﬂ is totally inadequate for this 
+
+purpose, in addition to being nonautomated. To 
+compensate, we™ve extended MUnit to use new 
+
+test approaches that extend the concept of what 
+
+constitutes a failure beyond the basic interpreta
+-tion of incorrectness (
+FAILURE()
+ will
+ ﬁset the barﬂ 
+red). We now permit a Gaussian error distribu
+-tion to generate an 
+ACCEPTABLE_FAILURE() 
+(ﬁset the 
+barﬂ speckled green) if the experimental sig
+-nals possess a low signal-to-noise ratio but force 
+
+an 
+EXPECTED_FAILURE()
+ report (ﬁset the barﬂ yel
+-low) when the experimental signals have a high 
+signal-to-noise ratio. 
+Case Study 3: Generating Stage 3 
+ and 4 xUnit 
+Tools
+The agile community strongly holds one key te
+-net: tests should be written in the language of the 
+
+code they™re validating. If that concept is worth
+-while, then so should be its obvious extension: 
+tests should be run on the system being validated 
+
+This approach is related to the hardware-in-a-
+loop testing ideas expressed at www.embedded.
+com/15201692. That requirement rapidly com
+-plicates the solution for developing an embedded 
+
+system TDD framework, as we discussed earlier. 
+Compared to desktop systems, there are limited 
+memory resources, limited report-generating 
+
+capabilities, and a stricter need to meet timing 
+requirements.
+3Greene suggested taking an assembly xUnit 
+path to handle embedded testing.
+3 With the 
+wide range of assembly languages across many 
+           Common Fit tableTest resultsFixture for test casesInternal to host machineExternal to host machineStage 2Product prototypingMatlab APIMatlab engineFitNesse Web serverWiki editor and storageRunnerFit serverStage 3Product simulationC / C++Stage 4Full productionDSP interface classDSP APIDSP IDDEExternal targetAssertions: 3 right, 0 wrong, 0 ignoredDSPFixture.CalculateTemperatureTestFixturevoltWidth outputTemperature100 195300 115500 35Figure 2. The three 
+levels of a Fit test 
+
+framework necessary 
+
+for delivering customer 
+
+acceptance tests in an 
+
+embedded environment. 
+
+The developer needs an 
+
+equivalent three layers 
+
+of unit tests.
+  May/June 2009   
+IEEE SOFTWAR
+E 55processor families, we considered such an ap
+-proach as both problematic and unnecessary 
+given that C, a subset of C++, was originally 
+designed to supply a universal (not processor-
+
+speci˜c) assembly language. In a 2005 article 
+
+on embedded TDD,
+12 we discussed modifying 
+an existing CPPUnitLite testing framework
+13 to meet embedded systems requirements. When 
+this framework is transposed and extended into 
+the embedded environment as Embedded-Unit, 
+
+its nonscripted nature can be used to full advan
+-tage to ensure that real-time embedded function
+-ality isn™t disrupted by continual PC processor 
+
+communication overhead associated with issu
+-ing test requests.
+CHECK( )
+ is a fundamental assert in unit testing 
+(see Figure 1) and is equivalent to the macro
+#define CHECK(condition)
+
+  if (!(condition)) FAILURE(#condition);
+Within CCPUnitLite, the low-level macro 
+FAILURE( )
+ uses the C++ iostream (header ˜le) to communi
+-cate with the host system, which retains the po
+-tential of causing a considerable impact on real-
+
+time operation. To provide a better match to the 
+
+embedded environment, an additional 
+FAILURE( )
+ channel was added within Embedded-Unit to 
+make use of the JTAG Background I/O Telem
+-etry Channel (BTC) available on current proces
+-sors. BTC is a high-speed boundary-scan-based 
+(JTAG) host-processor communications link 
+that interferes minimally with normal processor 
+operations. This is the ˜rst of many examples 
+
+where co-opting specialized hardware in mod
+-ern processors can overcome the obstacles to us
+-ing agile methods in the embedded realm.
+3Additional forms of the 
+CHECK()
+ asserts proved 
+useful given that a different set of variable types 
+are experienced in the embedded domain than 
+in the business environment. For example, a 
+
+key byte pattern (
+0xF0
+) might arrive au naturel 
+over an 8-bit Host Link port, hidden as part of a 
+16-bit serial peripheral interface channel packet 
+(0x03F0
+), or automatically cast into a signed 32-
+bit value (
+0xFFFFFFF0
+) by the compiler.
+In contrast to Embedded-FitNesse, Embed
+-ded-Unit has proved both practical and use
+-ful across a variety of processor architectures 
+
+(single-core, multicore, and processor clusters). 
+
+A local ˜rm is performing trials using Embed
+-ded-Unit as a testing tool in an existing industry 
+
+product involving a multithreaded natural-voice 
+
+recognizer interacting with peripherals using a 
+
+USB hardware stack.
+5 Embedded-Unit was ini
+-tially developed for the Analog Devices Black˜n 
+(ADSP-BF5XX) processors. We have extended 
+this embedded test framework to work with 
+
+other processor families (Texas Instruments 
+
+C64XX, C64XX+, and TMS470/ARM proces
+-sors), in multiprocessor clusters (ADSP-TS201 
+
+TigerSHARC), and on multicore processors 
+
+(ADSP-BF561 Black˜n).
+Case Study 4: 
+Testing 
+ Standalone Embedded Systems
+Don™t assume that porting tools into an embed
+-ded environment is simply a case of recompiling 
+the code and hoping that it ˜ts into the embed
+-ded system™s available memory. For example, 
+consider the identi˜cation of race conditions in 
+
+multithreaded applications. Currently, no tools 
+deal effectively with general race conditions; most 
+research focuses on handling data races. These 
+
+conditions are notoriously hard to ˜nd because of 
+
+their timing-dependent, nondeterministic nature. 
+Existing software-based dynamic detection tools 
+rely on invasive instrumentation to pass informa
+-tion to the (host) runtime analysis engine.
+14 Read
+-ers familiar with Intel Thread Checker might have 
+noted the following performance-related com
+-ment in the tool™s internal help pages:
+It is not uncommon for the memory to grow 
+to twenty times the original memory re
+-quirements and for the execution time (CPU 
+
+use) to increase to more than 300 times the 
+
+original execution time.
+The impact of such an instrumentation package is 
+unacceptable given embedded systems™ real-time 
+requirements and limited system memory. In ad
+-dition, the overall slowness of such tools makes 
+them inappropriate as part of a proactive TDD 
+
+process oriented to identifying data-race problems 
+in multithreaded code early in the design process. 
+To overcome these dif˜culties, we™ve prototyped 
+a lightweight high-speed TDD framework plug-in, 
+E-Race.
+4 This plug-in innovatively employs the 
+hardware registers originally added to processors 
+to help debug code by watching traf˜c along the 
+data and instruction buses. With this approach, 
+
+the original thread code runs without modi˜ca
+-tion, with the instruction and data ˚ow monitored 
+by a low-impact hardware watchpoint unit com
+-bined with a short exception handler (see Figure 3 
+on the next page). Information on data race and 
+
+other con˚icts determined through the exception 
+handler is analyzed through extensions to the ex
+-isting Embedded-Unit testing-framework syntax.
+ 56 IEEE SOFTWAR
+E   www.computer.org/software
+Although using a hardware-assisted embedded 
+TDD framework for data race analysis conceptu
+-ally offers orders-of-magnitude performance ad
+-vantages over software instrumentation, its actual 
+implication isn™t straightforward. Although the is
+-sues discussed are speci˜c to the Analog Devices 
+Black˜n processor, we ˜nd similar issues when 
+exporting this Embedded-Unit plug-in to other 
+
+processors.
+With the Black˜n processors, we had already 
+successfully used the processor™s internal data 
+
+watchpoint address and counter registers to de
+-velop WatchDataClass tests to monitor data 
+activity.
+1,12
+ However, in a multithreaded test 
+framework, action rather than passive monitor
+-ing is needed. With watch register hardware sup
+-port, we can write non-software-instrumented 
+tests that run in a threaded environment to check 
+
+whether
+code segments that are setting and releasing 
+ locks are executing in an incorrect sequence,
+
+too many code executions are necessary to 
+ obtain a lock before access to shared variables 
+
+is granted,
+
+a critical region of code isn™t being correctly 
+ protected, or
+
+appropriate locksets are absent when shared 
+ memory is being accessed.
+We developed Embedded-Unit tests to inves
+-tigate two aspects of the E-Race plug-in. First, 
+
+we wanted to explore how to use the instruction 
+
+watch registers in our design of a prototype hard
+-ware-assisted ﬁhappens-beforeﬂ data race analy
+-sis toolŠan application not envisioned by the 
+
+original chip designers. We also wanted to ensure, 
+
+using the hardware data watch register capabil
+-ity, that all accesses to shared memory from code 
+
+occur under valid lock protection. This second is
+-sue involves a speci˜c embedded issue given that, 
+unlike Java, customized assembly code functions 
+
+are frequently written to access memory with in
+-direct pointer operations. 
+Unfortunately, writing code to satisfy the 
+watch-data requirements failed because of hard
+-ware issues. The existing silicon implementation 
+
+of the data watch registers throws the processor 
+into an emulation mode, more appropriate for 
+manual debugging than for an automated testing 
+
+framework. Using Embedded-Unit to provide a 
+
+stable hardware design environment, we explored 
+new approaches that took into account two facts: 
+we were using specialized hardware debug regis
+-ters in a manner that the original silicon design
+-ers couldn™t have envisioned, and these debug reg
+-isters didn™t behave as we had anticipated on the 
+
+basis of the manufacturer™s documentation.
+Without going into a great deal of low-level 
+detail, it™s suf˜cient to say that we obtained a 
+
+solution by setting the hardware watch regis
+-ters to ﬁsparselyﬂ trace the program execution 
+
+˚ow rather than examining the processor state 
+at every instruction. Although we implemented 
+this solution to solve hardware imperfections, it 
+
+proved the key to meeting the performance re
+-quirements we needed for using E-Race in a test
+-ing framework capable of supporting TDD pro
+-cesses. Acquiring a data lock might take only a 
+
+single C++ instruction in a thread-based appli
+-cation, but the same operation requires multiple 
+
+machine instructions. There™s no need to watch 
+
+ﬁeveryﬂ instruction for possible data manipula
+-tion operations. Compared to the 300-fold per
+-formance loss and 20-fold increase in code size 
+
+reported for the Intel Thread Checker software 
+
+tool, using the hardware-assisted E-Race tool for 
+
+data race identi˜cation incurs only a 5- to 8-fold 
+performance overhead, and an increase in mem
+-ory requirements of only several hundred lines 
+(not Mbytes) of assembly code, independent of 
+the size of the code being checked.
+The E-Race plug-in has demonstrated a further 
+way that the wide range of hardware capabilities 
+in modern processors can be co-opted to enable 
+the testing frameworks necessary to support an 
+XPI embedded life cycle. Other examples include 
+
+the use of hardware registers that monitor code 
+
+ef˜ciency without additional software overhead, 
+thus opening opportunities for nonfunctional 
+tests that can directly evaluate power consump
+-tion associated with particular code variants for 
+
+handheld embedded applications. A wide range of 
+timers are available on modern microcontrollers. 
+This provides a redundancy that allows the use 
+
+of timers for standard purposes while simultane
+-InitializeRun originalthreadsHardwarewatchpointunitException handlerData race analysisReport resultsEmbeddedUnittesting frameworkFigure 3. Data race 
+detection with E-Race. 
+
+This hardware 
+
+approach avoids 
+
+extensive software 
+
+instrumentation.
+  May/June 2009   
+IEEE SOFTWAR
+E 57ously permitting the hardening of the testing en
+-vironment so that it continues to function despite 
+the nonarrival of signals (hardware handshaking) 
+between the processor core and external peripher
+-als. We™ve also explored applying a hardware pro
+-gram trace buffer to provide a low-impact alter
+-native to the software instrumentation normally 
+
+used for analyzing test coverage.
+5Our XPI embedded life cycle deviates from 
+
+accepted XP concepts in fundamental 
+ways, but it offers a path to solve many 
+embedded issues. Currently, our TDD approach 
+to support embedded system customer accep
+-tance tests through Matlab-Fit and Embedded-
+FitNesse is best described as showing ﬁpotential.ﬂ 
+In contrast, we™ve had measurable success with 
+
+the xUnit side of embedded TDD frameworks to 
+
+support the XPI life cycle. MUnit can help gener
+-ate a Matlab-executable speci˜cation document, 
+
+but it requires further modi˜cation to be truly 
+
+useful. Embedded-Unit, based around the non
+-scripted CppUnitLite, provides an easy-to-learn 
+
+TDD framework that operates within the limited 
+
+resources of a single-processor, multiprocessor, 
+
+or multicore environment without disrupting the 
+system™s real-time operation. This tool has proved 
+useful in identifying previously undocumented 
+
+silicon issues and has been extended to support 
+
+multithreaded application development.
+Acknowledgments
+Financial support was provided through a collabora
+-tive R&D grant from Analog Devices (in Canada and 
+the US) and the Natural Sciences and Engineering 
+
+Research Council of Canada (NSERC), the Province 
+
+of Alberta, and the University of Calgary. We thank 
+
+A. Geras of Ideaca Knowledge Services for produc
+-ing the prototype of the Matlab-Fit tool and for many 
+
+useful discussions related to industrial applications of 
+
+agile methodologies.
+References
+ 1.
+ J. Miller and M.R. Smith, ﬁA TDD Approach to In
+ tro-
+  
+ducing Students to Embedded Programming,ﬂ 
+Proc. 
+12th Ann. Conf. Innovation and Technology in Com
+-puter Science Education
+ (ITiCSE 07), ACM Press, 
+2007, pp. 33Œ37. 
+ 2.
+ C. Denger et al., ﬁA Snapshot of the State of Practice in 
+
+Software Development for Medical Devices,ﬂ 
+Proc. 1st 
+Int™l Symp. Empirical Software Eng. and Measurement
+ (ESEM 07), IEEE CS Press, 2007, pp. 485Œ487.
+ 3.
+ B. Greene, ﬁAgile Methods Applied to Embedded Firm
+-ware Development,ﬂ
+ Proc. Agile Development Conf.
+ (ADC 04), IEEE CS Press, 2004, pp. 71Œ77.
+ 4.
+ F. Huang et al., ﬁE-Race: A Hardware-Assisted Ap
+-proach to Lockset-Based Data Race Detection on 
+
+Embedded Products,ﬂ 
+Proc. 19th Int™l Symp. Software 
+Reliability Eng.
+ (ISSRE 08), IEEE CS Press, 2008, pp. 
+277Œ278. 
+ 5.
+ A. Tran et al., ﬁA High-Performance Hardware-
+
+Instrumented Approach to Test Coverage for Embedded 
+Systems,ﬂ 
+Proc. 19th Int™l Symp. Software Reliability 
+Eng.
+ (ISSRE 08), IEEE CS Press, 2008.
+ 6.
+ J.C. Sanchez, L. Williams, and E.M. Maximilien, ﬁOn 
+the Sustained Use of a Test-Driven Development Prac
+-tice at IBM,ﬂ 
+Proc. Agile 2007
+, IEEE CS Press, 2007, 
+pp. 5Œ14.
+ 7.
+ K. Beck, 
+Test-Driven DevelopmentŠby Example
+, Addison-Wesley, 2002.
+ 8.
+ W. Cunningham, 
+FIT: Framework for Integrated Tests
+, 2002; http://˜t.c2.com.
+ 9.
+ B. Phelan, ﬁMUnit: Matlab Unit Testing,ﬂ XTargets; 
+
+http://xtargets.com/cms/Tutorials/Matlab-
+ Programming/MUnit-Matlab-Unit-Testing.html.
+ 10.
+ E. Murphy-Hill and A.P. Black, ﬁRefactoring Tools: Fit
+-ness for Purpose,ﬂ 
+IEEE Software
+, vol. 25, no. 5, 2008, 
+pp. 38Œ44.
+ 11.
+ J. Chen et al., ﬁMaking Fit/FitNesse Appropriate for 
+
+Biomedical Engineering Research,ﬂ 
+Proc. 7th Int™l 
+
+Extreme Programming and Agile Processes in Software
+, LNCS 4044, Springer, 2006, pp. 186Œ190.
+ 12.
+ M. Smith et al., ﬁE-TDDŠEmbedded Test Driven De
+-velopment: A Tool for Hardware-Software Co-design,ﬂ 
+
+Extreme Programming and Agile Processes in Software 
+Engineering
+, 6th Int™l Conf. XP 2005
+, LNCS 3556, 
+Springer, 2005, pp. 145Œ153.
+ 13.
+ M. Feathers, CppUnit Wiki; cppunit.sourceforge.net/
+cppunit-wiki.
+ 14.
+ S. Savage et al., ﬁEraser: a Dynamic Data Race Detector 
+
+for Multithreaded Programs,ﬂ 
+ACM Trans. Computer 
+Systems
+, vol. 15, no. 4, 1997, pp. 391Œ411.
+About the Authors
+Michael Smith 
+is a full professor in the Department of Electrical and Computer 
+Engineering and an adjunct professor in the Department of Radiology at the University of 
+Calgary. His research focuses on the application of software engineering and customized 
+
+real-time digital-signal-processing algorithms in the context of mobile embedded systems 
+
+and biomedical instrumentation. Smith has a PhD in physics from the University of Alberta. 
+
+He is a Professional Engineer in the Association of Professional Engineers, Geologists, and 
+
+Geophysicists of Alberta as well as a member of the IEEE and the International Society of 
+
+Magnetic Resonance in Medicine. He also holds the title Analog Devices University Ambas
+-sador. Contact him at smithmr@ucalgary.ca.
+James Miller 
+is a full professor in the Department of Electrical and Computer Engi
+-neering at the University of Alberta and an adjunct professor in the Department of Electrical 
+
+and Computer Engineering at the University of Calgary. His research deals with software 
+
+technology, engineering, and measurement, with a current focus on Web engineering. Miller 
+
+has a PhD in computer science from the University of Strathclyde. He is a Professional Engi
+-neer in the Association of Professional Engineers, Geologists, and Geophysicists of Alberta 
+
+and a member of the IEEE. Contact him at james.miller@ualberta.ca.
+Lily Huang 
+is a ˜rmware engineer with NovATel in Calgary. She has an MSc in software 
+engineering from the University of Calgary. Contact her at lily.huang@novatel.com.
+Albert Tran 
+is a systems design engineer at DirectVoxx in Calgary, where he™s develop
+-ing natural-voice user interfaces for mobile systems. He has a BSc in computer engineering 
+
+from the University of Calgary and is soon returning there to complete his MSc thesis on the 
+
+testing and reliability of embedded systems. He is a graduate student member of the IEEE. 
+
+Contact him at albert.tran@directvoxx.com.

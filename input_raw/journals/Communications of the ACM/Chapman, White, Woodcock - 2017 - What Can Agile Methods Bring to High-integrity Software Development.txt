@@ -1,0 +1,470 @@
+ 38    COMMUNICATIONS OF THE ACM
+   |  OCTOBER 2017  
+|  VOL. 60  
+|  NO. 10
+PHOTO BY UK™S GOVERNMENT DIGITAL SERVICE/FLICKR (CC BY 2.0)
+seven iterations, but delivered after 
+13, owing to a barrage of change re
+-quests. Nevertheless, it worked, and we were able to keep a substantial 
+formal speci˜cation and all the oth-er design documentation up to date 
+as the project evolved. Knowing that 
+ﬁchangeﬂ and ﬁiterationﬂ were at the 
+heart of the Agile manifesto, we de-
+cided to see what we could learn and 
+bring to future projects.THERE IS MUCH 
+interest in 
+Agile engineering, espe
+-cially for software develop-ment. Agile™s proponents 
+promote its ˚exibility, lean-ness, and ability to manage changing 
+requirements, and deride the plan-driven or waterfall approach. Detrac-tors criticize Agile™s free-for-all.At Altran U.K., we use disciplined 
+and planned engineering, particu-
+larly when it comes to high-integrity 
+systems that involve safety, security, 
+
+or other critical properties. A shallow 
+analysis is that Agile is anathema to 
+high-integrity systems development, 
+but this is a naïve reaction. Pertinent 
+questions include: ˜Is Agile compatible with high-
+integrity systems development? ˜Where is Agile inappropriate? ˜Do Agile™s assumptions hold for 
+high-integrity or embedded systems? ˜Could high-integrity best-practice 
+improve Agile?We don™t have all the answers, but 
+we hope this Viewpoint continues to 
+
+provoke debate on this important 
+topic.Why bother with Agile at all? We 
+often encounter two myths regarding 
+the ﬁtraditionalﬂ approach to high-
+integrity software development: that 
+we somehow manage to perform a 
+single-iteration waterfall style pro-
+cess, and that ﬁformalﬂ notations 
+are not amenable to change. Neither 
+
+myth rings true with our experience. 
+
+As our projects develop, they must 
+absorb change and respond to de-fects just like any other. This led to 
+an observation: your project is going 
+to become iterative whatever you do, 
+
+so you might as well plan it that way 
+from the beginning. This lesson was 
+put to good effect in the MULTOS CA 
+
+project,6 which initially planned for 
+Viewpoints What Can Agile Methods 
+Bring to High-Integrity 
+Software Development? 
+Considering the issues and opportunities raised by Agile 
+ practices in the development of high-integrity software.DOI:10.1145/3133233 Roderick Chapman, Neil White, and Jim Woodcock 
+ OCTOBER 2017  
+|  VOL. 60  
+|  NO. 10  
+|  COMMUNICATIONS OF THE ACM
+    39viewpointsbreak the proof (or the tests) – ﬂUpfront Activities and Architec-ture. Agile advocates building what is 
+needed now, using refactoring to defer 
+decisions. Refactoring must be cheap, 
+fast, and limit rework to source code. 
+Our principal weapon in meeting 
+non-functional requirements is system (not just software) architecture, in-cluding redundancy and separation of 
+critical from non-critical. Such things 
+can be prohibitively expensive to refac-
+tor late in the day. We need just enough 
+upfront architecture work to argue sat-isfaction of key properties. We also do 
+a ﬁWhat If?ﬂ exercise to ensure the pro
+-posed architecture can accommodate 
+
+foreseeable changes.The MULTOS CA project had some 
+extraordinary security requirements, 
+
+which were met by a carefully consid-ered combination of physical, opera-tional, and computer-based mecha-
+nisms. The software design was much 
+simpli˜ed as a result of this whole 
+system view. The physical measures 
+included the provision of a bank vault 
+and enclosing Faraday cageŠhardly 
+
+items that we could have ignored and 
+then ﬁrefactored inﬂ later.
+User Stories and Non-Functional 
+Requirements.
+ For security and safety, 
+
+we must ensure our speci˜cation cov-ers all possible inputs and states. Ag-ile uses stories to document require-ments, but these sample behavior, 
+
+with no completeness guarantee. The 
+gaps between stories may contain vul-nerabilities, bugs, unexpected termi-
+nation, and unde˜ned behavior. Mey
+-er ˜les user stories under ﬁBad and 
+Ugly,ﬂ and we agree.For critical systems, we prefer a 
+(semi-)formal speci˜cation that of
+-
+fers some hope of completeness. The 
+C130J used Parnas tables to specify 
+critical functions. They seemed to 
+
+work wellŠthey were simple enough 
+to be understood by system engineers, 
+yet suf˜ciently formal to be imple-
+mented and analyzed for correctness.Sprint Pipeline. Agile usually re-quires a single active ﬁSprint,ﬂ deliv-ered immediately to the customer, so 
+only two builds are ever of interest: ˜Build N: in operation with the cus-tomer; used to report defects. ˜Build N+1: the current develop
+-ment sprint.This assumes the customer is al-Background and Sources
+Many consider Agile as beginning 
+with XP,
+1 but its roots are much older. 
+Many of XP™s core practices were well 
+
+established long agoŠtheir combina
+-tion and rigorous practice was novel. 
+
+A survey9 notes that both incremen-tal and iterative styles of engineering 
+were used in the 1950s. Redmill™s work 
+on evolutionary delivery12 predicted 
+many of the problems faced by Agile 
+projects. Boehm2 provides some use-ful insight, while the development of 
+
+MULTOS CA
+6 compared Correctness-by-Construction with XP,
+3 showing 
+that the two were not such strange 
+
+bedfellows after all.Lockheed Martin developed the 
+Mission Computers for the C130J by 
+
+combining semi-formal speci˜cation, 
+strong static veri˜cation, iterative de-velopment, and a strongly Lean mind-set.11 Use of Agile has been reported by 
+Thales Avionics,5 while SINTEF have 
+reported success with SafeScrum.13 A recent and plain-speaking evaluation 
+of Agile comes from Meyer,10 although 
+he does not speci˜cally deal with high-
+integrity issues.Agile Assumptions and Issues
+How do Agile™s practices and assump-tions match real high-integrity proj-ects? Here are some of the most obvi-ous clashes. For each issue, we start 
+
+with a brief recap of the practice in 
+question, then go on to describe the is-sue or perceived clash, followed by our 
+
+ideas and experiences in overcoming 
+it. Where possible, we close each sec-tion with an example of our experience 
+from the C130J, MULTOS, or iFACTS 
+projects.Dependence on ﬁTestﬂ
+Agile calls for continuous integra-
+tion, with a regression test suit, and a 
+test-˜rst development style, with each 
+function associated with speci˜c tests. 
+
+Meyer calls these practices ﬁbrilliantﬂ 
+in his summary analysis,10 but Agile as-sumes that dynamic test is the princi-
+pal (possibly only) veri˜cation activity, 
+saying when refactoring is complete, 
+
+or when the product is good enough to 
+ship.The safety-critical community hit 
+the limits of testing long ago. Ultra-reliability cannot be claimed from 
+
+ﬁlots of testing.ﬂ Security is even more 
+dif˜cultŠcorner-case vulnerabilities, 
+
+such as HeartBleedŠdefy an arbitrari-
+ly large amount of testing and use. In 
+high-integrity development, we use di-verse forms of veri˜cation, including 
+checklist-driven reviews, automated 
+static veri˜cation, traceability analy-
+sis, and structural coverage analysis.There is no barrier between these 
+veri˜cation techniques and Agile, es-
+pecially with an automated integra-tion pipeline. We try to use veri˜ca
+-tion techniques that complement, not 
+repeat each other. If possible, we ad
+-vocate for sound static analyses (tools 
+
+that ˜nd all the bugs, not just some of 
+them), since this gives greater assur-ance and reduces pre-test defect den-
+sity. With careful consideration of the 
+assumptions that underpin the static,8 we can reduce or entirely remove later 
+
+testing activities.The NATS iFACTS system
+4 augments 
+the software tools available to air-traf-
+˜c controllers in the U.K. It supplies 
+electronic ˚ight-strip management, 
+
+trajectory prediction, and medium-term con˚ict detection for the U.K.™s 
+en-route airspace, giving controllers 
+substantially improved ability to plan 
+ahead and predict potential loss-of-
+separation in a sector. The developers 
+precede commit, build, and testing 
+activities with static analysis using the 
+
+SPARK toolset. Overnight, the integra
+-tion server rebuilds an entire proof of 
+the software, populating a persistent 
+cache, accessible to all developers the 
+next morning. Working on an isolated 
+
+change, the developers can repro-duce the proof of the entire system in 
+about 15 minutes on their desktop ma
+-
+chines, or in a matter of seconds for a 
+change to a single module. While Agile 
+projects might have a ﬁdon™t break the 
+
+testsﬂ mantra, on iFACTS it™s ﬁdon™t 
+How do Agile™s 
+practices and 
+assumptions match 
+real high-integrity 
+projects? 40    COMMUNICATIONS OF THE ACM
+   |  OCTOBER 2017  
+|  VOL. 60  
+|  NO. 10
+viewpointsIn mitigation, we reduce on-target 
+testing with more static veri˜cation. 
+Secondly, if we know that code is com-pletely unambiguous, then we can jus-
+tify testing on host development ma-chines and reduce the need to repeat 
+the test runs on target. Hardware sim
+-ulation can give each developer a desk-top virtual target or a fast cloud for the 
+
+deployment pipeline. While virtual
+-ization of popular microprocessors is 
+common, high-˜delity simulation of 
+
+a target™s operating environment re-mains a signi˜cant challenge.On one embedded project, all de-velopment of code, static analysis, and 
+testing is done on developers™ host ma-
+chines, which are plentiful, fast, and 
+offer a friendly environment. A ˜nal 
+re-run of the test cases is performed 
+
+on the target hardware with the expec-tation of pass-˜rst-time, and allowing 
+the collection of structural coverage 
+
+data at the object-code level.Opportunities
+High-integrity practices can comple-ment Agile. We previously mentioned 
+
+the use of static veri˜cation tools. 
+While we have a preference for devel-oper-led, sound analysis, we recog-
+nize that some projects might ˜nd 
+more bene˜t in unsound, but easier to 
+ways able to accept delivery of the 
+product and use it immediately. This 
+is not realistic for high-integrity proj-ects. Some customers have their own 
+
+acceptance process, and regulators 
+may have to assess the system before 
+deployment. These processes can be 
+orders-of-magnitude slower than a 
+typical Agile tempo.iFACTS uses a deeper pipeline and 
+multiple iteration rates, with at least 
+
+four builds in the pipeline: ˜Build N: in operation with the cus-tomer.
+ ˜Build N+1: undergoing customer 
+acceptance. This process is subject to 
+regulatory requirements, and so can 
+take months. ˜Build N+2: in development and 
+test. ˜Build N+3: undergoing require-ments and formal speci˜cation.All four pipeline stages run concur-rently with multiple internal iteration 
+
+rates and delivery standards. The de-velopment team can deliver to our test 
+team several times a day. A rapid build 
+can be delivered to the customer (in, 
+say, 24 hours), but comes with limita
+-
+tions on its assurance package and 
+allowed use: it is not intended for op-erational use, but for feedback from 
+
+the customer on a new feature. A full 
+build (perhaps once every six months) 
+
+has a complete assurance package, in-
+cluding a safety case, and is designed 
+for eventual operation. The trick is 
+to make the iteration rates harmonic, both with each other and with the cus-tomer and regulator™s ability to accept 
+and deploy releases.Embedded Systems Issues. Agile 
+presumes plentiful availability of fast 
+
+testing resources to drive the devel-opment pipeline. For embedded sys
+-tems, if the hardware exists, there may 
+
+be just one or two target rigs that are 
+slow, hostile to automation, and dif-˜cult to access. We have seen projects 
+revert to 24-hour-a-day shift-working 
+to allow access to the target hardware.Agile presumes 
+plentiful availability 
+of fast testing 
+resources to drive the 
+development pipeline.
+High-integrity Agile evidence engine.
+ OCTOBER 2017  
+|  VOL. 60  
+|  NO. 10  
+|  COMMUNICATIONS OF THE ACM
+    41viewpointsi˜cation activity, minimizing upfront 
+activities in the face of non-functional 
+requirements, the incompleteness of 
+user stories (especially for secure sys-
+tems), the need to align sprints and it-eration rates with customers and regu-lators ability to accept deliveries, and 
+the (non-)availability of test hardware 
+for embedded systems. ˜Agile assumptions: customer deci-sion-making power and tempo, avail-ability of plentiful test hardware, and 
+commercial and contractual models 
+
+needed to ﬁprocure Agile.ﬂ ˜Opportunities: Adoption of formal 
+languages, automated synthesis, and 
+static veri˜cation as part of the deploy-ment pipeline. Generalization of con-
+tinuous integration into an ﬁEvidence 
+Engine.ﬂWe are deploying these ideas on fur
+-ther projects, and look forward to be-ing able to report the results. We hope 
+
+others will do the same. References1. Beck, K. Extreme Programming Explained: Embrace 
+Change. Addison Wesley, 1999.
+2. Boehm, B. and Turner, R. 
+Balancing Agility and Discipline: 
+
+A Guide for the Perplexed.
+ Addison Wesley, 2003.
+3. Chapman, R. and Amey, P. Static veri˜cation and 
+extreme programming. In 
+Proceedings of the ACM 
+SIGAda Conference 
+(2003).4. Chapman, R. and Schanda, F. Are we there yet? 20 
+years of industrial theorem proving with SPARK. In 
+Proceedings of Interactive Theorem Proving 2014
+. Springer LNCS Vol. 8558, (2014), 17Œ26.
+5. Chenu, E. Agility and Lean for Avionics. 
+Thales Avionics, 2009; http://www.open-do.org/2009/05/07/
+
+avionics-agility-and-lean/ 
+6. Hall, A. and Chapman, R. Correctness by construction: 
+Building a commercial secure system. IEEE Software 
+19, 1 (2002), 18Œ25.
+7. Jackson, M. Problem Frames. 
+Pearson, 2000.
+8. Kanig, J. et al. Explicit assumptionsŠA prenup for 
+
+marrying static and dynamic program veri˜cation. In 
+Proceedings of Tests and Proofs 2014
+. Springer-Verlag 
+
+LNCS, 8570, (2014), 142Œ157; DOI: 10.1007/978-3-
+319-09099-3_11
+9. Larman, C. and Basili, V. Iterative and incremental 
+
+development: A brief history. 
+IEEE Computer, 2003.10. Meyer, B. 
+Agile! The Good, the Hype, and the Ugly.
+ Springer, 2014.
+11. Middleton, P. and Sutton, J. 
+Lean Software Strategies. 
+Productivity Press, 2005.
+12. Redmill, F. 
+Software Projects: Evolutionary vs. Big-
+
+Bang Delivery. 
+Wiley, 1997; http://www.safetycritical.
+
+info/library/NFR/. 
+13. SINTEF. SafeScrum website, 2015; http://www.sintef.
+
+no/safescrum. Roderick Chapman (rod@proteancode.com) is an 
+independent consultant software engineer, and an 
+honorary visiting professor at the University of York, U.K.
+Neil White (neil.white@altran.com) is Director of the 
+Intelligent Systems Expertise Centre of Altran U.K. 
+Jim Woodcock 
+(jim.woodcock@york.ac.uk) is Professor of Software Engineering in the Department of Computer 
+Science at the University of York, U.K.
+Thanks to Felix Redmill, Jon Davies, Mike Parsons, Harold 
+Thimbleby, and 
+Communications™ reviewers for their comments on earlier versions of this Viewpoint.
+Copyright held by authors.adopt, technologies, such as bounded 
+model checking. Computing power is 
+readily available to make these analy-ses tractable at an Agile tempo.A second opportunity comes with 
+the realization that, if we can automate 
+
+analysis, building and testing of code, 
+why not automate the production of 
+other artifacts, such as synthesis of 
+
+code from formal models, traceability 
+analysis, and all the other documenta-tion that might be required by a partic-
+ular customer, regulator, or standard? 
+An example of such an ﬁEvidence En-gineﬂ is shown in the accompanying 
+˜gure.Commercial Issues
+A crucial issue: How can we adopt an 
+Agile approach, and still estimate, bid, 
+
+win, and deliver projects at a reason-able pro˜t? Our customers™ default ap-proach is often to require a competi-
+tive bid at a ˜xed price, but how can 
+this be possible in an Agile fashion if 
+we are brave enough to admit that we 
+don™t know everything at the start of a 
+project? In most of our projects, the 
+
+users, procurers, and regulators are 
+distinct groups, all of whom may have 
+wildly different views of what ﬁAgileﬂ 
+
+means anyway.
+We have had good experience with 
+a two-phase approach to contracting, 
+akin to the ﬁarchitect/builderﬂ model 
+for building a house. Phase 1 consists 
+
+of the ﬁUpfrontﬂ workŠrequirements, 
+architectural design, and construction 
+of a skeletal satisfaction argument. 
+
+The ﬁjust enoughﬂ termination criteria 
+for phase 1 are: ˜Convincing evidence that the arc  
+hitecture will work, meet non-func-
+tional requirements, and can accom-modate foreseeable change. ˜An estimate of the size (and there-fore cost) of the remaining work, given 
+the currently understood scope. ˜Established ground rules for agree-ing the scope, size, and additional cost 
+
+of change requests, and commitment 
+to the tempo of decision making for 
+
+triage of changes and defects.Phase 2 (possibly a competitive 
+bid) could be planned as an iterative 
+development, using the ideas set out 
+here. The MULTOS CA was delivered 
+
+in this fashion, with phase 1 on a time-and-materials basis, and phase 2 on a 
+capped-price risk-sharing contract.High-Integrity Deployment Pipeline
+
+We have used the ideas described in 
+
+this Viewpoint at Altran, but we have 
+yet to deploy all of them at once. An 
+idealized Agile development process 
+
+would use: ˜Principled requirements engi-neering,7 concentrating initially on 
+non-functional requirements and de
+-velopment of architecture, speci˜ca
+-tion, and associated satisfaction argu-
+ments. ˜A rolling formal speci˜cation, 
+with just enough formality to estimate 
+the remaining work and opening de-velopment iterations. ˜An evidence engine, combining 
+static veri˜cation, continuous regres-sion testing, automated generation of 
+documents and assurance evidence, 
+
+and a cloud of virtualized target plat-forms for integration and deployment 
+testing. ˜A planned, iterative development 
+style, starting with a partial-order 
+over system infrastructure and fea-tures that exposes potential for paral-
+lel development. Early iterations are 
+planned in detail, while the plans for 
+later iterations are left open to accom-modate change.ConclusionReturning to the questions posed at 
+the beginning of this Viewpoint, we 
+
+could summarize our ˜ndings as fol-lows: ˜No clash: continuous integration, 
+veri˜cation-driven development style, 
+
+continuous regression testing, and an 
+explicitly planned iterative approach. ˜Potential clash or inappropriate:
+ overdependence on test as the sole ver
+-How can we adopt 
+ an Agile approach, 
+and still estimate, 
+ bid, win, and 
+ deliver projects 
+ at a reasonable 
+
+pro˜t?

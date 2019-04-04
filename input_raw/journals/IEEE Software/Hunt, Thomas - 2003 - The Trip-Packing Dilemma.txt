@@ -1,0 +1,241 @@
+ 106IEEE SOFTWARE
+Published by the IEEE Computer Society0740-7459/03/$17.00 © 2003 IEEEsoftware construction
+Editors: Andy Hunt and Dave Thomas The Pragmatic Programmersandy@pragmaticprogrammer.com 
+dave@pragmaticprogrammer.com
+Aguiding principle behind agile soft-ware development is the idea of keep-
+ing things simple. The Agile Manifesto
+defines it this way: ÒSimplicityÑthe
+art of maximizing the amount of work
+
+not doneÑis essential.ÓWe want to actively increase the Òamount of
+work not done.Ó We do this by only implement-
+
+ing essential features or framework functionalityand by taking steps (such as constant refactoringand avoiding Òbroken windowsÓ1) to avoid fu-ture problems that might require extra work.Making life simpler is an admirable goal, butunfortunately many developers have a knack for
+making one of two errors:Oversimplifying something that really is
+complex Overcomplicating something that should be
+easyThe first problem is usually readily noticeable
+as long as a customer or sponsor is involved in
+
+the project, as the corresponding lack of func-
+tionality soon becomes apparent. Even if the
+problem isnÕt noticeable at the user level, you
+might see warning signs in the code: the number
+of Òspecial casesÓ needed to handle a particular
+
+piece of application functionality starts to grow
+suddenly. You start to see code that just isnÕt
+
+tractable; pushing on it ÒhereÓ causes another
+
+problem to pop up over Òthere.Ó Developers
+might begin to exhibit that sudden stricken look
+(like a deer caught in the headlights of a rapidlyapproaching car) as they proceed further into the
+
+requirements, and so on. WeÕll talk more about
+
+this ÒWhack-a-MoleÓ style of development in a
+
+later column; for now, onto the second problem.
+Extreme Programming attacks overembellish-ment with the YAGNI(you arenÕt gonna need it)
+
+principle.2This pithy maxim admonishes us tobuild today only those features that we truly need
+
+today. The notion that Òwe might need thisÓ later
+
+turns out to be false so often thatÕs it better to err
+
+on the conservative side and never build anything
+unless you absolutely, positively need it right now.
+But is that notion true? Does it really workthat way?Some have criticized XP on this issue, sayingthat YAGNIlimits intelligent foresight. Taken at
+
+face value, it might seem that way, but as Kent Beck
+
+has remarked, ÒYAGNIis not a license to be stu-
+
+pid.Ó So perhaps we need to look at this issue more
+
+pragmatically: how do we decide whether to build
+
+something that isnÕt strictly necessary today but
+
+could be cheaper in the long run to build (or start)
+
+now and could save us from larger pains later on?Deciding what to packOne way to look at this issue is to considerhow you would pack a suitcase or overnight bag
+for a short trip. You wouldnÕt want to head into
+The Trip-Packing Dilemma 
+Andy Hunt and Dave Thomas May/June 2003IEEE SOFTWARE
+107CONSTRUCTIONthe jungle or other hostile area unpre-pared, but then again you have to travel
+light. The carrying cost of small items in a
+bag (the extra weight and volume used) is
+pretty much negligible until it exceeds
+some threshold. All of sudden, the bag
+
+seems too heavy to lift comfortably. Now
+
+youÕve got some decisions to make: What
+do you absolutely need? What mightyouneed? WhatÕs the cost of taking it and of
+
+not taking it?Experienced backpackers might welllaugh at the novice who brings along the
+
+proverbial kitchen sink. But at the same
+time, omitting even something as small as
+a first aid kit might prove fatal. As with
+most decision-making processes, itÕs an
+
+exercise in risk management. HereÕs
+
+where it gets interesting: unlike the over-
+night bag, repacking code is itself another
+expense. And the costs of even a little bit
+of extra weight are far more significant.
+The carrying cost of something as minor
+as an extra unused method in a class is
+
+often much more than we realize. All
+codeÑeven unused codeÑmust be writ-
+
+ten, understood, documented to some de-
+gree, tested, and maintained as the sys-
+tem evolves. Systemic overbuilding can
+quickly lead to the software equivalent of
+a bag you canÕt lift.
+Overbuilding can also indicatedeeper misunderstandings. One fellow
+
+on a previous clientÕs team (weÕll call
+
+him Dick) took great careÑand copious
+amounts of codeÑto build a class to
+handle an interval of time. He included
+
+appropriate conversion operators to
+convert this integer value to every imag-
+inable basic data type: short, long, dou-
+
+ble, float, maybe even a char (donÕt ask).
+None of this was ever used becausethe business definition of the quantity
+meant it had to be treated as a native in-
+teger anyway. Worse yet, because of the
+
+many interesting business rules that gov-
+erned the handling of this quantity, it
+
+should never have been exposed as a na-
+tive type in the first place.But DickÕs approach is exactly the
+kind of thing YAGNItries to prevent:
+
+he was taught the canonical dogma that
+an abstract data type should provide
+operators for type conversion to all
+possible native data typesÑjust in caseyou might need them. That sort ofwasteful practice leads to geometric
+code bloat and correspondingly in-
+creased costs.The other side of the coin is just asdangerous, even though it doesnÕt have a
+
+catchy slogan associated with it yet. To-
+
+ward that end, we humbly suggest the
+new acronym DOGBITE: do it, or getbitten in the end. HereÕs how it works.
+DickÕs coworker Jane read about XP
+once and is a strong advocate of YAGNI.
+
+Jane is working on support code to save
+and restore the state of serialized ob-
+jects. For the moment, no requirement
+exists to support transactions, although
+that will be coming. ItÕs hard to envi-
+
+sion how that would work for now, so
+
+Jane puts off thinking about it. After
+all, itÕs not needed right now.
+Several months later, the time comes
+when a user-visible feature now requires
+
+transaction support. Unfortunately, be-
+
+cause the earlier design did not allow for
+transactions, what might have been a
+
+simple matter of adding functionality be-
+comes a large, messy endeavor that fi-
+nally costs the team a complete rewrite of
+this part of the code base. A small arith-
+metic cost incurred earlier could have
+spared us a larger geometric cost now.  
+Social aspects Beyond the pure technical issues, youcan also have reasons to invest beyond
+
+todayÕs requirements brought on by
+
+ÒsofterÓ considerations. Suppose that
+prior to implementing a feature, you
+know that the customer has changed her
+mindÑdrasticallyÑseveral times among
+several possibilities. Does it sound pru-
+dent to go ahead and code the feature ac-
+cording to the last way the wind blew?
+Or, might this be an occasion to invest in
+
+a more flexible approach, using meta-
+
+data, for instance? ThereÕs no strict re-
+
+quirement for metadata, but your intu-
+ition tells you that this area is volatile and
+
+could change yet again.As with any investment, itÕs a gam-
+ble you could lose. The last decision
+could remain the last decision, and
+youÕd lose the extra effort invested.
+Then again, the added flexibility might
+save you several days or even weeks ofrework down the line if youÕre right.But thereÕs a funny nonlinearity about
+this decision. Looking back at the last sev-
+eral projects weÕve dealt with, a consistent
+trend seems to emerge. The portions of
+systems that went beyond the require-
+ments of the dayÑthose that heavily used
+metadata, configurable options, and the
+likeÑenjoyed a longer and more robust
+life than those that didnÕt. In a recent case,
+
+the only portion of a large system that
+
+survived past the first year was the one we
+built. It was driven by its own custom, do-
+main-specific language, which was imple-
+mented using yaccand lex. Inherentlyflexible beyond the immediate require-
+ments, it alone survived.These techniques donÕt suit every pro-
+ject, of course. The only way to find out
+whether they do or donÕt is to use your
+
+own judgment, regardless of any current
+pithy maxims. Limitations of pith The pragmatic approach always
+takes advantage of experience. Your ex-
+
+perience, after all, is where your value
+lies. ItÕs how you keep your job, or get
+
+the next one. Taking a pithy maxim
+
+such as YAGNIto extremes dehuman-
+
+izes the development process and cuts
+off your foresight born of experience.Pithy maxims just remind us of deeperissues; a world of gray matter exists behind
+every black-and-white rule. ThatÕs why
+
+thereÕs no substitute for experience, judg-
+
+ment, and common sense. Without these,
+
+and despite the best practices and latest
+methodologies, project teams will fail.DonÕt shortchange yourself or your
+
+team: listen to your intuition, learn
+
+from your experience. ThatÕs the
+pragmatic thing to do. References1.A. Hunt and D. Thomas, 
+The Pragmatic Pro-grammer: From Journeyman to Master, Addi-son-Wesley, 2000.
+2.K. Beck, 
+Extreme Programming Explained,Addison-Wesley, 1999.
+Andy Huntand Dave Thomasare partners in ThePragmatic Programmers. They feel that software consultants
+who canÕt program shouldnÕt be consulting, so they keep current
+by developing complex software systems for their clients. Con-
+tact them via www.pragmaticprogrammer.com.

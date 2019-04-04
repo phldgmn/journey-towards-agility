@@ -1,0 +1,701 @@
+ 0740-7459/11/$26.00 © 2011 IEEE
+ NOVEMBER/DECEMBER 2011
+ | IEEE SOFTWARE
+ 9CHEMICAL ABSTRACTS SERVICE 
+(CAS) receives data from 61 patent of-
+˜ ces worldwide and more than 10,000 
+scienti˜ c journal titles. For approxi-
+mately 150 years, the technology and 
+
+processes associated with this data 
+
+were paper-basedŠuntil two years ago, 
+electronic publishing supplanted print 
+in only a few cases. It has been aston-
+
+ishing to see an entire industry mov-
+
+ing to electronic-only publication so 
+quickly, thereby steering architectural 
+
+changes at a rapid pace as well.
+One of the ˜ rst segments to move to 
+all-electronic publishing was the patent 
+
+of˜ ces. The quantity of paper required 
+
+to print patent documentation became 
+
+insurmountable a long time ago, so pat-
+ent of˜ ces started taking pictures of the 
+documents and publishing the images. 
+
+Similarly, the volume of CAS™s jour-
+
+nal subscriptions required us to start 
+taking pictures of pages, the result of 
+
+whichŠvirtual paperŠrepresents an 
+
+exact replica of the original ﬁauthor-
+
+ityﬂ publication for CAS scientists to 
+analyze.
+Today, however, we™ve also found a 
+need to extract information from the 
+picture. Many excellent optical char-
+acter recognition (OCR) technologies 
+are available in a hundred or so lan-
+
+guages, but they fail when someone 
+needs to extract a chemical structure, 
+formula, or reaction. This is because 
+
+there are no dictionaries that the char-
+
+acter recognition program can use to 
+check the accuracy of its work, mean-
+ing sometimes the OCR programs in-
+
+advertently introduce errors. The most 
+
+frustrating thing about inaccurate 
+OCR of chemical information is that 
+at some point all the data were elec-
+
+tronic before the publisher printed the 
+
+magazine or the patent of˜ cial made a 
+picture of the patent application. We™re 
+left dealing with the accumulated er-
+
+ror of transformation from data to 
+image, then image to data. In this ar-
+ticle, I discuss some of the challenges 
+
+we face at CAS and how learning from 
+
+a hurricane meteorologist helps you 
+make better architectural decisions in 
+a changing environment.
+Setting the Stage
+CAS receives electronic data feeds in 
+
+different formats from different pub-
+lishers, different formats from the 
+same publisher, and lots of changes 
+
+with or without notice. Scale this up 
+
+from 61 patent of˜ ces to more than 
+10,000 journals, and you get a sense 
+of the problem. To compound mat-
+
+ters, with electronic publications, CAS 
+
+might get several revisions instead of 
+the ﬁone true versionﬂ represented by 
+What an Agile 
+Architect Can 
+
+Learn from 
+
+a Hurricane 
+
+Meteorologist
+Eric Richardson, 
+Chemical Abstracts Service
+You™ll have to read further to ˜ nd out! There are so many 
+interesting things about this articleŠit™s the ˜ rst in a series 
+based on presentations from the SATURN conference. 
+My ˜ rst college degree was in chemistry, so there was 
+an immediate connection for me with this story about 
+chemical abstracts. The author brings us architectural 
+wisdom, combined with an agile point of view and weather 
+forecasting. Enjoy! Š
+Linda Rising, associate editor
+INSIGHTS:
+ AGILE DEVELOPMENT
+ 10
+ IEEE SOFTWARE
+ | WWW.COMPUTER.ORG/SOFTWARE
+INSIGHTS:
+ AGILE DEVELOPMENT
+a ˜ nal printed publication, post peer 
+review and copyedit. A patent might 
+come to us as an application, a revi-
+sion, and, ˜ nally, a grant, and the con-
+
+tent is usually different in each version. 
+
+In the past, it was very easy to know 
+when to put the content in front of a 
+chemist for analysis. Today, we have to 
+
+make a decision: Do we analyze it now, 
+
+later, or both?
+At CAS, we foresee a three- to ˜ ve-
+fold increase in the number of article 
+
+versions to be processed as we antici-
+pate the somewhat longer-term elimi-
+nation of physical, printed publica-
+tions. Our architecture has to handle 
+the shift from the ﬁone true versionﬂ 
+that arrived in the mail to data feeds 
+
+from publishers with items at different 
+points in their life cycles. Our business 
+processes will change from waiting for 
+
+that ˜ nal version to arrive, analyzing it 
+
+once, and never looking at it again to 
+incremental analysis performed several 
+times as the article progresses through 
+
+the publisher™s work˚ ow.
+When a publisher changes how it 
+represents data, we might know about 
+
+it in advance or when it ˜ rst arrives in 
+
+the new form. Scanned images are rep-
+resentation agnostic, meaning that an 
+image doesn™t care if you name a seg-
+
+ment ﬁcalloutﬂ or ﬁsidebar,ﬂ or if the 
+
+publisher switches from serif to sans 
+serif or from Helvetica to Arial. Pixels 
+are pixels. However, we very much care 
+
+if the data feed goes from this:
+<author>
+
+<˜ rst-name>Eric</˜ rst-name>
+
+<last-name>Richardson</last-name>
+</author>
+to this:
+<author>
+<name lang=ﬂENﬂ>
+
+<given>Eric</given>
+
+<family>Richardson</family>
+</name>
+</author>
+That kind of change requires someone 
+to change the logic extracting the data. 
+Sure, you could try to create a system 
+
+that could handle any name representa-
+tion you throw at it, but add addresses 
+and scale to more than 100 languages, 
+and the complexity quickly rivals natu-
+ral language processing.
+All software systems have an archi-
+tecture, de˜ ned as ﬁthe structure or 
+
+structures of the [program or comput-
+ing] system, which comprise software 
+
+elements, the externally visible proper-
+
+ties of those elements, and the relation-
+ships among them.ﬂ
+1 Software archi-
+tects attempt to lend predictability to 
+
+the notoriously unpredictable realm of 
+software design and development and 
+
+take a longer, broader view than devel-
+
+opers and project managers. They ﬁare 
+expected to facilitate software develop-
+ment projects as well as represent the 
+
+overall system™s quality attributes.ﬂ
+2CAS was an early information tech-
+nology adopter, and consequently, we 
+have a large base of legacy software. 
+Our legacy systems are immensely 
+
+valuable, but they™re based on paperŠ
+
+virtual paper now, but still paper work-
+˚ ows. They also carry some heavy bag-
+gage from the days of batch processing.
+When we were ˜ rst trying to incor-
+porate electronic data feeds at CAS, 
+it became clear our virtual paper-
+
+oriented processes and systems weren™t 
+
+up to the task. We tried to replace our 
+content management system with one 
+more appropriate, only to ˜ nd our 
+
+work˚ ow was tightly coupled to the old 
+system. In light of this discovery, we 
+adjusted our path to enable incremental 
+
+replacement of legacy systems, begin-
+
+ning with efforts to minimize the im-
+pacts of all paper work˚ ows. The next 
+step in our architecture™s evolution will 
+
+put service facades on legacy systems, 
+
+allowing us to decouple the consumer 
+from the implementation. We don™t 
+know exactly what will drive our busi-
+
+ness processes as we evolve, so we™re 
+evaluating several alternatives. For-
+tunately, we have a good idea of what 
+
+those processes are, which is where 
+
+we™re taking immediate action. When 
+we decide on a work˚ ow engine, it can 
+exploit the work we™ve already ˜ nished.
+An Interesting Analogy
+Like meteorologists who forecast how 
+
+a storm system develops and changes 
+over time, agile architects forecast how 
+software systems evolve. Meteorolo-
+
+gists use many different kinds of data 
+
+sources as inputs to forecasting, and 
+architects need to gather diverse data 
+types and employ different techniques 
+
+in their efforts. But unlike the meteo-
+
+rologist, who has well-established me-
+teorological practices for forecasting, 
+the agile architect has far fewer stan-
+
+dard practices to follow.
+Agile software development is about 
+solving immediate needs, continually 
+
+adapting and refactoring as problems 
+
+arise. One of the four core values in 
+the agile manifesto is ﬁresponding to 
+change over following a plan.ﬂ Some 
+
+agile practitioners regard architecture 
+
+as overhead, an antique from the age of 
+waterfall development methodologies. 
+Yet, agile development has a critical 
+
+need for architecture. If software de-
+
+velopers didn™t need to produce work-
+ing software on short schedules, they 
+Like meteorologists who forecast 
+how a storm system develops and changes 
+over time, agile architects forecast 
+how software systems evolve.
+  NOVEMBER/DECEMBER 2011
+ | IEEE SOFTWARE
+ 11wouldn™t need agile development. If 
+they didn™t need to continue produc-
+ing working software as the system 
+evolves, they wouldn™t need software 
+
+architecture. Software architecture nat-
+
+urally gravitates to plans, designs, and 
+structure, preferably before the writing 
+of any code. Agile development natu-
+
+rally gravitates to expediency and ˚ uid 
+
+structures. How do we embrace the 
+bene˜ ts of both approaches to create 
+ﬁgoodﬂ architectures in an agile world?
+We can look to the work of meteo-
+rologists for inspiration. They™ve had 
+
+to learn about the behavior of large 
+
+complex systems for much longer than 
+
+computer scientists. The principles hur-
+ricane meteorologists use to assist in 
+predicting the behavior of large, com-
+
+plex weather systems are applicable 
+
+to large, complex software systems as 
+well.
+Sifting through the Data
+If you give a hurricane meteorolo-
+gist a giant pile of data about a storm 
+spinning in the middle of the Atlantic 
+Ocean and ask her to determine ex-
+
+actly where it will come ashore, she can 
+
+analyze the data, construct a detailed 
+and accurate model of the atmospheric 
+conditions and weather patterns, run 
+
+some simulations, and come up with a 
+
+forecastŠtwo months after the storm 
+hits. It™ll probably be wrong, but not 
+by much, a moot point for the people 
+
+in the storm™s path. The problem isn™t 
+with the forecast™s accuracy but with 
+the time needed to prepare it. On the 
+
+other extreme, if given a satellite image 
+
+and a few points of other dataŠand 
+a few minutesŠa hurricane meteo-
+rologist can prepare a forecast so un-
+
+certain it might as well not even exist. 
+
+There is a point where forecast accu-
+racy and timeliness overlap. The model 
+favored by hurricane meteorologists is 
+
+to do just enough data acquisition and 
+
+analysis to be reasonably certain what 
+the storm will do and then start telling 
+people to get ready. 
+The same holds true for designing 
+software architecture. An architect 
+
+can spend a great deal of time design-
+
+ing what he thinks is a perfect system 
+only to present it when it™s irrelevant. 
+Big design up front (BDUF) is ignored 
+
+in agile development in favor of two al-
+
+ternatives: no design up front (NDUF), 
+which leads to accidental software ar-
+chitecture, or enough design up front 
+
+(EDUF). But what is ﬁenoughﬂ design?
+Making a Forecast
+Before agile architects can make any 
+
+plans, they ˜ rst have to decide on the 
+target architecture. This is a very dif-
+˜ cult thing to do because it has many 
+
+factors to consider, the most impor-
+
+tant being business goals. Most busi-
+nesses have a de˜ ned planning horizon, 
+typically ˜ ve years.
+3 Technological and 
+cultural factors are also major consid-
+erations. How will an organization™s 
+culture respond to both business de-
+
+mands and technological change? 
+
+Developing the target architecture 
+requires the ability to speculate knowl-
+edgeably with these factors in mind. 
+Even though it™s impossible to get ev-
+erything exactly right, focus on the 
+
+longer-term business goals when setting 
+
+technical goals.
+Predicting the Path
+A hurricane doesn™t move in a straight 
+
+line or at a constant speed. As the storm 
+progresses, the hurricane meteorologist 
+issues updates with different projected 
+
+paths, each one adjusted incrementally 
+
+rather than radically from the previous 
+one. An architecture™s path is similar: 
+the architect takes the architecture in 
+its current state and forecasts its devel-
+opmental path according to business 
+goals, technology evolution, and other 
+
+factors. Even in ﬁgreen ˜ eldﬂ develop-
+
+ment at a new company, the current ar-
+chitecture is de˜ nedŠit might not be 
+well de˜ ned, but it™s there.
+Most software systems, like storms, 
+evolve over time, and the architect 
+
+must maintain system stability during 
+
+that evolution. She knows the architec-
+
+ture will change just as a storm™s path 
+changes. Skilled at predicting where 
+the system is going, the agile architect 
+
+needs to be able to predict without ac-
+
+cidents. Likewise, the architect™s imple-
+menters must have concrete predictions 
+or they™ll improvise (and allow ﬁacci-
+
+dentsﬂ to happen).
+The Cone of Uncertainty
+The farther away a storm, the more 
+
+uncertain the forecast, which is what 
+meteorologists call the 
+cone of uncer-
+tainty
+. Hurricane meteorologists fore-
+cast a storm™s projected path, knowing 
+
+that the storm won™t follow this path 
+exactly. Therefore, when publishing a 
+projected path, most meteorologists 
+also publish how wrong they think it™s 
+likely to be. This deviation is expected 
+
+and acceptable. Architects, especially 
+
+agile architects, need to learn thisŠ
+that it™s okay to be a ﬁlittleﬂ wrong. 
+Even if an architect got lucky and was 
+
+right yesterday, she has no guarantee 
+
+that she™ll be right tomorrow. It also 
+doesn™t mean she was truly wrong yes-
+terday. Of course, it isn™t good if the ar-
+
+chitect is a lot wrong. If a hurricane me-
+teorologist predicts landfall in southern 
+Florida, and New York is hit instead, 
+Architects, especially agile architects, 
+need to learn thisŠthat it™s okay 
+to be a ﬁlittleﬂ wrong. 
+ 12 IEEE SOFTWARE
+ | WWW.COMPUTER.ORG/SOFTWARE
+INSIGHTS:
+ AGILE DEVELOPMENT
+what would happen? No one would lis-
+ten to that meteorologist again.
+As agile architects, we know the 
+target isn™t going to remain constant. 
+
+Moreover, we know we™re going to be 
+
+wrong about its location. Nevertheless, 
+an estimate of direction is still neces-
+sary because there™s work to do, so di-
+
+rect the development teams to take the 
+
+architecture closer to where it should 
+end up.
+Creating a Projected Path 
+The hardest part of the agile process is 
+deciding how to get to where you think 
+you want to go. The architect needs to 
+create a plan so that the development 
+
+team can take action immediately. The 
+
+design should be speci˜ c where it mat-
+ters and ˚ exible where it doesn™t. Ju-
+nior development staff should have 
+
+very precise direction on what to pro-
+
+duce. Senior developers need less con-
+crete guidance, but they still need to 
+know about variables. If you™re unsure 
+
+whether you™ll use SOAP, REST, RMI, 
+Corba, or some other standard, your 
+team leaders must understand this un-
+
+certainty to help them with subsequent 
+
+migration when you ˜ nally do set ar-
+chitectural standards. Gather the data 
+you can, analyze it, make a guess, and 
+
+then tell people it™s a guess.
+Hurricanes follow the prevailing or 
+steering winds. They go with the ˚ ow. 
+
+As Ruth Netting notes, ﬁWhen the 
+
+steering winds are strong, it is easier 
+
+to predict where a hurricane will go. 
+When the steering winds are weak, 
+a storm seems to take on a mind of 
+its own, following an erratic path 
+
+that makes forecasting very dif˜ cultﬂ 
+(http://kids.earth.nasa.gov/archive/
+hurricane/movement.html). The target 
+
+architecture is in˚ uenced by steering 
+
+winds as well. When a particular tech-
+nology or set of technologies really take 
+hold and gain momentum and mind-
+
+share, it™s easy to follow along (think 
+
+Web 2.0). When a technology emerges 
+and gets some adoption, it™s more dif˜ -
+cult to decide to use it (think CORBA).
+Wind shear is the difference in speed 
+and direction of winds at different al-
+
+titudes. According to the Weather Un-
+
+derground website, ﬁWind shear is of-
+
+ten the most critical factor controlling 
+hurricane formation and destructionﬂ 
+(www.wunderground.com/education/
+
+shear.asp). Corporate culture, technical 
+
+inertia, and legacy systems all in˚ uence 
+an architectural effort™s impact. Just 
+as shearing winds can tear a hurricane 
+
+apart, culture, inertia, and intractable 
+legacy systems can destroy an archi-
+tecture program. However, these in-
+
+˚ uences aren™t always negativeŠwind 
+
+shear is what keeps most hurricanes 
+from reaching Category 5. Technical 
+wind shear can lead to investigations 
+
+into alternate solutions or compromises 
+
+to lessen the impact on legacy systems. 
+At best, wind shear encourages the ar-
+chitect to factor in other priorities and 
+
+viewpoints when making decisions.
+One huge advantage the agile archi-
+tect has over the hurricane meteorolo-
+
+gist is the ability to shape the forces 
+at play. Some of the steering winds 
+affecting architectural direction are 
+
+project managers and senior technical 
+
+staff. Working with and in˚ uencing 
+them is essential. If they™re working at 
+cross-purposes, they become destruc-
+
+tive shearing winds. The agile archi-
+
+tect must educate so that even the most 
+intractable techie will at least under-
+stand, even if they don™t agree with the 
+
+architectural decision. Disagreement is 
+
+a good thing. The agile architect must 
+remember wind shear is an excellent 
+moderating force; too much is what 
+
+causes problems.
+At CAS, many people have a 
+
+seat at the table when we dis-
+cuss architecture. Business 
+leaders, technical managers, and devel-
+opment leads from both legacy and new 
+
+systems all have input on architectural 
+direction. As the agile architect at these 
+meetings, I learn about business driv-
+
+ers and technical trade-offs made in 
+
+legacy systems and I share the possibili-
+ties afforded by modern methodologies 
+and technologies. Together, we™re plan-
+
+ning an acceptable path to sustainable 
+architecture. By adopting the serenity 
+and vigilance of a hurricane meteorolo-
+
+gistŠidentifying the forces, some con-
+
+trollable, some not, that steer our ar-
+chitecture and continually assessing the 
+impactŠthe agile architect can respond 
+
+to changing conditions with an incre-
+
+mental, agile approach that keeps us 
+able to respond to the next change.
+References
+ 1. L. Bass, P. Clements, and R. Kazman, 
+Soft-
+ware Architecture in Practice
+, Addison-Wesley 
+Professional, 1998.
+ 2. P. Abrahamsson, M. Ali Babar, and P. 
+Kruchten, ﬁAgility and Architecture: Can 
+They Coexist?ﬂ 
+IEEE Software
+, vol. 27, no. 2, 
+2010, pp. 16Œ22.
+ 3. S. Tockey, 
+Return on Software: Maximizing 
+the Return on Your Software Investment
+, Addison-Wesley, 2008.
+ABOUT THE AUTHOR
+ERIC RICHARDSON 
+is the architect for editorial systems at Chemical 
+Abstracts Service. His interests include software engineering, distributed 
+systems, and applying agile principles to evolve architectures. Richardson has 
+
+an MS in computer science from Franklin University. He™s a member of IEEE 
+
+and the ACM. Contact him at eric.richardson@cas.org.
+ Reproduced
+with
+permission
+of
+the
+copyright
+owner.
+Further
+reproduction
+prohibited
+without
+permission.

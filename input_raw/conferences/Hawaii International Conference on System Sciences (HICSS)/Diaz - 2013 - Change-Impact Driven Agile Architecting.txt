@@ -1,0 +1,1308 @@
+ Change-Impact driven 
+Agile Architecting
+Jessica Díaz, Jennifer Pérez, Juan Garbajosa, Agustín Yagüe
+Technical University of Madrid (UPM
+) - Universidad Politécnica de Madrid
+CITSEM, Systems & Software T
+echnology Group (SYST), E.U. 
+Informática, Madrid, Spain
+{jdiaz,jenifer.perez,jgs}@eui.upm.es, agustin.yague@upm.es
+Abstract
+Software architecture is akey factor to scale up
+Agile Software Development (ASD) in large software-
+intensive systems.Currently, software architectures 
+are more often approached through mechanisms that 
+enableto incrementally design and evolve software 
+architectures (aka. agile architecting). Agile 
+architecting should be a light-weight decision-making 
+process, which could be achieved by providing 
+knowledge to assist agile architects in reasoning about 
+changes. This paper presents the novel solution of 
+using change-impact knowledge as the main driver for 
+agile architecting. The solution consists of a Change 
+Impact Analysis technique and a set of models to assist 
+agile architects in the change (decision-making) 
+process by retrieving the change-impact architectural 
+knowledge resulting fromadding or changing features 
+iteration after iteration.To validate our approach, we 
+have put our solution into practice by running a 
+project of a metering management system in electric 
+power networks in an i-smart software factory.
+1. Introduction 
+Software architectureis ak
+ey factor to scale up
+Agile Software Development (ASD) in large software-
+intensive systems. Several works propose the 
+coexistence of software 
+architectures and ASD [1]
+[3][5][13][14][19], and a fewapproaches present 
+successfulcases of 
+agile architecture
+[18]or 
+iterative 
+architecture
+[8]. Agile architecturecandefined as
+ﬁthe
+one that developswith the sy
+stem, and includes only 
+features that are necessary 
+for the current iteration or 
+deliveryﬂ
+[8]. However, how to perform this iterative 
+architecture refinement is still achallenge [1]. This 
+challenge is addressed in this paper.
+Aligning fruitfully software architectures and ASD 
+requires leveraging the inh
+erent qualities of software 
+architectures (e.g. abst
+raction, communication,
+analysis) while complying withagile principles(e.g. 
+open to change). This alignmentcan be achieved as 
+longas practitionersare able to count onmechanisms 
+for enabling:(i)Incremental design of features, i.e.
+flexibleconstruction ofthe architectureby adding 
+small increments
+1
+. (ii) Accommodation of new features 
+or customizations onexistingfeatures. We refer to both 
+of them as 
+agile architecting
+, because although 
+conceptually different, require the same mechanisms to 
+carry them out. The reasonis that, in both cases, these 
+mechanismsmust be able to cope with change,though 
+in thefirstcase the change is planned (feature 
+increment),and in thesecondcasethe change is 
+unplanned (feature evolution).  
+It would be highly convenient and desirable that the 
+mechanisms for enabling agile architecting would 
+assist and guide agile architects, specifically in (i) the 
+decision-makingprocess of implementingchanges in 
+each agile iteration, and (ii)
+ the maintenance of the 
+architecture integrity, i.e. 
+the preservation of earlier 
+architectural design decisions iteration after iteration. 
+Regarding the former, the knowledgeabout the effects 
+of a change upon the arch
+itecture provides architects 
+with information that can be advantageously deployed 
+to reason about how and where to implement that 
+change. It also allows architects to makebetter 
+evolutiondecisionsbased on risks, cost or viability of 
+the change. Regarding the latter, the continuous 
+processof architecting should never result in the 
+software degradation as a consequenceof intentionally 
+or accidentally viol
+ation of earlier 
+design decisionsor 
+constraints.In this sense, agile architectsneed 
+knowledgeabout dependencies between design 
+decisions, constraints, trad
+eoffs, etc., which can assist 
+them in countering or even avoiding several well-
+known negativeeffects of softwareevolution such as 
+architectural erosion and degradation[25]. 
+This paper presentsthe novel solution of using 
+change-impact
+architectural knowledgeas the main 
+driver for agile architecting. This solution provides 
+agile architects with knowledgeto(i)assist and guide 
+them inthe 
+change (decision-making) process
+, and   
+1
+An increment is often smaller than a featureprominent or 
+distinctive user-visible characteris
+ticorquality of a software system.
+2013 46th Hawaii International Conference on System Sciences1530-1605/12 $26.00 © 2012 IEEEDOI 10.1109/HICSS.2013.12747782013 46th Hawaii International Conference on System Sciences1530-1605/12 $26.00 © 2012 IEEEDOI 10.1109/HICSS.2013.1274780 (ii) favor the preservation of
+ the architecture integrity 
+during theiterative architecting process.
+This 
+knowledge results from analyzing the impact that 
+changes —feature increm
+ent and/or evolution— 
+introduce into the architecture,iteration after iteration 
+in an agile process.The solution consists of a
+Change
+Impact Analysis
+(CIA)techniqueand modeling 
+artifacts for: (i) documenting architectural knowledge 
+—the design decisions and rationale driving the 
+iterative architecture solution—, and (ii) tracing 
+architecturally significant feat
+ures with their realization 
+in the architecture.These 
+modelsare traversed using 
+the proposedCIA technique to retrieve the 
+architectural design d
+ecisions and architectural
+components and connectionsthatare impactedas a 
+consequenceof changingfeatures. This solution is 
+implemented in a modeling frameworkcalled FPLA
+2
+. 
+The novelty of thispaper is to prove how the output 
+from a CIA technique can be effectivelyusedto assist 
+and guide agile software architecting. This CIA 
+techniquewasdeployed in the agile method Scrum 
+[29]and built on the results from previous works 
+[23][11]that provide flexible mechanismsto design 
+iteratively and incrementally software architectures.
+To empirically validate our approach we have 
+conducted a case study in an
+ i-smart software factory, 
+combining both academica
+nd industry efforts. The 
+results show that our approach for agile architecting is 
+viable in an industry project in the energy power 
+networks domain, and effectivelyassists and guides 
+architects in the tasks of
+ making-decisions about 
+changes and maintainingthe architecture integrity.
+The structureof the pape
+ris asfollows: Section2
+describesthe background.Section3discusses related
+work. Section 4presents the CIA technique, and 
+supporting mechanisms, which drive agile architecting 
+in the Scrumprocess. Section 5describes the case 
+study. Finally, conclusions and further work are 
+presented in Section 6.
+2. Background 
+2.1 Agile Architecting
+The role of software arch
+itecture in ASD has been a 
+highly controversialissue in the last few years. There 
+are many advocatesfor and opponents against giving 
+to architectures the importanceinASD that ithasin
+other development approaches. Advocatesof the 
+architecture’skeyrole in the software process have 
+their doubts about the scalabilityof any development 
+approach that does not pay sufficient attention to 
+2
+ It is
+available
+onhttps://syst.eui.upm.es/FPLA/home
+architecture [1], specially for achievingquality goals 
+when developing large-scale software-intensive
+systems. In fact, Cockburn
+ [10]showed some data 
+about the unfeasibility of using agile methods in large 
+size projectsand life-critical systems. The reason is 
+that the benefits of software architectureare missing 
+and agile teams completely depend on tacit knowledge.
+The work of Falessiet al. [14]found that agile 
+practitionersperceive software architectureas relevant 
+on the basis of aspects such ascommunication and 
+understanding of software systems, rationalization of 
+previous design decisions, documentation of rationale 
+necessary toevaluate design alternatives,scaling of 
+agile practices to large projects, documentation of 
+points of flexibility within the system to support future 
+requirements, and system planningand budgeting.
+On the contrary, hard opponents perceive the effort
+in architecture aswasted effort, equating it with big 
+upfront (BDUF) —a bad thing-leading to massive 
+documentationand implementation of 
+you ain™t gonna
+need it
+features [1]. A common 
+belief within the agile 
+community is that 
+ﬁIf you are sufficiently agile, you 
+don™t need an architecture Š you can always refactor 
+it on the flyﬂ
+[10]. However,Kruc
+htenstates that 
+architectural refactoring 
+often becomes prohibitively 
+costly very quickly if certain considerations have been 
+neglected early in the process(excerpted from[13]). 
+Kruchten[19]and Booch[5], among others, propose 
+the iterative and incremental evolution of the 
+architecture to reduce the bi
+g upfrontdesign and keep 
+the system in sync with changing conditions. 
+2.2 Change Impact Analysis
+Change impact analysis (CIA) determines the 
+potential effects upon a system resultingfrom a 
+proposed change[2]. CIA can be usedto predict the 
+effects of a changebeforeit is implemented, possibly
+giving an estimateof the effort/cost to implement the 
+change [27], aswell asthe potential risk involved in 
+making thechange [21]. This analysis can be then used 
+to make better evolutiondecisions such as whether or 
+not the change should be carried out based on 
+economic viability of software evolutionor other risks 
+such as degradationof softwa
+re systems. In fact, there 
+is an extensive work in CIA to support software 
+evolution [7][9], although Mens at al. [21]identified
+change impact as one of the future challenges 
+(timeframe of 2015 and beyond).
+3. Related Work
+Advocatesof abalancebetweenarchitectureand 
+agility propose that the architecture emerges gradually
+iterationafter iteration,as a result of successive small 
+47794781 refactoring[1][5][19][22]. Most of these approaches 
+invest in a first architectur
+e —zero-featurerelease [4]; 
+i.e. 
+ﬁgetting an architecture sufficiently right early 
+without necessarilyresorting to big upfront 
+designﬂ
+[19]. Thismeans that it will take longer to get 
+to code, i.e. in a zero-featur
+e release the architecture is 
+in place but no user-visible
+features are deliveredto the 
+customer [22]. Conversely, other authors believe in 
+continuous architectural refactoring
+starting on 
+simplicity and flexibility[5]. 
+This paper does not focus on identifying whether it 
+is better to invest in a first architecture or to rely on 
+continuous architecturalrefactoring.This paper 
+presents the mechanismsto haveflexibilityat the time 
+of defining software architecturesand change-impact
+knowledgein order to support the change decision-
+makingprocess and preserve
+ architecture integrity. 
+Change impactanalysis has not been previously
+applied to agile architectingas we propose in this 
+paper. Moreover, it is not only novel the fact of 
+applying change-impact knowledge to drive agile 
+architecting. The CIA technique that we use in this 
+papercovers several of the lacks of current CIA 
+approaches. Most CIA appr
+oaches analyze the source
+codeand few approaches do 
+the architecture [30][16]. 
+Even fewer approaches considerarchitectural
+knowledge,that is design decisionsand rationale 
+driving the architecture solution, to aid change impact
+analysis [31]. To cope w
+ith these lack
+s,a previous 
+work [11]defineda CIA technique in the domain of 
+Software Product Lines (SPL [26]). As discussed in 
+Section 4, agile architects
+can takeadvantageof this 
+technique to support the change decision-making
+process and try to preserve the architecture integrity.
+4. Agile architecting guided by change 
+impact
+This paper presents CIA as the main driver for agile 
+architecting. To that end, we have defineda CIA 
+technique, supported by architecturalmodels, that 
+assists architects during the agile architectingprocess. 
+These models promote communication between 
+individualsand agile teams working on the system, and 
+support (semi-)automatically
+reasoning over
+ the space 
+of architectural knowledge. Theyare described below.
+4.1 Flexible-PLA Metamodel
+Our solution is supportedby the definition of 
+software architectures co
+nformsto the Flexible-PLA
+Metamodel [24]. It was defined in a previouswork to 
+explicitly specify the architectures that realize SPL. 
+This metamodel and their underlying concepts allow 
+one to iteratively and incrementallyconstruct and 
+evolve software architectures based on two properties 
+that they provide: flexibility and adaptability[23][12]. 
+The main concept underlying Flexible-PLA 
+Metamodel is the concept of Plastic Partial Component 
+(PPC [24]). The PPC concept was originally defined 
+for specifying variability inside components.The 
+variability of a PPC is specified using 
+variability 
+points
+, which hook fragmentsof code to the PPC 
+known as
+variants
+, and 
+weavings
+which specify where 
+and when extending thePPCs using the variants (see 
+Figure 1.a). As variability facilitates the planned 
+evolutionarysoftware development [15], agile 
+architectscan take advantage 
+of the PPC primitives for 
+incrementally and iteratively refine the architectural 
+componentsthat composea
+working architecture
+3
+[23]. The PPC variability mechanism is the backbone 
+to support incremental development of architectural 
+components through the incomplete specification of 
+components, and their extensionby hooking new 
+variants. As a result, working architectures can be 
+incrementallyand iterativelydesigned and evolved in 
+each iteration by weaving/u
+nweaving extensions, 
+and/or by modifying the architecture configuration 
+through optional compone
+nts and connectors.
+Figure1.a) Flexible-PLA model & b) PLAK model
+4.2 PLAK Metamodel
+The documentation of architectural knowledge 
+(AK) supports the rationalization of architectural
+decisions taken during the solution design. The 
+rationalization of early designdecision may help to 
+evolve the architecture while preserving its integrity. 
+3
+The one that is delivered after each iteration, together the 
+working product, as a result of 
+the agile arch
+itecting process.
+47804782 The main types of AK are the design decisions driving 
+the architecture solution, their dependencies and 
+rationale. We have previouslydefined the concept of 
+Product-Line Architectural Knowledge
+which is 
+formalized through the PLAKMetamodel[11]. This 
+paper extendsthe PLAK Metamodel and their 
+modeling primitives (rationale, constraints, 
+assumptions, etc. [11]) to capture the knowledge of 
+adding feature increments or 
+changing fea
+tures in each 
+agile iteration. This extension consists of the following 
+primitives:
+
+Closeddesign decisions
+(ClosedDDs) are 
+completely closed (or bound) in agiven iteration and 
+support the realization of thosefeaturesthat can be 
+completedin one iteration and that architects 
+considered unchanging in time.
+
+Open design decisions
+(Open DDs) are intentionally
+left open (or delayed) and support the realization of 
+those features that cannot be completed in one 
+iteration and that architects plan to complete iteration 
+after iteration (see the design decision with the open 
+lock of Figure 1.b).Open DDs consist of a set of 
+optional design decisions.
+
+Optional design decisions
+(OptionalDDs) support
+each of theincrementsof an Open DD (see the 
+optional design decision of Figure 1.b).
+
+Alternativedesign decisions
+(AlternativeDDs) 
+support the alternativerealization ofClosed and 
+Open DDs, respectively.
+These four types of DDs offer a completesupport 
+for documenting the knowledge derived from the agile 
+architecting process. The PLAK Metamodel supports 
+the documentation of flexible and adaptive 
+architectures through d
+ecisions which can be 
+intentionallyleft delayed, and later closed in following 
+iterations. 
+DDs completely or partially realize features, 
+affecting multiple architecturalcomponents and 
+connectors, and often become intimately intertwined 
+with other DDs [6]. In this regard, the PLAK 
+Metamodelsupports dependencies between DDs and 
+traceability between features a
+nd their realization into 
+architectures.Traceability links
+ are created aroundthe 
+DDin such away that they turn into the links between 
+feature and architecturemodels. Additionally, the 
+PLAK Metamodeldefines the
+linkage rules
+that 
+comprise the semantics tobridge the gap between 
+feature and archit
+ecture primitives.
+4.3CIA Technique
+Changes in features impact the system architecture 
+and can lead to ripple-effects which are not obvious to 
+detect. In this work, we adapt the CIA technique that 
+we previously defined for 
+SPL [11], to analyze the 
+impact of adding or changing features in eachiteration 
+of the agile life-cycle. This CIA techniqueconsistsof a 
+traceability-based algorithm
+and a 
+rule-based 
+inference engine,
+which traverse Flexible-PLA and 
+PLAKmodels (seeSection 4.1and 4.2, respectively) 
+based on a set of traceability links and propagation 
+rules. The process, that this CIA technique implements, 
+consists of two main steps described below:
+(1) Given a changein features (adding, deleting or 
+updating), the 
+traceability-based algorithm
+determines 
+(i) the 
+first-order
+design decisions that are involved 
+with the feature to be changed, (ii) the 
+n-order
+DDs
+that depend on the first-order DDs, and (iii) the first-
+order architecturalelements
+ (PPCs, components, and 
+connectors) that are involved in each (first and n-order)
+DD. The algorithmtraverses the traceability links that 
+bridge features and architecturalelements, and the 
+dependency relationships between design decisions.
+(2) Givena change in the 
+workingarchitecture that 
+realizesthe change in features, the 
+rule-based 
+inference engine
+fires propagationrules to obtain the 
+changepropagationin the working architecture. 
+Namely,when a modificationover theworking 
+architecture is applied to, propagation rules are fired to 
+simulate the effects on the rest of the working 
+architecture. We thereby obtain the 
+n-order
+architectural elements that 
+are impacted by the change.
+As previously mentioned in Section 4.1and 4.2, 
+this paper relies on the use of the concept of variability 
+to iteratively and incrementallyconstruct/evolve
+software architectures, as long asthis variability is 
+documented and traced through Open and Optional 
+DDs. The CIA technique described within this section, 
+fits perfectly the needs of analyzing the impact of agile 
+architecting, as it traver
+ses Flexible-PLA and PLAK 
+underlyingconcepts which support architectural 
+variability. The output of the CIA technique provides 
+change-impact architectural knowledge that may be 
+useful for reasoningabouta proposed change in 
+features and guidingthe 
+change decision-making
+process, as well as may help to preserve the 
+architecture integrity iterati
+on after iteration of the 
+agile life-cycle.
+4.4 Agile Architecting process
+Our solution of using CIA asthe main driver for 
+agile architectingis deployedinthe agile method 
+Scrum [29]. Figure 2 shows a tailored Scrum 
+development process in which agile architecting is 
+consideredas a keyactivity 
+to prepare the iteration 
+(aka. sprint). Briefly, the process is described below. 
+47814783 Figure2.A tailored Scrum with Agile architecting
+The first step consists ofcapturing the requirements 
+of the 
+Product Owner
+from the product vision 
+(features).Features may be decomposed into alist of 
+user stories
+(US) known as
+product backlog
+. Then, US 
+are prioritized, based on business value,and assigned 
+to 
+sprints
+. Scrum implements an iterative lifecycle 
+based on these sprints. Sprintsstart with
+sprint 
+planning meeting
+in which the Product Owner and 
+Team plan together what has to be done. In this 
+tailored Scrum, the 
+agile architecting
+tasks are 
+developed in conjunction with the sprint planning 
+meetings (see Figure 2). The abovementioned 
+modeling artifacts and the CIA technique drive agile 
+architectsas follows:
+
+The Flexible-PLA Metamodelprovides agile 
+architects with primitives to iteratively and 
+incrementallyconstruct and evolve 
+working 
+architectures
+. Changes are realized by using the 
+extensionmechanismofPPCs or/and changing the 
+architecture configuration.
+
+The PLAK Metamodel provides agile architects with 
+primitivesto documentdesign decisions,
+dependencies,constraints, trad
+eoffs, etc. as well as to 
+trace features towo
+rking architectures. 
+
+The CIA technique is applied to the 
+working 
+architecture 
+ofthe previous sprint (except for the 
+first sprint). It provides agile architects with the 
+change-impact knowledge resultingfrom the changes 
+plannedfor the sprint. From the impacted 
+componentsand connections,the architects can 
+reason about where and how implementing that 
+change.From the impacted
+design decisions,the 
+architects are awareof the e
+ffects of that change over 
+previous constraints, tradeo
+ffs, risks, and hence they 
+have knowledge to preserve the architecture integrity.
+As a result of this tailoring, agile architects interact 
+with the rest of the team in planning the features to be 
+done by tracking architectural concerns —constraints,
+risks, viability,etc.—and balancing them with 
+businesspriorities. The output of sprint planning
+meetings consists of:the 
+sprint backlog
+and tasks that 
+must be performed to achieve the sprint goal, and the 
+working architecturemodels (Flexible-PLA and PLAK 
+models) tobe implemented during the sprint(see 
+Figure2). At the e
+nd of each sprint, a 
+working product
+and a 
+working architecture
+are delivered. In the sprint 
+reviewmeeting
+the Product Owner assesses the 
+working product to validate that US were met or 
+introduce changesinto the US. 
+5. Case study 
+Withthe purposeofvalidating our approachfor
+agile architecting, we have conducteda case study
+within a project in an experimental i-smart software 
+factory (iSSF) [20]. Follow
+ing subsections briefly 
+introduce some information about the environmentfor
+conductingthe casestudy, i.e. the iSSF, and describe
+the casestudy according to the guidelines for 
+conductingand reportingcase study research in 
+software engineering of Runeson & Höst [28]. 
+5.1 Context: Running Environment
+The iSSF is a software engineering research and 
+education setting in close cooperation with the top 
+industrial and research collaborators in Europe [20]. 
+IndraSoftware Labs
+4
+leads this initiative at the 
+corporatelevel in Spain in conjunction with the 
+Technical University of Madrid (UPM). The iSSF 
+facility continuously runs projects in eight-seven week 
+cycles. In this case study we focusedin a project to 
+develop a 
+meteringmanagement system in electric 
+4
+http://www.indracompany.com/en
+47824784 power networks
+. In total, 10 people participated in the 
+case study: four developers, two product owners, one 
+scrum master (who performs both the tasks of the 
+Scrum master and the tasks of an architect at part- 
+time), one full-time archit
+ect and two observers. The 
+observers had access to all project informationand 
+collaborated directly with product owners and fellow 
+team members.
+5.2 Research questions 
+The goal of the case studyis to search evidencein
+order to answerthe following two research questions: 
+RQ1
+: Is the CIA algorithm effective in locating the 
+impacted architecturaldesign decisions and elements 
+resultingfrom a proposed change in features? 
+RQ2
+: 
+Does the CIA algorithm assist and guide agile teams in
+reasoning about the changes and preserving the 
+architecture integrity while agile architecting?
+To answer RQ1the architects analyzed change
+impactas follows: First, architects manually analyzed 
+change impactwithoutthe CIA technique and the 
+supporting models that this paper presented. Then, the 
+architects analyzed change 
+impactwith the assistance 
+of the FPLA modeling framework that implements the 
+CIAalgorithmand the Flexible-PLA and PLAK 
+primitives. This procedure allowed to verify if the CIA 
+algorithm had determined
+ impacts thatarchitects 
+manually did not, or vice versa if the architects had 
+manually determinedimpacts that the CIA technique 
+did not. From this procedure, it is possible to definethe 
+dependent variable for quantitatively measuring RQ5: 
+the percentage of impactsthat the CIA algorithm 
+automatically determines that arenot manually 
+determinedby architects. The potential independent
+variable that might have an influence on thedependent 
+variable is the total number impacts that exist given the 
+proposed change(s)and the architects experience.
+To answer RQ2two prop
+ertieswere measured: the 
+assistance and the guidance 
+in making decisionsabout 
+the changesand in maintainingthe architecture
+integrity during the iterati
+ons ofan agile process. 
+These properties are hard to measure and especially 
+hard to quantify. Therefor
+e,they are estimatedby 
+qualitatively analyzing a questioner that architects 
+filled and commentsexpressed by the architects while 
+they were realizing the architecture.
+5.3Data collection
+The collection methods used
+ to gather quantitative 
+and qualitative data are described as follows: 
+
+Observation. Two observersattendthe agile 
+architecting, planningandreview meetingswhichare 
+video recorded, transcribed, and analyzed.
+
+Interview.The architects are interviewed following a 
+questionnaireopen to the discussion. These 
+interviewsare video recorded,transcribed,and 
+analyzedusing the 
+constant comparison method
+[17]. 
+
+Archival data. The informationabout the project is 
+collected in Redmine
+5
+. 
+
+Analysis of work artifacts. 
+The data of Flexible-PLA 
+and PLAK modelsgenerated with the FPLA
+framework, the CIA algorithm running also under 
+FPLA, and the code under subversion
+6
+are gathered.
+
+Metrics. The metrics captured by Sonar
+7
+are collected
+at the end of each sprint.
+5.4. Analysis procedure
+In this case study, both quantitativeand qualitative 
+analysis were usedto examinethe data gathered.For 
+quantitative data, this case study uses analysis of 
+descriptivestatistics. As qualitativedatais typically 
+less precise than quantitativedata, itis important to use 
+triangulation
+to increasethe precisionof the study. 
+There are several types of triangulation [28], e.g.
+methodological, data source. The three typesof 
+triangulation wereusedin this case study. 
+5.5. Case study description
+The case study consists of a projectto develop a 
+metering management system in electric power 
+networks. The metering managementsystem is part a 
+larger ITEAproject called 
+Intelligent Monitoring of 
+Power NETworks
+(IMPONET
+8
+) that focuseson
+supportingcomplex and advanced requirements in 
+energy management, specificallyelectric power 
+networks. IMPONET aimsfor(i) continuous 
+monitoring and bi-directional communication with 
+customers to promote sustainability, and (ii)prevention
+ofcongestions,faults, and peak loads in real-time. The 
+meteringmanagement system captures and manages 
+meter data from a huge numbe
+r of distributed energy 
+resources.Theoverview of the systemfunctionality is 
+as follows: 
+
+Meter capturing
+: integrates all meter capturing 
+processes that collect meter data at substations.
+
+Meter processing
+: performoperations forvalidating
+meter dataaccording to av
+alidation formulaand 
+calculatingthe optimal vectorfor a measuring point. 
+
+Meter providing
+. It defines the interfacewithclient 
+systems toprovide exchangingdata (e.g. billing and 
+settlements, energy demand forecast, etc). 
+5
+Redmine is web-based project ma
+nagement and bug-tracking tool. 
+6 
+Subversion is an open source version control system.
+7 
+Sonar is an open platform 
+to manage code quality.
+8
+http://innovationenergy.org/imponet/
+47834785 5.6. Case execution
+The agile architectingprocess wasperformed as 
+described in Section 4.4. Due to space reasons, we 
+focus on the features and 
+working architectures which 
+were realized in five sprint
+s (over eight sprints). These 
+features are described as follows:
+
+F1_Meter reading
+consists of reading meteringdata 
+associated to differentener
+gy resources, periods 
+(quarterly, hourly, daily and monthly) and dates. 
+Metering data is provided by text files.
+
+F2_Meter storing
+consists of alarge data store 
+running over an object-or
+iented NoSQL database
+(
+Big Data Oracle
+running over 
+BerkeleyDB)
+. 
+
+F3_Meterdata access
+consists ofthe initial data 
+loading of historicalmetering data ofone month, and 
+query of these data. Both loading and querying 
+require toleverage a high performance through the 
+use of clustering technologies (
+Apache Hadoop
+).
+
+F4_Meter data process
+includes the algorithms for 
+validatingraw and optimaldata, as well as 
+calculatingthe optimal vector (integrated processing) 
+of raw and optimal data. 
+
+F5_Graphicalinterface
+consists of the interface that
+providesthe query of metering data.
+These features were progressivelydecomposed into 
+US and the backlogwas created. S
+print1
+focused on 
+implementing feature F2 (M
+eter storing), i.e.the 
+installation and configurationof the database manager 
+(Berkeley DB),and several conceptualproofs were 
+realized to createand accessto the database(see 
+component 
+DBManager
+and 
+DD001
+in Figure 3).
+Sprint 2
+focused on implementing features F1 (Meter 
+reading) and F3 (Meter da
+ta access). Atthis time, the 
+working architectureof Sprint 1was in too early of a
+stage that the CIA algorithm did not provide any 
+relevant result that could have assisted architectsinthe 
+decision-makingprocess ofadding these features.
+Figure 3 shows the working architecture resulting from
+Srpint 2:
+Thecomponent 
+MeterCapturer
+implements 
+the reading textfiles of metering data and processing
+the previously read data to 
+form pair of key/value. The 
+PPCs 
+DataLoader
+and
+DataQuery
+implement data 
+loading and data query, respectively. As the 
+functionalitiesfor data loading and data query could 
+not be completely implemented in this sprint, and
+increments in following sprints could refine these 
+components, the architects decided toimplement them 
+using PPCs. The design decision 
+DD002
+keeps the 
+rationale behindreading metering data in pairs of 
+key/value. Finally, between 
+DD002
+and 
+DD001
+there 
+is a dependency that keeps the relation between the 
+need of reading data in pairskey/value and the use of 
+the database manager 
+BerkeleyDB
+. 
+Sprint 3
+focused 
+on completing F3 and implementingF4 (Meter data 
+process). The CIAretrieved
+ the design decisionsand 
+components which could have been impacted as a 
+consequence of adding the 
+newfeatures on the current 
+working archhe working architecture 
+fr
+om Sprint2 (see Figure3): the PPCs 
+DataQuery
+and 
+DataLoader
+. Figure 4 shows the working architecture 
+resulting from Sprint 3:The extension
+Hadoop
+MAP/REDUCE
+implements the operations for 
+clustering and distributingwork around a cluster in 
+order to improve the pe
+rformance for data accessing 
+(dataloading and data query). The PPCs 
+DataLoader
+and 
+DataQuery
+were extended withthis functionality 
+through the variability point clustering (see Figure 4). 
+The designdecision 
+DD005
+keeps the rationale behind 
+clustering as well as a dependency with thedesign
+decision 
+DD001
+(see Figure 4). Finally, the PPC 
+MeterProcessor
+implementsinitial operations over raw 
+and optimal data to calculate the optimal vector. As the
+functionality formeter processing could not be 
+completely implemented in this sprintand increments 
+in following sprints might refine this component, the 
+architects decidedto implement it using a PPC(see 
+Figure 4). 
+Sprint 4
+focused on completing F4.The 
+CIAretrieved the design decisionsand components 
+which could have been impacted as a consequence of 
+adding this incrementon the current working 
+working
+ architecture from Sprint
+3 (see Figure4): the PPC 
+MeterProcessor
+. Then, the 
+working architecturefrom Sprint 3, specifically the 
+PPC 
+MeterProcessor
+, was extended with the 
+algorithms forvalidatingmetering data and calculating 
+optimal vectors. Finally, 
+Sprint 5
+focused on 
+implementfeature F5. This 
+feature has no a priori 
+dependencies with others, so the CIA algorithm did not 
+retrieve any impact.
+5.7Analysis and interpretation
+Quantitative and qualitative analysis was used to 
+examine the data gatheredas 
+described in Section 5.3. 
+The research questions RQ1 
+and RQ2 are answered as 
+follows:
+RQ1
+: Is the CIA algorithm effective in locating the 
+impacted architectural desi
+gn decisions and elements 
+resulting from a proposed change in requirements?
+In 
+Sprints 3 and 4, the CIA algorithm is 100% effective in 
+locating the design decisions and components which 
+are impacted by the feature incrementsthat are planned 
+during the sprint planning meetings.The complexity of 
+the working architectures resulting from these first 
+sprints is relatively low, in such awaythatthe 
+architects also determined 100% of the impacted 
+design decisions and components.
+47844786 Figure 3. Sprint 2 (Flexible-PLA & PLAK models)
+Figure 4. Sprint 3 (Flexible-PLA & PLAK models)
+At that time, the project continued for more four 
+sprintsbut two members of the Scrumteam were 
+substituted
+9.
+In Sprint 6, the product owner required the 
+following conceptual proof: achangeof the database
+managerwith the aim of evaluating the performance of 
+other solutions. Specifically, the product owner 
+decided to evaluate 
+Oracle Real Application Clusters
+(RAC
+10
+) over 
+Oracle 11g
+. The architects ran the CIA
+algorithm to traverse the architectural model of Sprint 
+5 and retrievethe design decisionsand components
+which could havebeen impactedby this feature
+9
+One architect and one developer
+10
+ C
+lustering and high availability in Oracle db environments
+change. The algorithm retrie
+ved five impacts: the PPCs 
+DataLoader
+and 
+DataQuery
+, the variability point
+clustering
+, and the components 
+DBManager
+and 
+MeterCapturer
+(seerow 2, Sprint 6of Table 1). In this
+retrieval, two dependencies
+ between architectural 
+design decisions participate in the propagation of the 
+change (see dependencies between 
+DD005
+and 
+DD001
+, 
+and 
+DD002
+and 
+DD001
+inFigure 4). The manual 
+analysis performedby the architectsdid not determine
+the propagation of the change. This is due to the fact 
+that the dependencies betweenthe 
+DD005
+and 
+DD002
+with 
+DD001
+became hidden for the new architect, so 
+that they only found that three components could have 
+been impacted(see row 3, Sprint 6of Table 1).
+47854787 Therefore, the CIA algorithm automaticallyretrieved 
+two components which were notmanuallydetermined 
+by architects. Namely,the percentage of impacts that 
+the CIA algorithm automaticallydetermined and that 
+were not manually determined by the architects, is 
+40%. Hence, the 40% of DDs and components, which 
+are impacted by the change
+, would havestayed hidden 
+if the CIA algorithm had not workedeffectively. 
+Table 1. Change-impact results
+Sprint 3Sprint 4Sprint 5Sprint 6
+Total number 
+of impacts
+2 1 0 5 
+CIA algorithm100%100%100%100%
+Manual CIA100%100%100%60%
+RQ2
+: Do PLAK and the CIA algorithmassist and 
+guide agile team in reasoning about the changes and 
+preserving the architecture integrity while agile 
+architecting?
+Analyzing the interviewsto the 
+architects, the following excerpts can behighlighted: 
+<<The use of PLAK models was particularlyuseful to 
+understand the system during staff turnover that took 
+place betweenSprints 4 and 5>><<Withoutthe 
+knowledge provided by the PLAK model and the CIA 
+algorithm, it would be extremely difficult to reason 
+about the impact of changingthe database 
+manager>><<It’s likely that several components had 
+remained unchanged […] we had quite likely 
+implementedthe necessaryfunctionality in other or 
+new components,sothe former would had had “dead 
+code”>><<Deadcode is an indicator ofbad 
+smell>><<This bad smell could have been identified 
+after we had implementedthe change by analyzing the 
+dashboard of sonarpla
+tform>><<By usingPLAK 
+modelsand the CIA algorithm we were able to
+proactively determineallthe impactsand to avoidthis 
+softwaredegradation>><<wetook previousdesign
+decisionsinto 
+accountamongwhich there were 
+dependencies>><<itdid a
+llow usto maintain the 
+architecture integrity>>. These excerptsput in 
+evidence that ourapproach for agile architecting
+assisted and guided thearchitects in the decision-
+making process about changes and in the tasks of 
+maintaining the architectur
+e integrity iteration after 
+iterationof this Scrum development. 
+5.8Evaluation of validity and limitation
+Case studies are qualitative in nature. The objective 
+judgment of the collected dataof this kind is not 
+possible.To improve the internal validity of the results 
+presented,the independent variables that could 
+influence this case study have been identifiedas 
+follows: The architect experience has a great influence.
+Thishas been reduced becausethe expertiseof the two 
+architects who participate in the casestudy is very 
+different (1 year vs. 7 years). However, the influence 
+of project's size and architecture's complexity cannot 
+be reduced due to the inherent nature of case studies,
+which normally focus on one project. Additionally, we 
+have used triangulationof source data to increase the 
+reliability of the results.Inthis regard, interviews were 
+individually conducted with the two architects, 
+althoughseveral questions were asked in a group 
+setting to encourage discussion. However,the major 
+limitation in casestudy research is concerning to 
+external validity, i.e.“the generality of the results with 
+respectto a specificpopulation” [17], as only one case 
+is studied. In return, case studies allow one to evaluate
+a phenomenon, a model, or a 
+process in a real setting. 
+Thisis something important insoftware engineering in 
+which a multitude of external factor may affect to the 
+validationresults, and that other techniques such as 
+formal experiments, although they permitreplication 
+and generalization, do not consider as theyare 
+conducting under controlledsettings.
+6CONCLUSIONS
+This paper presentsa novel solution to drive agile 
+architecting. Our solutionassists and guides agile 
+architects in the decision- 
+makingprocess at the time 
+of adding or changingfeatures by: (i)tracking the 
+effects of changes upon the architecture —components 
+and connections which are impacted by the changes—, 
+and (ii) analyzing architectural concernssuch as 
+dependencieswith earlier design decisions, rationale, 
+constraints, risks, etc. which
+ are also impacted by the 
+changes. This analysis enab
+les the preservation of the 
+software architecture,as long as it helps to reduce the 
+risk of unexpected conse
+quences of changes. The 
+analysis is instrumented by a CIA technique and 
+deployed in the Scrum method.
+The viability of our approach is proved by acase
+study which has beenrun in an experimental laboratory 
+called i-Smart Software Fa
+ctory. It combines both 
+academic and industry 
+efforts in R&D, being 
+remarkable the facilities for trackingthe projects’ 
+progress. The case study puts our solution into practice 
+within the agile developmentof ametering 
+management system in the electric power networks 
+domain. The results prove that (i) the CIA algorithm is 
+effective in locating the impact resulting from a
+change,and (ii)this change-impact helps architectsto 
+takebetter decisions,especially when architectural
+knowledgemay be lost or vaporizedas aresult of a
+staff turnover. Hence,the casestudy proved that the 
+CIA algorithm determined 40% of impacts more than 
+architects manuallydetermined. These promising
+47864788 results did not interfere with other agile practices and 
+did not incur a big upfront design, making the agile 
+construction and evolution of architecturepossible. 
+One of the main conclusions 
+of thisresearch is that 
+agile architectingis feasible 
+so that ASD can be scaled 
+up to large and complex software-intensive systems.
+As future work, we are improvingthe FPLA
+framework, so that itcan semi-automaticallygenerate 
+code by using 
+model-to-text
+transformations.
+Its aim is 
+to link architecture and co
+de. The traceabilitybetween 
+architecture and implementation may avoid another 
+common problemin ASD when code drifts so far apart 
+that it makes it much easier to erode thesoftware 
+system architecture.
+ACKNOWLEDGMENT
+The work reportedin here hasbeenpartially 
+sponsored by the Spanishfund
+(INNOSEP TIN2009-
+13849, IMPONET TSI-020400-2010-103, i-SSF IPT-
+430000-2010-038)
+and UPM (Technical University of 
+Madrid) under their Researcher Trainingprogram.
+10. References 
+[1]P. Abrahamsson,M. Babar, 
+and P. Kruchten,“Agility and 
+architecture: Can they coexist?” Soft
+ware, IEEE, vol. 27, no. 2, pp. 
+16–22, 2010.
+[2]R. S. Arnold, Software Change
+ Impact Analysis.Los Alamitos, 
+CA, USA: IEEE Computer Society Press, 1996.
+[3]M. A. Babar and P. Abrahamsson, “Architecture-centric 
+methods and agile approaches,” 
+in Agile Processes in Software 
+Engineering and Extreme Programming(XP), 2008, pp. 242–243.
+[4]K. Beck, Extreme Programmi
+ng Explained: Embrace Change. 
+2nd ed. Addison-Wesley Professional, 2004.
+[5]G. Booch, “The defenestr
+ation ofsuperfluous architectural 
+accoutrements,” Keynote Software ArchitectureChallenges in the 
+21st Century, USC, June 2009.
+[6]J. Bosch, “Softwarearchitecture: 
+The next step,” in Software 
+Architecture, ser. LNCS, vol. 
+3047.Springer, 2004, pp. 194–199.
+[7]C.-Y. Chen and P.-C. Chen, “A
+ holistic approach to managing 
+software change impact,” J. Syst. 
+Softw., vol. 82, no. 12, pp. 2051–
+2067, 2009.
+[8]H. Chivers, R. F. Paige, and X. Ge, “Agile security using an 
+incremental security 
+architecture,” in Pro
+ceedings of the 6th 
+International Conference on Extreme Programming,ser. LNCS.
+Springer, 2005, pp. 57–65.
+[9]H. Cho, J. Gray, Y. Cai, S.
+ Wong, and T. Xie, Model-Driven 
+Domain Analysis and Software 
+Development: Architectures and 
+Functions. IGI Global, 2011, ch. 
+Model-Driven Impact Analysis of 
+Software Product Lines, pp. 275–303.
+[10]A. Cockburn,Agile Software 
+Development. The Cooperative
+Game. Second Edition.Addison-
+Wesley Professional, 2006.
+[11]J. Díaz, J. Pérez, J. Garbajo
+sa,and A. Wolf, “Change impact 
+analysis in product-line 
+architectures,” in Pro
+ceedings of the 5th 
+European Conference on Sof
+tware Architecture,LNCS, vol. 6903.
+Springer, 2011, pp. 114–129.
+[12]J. Díaz, J. Pérez, J. Garbajosa
+, and A. Wolf, “A process for 
+documenting variability design rati
+onale of flexible and adaptive 
+PLAs,” in On the Move to Meaningful Internet Systems: OTM 2011 
+Workshops, ser. LNCS, vol.7046.Springer Berlin / Heidelberg, 
+2011, pp. 612–621.
+[13]H. Erdogmus, “Architecture me
+ets agility,” Software, IEEE, vol. 
+26, no. 5, pp. 2–4, 2009.
+[14]D. Falessi, et al., “Peacef
+ulcoexistence: Agile developer
+perspectives on software 
+architecture,” Software,
+ IEEE, vol. 27, no. 
+2, pp. 23–25, 2010.
+[15]M. Galster and P. Avgeriou,“
+Handling variability in software 
+architecture: Problems and implications
+,” in Proceedings of the 9th 
+WICSA ’11, 2011, pp. 171–180.
+[16]M. O. Hassan, L. Deruelle, a
+nd H. Basson, “A knowledge-based 
+system for change impact anal
+ysis on software architecture,” in 
+Proceedings of Fourth Intern
+ational Conference on Research 
+Challenges in Information Science, 2010, pp. 545–556.
+[17]U. van Heesch, P. Avgeriou,
+and R. Hilliard, “A documentation 
+frame- work for arch
+itecture decisions,” Journal of Systemsand 
+Software, vol. 85, no.
+ 4, pp. 795–820, 2012.
+[18]T.
+Ihme and P. Abrahamsson,“Agile architecting: The use of 
+architectural patterns in mobile java
+ applications,” Int. J.of Agile 
+Manufacturing, vol. 8, 
+no. 2, pp. 97–112, 2005.
+[19]P. Kruchten, “Software 
+architectureand agile software 
+development an oxymoron?”Ke
+ynote Softwar
+e Architecture 
+Challenges in the 21st Century, USC, June 2009.
+[20]J. L. Martin, A. Yagüe, E. G
+onzalez, and J. Garbajosa, “Making 
+software factory truly 
+global: the s
+mart softwar
+e factory project,” in 
+Software Factory Ma
+gazine.Available on 
+http://www.softwarefactory.cc/magazine
+F. Fagerholm, Ed., March 2010, p. 19.
+[21]T. Mens, S. Demeyer, and T. Mens, “Introductionand roadmap: 
+History and challenges of software evolution,” in Software 
+Evolution.Springer Berlin
+Heidelberg, 2008, pp. 1–11.
+[22]R. L. Nord and J. E. Tomay
+ko, “Software architecture-centric 
+methods and agile development,” IEEE Softw., vol. 23, no. 2, pp. 
+47–53, 2006.
+[23]J. Pérez,J. Díaz, J. Garbajosa,and P. P. Alarcón, “Flexible 
+working architectures: Agile 
+architectingusing PPCs,” in 
+Proceedings of the 4th Eu
+ropeanConference on Software
+Architecture, LNCS, vol. 6285. Spri
+nger-Verlag, 2010, pp. 102–117. 
+[24]J. Pérez, J. Díaz,C. C. Soria,
+ and J. Garbajosa, “Plastic partial 
+components: A solution to support variability in architectural 
+components,” in Proceedings of
+ the Joint WICSA/ECSA.IEEE 
+Computer Society Press,2009, pp. 221–230.
+[25]D. E. Perry and A. L. Wolf, 
+“Foundations for the study of 
+software architecture,”SI
+GSOFT Softw. Eng. Notes, vol. 17, no. 4, 
+pp. 40–52, 1992.
+[26]K. Pohl, G. Bckle, and F.
+ Linden, Software Product Line 
+Engineering: Foundations, Prin
+ciplesand Techniques. Springer, 
+Germany, 2005.
+[27]J.Ramil and M. Lehman, “Met
+rics of software evolution as 
+effort predictors - a case study,”
+ in Software Maintenance, 2000. 
+Proceedings. InternationalConfe
+rence on, 2000, pp. 163–172.
+[28]P. Runeson and M. Höst, “Guidelinesfor conductingand 
+reporting case study research in 
+software engineering,” Empirical 
+Software Engineer- ing, vol. 14, pp. 
+131–164, 2009.
+[29]K. Schwaber and M. Beedle,
+ Agile Software Development with 
+Scrum.Prentice-Hall, 2002.
+[30]A. Tang, A. Nicholson, Y. Jin, and J.Han, “Using bayesian
+belief networksfor changeimpact an
+alysis in architecture design,”J. 
+Syst. Softw., vol. 80, pp. 127–148, 2007.
+[31]A. Tang, Y. Jin,
+ and J. Han, “A rationale-based architecture 
+model for design traceabilityand reas
+oning,” J. Syst. Softw., vol. 80, 
+pp. 918–934, 2007.
+47874789

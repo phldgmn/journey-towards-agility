@@ -1,0 +1,1089 @@
+ 0740-7459/12/$31.00 © 2012 IEEE
+ SEPTEMBER/OCT
+OBER 2012
+ | IEEE SOFTWARE
+ 33FOCUS:
+ LEAN SOFTWARE DEVE
+LOPMENT
+AN 
+ARCHITECTURE
+ EMBODIES 
+those design decisions that in˜uence a 
+system™s quality attributes.
+1 Changes 
+to an architecture involve modifying 
+a system™s gross topology as well as 
+its communication and coordination 
+
+mechanisms. Therefore, any defects 
+in an architecture (such as lack of de
+-sirable security, latency, or scalability) 
+can necessitate enormous rework. An 
+overly ˜exible architecture can lead to 
+
+unnecessary work or overproduction. 
+The time required to create such an ar
+-chitecture can also delay downstream 
+
+activities. 
+Each software development para-
+digm treats architecture with a different 
+
+focus. Phase
+-based software develop
+-ment methodologies, such as waterfall 
+
+or Rational Uni˚ed Process allocate 
+
+dedicated time and focus to differ
+-ent development activities, conducting 
+them mostly in order (for example, re
+-quirements, analysis, architecture, de
+-velopment, and testing).
+2 Dedicating 
+large chunks of time to architecture up 
+
+front might not only delay downstream 
+activities but could also easily lead to 
+
+overproduction waste, where the effort 
+
+spent might not pay off.
+3Iteration
+-based agile development 
+methodologies, such as Scrum, work 
+with predetermined two
+- to four
+-week sprints, each focused on feature
+-based, high
+-priority tasks.
+4 When 
+there™s no up
+-front effort on architect
+-ing, developers must periodically con
+-duct refactoring for necessary changes 
+to accommodate new features. As the 
+
+system grows, conditions will neces
+-sitate rearchitecting, which might re
+-quire signi˚cant rework beyond the 
+
+expected limits of refactoring. Sprint 
+
+0 aims to overcome this problem.
+5 Al-locating architectural tasks to a sprint 
+backlog, to allow architecture and fea
+-ture development to progress in con
+-cert, has also been an increasingly rec
+-ognized practice.
+6Although architecture in itself is im
+-portant, prolonging the architectural 
+
+work needed to support development 
+can impede progress. A signi˚cant 
+
+challenge is to determine what size 
+
+increment of an architecture is best 
+for a given iteration to manage the 
+Making 
+Architecture 
+
+Visible to Improve 
+
+Flow Management 
+
+in Lean Software 
+Development
+Robert L. Nord and Ipek Ozkaya, 
+Carnegie Mellon University
+Raghvinder S. Sangwan, 
+Pennsylvania State University
+// 
+Release plans that give as much emphasis to 
+ architecturally signi˜cant tasks as to feature-based, 
+ high-priority functionality can achieve better outcomes by 
+avoiding conditions that lead to wasted time and effort. 
+// 34 IEEE SOFTWARE
+ | WWW.C
+OMPUTER.
+ORG/
+SOFTWARE
+FOCUS:
+ LEAN 
+SOFTWARE 
+DEVE
+LOPMENT
+development ˜ow. In this article, we 
+show how the ˜ow management con
+-cept from lean software development 
+
+can provide a framework for balancing 
+
+the allocation of critical architectural 
+
+tasks to development effort. 
+Release Planning: 
+ MS
+Lite 
+Case 
+Study
+MSLite is a hardware
+-based ˚eld sys
+-tem that automatically monitors and 
+controls a building™s internal func
+-tions, such as heating, ventilation, air 
+conditioning, access, and safety.
+7 During its ˚rst year, the MSLite 
+project used an object
+-oriented anal
+-ysis and design methodology. It 
+captured requirements as use cases, 
+which it grouped into functionally co
+-hesive packages. It then distributed use 
+case packages among different teams 
+for development. Because the use cases 
+weren™t fully elaborated, the team 
+
+didn™t yet fully understand dependen
+-cies among the different use case pack
+-ages. So, as the design emerged, so did 
+
+new dependencies across packages, 
+
+which created ad hoc communication 
+
+streams among the different teams. 
+Much to their chagrin, the teams found 
+themselves in situations where they 
+
+had to either wait for some yet
+-to
+-be
+- completed work by another team 
+
+or perform duplicate work. Such 
+interdependencies created con˜icting 
+solutions for cross
+-cutting concerns, 
+such as dealing with variability in 
+building automation devices and han
+-dling latency issues associated with the 
+
+transporting events that such devices 
+
+generated. As the design evolved and 
+
+the teams continued to discover inter
+-dependencies, managing the work˜ow 
+
+became so challenging that the project 
+
+was stopped midyear.
+In the second year, the proj
+-ect was undertaken from scratch, 
+
+using architecture
+-centric meth
+-ods.
+8 Building on use cases from 
+the previous year, the project team 
+made explicit the systemic quality 
+TABLE AArchitecture-related waste.
+Waste category
+Relevance to software architecture
+Overproduction
+Overproduction waste occurs when an excess of goods is produced. In 
+software development, this can result from implementing low-priority 
+
+or nice-to-have requirements, or creating an architecture for such 
+
+requirements or for unforeseen futures without a sound basis. 
+Delay
+Delay waste refers to the period of inactivity downstream in the 
+
+process that occurs because an upstream activity doesn™t deliver on 
+
+time. This type of waste occurs when an organization aims to collect 
+
+all architecturally signi˜cant requirements and plans to architect for 
+
+them, or aims to build utmost ˚exibility into the system, leading to 
+
+overanalysis and prolonged time spent designing the architecture.
+Defect
+Defect waste occurs when the delivered software doesn™t meet 
+
+the expected quality. Defects related to architecture can result in 
+
+paramount rework when rearchitecting is needed.
+LE
+AN 
+DEVE
+LOPMENT IN 
+MANUF
+ACTURING
+Much of the lean thinking in software development can be traced 
+back to Toyota™s manufacturing approach. However, there are 
+some obvious differences between a manufacturing environment, 
+with its focus on repetitive delivery of identical parts and prod
+-ucts, and the software development environment, in which varia
+-tion is necessary to create value for end users. Manufactured 
+
+products have obvious phase gates, marked by the handoff of 
+
+engineering drawings to production. Software development, how
+-ever, is an iterative process where design is an ongoing activity 
+
+throughout the development life cycle; the demarcation between 
+
+design and production activities is 
+
+much less distinct. Despite these dif
+-ferences, the focus of lean thinking 
+
+on eliminating waste has shown great 
+
+potential for improving software de
+-velopment project management.
+1Software architecture has a par
+-ticularly strong in˚uence on some of 
+the waste categories from lean man
+-ufacturing (see Table A),
+2 but its cur
+-rent practice offers little explicit guid
+-ance in lean software development. 
+The three types of waste dis
+-cussed in Table A are closely related. 
+
+Overproduction of architecture can 
+create delay. Not enough production 
+of architecture can result in patched solutions leading to 
+
+defects. Fixing these defects would lead to delay. Together, they 
+all lead to wasted time and effort.
+References
+ 1.
+ P. Middleton and D. Joyce, ﬁLean Software Management: BBC Worldwide 
+Case Study,ﬂ
+ IEEE Trans. Eng. Management
+, vol. 59, no. 1, 2012, pp. 
+20Œ32.
+ 2.
+ M. Poppendieck and T. Poppendieck, 
+Implementing Lean Software Devel
+-opment: From Concept to Cash
+, Addison-Wesley, 2006.
+  SEPTEMBER/
+OCT
+OBER 2012
+ | IEEE SOFTWARE
+ 35attribute requirements that have the 
+most significant influence on a sys
+-tem™s architecture. The team used 
+
+these requirements to design an ar
+-chitecture that reflected a better un
+-derstanding of dependencies (both 
+functional and systemic) among the 
+MSLite system™s different elements 
+
+before distributing these elements 
+
+for development. Thus, the architec
+-ture became a mechanism for coor
+-dinating tasks among the different 
+
+teams, resulting in a significantly 
+improved workflow.
+Our Experience
+Being familiar with the MSLite proj
+-ect, we were motivated to use lean 
+
+software development™s ˜ow manage
+-ment concept (for more information, 
+see the ﬁLean Development in Man
+-ufacturingﬂ sidebar) as a framework 
+for understanding how to balance 
+the allocation of critical architectural 
+
+tasks to a development effort. Figure 
+
+1a shows our adaptation of Don Rein
+-ertson™s visualization of optimum 
+
+batch size to demonstrate the effect of 
+
+architecture
+-related overproduction, 
+delay, and defect waste on the overall 
+
+project, and how the size of architec
+-ture increments affects the costs as
+-sociated with waste.
+9 To demonstrate 
+the batch size, Figure 1b shows how 
+we tested our adaptation by looking 
+at the amount of 
+cumulative cost
+Šor 
+the running sum of the cost incurred 
+
+(both implementation and rework) up 
+to a given releaseŠspent on architect
+-ing for MSLite data. 
+As Figure 1a illustrates, architect
+-ing in many smaller increments re
+-duces the cost of delay that results 
+from waiting for an entire architec
+-ture to be completed. However, re
+-work is more costly, because it might 
+
+involve rearchitecting. Having fewer 
+
+large increments reduces the cost of 
+
+rework, but at the expense of adding 
+to the cost of delay for the larger ar
+-chitecture increment to be completed. 
+Delay costs are incurred because of 
+waiting or delay waste. Rework costs 
+
+are incurred because of defect waste 
+as well as overproduction waste. 
+During its second year, the MSLite 
+development path fell somewhere in 
+the middle of the total cost curve. In 
+trying to understand and improve the 
+process (architecture and increment 
+size), we modeled the delay and re
+-work costs for this path in terms of 
+
+the value of capabilities delivered 
+over the total effort. To model the 
+cost for the path, we looked at the 
+
+MSLite project™s development plan, 
+
+the software architecture™s module 
+view, and its code (the DLLs).
+Cumulative value
+ is a running 
+Many small incrementsFew large increments   (a)Total costCost of delayCost of rework Architecture increments Optimum architectureincrement size1816
+14
+12
+10864
+2
+0Cost (as relative percentage)(b)Cumulative cost (%)100806040200Cumulative values (%)020406080100120140160Path 1 (rework)Path 2 (delay)
+Path 3 (hybrid)FIGURE 1. 
+How waste affects product development ˜ow. (a) Costs associated with 
+architecture-related waste. (b) The MSLite system™s in˜uence on cost of rework. The 
+cumulative cost of the system independent of rework is depicted as 100 percent cost on the 
+
+x-axis. The cost exceeding 100 percent re˜ects the cost of rework.
+ 36 IEEE SOFTWARE
+ | WWW.C
+OMPUTER.
+ORG/
+SOFTWARE
+FOCUS:
+ LEAN 
+SOFTWARE 
+DEVE
+LOPMENT
+sum of the value of delivered capa
+-bilities (all the user stories and archi
+-tecturally signi˚cant acceptance test 
+cases) up to a given release. Figure 1b 
+
+depicts this on the 
+y-axis. The pace 
+with which value is delivered in each 
+release is indicative of the cost of de
+-lay. For instance, there is a high cost 
+of delay early on in the ˚rst release of 
+
+the MSLite development path, path 3, 
+where no value is delivered.  
+Flow Management
+To see the in˜uence of architecture 
+on cost, we adapted path 3 using two 
+strategies of development (modeled as 
+paths 1 and 2 in Figure 1b) to realize 
+
+the MSLite system™s requirements. Path 
+
+1 demonstrates release
+-planning strat
+-egies focused on delay
+-cost avoidance, 
+and path 2 demonstrates rework
+-cost 
+avoidance. These strategies represent 
+
+the two extremes for decisions in itera
+-tion planning.
+Avoiding delay cost. 
+Path 1 reduces 
+the cost of delay at the expense of re
+-work, focusing on small architecture 
+
+increments. This path uses the pri
+-ority of stories and acceptance test 
+
+cases to guide the work (referred to 
+as 
+enhancement agility
+10). Using an 
+agile approach with many short itera
+-tions delivering small increments keeps 
+
+the delay cost low because there™s little 
+
+waiting. However, architectural issues 
+
+aren™t visible to the end user and are 
+likely to be initially missed or ignored, 
+resulting in a high rework cost later on, 
+
+when they can no longer be avoided. 
+
+Therefore, the total cost is quite high.
+Figure 1b shows this. Path 1 starts 
+out with a high 
+throughput
+ (a ratio 
+of work in process [WIP] and cycle 
+time
+11) during the ˚rst two releases, 
+then delivery tapers off as subsequent 
+
+releases take longer. The WIP limits 
+are ˚xed at three stories or acceptance 
+
+test cases. The drag on throughput is 
+
+an indication of high rework costs to 
+deal with the growing complexity of 
+dependencies. This shows the effect of 
+
+small architectural increments (which 
+
+Figure 1a also demonstrates toward 
+the extreme left of the total cost curve); 
+small architectural increments create 
+
+rework waste. Path 1 in Figure 1b is 
+typical of efforts where waste elimi
+-nation and short
+-term value delivery 
+aren™t balanced by consideration of the 
+longer
+-term effects of the project™s re
+-work cost. 
+Avoiding rework cost. 
+Path 2 reduces 
+rework at the expense of delay cost. It 
+focuses on a few large architecture in
+-crements, using rework cost as a guide. 
+Using a phase
+-based approach and 
+carefully considering architectural de
+-pendencies can minimize or eliminate 
+
+rework cost but at the expense of delay
+-ing activities downstream while the ar
+-chitecture is put in place. The total cost 
+is therefore high.
+Figure 1b demonstrates this, where 
+path 2 starts out with low throughput 
+
+of end
+-user value early on, owing to the 
+delay cost while the team focuses on 
+putting the architecture in place. Figure 
+
+1a also shows the effect of large archi
+-tecteral increments toward the extreme 
+
+right of the total cost curve. 
+Once the architecture is in place, 
+throughput does improve as the team 
+settles into a rhythm of releasing high
+-value capabilities at regular intervals. 
+The WIP limits change, however, be
+-cause later releases must deal with an 
+overloaded allocation of stories with 
+the assumption that the architecture 
+
+is ready. Although this might appear 
+to achieve high throughputŠa higher 
+number of stories yields higher value 
+
+for the releaseŠit™s already on release 
+TABLE 1 Flow management in delay- and rework-focused release-planning strategies.
+Path 1: Use delay avoidance to plan the release
+Path 2: Use rework avoidance to plan the release
+Throughput
+Starts out fast and then slows, owing to high cost of 
+rework
+Starts out slow while putting infrastructure in place and then 
+
+increases as new stories are rapidly released
+Work in process 
+(WIP)
+Highest-priority stories and acceptance test cases; stories 
+prioritized by business value without consideration of 
+architecturally signi˜cant risk
+Architectural elements that minimize dependencies, 
+prioritized by dependencies without business value 
+consideration
+Cycle time 
+ or waste
+High rework cost due to rearchitecting, because focus 
+is on stories initially without considering architecturally 
+signi˜cant acceptance test cases (representing quality 
+requirements); leads to defects and high rework
+Low cost of rework because quality and architecture support 
+
+are initially considered 
+Low cost of delay because architecturally signi˜cant 
+requirements aren™t initially considered
+High cost of delay owing to up-front architecting; high-
+
+priority stories are delayed in favor of infrastructure
+Advice on how 
+ 
+to improve ˚ow
+Reduce cost of rework by expanding focus on stories, 
+
+defects, and refactoring to include acceptance test cases, 
+
+architectural technical debt, and rearchitecting
+Reduce cost of delay by leveraging smaller architecture 
+
+increments
+  SEPTEMBER/
+OCT
+OBER 2012
+ | IEEE SOFTWARE
+ 375, and there™s an added complexity 
+of having to deal with the maximum 
+throughput in the ˚nal release. 
+A comparison. 
+Although we constructed 
+paths 1 and 2, they™re grounded in the 
+
+actual system™s building blocks (re
+-quirements and architectural elements) 
+and can be seen as variations of path 3. 
+
+We wanted to see how the architecture
+-centric development path of MSLite 
+
+would compare to these paths and pro
+-vide insights for the best strategy for al
+-locating architectural tasks to a devel
+-opment effort. Table 1 compares these 
+
+two extreme iteration
+-based agile and 
+phase
+-based approaches on the basis of 
+how they treat lean principles. 
+Recommendations 
+ for Practitioners
+There™s no one
+-size
+-˚ts
+-all approach 
+for achieving maximum throughput 
+value with minimal resource costs. 
+Focusing on ˜ow management to 
+
+analyze different approaches, how
+-ever, can provide insight into how to 
+improve management for both cycle 
+
+time and WIP. One such insight in
+-volves improving the visibility of ar
+-chitecture
+-related aspects of a devel
+-opment project, as we demonstrated 
+
+with the MSLite case study model
+-ing different strategies for decision
+- making in iteration planning. Balanc
+-ing the two opposing forces of delay
+- cost and rework
+-cost minimization 
+will result in an improved outcome, as 
+
+shown by the actual development path 
+
+of the MSLite system. 
+The phase
+- or iteration
+-based ap
+-proaches to software development typi
+-cally don™t provide tools to visualize ar
+-chitecture™s role in managing developed 
+features™ throughput. Therefore, we de
+-signed a Kanban board to elevate the 
+criticality of the architecture and show 
+how it supports or inhibits throughput. 
+Kanban is a scheduling system that 
+
+helps just
+-in
+-time delivery by empha
+-sizing pulling work items from process 
+queues with work limits.
+12Typical Kanban boards focus on 
+feature, story, or task
+-level allocation 
+of WIP limitsŠthese limits are the 
+
+numbers in the columns in Figure 2, 
+
+mimicking the agile development con
+-text as shown in Figure 2a. Kanban is 
+also used to support a phased
+-based 
+approach where the WIP limits are or
+-ganized according to an order of de
+-sign, development, and test (see Figure 
+
+2b).
+Our Kanban board design high
+-lights architecture
+-related aspects to 
+include infrastructure development, 
+which is a critical aspect of improv
+-ing throughput. There could be differ
+-ent versions of such a board involving 
+parallel horizontal swim lanes or color 
+coding, as demonstrated in Figures 2c 
+
+and 2d, respectively.
+(a) (b) (c)  (d) BacklogTo do(3)Development(4)Test(4)ReleaseRequirements(5)Design(4)Development(5)Test(4)ReleaseBacklogStories(3)Development(4)Test(4)ReleaseAcceptancetest cases(3)Architectureprototyping(2)Architecturedebt(1)BacklogStories(3)Development(4)Test(4)ReleaseFIGURE 2. 
+Different designs of our Kanban board for software development. (a) An agile-development-focused board. (b) A phase-based 
+board. (c) Visualizing architecture with parallel horizontal swim lanes. (d) Visualizing architecture with color coding; architecture-related tasks are 
+highlighted in blue. 
+ 38 IEEE SOFTWARE
+ | WWW.C
+OMPUTER.
+ORG/
+SOFTWARE
+FOCUS:
+ LEAN 
+SOFTWARE 
+DEVE
+LOPMENT
+NEXT 
+ISSUE:
+Technical 
+ Debt
+A parallel swim lane for architec
+-ture
+-related tasks helped us achieve 
+architecture development in concert 
+with feature development to improve 
+
+throughput, mainly by enforcing WIP 
+
+limits on activities such as eliciting 
+architecture
+-focused acceptance test 
+cases, architecture prototyping, or re
+-work to pay back architecture debt.
+Enforcing technical debt WIP lim
+-its increases the visibility of rearchi
+-tecting for quality and also ensures 
+that ˚nding and ˚xing defects don™t 
+come at the expense of overall sys
+-tem quality. Similarly, both architec
+-tural prototyping and pulling through 
+architecturally signi˚cant require
+-ments (captured as acceptance test 
+
+cases) should be in balance with story 
+
+development.
+Our experience in experiment
+-ing with different release 
+plans demonstrates how lean 
+software development has the poten
+-tial to merge architecturally signi˚cant 
+tasks with feature
+-based high
+-priority 
+functionality development, unlike ag
+-ile software development methodolo
+-gies, where sprints can create arti˚cial 
+
+boundaries and story slicing becomes 
+increasingly challenging. By visualizing 
+architecture
+-related tasks that contrib
+-ute to feature throughput, including 
+tasks that span multiple sprints, teams 
+can achieve an effective ˜ow
+-based de
+-velopment environment. 
+The following actions should be 
+kept central to the development ef
+-fort: ˚rst, capturing architecturally 
+
+signi˚cant requirements as accep
+-tance test cases enables them to be 
+more easily visible on a backlog or 
+a Kanban board. In a lean environ
+-ment, enforcing WIP limits on these 
+
+acceptance test cases assists with im
+-proving ˜ow by managing the over
+-production waste associated with 
+
+overarchitecting. Second, when deter
+-mining story priorities, considering 
+
+the dependency of the stories on ar
+-chitecturally signi˚cant tasks enables 
+
+the pulling of related stories earlier in 
+development and assists with ˜ow. Fi
+-nally, in addition to monitoring story 
+development, monitoring the chang
+-ing quality of the system via its ar
+-chitecture, possibly captured as tech
+-nical debt or rework
+-related defects, 
+enables a response to the cost associ
+-ated with rework
+-related waste.
+Acknowledgments
+This material is based on work funded and 
+supported by the Department of Defense 
+
+under contract number FA8721
+-05
+-C-0003 
+with Carnegie Mellon University for the op
+-eration of the Software Engineering Insti
+-tute, a federally funded research and devel
+-opment center. 
+Carnegie Mellon University makes no 
+warranties of any kind, either expressed or 
+ROBERT L. 
+NORD
+ is a senior member of the technical staff in the 
+Research, Technology, and System Solutions Program at the Software 
+
+Engineering Institute of Carnegie Mellon University. His research inter
+-ests include effective methods and practices for software architecture. 
+
+Nord has a PhD in computer science from Carnegie Mellon University. 
+
+He is a distinguished member of ACM. Contact him at rn@sei.cmu.edu. 
+IP
+EK 
+OZK
+AYA is a senior member of the technical staff in the 
+Research, Technology, and System Solutions Program at the Software 
+
+Engineering Institute of Carnegie Mellon University. Her research in
+-terests include empirical methods for improving software development 
+
+ef˜ciency and system evolution with a focus on software architecture 
+
+practices, software economics, and requirements management. Ozkaya 
+
+has a PhD in computational design from Carnegie Mellon University. 
+
+She serves on the advisory board of 
+IEEE Software
+. Contact her at 
+ozkaya@sei.cmu.edu.
+RA
+GHVINDER 
+S. 
+SA
+NGW
+AN is an associate professor of software 
+engineering at Pennsylvania State University. His research interests 
+
+include analysis, design, and development of software systems, their 
+
+architecture, and automatic and semiautomatic approaches to assess
+-ment of their design and code quality. Sangwan has a PhD in computer 
+
+and information sciences from Temple University. He™s a senior member 
+
+of IEEE and ACM. Contact him at rsangwan@psu.edu.
+ABOUT THE 
+AUTHOR
+S  SEPTEMBER/
+OCT
+OBER 2012
+ | IEEE SOFTWARE
+ 39implied, as to any matter including, but not 
+limited to, warranty of ˚tness for purpose 
+
+or merchantability, exclusivity, or results 
+
+obtained from use of the material. Carnegie 
+
+Mellon University does not make any warran
+-ty of any kind with respect to freedom from 
+
+patent, trademark, or copyright infringe
+-ment. This material has been approved for 
+
+public release and unlimited distribution ex
+-cept as restricted by copyright. The Govern
+-ment of the United States has a royalty
+-free 
+government
+-purpose license to use, duplicate, 
+or disclose the work, in whole or in part and 
+in any manner, and to have or permit others 
+to do so, for government purposes pursuant 
+
+to the copyright license under the clause at 
+
+252.227
+-7013 and 252.227
+-7013 Alternate I.
+References
+ 1.
+ L. Bass, P. Clements, and R. Kazman, 
+Software Architecture in Practice
+, 3rd ed., 
+Addison
+-Wesley, 2012. 
+ 2.
+ W.W. Royce, ﬁManaging the Development 
+
+of Large Software Systems,ﬂ 
+Proc. IEEE 
+WESCON Conf.
+, IEEE, 1970, pp. 328Œ338.
+ 3.
+ J. Coplien and G. Bjørnvig, 
+Lean Architecture: 
+
+For Agile Software Development
+, Wiley, 
+2010.
+ 4.
+ K. Schwaber and M. Beedle, 
+Agile Software 
+Development with Scrum
+, Prentice Hall, 
+2002.
+ 5.
+ D. Lef˚ngwell, 
+Scaling Software Agility: 
+Best Practices for Large Enterprises
+, Pearson 
+Education, 2007.
+ 6.
+ J. Madison, ﬁAgile Architecture Interactions,ﬂ 
+IEEE Software
+, vol. 27, no. 2, 2010, pp. 
+41Œ48.
+ 7.
+ R. Sangwan et al., 
+Global Software Develop
+-ment Handbook
+, Auerbach Publishers, 2006.
+ 8.
+ R. Sangwan et al., ﬁIntegrating Software 
+
+Architecture
+-Centric Methods into Object
+-Oriented Analysis and Design,ﬂ 
+J. Systems and 
+
+Software
+, vol. 81, no. 5, 2008, pp. 727Œ746.
+ 9.
+ D. Reinertsen, 
+The Principles of Product De
+-velopment Flow
+, Celeritas Publishing, 2009. 
+ 10.
+ N. Brown, R. Nord, and I. Ozkaya, ﬁEnabling 
+
+Agility through Architecture,ﬂ 
+Crosstalk
+, Nov./Dec. 2010, pp. 12Œ17.
+ 11.
+ J.D.C. Little and S.C. Graves, ﬁLittle™s Law,ﬂ 
+Building Intuition: Insights From Basic Op
+-erations Management Models and Principles
+, D. Chhajed and T.J. Lowe, eds., Springer, 
+2008, pp. 81Œ100.
+ 12.
+ D. Anderson, 
+Kanban:
+ Successful Evolution
+-ary Change for Your Technology Business
+, Blue Hole Press, 2010. 
+PURPOSE:
+ The IEEE Computer Society is the world™s largest 
+association of computing professionals and is the leading provider 
+of technical information in the ˜eld.
+
+MEMBERSHIP:
+ Members receive the monthly magazine 
+Computer
+, discounts, and opportunities to serve (all activities are led by 
+
+volunteer members). Membership is open to all IEEE members, 
+
+af˜liate society members, and others interested in the computer ˜eld.
+
+COMPUTER SOCIETY WEBSITE:
+ www.computer.org
+Next Board Meeting:
+ 5Œ6 Nov., New Brunswick, NJ, USA
+EXECUTIVE COMMITTEE
+President:
+ John W. Walz*
+President-Elect:
+ David Alan Grier;* 
+Past President:
+ Sorel Reisman;* 
+VP, 
+Standards Activities:
+ Charlene (Chuck) Walrad;
+ƒ Secretary:
+ Andre Ivanov 
+(2nd VP);* 
+VP, Educational Activities:
+ Elizabeth L. Burd;* 
+VP, Member & 
+Geographic Activities:
+ Sattupathuv Sankaran;
+ƒ VP, Publications:
+ Tom M. 
+Conte (1st VP);* 
+VP, Professional Activities:
+ Paul K. Joannou;* 
+VP, Technical 
+& Conference Activities:
+ Paul R. Croll;
+ƒ Treasurer:
+ James W. Moore, CSDP;* 
+2011Œ2012 IEEE Division VIII Director: 
+Susan K. (Kathy) Land,
+ CSDP;
+ƒ 2012Œ
+2013 IEEE Division V Director:
+ James W. Moore, CSDP;
+ƒ  2012 IEEE Division 
+Director VIII Director-Elect:
+ Roger U. Fujii
+ƒ *voting member of the Board of Governors ƒnonvoting member of the Board of GovernorsBOARD OF GOVERNORS
+Term Expiring 2012:
+ Elizabeth L. Burd, Thomas M. Conte, Frank E. 
+Ferrante, Jean-Luc Gaudiot, Paul K. Joannou, Luis Kun, James W. Moore, 
+William (Bill) Pitts
+
+Term Expiring 2013:
+ Pierre Bourque, Dennis J. Frailey, Atsuhiro Goto, 
+André Ivanov, Dejan S. Milojicic, Paolo Montuschi, Jane Chu Prey, Charlene 
+
+(Chuck) Walrad
+EXECUTIVE STAFF
+Executive Director:
+ Angela R. Burgess; 
+Associate Executive Director, 
+Director, Governance:
+ Anne Marie Kelly; 
+Director, Finance & Accounting:
+ John Miller; 
+Director, Information Technology & Services:
+ Ray Kahn; 
+Director, Membership Development:
+ Violet S. Doan; 
+Director, Products 
+& Services:
+ Evan Butter˜eld; 
+Director, Sales & Marketing:
+ Chris Jensen
+COMPUTER SOCIETY OFFICES
+Washington, D.C.:
+ 2001 L St., Ste. 700, Washington, D.C. 20036-4928
+Phone:
+
+Fax:
+ +1 202 728 9614
+Email:
+ hq.ofc@computer.org
+Los Alamitos:
+ 10662 Los Vaqueros Circle, Los Alamitos, CA 90720-1314
+Phone:
+
+Email:
+ help@computer.org
+MEMBERSHIP & PUBLICATION ORDERS
+
+Phone:
+
+Fax:
+
+Email:
+ help@computer.org
+Asia/Paci˜c:
+ Watanabe Building, 1-4-2 Minami-Aoyama, Minato-ku, Tokyo 
+107-0062, Japan
+
+Phone:
+
+Fax:
+ +81 3 3408 3553
+Email:
+ tokyo.ofc@computer.org
+IEEE OFFICERS
+President:
+ Gordon W. Day; 
+President-Elect: 
+Peter W. Staecker;
+ Past 
+President
+: Moshe Kam
+; Secretary:
+ Celia L. Desmond;
+ Treasurer:
+ Harold 
+L. Flescher;
+ President, Standards Association Board of Governors:
+ Steven 
+M. Mills
+; VP, Educational Activities:
+ Michael R. Lightner
+; VP, Membership 
+& Geographic Activities:
+ Howard E. Michel;
+ VP, Publication Services & 
+Products:
+ David A. Hodges; 
+VP, Technical Activities:
+ Frederick C. Mintzer; 
+IEEE Division V Director:
+ James W. Moore, CSDP; 
+IEEE Division VIII 
+Director:
+ Susan K. (Kathy) Land, CSDP; 
+IEEE Division VIII Director-Elect:
+ Roger U. Fujii; 
+President, IEEE-USA:
+ James M. Howard
+revised 22 May 2012
+Selected CS articles and columns 
+ are also available for free at 
+ 
+http://ComputingNow.computer.org.

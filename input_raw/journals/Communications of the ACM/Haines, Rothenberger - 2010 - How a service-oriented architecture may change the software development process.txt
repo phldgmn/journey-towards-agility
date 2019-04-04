@@ -1,0 +1,1007 @@
+ contributed articles
+AUGUST 2010  
+|  VOL. 53  
+|  NO. 8  
+|  COMMUNICATIONS OF THE ACM
+    135DOI: 10.1145/1787234.1787269BY 
+MARC N. HAINES AND 
+MARCUS A. ROTHENBERGER
+SOFTWARE DEVELOPMENT PRACTICE
+S HAVE EVOLVED 
+substantially during the past decade. As so called ﬁagileﬂ approaches have gained more acceptance and applications have become progressively more distributed in terms of their physical execution and 
+the development of components, the service-oriented approach to IT architecture has become an important alternative to traditionala software development.1,9 Another impetus for the trend to a Service-Oriented Architecture (SOA) is provided by enterprise system 
+vendors as they are incorporating the service-oriented paradigm into their products. Substan
+-tial efforts related to open standards 
+(such as Web service standards) and 
+open source products (such as open 
+
+source enterprise service bus, devel
+-opment tools) are further driving a 
+service-oriented approach for informa
+-tion systems. A key question is whether SOA adopt
+-ers are going to be ready for this change 
+
+and whether they can provide a techni
+-cal and an organizational environment 
+
+in which SOA-related technologies can 
+be leveraged to their full potential. 
+There is some indication that currently 
+this may not be the case. In fact, some 
+organizations that have embarked on 
+
+SOA-related projects early have experi
+-enced disappointments. As with other 
+technology waves, the important ques
+-
+tion is not whether SOA is inherently 
+a good or a bad idea, but rather how 
+it can be done right in a given context. 
+
+This article tries to answer this ques
+-tion with respect to the software devel
+-opment process.While much of the literature, both 
+in academia and industry, has focused 
+
+on business implications of SOA,
+3 tech
+-nological realization, architectural 
+issues,4,10 and implementation guide
+-lines,7 few publications have addressed 
+the impact of SOA on the software de
+-
+velopment process and its methodolo
+-gy. As with any organizational change, 
+
+modi˜cations to software develop
+-ment processes or practices entail 
+switching cost. Therefore, individuals 
+
+as well as organizations are inclined to 
+stay with ﬁprovenﬂ methodologies,
+5,12 although adjustments based on task 
+
+requirements and technology charac
+-teristics should be key drivers for the 
+methodology choice
+6 and are needed 
+to help adopters leverage the full po
+-
+tential of SOA.
+This article examines the differences 
+and discusses which parts of develop
+-
+ment process and methodology may re
+-quire adjustments to effectively leverage 
+a SOA. It presents the results of a ˜eld 
+How a 
+Service-
+Oriented 
+Architecture 
+May 
+Change 
+the 
+Software 
+Development 
+Processa  Typically software development using an n-tier Client/
+Server approach that does not rely on distributed and 
+platform agnostic interfaces and messaging. 136    COMMUNICATIONS OF THE ACM
+   |  AUGUST 2010  
+|  VOL. 53  
+|  NO. 8
+contributed articles
+may reside at an external location and 
+outside of a domain of direct control. 
+Services frequently rely on the public 
+Internet. Also, contrary to other com
+-
+ponent-based technologies,
+11 services 
+are usually not purchased as a soft
+-ware package from a third party and 
+implemented within the organization. 
+
+This has potential consequences for 
+the software development process not 
+only from a technical, but also from a 
+managerial perspective (such as inter-
+organizational arrangements and trust 
+
+issues). Standardization is perhaps the key 
+underlying enabler for a modern SOA, 
+
+solving many of the interoperability is
+-sues that plagued previous distributed 
+technologies (such as CORBA) and 
+allowing vendors to create tools that 
+automate important steps in the soft
+-
+ware development process that previ
+-ously required a manual programming 
+effort. Therefore, some development 
+
+activities, particularly those related to 
+the connectivity aspect of distributed 
+application development are likely to 
+
+be deemphasized. The unique features of SOA, and spe
+-ci˜cally technologies related to Web 
+
+services, merit an investigation into a 
+number of development activities, as 
+certain activities may need to be add
+-ed, emphasized, or rearranged, while 
+others may need to be deemphasized. 
+
+Not making such needed adjustments 
+may reduce the overall bene˜ts of SOA. 
+For example, an organization that aims 
+to reduce the overall time-to-market 
+of new business services can realizes 
+
+time reductions in the implementa
+-tion phase, as SOA-based composite 
+applications effectively reuse existing 
+
+IT capabilities. However, if testing was 
+study suggesting changes to software 
+
+development practices that are neces
+-
+sary to accommodate the unique prop
+-erties of the service-oriented approach.Service-oriented 
+ArchitectureService-oriented Architecture (SOA) is 
+de˜ned in the OASIS reference model 
+as ﬁa paradigm for organizing and 
+utilizing distributed capabilities that 
+
+may be under the control of differ
+-ent ownership domains.ﬂ
+8 It can also 
+be viewed as an architectural style for 
+
+building software applications that 
+uses available services in a network,
+10 where the service interface along with 
+its description is a critical part.
+b A SOA 
+should provide ˚exibility regarding the 
+
+technical execution environments be
+-hind the service interfaces, as well as 
+
+˚exibility for creating new interfaces 
+and new composite services. However, 
+once a service interface is established 
+and used by potentially a multitude of 
+consuming applications, changes to 
+
+the interface need to be kept to a mini
+-mum to avoid disruptions in the con
+-suming applications and provide con
+-
+tinuous business operations. Development in the context of SOA 
+entails two major tasks: One is estab
+-lishing a service infrastructure (such 
+as, core services, management, and se
+-
+curity); the other is creating composite 
+applications (or services) based on the 
+service infrastructure.
+3 Both types of 
+development have different character
+-istics. The infrastructure can be viewed 
+as the combination of the interface 
+
+layer and the attached execution envi
+-ronments. Figure 1 illustrates both as
+-pects of SOA-based development. The 
+
+services may be used by a multitude 
+of client applications and the execu
+-tion environment may also change, as 
+long the interface contracts are not vio
+-lated. Consequently the interface layer, 
+
+which encompasses securing, monitor
+-ing, and managing the services, is the 
+pivotal element and requires a holistic, 
+
+global view and very rigorous develop
+-ment with a long-term horizon. A typical SOA scenario consists of 
+composite applications constructed 
+from services that may be provided 
+
+internally or by a third party. Thus, 
+functionality provided by the service 
+not appropriately adjusted, synchroni
+-zation problems between development 
+and quality assurance may diminish 
+the gains made in the implementation 
+
+phase. Negative consequences can also 
+arise from a lack of attention to service 
+interface and message design. This can 
+lead to interoperability challenges and 
+additional mediation work, which then 
+
+adversely impact productivity gains 
+and cost reduction goals.cThe Field Investigation
+Since the unique properties of SOA sug
+-gest differences in the software devel
+-opment environments that deploy this 
+
+paradigm, this study seeks to investi
+-gate the practical realities and needs of 
+software development in the context of 
+SOA, and provide insights into neces
+-sary modi˜cations to the systems de
+-
+velopment process based on the analy
+-sis of the empirical evidence.The key data source for this ˜eld 
+study is a set of semi-structured inter
+-
+views with software developers and 
+IT managers from ˜ve organizations. 
+
+The interviews were guided by a set of 
+questions that speci˜cally address the 
+issue of software development in the 
+
+context of SOA-based on Web services.
+d The purpose of the mostly open-ended 
+questions in the interview structure is 
+to help the researcher to consistently 
+
+address key issues identi˜ed in the lit
+-erature and prior research, while still 
+Figure 1.  SOA
+ layers.c  Future research may be able to assess the extent of 
+productivity and cost reduction when using traditional 
+development processes instead of SOA-driven processes, 
+by conducting an analysis of quantitative data of both 
+types of development settings.
+d  A SOA may be realized with technologies other than WS-* 
+standards based Web services. However, Web services 
+
+play a pivotal role in a majority of SOA initiatives and are 
+
+supported by the major development tool and enterprise 
+
+package vendors.
+b  Some industry analysts even suggested referring to this 
+architecture as the ﬁInterface-oriented Architecture.ﬂ
+9  contributed articles
+AUGUST 2010  
+|  VOL. 53  
+|  NO. 8  
+|  COMMUNICATIONS OF THE ACM
+    137maintaining the opportunity for elicit
+-ing new and unexpected insights from 
+the participants. Participants subse
+-quently reviewed summaries of the in
+-
+terviews and provided feedback on the 
+correct representation of the content. 
+The information obtained in the inter
+-
+views was supplemented with insights 
+acquired from company documents 
+and Web sites. Table 1 summarizes the 
+research methodology employed.Individuals from one consulting 
+˜rm and from four ˜eld companies par
+-
+ticipated in the study. The consultant is 
+nationally recognized for enterprise in
+-
+tegration and has been involved in the 
+development of SOAs based on Web 
+services for several years. All companies 
+participating in this study employ Web 
+services and have established or are in 
+
+the process of moving to a SOA; they 
+are from the insurance, the ˜nancial 
+services, and the entertainment indus
+-
+try, as well as from the judicial branch 
+of state government. The participants 
+
+are working either as enterprise archi
+-tects, including one IT director, or as 
+senior developers involved in projects 
+
+related to SOA and Web services. While 
+the companies reported pockets of ag
+-ile development, we observed overall 
+
+two typical baseline scenarios for soft
+-ware development practices prior to 
+the introduction of SOA. The majority 
+of software was developed using either 
+a customized methodology based on 
+
+the Rational Uni˜ed Process (RUP) or 
+a controlled waterfall-style process. Ta
+-ble 2 provides a summary of the nature 
+
+of SOA and Web service use in the four 
+˜eld settings.Software 
+Development 
+ Process Changes
+According to the shared views of all par
+-ticipants, there are signi˜cant differ
+-ences between software development 
+
+in the context of SOA with Web servic
+-es, compared to previous software de
+-
+velopment. While some attributed the 
+
+differences to general SOA principles 
+and a focus on the application inter
+-face, others mentioned issues related 
+to using open standards and web ser
+-vices (such as, assessing viability and 
+
+maturity of standards). The interviews con˜rmed the dual 
+nature of software development within 
+
+the context of SOA. As one participants 
+pointed out, ﬁthere are two sides to 
+Web services.ﬂ Building the service in
+-frastructure and using the services for 
+composite applications were viewed as 
+
+substantially different tasks. Building 
+the service infrastructure requires a 
+rigorousŠand perhaps more waterfall-
+
+styleŠapproach focusing on long-term 
+planning to achieve well-designed and 
+reusable services. On the other hand, 
+
+composite application development 
+may in many circumstances bene˜t 
+from using a more agile, yet rigorous, 
+software development approach. The 
+results suggest that software develop
+-
+ers should consider these as two dis
+-tinct tasks with potentially different 
+requirements. All participants identi˜ed some as
+-pect of the software development pro
+-
+cess that needed to be adjusted in the 
+context of SOA with Web services. The 
+comments relate to the overall process, 
+
+as well as to speci˜c activities. Below 
+is a presentation of the key ˜ndings as 
+they relate to the ˜ve major phases
+e of 
+software development. Planning. There was agreement 
+among the participants that this phase 
+
+differs substantially, particularly if no 
+prior experience with service-oriented 
+development exists in an organiza
+-
+tion. The consultant pointed out that 
+this is where 90% of the projects fail, 
+as it is a labor intensive, often boring 
+and dif˜cult activity. According to a 
+participant, there is less certainty in a 
+
+service-oriented environment, as many 
+aspects are less predictable and harder 
+to control as they are executed by other 
+
+business units or external parties. This 
+makes, for example, the estimation of 
+service consumer projects more dif˜
+-cult. Another participant pointed out 
+that planning has to be more holistic 
+Table 1.  Qualitative research approach
+Selection of Interview Questions
+Based on the school of thought to grounded theory research introduced by 
+Strauss and Corbina and the 
+methodology proposed by Eisenhardtb, the research is initially guided by the existing literature, however, 
+
+it then lets the data drive the development of the ˜ndings.  Accordingly, the interview outline included 
+
+questions on the role of web services in the organization, methodological differences, organizational 
+constraints to methodology modi˜cations, future direction of the development process, perceived success, 
+and process maturity.  Further, information about the organization and the interviewees™ roles and 
+
+experiences were solicited.  During the interviews, ad-hoc follow-up and probing questions were asked to 
+obtain clari˜cations and additional details on emerging themes.  Participant 
+Selection & Data CollectionParticipant section was guided by theoretical sampling.  
+This means that the participants were selected to 
+maximize the diversity of their insights and therefore their contribution to the ˜ndings of the study.  
+Thus, 
+employees from organizations with different characteristics, including industry, size, geographic location, 
+
+and ownership were interviewed.  
+Semi-structured interviews were conducted with each participant, lasting 
+about 40 to 70 minutes each.  Supporting documents and information from company web sites were also 
+obtained.  The interviews were recorded and transcribed. Interview reports were written based on the 
+
+transcripts and were made available to the participants who provided feedback and made corrections; the 
+feedback was incorporated into the subsequent analysis.
+Analysis
+The researchers went through several iterations of data collection and analysis.  First, interviews were 
+analyzed individually by developing a detailed understanding of what was said.  A detailed write-up of 
+
+each interview was developed based on the transcript and supporting documents.   
+Second, the insights 
+obtained from the individual ˜eld settings were compared examining similarities and differences from each 
+setting and ˜ndings were developed.  All ˜ndings are based on aggregated insights obtained from multiple 
+participants, thus, the results of the study were based on multiple sources of evidence.
+Validity
+The study follows a number of techniques that ensure the validity of qualitative research identi˜ed by 
+Dube and Parec: participant selection based on theoretical sampling, use of interview protocols and 
+transcripts, participant reviews of case reports, and the maintenance of an interview database with coded 
+quotations.  Further, developing the results from a-priori speci˜cations of constructs utilizing multiple 
+
+sources of evidence promoted construct validity.  Identifying results by comparing insights from across 
+
+multiple ˜eld settings (treating additional interviews as replication, rather than additional responses) and 
+basing the ˜ndings on explanations provided by the participants ensured the internal validity of the results.  
+External validity of the results of qualitative research addresses the transferability of the results; providing 
+
+a description of the ˜eld contexts enables the reader to assess whether transferring the results to another 
+context makes sense. Further survey-based research may also investigate the extent of generalizability of 
+the methodology changes identi˜ed in this study.
+a  Straus, A. and Corbin, J. Basics of Qualitative Research: Grounded Theory Procedures and Techniques (1990)
+b  Eisenhardt, K.M.. Building Theories from Case Study Research. Academy of Management Review 14 (1989) 532-550
+c   Dube, L. and Pare, G., Rigor in Information Systems Positivist Case Research: Current Practices, Trends, and 
+Recommendations. MIS Quarterly 27 (2003) 597-635
+e  Planning, analysis, design, implementation, and testingŠ
+we divided the phases based on a standard software 
+development life-cycle with testing representing a 
+separate phase from implementation.
+ 138    COMMUNICATIONS OF THE ACM
+   |  AUGUST 2010  
+|  VOL. 53  
+|  NO. 8
+contributed articles
+tions being built. The location and level of service dis
+-tribution was stressed by the consul
+-tant who cautioned that building com
+-
+posite applications with ﬁhundreds of 
+services and 20 of them being remoteﬂ 
+is not workable in the short run, as the 
+
+tools for managing these services are 
+currently not available. Considering 
+the maturity of the technology and re
+-lated tools at the time of the research, 
+incorporating too many remotely locat
+-
+ed services in a composite orchestra
+-tion would be considered bad design.Implementation. Business agility is 
+one of the key promises that are touted 
+by SOA proponents. This includes the 
+
+ability to quickly develop and deploy 
+new or improved functionality with
+-out disrupting other business interac
+-
+tions. Interoperability should improve, 
+and consequently it should be easier 
+to effectively develop ﬁenterprise ser
+-vicesﬂ that can be leveraged through
+-out the organization. It becomes es
+-sential that effective communication 
+
+channels among the stakeholders that 
+participate in a SOA initiative are estab
+-lished. An important effort in the plan
+-ning stage is the assessment of stan
+-dards, since current SOA efforts are 
+
+typically leveraging a combination of 
+several open standards. This includes 
+determining which particular sets of 
+
+standards are of interest, viable, and 
+supported by each potential vendor. 
+Analysis. The participants suggested 
+that the analysis phase requires the 
+least modi˜cation. However, develop
+-
+ment in a service-oriented context re
+-quires at least as much rigor and dis
+-cipline as in previous architectures, 
+
+which is at times ignored. One partici
+-pant pointed out that traditional ana
+-lytics is one of the most important skill. 
+
+ﬁCreate the future vision, and then map 
+out how you are going to get there. That 
+is where people are falling today. They 
+jump right into the new architecture, 
+because it is fun.ﬂ Another participant 
+
+pointed out the importance of ensuring 
+in the analysis phase that the common 
+data models and schemas have all the 
+
+required data available, as SOA requires 
+a more global perspective. On a positive 
+note, the participants agreed that devel
+-opment toolsets are improving and are 
+now better supporting the analysis ac
+-
+tivities for SOA-based development. 
+Design. The participants observed 
+substantial differences in this phase. 
+
+ﬁ[Design] is where the most radical 
+change is occurring,ﬂ according to the 
+consultant. The three key issues in the 
+
+design phase are the initial contract in
+-terface using WSDL, the granularity of 
+the services, and the accessibility and 
+
+performance of remote services. Due to their pivotal role in a SOA, 
+it is important to de˜ne interfaces 
+well up-front as the cost for changes 
+increases in later phases. While this 
+
+increase of costs is true for most soft
+-ware development contexts, it is even 
+more pronounced in a SOA context, 
+because of the distributed nature and 
+the often lesser control over each com
+-
+ponent. When moving from an existing 
+SOA based on proprietary technology 
+to standard-based SOA using Web ser
+-
+vices, the design of the backend sys
+-tems (execution environment) may not 
+change. However, the development of 
+the interfaces will change dramatically 
+as WSDL and other standards needed 
+for the service contract must be in
+-
+corporated. Despite the availability of 
+tools that support the generation of 
+interfaces, this requires a solid under
+-
+standing of these standards not only 
+from a technology perspective, but also 
+from standard maturity and tool avail
+-ability perspectives.Service granularity has already 
+gained much attention in the litera
+-
+ture.2,8 While coarse-grained services 
+are generally considered good in a SOA 
+context, there are important trade-offs. 
+
+Services that are too ˜ne-grained and 
+require many roundtrips to complete a 
+business transaction may cause perfor
+-
+mance problems, while services that 
+are too coarse-grained limit reusability 
+and may result in the wrong applica
+-Table 2.  SOA
+ Use in the four ˜eld settings.InsCoInsCo is a large national insurance company.  
+The company has a heterogeneous I
+T infrastructure including 
+IBM mainframes with applications programmed in P
+L1, J2EE application running on Web
+Sphere, rich client applications developed with Microsoft .
+NET, as well as a number of packaged applications. The integration 
+has been primarily been done with IBM MQ 
+Series.The company has established a 
+SO
+A based on proprietary XM
+L messaging protocols about a decade ago.  
+When possible the payload of the messages is structured according to industry standards (e.g., ACC
+ORD).  It 
+has been using Web services in production with external business partners in B2B scenarios for about two 
+years. Currently a major initiative is underway to establish a 
+SOA based on Web services and the company 
+is starting to transition to Web services in the internal application-to-application (A2A) space. 
+The current 
+implementations are leveraging 
+SOAP, W
+SDL, UDDI, and WS-Security. Eventually Web services should 
+become the preferred integration technology. A study started in 2004 provided a high level infrastructure and 
+
+roadmap for Web services. 
+The implementation of the ˜rst pieces outlined in the road map started in 2005.
+FinCoFinCo is a ˜nancial services provider. A majority of applications runs on mainframes. Front-end applications 
+typically are J2EE applications running on 
+UNIX servers. 
+There is a small amount of .NET solutions. The 
+J2EE solutions are divided into a UI tier, messaging tier, and a host tier. 
+The messaging tier is used to integrate a variety of third party vendor products and uses proprietary XM
+L-based messaging.The proprietary XM
+L messaging solution was developed prior to 
+SOAP and other Web services standards. More 
+recent implementations are using XM
+L Web services as some business partners are now demanding interaction 
+based on standard XML Web services. Eventually 
+SOAP is expected to replace the proprietary protocol.
+Currently there are implementations leveraging 
+SOAP, W
+SDL. There is also a major initiative to move 
+towards a SOA. This initiative goes beyond Web services and encompasses service management and other 
+aspects of SOA. StateGov
+StateGov is a state government agency from the judicial branch. 
+The agency is mostly using Microsoft 
+Windows servers, but is starting to introduce 
+Linux servers as well. Most applications are custom 
+
+developed, however a state-wide Peoplesoft system is also used by the agency. 
+The Web services related 
+applications are Java applications developed with Eclipse tools on 
+Linux.Web services are currently leveraged for e-˜ling court documents. Another project is focusing on building 
+a data exchange between the courts and other state agencies, leveraging industry standards such as the 
+Global Justice XML Data Model (GJXDM). The Web services have to support processing of PDF documents 
+attached to XML messages.Currently there are implementations leveraging 
+SOAP, W
+SDL, and SAML. An implementation of a registry 
+based on UDDI is planned.Entertain
+CoEntertainCo is a major entertainment organization that operates worldwide.  
+The company uses a service-oriented approach in four key components which are all in production: guest management, offers 
+
+management, loyalty program, and central reservation. Further expansions (e.g., retail) are planned and 
+
+additional functionality will be provided to existing services.
+The company™s 
+SOA is based on proprietary standards that are similar to XM
+L Web services standards. We 
+services are now being considered for interaction with external business partners. 
+ contributed articles
+AUGUST 2010  
+|  VOL. 53  
+|  NO. 8  
+|  COMMUNICATIONS OF THE ACM
+    139to provide new services internally or to 
+business partners that leverage open 
+SOA standards. Thus, SOA should have 
+a very positive impact on implementa
+-
+tion and deployment.However, it is important to under
+-stand the tools that support the imple
+-mentation and deployment. Based on 
+the comments made by participants, 
+
+implementation tools are improving, 
+but there is still a need for further de
+-ployment automation. With an increas
+-
+ing number of services, their manage
+-ment becomes a critical issue, as any 
+service may be a potential single point 
+of failure in a composite application. 
+Because of the distributed nature of a 
+
+SOA, implementation and deployment 
+entails a high level of coordination be
+-tween the parties that are involved. As the parties tend to be relatively 
+independent from each other, they 
+
+are likely to be at different maturity 
+
+levels in terms of Web services tech
+-nology. This may entail providing mul
+-tiple channels for services interaction 
+(such as, some business partners may 
+be able to handle speci˜c Web service 
+
+standards, while others may not; units 
+may prefer different interfaces, such as 
+REST vs. SOAP). Business partners that 
+
+lack the necessary SOA expertise may 
+initially even require hands-on imple
+-mentation support for applications 
+from the services provider, as one par
+-ticipant pointed out. Testing.
+ Testing is also considered 
+a stage with potentially substantial 
+
+changes in the context of SOA and Web 
+services. In a SOA, more work on inte
+-gration testing needs to be done. Test 
+
+plans also need to ensure that services 
+work in different environments with 
+different types of service consumers 
+(such as, portal applications versus 
+mobile device applications). The test 
+
+plans need to anticipate most of the 
+client application types that are likely 
+to use the service.The two sides to service-oriented 
+development, the development of the 
+
+services (and related infrastructure) 
+and the development of the applica
+-tions that leverage services may occur 
+
+simultaneously, making it necessary to 
+use two test environments. The service 
+developers need to be able to quickly 
+
+generate test clients. The client applica
+-tion developers need to be able to run 
+their applications against test services. 
+
+There are also some Web service spe
+-ci˜c testing activities that need to be 
+considered, such as checking the com
+-pliance of services with the Web service 
+standards or Web services interoper
+-
+ability organization (WS-I) Pro˜les.Consequently it is important to 
+have a highly coordinated process and 
+
+to consider testing throughout the life-
+cycle. Tools that help automating the 
+process play an important role in effec
+-tive testing by addressing not only the 
+functional issues, but also security and 
+
+performance. Discussion
+The ˜eld interviews provided several 
+examples of differences that the par
+-ticipants are experiencing in their 
+
+SOA and Web services related software 
+development activities. Most differ
+-ences occur in development activities 
+typically associated with planning and 
+design. But other phases, particularly 
+
+implementation and testing, require 
+noteworthy differences as well. Table 3 
+summarizes the ˜ndings of this study 
+
+with regards to the phases of the soft
+-ware development life-cycle. It also 
+shows that ﬁtraditionalﬂ structured 
+analysis and design skills are still very 
+important. Some aspects of service-ori
+-
+ented development may in fact require 
+even more discipline and a more holis
+-tic mindset than previous development 
+
+scenarios.To address the organizational as
+-pects of these differences, companies 
+
+have designated new employee roles for 
+education, promotion, and tracking of 
+standards relating to SOA concepts, de
+-veloper support, security, service man
+-agement, and services cataloging. With 
+
+regards to the development process, 
+they have emphasized the importance 
+of several new or changing activities, 
+
+such as planning and interface design. 
+However, there is little indication that 
+organizations are explicitly considering 
+a concerted change effort that address
+-es the differences in the development 
+
+process. Only few participants noted 
+that their organizations may be look
+-ing into new methods or mentioned 
+
+that more agile approaches would ben
+-e˜t some aspects of SOA development. 
+Consequently, there appears to be the 
+
+potential for a gap between the exist
+-ing development process and a devel
+-opment process that is well suited for 
+
+SOA and Web services-based software 
+development.Composite applications built on ser
+-vices need to quickly respond to chang
+-ing requirements and have potentially 
+
+short life spans, thus they need to have 
+short development cycles. Services, or at 
+least their interface, on the other hand, 
+may be used by multiple applications, 
+need to be well-designed, and may not 
+
+be easily changed or retired without 
+breaking client applications. From 
+this perspective agile development ap
+-
+proaches should generally constitute 
+a good ˜t for composite client applica
+-Table 3.  Summary of changes needed in the software development life-cycle phases.
+Phase AdjustmentsImportant 
+Characteristics and 
+ChangesPlanning 
+substantial
+ 
+
+ 
+
+ 
+Analysis
+ lowest
+ 
+
+Design 
+most radical
+
+
+
+standards and tool availability
+
+
+
+
+Implementation 
+some
+
+
+
+of Web services
+
+Testing
+ 
+substantial 
+
+as well as test services
+
+
+ 140    COMMUNICATIONS OF THE ACM
+   |  AUGUST 2010  
+|  VOL. 53  
+|  NO. 8
+contributed articles
+tions, while the services and supporting 
+infrastructure may require approaches 
+that emphasize planning and rigorous 
+design up-front. Of course, task and 
+
+technology are not the only determi
+-nates and other in˚uences, such as reg
+-ulations and documentation require
+-ments, cannot be neglected and may 
+lead to a different choice. 
+ConclusionBased on the experiences shared by 
+
+the participants, there are important 
+differences between the traditional 
+software development process and 
+software development in the context 
+of SOA with Web services. Organiza
+-
+tions appear to take measures to sup
+-port some of these changes. These 
+measures are currently focusing on the 
+
+organizational structure, such as new 
+roles or organizational units, but not 
+much on adjustments of the software 
+
+development process. We argue that adjustments to the pro
+-cess are also necessary to provide a good 
+˜t for SOA development. Not accommo
+-dating the unique properties of the SOA 
+
+architecture in the development pro
+-cess would be like building a new high
+-way system, but leaving the same speed 
+
+limits and regulations. While faster and 
+more ˚exible transportation would be 
+possible, the structures and processes 
+of the old system are inadequate and 
+may therefore lead to a slowdown and 
+
+missed opportunities.The ˜ndings of the study have pro
+-vided an overview of critical areas of 
+
+change and are not speci˜c to a partic
+-ular methodology. This ensures a high 
+degree of applicability to other organi
+-
+zational settings. Subsequent research 
+may be able to focus on a speci˜c phase 
+or a speci˜c methodology in a given or
+-
+ganizational context using a single in-
+depth case study or a quantitative ˜eld 
+survey. The recommendations made 
+in this study were obtained from the 
+analysis of SOA adopters. SOA scenar
+-
+ios typically exhibit a number of com
+-mon underlying characteristics (such 
+as, highly distributed functionality, 
+decoupled architecture, and standard 
+interfaces), which are not exclusive to 
+
+SOA. While our study provides insights 
+for the context of SOA, it is left to future 
+studies to relate software development 
+
+changes to these underlying character
+-istics and to examine if some recom
+-mendations, made here for the context 
+of SOA, also apply to other develop
+-ment paradigms. References 1. Ciganek, A., Haines, M., and Haseman, W. Horizontal 
+and vertical factors in˜uencing the adoption of Web 
+services. In 
+Proceedings of the Hawaii International Conference on System Sciences
+, Big Island, HI, (2006), 109-118.
+ 2. Erl, T. 
+Service-Oriented Architecture Concepts, 
+Technology, and Design
+. Prentice Hall PTR, Upper 
+Saddle River, N.J., (2006). 
+ 3. Hagel, J. and Brown, J. S. Your next IT strategy. 
+Harvard Business Review 79
+, 9 (2001), 105-113.
+ 4. Kazi, A. Enabling real-time business through service-
+
+oriented and event-driven architecture. 
+Business Integration Journal
+, (Oct. 2005), 38-40.
+ 5. Kozar, K.A. Adopting systems development methods: 
+An exploratory study. 
+Journal of Management Information Systems 5
+, 4 (1989), 73-86.
+ 6. Kwon T.H. and Zmud, R.W. Unifying the fragmented 
+
+models of information systems implementation. In 
+Critical Issues in Information Systems Research
+, R. J. Boland and R. A. Hirschheim, Eds. New York: John-
+Wiley, (1987), 252-257.
+ 7.
+ Linthicum, D. 10 best practices for creating a service-
+oriented architecture. Business Integration Journal
+ (Oct. 2005), 24-27.
+ 8. MacKenzie, C.M., Laskey, K., McCabe, F., Brown, P.F., 
+
+and Metz, R. Reference model for service oriented 
+
+architecture 1.0. OASIS
+, Committee Speci˚cation soa-rm-cs, (2006). 9. Natis, Y. V., Pezzini, M., Schulte, R. W., and Lijima, K. 
+
+Predicts 2007: SOA advances. 
+Gartner
+, Research Report G00144445, (2006).
+ 10. Papazoglou, M. P. and Georgakopoulos, D. Service-
+oriented computing. Comm. ACM 46
+, (2003) 24-28.
+ 11. Ravichandran, T. and Rothenberger, M.A. Software 
+reuse strategies and component markets. 
+Comm. ACM 46
+, 8 (Aug. 2003), 109-114.
+ 12. Riemenschneider, C.K., Hardgrave, B.C., and Davis, 
+
+F.D. Explaining software developer acceptance of 
+methodologies: A comparison of ˚ve theoretical 
+
+models. IEEE Transactions on Software Engineering 
+28, 12, (2002) 1135-1145.
+Marc N. Haines (marc@ictect.com) is a senior architect at Ictect, Inc. in Milwaukee, Wisconsin and conducted this 
+research as a faculty in the Sheldon B. Lubar School of 
+Business at the University of Wisconsin-Milwaukee.
+Marcus A. Rothenberger (marcus.rothenberger@unlv.edu) is an associate professor and the chair of the 
+Department of Management Information Systems at the 
+University of Nevada Las Vegas.
+© 2010 ACM
+ 0001-0782/10/0800 $10.00

@@ -1,0 +1,540 @@
+ 48IEEE SOFTWARE
+Published by the IEEE Computer Society0740-7459/04/$20.00 © 2004 IEEEOptimal release cycle duration (scope/timetrade-off)Optimal project staffing levels
+Effects of uncertaintyPrevious approaches to understanding soft-ware dynamics and costs include building sys-
+tems dynamics models or detailed cost equa-
+tions.1,2Although they can be enlightening,these models are complex, they focus on cost
+rather than value, and they typically donÕt con-
+
+sideruncertainty. Other models use net pres-
+
+ent value to focus on value and uncertainty.
+3,4My team set out to develop a relatively simple
+
+project dynamics model to use in conjunction
+with market sensitivity and economic analysis
+to help optimize profitability. Some of our ideas
+
+and results are similar to those of Preston Smith
+and Donald Reinertsen, who examined the im-
+
+pact of time-to-market sensitivity.
+5However,
+our approach is a more detailed model tuned to
+
+software development issues.The modelOur model features a set of functions and
+parameters that can be applied in a spreadsheet.
+You can obtain data curves in many ways, in-
+
+cluding using industry data, historical metrics,
+or from the teamÕs subjective assessments.
+The curves I present here are of a sample basecase in our commercial-project portfolio. Land-
+
+markhas collected development and testingduration and effort metrics for its projects from
+
+1995 to 2003. Although I believe the curvesÕValueCreationandCapture:
+A Model of the Software
+Development ProcessLandmark Graphics supplies software and services to the upstream
+oil and gas industry. Our software portfolio, which ranges from
+
+exploration and drilling to data management and decision analysis,
+includes more than 60 products consisting of over 50 million lines ofsource code. For many years, Landmark has been collecting project metrics we
+
+wished to harvest to gain insight into key business questions in three areas:
+
+
+
+
+
+
+
+ˇ
+Todd Little,Landmark Graphics shapes are representative of most projects, IdonÕt intend to generalize a specific equation
+
+across all projects. I also recognize that soft-
+
+ware development depends highly on the indi-
+viduals and teams involved. The model incor-
+porates this variation to the extent that the
+functions should represent the project and the
+
+team involved in the work. Again, I caution
+against generalizing, yet so long as the limits
+and assumptions are known, I believe the model
+provides a basis for solid business decisions.The parameters and functions that define the
+essential model areStaff effectiveness:effective team produc-tivity versus team size
+Value created:
+the softwareÕs assumed value
+versus effective development timeRework time:time to test and fix the soft-ware versus effective development timeValue capture:
+market delay costs versustimeResources:team size and cost factors
+Each of these functions is a curve repre-senting a given projectÕs performance. Differ-
+
+ent projectsÕ behaviors can vary depending on
+factors such as product maturity, team experi-
+
+ence, and development process. The base case
+in this study is a mature product with an ex-
+isting code base and an established team.Team size
+For our model, we define
+Effective team productivityis dimensionless,while productivitycan be measured in lines of
+code or function points.Frederick Brooks postulated team-produc-tivity diminishing returns as the n-squaredproblem, referring to the 
+n2increase in com-munication channels as you add people to a
+project.6Tarek Abdel-Hamid and Stuart Mad-
+nick modeled this with a systems dynamics
+model and estimated that the communication
+overhead of a 30-person team would be 50
+percent.1However, their model estimates that
+communication overhead goes to 100 percent
+for a 40-person team, and it predicts a behav-
+ior different from that observed with other au-
+thorsÕ productivity data. Samuel Conte and hiscolleagues, using lines of code, observed that
+average team productivitydeclines exponen-tially with team size.7A reformulation of their
+observations givesEffective team productivity= Team size
+,where, for their data, = 0.5. Capers Jonesuses function points to provide data including
+productivity and team size.
+8Using this equa-tion and JonesÕs data results in an excellent fit
+
+with = 0.65, which is the equation we usedfor this study. Figure 1 shows 
+= 0.65 relativeto the curves of Abdel-Hamid, Conte, and
+JonesÕs data.
+Assumed value creationTo assess the developed featuresÕ value, we
+use an approach similar to Minimum Mar-
+ketable FeaturesÑa collection of features re-
+quired to derive value from the product.9Aswith MMF, we require that each feature set
+
+has an associated estimated value and effort
+cost. We define 
+valueas the estimated presentvalue of the feature if it were delivered imme-
+diately. We give costs in 
+effective developerdays, similar to how the planning game in Ex-treme Programming Explaineduses ideal de-veloper days.10We also follow XPÕs practice of
+prioritizing features on the basis of value, al-
+though we prioritized using a variant of the
+profitability indexÑthe ratio of present valueto cost. Alternative prioritization approaches
+should be compatible with the model.
+11,12Theresult is the base curve in Figure 2. The curveÕs
+
+discrete nature is a result of the value materi-
+
+alizing only at the feature setÕs completion.
+
+The lowest line depicts poorly prioritized fea-
+tures, and the remaining curves represent ran-
+dom prioritization.
+ Effective teamproductivityTeam size Averageteam productivityProductivity whenteam size 1May/June 2004IEEE SOFTWARE
+49Effective productivity102030
+Team size
+40506070
+04035
+30
+25
+20
+15
+105
+0LinearAbdel-HamidConteJones= 0.65Figure 1. Effective 
+productivity using 
+different models.
+ Testing and rework required
+The time required for application testing de-pends on both testing new features and regres-
+
+sion-testing existing features. WeÕve recorded
+
+historical data for many of our projects and
+found good relationships for mature products,
+correlating required rework time to effective
+developer days for that release cycle. If a re-
+leaseÕs quality target differs from our collected
+
+data, then we must modify the curve accord-
+
+ingly. WeÕve also estimated testing rework for
+
+each feature and added a base amount for re-
+gression. The cumulative rework days can be
+cross-plotted against the cumulative priori-
+tized development days. Both approaches give
+similar results. In Figure 3, required regression
+testing caused the base caseÕs steep slope at the
+
+left side of the graph. WeÕve observed that test
+
+automation can reduce this overhead for some
+projects, as the improved curve shows.
+Market delay costsSo far, weÕve assumed that developed mate-
+rial has created value; those who make business
+decisions are interested in understanding how
+to translate that into value captured. In Land-
+mark GraphicsÕ case, weÕre interested in soft-
+ware thatÕs being produced for a general mar-
+
+ket. We therefore consider 
+relative market valueto be the fractional value captured as a func-
+tion of the softwareÕs release date. As Figure 4
+
+shows, thereÕs a period of time in which the rel-
+
+ativevalue drops off simply because of moneyÕs
+
+time value. At some point, competitive threats
+
+occur, and market value declines more rapidly.
+
+In the case of mature products, this period can
+
+be fairly long and the decline relatively flat, as
+customers donÕt wish to update their application
+
+suite rapidly. For new products, this curve can
+
+drop off more precipitously, particularly if sub-
+
+stantial competition exists in the new market.
+Putting it all togetherI can now construct the overall model from
+these basic components. In addition to the
+
+functions IÕve described, I must define the
+
+number of developers on the project and their
+associated costs. Figure 5 shows a flow dia-
+gram of the overall model as a series of table
+lookups from the parametric curves.
+The resulting curves
+Figure 6 indicates model results for the basecase. The overall assumed value creationfrom50IEEE SOFTWARE
+www.computer.org/software
+Effective rework days5001,000
+Effective developer days1,5002,0002,5003,000
+0450400
+350
+300
+250
+200
+150
+100500Base caseImproved through test automationFigure 3. Rework time and process improvementÕs impactRelative market value51015
+Total duration (months)
+20253040
+3501.00.8
+0.6
+0.4
+0.2
+0.0Mature product withstrong barrier to entry
+Base caseNew product in highly competitive marketFigure 4. Relative market value captureAssumed present value created ($M)200400600
+Effective developer daysPoor prioritization8001,0001,2002,000
+1,4001,6001,80005.04.5
+4.0
+3.5
+3.0
+2.5
+2.0
+1.5
+1.0
+0.50Base caseWorst
+12Figure 2. Assumed value creation and prioritizationÕs effect.
+ the developed features (red curve) multipliedby the relative-market-value curve gives the
+gross value captured curve. This represents the
+amount of created value that can be captured
+
+in the marketplace. The shaded area repre-
+sents the net present valueafter adjusting bycost. The adjusted curve resembles those
+shown for general new-product development,6as both models examine the issues of market
+timing on value capture. If we treat this as a
+deterministic problem, itÕs a simple optimiza-
+
+tion task to search for the maximum NPV to
+determine project duration and extract all
+other project parameters from the model.This graph also demonstrates the tensionthat can exist in the various organizational
+groups focused on assumed value creation or
+relative market value. The customer, market-
+
+ing group, or management will be quite cog-
+nizant of the relative market value and, as a
+
+result, will wish to drive the project up and to
+
+the left. The development team, on the other
+
+hand, sees that driving the project up and to
+the right can increase developmentÕs assumed
+
+value creation. Both parties strive to increase
+
+value, but with different motivations. The
+
+conflict can be particularly frustrating if either
+side takes a strong position without under-
+standing the overall picture. This model can
+help bring both sides to a common under-
+standing by looking to the NPV.
+Assessing model sensitivityOne objective was to develop a method fordetermining the optimal staff size for projects.
+
+As Figure 7 demonstrates, we obtain the max-
+
+imum NPV for the base case project with a
+May/June 2004IEEE SOFTWARE
+51Number ofeffectivedevelopersNumber ofeffectivedeveloper daysValue
+createdTesting days
+requiredGross valuecaptureNet presentvalueTotal
+durationNumber ofdevelopersDevelopmentdurationRelativemarket valueCostsFigure 5. Flow diagram of Landmark GraphicsÕ software development process model.In the equations below, let 
+fnrepresent the function underlying the graph in Figure N.¥ Start with Number of developers.Number of effective developers= f1(Number of developers)¥ Loop over Development duration, for example in increments of 20 days.Effective developer days= Number of effective developersDevelopment durationAssumed value created= f2(Effective developer days)Effective rework days= f3(Effective developer days)Rework duration= Effective rework days/ Number of effective developersTotal duration
+= Development duration+ Rework durationRelative market value= f4(Total duration
+)Gross value capture= Relative market valueAssumed value createdNet present value= Gross value capturePresent value of costs¥ Repeat for more values of Development duration.¥ Plot Net present valueas a function of Total duration
+.Gross value capturedValue ($M)
+Relative market value51015
+Total duration (months)
+20253035
+04.03.5
+3.0
+2.5
+2.0
+1.5
+1.0
+0.501.00.8
+0.6
+0.4
+0.2
+0.0CostAssumedvalue creationRelativemarket valueNet presentvalueFigure 6. Model results for the base case.Net present value ($M)5Total duration (months)
+10152025
+01.00.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.104Team size
+6810Figure 7. Using the model to optimize team size. team of six. Note that the optimal NPV doesnÕt
+vary greatly for different staff sizes, although
+
+the corresponding release date and delivered
+feature sets are different.We can also change the curvesÕ assump-
+tions and consider some what-if scenarios,
+such as the economic benefit of introducing
+
+pair programming. For our purposes, we want
+to compare a project with the same team size
+
+and same output-quality objectives; this differs
+slightly from other authorsÕ approaches.13,14We compared our base case of six developers
+
+to three paired developers.The model parameters come from AlistairCockburn and Laurie WilliamsÕs research, who
+
+reported that paired development takes 15 per-
+cent more effort and the defect rate is 60 percent
+
+lower.
+15We made the optimistic assumption that
+fewer defects would cut rework time to 40 per-
+cent.As 
+Figure 8 shows, with these assumptions,
+the base case and red pair curves have nearly
+identical optimal NPV of about $1 million. While further reviewing the assumptions,we found that Cockburn and WilliamsÕs study
+
+compared one-person teams to two-person
+teams. We looked at team productivity earlier,
+
+and, for = 0.65, we have 20.65= 1.57, while2/1.15 = 1.74. ItÕs possible that pairingÕs over-
+
+head is similar or even less than that observed
+in general team dynamics. Pair programming
+advocates claim the overall team is more ef-
+fective as individuals rotate on different pair-
+ing assignments. If this is the case, pairingÕs
+
+impact might be a higher . The green curve inFigure 8 shows = 0.75 along with the 40percent factor on rework time. This could be
+
+an area of further research.
+Uncertainty
+Things would be easy if software develop-ment were predictable and could be modeled
+accordingly. However, the reality is that uncer-
+
+taintyis a natural part of the software devel-
+
+opment process. The Standish C
+HAOSReport16indicates that only 20 percent of projects are
+finished on time relative to their original plan.
+WeÕve quantified some of the uncertainty, and
+
+in Figure 9 we plot the cumulative-probability
+
+distribution of the actual/estimate ratio for our
+data and compare it to Tom DeMarcoÕs data.
+17We use duration data, while DeMarco reported
+
+effort data. The results are remarkably similar
+
+and clearly show a log-normal distribution
+with about a 10 to 20 percent probability of52IEEE SOFTWARE
+www.computer.org/software
+Net present value ($M)246Total duration (months)
+8101220
+16141801.401.20
+1.00
+0.80
+0.60
+0.40
+0.20
+0.00Pair:  = 0.75, 40% reworkBase case without pairingPair: 115% dev., 40% rework
+Figure 8. Comparing the base case to a pair-programming case.Cumulative probability distributionRatio of actual/estimate1.010.0
+0.1DeMarco log-normal fitDeMarco dataLandmark log-normal fitLandmark data1.00.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0.0Figure 9. Uncertainty in project estimation.
+Net present value ($M)5.010.015.0
+Total duration (months)
+20.025.030.035.0
+0.01.61.4
+1.2
+1.0
+0.8
+0.6
+0.4
+0.2
+0.0C: Duration Œ 1/2(), value + 1/2()B: Base caseTarget: best possible scenario
+       if everything went perfectly
+A: Duration + 1/2(), value Œ 1/2( )Plan: expected scope for the release  at the optimal time that it can be releasedContract: minimum scope at the latestdate that it can be releasedFigure 10. Net present value uncertainty.
+ meeting the original target, about a 50 percentchance of requiring less than two times the
+original target, and a 90 percent chance of re-
+
+quiring less than four times the original target.While uncertainty can exist in all the param-
+eters,for most of our projects, we believe the
+uncertainties in value and duration estimation
+have the greatest influence on the overall proj-
+ect NPV uncertainty. For a quick view of the
+
+uncertainty range, we find it useful to construct
+
+three cases for comparison using the standard
+deviation () for each distribution. Our distri-
+bution is log-normal, so /is equivalent toa multiplication scale factor: 1/2) is a fac-
+tor of 1.25, while 
+1/2) is a factor of 1/1.25
+= 0.80. Figure 10 shows the NPVas a function
+
+of total durationfor three cases:A.Duration 
+1/2), value 1/2)B.Base case with median values
+
+C.Duration 
+1/2), value 1/2)Given that this uncertainty must be man-aged during the life of the project, weÕve taken
+an approach similar to Kent Beck and Dave
+ClealÕs idea of optional scope contracts.
+18Wemap the three scenarios asA.Contract
+B.Plan
+
+C.Target
+In the Contract, Plan, Target approach, the
+target, or best possible scenario, gives the most
+scope at the earliest date possible. This is similar
+to what Tom DeMarco and Timothy Lister
+
+called the Ònano-percent date.Ó
+19Teams should
+have little difficulty establishing targets, since
+theyÕre based on the assumption that nothing
+unexpected will happen. The other extreme is
+the contract. This is defined as the minimum
+
+scope at the latest date that can be tolerated. If
+
+the project were to have any less scope or be
+delivered any later, it would be considered a
+
+failure. WeÕve experienced a cultural resistance
+
+to establishing this project constraint, with proj-
+ectstakeholders unwilling to accept the range
+
+of uncertainty. WeÕve used the modelÕs results
+
+to help stakeholders understand this range.By establishing the contract and the projectÕs
+minimum success criteria, the project team un-
+derstands what they must absolutely deliver. As
+
+long as the stakeholders understand the prob-
+ability of making the contract, other programssuch as a marketing rollout can also be plannedaccordingly. Just making the relatively quick
+
+assessment of these three scenarios provides a
+wealth of information with which you can make
+rational investment and planning decisions.While this model is quite simple, it
+
+might be more complex than some
+
+organizations require and lesscomplex than others would prefer. To be truly
+
+useful, the model should be tuned to the or-
+
+ganization and include some subjective assess-
+ment. The process of creating the model pa-
+
+rameters generates conversations about project
+
+assumptions. These conversations can help
+stakeholders understand the project drivers
+and success criteria that will help maximize
+business value.WeÕve begun running projects using the
+Contract, Plan, Targetapproach, and this has
+
+significantly reduced our delivery uncertainty.
+
+The development team understands what they
+
+must absolutely deliver, and the marketing or-
+
+ganization can feel confident theyÕll have a re-
+lease with content sufficient enough to roll out
+
+to customers.
+May/June 2004IEEE SOFTWARE
+53
+Todd Littleis asenior devel-
+opment man-
+ager for Land-
+mark Graphics.His interests
+include agile
+software de-velopment, and heÕs the conference chair
+
+for the 2004 Agile Development Confer-
+ence. He received his MS in petroleum en-
+gineering from the University of Houston.
+HeÕs a member of the Agile Alliance, the
+
+IEEE, and the Society of Petroleum Engi-
+neers. He is also a registered Professional
+Engineer in the state of Texas. Contact
+
+him at tlittle@lgc.com.References1.T. Abdel-Hamid and S. Madnick, 
+Software Project Dynamics, Prentice Hall, 1991.2.B.W. Boehm, 
+Software Cost Estimation with COCOMO II, Prentice Hall, 2000.3.H. Erdogmus, ÒValuation of Learning Options in Software Development under Private and
+Market Risk,Ó Eng. Economist, vol. 47, no. 3, 2002, pp. 308Ð353.4.H. Erdogmus, ÒComparative Evaluation of Software Development Strategies Based on Net
+Present Value,Ó 
+IntÕl Workshop Economics-Driven Software Eng. Research
+, 1999.5.P.G. Smith and D.G. Reinertsen, 
+Developing Products in Half the Time: New Rules, New
+Tools
+, 2nd ed., John Wiley & Sons, 1997.
+6.F.P. Brooks Jr., 
+The Mythical Man-Month, Addison-Wesley, 1975.
+7.S.D. Conte, H. Dunsmore, and V.Y. Shen, 
+Software Engineering Metrics and Models, Benjamin/Cummings, 1986.8.C. Jones, 
+Software Assessments, Benchmarks, and Best Practices, Addison-Wesley, 2000.
+9.M. Denne and J. Cleland-Huang, 
+Software by Numbers: Low-Risk, High-Return Develop-ment, Prentice Hall, 2003.10.K. Beck, 
+Extreme Programming Explained: Embrace Change, Addison-Wesley, 1999.
+11.K. Wiegers, ÒFirst Things First: Prioritizing Requirements,Ó 
+Software Development, vol. 7,no. 9, Sept. 1999, pp. 48Ð53.12.B. Nejmeh and I. Thomas, ÒBusiness-Driven Product Planning Using Feature Vectors and In-
+crements,Ó IEEE Software, vol. 19, no. 6, 2002, pp. 34Ð42.13.H. Erdogmus and L. Williams, ÒThe Economics of Software Development by Pair Program-
+mers,Ó Eng. Economist, vol. 48, no. 4, 2003, pp. 283Ð319.14.F., ÒAnalyzing the Cost and Benefit of Pair Programming,Ó 
+Proc. 9thIntÕlSoftware Metrics Symp. 
+(Metrics 03), IEEECS Press, 2003, pp. 166Ð178.
+15.A. Cockburn and L. Williams, ÒThe Costs and Benefits of Pair Programming,Ó 
+Extreme Pro-gramming Examined, G. Succi and M. Marchesi, eds., Addison-Wesley, 2001, pp. 223Ð243.
+16.TheC
+HAOSReport, The Standish Group IntÕl, 1998.
+17.T. DeMarco, 
+Controlling Software Projects, Prentice Hall, 1982.18.K. Beck and D. Cleal, ÒOptional Scope Contracts,Ó tech. report, 1999; www.xprogramming.
+com/ftp/Optional+scope+contracts.pdf.19.T. DeMarco and T. Lister, 
+Waltzing with Bears
+, Dorset House, 2003.
