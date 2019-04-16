@@ -60,4 +60,4 @@ STOP_WORDS = ["a", "about", "above", "across", "after", "afterwards", "again", "
     "\u0302", "\u02C7", "ve", "july", "addison", "tion", "sons", "johnwiley",
     "johnwiley sons", "copyright", "wesley", "addison wesley", "pages", "references",
     "keywords", "similarly", "icse", "additionally", "consequently", "iii", "wesley",
-    "wiley", "cf"]
+    "wiley", "cf", "ppœ", "empirsoftwareeng", "january", "march", "sage", "hall", "prentice", "instead"]
