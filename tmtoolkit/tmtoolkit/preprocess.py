@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
-from __future__ import division
-import logging
 import sys
 import os
 import string
-import types
 import multiprocessing as mp
 import atexit
 from importlib import import_module
@@ -14,12 +10,11 @@ import pickle
 import operator
 
 import nltk
-import six
+from germalemma import GermaLemma
 
 from . import logger
-from .germalemma import GermaLemma
-from .filter_tokens import filter_for_tokenpattern, filter_for_pos
-from .dtm import create_sparse_dtm, get_vocab_and_terms
+from .filter_tokens import filter_for_token, filter_for_pos
+from tmtoolkit.bow.dtm import create_sparse_dtm, get_vocab_and_terms
 from .utils import require_listlike, require_dictlike, pickle_data, unpickle_file, \
     apply_to_mat_column, pos_tag_convert_penn_to_wn, simplified_pos, \
     flatten_list, tuplize, greedy_partitioning, ith_column
@@ -36,8 +31,8 @@ PATTERN_SUBMODULES = {
     'dutch': 'nl',
 }
 
-POS_TAGGER_PICKLE = u'pos_tagger.pickle'
-LEMMATA_PICKLE = u'lemmata.pickle'
+POS_TAGGER_PICKLE = 'pos_tagger.pickle'
+LEMMATA_PICKLE = 'lemmata.pickle'
 
 
 class TMPreproc(object):
@@ -104,7 +99,9 @@ class TMPreproc(object):
         self.shutdown_workers()
 
     def shutdown_workers(self):
-        logger.info('sending shutdown signal to workers')
+        try:   # may cause exception when the logger is actually already destroyed
+            logger.info('sending shutdown signal to workers')
+        except: pass
         self._send_task_to_workers(None)
 
     def get_tokens(self, non_empty=True, with_pos_tags=False):
@@ -367,7 +364,7 @@ class TMPreproc(object):
         return self
 
     def clean_tokens(self, remove_punct=True, remove_stopwords=True, remove_empty=True,
-                     remove_shorter_than=None, remove_longer_than=None):
+                     remove_shorter_than=None, remove_longer_than=None, remove_numbers=False):
         self._require_tokens()
 
         tokens_to_remove = [''] if remove_empty else []
@@ -387,28 +384,30 @@ class TMPreproc(object):
             self._send_task_to_workers('clean_tokens',
                                        tokens_to_remove=tokens_to_remove,
                                        remove_shorter_than=remove_shorter_than,
-                                       remove_longer_than=remove_longer_than)
+                                       remove_longer_than=remove_longer_than,
+                                       remove_numbers=remove_numbers)
 
         return self
 
-    def filter_for_token(self, search_token, ignore_case=False, remove_found_token=False):
-        self.filter_for_tokenpattern(search_token, fixed=True, ignore_case=ignore_case,
-                                     remove_found_token=remove_found_token)
-
-        return self
-
-    def filter_for_tokenpattern(self, tokpattern, fixed=False, ignore_case=False, remove_found_token=False):
+    def filter_for_token(self, search_token, match_type='exact', ignore_case=False, glob_method='match',
+                         remove_found_token=False):
         self._require_tokens()
 
         self._invalidate_workers_tokens()
-        logger.info('filtering tokens for pattern')
-        self._send_task_to_workers('filter_for_tokenpattern',
-                                   tokpattern=tokpattern,
-                                   fixed=fixed,
+        logger.info('filtering tokens')
+        self._send_task_to_workers('filter_for_token',
+                                   search_token=search_token,
+                                   match_type=match_type,
                                    ignore_case=ignore_case,
+                                   glob_method=glob_method,
                                    remove_found_token=remove_found_token)
 
         return self
+
+    def filter_for_tokenpattern(self, tokpattern, ignore_case=False, glob_method='match', remove_found_token=False):
+        return self.filter_for_token(search_token=tokpattern, match_type='regex',
+                                     ignore_case=ignore_case, glob_method=glob_method,
+                                     remove_found_token=remove_found_token)
 
     def filter_for_pos(self, required_pos, simplify_pos=True):
         """
@@ -423,7 +422,7 @@ class TMPreproc(object):
         """
         if type(required_pos) not in (tuple, list, set) \
                 and required_pos is not None \
-                and not isinstance(required_pos, six.string_types):
+                and not isinstance(required_pos, str):
             raise ValueError('`required_pos` must be a string, tuple, list, set or None')
 
         self._require_pos_tags()
@@ -592,7 +591,7 @@ class TMPreproc(object):
             try:
                 picklefile = os.path.join(DATAPATH, self.language, POS_TAGGER_PICKLE)
                 tagger = unpickle_file(picklefile)
-                if self.language == u'german':
+                if self.language == 'german':
                     pos_tagset = 'stts'
             except IOError:
                 tagger = GenericPOSTagger
@@ -614,7 +613,7 @@ class TMPreproc(object):
                 unpickled_obj = unpickle_file(picklefile)
                 return unpickled_obj
             except IOError:
-                logger.warning('could not load lemmata dict from `%s`' % picklefile)
+                logger.info('no lemmata dictionary found at `%s`' % picklefile)
                 return None
 
     def _setup_workers(self, initial_states=None):
@@ -902,10 +901,7 @@ class _PreprocWorker(mp.Process):
 
         if use_germalemma:
             if not self.germalemma:
-                if type(self.lemmata_dict) is not tuple or len(self.lemmata_dict) != 2:
-                    raise ValueError("Unexpected data type or length for `self.lemmata_dict`")
-                lemmata_dict, lemmata_lower_dict = self.lemmata_dict
-                self.germalemma = GermaLemma(lemmata=lemmata_dict, lemmata_lower=lemmata_lower_dict)
+                self.germalemma = GermaLemma()
 
             for dl, tok_tags in self._tokens.items():
                 for t, pos in tok_tags:
@@ -993,7 +989,7 @@ class _PreprocWorker(mp.Process):
                         for dl, dt in self._tokens.items()}
 
     def _task_clean_tokens(self, tokens_to_remove, save_orig_tokens=False, remove_shorter_than=None,
-                           remove_longer_than=None):
+                           remove_longer_than=None, remove_numbers=False):
         if save_orig_tokens:
             self._save_orig_tokens()
 
@@ -1005,16 +1001,23 @@ class _PreprocWorker(mp.Process):
             self._tokens = {dl: [t for t in dt if len(t[0]) <= remove_longer_than]
                             for dl, dt in self._tokens.items()}
 
+        if remove_numbers:
+            self._tokens = {dl: [t for t in dt if not t[0].isnumeric()]
+                            for dl, dt in self._tokens.items()}
+
         if type(tokens_to_remove) is not set:   # using a set is much faster than other sequence types for "in" tests
             tokens_to_remove = set(tokens_to_remove)
 
         self._tokens = {dl: [t for t in dt if t[0] not in tokens_to_remove]
                         for dl, dt in self._tokens.items()}
 
-    def _task_filter_for_tokenpattern(self, tokpattern, fixed=False, ignore_case=False, remove_found_token=False):
+    def _task_filter_for_token(self, search_token, match_type='exact', ignore_case=False, glob_method='match',
+                               remove_found_token=False):
         self._save_orig_tokens()
-        self._tokens = filter_for_tokenpattern(self._tokens, tokpattern, fixed=fixed, ignore_case=ignore_case,
-                                               remove_found_token=remove_found_token, remove_empty_docs=False)
+
+        self._tokens = filter_for_token(self._tokens, search_token, match_type=match_type, ignore_case=ignore_case,
+                                        glob_method=glob_method, remove_found_token=remove_found_token,
+                                        remove_empty_docs=False)
 
     def _task_filter_for_pos(self, required_pos, pos_tagset, simplify_pos=True):
         self._save_orig_tokens()

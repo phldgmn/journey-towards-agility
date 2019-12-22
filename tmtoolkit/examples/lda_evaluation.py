@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 An example for topic modeling evaluation with the [lda package](http://pythonhosted.org/lda/).
 """
@@ -34,15 +33,15 @@ if __name__ == '__main__':   # this is necessary for multiprocessing on Windows!
     assert dtm.shape[1] == len(vocab)
 
     # evaluate topic models with different parameters
-    const_params = dict(n_iter=50, random_state=1, refresh=10, eta=0.1)    # beta is called eta in the 'lda' package
-    ks = list(range(1, 20, 1))# + list(range(140, 300, 20)) + [300, 325, 350, 375, 400, 450, 500]
+    const_params = dict(n_iter=1500, random_state=1, refresh=10, eta=0.1)    # beta is called eta in the 'lda' package
+    ks = list(range(10, 140, 10)) + list(range(140, 300, 20)) + [300, 325, 350, 375, 400, 450, 500]
     varying_params = [dict(n_topics=k, alpha=1.0/k) for k in ks]
 
     # this will evaluate all models in parallel using the metrics in tm_lda.DEFAULT_METRICS
     # still, this will take some time
     print('evaluating %d topic models' % len(varying_params))
     models = tm_lda.evaluate_topic_models(dtm, varying_params, const_params,
-                                          return_models=True, n_max_processes=1)  # retain the calculated models
+                                          return_models=True)  # retain the calculated models
 
     # save the results as pickle
     print('saving results')

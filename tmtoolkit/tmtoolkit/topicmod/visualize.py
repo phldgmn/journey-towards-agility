@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
 """
 Functions to visualize topic models and topic model evaluation results.
 
 Markus Konrad <markus.konrad@wzb.eu>
 """
 
-from __future__ import division
 import os
 import logging
 from collections import defaultdict
@@ -14,7 +12,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-from tmtoolkit.topicmod.model_stats import get_doc_lengths, get_term_frequencies, top_n_from_distribution
+from tmtoolkit.topicmod.model_stats import top_n_from_distribution
+from tmtoolkit.bow.bow_stats import get_doc_lengths, get_term_frequencies
 from tmtoolkit.topicmod import evaluate
 from tmtoolkit.utils import mat2d_window_from_indices
 
@@ -346,12 +345,15 @@ def plot_eval_results(eval_results, metric=None, xaxislabel=None, yaxislabel=Non
 
     metric_direction = []
     for m in metric:
-        m_fn_name = 'metric_%s' % (m[:16] if m.startswith('coherence_gensim') else m)
-        m_fn = getattr(evaluate, m_fn_name, None)
-        if m_fn:
-            metric_direction.append(getattr(m_fn, 'direction', None))
+        if m == 'perplexity':
+            metric_direction.append('minimize')
         else:
-            metric_direction.append(None)
+            m_fn_name = 'metric_%s' % (m[:16] if m.startswith('coherence_gensim') else m)
+            m_fn = getattr(evaluate, m_fn_name, None)
+            if m_fn:
+                metric_direction.append(getattr(m_fn, 'direction', 'unknown'))
+            else:
+                metric_direction.append('unknown')
 
     n_metrics = len(metric)
 

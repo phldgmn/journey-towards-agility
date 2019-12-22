@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
 import pickle
 
-import six
 import numpy as np
-from nltk.corpus import wordnet as wn
 
 
 def pickle_data(data, picklefile):
@@ -14,9 +11,6 @@ def pickle_data(data, picklefile):
 
 def unpickle_file(picklefile, **kwargs):
     """Helper function to unpickle data from `picklefile`."""
-    if six.PY2 and 'encoding' in kwargs:
-        kwargs.pop('encoding')
-
     with open(picklefile, 'rb') as f:
         return pickle.load(f, **kwargs)
 
@@ -58,6 +52,8 @@ def ith_column(seq, i=0):
 
 
 def pos_tag_convert_penn_to_wn(tag):
+    from nltk.corpus import wordnet as wn
+
     if tag in ['JJ', 'JJR', 'JJS']:
         return wn.ADJ
     elif tag in ['RB', 'RBR', 'RBS']:

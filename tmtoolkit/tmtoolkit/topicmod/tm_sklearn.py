@@ -1,17 +1,14 @@
-# -*- coding: utf-8 -*-
 """
 Parallel model computation and evuluation with scikit-learn.
 
 Markus Konrad <markus.konrad@wzb.eu>
 """
 
-from __future__ import division
 import logging
+import importlib.util
 
 import numpy as np
 from scipy.sparse import issparse, csr_matrix
-from sklearn.decomposition.online_lda import LatentDirichletAllocation
-
 
 from ._eval_tools import split_dtm_for_cross_validation
 from tmtoolkit.topicmod.parallel import MultiprocModelsRunner, MultiprocModelsWorkerABC, MultiprocEvaluationRunner, \
@@ -20,21 +17,19 @@ from .evaluate import metric_cao_juan_2009, metric_arun_2010, metric_coherence_m
     metric_coherence_gensim, metric_held_out_documents_wallach09
 
 
-try:
-    import gmpy2
+if importlib.util.find_spec('gmpy2'):
     metrics_using_gmpy2 = ('held_out_documents_wallach09', )
-except ImportError:  # if gmpy2 is not available: do not use 'griffiths_2004'
+else:  # if gmpy2 is not available: do not use 'griffiths_2004'
     metrics_using_gmpy2 = ()
 
-try:
-    import gensim
+if importlib.util.find_spec('gensim'):
     metrics_using_gensim = (
         'coherence_gensim_u_mass',      # same as coherence_mimno_2011
         'coherence_gensim_c_v',
         'coherence_gensim_c_uci',
         'coherence_gensim_c_npmi'
     )
-except ImportError:
+else:
     metrics_using_gensim = ()
 
 
@@ -68,6 +63,8 @@ class MultiprocModelsWorkerSklearn(MultiprocModelsWorkerABC):
     package_name = 'sklearn'
 
     def fit_model(self, data, params, return_data=False):
+        from sklearn.decomposition.online_lda import LatentDirichletAllocation
+
         if issparse(data):
             if data.format != 'csr':
                 data = data.tocsr()
@@ -94,7 +91,6 @@ class MultiprocEvaluationWorkerSklearn(MultiprocEvaluationWorkerABC, MultiprocMo
         if self.return_models:
             results['model'] = lda_instance
 
-        results = {}
         for metric in self.eval_metric:
             if metric == 'cao_juan_2009':
                 res = metric_cao_juan_2009(topic_word_distrib)

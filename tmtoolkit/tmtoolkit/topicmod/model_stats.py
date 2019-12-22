@@ -1,111 +1,15 @@
-# -*- coding: utf-8 -*-
 """
 Statistics for topic models and BoW matrices (doc-term-matrices).
 
 Markus Konrad <markus.konrad@wzb.eu>
 """
-from __future__ import division, unicode_literals
 
-import itertools
-
-import six
 import numpy as np
-import pandas as pd
-from scipy.sparse import issparse
 
 from tmtoolkit.topicmod._common import DEFAULT_RANK_NAME_FMT
-
-
-#%% Common statistics from BoW matrices
-
-
-def get_doc_lengths(dtm):
-    if isinstance(dtm, np.matrix):
-        dtm = dtm.A
-    if dtm.ndim != 2:
-        raise ValueError('`dtm` must be a 2D array/matrix')
-
-    res = np.sum(dtm, axis=1)
-    if res.ndim != 1:
-        return res.A.flatten()
-    else:
-        return res
-
-
-def get_doc_frequencies(dtm, min_val=1, proportions=False):
-    """
-    For each word in the vocab of `dtm` (i.e. its columns), return how often it occurs at least `min_val` times.
-    If `proportions` is True, return proportions scaled to the number of documents instead of absolute numbers.
-    """
-    if dtm.ndim != 2:
-        raise ValueError('`dtm` must be a 2D array/matrix')
-
-    doc_freq = np.sum(dtm >= min_val, axis=0)
-
-    if doc_freq.ndim != 1:
-        doc_freq = doc_freq.A.flatten()
-
-    if proportions:
-        return doc_freq / dtm.shape[0]
-    else:
-        return doc_freq
-
-
-def get_codoc_frequencies(dtm, min_val=1, proportions=False):
-    """
-    For each unique pair of words `w1, w2` in the vocab of `dtm` (i.e. its columns), return how often both occur
-    together at least `min_val` times. If `proportions` is True, return proportions scaled to the number of documents
-    instead of absolute numbers.
-    """
-    if dtm.ndim != 2:
-        raise ValueError('`dtm` must be a 2D array/matrix')
-
-    n_docs, n_vocab = dtm.shape
-    if n_vocab < 2:
-        raise ValueError('`dtm` must have at least two columns (i.e. 2 unique words)')
-
-    word_in_doc = dtm >= min_val
-
-    codoc_freq = {}
-    for w1, w2 in itertools.combinations(range(n_vocab), 2):
-        if issparse(dtm):
-            w1_in_docs = word_in_doc[:, w1].A.flatten()
-            w2_in_docs = word_in_doc[:, w2].A.flatten()
-        else:
-            w1_in_docs = word_in_doc[:, w1]
-            w2_in_docs = word_in_doc[:, w2]
-
-        freq = np.sum(w1_in_docs & w2_in_docs)
-        if proportions:
-            freq /= n_docs
-        codoc_freq[(w1, w2)] = freq
-
-    return codoc_freq
-
-
-def get_term_frequencies(dtm):
-    if isinstance(dtm, np.matrix):
-        dtm = dtm.A
-    if dtm.ndim != 2:
-        raise ValueError('`dtm` must be a 2D array/matrix')
-
-    res = np.sum(dtm, axis=0)
-    if res.ndim != 1:
-        return res.A.flatten()
-    else:
-        return res
-
-
-def get_term_proportions(dtm):
-    """
-    Return the term proportions given the document-term matrix `dtm`
-    """
-    unnorm = get_term_frequencies(dtm)
-
-    if unnorm.sum() == 0:
-        raise ValueError('`dtm` does not contain any tokens (is all-zero)')
-    else:
-        return unnorm / unnorm.sum()
+from tmtoolkit.filter_tokens import token_match
+from tmtoolkit.bow.bow_stats import get_doc_lengths, get_doc_frequencies, get_codoc_frequencies,\
+    get_term_proportions, get_term_frequencies
 
 
 #%% Common statistics from topic-word or document-topic distribution
@@ -342,6 +246,8 @@ def top_n_from_distribution(distrib, top_n=10, row_labels=None, col_labels=None,
     and document-topic distributions. Set `row_labels` to a format string or a list. Set `col_labels` to a format
     string for the column names. Set `val_labels` to return value labels instead of pure values (probabilities).
     """
+    import pandas as pd
+
     if len(distrib) == 0:
         raise ValueError('`distrib` must contain values')
 
@@ -352,7 +258,7 @@ def top_n_from_distribution(distrib, top_n=10, row_labels=None, col_labels=None,
 
     if row_labels is None:
         row_label_fixed = None
-    elif isinstance(row_labels, six.string_types):
+    elif isinstance(row_labels, str):
         row_label_fixed = row_labels
     else:
         row_label_fixed = None
@@ -382,7 +288,7 @@ def top_n_from_distribution(distrib, top_n=10, row_labels=None, col_labels=None,
         if val_labels is None:
             sorted_vals = row_distrib[sorter_arr][:-(top_n + 1):-1]
         else:
-            if isinstance(val_labels, six.string_types):
+            if isinstance(val_labels, str):
                 sorted_vals = [val_labels.format(i0=i, i1=i+1, val=row_distrib[i]) for i in sorter_arr[::-1]][:top_n]
             else:
                 # first brackets: sort vocab by `sorter_arr`
@@ -399,7 +305,7 @@ def top_n_from_distribution(distrib, top_n=10, row_labels=None, col_labels=None,
     return pd.DataFrame(series)
 
 
-def top_words_for_topics(topic_word_distrib, top_n, vocab=None):
+def top_words_for_topics(topic_word_distrib, top_n=None, vocab=None, return_prob=False):
     if not isinstance(topic_word_distrib, np.ndarray) or topic_word_distrib.ndim != 2:
         raise ValueError('`topic_word_distrib` must be a 2D NumPy array')
 
@@ -416,24 +322,40 @@ def top_words_for_topics(topic_word_distrib, top_n, vocab=None):
         if topic_word_distrib.shape[1] != len(vocab):
             raise ValueError('shapes of provided `topic_word_distrib` and `vocab` do not match (vocab sizes differ)')
 
+    n_vocab = topic_word_distrib.shape[1]
+
+    if top_n is None:
+        top_n = n_vocab
+
     if top_n < 1:
         raise ValueError('`top_n` must be at least 1')
-    elif top_n > topic_word_distrib.shape[1]:
+    elif top_n > n_vocab:
         raise ValueError('`top_n` cannot be larger than vocab size')
 
     topic_words = []
+    topic_probs = []
 
     for topic in topic_word_distrib:
         sorter_arr = np.argsort(topic)
-        if vocab is None:
-            topic_words.append(sorter_arr[:-(top_n+1):-1])
-        else:
-            topic_words.append(vocab[sorter_arr][:-(top_n+1):-1])
+        sorter_slice = slice(None, -(top_n+1), -1) if top_n < n_vocab else slice(None)
 
-    return topic_words
+        if vocab is None:
+            topic_words.append(sorter_arr[sorter_slice])
+        else:
+            topic_words.append(vocab[sorter_arr][sorter_slice])
+
+        if return_prob:
+            topic_probs.append(topic[sorter_arr[sorter_slice]])
+
+    if return_prob:
+        return topic_words, topic_probs
+    else:
+        return topic_words
 
 
 def _join_value_and_label_dfs(vals, labels, top_n, val_fmt=None, row_labels=None, col_labels=None, index_name=None):
+    import pandas as pd
+
     val_fmt = val_fmt or '{lbl} ({val:.4})'
     col_labels = col_labels or DEFAULT_RANK_NAME_FMT
     index_name = index_name or 'document'
@@ -452,7 +374,7 @@ def _join_value_and_label_dfs(vals, labels, top_n, val_fmt=None, row_labels=None
             joined.append(val_fmt.format(lbl=lbl, val=val))
 
         if row_labels is not None:
-            if isinstance(row_labels, six.string_types):
+            if isinstance(row_labels, str):
                 row_name = row_labels.format(i0=i, i1=i+1)
             else:
                 row_name = row_labels[i]
@@ -467,7 +389,71 @@ def _join_value_and_label_dfs(vals, labels, top_n, val_fmt=None, row_labels=None
     return df
 
 
-def exclude_topics(excl_topic_indices, doc_topic_distrib, topic_word_distrib=None, renormalize=True):
+def filter_topics(w, vocab, topic_word_distrib, top_n=None, thresh=None, match='exact', cond='any', glob_method='match',
+                  return_words_and_matches=False):
+    """
+    Filter topics defined as topic-word distribution `topic_word_distrib` across vocabulary `vocab` for a word (pass a
+    string) or multiple words/patterns `w` (pass a list of strings). Either run pattern(s) `w` against the list of
+    top words per topic (use `top_n` for number of words in top words list) or specify a minimum topic-word probability
+    `thresh`, resulting in a list of words above this threshold for each topic, which will be used for pattern matching.
+    You can also specify `top_n` *and* `thresh`.
+    Set the `match` parameter according to the options provided by `filter_tokens.token_match()` (exact matching, RE or
+    glob matching). Use `cond` to specify whether at only *one* match suffices per topic when a list of patterns `w` is
+    passed (`cond='any'`) or *all* patterns must match (`cond='all'`).
+    By default, this function returns a NumPy array containing the *indices* of topics that passed the filter criteria.
+    If `return_words_and_matches` is True, this function additonally returns a NumPy array with the top words for each
+    topic and a NumPy array with the pattern matches for each topic.
+    """
+    if not w:
+        raise ValueError('`w` must be non empty')
+
+    if isinstance(w, str):
+        w = [w]
+    elif not isinstance(w, (list, tuple, set)):
+        raise ValueError('`w` must be either string or list, tuple or set')
+
+    if top_n is None and thresh is None:
+        raise ValueError('either `top_n` or `thresh` must be given')
+
+    if cond not in {'any', 'all'}:
+        raise ValueError("`cond` must be one of `'any', 'all'`")
+
+    if thresh is None:
+        top_words = top_words_for_topics(topic_word_distrib, top_n=top_n, vocab=vocab)
+        top_probs = None
+    else:
+        top_words, top_probs = top_words_for_topics(topic_word_distrib, top_n=top_n, vocab=vocab, return_prob=True)
+
+    found_topic_indices = []
+    found_topic_words = []
+    found_topic_matches = []
+    cond_fn = np.any if cond == 'any' else np.all
+
+    for t_idx, words in enumerate(top_words):
+        token_matches = [token_match(x, words, match, glob_method=glob_method) for x in w]
+        if top_probs:
+            words_p = top_probs[t_idx]
+            probs_matches = [sum(words_p[m] >= thresh) > 0 for m in token_matches]
+        else:
+            probs_matches = [[True]]
+
+        token_matches_comb = np.any(token_matches, axis=1)
+        assert len(token_matches_comb) == len(w)
+
+        if cond_fn(token_matches_comb) and cond_fn(probs_matches):
+            found_topic_indices.append(t_idx)
+            if return_words_and_matches:
+                found_topic_words.append(words)
+                found_topic_matches.append(np.any(token_matches, axis=0))
+
+    if return_words_and_matches:
+        return np.array(found_topic_indices), np.array(found_topic_words), np.array(found_topic_matches)
+    else:
+        return np.array(found_topic_indices)
+
+
+def exclude_topics(excl_topic_indices, doc_topic_distrib, topic_word_distrib=None, renormalize=True,
+                   return_new_topic_mapping=False):
     """
     Exclude topics with the indices `excl_topic_indices` from the document-topic distribution `doc_topic_distrib` (i.e.
     delete the respective columns in this matrix) and optionally re-normalize the distribution so that the rows sum up
@@ -486,7 +472,16 @@ def exclude_topics(excl_topic_indices, doc_topic_distrib, topic_word_distrib=Non
 
     if topic_word_distrib is not None:
         new_phi = np.delete(topic_word_distrib, excl_topic_indices, axis=0)
-
-        return new_theta, new_phi
+        res_tuple = (new_theta, new_phi)
     else:
-        return new_theta
+        res_tuple = (new_theta, )
+
+    if return_new_topic_mapping:
+        topic_ind = np.arange(doc_topic_distrib.shape[1])
+        old_topic_ind = np.delete(topic_ind, excl_topic_indices)
+        res_tuple += (dict(zip(old_topic_ind, range(len(old_topic_ind)))), )
+
+    if len(res_tuple) == 1:
+        return res_tuple[0]
+    else:
+        return res_tuple

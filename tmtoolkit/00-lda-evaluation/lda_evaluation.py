@@ -8,19 +8,21 @@ mpl.use('Agg')
 
 import logging
 import sys
+import os
 import lda  # for the Reuters dataset
 
 import sys
-sys.path.insert(0, "..")
 sys.path.insert(0, "../tmtoolkit")
+sys.path.insert(0, "..")
+sys.path.insert(0, ".")
 
-from tmtoolkit.utils import pickle_data
+from tmtoolkit.utils import pickle_data, unpickle_file
 from tmtoolkit.topicmod import tm_lda
 from tmtoolkit.topicmod.evaluate import results_by_parameter
 from tmtoolkit.topicmod.model_io import print_ldamodel_topic_words, print_ldamodel_doc_topics, \
     save_ldamodel_summary_to_excel, save_ldamodel_to_pickle
 from tmtoolkit.topicmod.visualize import plot_eval_results
-from tmtoolkit.dtm import save_dtm_to_pickle, load_dtm_from_pickle
+#from tmtoolkit.dtm import save_dtm_to_pickle, load_dtm_from_pickle
 
 import matplotlib.pyplot as plt
 plt.style.use('ggplot')
@@ -36,6 +38,7 @@ logger.setLevel(logging.WARNING)
 
 import sys
 import inspect
+import stop_words
 
 def get_size(obj, seen=None):
     """Recursively finds size of objects in bytes"""
@@ -70,12 +73,13 @@ save_models = False
 if __name__ == '__main__':   # this is necessary for multiprocessing on Windows!
     # load the Reuters News dataset provided by lda
     print('loading data')
+    dirname = os.path.abspath('.')
 
     if initialize_data:
         from jsonlines import jsonlines
         from tmtoolkit.preprocess import TMPreproc
         corpus = {}
-        with jsonlines.open('../../input/papers.jsonl') as reader:
+        with jsonlines.open(os.path.join(dirname, '..', '../' 'input', 'papers.jsonl')) as reader:
             for paper_container in reader:
                 if isinstance(paper_container, list):
                     paper = paper_container[1]
@@ -85,13 +89,18 @@ if __name__ == '__main__':   # this is necessary for multiprocessing on Windows!
                     continue
                 corpus[paper['file_name'].encode("utf-8").decode("utf-8") ] = paper['text']
 
-        preproc = TMPreproc(corpus, language='english')
+        preproc = TMPreproc(corpus, language='english', stopwords=stop_words.STOP_WORDS)
         print(len(corpus.keys()), " keys", get_size(corpus), ' bytes')
-        preproc.tokenize().tokens_to_lowercase().clean_tokens(remove_longer_than=500)
+        preproc.tokenize().tokens_to_lowercase().clean_tokens(remove_longer_than=500, remove_numbers=True)
         doc_labels, vocab, dtm = preproc.get_dtm()
-        save_dtm_to_pickle(dtm, vocab, doc_labels, './data.pickle')
+
+        pickle_data(dtm, os.path.join(dirname, 'dtm.pickle'))
+        pickle_data(doc_labels, os.path.join(dirname, 'doc_labels.pickle'))
+        pickle_data(vocab, os.path.join(dirname, 'vocab.pickle'))
     else:
-        dtm, vocab, doc_labels = load_dtm_from_pickle('./data.pickle')
+        dtm = unpickle_file(os.path.join(dirname, 'dtm.pickle'))
+        doc_labels = unpickle_file(os.path.join(dirname, 'doc_labels.pickle'))
+        vocab = unpickle_file(os.path.join(dirname, 'vocab.pickle'))
 
     print('%d documents with vocab size %d' % (len(doc_labels), len(vocab)))
     assert dtm.shape[0] == len(doc_labels)
@@ -99,7 +108,7 @@ if __name__ == '__main__':   # this is necessary for multiprocessing on Windows!
 
     # evaluate topic models with different parameters
     const_params = dict(n_iter=150, random_state=1, refresh=10, eta=0.1)    # beta is called eta in the 'lda' package
-    ks = list(range(10, 70, 2)) + list(range(73, 100, 3))
+    ks = list(range(25, 32, 1)) #list(range(10, 70, 2)) + list(range(73, 100, 3))
     varying_params = [dict(n_topics=k, alpha=1.0/k) for k in ks]
 
     # this will evaluate all models in parallel using the metrics in tm_lda.DEFAULT_METRICS

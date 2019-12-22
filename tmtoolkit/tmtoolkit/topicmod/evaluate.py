@@ -1,23 +1,21 @@
-# -*- coding: utf-8 -*-
 """
 Metrics for topic model evaluation.
 
 Markus Konrad <markus.konrad@wzb.eu>
 """
 
-from __future__ import division
-
 import numpy as np
-import scipy
 from scipy.spatial.distance import pdist
 from scipy.sparse import issparse
 from scipy.special import gammaln
 
-from ._eval_tools import dtm_and_vocab_to_gensim_corpus_and_dict, FakedGensimDict
-from .model_stats import get_doc_frequencies, get_codoc_frequencies, top_words_for_topics
+from ._eval_tools import FakedGensimDict
+from tmtoolkit.bow.dtm import dtm_and_vocab_to_gensim_corpus_and_dict
+from .model_stats import top_words_for_topics
+from tmtoolkit.bow.bow_stats import get_doc_frequencies, get_codoc_frequencies
 from ..utils import argsort
 
-import logging
+
 #%% Evaluation metrics
 
 
@@ -141,7 +139,7 @@ def metric_cao_juan_2009(topic_word_distrib):
     return np.mean(cos_sim)
 metric_cao_juan_2009.direction = 'minimize'
 
-logger = logging.getLogger('fix')
+
 def metric_arun_2010(topic_word_distrib, doc_topic_distrib, doc_lengths):
     """
     Rajkumar Arun, V. Suresh, C. E. Veni Madhavan, and M. N. Narasimha Murthy. 2010. On finding the natural number of
@@ -150,11 +148,9 @@ def metric_arun_2010(topic_word_distrib, doc_topic_distrib, doc_lengths):
     http://doi.org/10.1007/978-3-642-13657-3_43
     """
     # Note: It will fail when num. of words in the vocabulary is less then the num. of topics (which is very unusual).
+
     # CM1 = SVD(M1)
-    try:
-        cm1 = scipy.linalg.svd(topic_word_distrib, compute_uv=False, lapack_driver='gesvd')
-    except Exception as e:
-        print(e)
+    cm1 = np.linalg.svd(topic_word_distrib, compute_uv=False)
     #cm1 /= np.sum(cm1)  # normalize by L1 norm # the paper says nothing about normalizing so let's leave it as it is...
 
     # CM2 = L*M2 / norm2(L)

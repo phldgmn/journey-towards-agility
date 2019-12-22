@@ -41,7 +41,7 @@ def main(input_output_sub_folder='', enable_logging=True):
             for obj in reader:
                 groups.append(obj)
 
-    selected_topics = [topics[0], topics[1], topics[16], topics[18]]
+    selected_topics = [topics[0], topics[1], topics[2], topics[3], topics[4], topics[5], topics[6], topics[7], topics[8], topics[9]]
     years_subset = []
     for year in years:
         if year >= 2000:
@@ -68,7 +68,7 @@ def main(input_output_sub_folder='', enable_logging=True):
     save(vis_journals_over_time.create_journals_over_time(journals, papers, years, output_folder, False))
 
     selected_journals = []
-    selected_journal_names = ['Americas Conference on Information Systems (AMCIS)', 'Information and Software Technology', 'Hawaii International Conference on System Sciences (HICSS)', 'Pacific Asia Conference on Information Systems (PACIS)', 'European Conference on Information Systems (ECIS)', 'International Conference on Information Systems (ICIS)', 'Journal of Systems and Software', 'IEEE Software', 'IEEE Transactions on Software Engineering', 'Computer', 'European Journal of Information Systems (EJIS)']
+    selected_journal_names = ['Americas Conference on Information Systems (AMCIS)', 'Information and Software Technology', 'Hawaii International Conference on System Sciences (HICSS)', 'Pacific Asia Conference on Information Systems (PACIS)', 'European Conference on Information Systems (ECIS)', 'International Conference on Information Systems (ICIS)', 'Journal of Systems and Software', 'IEEE Software', 'Computer', 'Empirical Software Engineering']
     for journal in journals:
         if journal['name'] in selected_journal_names:
             selected_journals.append(journal)

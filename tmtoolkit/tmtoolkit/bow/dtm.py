@@ -1,8 +1,12 @@
-# -*- coding: utf-8 -*-
-import numpy as np
-from scipy.sparse import coo_matrix
+"""
+Functions for creating a document-term-matrix (DTM) and some compatibility functions for Gensim.
+"""
 
-from .utils import pickle_data, unpickle_file
+import numpy as np
+from scipy.sparse import coo_matrix, issparse
+
+
+#%% DTM creation
 
 
 def get_vocab_and_terms(docs):
@@ -32,38 +36,17 @@ def get_vocab_and_terms(docs):
         docs_terms[doc_label] = terms_arr
 
         # update the vocab set
-        vocab |= set(terms)
+        terms_unique = set(terms)
+        vocab |= terms_unique
 
         # update the sum of unique values per document
-        sum_uniques_per_doc += len(np.unique(terms_arr))
+        sum_uniques_per_doc += len(terms_unique)
 
-    #print(len(list(vocab)), "len vocab", len(list(docs_terms.keys())), "len doc_terms keys")
-    #
-    #len_vocabs = 0
-    #for term in vocab:
-    #    len_vocabs += len(term)
-    #print (len_vocabs, "len vocab strings")
-    #
-    #len_docs_terms = 0
-    #for document, terms in enumerate(docs_terms.keys()):
-    #    for term in terms:
-    #        len_docs_terms += len(term)
-    #print (len_docs_terms, "len doc terms strings")
+    doc_labels = docs_terms.keys()
 
-    list_vocab = list(vocab)
-    len_list_vocab = len(list_vocab)
-    longest = 0
-    avg = 0
-    for item in list_vocab:
-        leng = len(item)
-        avg += leng
-        if leng > longest:
-            longest = leng
-    avg /= len_list_vocab
-    print("longest item length: ", longest)
-    print("average item length: ", avg)
-
-    return np.array(list_vocab), np.array(list(docs_terms.keys())), docs_terms, sum_uniques_per_doc
+    return np.fromiter(vocab, dtype='<U%d' % max(map(len, vocab)), count=len(vocab)), \
+           np.fromiter(doc_labels, dtype='<U%d' % max(map(len, doc_labels)), count=len(doc_labels)),\
+           docs_terms, sum_uniques_per_doc
 
 
 def create_sparse_dtm(vocab, doc_labels, docs_terms, sum_uniques_per_doc):
@@ -114,15 +97,44 @@ def create_sparse_dtm(vocab, doc_labels, docs_terms, sum_uniques_per_doc):
     return coo_matrix((data, (rows, cols)), shape=(ndocs, nvocab), dtype=np.intc)
 
 
-def save_dtm_to_pickle(dtm, vocab, docnames, picklefile):
-    """Save a DTM as pickle file."""
-    pickle_data({'dtm': dtm, 'vocab': vocab, 'docnames': docnames}, picklefile)
+#%% Gensim compatibility functions
 
 
-def load_dtm_from_pickle(picklefile):
-    """Load a DTM from a pickle file."""
-    data = unpickle_file(picklefile)
-    assert data['dtm'].shape[0] == len(data['docnames'])
-    assert data['dtm'].shape[1] == len(data['vocab'])
+def dtm_to_gensim_corpus(dtm):
+    import gensim
 
-    return data['dtm'], data['vocab'], data['docnames']
+    # DTM with documents to words sparse matrix in COO format has to be converted to transposed sparse matrix in CSC
+    # format
+    dtm_t = dtm.transpose()
+
+    if issparse(dtm_t):
+        if dtm_t.format != 'csc':
+            dtm_sparse = dtm_t.tocsc()
+        else:
+            dtm_sparse = dtm_t
+    else:
+        from scipy.sparse.csc import csc_matrix
+        dtm_sparse = csc_matrix(dtm_t)
+
+    return gensim.matutils.Sparse2Corpus(dtm_sparse)
+
+
+def gensim_corpus_to_dtm(corpus):
+    import gensim
+    from scipy.sparse import coo_matrix
+
+    dtm_t = gensim.matutils.corpus2csc(corpus)
+    return coo_matrix(dtm_t.transpose())
+
+
+def dtm_and_vocab_to_gensim_corpus_and_dict(dtm, vocab, as_gensim_dictionary=True):
+    corpus = dtm_to_gensim_corpus(dtm)
+
+    # vocabulary array has to be converted to dict with index -> word mapping
+    id2word = dict(zip(range(len(vocab)), vocab))
+
+    if as_gensim_dictionary:
+        import gensim
+        return corpus, gensim.corpora.dictionary.Dictionary().from_corpus(corpus, id2word)
+    else:
+        return corpus, id2word
