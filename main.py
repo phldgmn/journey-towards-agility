@@ -12,6 +12,8 @@ from src.visualization import create_visualizations
 from src.sci_hub import download_from_scihub
 from src.batch import batch_processing
 from src.simple_stats import simple_stats
+from src.extraction import topic_extraction
+from src.extraction import topic_extraction_by_cutoff
 
 ACTIONS = {
     '1': { 'desc': 'download from sci hub', 'method': download_from_scihub.main},
@@ -21,6 +23,8 @@ ACTIONS = {
     '5': { 'desc': 'visualize results', 'method': create_visualizations.main},
     '6': { 'desc': 'display simple stats', 'method': simple_stats.main},
     '7': { 'desc': 'batch create topic models and visualize', 'method': batch_processing.main},
+    '8': { 'desc': 'extract papers from topics (by top X%)', 'method': topic_extraction.main},
+    '9': { 'desc': 'extract papers from topics (by cutoff)', 'method': topic_extraction_by_cutoff.main},
     'e': { 'desc': 'exit', 'method': None},
 }
 
